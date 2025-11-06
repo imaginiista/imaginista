@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-br" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Imaginista</title>
+  <link rel="stylesheet" href="css/main.css">
+  <script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
+</head>
+<body>
+  <!-- Fundo de partículas (camada 0) -->
+  <div id="tsparticles-bg"></div>
+
+  <!-- WRAPPER: todo o conteúdo da página (camada 1) -->
+  <div id="page-content">
+
+    <!-- TOPO -->
+    <header class="top-banner">
+      <img src="imagens/aprendiz-3.png" alt="Aprendiz" class="banner-side left" />
+      <img src="imagens/imaginista.png" alt="Logo Imaginista" class="banner-center" />
+      <img src="imagens/mestre.png" alt="Mestre" class="banner-side right" />
+    </header>
+
+    <!-- MENU -->
+    <nav class="main-menu">
+      <ul>
+        <li><a href="index.html">INÍCIO</a></li>
+        <li><a href="convites/index.html">CONVITES</a></li>
+        <li><a href="contato/index.html">CONTATO</a></li>
+        <li><a href="banner/index.html">BANNER</a></li>
+        <li><a href="flyer/index.html">FLYER</a></li>
+      </ul>
+    </nav>
+
+    <!-- ÁUDIO -->
+    <audio id="bg-music" src="mp3/hope.mp3" loop preload="auto"></audio>
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main class="dupla">
+      <div class="lado-esquerdo">
+        <h1>Convites Virtuais com Magia</h1>
+        <p>
+          Cada detalhe do seu convite virtual é pensado para emocionar. O design criativo,
+          as animações envolventes e a trilha musical cuidadosamente escolhida se entrelaçam
+          para criar experiências interativas que contam histórias únicas.
+        </p>
+        <p>
+          Diversos formatos e estilos de convites, desde os mais clássicos até os mais modernos
+          e ousados. Também oferecemos convites em formato de página, com todas as informações
+          organizadas e acessíveis até o dia do seu evento.
+        </p>
+        <div class="slogan" id="slogan">
+          <span class="slogan-word">∴ IMAGINISTA</span>
+          <span class="slogan-word">☁️ onde a imaginação vira arte</span>
+        </div>
+      </div>
+      
+      <div class="lado-direito">
+        <!-- CONTROLES -->
+        <div class="desktop-controls">
+          <button class="theme-toggle" aria-label="Alternar tema">🌓</button>
+          <button id="play-pause" aria-label="Play/Pause">▶️</button>
+          <button id="vol-up" aria-label="Aumentar volume">🔊+</button>
+          <button id="vol-down" aria-label="Diminuir volume">🔊−</button>
+        </div>
+
+        <video class="intro-video" autoplay muted loop playsinline>
+          <source src="video/intro.mp4" type="video/mp4" />
+        </video>
+        
+        <div class="carousel-container">
+          <img src="imagens/convites/convite1.jpg" class="carousel-item active" alt="Convite 1" />
+          <img src="imagens/convites/convite2.jpg" class="carousel-item" alt="Convite 2" />
+          <img src="imagens/convites/convite3.jpg" class="carousel-item" alt="Convite 3" />
+          <img src="imagens/convites/convite4.jpg" class="carousel-item" alt="Convite 4" />
+        </div>
+
+        <div class="carousel-pagination"></div>
+      </div>
+    </main>
+
+    <!-- CARDS -->
+    <div class="promo-cards">
+      <article class="card"><h3>Festa de 15</h3><p>Elegância e emoção em cada detalhe.</p></article>
+      <article class="card"><h3>Casamento</h3><p>Convites que contam histórias de amor.</p></article>
+      <article class="card"><h3>Infantil</h3><p>Magia e diversão para os pequenos.</p></article>
+      <article class="card"><h3>Aniversário Adulto</h3><p>Layouts sofisticados para comemorar em grande estilo.</p></article>
+      <article class="card"><h3>Festa Corporativa</h3><p>Convites profissionais que fortalecem sua marca.</p></article>
+      <article class="card"><h3>Chá de Bebê</h3><p>Estilos delicados e cheios de ternura.</p></article>
+      <article class="card"><h3>Formatura</h3><p>Designs com elegância acadêmica e personalidade.</p></article>
+    </div>
+
+    <!-- MASCOTE -->
+    <img src="imagens/novato.png" alt="Mascote Novato" class="mascot" id="mascot" />
+
+    <!-- RODAPÉ -->
+    <footer>
+      <p>&copy; 2025 IMAGINISTA. Todos os direitos reservados.</p>
+      <div class="footer-social">
+        <a href="#"><img src="imagens/whatsapp.png" alt="WhatsApp" /></a>
+        <a href="#"><img src="imagens/instagram.png" alt="Instagram" /></a>
+        <a href="#"><img src="imagens/youtube.png" alt="YouTube" /></a>
+      </div>
+    </footer>
+    
+  </div> <!-- /page-content -->
+    <!-- SCRIPT PRINCIPAL -->
+  <script src="js/main.js"></script>
+  <script>
+    // Inicializa partículas após carregar o DOM
+    document.addEventListener("DOMContentLoaded", () => {
+      document.documentElement.classList.add("loaded");
+      if (window.initParticles) window.initParticles();
+    });
+  </script>
+</body>
+</html>
