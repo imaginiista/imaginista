@@ -5,117 +5,302 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Imaginista — Em Breve</title>
 
-<!-- GSAP (para animações avançadas) -->
+<!-- GSAP e TSParticles -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
 
 <style>
-  :root{
-    --bg:#000;
+  :root {
+    --bg: #000;
     --glass: rgba(255,255,255,0.08);
   }
-  *{box-sizing:border-box}
-  html,body{height:100%;margin:0;background:var(--bg);color:#fff;font-family:"Poppins", system-ui, -apple-system, "Segoe UI", Roboto, Arial;}
-  body{display:flex;align-items:center;justify-content:center;padding:20px;overflow-x:hidden;}
-  .wrap{
-    width:100%;
-    max-width:980px;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap:12px;
-    text-align:center;
-    position:relative;
-    z-index:1;
+  * { box-sizing: border-box; }
+  html, body {
+    height: 100%;
+    margin: 0;
+    background: var(--bg);
+    color: #fff;
+    font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+  }
+  body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    overflow-x: hidden;
   }
 
-  /* Background Canvas full-screen */
-  #bgCanvas{ position:fixed; inset:0; z-index:-2; pointer-events:none; display:block; }
+  /* --- NEW: background media (gif/video/animated gradient) --- */
+  #bgMedia {
+    position: fixed;
+    inset: 0;
+    z-index: -4; /* behind tsparticles (-3) and canvas (-2) */
+    pointer-events: none;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.28; /* tweak to taste */
+    filter: saturate(0.95) contrast(0.9) brightness(0.95);
+    transition: opacity 0.4s ease;
+  }
 
-  /* Overlay for subtle color */
-  .overlay{ position:fixed; inset:0; z-index:-1; background:
-    radial-gradient(circle at 12% 14%, rgba(120,160,255,0.03), transparent 6%),
-    radial-gradient(circle at 86% 84%, rgba(200,140,255,0.02), transparent 10%),
-    linear-gradient(180deg, rgba(0,8,20,0.12), rgba(0,0,0,0.45)); pointer-events:none; }
+  /* subtle animated gradient (fallback/overlay if you prefer not to use a gif) */
+  @keyframes subtleShift { from { transform: scale(1) translateY(0);} to { transform: scale(1.02) translateY(-6px);} }
+  #bgMedia::after{
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, rgba(40,40,55,0.06), rgba(0,0,0,0.25));
+    mix-blend-mode: overlay;
+    animation: subtleShift 8s ease-in-out infinite alternate;
+  }
 
-  /* Logo */
-  #logo{
-    width:280px;
-    max-width:72vw;
-    cursor:pointer;
-    -webkit-user-drag:none; user-select:none;
-    transition:filter .25s, transform .25s;
+  .wrap {
+    width: 100%;
+    max-width: 980px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  #tsparticles-bg {
+    position: fixed;
+    inset: 0;
+    z-index: -3;
+    pointer-events: none;
+  }
+
+  #bgCanvas {
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    pointer-events: none;
+    display: block;
+  }
+
+  .overlay {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background:
+      radial-gradient(circle at 12% 14%, rgba(120,160,255,0.03), transparent 6%),
+      radial-gradient(circle at 86% 84%, rgba(200,140,255,0.02), transparent 10%),
+      linear-gradient(180deg, rgba(0,8,20,0.12), rgba(0,0,0,0.45));
+    pointer-events: none;
+  }
+
+  #logo {
+    width: 480px;
+    max-width: 72vw;
+    cursor: pointer;
+    -webkit-user-drag: none;
+    user-select: none;
+    transition: filter .25s, transform .25s;
     will-change: transform, opacity;
-    display:block;
+    display: block;
   }
-  #logo:hover{ filter:drop-shadow(0 10px 28px rgba(143,209,255,0.12)); transform: translateY(-3px) scale(1.02); }
+  #logo:hover {
+    filter: drop-shadow(0 10px 28px rgba(143,209,255,0.12));
+    transform: translateY(-3px) scale(1.02);
+  }
 
-  /* Texts */
-  #soon{ font-size: clamp(26px, 4.2vw, 34px); font-weight:700; margin:0; cursor:pointer; }
-  #desc{ font-size: clamp(15px, 2.2vw, 18px); opacity:.96; max-width:720px; margin:0; cursor:pointer; line-height:1.45; }
+  #soon {
+    font-size: clamp(26px, 4.2vw, 34px);
+    font-weight: 700;
+    margin: 0;
+    cursor: pointer;
+  }
 
-  /* Characters image */
-  #characters{ width:250px; max-width:78vw; cursor:pointer; display:block; margin-top:6px; }
+  #desc {
+    font-size: clamp(15px, 2.2vw, 18px);
+    opacity: .96;
+    max-width: 720px;
+    margin: 0;
+    cursor: pointer;
+    line-height: 1.45;
+  }
 
-  /* Countdown squares */
-  .countdown{ display:flex; gap:10px; margin-top:12px; justify-content:center; flex-wrap:wrap; }
-  .cd-box{ background:var(--glass); padding:12px 14px; border-radius:10px; min-width:64px; border:1px solid rgba(255,255,255,0.08); text-align:center; }
-  .cd-num{ font-weight:700; font-size:1.1rem; }
-  .cd-label{ font-size:.65rem; opacity:.75; margin-top:6px; text-transform:uppercase; letter-spacing:.6px; }
+  #characters {
+    width: 250px;
+    max-width: 78vw;
+    cursor: pointer;
+    display: block;
+    margin-top: 6px;
+  }
 
-  /* Frag layer (fragments/dust) */
-  #fragLayer{ position:fixed; inset:0; z-index:9999; pointer-events:none; }
+  .countdown {
+    display: flex;
+    gap: 10px;
+    margin-top: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
 
-  @media (max-width:600px){
-    #logo{ width: 68vw; }
-    #characters{ width:70vw; }
-    #soon{ font-size:22px; }
-    .cd-box{ min-width:52px; padding:8px 10px; }
+  .cd-box {
+    background: var(--glass);
+    padding: 12px 14px;
+    border-radius: 10px;
+    min-width: 64px;
+    border: 1px solid rgba(255,255,255,0.08);
+    text-align: center;
+  }
+  .cd-num {
+    font-weight: 700;
+    font-size: 1.1rem;
+  }
+  .cd-label {
+    font-size: .65rem;
+    opacity: .75;
+    margin-top: 6px;
+    text-transform: uppercase;
+    letter-spacing: .6px;
+  }
+
+  #fragLayer {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    pointer-events: none;
+  }
+
+  @media (max-width:600px) {
+    #logo { width: 68vw; }
+    #characters { width: 70vw; }
+    #soon { font-size: 22px; }
+    .cd-box { min-width: 52px; padding: 8px 10px; }
   }
 </style>
 </head>
 <body>
+  <!-- NEW: place your gif/video path here. Examples:
+       background-image: url('assets/bg.gif');
+       or for a video use a <video> element with autoplay loop muted playsinline inside this div.
+  -->
+  <div id="bgMedia" style="background-image: url('bg.gif');"></div>
 
-<canvas id="bgCanvas" aria-hidden="true"></canvas>
-<div class="overlay" aria-hidden="true"></div>
-<div id="fragLayer" aria-hidden="true"></div>
+  <div id="tsparticles-bg"></div>
+  <canvas id="bgCanvas" aria-hidden="true"></canvas>
+  <div class="overlay" aria-hidden="true"></div>
+  <div id="fragLayer" aria-hidden="true"></div>
 
-<main class="wrap" role="main" aria-labelledby="soon">
-  <img id="logo" src="logo.png" alt="Logo O Imaginista">
-  <h1 id="soon">Em breve...</h1>
-  <p id="desc">
-    Nossos construtores estão trabalhando duro para transformar essa ideia em realidade.<br>
-    <strong>Voltamos logo!</strong>
-  </p>
-  <img id="characters" src="personagens.png" alt="Personagens">
-  <div class="countdown" aria-live="polite" aria-atomic="true">
-    <div class="cd-box"><div id="cd-days" class="cd-num">00</div><div class="cd-label">Dias</div></div>
-    <div class="cd-box"><div id="cd-hours" class="cd-num">00</div><div class="cd-label">Horas</div></div>
-    <div class="cd-box"><div id="cd-min" class="cd-num">00</div><div class="cd-label">Min</div></div>
-    <div class="cd-box"><div id="cd-sec" class="cd-num">00</div><div class="cd-label">Seg</div></div>
-  </div>
-</main>
+  <main class="wrap">
+    <img id="logo" src="logo.png" alt="Logo O Imaginista">
+    <h1 id="soon">Em breve...</h1>
+    <p id="desc">
+      Nossos construtores estão trabalhando duro para transformar essa ideia em realidade.<br>
+      <strong>Voltamos logo!</strong>
+    </p>
+    <img id="characters" src="personagens.png" alt="Personagens">
+    <div class="countdown">
+      <div class="cd-box"><div id="cd-days" class="cd-num">00</div><div class="cd-label">Dias</div></div>
+      <div class="cd-box"><div id="cd-hours" class="cd-num">00</div><div class="cd-label">Horas</div></div>
+      <div class="cd-box"><div id="cd-min" class="cd-num">00</div><div class="cd-label">Min</div></div>
+      <div class="cd-box"><div id="cd-sec" class="cd-num">00</div><div class="cd-label">Seg</div></div>
+    </div>
+  </main>
+
+<!-- Canvas de bolinhas GSAP -->
+<canvas id="gsapBolas"></canvas>
+
+<script>
+// === EFEITO GSAP: Bolinhas brancas de fundo ===
+const canvasBolas = document.getElementById("gsapBolas");
+const ctxBolas = canvasBolas.getContext("2d");
+
+function resizeCanvasBolas() {
+  canvasBolas.width = window.innerWidth;
+  canvasBolas.height = window.innerHeight;
+}
+window.addEventListener("resize", resizeCanvasBolas);
+resizeCanvasBolas();
+
+// Cria as bolinhas
+const numBolas = 1000;
+const bolas = [];
+
+for (let i = 0; i < numBolas; i++) {
+  bolas.push({
+    x: Math.random() * canvasBolas.width,
+    y: Math.random() * canvasBolas.height,
+    r: 1.5 + Math.random() * 2.5,
+    alpha: 0.25 + Math.random() * 0.55,
+  });
+}
+
+// Anima cada bolinha com GSAP
+bolas.forEach((bola) => {
+  gsap.to(bola, {
+    duration: 5 + Math.random() * 6,
+    x: `+=${-60 + Math.random() * 120}`,
+    y: `+=${-60 + Math.random() * 120}`,
+    repeat: -1,
+    yoyo: true,
+    ease: "sine.inOut",
+  });
+});
+
+// Renderiza as bolinhas com brilho sutil
+function drawBolas() {
+  ctxBolas.clearRect(0, 0, canvasBolas.width, canvasBolas.height);
+  bolas.forEach((bola) => {
+    const grad = ctxBolas.createRadialGradient(
+      bola.x, bola.y, 0,
+      bola.x, bola.y, bola.r * 1
+    );
+    grad.addColorStop(0, `rgba(255,255,255,${bola.alpha})`);
+    grad.addColorStop(1, "rgba(255,255,255,0)");
+    ctxBolas.fillStyle = grad;
+    ctxBolas.beginPath();
+    ctxBolas.arc(bola.x, bola.y, bola.r * 3, 0, Math.PI * 2);
+    ctxBolas.fill();
+  });
+  requestAnimationFrame(drawBolas);
+}
+drawBolas();
+
+// Posicionamento e camadas — coloca acima do bgMedia e atrás das partículas
+canvasBolas.style.position = "fixed";
+canvasBolas.style.top = 0;
+canvasBolas.style.left = 0;
+canvasBolas.style.width = "100%";
+canvasBolas.style.height = "100%";
+canvasBolas.style.zIndex = "-2.5"; // entre o bgCanvas (-2) e tsparticles (-3)
+canvasBolas.style.pointerEvents = "none";
+canvasBolas.style.filter = "blur(1px) brightness(1.4)";
+</script>
+
 
 <script>
 /* ====================== BACKGROUND: STARFIELD + FLOATERS + PARTICLE NETWORK ====================== */
 const bgCanvas = document.getElementById('bgCanvas');
-const bgCtx = bgCanvas.getContext('2d');
+// safe-get context (in case of older browsers or if element missing)
+const bgCtx = (bgCanvas && bgCanvas.getContext) ? bgCanvas.getContext('2d') : null;
 
 let DPR = Math.min(window.devicePixelRatio || 1, 2);
 function resizeBg(){
   DPR = Math.min(window.devicePixelRatio || 1, 2);
+  if(!bgCanvas) return;
   bgCanvas.width = Math.round(innerWidth * DPR);
   bgCanvas.height = Math.round(innerHeight * DPR);
   bgCanvas.style.width = innerWidth + 'px';
   bgCanvas.style.height = innerHeight + 'px';
-  bgCtx.setTransform(DPR,0,0,DPR,0,0);
+  if(bgCtx && bgCtx.setTransform) bgCtx.setTransform(DPR,0,0,DPR,0,0);
 }
 resizeBg();
+
+/* We'll re-init some collections on resize. */
 window.addEventListener('resize', () => {
   resizeBg();
   initStarLayers();
   initFloaters();
   initGlowParticles();
   initParticleNetwork();
+  initDustParticles(); // re-init integrated dust
+  initTwinkles(); // re-init twinkles
 });
 
 /* ------------------- STARFIELD ------------------- */
@@ -226,30 +411,76 @@ function drawParticleNetwork(){
             const dist = Math.sqrt(dx*dx+dy*dy);
             if(dist < PN_MAX_DIST){
                 const alpha = (1 - dist/PN_MAX_DIST) * 0.15;
-                bgCtx.strokeStyle = `rgba(180,220,255,${alpha})`;
-                bgCtx.lineWidth = 1;
-                bgCtx.beginPath();
-                bgCtx.moveTo(p1.x,p1.y);
-                bgCtx.lineTo(p2.x,p2.y);
-                bgCtx.stroke();
+                if(bgCtx) bgCtx.strokeStyle = `rgba(180,220,255,${alpha})`;
+                if(bgCtx) bgCtx.lineWidth = 1;
+                if(bgCtx){
+                  bgCtx.beginPath();
+                  bgCtx.moveTo(p1.x,p1.y);
+                  bgCtx.lineTo(p2.x,p2.y);
+                  bgCtx.stroke();
+                }
             }
         }
     }
     for(const p of particleNetwork){
-        bgCtx.fillStyle = `rgba(180,220,255,${p.alpha})`;
-        bgCtx.beginPath();
-        bgCtx.arc(p.x,p.y,p.r,0,Math.PI*2);
-        bgCtx.fill();
+        if(bgCtx) bgCtx.fillStyle = `rgba(180,220,255,${p.alpha})`;
+        if(bgCtx){
+          bgCtx.beginPath();
+          bgCtx.arc(p.x,p.y,p.r,0,Math.PI*2);
+          bgCtx.fill();
+        }
     }
 }
+
+/* ====================== INTEGRATED DUST PARTICLES (NO EXTRA CANVAS) ====================== */
+const dustParticles = [];
+function initDustParticles(){
+  dustParticles.length = 0;
+  const count = Math.max(12, Math.round((innerWidth * innerHeight) / 50000));
+  for(let i=0;i<count;i++){
+    dustParticles.push({
+      x: Math.random()*innerWidth,
+      y: Math.random()*innerHeight,
+      r: Math.random()*1.2 + 0.4,
+      vx: (Math.random()-0.5)*0.12,
+      vy: (Math.random()-0.5)*0.12,
+      a: 0.08 + Math.random()*0.18,
+      phase: Math.random()*Math.PI*2,
+      pulse: Math.random()*0.018 + 0.006
+    });
+  }
+}
+initDustParticles();
+
+/* ====================== TWINKLES (bolinhas piscando e andando) ====================== */
+let twinkles = [];
+function initTwinkles(){
+  twinkles.length = 0;
+  const count = Math.max(6, Math.round((innerWidth * innerHeight) / 90000));
+  for(let i=0;i<count;i++){
+    twinkles.push({
+      x: Math.random()*innerWidth,
+      y: Math.random()*innerHeight,
+      r: 1.4 + Math.random()*2.0,
+      vx: (Math.random()-0.5)*0.15,
+      vy: (Math.random()-0.5)*0.15,
+      phase: Math.random()*Math.PI*2,
+      speed: 0.02 + Math.random()*0.02
+    });
+  }
+}
+initTwinkles();
 
 /* ------------------- DRAW BACKGROUND ------------------- */
 let lastTime = 0;
 function drawBackground(t){
+  // guard if no canvas/context
+  if(!bgCanvas || !bgCtx) return;
   const dt = Math.min((t-lastTime)/1000,0.05);
   lastTime = t;
 
-  bgCtx.fillStyle='rgba(0,0,0,0.22)';
+  // deixa o rastro mais suave (menos escurecimento)
+  bgCtx.fillStyle='rgba(0,0,0,0.10)';
   bgCtx.fillRect(0,0,innerWidth,innerHeight);
 
   const cx = pointer.x - innerWidth/2;
@@ -308,7 +539,7 @@ function drawBackground(t){
     if(p.y<0)p.y=innerHeight;
     if(p.y>innerHeight)p.y=0;
     const pulse = (Math.sin(Date.now()*0.002)*0.5+0.5)*p.pulse;
-    const alpha = 0.25 + pulse*0.75;
+    const alpha = 0.3 + pulse*0.7;
     const grad = bgCtx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.size+pulse*2);
     grad.addColorStop(0,`rgba(255,255,255,${alpha})`);
     grad.addColorStop(1,'rgba(255,255,255,0)');
@@ -321,9 +552,48 @@ function drawBackground(t){
   /* Particle network */
   drawParticleNetwork();
 
+  /* Dust particles */
+  for(const d of dustParticles){
+    d.x += d.vx;
+    d.y += d.vy;
+    d.phase += d.pulse;
+    if(d.x < -6) d.x = innerWidth + 6;
+    if(d.x > innerWidth + 6) d.x = -6;
+    if(d.y < -6) d.y = innerHeight + 6;
+    if(d.y > innerHeight + 6) d.y = -6;
+    const a = d.a * (0.5 + 0.5 * Math.sin(d.phase));
+    const grd = bgCtx.createRadialGradient(d.x, d.y, 0, d.x, d.y, Math.max(6, d.r*6));
+    grd.addColorStop(0, `rgba(255,255,255,${a})`);
+    grd.addColorStop(1, `rgba(255,255,255,0)`);
+    bgCtx.fillStyle = grd;
+    bgCtx.beginPath();
+    bgCtx.arc(d.x, d.y, Math.max(6, d.r*6), 0, Math.PI*2);
+    bgCtx.fill();
+  }
+
+  /* TWINKLES (bolhas piscando) */
+  for(const t of twinkles){
+    t.x += t.vx;
+    t.y += t.vy;
+    t.phase += t.speed;
+    if(t.x < -8) t.x = innerWidth + 8;
+    if(t.x > innerWidth + 8) t.x = -8;
+    if(t.y < -8) t.y = innerHeight + 8;
+    if(t.y > innerHeight + 8) t.y = -8;
+    const alpha = 0.6 + 0.4 * Math.sin(t.phase);
+    const rad = Math.max(1, t.r);
+    const g = bgCtx.createRadialGradient(t.x, t.y, 0, t.x, t.y, rad*5);
+    g.addColorStop(0, `rgba(255,255,255,${alpha})`);
+    g.addColorStop(1, 'rgba(255,255,255,0)');
+    bgCtx.fillStyle = g;
+    bgCtx.beginPath();
+    bgCtx.arc(t.x, t.y, rad*5, 0, Math.PI*2);
+    bgCtx.fill();
+  }
+
   requestAnimationFrame(drawBackground);
 }
-requestAnimationFrame(drawBackground);
+
 
 /* ================== Countdown ================== */
 const target = new Date("2025-12-01T00:00:00").getTime();
@@ -343,7 +613,7 @@ function updateCountdown(){
 updateCountdown();
 setInterval(updateCountdown,1000);
 
-/* ================== Logo & Characters Animations ================== */
+/* ================== Logo & Characters Animations (mantidos) ================== */
 /* Mantive exatamente como você tinha, sem alteração */
 const logo = document.getElementById('logo');
 const fragLayer = document.getElementById('fragLayer');
@@ -503,6 +773,17 @@ desc.addEventListener('click',async ()=>{
   await gsap.fromTo(desc,{opacity:0,y:10},{opacity:1,y:0,duration:1.1,ease:"elastic.out(1,0.6)"});
   desc.dataset.busy="0";
 });
+
 </script>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  document.documentElement.classList.add("loaded");
+  if (window.initParticles) window.initParticles();
+  requestAnimationFrame(drawBackground);
+});
+</script>
+
+
 </body>
 </html>
