@@ -1,13 +1,19 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>XV Geovana Frigoletto</title>
+
+    <!-- Favicon (coloque imagens/favicon.png) -->
+    <link rel="icon" type="image/png" href="imagens/favicon.png">
+
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Lato:wght@300;400&family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
-    
+
+    <!-- CSS -->
     <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
@@ -169,10 +175,14 @@
 
         <section class="clothing-sizes fade-in">
             <h3>Medidas para Presentes</h3>
-            <div class="clothing-container">
-                <div class="clothing-image">
-                    <img src="imagens/vestido.png" alt="Sugestão de Vestido">
-                </div>
+           <div class="clothing-container">
+    <div class="clothing-image">
+        <img src="imagens/vestido.png" alt="Sugestão de Vestido" class="dress-img">
+    </div>
+
+
+
+
                 <div class="clothing-list">
                     <p>Para me ajudar a brilhar como uma princesa, caso queira me presentear com roupas ou calçados:</p>
                     <ul>
@@ -191,6 +201,21 @@
 
     </div>
 
+    <!-- ✅ RODAPÉ IMAGINISTA -->
+    <footer class="footer-credit fade-in">
+        <div class="footer-logo-wrapper">
+            <img src="imagens/logo.png" class="footer-logo clickable">
+        </div>
+        <p>© 2025 IMAGINISTA. Todos os direitos reservados.</p>
+    </footer>
+
+    <!-- layer onde fragments serão adicionados (adicionada automaticamente pelo JS se faltar) -->
+    <div id="fragLayer" aria-hidden="true"></div>
+
+    <!-- GSAP (animações) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" integrity="sha512-+a8k2m3q1x3e2qKCyLZzYqDkq3D6oC2R5t3Xc8g1Qv6u6g2D1x6YVZ9oV/4iJ5b4wN1kYp6zQ8q6w4j8y9g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <!-- JS -->
     <script src="js/main.js"></script>
 </body>
 </html>
