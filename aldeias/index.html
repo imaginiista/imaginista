@@ -190,87 +190,186 @@
     </footer>
   </div>
 
-  <script>
-    // particles (bubbles)
-    const particles = document.getElementById('particles');
-    function makeBubbles(n=18){
-      for(let i=0;i<n;i++){
-        const b = document.createElement('div'); b.className='bubble';
-        const s = Math.random()*80+6; b.style.width=s+'px'; b.style.height=s+'px';
-        b.style.left = Math.random()*100+'%'; b.style.top = Math.random()*80+'%';
-        b.style.opacity = 0.04 + Math.random()*0.16;
-        const dur = (8+Math.random()*12).toFixed(1);
-        const key = `@keyframes bb${i}{0%{transform:translateY(0) scale(1)}50%{transform:translateY(-${20+Math.random()*120}px) scale(1.05)}100%{transform:translateY(0) scale(1)}}`;
-        const st = document.createElement('style'); st.innerHTML = key; document.head.appendChild(st);
-        b.style.animation = `bb${i} ${dur}s ease-in-out infinite`;
-        particles.appendChild(b);
-      }
-    }
-    makeBubbles(18);
+<script>
+/* =============================
+   SAFETY HELPERS
+============================= */
+function byId(id){ return document.getElementById(id); }
+function safe(id, evt, fn){
+  const el = byId(id);
+  if(!el) { console.warn("ID não encontrado:", id); return; }
+  el.addEventListener(evt, fn);
+}
 
-    // map buttons
-    document.getElementById('open-waze').addEventListener('click',()=>{
-      window.open('https://waze.com/ul?ll=-22.486240,-43.962974&navigate=yes','_blank');
+/* =============================
+   BUBBLES
+============================= */
+const particles = byId('particles');
+if(particles){
+  function makeBubbles(n=18){
+    for(let i=0;i<n;i++){
+      const b = document.createElement('div');
+      b.className='bubble';
+
+      const s = Math.random()*80+6;
+      b.style.width = s+'px';
+      b.style.height = s+'px';
+      b.style.left = Math.random()*100+'%';
+      b.style.top = Math.random()*80+'%';
+      b.style.opacity = 0.04 + Math.random()*0.16;
+
+      const dur = (8+Math.random()*12).toFixed(1);
+      const key = `@keyframes bb${i}{0%{transform:translateY(0) scale(1)}50%{transform:translateY(-${20+Math.random()*120}px) scale(1.05)}100%{transform:translateY(0) scale(1)}}`;
+      const st = document.createElement('style'); st.innerHTML = key;
+      document.head.appendChild(st);
+
+      b.style.animation = `bb${i} ${dur}s ease-in-out infinite`;
+      particles.appendChild(b);
+    }
+  }
+  makeBubbles(18);
+}
+
+/* =============================
+   MAP BUTTONS
+============================= */
+safe('open-waze','click',()=>{
+  window.open('https://waze.com/ul?ll=-22.486240,-43.962974&navigate=yes','_blank');
+});
+
+safe('open-google','click',()=>{
+  window.open('https://www.google.com/maps?q=-22.486240,-43.962974','_blank');
+});
+
+/* =============================
+   CHECKLIST
+============================= */
+const CHECK_KEY = 'aldeia_check_v4';
+
+function addExtraToDOM(text){
+  const div = document.createElement('label');
+  div.className='checkline extra';
+  div.innerHTML = `<input type='checkbox' data-key='${text}'> ${text}`;
+  
+  const ref = document.querySelector('#checklist .add-inline');
+  ref.parentElement.insertBefore(div, ref);
+  
+  div.querySelector('input').addEventListener('change', saveChecklist);
+}
+
+function loadChecklist(){
+  try{
+    const raw = localStorage.getItem(CHECK_KEY);
+    if(!raw) return;
+
+    const obj = JSON.parse(raw);
+
+    document.querySelectorAll('#checklist input[type=checkbox]').forEach(cb=>{
+      const key = cb.dataset.key || cb.parentElement.innerText.trim();
+      if(obj[key]) cb.checked = true;
     });
-    document.getElementById('open-google').addEventListener('click',()=>{
-      window.open('https://www.google.com/maps?q=-22.486240,-43.962974','_blank');
-    });
 
-    // checklist logic
-    const CHECK_KEY = 'aldeia_check_v4';
-    function loadChecklist(){
-      try{
-        const raw = localStorage.getItem(CHECK_KEY); if(!raw) return;
-        const obj = JSON.parse(raw);
-        document.querySelectorAll('#checklist input[type=checkbox]').forEach(cb=>{
-          const key = cb.dataset.key || cb.parentElement.innerText.trim(); if(obj[key]) cb.checked = true;
-        });
-        if(obj._extra && Array.isArray(obj._extra)) obj._extra.forEach(addExtraToDOM);
-      }catch(e){console.warn(e)}
-    }
-    function saveChecklist(){
-      const obj = {}; const extras=[];
-      document.querySelectorAll('#checklist input[type=checkbox]').forEach(cb=>{const key=cb.dataset.key||cb.parentElement.innerText.trim();obj[key]=!!cb.checked});
-      document.querySelectorAll('#checklist .extra').forEach(lbl=>extras.push(lbl.innerText.trim())); obj._extra=extras; localStorage.setItem(CHECK_KEY,JSON.stringify(obj));
-    }
-    function addExtraToDOM(text){
-      const div = document.createElement('label'); div.className='checkline extra'; div.innerHTML = `<input type='checkbox' data-key='${text}'> ${text}`;
-      const ref = document.querySelector('#checklist .add-inline'); ref.parentElement.insertBefore(div, ref); div.querySelector('input').addEventListener('change', saveChecklist);
-    }
-    document.getElementById('add-btn').addEventListener('click',()=>{const v=document.getElementById('new-item').value.trim(); if(!v) return; addExtraToDOM(v); document.getElementById('new-item').value=''; saveChecklist();});
-    document.querySelectorAll('#checklist input[type=checkbox]').forEach(cb=>cb.addEventListener('change',saveChecklist));
-    loadChecklist();
+    if(obj._extra) obj._extra.forEach(addExtraToDOM);
 
-    // sharing
-    function collectChecklist(onlyMarked){
-      const lines=[]; document.querySelectorAll('#checklist .checkline').forEach(lbl=>{
-        const cb=lbl.querySelector('input[type=checkbox]'); const text=lbl.innerText.trim(); if(onlyMarked){ if(cb.checked) lines.push('✅ '+text);} else { lines.push((cb.checked? '✅ ':'[ ] ')+text); }
-      });
-      return lines;
+  }catch(e){
+    console.warn("Erro carregando checklist:", e);
+  }
+}
+
+function saveChecklist(){
+  const obj = {};
+  const extras = [];
+
+  document.querySelectorAll('#checklist input[type=checkbox]').forEach(cb=>{
+    const key = cb.dataset.key || cb.parentElement.innerText.trim();
+    obj[key] = !!cb.checked;
+  });
+
+  document.querySelectorAll('#checklist .extra').forEach(x=>{
+    extras.push(x.innerText.trim());
+  });
+
+  obj._extra = extras;
+
+  localStorage.setItem(CHECK_KEY, JSON.stringify(obj));
+}
+
+safe('add-btn','click',()=>{
+  const v = byId('new-item').value.trim();
+  if(!v) return;
+  addExtraToDOM(v);
+  byId('new-item').value='';
+  saveChecklist();
+});
+
+document.querySelectorAll('#checklist input[type=checkbox]').forEach(cb=>{
+  cb.addEventListener('change', saveChecklist);
+});
+
+loadChecklist();
+
+/* =============================
+   SHARING
+============================= */
+function collectChecklist(onlyMarked){
+  const lines = [];
+  document.querySelectorAll('#checklist .checkline').forEach(lbl=>{
+    const cb = lbl.querySelector('input');
+    const text = lbl.innerText.trim();
+
+    if(onlyMarked){
+      if(cb.checked) lines.push('✅ ' + text);
+    } else {
+      lines.push((cb.checked ? '✅ ' : '[ ] ') + text);
     }
-    document.getElementById('share-marked').addEventListener('click',()=>{const lines=collectChecklist(true); shareWhatsApp(lines)});
-    document.getElementById('share-all').addEventListener('click',()=>{const lines=collectChecklist(false); shareWhatsApp(lines)});
-    function shareWhatsApp(lines){
-      const header = `Aldeia das Águas — Checklist e logística (%20)
+  });
+  return lines;
+}
+
+function shareWhatsApp(lines){
+  const header =
+`Aldeia das Águas — Checklist e logística
 Ponto: Estação Santíssimo (Av. de Santa Cruz, 9591)
 Saída sugerida: 06:10 (chegar 09:20)
 
 `;
-      const text = encodeURIComponent(header + lines.join('
-'));
-      window.open(`https://api.whatsapp.com/send?text=${text}`,'_blank');
-    }
+  const text = encodeURIComponent(header + lines.join("\n"));
+  window.open(`https://api.whatsapp.com/send?text=${text}`,'_blank');
+}
 
-    // open checklist/map buttons
-    document.getElementById('open-checklist').addEventListener('click',()=>document.getElementById('checklist-card').scrollIntoView({behavior:'smooth',block:'center'}));
-    document.getElementById('open-map').addEventListener('click',()=>document.getElementById('map-card').scrollIntoView({behavior:'smooth',block:'center'}));
+safe('share-marked','click',()=>{
+  shareWhatsApp(collectChecklist(true));
+});
 
-    // tiny fade-in stagger
-    document.querySelectorAll('.fadeInUp').forEach((el,i)=>el.style.animationDelay=(i*60)+'ms');
+safe('share-all','click',()=>{
+  shareWhatsApp(collectChecklist(false));
+});
 
-    // reduce motion
-    const mq = window.matchMedia('(prefers-reduced-motion: reduce)'); if(mq && mq.matches) document.querySelectorAll('.bubble').forEach(b=>b.style.animation='none');
+/* =============================
+   SCROLL NAV
+============================= */
+safe('open-checklist','click',()=>{
+  const t = byId('checklist-card'); if(t) t.scrollIntoView({behavior:'smooth',block:'center'});
+});
 
-  </script>
+safe('open-map','click',()=>{
+  const t = byId('map-card'); if(t) t.scrollIntoView({behavior:'smooth',block:'center'});
+});
+
+/* =============================
+   FADE STAGGER
+============================= */
+document.querySelectorAll('.fadeInUp').forEach((el,i)=>{
+  el.style.animationDelay = (i * 60) + 'ms';
+});
+
+/* =============================
+   REDUCE MOTION
+============================= */
+if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+  document.querySelectorAll('.bubble').forEach(b=> b.style.animation='none');
+}
+</script>
+
 </body>
 </html>
