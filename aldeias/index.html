@@ -5,170 +5,235 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Aldeia das Águas — Roteiro</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        /* =========================
-        VARS & RESET
-        ==========================*/
-        :root{
-            --bg:#021324;
-            --card:#062a36;
-            --accent:#00b8d4;
-            --accent2:#007a8a;
-            --muted:rgba(255,255,255,0.92);
-            --glass:rgba(255,255,255,0.03);
-            --max-width:980px;
-            --ease: cubic-bezier(.2,.9,.3,1);
-            --shadow-1: 0 10px 30px rgba(0,0,0,0.45);
-            --ui-contrast: rgba(255,255,255,0.06);
-        }
-        *{box-sizing:border-box;margin:0;padding:0}
-        html,body{height:100%}
-        body{
-            font-family:Inter,system-ui,Arial,sans-serif;
-            background: linear-gradient(180deg,var(--bg) 0%, #04202a 60%);
-            color:var(--muted);
-            -webkit-font-smoothing:antialiased;
-            -moz-osx-font-smoothing:grayscale;
-            padding-bottom:60px;
-            overflow-y:auto;
-            -webkit-tap-highlight-color: transparent;
-        }
+<style>
+/* =========================
+VARS & RESET
+==========================*/
+:root {
+    --bg: #021324;
+    --card: #062a36;
+    --accent: #00b8d4;
+    --accent2: #007a8a;
+    --muted: rgba(255, 255, 255, 0.92);
+    --glass: rgba(255, 255, 255, 0.03);
+    --max-width: 980px;
+    --ease: cubic-bezier(.2, .9, .3, 1);
+    --shadow-1: 0 10px 30px rgba(0, 0, 0, 0.45);
+    --ui-contrast: rgba(255, 255, 255, 0.06);
+}
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+html, body {
+    height: 100%;
+}
+body {
+    font-family: Inter, system-ui, Arial, sans-serif;
+    background: linear-gradient(180deg, var(--bg) 0%, #04202a 60%);
+    color: var(--muted);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    padding-bottom: 60px;
+    overflow-y: auto;
+    -webkit-tap-highlight-color: transparent;
+}
 
-        /* =======================================
-        BACKGROUND LAYERS: Refraction + Light + Bokeh
-        ========================================*/
-        .bg-layer { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+/* =======================================
+BACKGROUND LAYERS: Refraction + Light + Bokeh
+========================================*/
+.bg-layer { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
 
-        /* SVG refraction (main) */
-        .refraction-wrap{
-            position: absolute; inset: 0; z-index:0; overflow:hidden; opacity:0.32;
-            mix-blend-mode: screen; filter: blur(0.6px);
-        }
-        /* spotlight / light streaks overlay */
-        .light-overlay{
-            position:absolute; inset:0; background:
-                radial-gradient(600px 200px at 10% 10%, rgba(0,200,220,0.06), transparent 12%),
-                radial-gradient(800px 260px at 90% 20%, rgba(0,140,180,0.04), transparent 14%);
-            z-index:1; pointer-events:none; opacity:0.9;
-            transform: translateZ(0);
-        }
+/* SVG refraction (main) */
+.refraction-wrap {
+    position: absolute; inset: 0; z-index: 0; overflow: hidden;
+    opacity: 0.32;
+    mix-blend-mode: screen;
+    filter: blur(0.6px);
+}
 
-        /* subtle bokeh (blurred circular lighteffects) */
-        .bokeh-wrap{ position:absolute; inset:0; z-index:0; pointer-events:none; overflow:hidden; opacity:0.08 }
-        .bokeh { position:absolute; border-radius:50%; filter: blur(18px); opacity:0.6; transform: translate3d(0,0,0) scale(1.1); }
+/* spotlight / light streaks overlay */
+.light-overlay {
+    position: absolute; inset: 0;
+    background:
+        radial-gradient(600px 200px at 10% 10%, rgba(0,200,220,0.06), transparent 12%),
+        radial-gradient(800px 260px at 90% 20%, rgba(0,140,180,0.04), transparent 14%);
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.9;
+    transform: translateZ(0);
+}
 
-        /* top waves (keeps your existing wave svg visually) */
-        .top-waves{
-            position:fixed; left:0; right:0; top:0; height:140px; pointer-events:none; z-index:2;
-            display:flex; align-items:flex-start; justify-content:center; overflow:hidden;
-        }
-        .top-waves svg{ width:140%; height:160px; display:block; transform:translateY(-20%); opacity:0.95; will-change:transform; }
+/* subtle bokeh (blurred circular light effects) */
+.bokeh-wrap { position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; opacity: 0.08; }
+.bokeh { position: absolute; border-radius: 50%; filter: blur(18px); opacity: 0.6; transform: translate3d(0,0,0) scale(1.1); }
 
-        /* =======================================
-        APP LAYOUT (KEPT FROM ORIGINAL)
-        ========================================*/
-        .wrap{ max-width:var(--max-width); margin:24px auto; padding:16px; position:relative; z-index:3 }
+/* top waves */
+.top-waves {
+    position: fixed; left: 0; right: 0; top: 0; height: 140px;
+    pointer-events: none; z-index: 2;
+    display: flex; align-items: flex-start; justify-content: center; overflow: hidden;
+}
+.top-waves svg {
+    width: 140%; height: 160px; display: block;
+    transform: translateY(-20%); opacity: 0.95; will-change: transform;
+}
 
-        header{ display:flex; align-items:center; gap:12px; margin-bottom:14px }
-        .logo{ width:56px; height:56px; border-radius:10px; object-fit:contain; display:block; position:relative; overflow:hidden }
-        .logo img{ width:100%; height:100%; display:block; filter: drop-shadow(0 6px 18px rgba(0,0,0,0.4)); }
-        .logo canvas.shine{ position:absolute; inset:0; pointer-events:none; z-index:4 }
+/* =======================================
+APP LAYOUT
+========================================*/
+.wrap { max-width: var(--max-width); margin: 24px auto; padding: 16px; position: relative; z-index: 3; }
 
-        .title h1{ font-size:18px; color:#eafcff; margin-bottom:4px }
-        .title p{ font-size:13px; color:rgba(234,252,255,0.8) }
+header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+.logo {
+    width: 56px; height: 56px; border-radius: 10px;
+    object-fit: contain; display: block; position: relative; overflow: hidden;
+}
+.logo img {
+    width: 100%; height: 100%; display: block;
+    filter: drop-shadow(0 6px 18px rgba(0,0,0,0.4));
+}
+.logo canvas.shine { position: absolute; inset: 0; pointer-events: none; z-index: 4; }
 
-        .hero{
-            background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-            padding:14px; border-radius:12px; border:1px solid rgba(255,255,255,0.03);
-            box-shadow:var(--shadow-1); display:flex; flex-direction:column; gap:8px; position:relative; overflow:hidden;
-            transform-origin:center;
-        }
-        .badge{ background: rgba(0,0,0,0.25); padding:8px 10px; border-radius:999px; font-weight:700; color:var(--accent); display:inline-block }
+.title h1 { font-size: 18px; color: #eafcff; margin-bottom: 4px; }
+.title p { font-size: 13px; color: rgba(234,252,255,0.8); }
 
-        .grid{ display:grid; grid-template-columns:1fr; gap:12px; margin-top:12px }
-        @media(min-width:820px){ .grid{ grid-template-columns:2fr 1fr } }
+.hero {
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    padding: 14px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.03);
+    box-shadow: var(--shadow-1); display: flex; flex-direction: column; gap: 8px;
+    position: relative; overflow: hidden; transform-origin: center;
+}
+.badge {
+    background: rgba(0,0,0,0.25); padding: 8px 10px; border-radius: 999px;
+    font-weight: 700; color: var(--accent); display: inline-block;
+}
 
-        .card{ background:var(--card); padding:14px; border-radius:12px; border:1px solid rgba(255,255,255,0.03); box-shadow:var(--shadow-1);
-            transition: box-shadow 300ms var(--ease), transform 300ms var(--ease), opacity 300ms var(--ease) }
-        .card h3{ color:#eafcff; margin-bottom:10px }
-        .muted{ color:rgba(255,255,255,0.7); font-size:13px }
+.grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 12px; }
+@media (min-width: 820px) { .grid { grid-template-columns: 2fr 1fr; } }
 
-        .costs{ display:flex; flex-direction:column; gap:8px }
-        .person{ display:flex; align-items:center; gap:12px; padding:10px; background:linear-gradient(90deg, rgba(255,255,255,0.02), transparent); border-radius:10px; transition: transform 220ms var(--ease) }
-        .person:hover{ transform:translateY(-6px) }
-        .person .name{ font-weight:700; color:#e6fbff }
-        .person .total{ margin-left:auto; font-weight:800; color:var(--accent) }
+.card {
+    background: var(--card); padding: 14px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.03);
+    box-shadow: var(--shadow-1);
+    transition: box-shadow 300ms var(--ease), transform 300ms var(--ease), opacity 300ms var(--ease);
+}
+.card h3 { color: #eafcff; margin-bottom: 10px; }
+.muted { color: rgba(255,255,255,0.7); font-size: 13px; }
 
-        .items-list{ display:flex; flex-direction:column; gap:8px }
-        .item-row{ display:flex; align-items:center; justify-content:space-between; padding:10px; border-radius:10px; background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.02)); border:1px solid rgba(255,255,255,0.02); transition: transform 200ms var(--ease), box-shadow 220ms var(--ease) }
-        .item-row:hover{ transform:translateY(-6px); box-shadow:0 18px 40px rgba(0,0,0,0.45) }
-        .left{ display:flex; align-items:center; gap:10px }
-        .qty{ background:rgba(0,0,0,0.25); padding:6px 8px; border-radius:8px; font-weight:800; color:var(--accent) }
-        .price{ font-weight:800; color:var(--accent2) }
+/* ==========================
+PERSON & ITEM LISTS
+========================== */
+.costs { display: flex; flex-direction: column; gap: 8px; }
+.person {
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px; background: linear-gradient(90deg, rgba(255,255,255,0.02), transparent);
+    border-radius: 10px;
+    transition: transform 220ms var(--ease);
+}
+.person:hover { transform: translateY(-6px); }
+.person .name { font-weight: 700; color: #e6fbff; }
+.person .total { margin-left: auto; font-weight: 800; color: var(--accent); }
 
-        .map{ position:relative; border-radius:10px; overflow:hidden; transform-origin:center; transition: transform 300ms var(--ease) }
-        .map img{ width:100%; height:auto; display:block; border-radius:10px; cursor:pointer; transition: transform 320ms var(--ease) }
-        .map.zoomed img{ transform: scale(1.08) }
-        .map-actions{ display:flex; gap:8px; margin-top:8px }
+.items-list { display: flex; flex-direction: column; gap: 8px; }
+.item-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px; border-radius: 10px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.02));
+    border: 1px solid rgba(255,255,255,0.02);
+    transition: transform 200ms var(--ease), box-shadow 220ms var(--ease);
+}
+.item-row:hover { transform: translateY(-6px); box-shadow: 0 18px 40px rgba(0,0,0,0.45); }
+.left { display: flex; align-items: center; gap: 10px; }
+.qty { background: rgba(0,0,0,0.25); padding: 6px 8px; border-radius: 8px; font-weight: 800; color: var(--accent); }
+.price { font-weight: 800; color: var(--accent2); }
 
-        .btn{ flex:1; padding:10px; border-radius:10px; border:none; background:linear-gradient(90deg,var(--accent),var(--accent2)); color:#012; font-weight:800; cursor:pointer; position:relative; overflow:hidden; outline:none }
-        .btn.ghost{ background:transparent; border:1px solid rgba(255,255,255,0.06); color:var(--muted) }
-        .btn:active{ transform:translateY(2px) }
+/* ==========================
+MAP
+========================== */
+.map { position: relative; border-radius: 10px; overflow: hidden; transform-origin: center; transition: transform 300ms var(--ease); }
+.map img { width: 100%; height: auto; display: block; border-radius: 10px; cursor: pointer; transition: transform 320ms var(--ease); }
+.map.zoomed img { transform: scale(1.08); }
+.map-actions { display: flex; gap: 8px; margin-top: 8px; }
 
-        /* button shine */
-        .btn::after{
-            content:''; position:absolute; left:-60%; top:0; width:40%; height:100%;
-            background: linear-gradient(90deg, rgba(255,255,255,0.15), rgba(255,255,255,0.25), rgba(255,255,255,0.15));
-            transform:skewX(-20deg); opacity:0; transition: opacity 300ms, left 700ms;
-        }
-        .btn.shine::after{ left:120%; opacity:1; transition:left 900ms cubic-bezier(.2,.9,.3,1) }
-        .btn.pulse{ animation: pulseBtn 900ms ease-in-out 1 }
-        @keyframes pulseBtn{ 0%{transform:scale(1)} 50%{transform:scale(1.03)} 100%{transform:scale(1)} }
+/* ==========================
+BUTTONS
+========================== */
+.btn {
+    flex: 1; padding: 10px; border-radius: 10px; border: none;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    color: #012; font-weight: 800; cursor: pointer; position: relative; overflow: hidden; outline: none;
+}
+.btn.ghost { background: transparent; border: 1px solid rgba(255,255,255,0.06); color: var(--muted); }
+.btn:active { transform: translateY(2px); }
 
-        .checklist{ display:flex; flex-direction:column; gap:8px }
-        .checkline{ display:flex; align-items:center; gap:10px; padding:8px; border-radius:10px; background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.02)); transition: background 220ms var(--ease) }
-        .checkline input[type='checkbox']{ transform:scale(1.1); margin-right:8px; accent-color:var(--accent) }
-        .checkline.checked{ background:linear-gradient(90deg, rgba(0,184,212,0.08), rgba(0,122,138,0.04)); }
+/* button shine */
+.btn::after {
+    content: ''; position: absolute; left: -60%; top: 0; width: 40%; height: 100%;
+    background: linear-gradient(90deg, rgba(255,255,255,0.15), rgba(255,255,255,0.25), rgba(255,255,255,0.15));
+    transform: skewX(-20deg); opacity: 0; transition: opacity 300ms, left 700ms;
+}
+.btn.shine::after { left: 120%; opacity: 1; transition: left 900ms cubic-bezier(.2,.9,.3,1); }
+.btn.pulse { animation: pulseBtn 900ms ease-in-out 1; }
+@keyframes pulseBtn { 0% { transform: scale(1); } 50% { transform: scale(1.03); } 100% { transform: scale(1); } }
 
-        .add-inline{ display:flex; gap:8px; margin-top:8px }
-        .add-inline input{ flex:1; padding:10px; border-radius:10px; border:1px solid rgba(255,255,255,0.04); background:transparent; color:var(--muted) }
-        .add-inline button{ padding:10px; border-radius:10px; border:none; background:var(--accent); font-weight:800; color:#012; cursor:pointer; transition: transform 180ms var(--ease) }
+/* ==========================
+CHECKLIST
+========================== */
+.checklist { display: flex; flex-direction: column; gap: 8px; }
+.checkline {
+    display: flex; align-items: center; gap: 10px; padding: 8px;
+    border-radius: 10px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.02));
+    transition: background 220ms var(--ease);
+}
+.checkline input[type='checkbox'] { transform: scale(1.1); margin-right: 8px; accent-color: var(--accent); }
+.checkline.checked { background: linear-gradient(90deg, rgba(0,184,212,0.08), rgba(0,122,138,0.04)); }
 
-        /* particles */
-        .particles{ position:fixed; inset:0; pointer-events:none; z-index:1 }
-        .bubble{ position:absolute; border-radius:50%; background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.14), rgba(255,255,255,0.02)); opacity:0.06; mix-blend-mode:screen; will-change:transform,opacity }
+/* ==========================
+PARTICLES
+========================== */
+.particles { position: fixed; inset: 0; pointer-events: none; z-index: 1; }
+.bubble {
+    position: absolute; border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.14), rgba(255,255,255,0.02));
+    opacity: 0.06; mix-blend-mode: screen; will-change: transform, opacity;
+}
 
-        /* in-view animation */
-        .fadeInUp{ opacity:0; transform:translateY(18px); transition: opacity 520ms var(--ease), transform 520ms var(--ease) }
-        .inview{ opacity:1; transform:none }
+/* ==========================
+ANIMATIONS
+========================== */
+.fadeInUp { opacity: 0; transform: translateY(18px); transition: opacity 520ms var(--ease), transform 520ms var(--ease); }
+.inview { opacity: 1; transform: none; }
+.stagger-el { opacity: 0; transform: translateY(6px); transition: opacity 420ms var(--ease), transform 420ms var(--ease) !important; }
+.fadeInUp.inview .stagger-el { opacity: 1; transform: none; }
+.touch-feedback { transition: transform 120ms; will-change: transform; }
+.touch-feedback:active { transform: scale(0.98); }
+.micro-bounce { animation: microBounce 360ms cubic-bezier(.2,.9,.3,1); }
+@keyframes microBounce { 0% { transform: translateY(0); } 40% { transform: translateY(-8px); } 100% { transform: translateY(0); } }
 
-        /* stagger animation baseline */
-        .stagger-el { opacity: 0; transform: translateY(6px); transition: opacity 420ms var(--ease), transform 420ms var(--ease) !important; }
-        .fadeInUp.inview .stagger-el { opacity: 1; transform: none; }
+/* ==========================
+ACCESSIBILITY & REDUCED MOTION
+========================== */
+:focus { outline: 2px solid rgba(0,200,220,0.12); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) {
+    .refraction-wrap, .particles, .bokeh-wrap, .top-waves svg { animation: none !important; transition: none !important; }
+    .fadeInUp, .inview { transition: none !important; opacity: 1 !important; transform: none !important; }
+    .stagger-el { opacity: 1 !important; transform: none !important; transition: none !important; }
+}
 
-        footer{ margin-top:20px; text-align:center; color:rgba(255,255,255,0.5); font-size:13px }
+footer { margin-top: 20px; text-align: center; color: rgba(255,255,255,0.5); font-size: 13px; }
 
-        /* small touch feedback */
-        .touch-feedback{ transition:transform 120ms; will-change:transform }
-        .touch-feedback:active{ transform:scale(0.98) }
+/* ==========================
+ADICIONAL: SCROLLBAR ESTILIZADO
+========================== */
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: rgba(255,255,255,0.02); border-radius: 10px; }
+::-webkit-scrollbar-thumb { background: rgba(0,184,212,0.4); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(0,184,212,0.6); }
 
-        /* micro bounce used in JS by toggling class */
-        .micro-bounce{ animation: microBounce 360ms cubic-bezier(.2,.9,.3,1) }
-        @keyframes microBounce { 0%{ transform: translateY(0) } 40%{ transform: translateY(-8px) } 100%{ transform: translateY(0) } }
+</style>
 
-        /* checkbox check animation - pseudo-element */
-        .checkline input[type="checkbox"]::after { content: ''; display:block; width:0; height:0 }
-        /* accessibility focus */
-        :focus { outline: 2px solid rgba(0,200,220,0.12); outline-offset:2px; }
-
-        /* reduced motion fallback */
-        @media (prefers-reduced-motion: reduce) {
-            .refraction-wrap, .particles, .bokeh-wrap, .top-waves svg { animation: none !important; transition: none !important; }
-            .fadeInUp, .inview { transition: none !important; opacity:1 !important; transform:none !important; }
-            .stagger-el { opacity: 1 !important; transform: none !important; transition: none !important; }
-        }
-
-    </style>
 </head>
 <body>
     <div class="bg-layer">
