@@ -1,798 +1,690 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Aldeia das Águas — Roteiro</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        /* =========================
-        VARS & RESET
-        ==========================*/
-        :root{
-            --bg:#021324;
-            --card:#062a36;
-            --accent:#00b8d4;
-            --accent2:#007a8a;
-            --muted:rgba(255,255,255,0.92);
-            --glass:rgba(255,255,255,0.03);
-            --max-width:980px;
-            --ease: cubic-bezier(.2,.9,.3,1);
-            --shadow-1: 0 10px 30px rgba(0,0,0,0.45);
-            --ui-contrast: rgba(255,255,255,0.06);
-        }
-        *{box-sizing:border-box;margin:0;padding:0}
-        html,body{height:100%}
-        body{
-            font-family:Inter,system-ui,Arial,sans-serif;
-            background: linear-gradient(180deg,var(--bg) 0%, #04202a 60%);
-            color:var(--muted);
-            -webkit-font-smoothing:antialiased;
-            -moz-osx-font-smoothing:grayscale;
-            padding-bottom:60px;
-            overflow-y:auto;
-            -webkit-tap-highlight-color: transparent;
-        }
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Aldeia das Águas — Roteiro (Opção C)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* =========================
+       VARS & RESET
+    ==========================*/
+    :root{
+      --bg:#021324;
+      --card:#062a36;
+      --accent:#00b8d4;
+      --accent2:#007a8a;
+      --muted:rgba(255,255,255,0.92);
+      --glass:rgba(255,255,255,0.03);
+      --max-width:980px;
+      --ease: cubic-bezier(.2,.9,.3,1);
+      --shadow-1: 0 10px 30px rgba(0,0,0,0.45);
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      font-family:Inter,system-ui,Arial,sans-serif;
+      background: linear-gradient(180deg,var(--bg) 0%, #04202a 60%);
+      color:var(--muted);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      padding-bottom:60px;
+      overflow-y:auto;
+      -webkit-tap-highlight-color: transparent;
+    }
 
-        /* =======================================
-        BACKGROUND LAYERS: Refraction + Light + Bokeh
-        ========================================*/
-        .bg-layer { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+    /* Canvas background occupies full viewport under everything */
+    #bg-canvas{
+      position:fixed; inset:0; width:100%; height:100%;
+      z-index:0; pointer-events:none; display:block;
+      will-change:transform,opacity;
+    }
 
-        /* SVG refraction (main) */
-        .refraction-wrap{
-            position: absolute; inset: 0; z-index:0; overflow:hidden; opacity:0.32;
-            mix-blend-mode: screen; filter: blur(0.6px);
-        }
-        /* spotlight / light streaks overlay */
-        .light-overlay{
-            position:absolute; inset:0; background:
-                radial-gradient(600px 200px at 10% 10%, rgba(0,200,220,0.06), transparent 12%),
-                radial-gradient(800px 260px at 90% 20%, rgba(0,140,180,0.04), transparent 14%);
-            z-index:1; pointer-events:none; opacity:0.9;
-            transform: translateZ(0);
-        }
+    /* rest is same layout as your working template */
+    .bg-layer { position: fixed; inset: 0; pointer-events: none; z-index:1; }
 
-        /* subtle bokeh (blurred circular lighteffects) */
-        .bokeh-wrap{ position:absolute; inset:0; z-index:0; pointer-events:none; overflow:hidden; opacity:0.08 }
-        .bokeh { position:absolute; border-radius:50%; filter: blur(18px); opacity:0.6; transform: translate3d(0,0,0) scale(1.1); }
+    .refraction-wrap{
+      position: absolute; inset: 0; z-index:1; overflow:hidden; opacity:0.34;
+      mix-blend-mode: screen; filter: blur(0.6px);
+    }
+    .light-overlay{
+      position:absolute; inset:0; background:
+        radial-gradient(600px 200px at 10% 10%, rgba(0,200,220,0.06), transparent 12%),
+        radial-gradient(800px 260px at 90% 20%, rgba(0,140,180,0.04), transparent 14%);
+      z-index:2; pointer-events:none; opacity:0.92;
+      transform: translateZ(0);
+    }
+    .bokeh-wrap{ position:absolute; inset:0; z-index:1; pointer-events:none; overflow:hidden; opacity:0.12 }
+    .bokeh { position:absolute; border-radius:50%; filter: blur(18px); opacity:0.7; transform: translate3d(0,0,0) scale(1.1); }
 
-        /* top waves (keeps your existing wave svg visually) */
-        .top-waves{
-            position:fixed; left:0; right:0; top:0; height:140px; pointer-events:none; z-index:2;
-            display:flex; align-items:flex-start; justify-content:center; overflow:hidden;
-        }
-        .top-waves svg{ width:140%; height:160px; display:block; transform:translateY(-20%); opacity:0.95; will-change:transform; }
+    .top-waves{
+      position:fixed; left:0; right:0; top:0; height:140px; pointer-events:none; z-index:2;
+      display:flex; align-items:flex-start; justify-content:center; overflow:hidden;
+    }
+    .top-waves svg{ width:140%; height:160px; display:block; transform:translateY(-20%); opacity:0.98; will-change:transform; }
 
-        /* =======================================
-        APP LAYOUT (KEPT FROM ORIGINAL)
-        ========================================*/
-        .wrap{ max-width:var(--max-width); margin:24px auto; padding:16px; position:relative; z-index:3 }
+    .wrap{ max-width:var(--max-width); margin:24px auto; padding:16px; position:relative; z-index:3 }
 
-        header{ display:flex; align-items:center; gap:12px; margin-bottom:14px }
-        .logo{ width:56px; height:56px; border-radius:10px; object-fit:contain; display:block; position:relative; overflow:hidden }
-        .logo img{ width:100%; height:100%; display:block; filter: drop-shadow(0 6px 18px rgba(0,0,0,0.4)); }
-        .logo canvas.shine{ position:absolute; inset:0; pointer-events:none; z-index:4 }
+    header{ display:flex; align-items:center; gap:12px; margin-bottom:14px }
+    .logo{ width:56px; height:56px; border-radius:10px; object-fit:contain; display:block; position:relative; overflow:hidden }
+    .logo img{ width:100%; height:100%; display:block; filter: drop-shadow(0 6px 18px rgba(0,0,0,0.4)); }
+    .logo canvas.shine{ position:absolute; inset:0; pointer-events:none; z-index:4 }
 
-        .title h1{ font-size:18px; color:#eafcff; margin-bottom:4px }
-        .title p{ font-size:13px; color:rgba(234,252,255,0.8) }
+    .title h1{ font-size:18px; color:#eafcff; margin-bottom:4px }
+    .title p{ font-size:13px; color:rgba(234,252,255,0.8) }
 
-        .hero{
-            background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-            padding:14px; border-radius:12px; border:1px solid rgba(255,255,255,0.03);
-            box-shadow:var(--shadow-1); display:flex; flex-direction:column; gap:8px; position:relative; overflow:hidden;
-            transform-origin:center;
-        }
-        .badge{ background: rgba(0,0,0,0.25); padding:8px 10px; border-radius:999px; font-weight:700; color:var(--accent); display:inline-block }
+    .hero{ background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); padding:14px; border-radius:12px; border:1px solid rgba(255,255,255,0.03); box-shadow:var(--shadow-1); display:flex; flex-direction:column; gap:8px; position:relative; overflow:hidden; transform-origin:center; }
+    .badge{ background: rgba(0,0,0,0.25); padding:8px 10px; border-radius:999px; font-weight:700; color:var(--accent); display:inline-block }
 
-        .grid{ display:grid; grid-template-columns:1fr; gap:12px; margin-top:12px }
-        @media(min-width:820px){ .grid{ grid-template-columns:2fr 1fr } }
+    .grid{ display:grid; grid-template-columns:1fr; gap:12px; margin-top:12px }
+    @media(min-width:820px){ .grid{ grid-template-columns:2fr 1fr } }
 
-        .card{ background:var(--card); padding:14px; border-radius:12px; border:1px solid rgba(255,255,255,0.03); box-shadow:var(--shadow-1);
-            transition: box-shadow 300ms var(--ease), transform 300ms var(--ease), opacity 300ms var(--ease) }
-        .card h3{ color:#eafcff; margin-bottom:10px }
-        .muted{ color:rgba(255,255,255,0.7); font-size:13px }
+    .card{ background:var(--card); padding:14px; border-radius:12px; border:1px solid rgba(255,255,255,0.03); box-shadow:var(--shadow-1); transition: box-shadow 300ms var(--ease), transform 300ms var(--ease), opacity 300ms var(--ease) }
+    .card h3{ color:#eafcff; margin-bottom:10px }
+    .muted{ color:rgba(255,255,255,0.7); font-size:13px }
 
-        .costs{ display:flex; flex-direction:column; gap:8px }
-        .person{ display:flex; align-items:center; gap:12px; padding:10px; background:linear-gradient(90deg, rgba(255,255,255,0.02), transparent); border-radius:10px; transition: transform 220ms var(--ease) }
-        .person:hover{ transform:translateY(-6px) }
-        .person .name{ font-weight:700; color:#e6fbff }
-        .person .total{ margin-left:auto; font-weight:800; color:var(--accent) }
+    .costs{ display:flex; flex-direction:column; gap:8px }
+    .person{ display:flex; align-items:center; gap:12px; padding:10px; background:linear-gradient(90deg, rgba(255,255,255,0.02), transparent); border-radius:10px; transition: transform 220ms var(--ease) }
+    .person:hover{ transform:translateY(-6px) }
+    .person .name{ font-weight:700; color:#e6fbff }
+    .person .total{ margin-left:auto; font-weight:800; color:var(--accent) }
 
-        .items-list{ display:flex; flex-direction:column; gap:8px }
-        .item-row{ display:flex; align-items:center; justify-content:space-between; padding:10px; border-radius:10px; background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.02)); border:1px solid rgba(255,255,255,0.02); transition: transform 200ms var(--ease), box-shadow 220ms var(--ease) }
-        .item-row:hover{ transform:translateY(-6px); box-shadow:0 18px 40px rgba(0,0,0,0.45) }
-        .left{ display:flex; align-items:center; gap:10px }
-        .qty{ background:rgba(0,0,0,0.25); padding:6px 8px; border-radius:8px; font-weight:800; color:var(--accent) }
-        .price{ font-weight:800; color:var(--accent2) }
+    .items-list{ display:flex; flex-direction:column; gap:8px }
+    .item-row{ display:flex; align-items:center; justify-content:space-between; padding:10px; border-radius:10px; background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.02)); border:1px solid rgba(255,255,255,0.02); transition: transform 200ms var(--ease), box-shadow 220ms var(--ease) }
+    .item-row:hover{ transform:translateY(-6px); box-shadow:0 18px 40px rgba(0,0,0,0.45) }
+    .left{ display:flex; align-items:center; gap:10px }
+    .qty{ background:rgba(0,0,0,0.25); padding:6px 8px; border-radius:8px; font-weight:800; color:var(--accent) }
+    .price{ font-weight:800; color:var(--accent2) }
 
-        .map{ position:relative; border-radius:10px; overflow:hidden; transform-origin:center; transition: transform 300ms var(--ease) }
-        .map img{ width:100%; height:auto; display:block; border-radius:10px; cursor:pointer; transition: transform 320ms var(--ease) }
-        .map.zoomed img{ transform: scale(1.08) }
-        .map-actions{ display:flex; gap:8px; margin-top:8px }
+    .map{ position:relative; border-radius:10px; overflow:hidden; transform-origin:center; transition: transform 300ms var(--ease) }
+    .map img{ width:100%; height:auto; display:block; border-radius:10px; cursor:pointer; transition: transform 320ms var(--ease) }
+    .map.zoomed img{ transform: scale(1.08) }
+    .map-actions{ display:flex; gap:8px; margin-top:8px }
 
-        .btn{ flex:1; padding:10px; border-radius:10px; border:none; background:linear-gradient(90deg,var(--accent),var(--accent2)); color:#012; font-weight:800; cursor:pointer; position:relative; overflow:hidden; outline:none }
-        .btn.ghost{ background:transparent; border:1px solid rgba(255,255,255,0.06); color:var(--muted) }
-        .btn:active{ transform:translateY(2px) }
+    .btn{ flex:1; padding:10px; border-radius:10px; border:none; background:linear-gradient(90deg,var(--accent),var(--accent2)); color:#012; font-weight:800; cursor:pointer; position:relative; overflow:hidden; outline:none }
+    .btn.ghost{ background:transparent; border:1px solid rgba(255,255,255,0.06); color:var(--muted) }
+    .btn:active{ transform:translateY(2px) }
+    .btn::after{ content:''; position:absolute; left:-60%; top:0; width:40%; height:100%; background: linear-gradient(90deg, rgba(255,255,255,0.15), rgba(255,255,255,0.25), rgba(255,255,255,0.15)); transform:skewX(-20deg); opacity:0; transition: opacity 300ms, left 700ms; }
+    .btn.shine::after{ left:120%; opacity:1; transition:left 900ms cubic-bezier(.2,.9,.3,1) }
+    .btn.pulse{ animation: pulseBtn 900ms ease-in-out 1 }
+    @keyframes pulseBtn{ 0%{transform:scale(1)} 50%{transform:scale(1.03)} 100%{transform:scale(1)} }
 
-        /* button shine */
-        .btn::after{
-            content:''; position:absolute; left:-60%; top:0; width:40%; height:100%;
-            background: linear-gradient(90deg, rgba(255,255,255,0.15), rgba(255,255,255,0.25), rgba(255,255,255,0.15));
-            transform:skewX(-20deg); opacity:0; transition: opacity 300ms, left 700ms;
-        }
-        .btn.shine::after{ left:120%; opacity:1; transition:left 900ms cubic-bezier(.2,.9,.3,1) }
-        .btn.pulse{ animation: pulseBtn 900ms ease-in-out 1 }
-        @keyframes pulseBtn{ 0%{transform:scale(1)} 50%{transform:scale(1.03)} 100%{transform:scale(1)} }
+    .checklist{ display:flex; flex-direction:column; gap:8px }
+    .checkline{ display:flex; align-items:center; gap:10px; padding:8px; border-radius:10px; background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.02)); transition: background 220ms var(--ease) }
+    .checkline input[type='checkbox']{ transform:scale(1.1); margin-right:8px; accent-color:var(--accent) }
+    .checkline.checked{ background:linear-gradient(90deg, rgba(0,184,212,0.08), rgba(0,122,138,0.04)); }
 
-        .checklist{ display:flex; flex-direction:column; gap:8px }
-        .checkline{ display:flex; align-items:center; gap:10px; padding:8px; border-radius:10px; background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.02)); transition: background 220ms var(--ease) }
-        .checkline input[type='checkbox']{ transform:scale(1.1); margin-right:8px; accent-color:var(--accent) }
-        .checkline.checked{ background:linear-gradient(90deg, rgba(0,184,212,0.08), rgba(0,122,138,0.04)); }
+    .add-inline{ display:flex; gap:8px; margin-top:8px }
+    .add-inline input{ flex:1; padding:10px; border-radius:10px; border:1px solid rgba(255,255,255,0.04); background:transparent; color:var(--muted) }
+    .add-inline button{ padding:10px; border-radius:10px; border:none; background:var(--accent); font-weight:800; color:#012; cursor:pointer; transition: transform 180ms var(--ease) }
 
-        .add-inline{ display:flex; gap:8px; margin-top:8px }
-        .add-inline input{ flex:1; padding:10px; border-radius:10px; border:1px solid rgba(255,255,255,0.04); background:transparent; color:var(--muted) }
-        .add-inline button{ padding:10px; border-radius:10px; border:none; background:var(--accent); font-weight:800; color:#012; cursor:pointer; transition: transform 180ms var(--ease) }
+    /* in-view animation */
+    .fadeInUp{ opacity:0; transform:translateY(18px); transition: opacity 520ms var(--ease), transform 520ms var(--ease) }
+    .inview{ opacity:1; transform:none }
 
-        /* particles */
-        .particles{ position:fixed; inset:0; pointer-events:none; z-index:1 }
-        .bubble{ position:absolute; border-radius:50%; background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.14), rgba(255,255,255,0.02)); opacity:0.06; mix-blend-mode:screen; will-change:transform,opacity }
+    footer{ margin-top:20px; text-align:center; color:rgba(255,255,255,0.5); font-size:13px }
 
-        /* in-view animation */
-        .fadeInUp{ opacity:0; transform:translateY(18px); transition: opacity 520ms var(--ease), transform 520ms var(--ease) }
-        .inview{ opacity:1; transform:none }
+    /* small touch feedback */
+    .touch-feedback{ transition:transform 120ms; will-change:transform }
+    .touch-feedback:active{ transform:scale(0.98) }
 
-        /* stagger animation baseline */
-        .stagger-el { opacity: 0; transform: translateY(6px); transition: opacity 420ms var(--ease), transform 420ms var(--ease) !important; }
-        .fadeInUp.inview .stagger-el { opacity: 1; transform: none; }
+    @media (prefers-reduced-motion: reduce) {
+      #bg-canvas { display:none; } /* if user wants reduced motion, remove canvas animation */
+      .refraction-wrap, .particles, .bokeh-wrap, .top-waves svg { animation: none !important; transition: none !important; }
+      .fadeInUp, .inview { transition: none !important; opacity:1 !important; transform:none !important; }
+    }
 
-        footer{ margin-top:20px; text-align:center; color:rgba(255,255,255,0.5); font-size:13px }
-
-        /* small touch feedback */
-        .touch-feedback{ transition:transform 120ms; will-change:transform }
-        .touch-feedback:active{ transform:scale(0.98) }
-
-        /* micro bounce used in JS by toggling class */
-        .micro-bounce{ animation: microBounce 360ms cubic-bezier(.2,.9,.3,1) }
-        @keyframes microBounce { 0%{ transform: translateY(0) } 40%{ transform: translateY(-8px) } 100%{ transform: translateY(0) } }
-
-        /* checkbox check animation - pseudo-element */
-        .checkline input[type="checkbox"]::after { content: ''; display:block; width:0; height:0 }
-        /* accessibility focus */
-        :focus { outline: 2px solid rgba(0,200,220,0.12); outline-offset:2px; }
-
-        /* reduced motion fallback */
-        @media (prefers-reduced-motion: reduce) {
-            .refraction-wrap, .particles, .bokeh-wrap, .top-waves svg { animation: none !important; transition: none !important; }
-            .fadeInUp, .inview { transition: none !important; opacity:1 !important; transform:none !important; }
-            .stagger-el { opacity: 1 !important; transform: none !important; transition: none !important; }
-        }
-
-    </style>
+  </style>
 </head>
 <body>
-    <div class="bg-layer">
-        <div class="refraction-wrap" aria-hidden="true">
-            <svg width="100%" height="100%" viewBox="0 0 1400 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                    <filter id="rfr" x="0" y="0" width="100%" height="100%">
-                        <feTurbulence id="turb" type="fractalNoise" baseFrequency="0.006 0.018" numOctaves="2" seed="2" stitchTiles="stitch" result="noise" />
-                        <feDisplacementMap in="SourceGraphic" in2="noise" scale="20" xChannelSelector="R" yChannelSelector="G" />
-                    </filter>
-                </defs>
+  <!-- Background canvas sits behind the visual layers -->
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
 
-                <rect x="0" y="0" width="100%" height="100%" fill="url(#gradRef)" filter="url(#rfr)"></rect>
-
-                <defs>
-                    <linearGradient id="gradRef" x1="0" x2="1">
-                        <stop offset="0" stop-color="#003d46" stop-opacity="0.18"/>
-                        <stop offset="0.5" stop-color="#004f61" stop-opacity="0.12"/>
-                        <stop offset="1" stop-color="#002f36" stop-opacity="0.18"/>
-                    </linearGradient>
-                </defs>
-            </svg>
-        </div>
-
-        <div class="light-overlay" aria-hidden="true"></div>
-
-        <div class="bokeh-wrap" aria-hidden="true">
-            <div class="bokeh" style="width:280px;height:280px;left:6%;top:8%;background:rgba(0,220,235,0.08)"></div>
-            <div class="bokeh" style="width:200px;height:200px;left:78%;top:20%;background:rgba(0,160,200,0.06)"></div>
-            <div class="bokeh" style="width:160px;height:160px;left:40%;top:60%;background:rgba(0,200,220,0.05)"></div>
-        </div>
-
-        <div id="particles" class="particles" aria-hidden="true"></div>
-
-        <div class="top-waves" aria-hidden="true">
-            <svg viewBox="0 0 1200 160" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                    <linearGradient id="gw" x1="0" x2="1">
-                        <stop offset="0" stop-color="#00c2d1" stop-opacity="0.08"/>
-                        <stop offset="1" stop-color="#007aa3" stop-opacity="0.06"/>
-                    </linearGradient>
-                </defs>
-                <path id="wavePath" d="M0 100 C200 40 400 140 600 100 C800 60 1000 120 1200 100 L1200 160 L0 160 Z" fill="url(#gw)"></path>
-            </svg>
-        </div>
+  <div class="bg-layer" aria-hidden="true">
+    <div class="refraction-wrap" aria-hidden="true">
+      <svg width="100%" height="100%" viewBox="0 0 1400 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <filter id="rfr" x="0" y="0" width="100%" height="100%">
+            <feTurbulence id="turb" type="fractalNoise" baseFrequency="0.006 0.018" numOctaves="2" seed="3" stitchTiles="stitch" result="noise" />
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="18" xChannelSelector="R" yChannelSelector="G" />
+          </filter>
+          <linearGradient id="gradRef" x1="0" x2="1">
+            <stop offset="0" stop-color="#003d46" stop-opacity="0.16"/>
+            <stop offset="0.5" stop-color="#004f61" stop-opacity="0.10"/>
+            <stop offset="1" stop-color="#002f36" stop-opacity="0.16"/>
+          </linearGradient>
+        </defs>
+        <rect x="0" y="0" width="100%" height="100%" fill="url(#gradRef)" filter="url(#rfr)"></rect>
+      </svg>
     </div>
 
-    <div class="wrap">
-        <header>
-            <div class="logo" aria-hidden="true">
-                <img src="logo.png" alt="Aldeia das Águas">
-                <canvas class="shine" width="56" height="56" aria-hidden="true"></canvas>
-            </div>
-            <div class="title">
-                <h1>Aldeia das Águas</h1>
-                <p class="muted">Guia do passeio • 21 de novembro de 2025 — Chegar 09:20</p>
-            </div>
-        </header>
+    <div class="light-overlay" aria-hidden="true"></div>
 
-        <section class="hero card fadeInUp" id="hero-card" data-parallax="0.04">
-            <div style="display:flex;justify-content:space-between;align-items:center">
-                <div>
-                    <div class="badge stagger-el" id="hero-badge" data-parallax="0.08">Ponto de encontro: Estação Santíssimo 🚇</div>
-                    <div class="muted stagger-el" style="margin-top:6px">Av. de Santa Cruz, 9591 (ETERJ 🏫) — Embarque e saída às <strong>06:10</strong></div>
-                </div>
-                <div style="text-align:right" class="stagger-el">
-                    <div class="muted">Horário do parque</div>
-                    <div style="font-weight:900;color:var(--accent);font-size:16px">09:30 — 17:00</div>
-                </div>
-            </div>
+    <div class="bokeh-wrap" aria-hidden="true">
+      <div class="bokeh" style="width:320px;height:320px;left:6%;top:6%;background:rgba(0,220,235,0.08)"></div>
+      <div class="bokeh" style="width:220px;height:220px;left:78%;top:18%;background:rgba(0,160,200,0.06)"></div>
+      <div class="bokeh" style="width:180px;height:180px;left:44%;top:62%;background:rgba(0,200,220,0.06)"></div>
+    </div>
 
-            <div style="display:flex;gap:10px;align-items:center;margin-top:12px" class="stagger-el">
-                <div style="flex:1">
-                    <div class="muted">Total do grupo</div>
-                    <div style="font-weight:900;font-size:20px;color:var(--accent);">R$ 753,50</div>
-                </div>
-                <div style="display:flex;flex-direction:column;gap:8px;width:180px">
-                    <button class="btn touch-feedback" id="open-checklist">Abrir checklist</button>
-                    <button class="btn ghost touch-feedback" id="open-map">Ir para mapa</button>
-                </div>
-            </div>
+    <div class="top-waves" aria-hidden="true">
+      <svg viewBox="0 0 1200 160" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="gw" x1="0" x2="1">
+            <stop offset="0" stop-color="#00c2d1" stop-opacity="0.08"/>
+            <stop offset="1" stop-color="#007aa3" stop-opacity="0.06"/>
+          </linearGradient>
+        </defs>
+        <path id="wavePath" d="M0 100 C200 40 400 140 600 100 C800 60 1000 120 1200 100 L1200 160 L0 160 Z" fill="url(#gw)"></path>
+      </svg>
+    </div>
+  </div>
+
+  <!-- APP CONTENT (your layout untouched) -->
+  <div class="wrap">
+    <header>
+      <div class="logo" aria-hidden="true">
+        <img src="logo.png" alt="Aldeia das Águas">
+        <canvas class="shine" width="56" height="56" aria-hidden="true"></canvas>
+      </div>
+      <div class="title">
+        <h1>Aldeia das Águas</h1>
+        <p class="muted">Guia do passeio • 21 de novembro de 2025 — Chegar 09:20</p>
+      </div>
+    </header>
+
+    <section class="hero card fadeInUp" id="hero-card" data-parallax="0.04">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div class="badge" id="hero-badge" data-parallax="0.08">Ponto de encontro: Estação Santíssimo 🚇</div>
+          <div class="muted" style="margin-top:6px">Av. de Santa Cruz, 9591 (ETERJ 🏫) — Embarque e saída às <strong>06:10</strong></div>
+        </div>
+        <div style="text-align:right">
+          <div class="muted">Horário do parque</div>
+          <div style="font-weight:900;color:var(--accent);font-size:16px">09:30 — 17:00</div>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:10px;align-items:center;margin-top:12px">
+        <div style="flex:1">
+          <div class="muted">Total do grupo</div>
+          <div style="font-weight:900;font-size:20px;color:var(--accent);">R$ 753,50</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;width:180px">
+          <button class="btn touch-feedback" id="open-checklist">Abrir checklist</button>
+          <button class="btn ghost touch-feedback" id="open-map">Ir para mapa</button>
+        </div>
+      </div>
+    </section>
+
+    <div class="grid">
+      <div>
+        <section class="card fadeInUp" id="costs-card" data-parallax="0.02">
+          <h3>Valores por pessoa</h3>
+          <div class="costs" id="costs">
+            <div class="person"><div class="name">Robson</div><div class="total">R$ 140,10</div></div>
+            <div class="person"><div class="name">Taisa</div><div class="total">R$ 178,10</div></div>
+            <div class="person"><div class="name">Ítalo</div><div class="total">R$ 155,10</div></div>
+            <div class="person"><div class="name">Matheus</div><div class="total">R$ 140,10</div></div>
+            <div class="person"><div class="name">Renata</div><div class="total">R$ 140,10</div></div>
+          </div>
         </section>
 
-        <div class="grid">
-            <div>
-                <section class="card fadeInUp" id="costs-card" data-parallax="0.02">
-                    <h3 class="stagger-el">Valores por pessoa</h3>
-                    <div class="costs" id="costs">
-                        <div class="person stagger-el"><div class="name">Robson</div><div class="total">R$ 140,10</div></div>
-                        <div class="person stagger-el"><div class="name">Taisa</div><div class="total">R$ 178,10</div></div>
-                        <div class="person stagger-el"><div class="name">Ítalo</div><div class="total">R$ 155,10</div></div>
-                        <div class="person stagger-el"><div class="name">Matheus</div><div class="total">R$ 140,10</div></div>
-                        <div class="person stagger-el"><div class="name">Renata</div><div class="total">R$ 140,10</div></div>
-                    </div>
-                </section>
+        <section class="card fadeInUp" id="items-card" data-parallax="0.03">
+          <h3>Itens adquiridos</h3>
+          <div class="items-list" id="items-list">
+            <div class="item-row"><div class="left"><div class="qty">1x</div><div>Oca Restaurante</div></div><div class="price">R$ 49,90</div></div>
+            <div class="item-row"><div class="left"><div class="qty">1x</div><div>Ingresso</div></div><div class="price">R$ 77,00</div></div>
+            <div class="item-row"><div class="left"><div class="qty">3x</div><div>Armários</div></div><div class="price">R$ 13,20</div></div>
+            <div class="item-row"><div class="left"><div class="qty">1x</div><div>Estacionamento</div></div><div class="price">R$ 23,00</div></div>
+            <div class="item-row"><div class="left"><div class="qty">1x</div><div>Caipirinha</div></div><div class="price">R$ 15,00</div></div>
+          </div>
+        </section>
 
-                <section class="card fadeInUp" id="items-card" data-parallax="0.03">
-                    <h3 class="stagger-el">Itens adquiridos</h3>
-                    <div class="items-list" id="items-list">
-                        <div class="item-row stagger-el"><div class="left"><div class="qty">1x</div><div>Oca Restaurante</div></div><div class="price">R$ 49,90</div></div>
-                        <div class="item-row stagger-el"><div class="left"><div class="qty">1x</div><div>Ingresso</div></div><div class="price">R$ 77,00</div></div>
-                        <div class="item-row stagger-el"><div class="left"><div class="qty">3x</div><div>Armários</div></div><div class="price">R$ 13,20</div></div>
-                        <div class="item-row stagger-el"><div class="left"><div class="qty">1x</div><div>Estacionamento</div></div><div class="price">R$ 23,00</div></div>
-                        <div class="item-row stagger-el"><div class="left"><div class="qty">1x</div><div>Caipirinha</div></div><div class="price">R$ 15,00</div></div>
-                    </div>
-                </section>
+        <section class="card fadeInUp" id="logistica-card">
+          <h3>Logística aprimorada</h3>
+          <p class="muted">Ponto de encontro: <strong>Estação Santíssimo (lado da ETERJ)</strong></p>
+          <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
+            <div style="flex:1;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.02));padding:12px;border-radius:10px">
+              <div class="muted">Viagem estimada</div>
+              <div style="font-weight:900">3h00</div>
+            </div>
+            <div style="flex:1;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.02));padding:12px;border-radius:10px">
+              <div class="muted">Chegar às</div>
+              <div style="font-weight:900">09:20</div>
+            </div>
+            <div style="flex:1;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.02));padding:12px;border-radius:10px">
+              <div class="muted">Saída sugerida</div>
+              <div style="font-weight:900">06:10</div>
+            </div>
+          </div>
+          <p class="muted" style="margin-top:10px">Recomenda-se sair com 10–15 minutos de margem extra para imprevistos. Confirme bilhetes e documentos antes do embarque.</p>
+        </section>
+      </div>
 
-                <section class="card fadeInUp" id="logistica-card">
-                    <h3 class="stagger-el">Logística aprimorada</h3>
-                    <p class="muted stagger-el">Ponto de encontro: <strong>Estação Santíssimo (lado da ETERJ)</strong></p>
-                    <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
-                        <div class="stagger-el" style="flex:1;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.02));padding:12px;border-radius:10px">
-                            <div class="muted">Viagem estimada</div>
-                            <div style="font-weight:900">3h00</div>
-                        </div>
-                        <div class="stagger-el" style="flex:1;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.02));padding:12px;border-radius:10px">
-                            <div class="muted">Chegar às</div>
-                            <div style="font-weight:900">09:20</div>
-                        </div>
-                        <div class="stagger-el" style="flex:1;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.02));padding:12px;border-radius:10px">
-                            <div class="muted">Saída sugerida</div>
-                            <div style="font-weight:900">06:10</div>
-                        </div>
-                    </div>
-                    <p class="muted stagger-el" style="margin-top:10px">Recomenda-se sair com 10–15 minutos de margem extra para imprevistos. Confirme bilhetes e documentos antes do embarque.</p>
-                </section>
+      <aside>
+        <section class="card map fadeInUp" id="map-card" data-parallax="0.05">
+          <h3>Mapa do Parque (clique para ampliar / toque para dar zoom)</h3>
+          <a href="https://www.aldeiadasaguasresort.com.br/wp-content/uploads/2025/08/Mapa-do-Parque-Atualizado-em-22-08-2025.png" target="_blank" rel="noopener">
+            <img src="mapa.png" alt="Mapa Aldeia das Águas" id="map-image" />
+          </a>
+          <div class="map-actions">
+            <button class="btn touch-feedback" id="open-waze">Abrir no Waze</button>
+            <button class="btn ghost touch-feedback" id="open-google">Abrir no Google Maps</button>
+          </div>
+        </section>
+
+        <section class="card fadeInUp" id="checklist-card">
+          <h3>Checklist & Compartilhar</h3>
+          <div class="checklist" id="checklist">
+            <label class="checkline"><input type="checkbox" data-key="documento"> Documento | Ingresso</label>
+            <label class="checkline"><input type="checkbox" data-key="dinheiro"> Dinheiro | Cartão</label>
+            <label class="checkline"><input type="checkbox" data-key="protetor"> Protetor solar</label>
+            <label class="checkline"><input type="checkbox" data-key="labial"> Protetor labial com FPS</label>
+            <label class="checkline"><input type="checkbox" data-key="repelente"> Repelente</label>
+            <label class="checkline"><input type="checkbox" data-key="roupa-banho"> Roupa de banho</label>
+            <label class="checkline"><input type="checkbox" data-key="roupas-leves"> Roupas leves e confortáveis</label>
+            <label class="checkline"><input type="checkbox" data-key="saida-praia"> Saída de praia / canga</label>
+            <label class="checkline"><input type="checkbox" data-key="chinelo"> Chinelo ou sandália</label>
+            <label class="checkline"><input type="checkbox" data-key="lenços"> Lenços umedecidos</label>
+            <label class="checkline"><input type="checkbox" data-key="capa"> Capa à prova d’água</label>
+            <label class="checkline"><input type="checkbox" data-key="cabo"> Cabo de carregamento</label>
+            <label class="checkline"><input type="checkbox" data-key="garrafa"> Garrafinha de água reutilizável</label>
+            <label class="checkline"><input type="checkbox" data-key="mochila"> Mochila leve</label>
+            <label class="checkline"><input type="checkbox" data-key="boné"> Boné ou chapéu</label>
+            <label class="checkline"><input type="checkbox" data-key="toalha"> Toalha</label>
+
+            <div class="add-inline">
+              <input type="text" id="new-item" placeholder="Adicionar item pessoal (ex: protetor labial)" />
+              <button id="add-btn" class="touch-feedback">Adicionar</button>
             </div>
 
-            <aside>
-                <section class="card map fadeInUp" id="map-card" data-parallax="0.05">
-                    <h3 class="stagger-el">Mapa do Parque (clique para ampliar / toque para dar zoom)</h3>
-                    <a href="https://www.aldeiadasaguasresort.com.br/wp-content/uploads/2025/08/Mapa-do-Parque-Atualizado-em-22-08-2025.png" target="_blank" rel="noopener">
-                        <img src="mapa.png" alt="Mapa Aldeia das Águas" id="map-image" />
-                    </a>
-                    <div class="map-actions stagger-el">
-                        <button class="btn touch-feedback" id="open-waze">Abrir no Waze</button>
-                        <button class="btn ghost touch-feedback" id="open-google">Abrir no Google Maps</button>
-                    </div>
-                </section>
+            <div style="display:flex;gap:8px;margin-top:10px">
+              <button class="btn" id="share-marked">Compartilhar itens marcados (WhatsApp)</button>
+              <button class="btn ghost" id="share-all">Compartilhar tudo (WhatsApp)</button>
+            </div>
 
-                <section class="card fadeInUp" id="checklist-card">
-                    <h3 class="stagger-el">Checklist & Compartilhar</h3>
-                    <div class="checklist" id="checklist">
-                        <label class="checkline stagger-el"><input type="checkbox" data-key="documento"> Documento | Ingresso</label>
-                        <label class="checkline stagger-el"><input type="checkbox" data-key="dinheiro"> Dinheiro | Cartão</label>
-                        <label class="checkline stagger-el"><input type="checkbox" data-key="protetor"> Protetor solar</label>
-                        <label class="checkline stagger-el"><input type="checkbox" data-key="labial"> Protetor labial com FPS</label>
-                        <label class="checkline stagger-el"><input type="checkbox" data-key="repelente"> Repelente</label>
-                        <label class="checkline stagger-el"><input type="checkbox" data-key="roupa-banho"> Roupa de banho</label>
-                        <label class="checkline stagger-el"><input type="checkbox" data-key="roupas-leves"> Roupas leves e confortáveis</label>
-                        <label class="checkline stagger-el"><input type="checkbox" data-key="saida-praia"> Saída de praia / canga</label>
-                        <label class="checkline stagger-el"><input type="checkbox" data-key="chinelo"> Chinelo ou sandália</label>
-                        <label class="checkline stagger-el"><input type="checkbox" data-key="lenços"> Lenços umedecidos</label>
-                        <label class="checkline stagger-el"><input type="checkbox" data-key="capa"> Capa à prova d’água</label>
-                        <label class="checkline stagger-el"><input type="checkbox" data-key="cabo"> Cabo de carregamento</label>
-                        <label class="checkline stagger-el"><input type="checkbox" data-key="garrafa"> Garrafinha de água reutilizável</label>
-                        <label class="checkline stagger-el"><input type="checkbox" data-key="mochila"> Mochila leve</label>
-                        <label class="checkline stagger-el"><input type="checkbox" data-key="boné"> Boné ou chapéu</label>
-                        <label class="checkline stagger-el"><input type="checkbox" data-key="toalha"> Toalha</label>
-
-                        <div class="add-inline stagger-el">
-                            <input type="text" id="new-item" placeholder="Adicionar item pessoal (ex: protetor labial)" />
-                            <button id="add-btn" class="touch-feedback">Adicionar</button>
-                        </div>
-
-                        <div style="display:flex;gap:8px;margin-top:10px" class="stagger-el">
-                            <button class="btn" id="share-marked">Compartilhar itens marcados (WhatsApp)</button>
-                            <button class="btn ghost" id="share-all">Compartilhar tudo (WhatsApp)</button>
-                        </div>
-
-                        <div style="margin-top:8px" class="muted stagger-el">As suas marcas são salvas localmente no seu aparelho (capaz de ser recuperado na próxima visita).</div>
-                    </div>
-                </section>
-            </aside>
-        </div>
-
-        <footer>
-            Endereço: BR 393, KM 270 — Dorândia, Barra do Piraí — RJ • CEP 27160-000
-        </footer>
+            <div style="margin-top:8px" class="muted">As suas marcas são salvas localmente no seu aparelho (capaz de ser recuperado na próxima visita).</div>
+          </div>
+        </section>
+      </aside>
     </div>
 
-    <script>
-        /* =============================
-        HELPERS
-        ============================= */
-        const $ = sel => document.querySelector(sel);
-        const $$ = sel => Array.from(document.querySelectorAll(sel));
-        function byId(id){ return document.getElementById(id); }
-        function safe(id, evt, fn){ const el = byId(id); if(!el){ console.warn('missing', id); return; } el.addEventListener(evt, fn); }
+    <footer>
+      Endereço: BR 393, KM 270 — Dorândia, Barra do Piraí — RJ • CEP 27160-000
+    </footer>
+  </div>
 
-        /* =============================
-        Respect reduced motion
-        ============================= */
-        // **OPÇÃO DE TESTE:** Se os efeitos não funcionarem, altere o "true" para "false" AQUI para forçar a ativação
-        const REDUCE = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  <!-- SCRIPTS -->
+  <script>
+    /* -------------------------
+       Helpers & reduced-motion
+       ------------------------- */
+    const $ = sel => document.querySelector(sel);
+    const $$ = sel => Array.from(document.querySelectorAll(sel));
+    const byId = id => document.getElementById(id);
+    const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-        /* =============================
-        WAVES (animate path) - lightweight morph loop
-        - subtle oscillation on control points
-        ============================= */
-        (function animateWaves(){
-            try{
-                const path = document.getElementById('wavePath');
-                if(!path || REDUCE) return;
-                let t = 0;
-                function step(){
-                    t += 0.0026;
-                    // small oscillation on control points for organic movement
-                    const a = 40 + Math.sin(t*2.05)*18;
-                    const b = 120 + Math.cos(t*1.65)*12;
-                    const c = 80 + Math.sin(t*1.1)*10;
-                    const d = 140 + Math.cos(t*0.9)*8;
-                    const dAttr = `M0 100 C200 ${a} 400 ${b} 600 100 C800 ${c} 1000 ${d} 1200 100 L1200 160 L0 160 Z`;
-                    path.setAttribute('d', dAttr);
-                    requestAnimationFrame(step);
-                }
-                requestAnimationFrame(step);
-            }catch(e){ console.warn('animateWaves', e) }
-        })();
+    /* -------------------------
+       Background Canvas (efficient)
+       - draws soft radial gradient + gently rising bubbles
+       - frame-limited (target ~45fps) and uses devicePixelRatio scaled canvas
+       ------------------------- */
+    (function backgroundCanvas(){
+      if(prefersReduced) return; // respect user
+      const canvas = byId('bg-canvas');
+      if(!canvas) return;
+      const ctx = canvas.getContext('2d', { alpha: true });
+      let w = 0, h = 0, DPR = Math.max(1, window.devicePixelRatio || 1);
 
-        /* =============================
-        REFRACTION SUBTLE ANIM
-        - animate feTurbulence baseFrequency for displacement movement
-        =============================*/
-        (function animateRefraction(){
-            if(REDUCE) return;
-            try{
-                const turb = document.querySelector('feTurbulence#turb');
-                if(!turb) return;
-                let f1 = 0.006, f2 = 0.018, dir = 1;
-                // gently oscillate baseFrequency values
-                setInterval(()=>{
-                    f1 += 0.0008 * dir;
-                    f2 += 0.0009 * dir;
-                    if(f1 > 0.01 || f1 < 0.004) dir *= -1;
-                    turb.setAttribute('baseFrequency', `${f1} ${f2}`);
-                }, 220);
-            }catch(e){ console.warn('animateRefraction', e) }
-        })();
+      function resize(){
+        w = window.innerWidth;
+        h = window.innerHeight;
+        canvas.style.width = w + 'px';
+        canvas.style.height = h + 'px';
+        canvas.width = Math.round(w * DPR);
+        canvas.height = Math.round(h * DPR);
+        ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+      }
+      resize();
+      window.addEventListener('resize', resize, {passive:true});
 
-        /* =============================
-        PARTICLES / BUBBLES
-        - improved generation, light-weight keyframes via <style> injection
-        =============================*/
-        (function makeBubbles(){
-            const container = byId('particles');
-            if(!container || REDUCE) return;
-            const count = 18;
-            const styleSheet = document.createElement('style');
-            document.head.appendChild(styleSheet);
-            
-            for(let i=0;i<count;i++){
-                const b = document.createElement('div');
-                b.className = 'bubble';
-                const size = Math.round(Math.random()*60)+8;
-                b.style.width = size+'px';
-                b.style.height = size+'px';
-                b.style.left = (Math.random()*100)+'%';
-                b.style.top = (40 + Math.random()*50)+'%';
-                b.style.opacity = (0.02 + Math.random()*0.08).toFixed(2);
-
-                // dynamic keyframe for each bubble (using styleSheet.insertRule for better perf)
-                const dur = (8 + Math.random()*14).toFixed(1);
-                const driftX = (-30 + Math.random()*60).toFixed(1);
-                const rise = Math.round(60 + Math.random()*160);
-                const keyName = `bubble${i}`;
-                const keyframes = `@keyframes ${keyName} {
-                    0% { transform: translate(0,0) scale(0.98); opacity:${b.style.opacity} }
-                    50% { transform: translate(${driftX}px, -${rise}px) scale(1.04); opacity:${(parseFloat(b.style.opacity) + 0.06).toFixed(2)} }
-                    100% { transform: translate(0,0) scale(0.98); opacity:${b.style.opacity} }
-                }`;
-                try {
-                    styleSheet.insertRule(keyframes, styleSheet.cssRules.length);
-                } catch (e) {
-                    console.warn("Could not insert CSS rule:", e);
-                    styleSheet.innerHTML += keyframes; // Fallback
-                }
-                
-
-                b.style.animation = `${keyName} ${dur}s ease-in-out ${ (Math.random()*4).toFixed(2) }s infinite`;
-                container.appendChild(b);
-            }
-        })();
-
-        /* =============================
-        LOGO SHINE (canvas)
-        =============================*/
-        (function logoShine(){
-            const logoWrap = document.querySelector('.logo');
-            if(!logoWrap || REDUCE) return;
-            const canvas = logoWrap.querySelector('.shine');
-            if(!canvas) return;
-            const ctx = canvas.getContext('2d');
-            
-            function resize(){
-                canvas.width = logoWrap.clientWidth * devicePixelRatio;
-                canvas.height = logoWrap.clientHeight * devicePixelRatio;
-                canvas.style.width = logoWrap.clientWidth + 'px';
-                canvas.style.height = logoWrap.clientHeight + 'px';
-                ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);
-            }
-            resize();
-            window.addEventListener('resize', resize, {passive:true});
-            
-            let t = 0;
-            function draw(){
-                t += 0.02;
-                ctx.clearRect(0,0,canvas.width,canvas.height);
-                const w = canvas.width / devicePixelRatio, h = canvas.height / devicePixelRatio;
-                
-                // Animate gradient start/end points
-                const grad = ctx.createLinearGradient(-w + Math.sin(t)*w, 0, w + Math.cos(t)*w, 0);
-                grad.addColorStop(0,'rgba(255,255,255,0)');
-                grad.addColorStop(0.45,'rgba(255,255,255,0.06)');
-                grad.addColorStop(0.5,'rgba(255,255,255,0.14)');
-                grad.addColorStop(0.55,'rgba(255,255,255,0.04)');
-                grad.addColorStop(1,'rgba(255,255,255,0)');
-                ctx.fillStyle = grad;
-                ctx.fillRect(0,0,w,h);
-                requestAnimationFrame(draw);
-            }
-            requestAnimationFrame(draw);
-        })();
-
-
-        /* =============================
-        IntersectionObserver -> inview (fadeUp + stagger)
-        =============================*/
-        (function observeInView(){
-            // Simplified stagger logic for better performance, relying on CSS transition-delay.
-            const STAGGER_CLS = '.stagger-el'; 
-            $$('.person, .item-row, .checkline, .badge, .map-actions, .add-inline, h3').forEach(el => {
-                el.classList.add(STAGGER_CLS.slice(1)); // Add 'stagger-el' class
-            });
-
-
-            if(REDUCE) { $$('.fadeInUp').forEach(el=>el.classList.add('inview')); return; }
-            const els = $$('.fadeInUp');
-            
-            const io = new IntersectionObserver((entries)=>{
-                entries.forEach((entry)=>{
-                    if(entry.isIntersecting){
-                        entry.target.classList.add('inview');
-                        
-                        // Apply stagger delay to inner elements
-                        const staggerEls = entry.target.querySelectorAll(STAGGER_CLS);
-                        staggerEls.forEach((s, idx)=>{
-                            s.style.transitionDelay = (idx * 50) + 'ms';
-                        });
-
-                        io.unobserve(entry.target);
-                    }
-                });
-            },{threshold:0.12});
-            
-            els.forEach(el=>io.observe(el));
-        })();
-
-        /* =============================
-        PARALLAX on scroll for elements with data-parallax
-        =============================*/
-        (function setupParallax(){
-            if(REDUCE) return;
-            const par = document.querySelectorAll('[data-parallax]');
-            function onScroll(){
-                const sc = window.scrollY;
-                par.forEach(el=>{
-                    const v = parseFloat(el.dataset.parallax || 0.02);
-                    el.style.transform = `translateY(${-(sc * v)}px)`;
-                    // dynamic opacity / shadow (optional visual depth)
-                    const rect = el.getBoundingClientRect();
-                    const factor = Math.max(0, Math.min(1, 1 - Math.abs(rect.top) / (window.innerHeight*0.8)));
-                    el.style.opacity = 0.7 + 0.3*factor;
-                    el.style.boxShadow = `0 ${8 + (1-factor)*12}px ${20 + (1-factor)*30}px rgba(0,0,0,${0.35+(1-factor)*0.2})`;
-                });
-            }
-            window.addEventListener('scroll', onScroll, {passive:true});
-            onScroll();
-        })();
-
-        /* =============================
-        MAP ZOOM (tap to zoom) + vibra
-        =============================*/
-        (function mapZoom(){
-            const mapWrap = byId('map-card');
-            const mapImg = byId('map-image');
-            if(!mapWrap || !mapImg) return;
-            let zoomed = false;
-            mapImg.addEventListener('click', (e)=>{
-                if(REDUCE) return;
-                e.preventDefault(); // Prevent opening the link on zoom click
-                zoomed = !zoomed;
-                if(zoomed){
-                    mapWrap.classList.add('zoomed');
-                    navigator.vibrate && navigator.vibrate(10);
-                } else {
-                    mapWrap.classList.remove('zoomed');
-                    navigator.vibrate && navigator.vibrate(8);
-                }
-            });
-        })();
-
-        /* =============================
-        BUTTONS: Waze / Google / scroll / highlight
-        =============================*/
-        const MAP_ADDRESS = 'Aldeia das Águas Park Resort, BR 393, KM 270 — Dorândia, Barra do Piraí — RJ';
-        const MAP_COORD = '-22.486240,-43.962974';
-
-        safe('open-waze','click', ()=> {
-            navigator.vibrate && navigator.vibrate(12);
-            window.open(`https://waze.com/ul?ll=${MAP_COORD}&navigate=yes`, '_blank');
+      // particles (bubbles) config
+      const COUNT = Math.max(10, Math.round(Math.min(40, (w*h)/80000))); // adaptive but capped
+      const bubbles = [];
+      for(let i=0;i<COUNT;i++){
+        const radius = (6 + Math.random()*28);
+        bubbles.push({
+          x: Math.random()*w,
+          y: h + Math.random()*h*0.6, // start off-screen bottom
+          radius,
+          speed: 6 + Math.random()*22, // px per second
+          drift: (-12 + Math.random()*24),
+          alpha: 0.02 + Math.random()*0.12,
+          phase: Math.random()*Math.PI*2,
+          swayAmp: 6 + Math.random()*12
         });
+      }
 
-        safe('open-google','click', ()=> {
-            navigator.vibrate && navigator.vibrate(8);
-            // CORRIGIDO: Uso da API correta para o Google Maps
-            window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(MAP_ADDRESS)}`, '_blank');
-        });
+      // background gradient parameters (soft)
+      function drawBackground(){
+        // clear with subtle transparent fill to create trailing softness
+        ctx.clearRect(0,0,w,h);
 
-        safe('open-checklist','click', ()=> {
-            const target = byId('checklist-card');
-            target?.scrollIntoView({behavior:'smooth',block:'center'});
-            navigator.vibrate && navigator.vibrate(6);
-            if(target){ target.style.transition='box-shadow 220ms var(--ease)'; target.style.boxShadow='0 24px 50px rgba(0,0,0,0.6)'; setTimeout(()=>target.style.boxShadow='var(--shadow-1)',420); }
-        });
+        // radial soft light at top-left and top-right
+        const g1 = ctx.createRadialGradient(w*0.12, h*0.12, 0, w*0.12, h*0.12, Math.max(w,h)*0.6);
+        g1.addColorStop(0, 'rgba(0,200,220,0.06)');
+        g1.addColorStop(1, 'rgba(0,200,220,0)');
+        ctx.fillStyle = g1;
+        ctx.fillRect(0,0,w,h);
 
-        safe('open-map','click', ()=> {
-            const t = byId('map-card');
-            t?.scrollIntoView({behavior:'smooth',block:'center'});
-            navigator.vibrate && navigator.vibrate(6);
-            if(t){ t.style.transition='transform 260ms var(--ease)'; t.style.transform='scale(1.02)'; setTimeout(()=>t.style.transform='none',260); }
-        });
+        const g2 = ctx.createRadialGradient(w*0.9, h*0.18, 0, w*0.9, h*0.18, Math.max(w,h)*0.6);
+        g2.addColorStop(0, 'rgba(0,140,180,0.04)');
+        g2.addColorStop(1, 'rgba(0,140,180,0)');
+        ctx.fillStyle = g2;
+        ctx.fillRect(0,0,w,h);
 
-        /* =============================
-        CHECKLIST (save/load/add/check animation)
-        =============================*/
-        const CHECK_KEY = 'aldeia_check_v5';
+        // subtle overlay gradient to match page
+        const gg = ctx.createLinearGradient(0,0,0,h);
+        gg.addColorStop(0, 'rgba(2,19,36,0.32)');
+        gg.addColorStop(1, 'rgba(4,32,42,0.6)');
+        ctx.fillStyle = gg;
+        ctx.fillRect(0,0,w,h);
+      }
 
-        function addExtraToDOM(text, isChecked = false){
-            const div = document.createElement('label');
-            div.className=`checkline extra ${isChecked ? 'checked' : ''} stagger-el`;
-            div.innerHTML = `<input type='checkbox' data-key='extra-${Date.now()}' ${isChecked ? 'checked' : ''}> ${text}`;
-            const ref = document.querySelector('#checklist .add-inline');
-            ref.parentElement.insertBefore(div, ref);
+      // animation loop with framerate limiting
+      let lastTime = 0;
+      const targetFPS = 45;
+      const frameDuration = 1000 / targetFPS;
 
-            // micro-bounce effect for new item
-            if(!isChecked) {
-                div.classList.add('micro-bounce');
-                setTimeout(()=> div.classList.remove('micro-bounce'), 420);
+      function step(now){
+        if(!lastTime) lastTime = now;
+        const dt = now - lastTime;
+        if (dt >= frameDuration) {
+          lastTime = now - (dt % frameDuration);
+          // draw
+          drawBackground();
+          // draw bubbles
+          for(let i=0;i<bubbles.length;i++){
+            const b = bubbles[i];
+            // move up relative to speed
+            b.y -= b.speed * (dt/1000);
+            b.x += Math.sin((now/1000) + b.phase) * (b.swayAmp * 0.02) + b.drift * 0.002 * (dt/16);
+            // pulse alpha slightly
+            const puls = 0.4 + Math.sin((now/1000) + b.phase)*0.6;
+            ctx.beginPath();
+            const grad = ctx.createRadialGradient(b.x - b.radius*0.3, b.y - b.radius*0.3, b.radius*0.05, b.x, b.y, b.radius);
+            grad.addColorStop(0, `rgba(255,255,255,${(b.alpha * 1.1 * Math.max(0.35,puls)).toFixed(3)})`);
+            grad.addColorStop(0.6, `rgba(255,255,255,${(b.alpha * 0.55).toFixed(3)})`);
+            grad.addColorStop(1, `rgba(255,255,255,0)`);
+            ctx.fillStyle = grad;
+            ctx.arc(b.x, b.y, b.radius, 0, Math.PI*2);
+            ctx.fill();
+
+            // recycle when off top or far side
+            if(b.y + b.radius < -50 || b.x < -100 || b.x > w + 100){
+              b.x = Math.random()*w;
+              b.y = h + (10 + Math.random()*200);
+              b.speed = 6 + Math.random()*22;
+              b.drift = (-12 + Math.random()*24);
             }
-
-            const cb = div.querySelector('input');
-            cb.addEventListener('change', ()=>{
-                saveChecklist();
-                if(cb.checked){ 
-                    div.classList.add('checked'); 
-                } else { 
-                    div.classList.remove('checked'); 
-                }
-            });
-            return div;
+          }
         }
+        requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    })();
 
-        function loadChecklist(){
-            try{
-                const raw = localStorage.getItem(CHECK_KEY);
-                if(!raw) return;
-                const obj = JSON.parse(raw);
-                
-                // Load predefined items
-                document.querySelectorAll('#checklist input[type=checkbox]').forEach(cb=>{
-                    const key = cb.dataset.key;
-                    if(key && obj[key]) { 
-                        cb.checked = true; 
-                        cb.parentElement.classList.add('checked'); 
-                    }
-                });
-                
-                // Load extra items
-                if(obj._extra && Array.isArray(obj._extra)) {
-                    obj._extra.forEach(item => addExtraToDOM(item.text, item.checked));
-                }
-            }catch(e){ console.warn('loadChecklist', e); }
+    /* -------------------------
+       Wave Path Morph (lightweight)
+       - updates path control points via requestAnimationFrame
+       ------------------------- */
+    (function animateWavePath(){
+      if(prefersReduced) return;
+      const path = document.getElementById('wavePath');
+      if(!path) return;
+      let t = 0;
+      function frame(){
+        t += 0.0018;
+        const a = 40 + Math.sin(t*2.05)*18;
+        const b = 120 + Math.cos(t*1.65)*12;
+        const c = 80 + Math.sin(t*1.1)*10;
+        const d = 140 + Math.cos(t*0.9)*8;
+        const dAttr = `M0 100 C200 ${a} 400 ${b} 600 100 C800 ${c} 1000 ${d} 1200 100 L1200 160 L0 160 Z`;
+        path.setAttribute('d', dAttr);
+        requestAnimationFrame(frame);
+      }
+      requestAnimationFrame(frame);
+    })();
+
+    /* -------------------------
+       feTurbulence animation (cheap)
+       - gently oscillates baseFrequency on a low interval
+       ------------------------- */
+    (function animateTurbulence(){
+      if(prefersReduced) return;
+      const turb = document.querySelector('feTurbulence#turb');
+      if(!turb) return;
+      let t = 0;
+      setInterval(()=>{
+        t += 0.04;
+        const f1 = 0.005 + Math.abs(Math.sin(t*0.6)) * 0.006;
+        const f2 = 0.016 + Math.abs(Math.cos(t*0.9)) * 0.010;
+        try { turb.setAttribute('baseFrequency', `${f1.toFixed(5)} ${f2.toFixed(5)}`); } catch(e) {}
+      }, 280); // slower interval to save CPU
+    })();
+
+    /* -------------------------
+       Logo shine (canvas) - single small canvas
+       ------------------------- */
+    (function logoShine(){
+      const logoWrap = document.querySelector('.logo');
+      if(!logoWrap) return;
+      const canvas = logoWrap.querySelector('.shine');
+      if(!canvas) return;
+      if(prefersReduced) { canvas.style.display = 'none'; return; }
+      const ctx = canvas.getContext('2d');
+      function resize(){
+        const wCSS = logoWrap.clientWidth;
+        const hCSS = logoWrap.clientHeight;
+        canvas.width = Math.round(wCSS * devicePixelRatio);
+        canvas.height = Math.round(hCSS * devicePixelRatio);
+        canvas.style.width = wCSS + 'px';
+        canvas.style.height = hCSS + 'px';
+        ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);
+      }
+      resize();
+      window.addEventListener('resize', resize, {passive:true});
+      let t = 0;
+      function draw(){
+        t += 0.02;
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        const w = canvas.width / devicePixelRatio, h = canvas.height / devicePixelRatio;
+        const grad = ctx.createLinearGradient(-w + Math.sin(t)*w,0, w + Math.cos(t)*w,0);
+        grad.addColorStop(0,'rgba(255,255,255,0)');
+        grad.addColorStop(0.45,'rgba(255,255,255,0.06)');
+        grad.addColorStop(0.5,'rgba(255,255,255,0.14)');
+        grad.addColorStop(0.55,'rgba(255,255,255,0.04)');
+        grad.addColorStop(1,'rgba(255,255,255,0)');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0,0,w,h);
+        requestAnimationFrame(draw);
+      }
+      requestAnimationFrame(draw);
+    })();
+
+    /* -------------------------
+       Small UX scripts: parallax, checklist, map zoom, sharing...
+       (kept minimal and efficient; unchanged logic from your base)
+       ------------------------- */
+    (function baseUX(){
+      const REDUCE = prefersReduced;
+
+      const $ = s => document.querySelector(s);
+      const $$ = s => Array.from(document.querySelectorAll(s));
+      const byId = id => document.getElementById(id);
+      function safe(id, evt, fn){ const el = byId(id); if(!el){ console.warn('missing', id); return; } el.addEventListener(evt, fn); }
+
+      // parallax small effect
+      if(!prefersReduced){
+        const parEls = document.querySelectorAll('[data-parallax]');
+        function onScroll(){
+          const sc = window.scrollY;
+          parEls.forEach(el=>{
+            const v = parseFloat(el.dataset.parallax || 0.02);
+            el.style.transform = `translateY(${-(sc * v)}px)`;
+            const rect = el.getBoundingClientRect();
+            const factor = Math.max(0, Math.min(1, 1 - Math.abs(rect.top) / (window.innerHeight*0.8)));
+            el.style.opacity = 0.7 + 0.3*factor;
+            el.style.boxShadow = `0 ${8 + (1-factor)*12}px ${20 + (1-factor)*30}px rgba(0,0,0,${0.35+(1-factor)*0.2})`;
+          });
         }
+        window.addEventListener('scroll', onScroll, {passive:true});
+        onScroll();
+      }
 
-        function saveChecklist(){
-            const obj = {};
-            const extras = [];
-            
-            // Save predefined items status
-            document.querySelectorAll('#checklist label:not(.extra) input[type=checkbox]').forEach(cb=>{
-                const key = cb.dataset.key;
-                if(key) { obj[key] = !!cb.checked; }
-            });
-            
-            // Save extra items content and status
-            document.querySelectorAll('#checklist .extra').forEach(x=>{
-                const text = x.innerText.trim();
-                const checked = x.querySelector('input').checked;
-                extras.push({text: text, checked: checked});
-            });
-            
-            obj._extra = extras;
-            localStorage.setItem(CHECK_KEY, JSON.stringify(obj));
+      // map zoom
+      (function mapZoom(){
+        const mapWrap = byId('map-card');
+        const mapImg = byId('map-image');
+        if(!mapWrap || !mapImg) return;
+        let zoomed = false;
+        mapImg.addEventListener('click', (e)=>{
+          if(prefersReduced) return;
+          // allow click-through to link if user ctrl/cmd-click or long-press: only prevent default for plain click
+          if(e.metaKey || e.ctrlKey) return;
+          e.preventDefault();
+          zoomed = !zoomed;
+          if(zoomed) mapWrap.classList.add('zoomed');
+          else mapWrap.classList.remove('zoomed');
+        });
+      })();
+
+      // basic checklist persistence (compact & robust)
+      (function checklist(){
+        const KEY = 'aldeia_check_v5';
+        function save(){
+          const obj = {};
+          document.querySelectorAll('#checklist .checkline').forEach(lbl=>{
+            const cb = lbl.querySelector('input[type=checkbox]');
+            if(!cb) return;
+            const k = cb.dataset.key || lbl.innerText.trim();
+            obj[k] = !!cb.checked;
+          });
+          // extras
+          const extras = [];
+          document.querySelectorAll('#checklist .extra-item').forEach(e => extras.push({text: e.dataset.text, checked: e.querySelector('input').checked}));
+          obj._extra = extras;
+          localStorage.setItem(KEY, JSON.stringify(obj));
         }
-
-        safe('add-btn','click', ()=>{
-            const inputEl = byId('new-item');
-            const v = inputEl.value.trim();
-            if(!v) return;
-            addExtraToDOM(v);
-            inputEl.value = '';
-            saveChecklist();
-            const btn = byId('add-btn');
-            btn.animate([{transform:'scale(1)'},{transform:'scale(1.06)'},{transform:'scale(1)'}],{duration:260,easing:'ease-out'});
-        });
-
-        // checkbox animation + save for predefined items
-        document.querySelectorAll('#checklist label:not(.extra) input[type=checkbox]').forEach(cb=>{
-            cb.addEventListener('change', ()=>{
-                const el = cb.parentElement;
-                if(cb.checked){
-                    el.classList.add('checked');
-                    el.animate([{transform:'scale(1)'},{transform:'scale(1.03)'},{transform:'scale(1)'}],{duration:260});
-                } else {
-                    el.classList.remove('checked');
-                }
-                saveChecklist();
-                navigator.vibrate && navigator.vibrate(6);
-            });
-        });
-
-        loadChecklist();
-
-        /* =============================
-        SHARING (WhatsApp) + button shine/pulse
-        =============================*/
-        function collectChecklist(onlyMarked){
-            const lines = [];
+        function load(){
+          try{
+            const raw = localStorage.getItem(KEY);
+            if(!raw) return;
+            const data = JSON.parse(raw);
             document.querySelectorAll('#checklist .checkline').forEach(lbl=>{
-                const cb = lbl.querySelector('input');
-                const text = lbl.innerText.trim();
-                if(onlyMarked){ if(cb.checked) lines.push('✅ '+text); }
-                else lines.push((cb.checked ? '✅ ' : '[ ] ') + text);
+              const cb = lbl.querySelector('input[type=checkbox]');
+              if(!cb) return;
+              const k = cb.dataset.key || lbl.innerText.trim();
+              if(data[k]) { cb.checked = true; lbl.classList.add('checked'); }
             });
-            return lines;
+            if(Array.isArray(data._extra)){
+              const ref = document.querySelector('#checklist .add-inline');
+              data._extra.forEach(it => {
+                const lab = document.createElement('label');
+                lab.className = 'checkline extra-item';
+                lab.dataset.text = it.text;
+                lab.innerHTML = `<input type="checkbox" ${it.checked ? 'checked' : ''} /> ${it.text}`;
+                ref.parentNode.insertBefore(lab, ref);
+              });
+            }
+          }catch(e){ console.warn(e); }
         }
-
-        function animateButton(id){
-            const b = byId(id);
-            if(!b) return;
-            b.classList.add('pulse');
-            b.classList.add('shine');
-            setTimeout(()=>{ b.classList.remove('pulse'); b.classList.remove('shine'); }, 900);
+        // add new
+        const addBtn = byId('add-btn');
+        if(addBtn){
+          addBtn.addEventListener('click', ()=>{
+            const input = byId('new-item');
+            if(!input) return;
+            const v = input.value.trim();
+            if(!v) return;
+            const lab = document.createElement('label');
+            lab.className = 'checkline extra-item';
+            lab.dataset.text = v;
+            lab.innerHTML = `<input type="checkbox" checked /> ${v}`;
+            const ref = document.querySelector('#checklist .add-inline');
+            ref.parentNode.insertBefore(lab, ref);
+            input.value = '';
+            save();
+          });
         }
-        
-        const SHARE_HEADER = `Aldeia das Águas — Checklist e logística\nPonto: Estação Santíssimo (Av. de Santa Cruz, 9591)\nSaída sugerida: 06:10 (chegar 09:20)\n\n`;
+        // listen to changes
+        document.addEventListener('change', (e)=>{
+          if(e.target && e.target.matches('#checklist input[type="checkbox"]')) save();
+        }, {passive:true});
+        load();
+      })();
 
-        safe('share-marked','click', ()=>{
-            const lines = collectChecklist(true);
-            if(lines.length===0){ alert('Nenhum item marcado para compartilhar.'); return; }
-            animateButton('share-marked');
-            const text = encodeURIComponent(SHARE_HEADER + lines.join('\n'));
-            window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
-            navigator.vibrate && navigator.vibrate(10);
+      // sharing (WhatsApp)
+      (function sharing(){
+        function collect(onlyMarked){
+          const lines = [];
+          document.querySelectorAll('#checklist .checkline').forEach(lbl=>{
+            const cb = lbl.querySelector('input[type=checkbox]');
+            const text = lbl.innerText.trim();
+            if(onlyMarked){
+              if(cb && cb.checked) lines.push('✅ ' + text);
+            } else {
+              lines.push((cb && cb.checked ? '✅ ' : '[ ] ') + text);
+            }
+          });
+          return lines;
+        }
+        const header = `Aldeia das Águas — Checklist e logística\nPonto: Estação Santíssimo (Av. de Santa Cruz, 9591)\nSaída sugerida: 06:10 (chegar 09:20)\n\n`;
+        const openWA = url => window.open(url, '_blank');
+
+        const shareMarked = byId('share-marked');
+        if(shareMarked) shareMarked.addEventListener('click', ()=>{
+          const lines = collect(true);
+          if(lines.length === 0) { alert('Nenhum item marcado.'); return; }
+          openWA(`https://api.whatsapp.com/send?text=${encodeURIComponent(header + lines.join('\n'))}`);
         });
-
-        safe('share-all','click', ()=>{
-            animateButton('share-all');
-            const lines = collectChecklist(false);
-            const text = encodeURIComponent(SHARE_HEADER + lines.join('\n'));
-            window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
-            navigator.vibrate && navigator.vibrate(10);
+        const shareAll = byId('share-all');
+        if(shareAll) shareAll.addEventListener('click', ()=>{
+          const lines = collect(false);
+          openWA(`https://api.whatsapp.com/send?text=${encodeURIComponent(header + lines.join('\n'))}`);
         });
+      })();
 
-        /* =============================
-        Button touch ripple + hover interactions
-        =============================*/
-        (function attachButtonEffects(){
-            const btns = Array.from(document.querySelectorAll('.btn'));
-            btns.forEach(btn=>{
-                if(!REDUCE) {
-                    btn.addEventListener('pointerenter', ()=>{ btn.style.transform='translateY(-3px)'; });
-                    btn.addEventListener('pointerleave', ()=>{ btn.style.transform='none'; });
-                }
-                
-                btn.addEventListener('pointerdown', (ev)=>{
-                    if(REDUCE) return;
-                    // Ripple effect creation
-                    const r = document.createElement('span');
-                    const rect = btn.getBoundingClientRect();
-                    const size = Math.max(rect.width, rect.height) * 1.2;
-                    
-                    r.style.cssText = `
-                        position:absolute; width:${size}px; height:${size}px;
-                        left:${ev.clientX - rect.left - size/2}px;
-                        top:${ev.clientY - rect.top - size/2}px;
-                        border-radius:50%; background:rgba(255,255,255,0.08); pointer-events:none;
-                        transform:scale(0); opacity:0.95; transition:transform 420ms var(--ease), opacity 420ms;
-                    `;
-                    btn.appendChild(r);
-                    requestAnimationFrame(()=> r.style.transform='scale(1)');
-                    setTimeout(()=>{ r.style.opacity='0'; setTimeout(()=>r.remove(),450); },420);
-                });
-            });
-        })();
-
-        /* =============================
-        INITIAL FADE-IN for above-the-fold
-        =============================*/
-        document.addEventListener('DOMContentLoaded', ()=>{
-            // Animate only the first few cards to ensure immediate content appears quickly
-            $$('.fadeInUp').slice(0,3).forEach((el, i)=> setTimeout(()=> {
-                el.classList.add('inview');
-                // Initiate stagger on early loaded elements after the main fade-in
-                el.querySelectorAll('.stagger-el').forEach((s, idx)=>{
-                    s.style.transitionDelay = (idx * 50) + 'ms';
-                });
-            }, i*80));
+      // button hover/press ripple (light)
+      (function ripple(){
+        document.querySelectorAll('.btn').forEach(btn=>{
+          btn.addEventListener('pointerdown', (e)=>{
+            if(prefersReduced) return;
+            const r = document.createElement('span');
+            const rect = btn.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height) * 1.2;
+            r.style.position = 'absolute';
+            r.style.left = (e.clientX - rect.left - size/2) + 'px';
+            r.style.top = (e.clientY - rect.top - size/2) + 'px';
+            r.style.width = r.style.height = size + 'px';
+            r.style.borderRadius = '50%';
+            r.style.background = 'rgba(255,255,255,0.06)';
+            r.style.pointerEvents = 'none';
+            r.style.transform = 'scale(0)';
+            r.style.transition = 'transform 420ms ease, opacity 420ms';
+            btn.appendChild(r);
+            requestAnimationFrame(()=> r.style.transform = 'scale(1)');
+            setTimeout(()=>{ r.style.opacity = '0'; setTimeout(()=> r.remove(), 450); }, 420);
+          });
         });
+      })();
 
-        /* =============================
-        End of script
-        =============================*/
-    </script>
+      // initial fade-in
+      document.addEventListener('DOMContentLoaded', ()=>{
+        $$('.fadeInUp').slice(0,6).forEach((el, i)=> setTimeout(()=> el.classList.add('inview'), i*80));
+      });
+    })();
+
+  </script>
 </body>
 </html>
