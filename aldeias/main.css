@@ -32,10 +32,7 @@ body {
     -webkit-tap-highlight-color: transparent;
 }
 
-/* Otimização de Fonte: Garante que o texto seja exibido rapidamente */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
-
-/* Camada de Carregamento (Opcional: Garante que o conteúdo não seja visto "montando") */
+/* Camada de Carregamento */
 #loading-overlay {
     position: fixed; inset: 0; z-index: 9999;
     background: var(--bg);
@@ -265,16 +262,15 @@ ANIMATIONS (Classes controladas pelo JS)
 /* ==========================
 ACCESSIBILITY & REDUCED MOTION
 ========================== */
-/* Usamos :focus-visible no botão, mas mantemos o foco geral para outros elementos */
-:focus { outline: 2px solid rgba(0,200,220,0.12); outline-offset: 2px; } 
+:focus { outline: 2px solid rgba(0,200,220,0.12); outline-offset: 2px; }
 
 @media (prefers-reduced-motion: reduce) {
-    /* Desativa animações complexas para motion reduzido */
     .refraction-wrap, .particles, .bokeh-wrap, .top-waves svg { animation: none !important; transition: none !important; }
     .fadeInUp, .inview { transition: none !important; opacity: 1 !important; transform: none !important; }
     .stagger-el { opacity: 1 !important; transform: none !important; transition: none !important; }
 }
 
+/* Rodapé de Endereço Padrão */
 footer { margin-top: 20px; text-align: center; color: rgba(255,255,255,0.5); font-size: 13px; }
 
 /* ==========================
@@ -285,7 +281,7 @@ ADICIONAL: SCROLLBAR ESTILIZADO
 ::-webkit-scrollbar-thumb { background: rgba(0,184,212,0.4); border-radius: 10px; }
 ::-webkit-scrollbar-thumb:hover { background: rgba(0,184,212,0.6); }
 
-/* Efeitos adicionais (mantidos) */
+/* Efeitos Adicionais (Hover/Animações de Componentes) */
 .card:hover {
     box-shadow: 0 20px 50px rgba(0, 200, 220, 0.25), 0 0 30px rgba(0, 184, 212, 0.15);
     transform: translateY(-8px) scale(1.02);
@@ -318,4 +314,58 @@ ADICIONAL: SCROLLBAR ESTILIZADO
 }
 .checkline.checked {
     box-shadow: 0 0 12px rgba(0, 184, 212, 0.2);
+}
+
+/* ==========================
+NOVO RODAPÉ IMAGINISTA (Revisado)
+========================== */
+.footer-credit {
+    max-width: var(--max-width); 
+    margin: 10px auto 10px auto; 
+    padding: 10px; 
+    position: relative; 
+    z-index: 3;
+    text-align: center;
+    color: rgba(255, 255, 255, 10.5);
+    font-size: 14px;
+}
+
+.footer-logo-wrapper {
+    margin-bottom: 5px;
+}
+
+.footer-logo {
+    /* Logo aumentada: 150px */
+    width: 150px; 
+    height: auto;
+    opacity: 0.8;
+    transition: opacity 300ms, filter 300ms, transform 300ms; 
+    filter: drop-shadow(0 0 4px rgba(0, 184, 212, 0.1)); 
+}
+
+.footer-logo.clickable {
+    cursor: pointer;
+}
+
+.footer-logo:hover {
+    opacity: 1;
+    cursor: pointer;
+    /* Efeito de brilho sutil ao hover */
+    filter: drop-shadow(0 0 3px var(--accent));
+}
+
+/* Efeito Glow Contínuo (aplicado via JS) */
+.footer-logo.logo-glow {
+    animation: pulsateGlow 2s infinite alternate ease-in-out;
+}
+
+@keyframes pulsateGlow {
+    0% {
+        opacity: 0.85;
+        filter: drop-shadow(0 0 8px rgba(0, 184, 212, 0.4));
+    }
+    100% {
+        opacity: 1;
+        filter: drop-shadow(0 0 20px rgba(0, 184, 212, 0.8));
+    }
 }

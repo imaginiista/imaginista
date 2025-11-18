@@ -486,4 +486,33 @@ document.addEventListener('DOMContentLoaded', () => {
 
 /* =============================
 End of main.js
-=============================*/
+=============================*/// ... (Mantenha todo o JavaScript anterior, incluindo helpers e constantes) ...
+
+// Coloque esta função no final do seu arquivo main.js, dentro do escopo do DOMContentLoaded
+// ...
+    /* =============================
+    FOOTER LOGO GLOW (Pulso de brilho)
+    =============================*/
+    (function animateFooterLogo(){
+        const logo = document.querySelector('.footer-logo');
+        if(!logo || REDUCE) return;
+
+        // Inicia a animação de brilho contínuo
+        logo.classList.add('logo-glow');
+        
+        // Adiciona um micro-bounce (feedback de clique) ao ser clicado
+        logo.addEventListener('click', () => {
+             // Animação de bounce simples
+             logo.animate([{transform:'scale(1)'},{transform:'scale(1.06)'},{transform:'scale(1)'}],{duration:300,easing:'ease-out'});
+             navigator.vibrate && navigator.vibrate(5);
+        });
+
+    })();
+
+
+    /* =============================
+    INITIAL FADE-IN & Loading Overlay Removal
+    =============================*/
+    // Anima as primeiras cartas imediatamente após o carregamento
+// ... (O restante do código JavaScript inalterado) ...
+// ... (O restante do código JavaScript inalterado) ...
