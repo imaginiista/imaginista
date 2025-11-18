@@ -4,10 +4,16 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Aldeia das Águas — Roteiro</title>
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" as="style" crossorigin>
+    
     <link rel="stylesheet" href="main.css">
+    
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div id="loading-overlay">
+        </div>
+    
     <div class="bg-layer">
         <div class="refraction-wrap" aria-hidden="true">
             <svg width="100%" height="100%" viewBox="0 0 1400 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
@@ -164,7 +170,6 @@
                         <label class="checkline stagger-el"><input type="checkbox" data-key="mochila"> Mochila leve</label>
                         <label class="checkline stagger-el"><input type="checkbox" data-key="boné"> Boné ou chapéu</label>
                         <label class="checkline stagger-el"><input type="checkbox" data-key="toalha"> Toalha</label>
-
                         <div class="add-inline stagger-el">
                             <input type="text" id="new-item" placeholder="Adicionar item pessoal (ex: protetor labial)" />
                             <button id="add-btn" class="touch-feedback">Adicionar</button>

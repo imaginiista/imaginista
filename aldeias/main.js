@@ -14,46 +14,43 @@ document.addEventListener('DOMContentLoaded', () => {
     const REDUCE = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     /* =============================
-    WAVES (animate path) - lightweight morph loop
+    LOOP PRINCIPAL DE ANIMAÇÃO (Waves + Refraction)
+    - Consolidação de animacoes para usar requestAnimationFrame (melhor performance)
     ============================= */
-    (function animateWaves(){
-        try{
+    let t = 0;
+    let f1 = 0.006, f2 = 0.018, dir = 1;
+    let lastRefractionUpdate = performance.now();
+    const REFRACTION_INTERVAL = 220; // Atualiza a refração a cada 220ms
+
+    function mainLoop(time) {
+        if (!REDUCE) {
+            t += 0.0026;
+
+            // 1. Animação das Ondas (SVG Path Morph)
             const path = document.getElementById('wavePath');
-            if(!path || REDUCE) return;
-            let t = 0;
-            function step(){
-                t += 0.0026;
-                // Oscilação nos pontos de controle para movimento orgânico
-                const a = 40 + Math.sin(t*2.05)*18;
-                const b = 120 + Math.cos(t*1.65)*12;
-                const c = 80 + Math.sin(t*1.1)*10;
-                const d = 140 + Math.cos(t*0.9)*8;
+            if (path) {
+                const a = 40 + Math.sin(t * 2.05) * 18;
+                const b = 120 + Math.cos(t * 1.65) * 12;
+                const c = 80 + Math.sin(t * 1.1) * 10;
+                const d = 140 + Math.cos(t * 0.9) * 8;
                 const dAttr = `M0 100 C200 ${a} 400 ${b} 600 100 C800 ${c} 1000 ${d} 1200 100 L1200 160 L0 160 Z`;
                 path.setAttribute('d', dAttr);
-                requestAnimationFrame(step);
             }
-            requestAnimationFrame(step);
-        }catch(e){ console.warn('animateWaves error', e) }
-    })();
 
-    /* =============================
-    REFRACTION SUBTLE ANIM (Anima feTurbulence)
-    =============================*/
-    (function animateRefraction(){
-        if(REDUCE) return;
-        try{
+            // 2. Animação da Refração (SVG Filter) - Atualiza em intervalos
             const turb = document.querySelector('feTurbulence#turb');
-            if(!turb) return;
-            let f1 = 0.006, f2 = 0.018, dir = 1;
-            // Oscila suavemente os valores de baseFrequency
-            setInterval(()=>{
+            if (turb && (time - lastRefractionUpdate > REFRACTION_INTERVAL)) {
                 f1 += 0.0008 * dir;
                 f2 += 0.0009 * dir;
-                if(f1 > 0.01 || f1 < 0.004) dir *= -1;
+                if (f1 > 0.01 || f1 < 0.004) dir *= -1;
                 turb.setAttribute('baseFrequency', `${f1} ${f2}`);
-            }, 220);
-        }catch(e){ console.warn('animateRefraction error', e) }
-    })();
+                lastRefractionUpdate = time;
+            }
+        }
+        requestAnimationFrame(mainLoop);
+    }
+    requestAnimationFrame(mainLoop);
+    // Fim da consolidação
 
     /* =============================
     PARTICLES / BUBBLES (Geração dinâmica)
@@ -122,7 +119,6 @@ document.addEventListener('DOMContentLoaded', () => {
             ctx.clearRect(0,0,canvas.width,canvas.height);
             const w = canvas.width / devicePixelRatio, h = canvas.height / devicePixelRatio;
             
-            // Anima o gradiente para simular o brilho
             const grad = ctx.createLinearGradient(-w + Math.sin(t)*w, 0, w + Math.cos(t)*w, 0);
             grad.addColorStop(0,'rgba(255,255,255,0)');
             grad.addColorStop(0.45,'rgba(255,255,255,0.06)');
@@ -141,7 +137,6 @@ document.addEventListener('DOMContentLoaded', () => {
     IntersectionObserver -> inview (fadeUp + stagger)
     =============================*/
     (function observeInView(){
-        // Adiciona a classe de stagger a todos os elementos que devem animar em cascata
         const STAGGER_CLS = '.stagger-el'; 
         $$('.person, .item-row, .checkline, .badge, .map-actions, .add-inline, h3').forEach(el => {
             el.classList.add(STAGGER_CLS.slice(1)); 
@@ -155,7 +150,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 if(entry.isIntersecting){
                     entry.target.classList.add('inview');
                     
-                    // Aplica delay sequencial aos elementos de stagger internos
                     const staggerEls = entry.target.querySelectorAll(STAGGER_CLS);
                     staggerEls.forEach((s, idx)=>{
                         s.style.transitionDelay = (idx * 50) + 'ms';
@@ -175,20 +169,31 @@ document.addEventListener('DOMContentLoaded', () => {
     (function setupParallax(){
         if(REDUCE) return;
         const par = document.querySelectorAll('[data-parallax]');
-        function onScroll(){
+        let isTicking = false;
+
+        function updateParallax(){
             const sc = window.scrollY;
             par.forEach(el=>{
                 const v = parseFloat(el.dataset.parallax || 0.02);
                 el.style.transform = `translateY(${-(sc * v)}px)`;
-                // Parallax dinâmico de opacidade e sombra para profundidade
+                
+                // Opacidade e sombra (mantendo a lógica original)
                 const rect = el.getBoundingClientRect();
                 const factor = Math.max(0, Math.min(1, 1 - Math.abs(rect.top) / (window.innerHeight*0.8)));
                 el.style.opacity = 0.7 + 0.3*factor;
                 el.style.boxShadow = `0 ${8 + (1-factor)*12}px ${20 + (1-factor)*30}px rgba(0,0,0,${0.35+(1-factor)*0.2})`;
             });
+            isTicking = false;
+        }
+
+        function onScroll(){
+            if(!isTicking){
+                requestAnimationFrame(updateParallax);
+                isTicking = true;
+            }
         }
         window.addEventListener('scroll', onScroll, {passive:true});
-        onScroll();
+        updateParallax();
     })();
 
     /* =============================
@@ -226,6 +231,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     safe('open-google','click', ()=> {
         navigator.vibrate && navigator.vibrate(8);
+        // CORREÇÃO: Uso da URL correta para o Google Maps
         window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(MAP_ADDRESS)}`, '_blank');
     });
 
@@ -244,19 +250,37 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     /* =============================
-    CHECKLIST (save/load/add/check animation)
+    CHECKLIST (save/load/add/check animation/remove)
     =============================*/
     const CHECK_KEY = 'aldeia_check_v5';
+
+    function createRemoveButton(labelElement){
+        const removeBtn = document.createElement('button');
+        removeBtn.className = 'remove-btn';
+        removeBtn.innerHTML = '&#10005;'; // X simples
+        removeBtn.title = 'Remover item';
+        removeBtn.addEventListener('click', (e) => {
+            e.preventDefault(); 
+            e.stopPropagation();
+            labelElement.remove();
+            saveChecklist();
+            navigator.vibrate && navigator.vibrate(8);
+        });
+        return removeBtn;
+    }
 
     function addExtraToDOM(text, isChecked = false){
         const div = document.createElement('label');
         div.className=`checkline extra ${isChecked ? 'checked' : ''} stagger-el`;
-        // Usa um data-key com timestamp para garantir unicidade, pois é um item extra
-        div.innerHTML = `<input type='checkbox' data-key='extra-${Date.now() + Math.random()}' ${isChecked ? 'checked' : ''}> ${text}`; 
+        const key = `extra-${Date.now() + Math.random()}`;
+        div.innerHTML = `<input type='checkbox' data-key='${key}' ${isChecked ? 'checked' : ''}> ${text}`; 
+        
+        // Adiciona o botão de remoção apenas para itens extras
+        div.appendChild(createRemoveButton(div)); 
+
         const ref = document.querySelector('#checklist .add-inline');
         ref.parentElement.insertBefore(div, ref);
 
-        // Efeito micro-bounce para novo item
         if(!isChecked) {
             div.classList.add('micro-bounce');
             setTimeout(()=> div.classList.remove('micro-bounce'), 420);
@@ -302,11 +326,14 @@ document.addEventListener('DOMContentLoaded', () => {
             if(key) { obj[key] = !!cb.checked; }
         });
         
-        // Salva o conteúdo e status dos itens extras
+        // Salva o conteúdo e status dos itens extras (sem os botões de remoção no texto)
         document.querySelectorAll('#checklist .extra').forEach(x=>{
-            const text = x.innerText.trim();
+            // Extrai o texto do item, removendo o conteúdo do botão de remoção para salvar apenas o nome.
+            const textContent = Array.from(x.childNodes).filter(node => node.nodeType === 3).map(n => n.textContent.trim()).join(' ').trim();
             const checked = x.querySelector('input').checked;
-            extras.push({text: text, checked: checked});
+            if(textContent) { // Garante que não está salvando um item vazio
+                extras.push({text: textContent, checked: checked});
+            }
         });
         
         obj._extra = extras;
@@ -339,17 +366,34 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Carrega o estado do checklist no início
     loadChecklist();
 
     /* =============================
-    SHARING (WhatsApp) + button shine/pulse
+    SHARING (WhatsApp) + button shine/pulse + Toast Feedback
     =============================*/
+    function showToast(message){
+        let toast = byId('toast-feedback');
+        if(!toast){
+            toast = document.createElement('div');
+            toast.id = 'toast-feedback';
+            document.body.appendChild(toast);
+        }
+        toast.textContent = message;
+        toast.classList.add('show');
+        setTimeout(()=> toast.classList.remove('show'), 3000);
+    }
+    
     function collectChecklist(onlyMarked){
         const lines = [];
         document.querySelectorAll('#checklist .checkline').forEach(lbl=>{
             const cb = lbl.querySelector('input');
-            const text = lbl.innerText.trim();
+            // Lógica para extrair texto do item sem o botão de remoção
+            const text = Array.from(lbl.childNodes)
+                            .filter(node => node.nodeType === 3)
+                            .map(n => n.textContent.trim())
+                            .join(' ')
+                            .trim();
+
             if(onlyMarked){ if(cb.checked) lines.push('✅ '+text); }
             else lines.push((cb.checked ? '✅ ' : '[ ] ') + text);
         });
@@ -373,6 +417,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const text = encodeURIComponent(SHARE_HEADER + lines.join('\n'));
         window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
         navigator.vibrate && navigator.vibrate(10);
+        showToast('Itens marcados prontos para o WhatsApp!');
     });
 
     safe('share-all','click', ()=>{
@@ -381,6 +426,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const text = encodeURIComponent(SHARE_HEADER + lines.join('\n'));
         window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
         navigator.vibrate && navigator.vibrate(10);
+        showToast('Checklist completo pronto para o WhatsApp!');
     });
 
     /* =============================
@@ -390,7 +436,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const btns = Array.from(document.querySelectorAll('.btn'));
         btns.forEach(btn=>{
             if(!REDUCE) {
-                // Efeito hover (retirado do CSS)
+                // Efeito hover
                 btn.addEventListener('pointerenter', ()=>{ btn.style.transform='translateY(-3px)'; });
                 btn.addEventListener('pointerleave', ()=>{ btn.style.transform='none'; });
             }
@@ -417,7 +463,7 @@ document.addEventListener('DOMContentLoaded', () => {
     })();
 
     /* =============================
-    INITIAL FADE-IN for above-the-fold
+    INITIAL FADE-IN & Loading Overlay Removal
     =============================*/
     // Anima as primeiras cartas imediatamente após o carregamento
     $$('.fadeInUp').slice(0,3).forEach((el, i)=> setTimeout(()=> {
@@ -427,6 +473,15 @@ document.addEventListener('DOMContentLoaded', () => {
             s.style.transitionDelay = (idx * 50) + 'ms';
         });
     }, i*80));
+    
+    // Remove a camada de loading para revelar o conteúdo
+    const loading = byId('loading-overlay');
+    if(loading) {
+        setTimeout(()=>{
+            loading.style.opacity = '0';
+            setTimeout(()=> loading.remove(), 300);
+        }, 300);
+    }
 });
 
 /* =============================
