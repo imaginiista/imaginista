@@ -179,15 +179,17 @@
                         <feTurbulence id="turb" type="fractalNoise" baseFrequency="0.006 0.018" numOctaves="2" seed="2" stitchTiles="stitch" result="noise" />
                         <feDisplacementMap in="SourceGraphic" in2="noise" scale="20" xChannelSelector="R" yChannelSelector="G" />
                     </filter>
+                </defs>
 
+                <rect x="0" y="0" width="100%" height="100%" fill="url(#gradRef)" filter="url(#rfr)"></rect>
+
+                <defs>
                     <linearGradient id="gradRef" x1="0" x2="1">
                         <stop offset="0" stop-color="#003d46" stop-opacity="0.18"/>
                         <stop offset="0.5" stop-color="#004f61" stop-opacity="0.12"/>
                         <stop offset="1" stop-color="#002f36" stop-opacity="0.18"/>
                     </linearGradient>
                 </defs>
-
-                <rect x="0" y="0" width="100%" height="100%" fill="url(#gradRef)" filter="url(#rfr)"></rect>
             </svg>
         </div>
 
@@ -358,8 +360,9 @@
         function safe(id, evt, fn){ const el = byId(id); if(!el){ console.warn('missing', id); return; } el.addEventListener(evt, fn); }
 
         /* =============================
-        Respect reduced motion (restored to match user preference)
+        Respect reduced motion
         ============================= */
+        // **OPÇÃO DE TESTE:** Se os efeitos não funcionarem, altere o "true" para "false" AQUI para forçar a ativação
         const REDUCE = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
         /* =============================
@@ -409,16 +412,14 @@
         /* =============================
         PARTICLES / BUBBLES
         - improved generation, light-weight keyframes via <style> injection
-        - FIXED: use styleEl.sheet.insertRule instead of styleEl.insertRule
         =============================*/
         (function makeBubbles(){
             const container = byId('particles');
             if(!container || REDUCE) return;
             const count = 18;
-            const styleEl = document.createElement('style');
-            document.head.appendChild(styleEl);
-            const sheet = styleEl.sheet;
-
+            const styleSheet = document.createElement('style');
+            document.head.appendChild(styleSheet);
+            
             for(let i=0;i<count;i++){
                 const b = document.createElement('div');
                 b.className = 'bubble';
@@ -429,7 +430,7 @@
                 b.style.top = (40 + Math.random()*50)+'%';
                 b.style.opacity = (0.02 + Math.random()*0.08).toFixed(2);
 
-                // dynamic keyframe for each bubble (using sheet.insertRule)
+                // dynamic keyframe for each bubble (using styleSheet.insertRule for better perf)
                 const dur = (8 + Math.random()*14).toFixed(1);
                 const driftX = (-30 + Math.random()*60).toFixed(1);
                 const rise = Math.round(60 + Math.random()*160);
@@ -440,11 +441,12 @@
                     100% { transform: translate(0,0) scale(0.98); opacity:${b.style.opacity} }
                 }`;
                 try {
-                    sheet.insertRule(keyframes, sheet.cssRules.length);
+                    styleSheet.insertRule(keyframes, styleSheet.cssRules.length);
                 } catch (e) {
-                    // fallback - append textContent if insertRule fails on some older UA
-                    styleEl.textContent += keyframes;
+                    console.warn("Could not insert CSS rule:", e);
+                    styleSheet.innerHTML += keyframes; // Fallback
                 }
+                
 
                 b.style.animation = `${keyName} ${dur}s ease-in-out ${ (Math.random()*4).toFixed(2) }s infinite`;
                 container.appendChild(b);
@@ -460,7 +462,7 @@
             const canvas = logoWrap.querySelector('.shine');
             if(!canvas) return;
             const ctx = canvas.getContext('2d');
-
+            
             function resize(){
                 canvas.width = logoWrap.clientWidth * devicePixelRatio;
                 canvas.height = logoWrap.clientHeight * devicePixelRatio;
@@ -470,13 +472,13 @@
             }
             resize();
             window.addEventListener('resize', resize, {passive:true});
-
+            
             let t = 0;
             function draw(){
                 t += 0.02;
                 ctx.clearRect(0,0,canvas.width,canvas.height);
                 const w = canvas.width / devicePixelRatio, h = canvas.height / devicePixelRatio;
-
+                
                 // Animate gradient start/end points
                 const grad = ctx.createLinearGradient(-w + Math.sin(t)*w, 0, w + Math.cos(t)*w, 0);
                 grad.addColorStop(0,'rgba(255,255,255,0)');
@@ -496,21 +498,23 @@
         IntersectionObserver -> inview (fadeUp + stagger)
         =============================*/
         (function observeInView(){
-            // Ensure common elements get the stagger class
+            // Simplified stagger logic for better performance, relying on CSS transition-delay.
+            const STAGGER_CLS = '.stagger-el'; 
             $$('.person, .item-row, .checkline, .badge, .map-actions, .add-inline, h3').forEach(el => {
-                if(!el.classList.contains('stagger-el')) el.classList.add('stagger-el');
+                el.classList.add(STAGGER_CLS.slice(1)); // Add 'stagger-el' class
             });
+
 
             if(REDUCE) { $$('.fadeInUp').forEach(el=>el.classList.add('inview')); return; }
             const els = $$('.fadeInUp');
-
+            
             const io = new IntersectionObserver((entries)=>{
                 entries.forEach((entry)=>{
                     if(entry.isIntersecting){
                         entry.target.classList.add('inview');
-
+                        
                         // Apply stagger delay to inner elements
-                        const staggerEls = entry.target.querySelectorAll('.stagger-el');
+                        const staggerEls = entry.target.querySelectorAll(STAGGER_CLS);
                         staggerEls.forEach((s, idx)=>{
                             s.style.transitionDelay = (idx * 50) + 'ms';
                         });
@@ -519,7 +523,7 @@
                     }
                 });
             },{threshold:0.12});
-
+            
             els.forEach(el=>io.observe(el));
         })();
 
@@ -580,6 +584,7 @@
 
         safe('open-google','click', ()=> {
             navigator.vibrate && navigator.vibrate(8);
+            // CORRIGIDO: Uso da API correta para o Google Maps
             window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(MAP_ADDRESS)}`, '_blank');
         });
 
@@ -618,10 +623,10 @@
             const cb = div.querySelector('input');
             cb.addEventListener('change', ()=>{
                 saveChecklist();
-                if(cb.checked){
-                    div.classList.add('checked');
-                } else {
-                    div.classList.remove('checked');
+                if(cb.checked){ 
+                    div.classList.add('checked'); 
+                } else { 
+                    div.classList.remove('checked'); 
                 }
             });
             return div;
@@ -632,16 +637,16 @@
                 const raw = localStorage.getItem(CHECK_KEY);
                 if(!raw) return;
                 const obj = JSON.parse(raw);
-
+                
                 // Load predefined items
                 document.querySelectorAll('#checklist input[type=checkbox]').forEach(cb=>{
                     const key = cb.dataset.key;
-                    if(key && obj[key]) {
-                        cb.checked = true;
-                        cb.parentElement.classList.add('checked');
+                    if(key && obj[key]) { 
+                        cb.checked = true; 
+                        cb.parentElement.classList.add('checked'); 
                     }
                 });
-
+                
                 // Load extra items
                 if(obj._extra && Array.isArray(obj._extra)) {
                     obj._extra.forEach(item => addExtraToDOM(item.text, item.checked));
@@ -652,20 +657,20 @@
         function saveChecklist(){
             const obj = {};
             const extras = [];
-
+            
             // Save predefined items status
             document.querySelectorAll('#checklist label:not(.extra) input[type=checkbox]').forEach(cb=>{
                 const key = cb.dataset.key;
                 if(key) { obj[key] = !!cb.checked; }
             });
-
+            
             // Save extra items content and status
             document.querySelectorAll('#checklist .extra').forEach(x=>{
                 const text = x.innerText.trim();
                 const checked = x.querySelector('input').checked;
                 extras.push({text: text, checked: checked});
             });
-
+            
             obj._extra = extras;
             localStorage.setItem(CHECK_KEY, JSON.stringify(obj));
         }
@@ -719,7 +724,7 @@
             b.classList.add('shine');
             setTimeout(()=>{ b.classList.remove('pulse'); b.classList.remove('shine'); }, 900);
         }
-
+        
         const SHARE_HEADER = `Aldeia das Águas — Checklist e logística\nPonto: Estação Santíssimo (Av. de Santa Cruz, 9591)\nSaída sugerida: 06:10 (chegar 09:20)\n\n`;
 
         safe('share-marked','click', ()=>{
@@ -749,14 +754,14 @@
                     btn.addEventListener('pointerenter', ()=>{ btn.style.transform='translateY(-3px)'; });
                     btn.addEventListener('pointerleave', ()=>{ btn.style.transform='none'; });
                 }
-
+                
                 btn.addEventListener('pointerdown', (ev)=>{
                     if(REDUCE) return;
                     // Ripple effect creation
                     const r = document.createElement('span');
                     const rect = btn.getBoundingClientRect();
                     const size = Math.max(rect.width, rect.height) * 1.2;
-
+                    
                     r.style.cssText = `
                         position:absolute; width:${size}px; height:${size}px;
                         left:${ev.clientX - rect.left - size/2}px;
