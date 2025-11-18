@@ -15,7 +15,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     /* =============================
     LOOP PRINCIPAL DE ANIMAÇÃO (Waves + Refraction)
-    - Consolidação de animacoes para usar requestAnimationFrame (melhor performance)
     ============================= */
     let t = 0;
     let f1 = 0.006, f2 = 0.018, dir = 1;
@@ -164,7 +163,7 @@ document.addEventListener('DOMContentLoaded', () => {
     })();
 
     /* =============================
-    PARALLAX on scroll
+    PARALLAX on scroll (Corrigido com translate3d)
     =============================*/
     (function setupParallax(){
         if(REDUCE) return;
@@ -175,9 +174,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const sc = window.scrollY;
             par.forEach(el=>{
                 const v = parseFloat(el.dataset.parallax || 0.02);
-                el.style.transform = `translateY(${-(sc * v)}px)`;
+                // 🛠️ CORREÇÃO: Usando translate3d para forçar aceleração por hardware (GPU)
+                el.style.transform = `translate3d(0, ${-(sc * v)}px, 0)`; 
                 
-                // Opacidade e sombra (mantendo a lógica original)
+                // Opacidade e sombra
                 const rect = el.getBoundingClientRect();
                 const factor = Math.max(0, Math.min(1, 1 - Math.abs(rect.top) / (window.innerHeight*0.8)));
                 el.style.opacity = 0.7 + 0.3*factor;
@@ -232,7 +232,7 @@ document.addEventListener('DOMContentLoaded', () => {
     safe('open-google','click', ()=> {
         navigator.vibrate && navigator.vibrate(8);
         // CORREÇÃO: Uso da URL correta para o Google Maps
-        window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(MAP_ADDRESS)}`, '_blank');
+        window.open(`https://www.google.com/maps/search/?api=1&query=$${encodeURIComponent(MAP_ADDRESS)}`, '_blank');
     });
 
     safe('open-checklist','click', ()=> {
@@ -257,7 +257,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function createRemoveButton(labelElement){
         const removeBtn = document.createElement('button');
         removeBtn.className = 'remove-btn';
-        removeBtn.innerHTML = '&#10005;'; // X simples
+        removeBtn.innerHTML = '✕'; 
         removeBtn.title = 'Remover item';
         removeBtn.addEventListener('click', (e) => {
             e.preventDefault(); 
@@ -275,7 +275,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const key = `extra-${Date.now() + Math.random()}`;
         div.innerHTML = `<input type='checkbox' data-key='${key}' ${isChecked ? 'checked' : ''}> ${text}`; 
         
-        // Adiciona o botão de remoção apenas para itens extras
         div.appendChild(createRemoveButton(div)); 
 
         const ref = document.querySelector('#checklist .add-inline');
@@ -300,7 +299,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if(!raw) return;
             const obj = JSON.parse(raw);
             
-            // Carrega itens predefinidos
             document.querySelectorAll('#checklist label:not(.extra) input[type=checkbox]').forEach(cb=>{
                 const key = cb.dataset.key;
                 if(key && obj[key]) { 
@@ -309,7 +307,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
             
-            // Carrega itens extras
             if(obj._extra && Array.isArray(obj._extra)) {
                 obj._extra.forEach(item => addExtraToDOM(item.text, item.checked));
             }
@@ -320,18 +317,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const obj = {};
         const extras = [];
         
-        // Salva o status dos itens predefinidos
         document.querySelectorAll('#checklist label:not(.extra) input[type=checkbox]').forEach(cb=>{
             const key = cb.dataset.key;
             if(key) { obj[key] = !!cb.checked; }
         });
         
-        // Salva o conteúdo e status dos itens extras (sem os botões de remoção no texto)
         document.querySelectorAll('#checklist .extra').forEach(x=>{
-            // Extrai o texto do item, removendo o conteúdo do botão de remoção para salvar apenas o nome.
             const textContent = Array.from(x.childNodes).filter(node => node.nodeType === 3).map(n => n.textContent.trim()).join(' ').trim();
             const checked = x.querySelector('input').checked;
-            if(textContent) { // Garante que não está salvando um item vazio
+            if(textContent) { 
                 extras.push({text: textContent, checked: checked});
             }
         });
@@ -351,7 +345,6 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.animate([{transform:'scale(1)'},{transform:'scale(1.06)'},{transform:'scale(1)'}],{duration:260,easing:'ease-out'});
     });
 
-    // checkbox animation + save para itens predefinidos
     document.querySelectorAll('#checklist label:not(.extra) input[type=checkbox]').forEach(cb=>{
         cb.addEventListener('change', ()=>{
             const el = cb.parentElement;
@@ -387,7 +380,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const lines = [];
         document.querySelectorAll('#checklist .checkline').forEach(lbl=>{
             const cb = lbl.querySelector('input');
-            // Lógica para extrair texto do item sem o botão de remoção
             const text = Array.from(lbl.childNodes)
                             .filter(node => node.nodeType === 3)
                             .map(n => n.textContent.trim())
@@ -463,6 +455,25 @@ document.addEventListener('DOMContentLoaded', () => {
     })();
 
     /* =============================
+    FOOTER LOGO GLOW (Pulso de brilho) - Integrado no escopo
+    =============================*/
+    (function animateFooterLogo(){
+        const logo = document.querySelector('.footer-logo');
+        if(!logo || REDUCE) return;
+
+        // Inicia a animação de brilho contínuo
+        logo.classList.add('logo-glow');
+        
+        // Adiciona um micro-bounce (feedback de clique) ao ser clicado
+        logo.addEventListener('click', () => {
+            // Animação de bounce simples
+            logo.animate([{transform:'scale(1)'},{transform:'scale(1.06)'},{transform:'scale(1)'}],{duration:300,easing:'ease-out'});
+            navigator.vibrate && navigator.vibrate(5);
+        });
+    })();
+
+
+    /* =============================
     INITIAL FADE-IN & Loading Overlay Removal
     =============================*/
     // Anima as primeiras cartas imediatamente após o carregamento
@@ -486,33 +497,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
 /* =============================
 End of main.js
-=============================*/// ... (Mantenha todo o JavaScript anterior, incluindo helpers e constantes) ...
-
-// Coloque esta função no final do seu arquivo main.js, dentro do escopo do DOMContentLoaded
-// ...
-    /* =============================
-    FOOTER LOGO GLOW (Pulso de brilho)
-    =============================*/
-    (function animateFooterLogo(){
-        const logo = document.querySelector('.footer-logo');
-        if(!logo || REDUCE) return;
-
-        // Inicia a animação de brilho contínuo
-        logo.classList.add('logo-glow');
-        
-        // Adiciona um micro-bounce (feedback de clique) ao ser clicado
-        logo.addEventListener('click', () => {
-             // Animação de bounce simples
-             logo.animate([{transform:'scale(1)'},{transform:'scale(1.06)'},{transform:'scale(1)'}],{duration:300,easing:'ease-out'});
-             navigator.vibrate && navigator.vibrate(5);
-        });
-
-    })();
-
-
-    /* =============================
-    INITIAL FADE-IN & Loading Overlay Removal
-    =============================*/
-    // Anima as primeiras cartas imediatamente após o carregamento
-// ... (O restante do código JavaScript inalterado) ...
-// ... (O restante do código JavaScript inalterado) ...
+=============================*/

@@ -29,6 +29,8 @@ body {
     -moz-osx-font-smoothing: grayscale;
     padding-bottom: 60px;
     overflow-y: auto;
+    /* 🛠️ CORREÇÃO DE RESPONSIVIDADE: Remove scroll horizontal */
+    overflow-x: hidden; 
     -webkit-tap-highlight-color: transparent;
 }
 
@@ -66,8 +68,13 @@ BACKGROUND LAYERS: Refraction + Light + Bokeh
 }
 
 /* subtle bokeh (blurred circular light effects) */
-.bokeh-wrap { position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; opacity: 0.08; }
-.bokeh { position: absolute; border-radius: 50%; filter: blur(18px); opacity: 0.6; transform: translate3d(0,0,0) scale(1.1); }
+.bokeh-wrap { position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; opacity: 0.12; }
+.bokeh { 
+    position: absolute; border-radius: 50%; filter: blur(18px); opacity: 0.8; 
+    transform: translate3d(0,0,0) scale(1.1); 
+    /* 🛠️ AJUSTE DE COR: Bokeh em tons de branco/gelo */
+    background: rgba(255, 255, 255, 0.08);
+}
 
 /* top waves */
 .top-waves {
@@ -99,6 +106,13 @@ header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
 .title h1 { font-size: 18px; color: #eafcff; margin-bottom: 4px; }
 .title p { font-size: 13px; color: rgba(234,252,255,0.8); }
 
+/* NOVO ESTILO: Endereço no Cabeçalho */
+.header-address {
+    margin-top: 2px;
+    font-size: 12px;
+    opacity: 0.8;
+}
+
 .hero {
     background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
     padding: 14px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.03);
@@ -111,7 +125,22 @@ header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
 }
 
 .grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 12px; }
-@media (min-width: 820px) { .grid { grid-template-columns: 2fr 1fr; } }
+@media (min-width: 820px) { 
+    .grid { 
+        grid-template-columns: 2fr 1fr; 
+        /* 🛠️ AJUSTE DE ESPAÇAMENTO: Aumenta o gap vertical em telas maiores */
+        gap: 24px 12px; 
+    } 
+    /* 🛠️ AJUSTE: Garante espaçamento entre cards na coluna lateral (mapa/checklist) */
+    .grid aside > section:not(:first-child) {
+        margin-top: 16px; 
+    }
+}
+/* 🛠️ AJUSTE: Adiciona uma margem extra na coluna principal (opcional, mas limpa o layout) */
+.grid > div:first-child {
+    padding-bottom: 0;
+}
+
 
 .card {
     background: var(--card); padding: 14px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.03);
@@ -163,12 +192,11 @@ BUTTONS
     flex: 1; padding: 10px; border-radius: 10px; border: none;
     background: linear-gradient(90deg, var(--accent), var(--accent2));
     color: #012; font-weight: 800; cursor: pointer; position: relative; overflow: hidden; 
-    /* Acessibilidade: Garante que o foco seja visível para navegação por teclado */
     outline: 2px solid transparent; 
     outline-offset: 2px;
 }
 .btn.ghost { background: transparent; border: 1px solid rgba(255,255,255,0.06); color: var(--muted); }
-.btn:focus-visible { outline-color: var(--accent); } /* Aprimoramento de foco */
+.btn:focus-visible { outline-color: var(--accent); }
 .btn:active { transform: translateY(2px); }
 
 /* button shine */
@@ -190,10 +218,10 @@ CHECKLIST
     border-radius: 10px;
     background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.02));
     transition: background 220ms var(--ease);
-    position: relative; /* Para posicionar o botão de remoção */
+    position: relative;
 }
 .checkline input[type='checkbox'] { transform: scale(1.1); margin-right: 8px; accent-color: var(--accent); }
-.checkline.checked { background: linear-gradient(90deg, rgba(0,184,212,0.08), rgba(0,122,138,0.04)); }
+.checkline.checked { box-shadow: 0 0 12px rgba(0, 184, 212, 0.2); } /* Removi o background gradiente duplo e confiei no box-shadow */
 
 /* Novo: Botão de Remoção para itens extras */
 .checkline.extra { padding-right: 40px; }
@@ -243,8 +271,11 @@ PARTICLES
 .particles { position: fixed; inset: 0; pointer-events: none; z-index: 1; }
 .bubble {
     position: absolute; border-radius: 50%;
-    background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.14), rgba(255,255,255,0.02));
-    opacity: 0.06; mix-blend-mode: screen; will-change: transform, opacity;
+    /* 🛠️ AJUSTE DE COR: Bolhas de Partículas em tons de branco/gelo */
+    background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.2), rgba(255,255,255,0.06));
+    opacity: 0.08; 
+    mix-blend-mode: screen; 
+    will-change: transform, opacity;
 }
 
 /* ==========================
@@ -269,9 +300,6 @@ ACCESSIBILITY & REDUCED MOTION
     .fadeInUp, .inview { transition: none !important; opacity: 1 !important; transform: none !important; }
     .stagger-el { opacity: 1 !important; transform: none !important; transition: none !important; }
 }
-
-/* Rodapé de Endereço Padrão */
-footer { margin-top: 20px; text-align: center; color: rgba(255,255,255,0.5); font-size: 13px; }
 
 /* ==========================
 ADICIONAL: SCROLLBAR ESTILIZADO
@@ -317,25 +345,25 @@ ADICIONAL: SCROLLBAR ESTILIZADO
 }
 
 /* ==========================
-NOVO RODAPÉ IMAGINISTA (Revisado)
+NOVO RODAPÉ IMAGINISTA
 ========================== */
 .footer-credit {
     max-width: var(--max-width); 
-    margin: 10px auto 10px auto; 
-    padding: 10px; 
+    /* 🛠️ AJUSTE: Margem e padding mais compactos para conter apenas o crédito */
+    margin: 20px auto 10px auto; 
+    padding: 10px 16px; 
     position: relative; 
     z-index: 3;
     text-align: center;
-    color: rgba(255, 255, 255, 10.5);
-    font-size: 14px;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 12px;
 }
 
 .footer-logo-wrapper {
-    margin-bottom: 5px;
+    margin-bottom: 8px;
 }
 
 .footer-logo {
-    /* Logo aumentada: 150px */
     width: 150px; 
     height: auto;
     opacity: 0.8;
@@ -350,7 +378,6 @@ NOVO RODAPÉ IMAGINISTA (Revisado)
 .footer-logo:hover {
     opacity: 1;
     cursor: pointer;
-    /* Efeito de brilho sutil ao hover */
     filter: drop-shadow(0 0 3px var(--accent));
 }
 
