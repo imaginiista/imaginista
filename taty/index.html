@@ -30,7 +30,7 @@
             flex-direction: column;
             align-items: center;
             position: relative;
-            padding-bottom: 110px;
+            padding-bottom: 120px;
         }
 
         /* --- TELA DE INÍCIO --- */
@@ -52,31 +52,21 @@
         @keyframes blink { 50% { opacity: 0; } }
         @keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-20px); } }
 
-        /* --- IMAGEM DE TOPO INTELIGENTE --- */
+        /* --- IMAGEM DE TOPO --- */
         .header-hero {
-            width: 100%; 
-            /* Altura padrão para Desktop */
-            height: 380px; 
-            overflow: hidden; 
-            position: relative;
+            width: 100%; height: 380px; overflow: hidden; position: relative;
             border-bottom: 4px solid var(--neon-pink);
-            box-shadow: 0 5px 30px var(--neon-pink); 
-            z-index: 2;
+            box-shadow: 0 5px 30px var(--neon-pink); z-index: 2;
         }
-
         .header-hero img {
-            width: 100%; 
-            height: 100%; 
-            object-fit: cover;
+            width: 100%; height: 100%; object-fit: cover;
             filter: contrast(1.1) brightness(0.9);
             animation: kenBurns 20s infinite alternate;
         }
-
         @keyframes kenBurns {
             0% { transform: scale(1); }
             100% { transform: scale(1.15); }
         }
-
         .header-overlay {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background: linear-gradient(to bottom, transparent 60%, var(--bg-dark) 100%);
@@ -140,8 +130,11 @@
             font-family: 'Share Tech Mono', monospace; color: #eee;
             font-size: 1.3rem; margin-bottom: 20px; line-height: 1.5;
         }
+        
+        /* MAPA */
         .map-wrapper {
-            width: 100%; height: 250px; border: 2px solid var(--neon-yellow);
+            width: 100%; height: 300px;
+            border: 2px solid var(--neon-yellow);
             margin-top: 15px; border-radius: 8px; overflow: hidden;
             box-shadow: 0 0 15px rgba(255, 230, 0, 0.2);
         }
@@ -158,7 +151,93 @@
         .btn-waze { background-color: var(--neon-blue); box-shadow: 0 0 10px var(--neon-blue); }
         .btn-maps { background-color: var(--neon-green); box-shadow: 0 0 10px var(--neon-green); }
 
-        /* Player */
+        /* --- BOTÃO RSVP --- */
+        .rsvp-section { margin: 25px 0 15px 0; }
+        .btn-rsvp {
+            display: inline-block;
+            background: linear-gradient(45deg, #25D366, #128C7E);
+            color: #fff; text-decoration: none; padding: 15px 30px;
+            font-size: 1.2rem; border-radius: 50px; font-weight: bold;
+            box-shadow: 0 0 20px #25D366; border: 2px solid #fff;
+            animation: pulse-green 1.5s infinite;
+        }
+        .btn-rsvp i { margin-right: 10px; font-size: 1.4rem; }
+        .rsvp-limit { font-size: 0.9rem; color: #aaa; margin-top: 10px; font-family: 'Share Tech Mono'; }
+        @keyframes pulse-green {
+            0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+        }
+
+        /* --- DRESS CODE --- */
+        .dress-code-box {
+            margin: 20px auto 30px auto;
+            padding: 15px;
+            border: 2px solid var(--neon-green);
+            background: rgba(0, 255, 0, 0.1);
+            transform: skew(-5deg);
+            max-width: 90%;
+            box-shadow: 0 0 15px var(--neon-green);
+            animation: border-flash 2s infinite;
+        }
+        .dress-code-title {
+            color: var(--neon-green); font-family: 'Orbitron'; font-weight: bold;
+            font-size: 1.3rem; text-transform: uppercase; margin-bottom: 5px;
+            text-shadow: 0 0 5px var(--neon-green);
+        }
+        .dress-code-text {
+            font-family: 'Share Tech Mono'; font-size: 1rem; color: #fff;
+        }
+        @keyframes border-flash {
+            0% { border-color: var(--neon-green); }
+            50% { border-color: #fff; }
+            100% { border-color: var(--neon-green); }
+        }
+
+        /* --- CAIXA DE DOAÇÃO --- */
+        .donation-box {
+            margin-top: 40px; padding: 25px;
+            border: 3px dashed var(--neon-pink); border-radius: 15px;
+            background: rgba(255, 0, 255, 0.08);
+            box-shadow: inset 0 0 20px rgba(255, 0, 255, 0.1);
+        }
+        .donation-title {
+            color: var(--neon-yellow); font-family: 'Monoton'; 
+            font-size: 2.2rem; margin-bottom: 15px; text-shadow: 0 0 10px var(--neon-yellow);
+        }
+        .donation-text { 
+            font-size: 1.3rem; line-height: 1.6; color: #fff; margin-bottom: 15px; 
+        }
+        .donation-highlight { 
+            color: var(--neon-blue); font-weight: bold; font-size: 1.5rem;
+            text-transform: uppercase; text-shadow: 0 0 5px var(--neon-blue);
+        }
+
+        /* --- FOOTER & LOGO GLITCH --- */
+        .footer-credit {
+            width: 100%; text-align: center; padding: 30px 20px;
+            font-family: 'Share Tech Mono', monospace; color: rgba(255,255,255,0.6);
+            font-size: 1.1rem; z-index: 5; margin-top: auto;
+        }
+        .footer-logo-wrapper { margin-bottom: 15px; perspective: 1000px; }
+        .footer-logo { 
+            width: 150px; opacity: 0.8; transition: all 0.3s; 
+            cursor: pointer;
+        }
+        
+        .glitching { animation: glitch-anim 0.3s infinite linear alternate-reverse; }
+        
+        @keyframes glitch-anim {
+            0% { transform: translate(2px, 0) skew(0deg); filter: hue-rotate(0deg); }
+            25% { transform: translate(-2px, 2px) skew(10deg); filter: hue-rotate(90deg) blur(1px); }
+            50% { transform: translate(2px, -2px) skew(-10deg); filter: hue-rotate(180deg) invert(1); }
+            75% { transform: translate(-2px, 2px) skew(5deg); filter: hue-rotate(270deg); }
+            100% { transform: translate(2px, -2px) skew(0deg); filter: hue-rotate(0deg); }
+        }
+        .fade-in { animation: fadeIn 2s ease-in forwards; opacity: 0; }
+        @keyframes fadeIn { to { opacity: 1; } }
+
+        /* --- PLAYER DE MÚSICA & ANIMAÇÃO DE TEXTO --- */
         .music-player-container {
             position: fixed; bottom: 15px; left: 50%; transform: translateX(-50%);
             background: rgba(0, 0, 0, 0.9); border: 2px solid var(--neon-pink);
@@ -166,7 +245,30 @@
             gap: 15px; z-index: 100; box-shadow: 0 0 20px var(--neon-pink);
             width: 95%; max-width: 400px; backdrop-filter: blur(10px);
         }
-        .player-info { flex-grow: 1; font-family: 'Share Tech Mono', monospace; font-size: 0.8rem; color: var(--neon-blue); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        
+        /* Container do texto que esconde o que passa das bordas */
+        .player-info { 
+            flex-grow: 1; 
+            font-family: 'Share Tech Mono', monospace; 
+            font-size: 0.8rem; 
+            color: var(--neon-blue); 
+            white-space: nowrap; 
+            overflow: hidden; /* Importante para cortar o texto */
+            position: relative;
+        }
+
+        /* Animação de Letreiro (Marquee) */
+        .scrolling-text {
+            display: inline-block;
+            padding-left: 100%; /* Começa fora da tela (direita) */
+            animation: scrolling 8s linear infinite; /* Tempo da animação */
+        }
+
+        @keyframes scrolling {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(-100%, 0); } /* Vai até sumir na esquerda */
+        }
+
         .controls { display: flex; gap: 8px; align-items: center; }
         .btn-control {
             background: transparent; border: 1px solid var(--neon-yellow); color: var(--neon-yellow);
@@ -174,17 +276,22 @@
             align-items: center; justify-content: center; transition: all 0.2s; font-size: 0.9rem;
         }
         .btn-control:hover { background: var(--neon-yellow); color: #000; }
-        
         @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
 
         /* --- MOBILE TWEAKS --- */
         @media (max-width: 768px) {
             .blink-text { font-size: 1.8rem; }
             .tap-icon { font-size: 3rem; margin-bottom: 20px; }
-            
-            /* ALTURA DO BANNER NO MOBILE */
-            .header-hero { 
-                height: 300px; /* Um pouco menor e proporcional */
+            .header-hero { height: 300px; }
+
+            /* Animação VHS no Mobile */
+            .header-hero picture img { animation: vhs-scan 4s infinite linear; }
+            @keyframes vhs-scan {
+                0% { filter: hue-rotate(0deg) contrast(1.2); }
+                25% { filter: hue-rotate(15deg) contrast(1.4) sepia(0.2); }
+                50% { filter: hue-rotate(0deg) contrast(1.2); }
+                75% { filter: hue-rotate(-15deg) contrast(1.4) sepia(0.2); }
+                100% { filter: hue-rotate(0deg) contrast(1.2); }
             }
 
             .container { margin-top: -40px; padding: 1.5rem; }
@@ -192,8 +299,11 @@
             .sub-title { font-size: 1.5rem; letter-spacing: 2px; }
             .gallery-frame { height: 220px; }
             .address { font-size: 1.1rem; }
+            .donation-title { font-size: 1.8rem; }
+            .donation-text { font-size: 1.1rem; }
             .gps-buttons { flex-direction: column; gap: 10px; }
             .btn-gps { width: 100%; }
+            .btn-rsvp { font-size: 1rem; padding: 12px 20px; width: 100%; }
         }
     </style>
 </head>
@@ -224,32 +334,83 @@
             <div class="slide active"><img src="imagens/slide/slide1.png" alt="Foto 1"></div>
             <div class="slide"><img src="imagens/slide/slide2.png" alt="Foto 2"></div>
             <div class="slide"><img src="imagens/slide/slide3.png" alt="Foto 3"></div>
+            <div class="slide"><img src="imagens/slide/slide4.png" alt="Foto 4"></div>
+            <div class="slide"><img src="imagens/slide/slide5.png" alt="Foto 5"></div>
+			<div class="slide"><img src="imagens/slide/slide6.png" alt="Foto 6"></div>
+			<div class="slide"><img src="imagens/slide/slide7.png" alt="Foto 7"></div>
+			<div class="slide"><img src="imagens/slide/slide8.png" alt="Foto 8"></div>
+			<div class="slide"><img src="imagens/slide/slide9.png" alt="Foto 9"></div>
         </div>
 
         <div class="info-box">
             <h3 style="color: var(--neon-blue); margin-bottom: 15px; font-size: 1.5rem;">INFO</h3>
+            
             <div class="address">
                 <strong style="color: var(--neon-yellow); font-size: 1.4rem;">20 de Dezembro • 19:30h</strong><br><br>
                 Espaço 5.6 Casa de Festas<br>
                 R. Vítor Brecheret, 80 - Santíssimo<br>
                 Rio de Janeiro - RJ
             </div>
-            <div class="map-wrapper">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1092.8341755541824!2d-43.510023151058526!3d-22.882317847749754!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9be106f8e8767d%3A0xde5b170fee4b8032!2sEspa%C3%A7o%205.6%20Casa%20de%20Festas!5e0!3m2!1spt-BR!2sbr!4v1763924807464!5m2!1spt-BR!2sbr" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+            <div class="rsvp-section">
+                <a href="https://wa.me/5521992133462?text=Ol%C3%A1!%20Gostaria%20de%20confirmar%20minha%20presen%C3%A7a." target="_blank" class="btn-rsvp">
+                    <i class="fab fa-whatsapp"></i> CONFIRMAR PRESENÇA
+                </a>
+                <div class="rsvp-limit">Responder até 05/12/2025</div>
             </div>
+
+            <div class="dress-code-box">
+                <div class="dress-code-title">⚠ Warning: Dress Code ⚠</div>
+                <div class="dress-code-text">
+                    Festa Temática: <strong>TRAJE A CARÁTER ANOS 80</strong><br>
+                    Neon, Ombreiras & Muita Cor!
+                </div>
+            </div>
+
+            <div class="map-wrapper">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3675.286377626497!2d-43.59353272379366!3d-22.902808037731773!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9be474776110f9%3A0x7d6c6e7561858c8e!2sR.%20V%C3%ADtor%20Brecheret%2C%2080%20-%20Sant%C3%ADssimo%2C%20Rio%20de%20Janeiro%20-%20RJ%2C%2023010-297!5e0!3m2!1spt-BR!2sbr!4v1700000000000!5m2!1spt-BR!2sbr" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+
             <div class="gps-buttons">
                 <a href="https://waze.com/ul?q=R.+Vítor+Brecheret,+80+-+Santíssimo,+Rio+de+Janeiro+-+RJ" target="_blank" class="btn-gps btn-waze"><i class="fab fa-waze"></i> Waze</a>
                 <a href="https://www.google.com/maps/search/?api=1&query=R.+Vítor+Brecheret,+80+-+Santíssimo,+Rio+de+Janeiro+-+RJ" target="_blank" class="btn-gps btn-maps"><i class="fas fa-map-marker-alt"></i> Google Maps</a>
             </div>
+
+            <div class="donation-box">
+                <div class="donation-title"><i class="fas fa-gift"></i> BONUS STAGE</div>
+                <p class="donation-text">
+                    Nesta fase bônus, o melhor presente é a solidariedade!<br>
+                    Vamos desbloquear sorrisos juntos?
+                </p>
+                <p class="donation-text">
+                    Traga um <span class="donation-highlight">BRINQUEDO NOVO</span> para ser doado no dia 24/12.
+                </p>
+                <p class="donation-text" style="font-size: 1rem; margin-top: 15px; opacity: 0.8; letter-spacing: 2px;">
+                    MISSION: SPREAD JOY!
+                </p>
+            </div>
+
         </div>
     </div>
+
+    <footer class="footer-credit fade-in">
+        <div class="footer-logo-wrapper">
+            <img src="imagens/logo.png" class="footer-logo clickable" id="glitch-logo" onclick="glitchLogo()" alt="Logo Imaginista">
+        </div>
+        <p>© 2025 IMAGINISTA. Todos os direitos reservados.</p>
+    </footer>
 
     <audio id="audioPlayer" loop>
         <source src="song/anos80.mp3" type="audio/mpeg">
     </audio>
 
     <div class="music-player-container">
-        <div class="player-info"><i class="fas fa-music" style="margin-right: 5px;"></i>Taty - Anos 80</div>
+        <div class="player-info">
+            <span class="scrolling-text">
+                <i class="fas fa-music" style="margin-right: 5px;"></i> FESTA ANOS 80 DA TATY
+            </span>
+        </div>
+        
         <div class="controls">
             <button class="btn-control btn-vol" onclick="adjustVolume(-0.1)"><i class="fas fa-minus"></i></button>
             <button class="btn-control" id="playPauseBtn" onclick="togglePlay()"><i class="fas fa-play"></i></button>
@@ -258,6 +419,17 @@
     </div>
 
     <script>
+        // --- FUNÇÃO GLITCH TEMPORÁRIA ---
+        function glitchLogo() {
+            const logo = document.getElementById('glitch-logo');
+            logo.classList.remove('glitching');
+            void logo.offsetWidth; 
+            logo.classList.add('glitching');
+            setTimeout(() => {
+                logo.classList.remove('glitching');
+            }, 2000);
+        }
+
         function startParty() {
             const screen = document.getElementById('start-screen');
             const audio = document.getElementById('audioPlayer');
