@@ -30,47 +30,32 @@
             flex-direction: column;
             align-items: center;
             position: relative;
-            padding-bottom: 110px; /* Espaço extra para o player no mobile */
+            padding-bottom: 110px;
         }
 
-        /* --- TELA DE INÍCIO (TIPO ARCADE) --- */
+        /* --- TELA DE INÍCIO --- */
         #start-screen {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: #000;
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: opacity 0.8s;
-            padding: 20px;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #000; z-index: 9999;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            cursor: pointer; transition: opacity 0.8s; padding: 20px;
         }
-
         .blink-text {
-            font-family: 'Monoton', cursive;
-            font-size: 2.5rem;
-            color: var(--neon-pink);
-            text-shadow: 0 0 20px var(--neon-pink);
-            animation: blink 1s infinite;
-            text-align: center;
-            margin-bottom: 20px;
+            font-family: 'Monoton', cursive; font-size: 2.5rem; color: var(--neon-pink);
+            text-shadow: 0 0 20px var(--neon-pink); animation: blink 1s infinite;
+            text-align: center; margin-bottom: 20px;
         }
-
         .tap-icon {
-            font-size: 4rem;
-            color: var(--neon-blue);
-            margin-bottom: 30px;
+            font-size: 4rem; color: var(--neon-blue); margin-bottom: 30px;
             animation: bounce 1s infinite alternate;
         }
-
         @keyframes blink { 50% { opacity: 0; } }
         @keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-20px); } }
 
-        /* --- IMAGEM DE TOPO --- */
+        /* --- IMAGEM DE TOPO INTELIGENTE --- */
         .header-hero {
             width: 100%; 
+            /* Altura padrão para Desktop */
             height: 380px; 
             overflow: hidden; 
             position: relative;
@@ -80,11 +65,11 @@
         }
 
         .header-hero img {
-            width: 100%; height: 100%; object-fit: cover;
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover;
             filter: contrast(1.1) brightness(0.9);
-            /* Animação padrão para Desktop */
             animation: kenBurns 20s infinite alternate;
-            object-position: center center;
         }
 
         @keyframes kenBurns {
@@ -94,8 +79,8 @@
 
         .header-overlay {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(to bottom, transparent 50%, var(--bg-dark) 100%);
-            z-index: 1;
+            background: linear-gradient(to bottom, transparent 60%, var(--bg-dark) 100%);
+            z-index: 1; pointer-events: none;
         }
 
         /* Fundo */
@@ -103,7 +88,6 @@
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
             background: linear-gradient(to bottom, #1a0b2e 0%, #2b0f3a 50%, #000000 100%);
         }
-
         .grid {
             position: absolute; bottom: 0; width: 200%; height: 40%;
             background-image: linear-gradient(var(--neon-blue) 1px, transparent 1px), linear-gradient(90deg, var(--neon-blue) 1px, transparent 1px);
@@ -116,21 +100,18 @@
         /* Container */
         .container {
             background: rgba(0, 0, 0, 0.85);
-            border: 2px solid var(--neon-pink);
-            border-radius: 15px; padding: 2.5rem;
+            border: 2px solid var(--neon-pink); border-radius: 15px; padding: 2.5rem;
             max-width: 650px; width: 90%; text-align: center;
             box-shadow: 0 0 40px rgba(255, 0, 255, 0.2);
             margin-top: -60px; margin-bottom: 50px; z-index: 10;
             backdrop-filter: blur(8px); position: relative;
         }
 
-        /* Textos */
         .main-title {
-            font-family: 'Monoton', cursive; font-size: 5rem;
-            color: var(--neon-yellow); text-shadow: 0 0 25px var(--neon-yellow);
-            line-height: 1.1; margin-bottom: 15px; animation: pulse 2s infinite;
+            font-family: 'Monoton', cursive; font-size: 5rem; color: var(--neon-yellow);
+            text-shadow: 0 0 25px var(--neon-yellow); line-height: 1.1; margin-bottom: 15px;
+            animation: pulse 2s infinite;
         }
-
         .sub-title {
             font-size: 2rem; color: var(--neon-pink); letter-spacing: 5px;
             text-transform: uppercase; margin-bottom: 30px; font-weight: bold;
@@ -143,7 +124,6 @@
             border-radius: 10px; margin: 30px 0; position: relative; overflow: hidden;
             box-shadow: 0 0 20px var(--neon-blue); background: #000;
         }
-
         .slide {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             opacity: 0; transition: opacity 1s ease-in-out; transform: scale(1.02);
@@ -153,16 +133,13 @@
 
         /* Info e Mapa */
         .info-box {
-            margin: 20px 0; padding: 25px;
-            background: rgba(255, 255, 255, 0.05);
+            margin: 20px 0; padding: 25px; background: rgba(255, 255, 255, 0.05);
             border-radius: 10px; border: 1px solid rgba(255,255,255,0.1);
         }
-
         .address {
             font-family: 'Share Tech Mono', monospace; color: #eee;
             font-size: 1.3rem; margin-bottom: 20px; line-height: 1.5;
         }
-
         .map-wrapper {
             width: 100%; height: 250px; border: 2px solid var(--neon-yellow);
             margin-top: 15px; border-radius: 8px; overflow: hidden;
@@ -170,7 +147,6 @@
         }
         iframe { width: 100%; height: 100%; border: 0; filter: invert(90%) hue-rotate(180deg); }
 
-        /* Botões GPS */
         .gps-buttons { display: flex; gap: 15px; justify-content: center; margin-top: 20px; flex-wrap: wrap; }
         .btn-gps {
             flex: 1; min-width: 140px; padding: 12px; text-decoration: none;
@@ -181,7 +157,6 @@
         }
         .btn-waze { background-color: var(--neon-blue); box-shadow: 0 0 10px var(--neon-blue); }
         .btn-maps { background-color: var(--neon-green); box-shadow: 0 0 10px var(--neon-green); }
-        .btn-gps:hover { transform: scale(1.05); filter: brightness(1.2); }
 
         /* Player */
         .music-player-container {
@@ -199,31 +174,20 @@
             align-items: center; justify-content: center; transition: all 0.2s; font-size: 0.9rem;
         }
         .btn-control:hover { background: var(--neon-yellow); color: #000; }
-        .btn-vol { width: 28px; height: 28px; font-size: 0.7rem; border-color: var(--neon-blue); color: var(--neon-blue); }
-
+        
         @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
 
-        /* --- CSS ESPECÍFICO PARA CELULAR (CORREÇÃO DO BANNER) --- */
+        /* --- MOBILE TWEAKS --- */
         @media (max-width: 768px) {
             .blink-text { font-size: 1.8rem; }
             .tap-icon { font-size: 3rem; margin-bottom: 20px; }
-
-            /* CORREÇÃO DO BANNER AQUI */
-            .header-hero { 
-                /* Mantém o banner alto no celular para não cortar tanto as laterais */
-                height: 380px; 
-            }
-            .header-hero img {
-                /* Foca no topo e centro da imagem (onde ficam os rostos) */
-                object-position: top center; 
-                /* Se a animação ainda estiver ruim no celular, descomente a linha abaixo para parar ela só no mobile: */
-                /* animation: none; */
-            }
             
-            .container {
-                margin-top: -40px; /* Ajuste fino da posição do cartão */
-                padding: 1.5rem;
+            /* ALTURA DO BANNER NO MOBILE */
+            .header-hero { 
+                height: 300px; /* Um pouco menor e proporcional */
             }
+
+            .container { margin-top: -40px; padding: 1.5rem; }
             .main-title { font-size: 3rem; }
             .sub-title { font-size: 1.5rem; letter-spacing: 2px; }
             .gallery-frame { height: 220px; }
@@ -245,7 +209,10 @@
 
     <div class="header-hero">
         <div class="header-overlay"></div>
-        <img src="imagens/banner.png" alt="Topo Festa 80s">
+        <picture>
+            <source media="(max-width: 768px)" srcset="imagens/banner-mobile.png">
+            <img src="imagens/banner.png" alt="Topo Festa 80s">
+        </picture>
     </div>
 
     <div class="container">
@@ -282,7 +249,7 @@
     </audio>
 
     <div class="music-player-container">
-        <div class="player-info"><i class="fas fa-music" style="margin-right: 5px;"></i> Taty - Anos 80</div>
+        <div class="player-info"><i class="fas fa-music" style="margin-right: 5px;"></i>Taty - Anos 80</div>
         <div class="controls">
             <button class="btn-control btn-vol" onclick="adjustVolume(-0.1)"><i class="fas fa-minus"></i></button>
             <button class="btn-control" id="playPauseBtn" onclick="togglePlay()"><i class="fas fa-play"></i></button>
@@ -291,24 +258,19 @@
     </div>
 
     <script>
-        // --- FUNÇÃO PARA INICIAR A FESTA (DESBLOQUEIA SOM) ---
         function startParty() {
             const screen = document.getElementById('start-screen');
             const audio = document.getElementById('audioPlayer');
             const btn = document.getElementById('playPauseBtn');
-
             audio.volume = 0.6;
             audio.play().then(() => {
                 btn.innerHTML = '<i class="fas fa-pause"></i>';
-                btn.style.background = "var(--neon-yellow)";
-                btn.style.color = "#000";
+                btn.style.background = "var(--neon-yellow)"; btn.style.color = "#000";
             }).catch(error => { console.log("Autoplay bloqueado."); });
-
             screen.style.opacity = '0';
             setTimeout(() => { screen.style.display = 'none'; }, 800);
         }
 
-        // --- SLIDESHOW ---
         const slides = document.querySelectorAll('.slide');
         let currentSlide = 0;
         setInterval(() => {
@@ -317,24 +279,19 @@
             slides[currentSlide].classList.add('active');
         }, 3000);
 
-        // --- PLAYER CONTROLS ---
         const audio = document.getElementById('audioPlayer');
         const playBtn = document.getElementById('playPauseBtn');
-
         function togglePlay() {
             if (audio.paused) {
                 audio.play();
                 playBtn.innerHTML = '<i class="fas fa-pause"></i>';
-                playBtn.style.background = "var(--neon-yellow)";
-                playBtn.style.color = "#000";
+                playBtn.style.background = "var(--neon-yellow)"; playBtn.style.color = "#000";
             } else {
                 audio.pause();
                 playBtn.innerHTML = '<i class="fas fa-play"></i>';
-                playBtn.style.background = "transparent";
-                playBtn.style.color = "var(--neon-yellow)";
+                playBtn.style.background = "transparent"; playBtn.style.color = "var(--neon-yellow)";
             }
         }
-
         function adjustVolume(change) {
             let newVolume = audio.volume + change;
             if (newVolume > 1) newVolume = 1;
