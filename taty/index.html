@@ -278,7 +278,7 @@
         .btn-control:hover { background: var(--neon-yellow); color: #000; }
         @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
 
-        /* --- MOBILE TWEAKS --- */
+        /* --- CORREÇÕES PARA CELULAR (MOBILE) --- */
         @media (max-width: 768px) {
             .blink-text { font-size: 1.8rem; }
             .tap-icon { font-size: 3rem; margin-bottom: 20px; }
@@ -294,16 +294,37 @@
                 100% { filter: hue-rotate(0deg) contrast(1.2); }
             }
 
-            .container { margin-top: -40px; padding: 1.5rem; }
+            /* Container mais largo no mobile para caber o texto */
+            .container { 
+                margin-top: -40px; 
+                padding: 1.5rem 1rem; /* Reduzi padding lateral para dar espaço */
+                width: 95%; /* Ocupa 95% da tela */
+            }
+
             .main-title { font-size: 3rem; }
-            .sub-title { font-size: 1.5rem; letter-spacing: 2px; }
+            .sub-title { font-size: 1.2rem; letter-spacing: 2px; }
             .gallery-frame { height: 220px; }
-            .address { font-size: 1.1rem; }
-            .donation-title { font-size: 1.8rem; }
-            .donation-text { font-size: 1.1rem; }
+            
+            /* Ajuste INFO */
+            .info-box h3 { font-size: 1.5rem; }
+            .address { font-size: 1rem; }
+
+            /* Ajuste Bonus Stage */
+            .donation-title { font-size: 1.5rem; line-height: 1.2; }
+            .donation-text { font-size: 1rem; }
+            .donation-highlight { font-size: 1.2rem; }
+
+            /* Ajuste Dress Code */
+            .dress-code-box { 
+                transform: skew(0deg); /* Remove inclinação no celular para ganhar espaço */
+                padding: 10px;
+            }
+            .dress-code-title { font-size: 1rem; white-space: normal; }
+            .dress-code-text { font-size: 0.9rem; }
+
             .gps-buttons { flex-direction: column; gap: 10px; }
             .btn-gps { width: 100%; }
-            .btn-rsvp { font-size: 1rem; padding: 12px 20px; width: 100%; }
+            .btn-rsvp { font-size: 0.9rem; padding: 12px; width: 100%; white-space: nowrap; }
         }
     </style>
 </head>
@@ -336,10 +357,10 @@
             <div class="slide"><img src="imagens/slide/slide3.png" alt="Foto 3"></div>
             <div class="slide"><img src="imagens/slide/slide4.png" alt="Foto 4"></div>
             <div class="slide"><img src="imagens/slide/slide5.png" alt="Foto 5"></div>
-			<div class="slide"><img src="imagens/slide/slide6.png" alt="Foto 6"></div>
-			<div class="slide"><img src="imagens/slide/slide7.png" alt="Foto 7"></div>
-			<div class="slide"><img src="imagens/slide/slide8.png" alt="Foto 8"></div>
-			<div class="slide"><img src="imagens/slide/slide9.png" alt="Foto 9"></div>
+            <div class="slide"><img src="imagens/slide/slide6.png" alt="Foto 6"></div>
+            <div class="slide"><img src="imagens/slide/slide7.png" alt="Foto 7"></div>
+            <div class="slide"><img src="imagens/slide/slide8.png" alt="Foto 8"></div>
+            <div class="slide"><img src="imagens/slide/slide9.png" alt="Foto 9"></div>
         </div>
 
         <div class="info-box">
