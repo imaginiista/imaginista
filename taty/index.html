@@ -18,11 +18,7 @@
             --bg-dark: #050510;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             background-color: var(--bg-dark);
@@ -34,26 +30,54 @@
             flex-direction: column;
             align-items: center;
             position: relative;
-            padding-bottom: 100px; /* Espaço para o player de música não cobrir o conteúdo */
+            padding-bottom: 100px;
         }
 
-        /* --- IMAGEM DE TOPO ANIMADA --- */
+        /* --- TELA DE INÍCIO (TIPO ARCADE) --- */
+        #start-screen {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #000;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: opacity 0.8s;
+        }
+
+        .blink-text {
+            font-family: 'Monoton', cursive;
+            font-size: 2.5rem;
+            color: var(--neon-pink);
+            text-shadow: 0 0 20px var(--neon-pink);
+            animation: blink 1s infinite;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .tap-icon {
+            font-size: 3rem;
+            color: var(--neon-blue);
+            margin-bottom: 20px;
+            animation: bounce 1s infinite alternate;
+        }
+
+        @keyframes blink { 50% { opacity: 0; } }
+        @keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-20px); } }
+
+        /* --- IMAGEM DE TOPO --- */
         .header-hero {
-            width: 100%;
-            height: 380px; /* Aumentado para valorizar a imagem 1920x400 */
-            overflow: hidden;
-            position: relative;
+            width: 100%; height: 380px; overflow: hidden; position: relative;
             border-bottom: 4px solid var(--neon-pink);
-            box-shadow: 0 5px 30px var(--neon-pink);
-            z-index: 2;
+            box-shadow: 0 5px 30px var(--neon-pink); z-index: 2;
         }
 
         .header-hero img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+            width: 100%; height: 100%; object-fit: cover;
             filter: contrast(1.1) brightness(0.9);
-            animation: kenBurns 20s infinite alternate; /* Animação de Zoom */
+            animation: kenBurns 20s infinite alternate;
         }
 
         @keyframes kenBurns {
@@ -62,271 +86,134 @@
         }
 
         .header-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background: linear-gradient(to bottom, transparent 60%, var(--bg-dark) 100%);
             z-index: 1;
         }
 
-        /* Fundo Retrowave */
+        /* Fundo */
         .retro-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
             background: linear-gradient(to bottom, #1a0b2e 0%, #2b0f3a 50%, #000000 100%);
         }
 
         .grid {
-            position: absolute;
-            bottom: 0;
-            width: 200%;
-            height: 40%;
-            background-image: 
-                linear-gradient(var(--neon-blue) 1px, transparent 1px),
-                linear-gradient(90deg, var(--neon-blue) 1px, transparent 1px);
+            position: absolute; bottom: 0; width: 200%; height: 40%;
+            background-image: linear-gradient(var(--neon-blue) 1px, transparent 1px), linear-gradient(90deg, var(--neon-blue) 1px, transparent 1px);
             background-size: 50px 50px;
             transform: perspective(500px) rotateX(60deg) translateY(0);
-            animation: moveGrid 10s linear infinite;
-            left: -50%;
-            opacity: 0.25;
+            animation: moveGrid 10s linear infinite; left: -50%; opacity: 0.25;
         }
+        @keyframes moveGrid { 100% { transform: perspective(500px) rotateX(60deg) translateY(50px); } }
 
-        @keyframes moveGrid {
-            0% { transform: perspective(500px) rotateX(60deg) translateY(0); }
-            100% { transform: perspective(500px) rotateX(60deg) translateY(50px); }
-        }
-
-        /* Container Principal */
+        /* Container */
         .container {
             background: rgba(0, 0, 0, 0.85);
             border: 2px solid var(--neon-pink);
-            border-radius: 15px;
-            padding: 2.5rem;
-            max-width: 650px;
-            width: 90%;
-            text-align: center;
+            border-radius: 15px; padding: 2.5rem;
+            max-width: 650px; width: 90%; text-align: center;
             box-shadow: 0 0 40px rgba(255, 0, 255, 0.2);
-            margin-top: -60px;
-            margin-bottom: 50px;
-            z-index: 10;
-            backdrop-filter: blur(8px);
-            position: relative;
+            margin-top: -60px; margin-bottom: 50px; z-index: 10;
+            backdrop-filter: blur(8px); position: relative;
         }
 
-        /* Títulos - AUMENTADOS */
+        /* Textos */
         .main-title {
-            font-family: 'Monoton', cursive;
-            font-size: 5rem; /* Maior */
-            color: var(--neon-yellow);
-            text-shadow: 0 0 25px var(--neon-yellow);
-            line-height: 1.1;
-            margin-bottom: 15px;
-            animation: pulse 2s infinite;
+            font-family: 'Monoton', cursive; font-size: 5rem;
+            color: var(--neon-yellow); text-shadow: 0 0 25px var(--neon-yellow);
+            line-height: 1.1; margin-bottom: 15px; animation: pulse 2s infinite;
         }
 
         .sub-title {
-            font-size: 2rem; /* Maior */
-            color: var(--neon-pink);
-            letter-spacing: 5px;
-            text-transform: uppercase;
-            margin-bottom: 30px;
+            font-size: 2rem; color: var(--neon-pink); letter-spacing: 5px;
+            text-transform: uppercase; margin-bottom: 30px; font-weight: bold;
             text-shadow: 0 0 15px var(--neon-pink);
-            font-weight: bold;
         }
 
         /* Slideshow */
         .gallery-frame {
-            width: 100%;
-            height: 350px;
-            border: 4px solid var(--neon-blue);
-            border-radius: 10px;
-            margin: 30px 0;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 0 20px var(--neon-blue);
-            background: #000;
+            width: 100%; height: 350px; border: 4px solid var(--neon-blue);
+            border-radius: 10px; margin: 30px 0; position: relative; overflow: hidden;
+            box-shadow: 0 0 20px var(--neon-blue); background: #000;
         }
 
         .slide {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0;
-            transition: opacity 1s ease-in-out;
-            transform: scale(1.02); /* Leve zoom para evitar bordas brancas */
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            opacity: 0; transition: opacity 1s ease-in-out; transform: scale(1.02);
         }
-
         .slide.active { opacity: 1; }
         .slide img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* Informações */
+        /* Info e Mapa */
         .info-box {
-            margin: 20px 0;
-            padding: 25px;
+            margin: 20px 0; padding: 25px;
             background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px; border: 1px solid rgba(255,255,255,0.1);
         }
 
         .address {
-            font-family: 'Share Tech Mono', monospace;
-            color: #eee;
-            font-size: 1.3rem; /* Fonte aumentada */
-            margin-bottom: 20px;
-            line-height: 1.5;
+            font-family: 'Share Tech Mono', monospace; color: #eee;
+            font-size: 1.3rem; margin-bottom: 20px; line-height: 1.5;
         }
 
-        /* Mapa */
         .map-wrapper {
-            width: 100%;
-            height: 250px;
-            border: 2px solid var(--neon-yellow);
-            margin-top: 15px;
-            border-radius: 8px;
+            width: 100%; height: 250px; border: 2px solid var(--neon-yellow);
+            margin-top: 15px; border-radius: 8px; overflow: hidden;
             box-shadow: 0 0 15px rgba(255, 230, 0, 0.2);
         }
         iframe { width: 100%; height: 100%; border: 0; filter: invert(90%) hue-rotate(180deg); }
 
-        /* BOTÕES DE GPS */
-        .gps-buttons {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            margin-top: 20px;
-            flex-wrap: wrap;
-        }
-
+        /* Botões GPS */
+        .gps-buttons { display: flex; gap: 15px; justify-content: center; margin-top: 20px; flex-wrap: wrap; }
         .btn-gps {
-            flex: 1;
-            min-width: 140px;
-            padding: 12px;
-            text-decoration: none;
-            font-family: 'Orbitron', sans-serif;
-            font-weight: bold;
-            font-size: 1rem;
-            text-transform: uppercase;
-            color: #000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            border-radius: 5px;
-            transition: transform 0.2s, box-shadow 0.2s;
+            flex: 1; min-width: 140px; padding: 12px; text-decoration: none;
+            font-family: 'Orbitron', sans-serif; font-weight: bold; font-size: 1rem;
+            text-transform: uppercase; color: #000; display: flex;
+            align-items: center; justify-content: center; gap: 10px;
+            border-radius: 5px; transition: transform 0.2s;
         }
+        .btn-waze { background-color: var(--neon-blue); box-shadow: 0 0 10px var(--neon-blue); }
+        .btn-maps { background-color: var(--neon-green); box-shadow: 0 0 10px var(--neon-green); }
+        .btn-gps:hover { transform: scale(1.05); filter: brightness(1.2); }
 
-        .btn-waze {
-            background-color: var(--neon-blue);
-            box-shadow: 0 0 10px var(--neon-blue);
-        }
-
-        .btn-maps {
-            background-color: var(--neon-green);
-            box-shadow: 0 0 10px var(--neon-green);
-        }
-
-        .btn-gps:hover {
-            transform: scale(1.05);
-            filter: brightness(1.2);
-        }
-
-        /* --- MUSIC PLAYER RETRO --- */
+        /* Player */
         .music-player-container {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.9);
-            border: 2px solid var(--neon-pink);
-            border-radius: 50px;
-            padding: 10px 25px;
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            z-index: 100;
-            box-shadow: 0 0 20px var(--neon-pink), inset 0 0 10px rgba(255,0,255,0.3);
-            width: 90%;
-            max-width: 400px;
-            backdrop-filter: blur(10px);
+            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.9); border: 2px solid var(--neon-pink);
+            border-radius: 50px; padding: 10px 25px; display: flex; align-items: center;
+            gap: 20px; z-index: 100; box-shadow: 0 0 20px var(--neon-pink);
+            width: 90%; max-width: 400px; backdrop-filter: blur(10px);
         }
-
-        .player-info {
-            flex-grow: 1;
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 0.9rem;
-            color: var(--neon-blue);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .controls {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-
+        .player-info { flex-grow: 1; font-family: 'Share Tech Mono', monospace; font-size: 0.9rem; color: var(--neon-blue); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .controls { display: flex; gap: 10px; align-items: center; }
         .btn-control {
-            background: transparent;
-            border: 1px solid var(--neon-yellow);
-            color: var(--neon-yellow);
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-            font-size: 1rem;
+            background: transparent; border: 1px solid var(--neon-yellow); color: var(--neon-yellow);
+            border-radius: 50%; width: 40px; height: 40px; cursor: pointer; display: flex;
+            align-items: center; justify-content: center; transition: all 0.2s; font-size: 1rem;
         }
+        .btn-control:hover { background: var(--neon-yellow); color: #000; }
+        .btn-vol { width: 30px; height: 30px; font-size: 0.8rem; border-color: var(--neon-blue); color: var(--neon-blue); }
 
-        .btn-control:hover {
-            background: var(--neon-yellow);
-            color: #000;
-            box-shadow: 0 0 15px var(--neon-yellow);
-        }
-
-        .btn-vol {
-            width: 30px;
-            height: 30px;
-            font-size: 0.8rem;
-            border-color: var(--neon-blue);
-            color: var(--neon-blue);
-        }
-
-        .btn-vol:hover {
-            background: var(--neon-blue);
-            box-shadow: 0 0 10px var(--neon-blue);
-        }
-
-        /* Animação do título */
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
 
         @media (max-width: 600px) {
             .main-title { font-size: 3.5rem; }
             .header-hero { height: 250px; }
             .gallery-frame { height: 220px; }
             .music-player-container { bottom: 10px; padding: 10px 15px; }
+            .blink-text { font-size: 1.5rem; }
         }
     </style>
 </head>
 <body>
 
-    <div class="retro-bg">
-        <div class="grid"></div>
+    <div id="start-screen" onclick="startParty()">
+        <div class="tap-icon"><i class="fas fa-hand-pointer"></i></div>
+        <div class="blink-text">CLIQUE PARA INICIAR<br>A FESTA</div>
+        <div style="margin-top: 20px; font-size: 0.8rem; opacity: 0.7;">∴</div>
     </div>
+
+    <div class="retro-bg"><div class="grid"></div></div>
 
     <div class="header-hero">
         <div class="header-overlay"></div>
@@ -336,19 +223,12 @@
     <div class="container">
         <div class="sub-title">Festa Anos 80 da</div>
         <div class="main-title">TATY</div>
-
         <p style="color: #fff; margin-bottom: 20px; font-size: 1.2rem;">Comemore conosco essa data especial!</p>
 
         <div class="gallery-frame">
-            <div class="slide active">
-                <img src="imagens/slide/slide1.png" alt="Foto 1">
-            </div>
-            <div class="slide">
-                <img src="imagens/slide/slide2.png" alt="Foto 2">
-            </div>
-            <div class="slide">
-                <img src="imagens/slide/slide3.png" alt="Foto 3">
-            </div>
+            <div class="slide active"><img src="imagens/slide/slide1.png" alt="Foto 1"></div>
+            <div class="slide"><img src="imagens/slide/slide2.png" alt="Foto 2"></div>
+            <div class="slide"><img src="imagens/slide/slide3.png" alt="Foto 3"></div>
         </div>
 
         <div class="info-box">
@@ -359,70 +239,76 @@
                 R. Vítor Brecheret, 80 - Santíssimo<br>
                 Rio de Janeiro - RJ
             </div>
-
             <div class="map-wrapper">
                 <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1092.8341755541824!2d-43.510023151058526!3d-22.882317847749754!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9be106f8e8767d%3A0xde5b170fee4b8032!2sEspa%C3%A7o%205.6%20Casa%20de%20Festas!5e0!3m2!1spt-BR!2sbr!4v1763924807464!5m2!1spt-BR!2sbr" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
-
             <div class="gps-buttons">
-                <a href="https://waze.com/ul?q=R.+Vítor+Brecheret,+80+-+Santíssimo,+Rio+de+Janeiro+-+RJ" target="_blank" class="btn-gps btn-waze">
-                    <i class="fab fa-waze"></i> Abrir Waze
-                </a>
-                <a href="https://www.google.com/maps/search/?api=1&query=R.+Vítor+Brecheret,+80+-+Santíssimo,+Rio+de+Janeiro+-+RJ" target="_blank" class="btn-gps btn-maps">
-                    <i class="fas fa-map-marker-alt"></i> Google Maps
-                </a>
+                <a href="https://waze.com/ul?q=R.+Vítor+Brecheret,+80+-+Santíssimo,+Rio+de+Janeiro+-+RJ" target="_blank" class="btn-gps btn-waze"><i class="fab fa-waze"></i> Abrir Waze</a>
+                <a href="https://www.google.com/maps/search/?api=1&query=R.+Vítor+Brecheret,+80+-+Santíssimo,+Rio+de+Janeiro+-+RJ" target="_blank" class="btn-gps btn-maps"><i class="fas fa-map-marker-alt"></i> Google Maps</a>
             </div>
         </div>
     </div>
 
     <audio id="audioPlayer" loop>
         <source src="song/anos80.mp3" type="audio/mpeg">
-        Seu navegador não suporta áudio.
     </audio>
 
     <div class="music-player-container">
-        <div class="player-info">
-            <i class="fas fa-music"></i> Taty - ANOS 80
-        </div>
+        <div class="player-info"><i class="fas fa-music"></i> Taty - Anos 80</div>
         <div class="controls">
             <button class="btn-control btn-vol" onclick="adjustVolume(-0.1)">-</button>
-            <button class="btn-control" id="playPauseBtn" onclick="togglePlay()">
-                <i class="fas fa-play"></i>
-            </button>
+            <button class="btn-control" id="playPauseBtn" onclick="togglePlay()"><i class="fas fa-play"></i></button>
             <button class="btn-control btn-vol" onclick="adjustVolume(0.1)">+</button>
         </div>
     </div>
 
     <script>
-        // --- SCRIPT DO SLIDESHOW ---
+        // --- FUNÇÃO PARA INICIAR A FESTA (DESBLOQUEIA SOM) ---
+        function startParty() {
+            const screen = document.getElementById('start-screen');
+            const audio = document.getElementById('audioPlayer');
+            const btn = document.getElementById('playPauseBtn');
+
+            // Toca a música
+            audio.volume = 0.5;
+            audio.play().then(() => {
+                // Se der certo tocar, muda o ícone para Pause
+                btn.innerHTML = '<i class="fas fa-pause"></i>';
+                btn.style.background = "var(--neon-yellow)";
+                btn.style.color = "#000";
+            }).catch(error => {
+                console.log("Autoplay bloqueado pelo navegador, usuário precisa clicar no play.");
+            });
+
+            // Some com a tela de início
+            screen.style.opacity = '0';
+            setTimeout(() => {
+                screen.style.display = 'none';
+            }, 800);
+        }
+
+        // --- SLIDESHOW ---
         const slides = document.querySelectorAll('.slide');
         let currentSlide = 0;
-
-        function nextSlide() {
+        setInterval(() => {
             slides[currentSlide].classList.remove('active');
             currentSlide = (currentSlide + 1) % slides.length;
             slides[currentSlide].classList.add('active');
-        }
-        setInterval(nextSlide, 3000);
+        }, 3000);
 
-        // --- SCRIPT DO PLAYER DE MÚSICA ---
+        // --- PLAYER CONTROLS ---
         const audio = document.getElementById('audioPlayer');
         const playBtn = document.getElementById('playPauseBtn');
-        
-        // Define volume inicial em 50%
-        audio.volume = 0.5;
 
         function togglePlay() {
             if (audio.paused) {
                 audio.play();
                 playBtn.innerHTML = '<i class="fas fa-pause"></i>';
-                playBtn.style.boxShadow = "0 0 15px var(--neon-yellow)";
                 playBtn.style.background = "var(--neon-yellow)";
                 playBtn.style.color = "#000";
             } else {
                 audio.pause();
                 playBtn.innerHTML = '<i class="fas fa-play"></i>';
-                playBtn.style.boxShadow = "none";
                 playBtn.style.background = "transparent";
                 playBtn.style.color = "var(--neon-yellow)";
             }
@@ -435,6 +321,5 @@
             audio.volume = newVolume;
         }
     </script>
-
 </body>
 </html>
