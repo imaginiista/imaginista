@@ -16,6 +16,7 @@
             --neon-yellow: #ffe600;
             --neon-green: #39ff14;
             --bg-dark: #050510;
+			--neon-imaginista: #00A3FF;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -39,20 +40,68 @@
             background: #000; z-index: 9999;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             cursor: pointer; transition: opacity 0.8s; padding: 20px;
+            overflow: hidden;
+        }
+
+        /* Brilho */
+        .sparkle-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                radial-gradient(white 1px, transparent 1px),
+                radial-gradient(rgba(255,255,255,0.5) 1px, transparent 1px);
+            background-size: 50px 50px, 30px 30px;
+            background-position: 0 0, 25px 25px;
+            animation: sparkle-anim 4s infinite linear alternate;
+            opacity: 0.3; z-index: 1; pointer-events: none;
+        }
+        @keyframes sparkle-anim {
+            0% { opacity: 0.2; transform: scale(1); }
+            100% { opacity: 0.5; transform: scale(1.1); }
+        }
+
+        /* Vinis */
+        .vinyl-bg {
+            position: absolute; border-radius: 50%;
+            background: radial-gradient(circle, #111 10%, #333 15%, #000 16%, #000 30%, #222 31%, #000 32%, #111 45%, #000 46%);
+            border: 2px solid rgba(255, 255, 255, 0.1); opacity: 0.4; z-index: 0;
+            animation: spin-vinyl 5s linear infinite;
+        }
+        .v1 { width: 150px; height: 150px; top: 10%; left: -50px; animation-duration: 6s; }
+        .v2 { width: 200px; height: 200px; bottom: 10%; right: -80px; animation-duration: 8s; animation-direction: reverse; }
+        .v3 { width: 80px; height: 80px; top: 20%; right: 20%; opacity: 0.2; animation-duration: 4s; }
+        @keyframes spin-vinyl { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        .start-content {
+            z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 20px; position: relative; width: 100%;
         }
         .blink-text {
             font-family: 'Monoton', cursive; font-size: 2.5rem; color: var(--neon-pink);
-            text-shadow: 0 0 20px var(--neon-pink); animation: blink 1s infinite;
-            text-align: center; margin-bottom: 20px;
+            text-shadow: 0 0 20px var(--neon-pink); animation: blink 1s infinite; text-align: center;
         }
         .tap-icon {
-            font-size: 4rem; color: var(--neon-blue); margin-bottom: 30px;
-            animation: bounce 1s infinite alternate;
+            font-size: 3rem; color: var(--neon-blue); animation: bounce 1s infinite alternate;
         }
+        
+        .intro-logo {
+            width: 240px;
+            filter: drop-shadow(0 0 2.7px var(--neon-imaginista));
+        }
+        
+        /* AJUSTE: TEXTO NA MESMA LINHA */
+        .intro-tagline {
+            font-family: 'Share Tech Mono'; color: var(--neon-yellow);
+            font-size: 1.3rem; 
+            text-transform: uppercase; letter-spacing: 2px;
+            text-align: center; 
+            white-space: nowrap; /* Força linha única */
+            width: 100%;
+            text-shadow: 0 0 8px var(--neon-yellow);
+        }
+        
         @keyframes blink { 50% { opacity: 0; } }
         @keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-20px); } }
 
-        /* --- IMAGEM DE TOPO --- */
+        /* --- RESTO DO CSS --- */
         .header-hero {
             width: 100%; height: 380px; overflow: hidden; position: relative;
             border-bottom: 4px solid var(--neon-pink);
@@ -72,8 +121,6 @@
             background: linear-gradient(to bottom, transparent 60%, var(--bg-dark) 100%);
             z-index: 1; pointer-events: none;
         }
-
-        /* Fundo */
         .retro-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
             background: linear-gradient(to bottom, #1a0b2e 0%, #2b0f3a 50%, #000000 100%);
@@ -86,8 +133,6 @@
             animation: moveGrid 10s linear infinite; left: -50%; opacity: 0.25;
         }
         @keyframes moveGrid { 100% { transform: perspective(500px) rotateX(60deg) translateY(50px); } }
-
-        /* Container */
         .container {
             background: rgba(0, 0, 0, 0.85);
             border: 2px solid var(--neon-pink); border-radius: 15px; padding: 2.5rem;
@@ -96,7 +141,6 @@
             margin-top: -60px; margin-bottom: 50px; z-index: 10;
             backdrop-filter: blur(8px); position: relative;
         }
-
         .main-title {
             font-family: 'Monoton', cursive; font-size: 5rem; color: var(--neon-yellow);
             text-shadow: 0 0 25px var(--neon-yellow); line-height: 1.1; margin-bottom: 15px;
@@ -107,8 +151,6 @@
             text-transform: uppercase; margin-bottom: 30px; font-weight: bold;
             text-shadow: 0 0 15px var(--neon-pink);
         }
-
-        /* Slideshow */
         .gallery-frame {
             width: 100%; height: 350px; border: 4px solid var(--neon-blue);
             border-radius: 10px; margin: 30px 0; position: relative; overflow: hidden;
@@ -120,8 +162,6 @@
         }
         .slide.active { opacity: 1; }
         .slide img { width: 100%; height: 100%; object-fit: cover; }
-
-        /* Info e Mapa */
         .info-box {
             margin: 20px 0; padding: 25px; background: rgba(255, 255, 255, 0.05);
             border-radius: 10px; border: 1px solid rgba(255,255,255,0.1);
@@ -130,8 +170,6 @@
             font-family: 'Share Tech Mono', monospace; color: #eee;
             font-size: 1.3rem; margin-bottom: 20px; line-height: 1.5;
         }
-        
-        /* MAPA */
         .map-wrapper {
             width: 100%; height: 300px;
             border: 2px solid var(--neon-yellow);
@@ -139,7 +177,6 @@
             box-shadow: 0 0 15px rgba(255, 230, 0, 0.2);
         }
         iframe { width: 100%; height: 100%; border: 0; filter: invert(90%) hue-rotate(180deg); }
-
         .gps-buttons { display: flex; gap: 15px; justify-content: center; margin-top: 20px; flex-wrap: wrap; }
         .btn-gps {
             flex: 1; min-width: 140px; padding: 12px; text-decoration: none;
@@ -150,8 +187,6 @@
         }
         .btn-waze { background-color: var(--neon-blue); box-shadow: 0 0 10px var(--neon-blue); }
         .btn-maps { background-color: var(--neon-green); box-shadow: 0 0 10px var(--neon-green); }
-
-        /* --- BOTÃO RSVP --- */
         .rsvp-section { margin: 25px 0 15px 0; }
         .btn-rsvp {
             display: inline-block;
@@ -168,8 +203,6 @@
             70% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
             100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
         }
-
-        /* --- DRESS CODE --- */
         .dress-code-box {
             margin: 20px auto 30px auto;
             padding: 15px;
@@ -193,8 +226,6 @@
             50% { border-color: #fff; }
             100% { border-color: var(--neon-green); }
         }
-
-        /* --- CAIXA DE DOAÇÃO --- */
         .donation-box {
             margin-top: 40px; padding: 25px;
             border: 3px dashed var(--neon-pink); border-radius: 15px;
@@ -212,8 +243,6 @@
             color: var(--neon-blue); font-weight: bold; font-size: 1.5rem;
             text-transform: uppercase; text-shadow: 0 0 5px var(--neon-blue);
         }
-
-        /* --- FOOTER & LOGO GLITCH --- */
         .footer-credit {
             width: 100%; text-align: center; padding: 30px 20px;
             font-family: 'Share Tech Mono', monospace; color: rgba(255,255,255,0.6);
@@ -223,21 +252,21 @@
         .footer-logo { 
             width: 150px; opacity: 0.8; transition: all 0.3s; 
             cursor: pointer;
+            filter: drop-shadow(0 0 0 transparent);
         }
         
-        .glitching { animation: glitch-anim 0.3s infinite linear alternate-reverse; }
-        
-        @keyframes glitch-anim {
-            0% { transform: translate(2px, 0) skew(0deg); filter: hue-rotate(0deg); }
-            25% { transform: translate(-2px, 2px) skew(10deg); filter: hue-rotate(90deg) blur(1px); }
-            50% { transform: translate(2px, -2px) skew(-10deg); filter: hue-rotate(180deg) invert(1); }
-            75% { transform: translate(-2px, 2px) skew(5deg); filter: hue-rotate(270deg); }
-            100% { transform: translate(2px, -2px) skew(0deg); filter: hue-rotate(0deg); }
+        .glitching { animation: glitch-anim-vhs 0.5s steps(5) infinite alternate; }
+        @keyframes glitch-anim-vhs {
+            0% { transform: translate(0,0); filter: drop-shadow(0 0 0 transparent); }
+            20% { transform: translate(-2px, 1px); filter: drop-shadow(2px 0 0 red) drop-shadow(-2px 0 0 cyan); }
+            40% { transform: translate(1px, -1px) skewX(2deg); filter: drop-shadow(-2px 0 0 red) drop-shadow(2px 0 0 cyan) blur(0.5px); }
+            60% { transform: translate(-1px, 0); filter: drop-shadow(3px 0 0 red) drop-shadow(-3px 0 0 cyan); }
+            80% { transform: translate(0, 2px) skewX(-2deg); filter: drop-shadow(-2px 0 0 red) drop-shadow(2px 0 0 cyan); }
+            100% { transform: translate(1px, -2px); filter: drop-shadow(2px 0 0 red) drop-shadow(-2px 0 0 cyan) blur(0.5px); }
         }
         .fade-in { animation: fadeIn 2s ease-in forwards; opacity: 0; }
         @keyframes fadeIn { to { opacity: 1; } }
 
-        /* --- PLAYER DE MÚSICA & ANIMAÇÃO DE TEXTO --- */
         .music-player-container {
             position: fixed; bottom: 15px; left: 50%; transform: translateX(-50%);
             background: rgba(0, 0, 0, 0.9); border: 2px solid var(--neon-pink);
@@ -245,28 +274,16 @@
             gap: 15px; z-index: 100; box-shadow: 0 0 20px var(--neon-pink);
             width: 95%; max-width: 400px; backdrop-filter: blur(10px);
         }
-        
         .player-info { 
-            flex-grow: 1; 
-            font-family: 'Share Tech Mono', monospace; 
-            font-size: 0.8rem; 
-            color: var(--neon-blue); 
-            white-space: nowrap; 
-            overflow: hidden;
-            position: relative;
+            flex-grow: 1; font-family: 'Share Tech Mono', monospace; font-size: 0.8rem; 
+            color: var(--neon-blue); white-space: nowrap; overflow: hidden; position: relative;
         }
-
         .scrolling-text {
-            display: inline-block;
-            padding-left: 100%;
-            animation: scrolling 8s linear infinite;
+            display: inline-block; padding-left: 100%; animation: scrolling 8s linear infinite;
         }
-
         @keyframes scrolling {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(-100%, 0); }
+            0% { transform: translate(0, 0); } 100% { transform: translate(-100%, 0); }
         }
-
         .controls { display: flex; gap: 8px; align-items: center; }
         .btn-control {
             background: transparent; border: 1px solid var(--neon-yellow); color: var(--neon-yellow);
@@ -276,13 +293,17 @@
         .btn-control:hover { background: var(--neon-yellow); color: #000; }
         @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
 
-        /* --- CORREÇÕES FINAIS PARA CELULAR (MOBILE) --- */
+        /* --- MOBILE TWEAKS --- */
         @media (max-width: 768px) {
             .blink-text { font-size: 1.8rem; }
             .tap-icon { font-size: 3rem; margin-bottom: 20px; }
-            .header-hero { height: 300px; }
+            /* Ajuste Intro Mobile */
+            .intro-logo { width: 150px; }
+            
+            /* AJUSTE: Diminuir fonte no celular para manter em UMA linha */
+            .intro-tagline { font-size: 0.8rem; letter-spacing: 1px; }
 
-            /* Animação VHS */
+            .header-hero { height: 300px; }
             .header-hero picture img { animation: vhs-scan 4s infinite linear; }
             @keyframes vhs-scan {
                 0% { filter: hue-rotate(0deg) contrast(1.2); }
@@ -291,49 +312,19 @@
                 75% { filter: hue-rotate(-15deg) contrast(1.4) sepia(0.2); }
                 100% { filter: hue-rotate(0deg) contrast(1.2); }
             }
-
-            /* Container Maior com menos borda lateral */
-            .container { 
-                margin-top: -40px; 
-                padding: 1.5rem 0.5rem; /* Borda bem fina para caber mais coisa */
-                width: 98%; /* Quase largura total */
-            }
-
+            .container { margin-top: -40px; padding: 1.5rem 0.5rem; width: 98%; }
             .main-title { font-size: 3rem; }
             .sub-title { font-size: 1.2rem; letter-spacing: 2px; }
             .gallery-frame { height: 220px; }
-            
             .info-box h3 { font-size: 1.5rem; }
             .address { font-size: 1rem; }
-
-            /* --- AJUSTE BONUS STAGE EM UMA LINHA --- */
-            .donation-box {
-                width: 100%;
-                padding: 20px 10px;
-            }
-            .donation-title { 
-                font-size: 1.5rem; /* Reduzido para caber na linha */
-                line-height: 1; 
-                white-space: nowrap; /* Força uma linha */
-            }
-            .donation-text { 
-                font-size: 1rem; 
-                margin-bottom: 12px; /* Mais espaço entre linhas */
-            }
+            .donation-box { width: 100%; padding: 20px 10px; }
+            .donation-title { font-size: 1.5rem; line-height: 1; white-space: nowrap; }
+            .donation-text { font-size: 1rem; margin-bottom: 12px; }
             .donation-highlight { font-size: 1.1rem; }
-
-            /* --- AJUSTE DRESS CODE EM UMA LINHA --- */
-            .dress-code-box { 
-                width: 100%;
-                transform: skew(0deg); 
-                padding: 15px 5px;
-            }
-            .dress-code-title { 
-                font-size: 0.9rem; /* Tamanho exato para iPhone SE/Android */
-                white-space: nowrap; /* Força uma linha */
-            }
+            .dress-code-box { width: 100%; transform: skew(0deg); padding: 15px 5px; }
+            .dress-code-title { font-size: 0.9rem; white-space: nowrap; }
             .dress-code-text { font-size: 0.95rem; }
-
             .gps-buttons { flex-direction: column; gap: 10px; }
             .btn-gps { width: 100%; }
             .btn-rsvp { font-size: 0.9rem; padding: 12px; width: 100%; white-space: nowrap; }
@@ -342,15 +333,21 @@
 </head>
 <body>
 
-
     <div id="start-screen" onclick="startParty()">
-        
-        <div class="blink-text">TOQUE PARA INICIAR A FESTA</div>
-		<div class="tap-icon"><i class="fas fa-hand-pointer"></i></div>
-        <div style="margin-top: 10px; font-size: 0.8rem; opacity: 0.7; color: var(--neon-blue)">		
-		   <img src="imagens/logo.png" class="footer-logo clickable" id="glitch-logo" onclick="glitchLogo()" alt="Logo Imaginista">
-        </div>Construindo memórias com o brilho dos anos 80</div>
-    
+        <div class="sparkle-overlay"></div>
+        <div class="vinyl-bg v1"></div>
+        <div class="vinyl-bg v2"></div>
+        <div class="vinyl-bg v3"></div>
+
+        <div class="start-content">
+            <div class="blink-text">TOQUE PARA INICIAR A FESTA</div>
+            <div class="tap-icon"><i class="fas fa-hand-pointer"></i></div>
+            
+            <img src="imagens/logo.png" class="intro-logo" alt="Logo Imaginista">
+            
+            <div class="intro-tagline">Construindo memórias com o brilho dos anos 80</div>
+        </div>
+    </div>
 
     <div class="retro-bg"><div class="grid"></div></div>
 
@@ -405,12 +402,12 @@
             </div>
 
             <div class="map-wrapper">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3675.286377626497!2d-43.59353272379366!3d-22.902808037731773!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9be474776110f9%3A0x7d6c6e7561858c8e!2sR.%20V%C3%ADtor%20Brecheret%2C%2080%20-%20Sant%C3%ADssimo%2C%20Rio%20de%20Janeiro%20-%20RJ%2C%2023010-297!5e0!3m2!1spt-BR!2sbr!4v1700000000000!5m2!1spt-BR!2sbr" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d918.9632048170679!2d-43.50967610975466!3d-22.88189473607434!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9be106f8e8767d%3A0xde5b170fee4b8032!2sEspa%C3%A7o%205.6%20Casa%20de%20Festas!5e0!3m2!1spt-BR!2sbr!4v1763937839840!5m2!1spt-BR!2sbr" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
 
-            <div class="gps-buttons">
-                <a href="https://waze.com/ul?q=R.+Vítor+Brecheret,+80+-+Santíssimo,+Rio+de+Janeiro+-+RJ" target="_blank" class="btn-gps btn-waze"><i class="fab fa-waze"></i> Waze</a>
-                <a href="https://www.google.com/maps/search/?api=1&query=R.+Vítor+Brecheret,+80+-+Santíssimo,+Rio+de+Janeiro+-+RJ" target="_blank" class="btn-gps btn-maps"><i class="fas fa-map-marker-alt"></i> Google Maps</a>
+         <div class="gps-buttons">  
+		 <a href="https://ul.waze.com/ul?ll=-22.88165136%2C-43.50978613&navigate=yes&zoom=17&utm_campaign=default&utm_source=waze_website&utm_medium=lm_share_location" target="_blank" class="btn-gps btn-waze"><i class="fab fa-waze"></i> Waze</a>
+                <a href="https://maps.app.goo.gl/jRCG88TANsXdZaz58" target="_blank" class="btn-gps btn-maps"><i class="fas fa-map-marker-alt"></i> Google Maps</a>
             </div>
 
             <div class="donation-box">
@@ -449,7 +446,6 @@
                 <i class="fas fa-music" style="margin-right: 5px;"></i> FESTA ANOS 80 DA TATY
             </span>
         </div>
-        
         <div class="controls">
             <button class="btn-control btn-vol" onclick="adjustVolume(-0.1)"><i class="fas fa-minus"></i></button>
             <button class="btn-control" id="playPauseBtn" onclick="togglePlay()"><i class="fas fa-play"></i></button>
@@ -458,15 +454,16 @@
     </div>
 
     <script>
-        // --- FUNÇÃO GLITCH TEMPORÁRIA ---
         function glitchLogo() {
             const logo = document.getElementById('glitch-logo');
-            logo.classList.remove('glitching');
-            void logo.offsetWidth; 
-            logo.classList.add('glitching');
-            setTimeout(() => {
+            if(logo) {
                 logo.classList.remove('glitching');
-            }, 2000);
+                void logo.offsetWidth; 
+                logo.classList.add('glitching');
+                setTimeout(() => {
+                    logo.classList.remove('glitching');
+                }, 2000);
+            }
         }
 
         function startParty() {
