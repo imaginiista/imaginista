@@ -7,12 +7,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Monoton&family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <style>
         :root {
             --neon-pink: #ff00ff;
             --neon-blue: #00f3ff;
             --neon-yellow: #ffe600;
+            --neon-green: #39ff14;
             --bg-dark: #050510;
         }
 
@@ -32,16 +34,17 @@
             flex-direction: column;
             align-items: center;
             position: relative;
+            padding-bottom: 100px; /* Espaço para o player de música não cobrir o conteúdo */
         }
 
-        /* --- IMAGEM DE TOPO --- */
+        /* --- IMAGEM DE TOPO ANIMADA --- */
         .header-hero {
             width: 100%;
-            height: 250px;
+            height: 380px; /* Aumentado para valorizar a imagem 1920x400 */
             overflow: hidden;
             position: relative;
-            border-bottom: 3px solid var(--neon-pink);
-            box-shadow: 0 5px 20px var(--neon-pink);
+            border-bottom: 4px solid var(--neon-pink);
+            box-shadow: 0 5px 30px var(--neon-pink);
             z-index: 2;
         }
 
@@ -49,8 +52,13 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            /* Placeholder de imagem anos 80 - Troque o SRC pela sua imagem */
-            filter: contrast(1.2) brightness(0.8);
+            filter: contrast(1.1) brightness(0.9);
+            animation: kenBurns 20s infinite alternate; /* Animação de Zoom */
+        }
+
+        @keyframes kenBurns {
+            0% { transform: scale(1); object-position: center center; }
+            100% { transform: scale(1.15); object-position: center 30%; }
         }
 
         .header-overlay {
@@ -59,7 +67,8 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(to bottom, transparent, var(--bg-dark));
+            background: linear-gradient(to bottom, transparent 60%, var(--bg-dark) 100%);
+            z-index: 1;
         }
 
         /* Fundo Retrowave */
@@ -81,65 +90,66 @@
             background-image: 
                 linear-gradient(var(--neon-blue) 1px, transparent 1px),
                 linear-gradient(90deg, var(--neon-blue) 1px, transparent 1px);
-            background-size: 40px 40px;
+            background-size: 50px 50px;
             transform: perspective(500px) rotateX(60deg) translateY(0);
             animation: moveGrid 10s linear infinite;
             left: -50%;
-            opacity: 0.3;
+            opacity: 0.25;
         }
 
         @keyframes moveGrid {
             0% { transform: perspective(500px) rotateX(60deg) translateY(0); }
-            100% { transform: perspective(500px) rotateX(60deg) translateY(40px); }
+            100% { transform: perspective(500px) rotateX(60deg) translateY(50px); }
         }
 
         /* Container Principal */
         .container {
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.85);
             border: 2px solid var(--neon-pink);
             border-radius: 15px;
-            padding: 2rem;
-            max-width: 600px;
+            padding: 2.5rem;
+            max-width: 650px;
             width: 90%;
             text-align: center;
-            box-shadow: 0 0 30px rgba(255, 0, 255, 0.3);
-            margin-top: -50px; /* Sobe um pouco sobre o header */
+            box-shadow: 0 0 40px rgba(255, 0, 255, 0.2);
+            margin-top: -60px;
             margin-bottom: 50px;
             z-index: 10;
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(8px);
             position: relative;
         }
 
-        /* Títulos */
+        /* Títulos - AUMENTADOS */
         .main-title {
             font-family: 'Monoton', cursive;
-            font-size: 4rem;
+            font-size: 5rem; /* Maior */
             color: var(--neon-yellow);
-            text-shadow: 0 0 20px var(--neon-yellow);
-            line-height: 1;
-            margin-bottom: 10px;
+            text-shadow: 0 0 25px var(--neon-yellow);
+            line-height: 1.1;
+            margin-bottom: 15px;
             animation: pulse 2s infinite;
         }
 
         .sub-title {
-            font-size: 1.5rem;
+            font-size: 2rem; /* Maior */
             color: var(--neon-pink);
-            letter-spacing: 4px;
+            letter-spacing: 5px;
             text-transform: uppercase;
             margin-bottom: 30px;
-            text-shadow: 0 0 10px var(--neon-pink);
+            text-shadow: 0 0 15px var(--neon-pink);
+            font-weight: bold;
         }
 
-        /* --- SLIDESHOW / GALERIA --- */
+        /* Slideshow */
         .gallery-frame {
             width: 100%;
-            height: 300px; /* Altura do slide */
+            height: 350px;
             border: 4px solid var(--neon-blue);
             border-radius: 10px;
-            margin: 20px 0;
+            margin: 30px 0;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 0 15px var(--neon-blue);
+            box-shadow: 0 0 20px var(--neon-blue);
             background: #000;
         }
 
@@ -151,52 +161,153 @@
             height: 100%;
             opacity: 0;
             transition: opacity 1s ease-in-out;
+            transform: scale(1.02); /* Leve zoom para evitar bordas brancas */
         }
 
-        .slide.active {
-            opacity: 1;
-        }
+        .slide.active { opacity: 1; }
+        .slide img { width: 100%; height: 100%; object-fit: cover; }
 
-        .slide img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        /* Informações e Mapa */
+        /* Informações */
         .info-box {
             margin: 20px 0;
-            padding: 20px;
+            padding: 25px;
             background: rgba(255, 255, 255, 0.05);
             border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.1);
         }
 
         .address {
             font-family: 'Share Tech Mono', monospace;
-            color: #ddd;
-            font-size: 1rem;
-            margin-bottom: 15px;
-            line-height: 1.4;
+            color: #eee;
+            font-size: 1.3rem; /* Fonte aumentada */
+            margin-bottom: 20px;
+            line-height: 1.5;
         }
 
-        /* Estilizando o Iframe do Mapa */
+        /* Mapa */
         .map-wrapper {
             width: 100%;
-            height: 300px;
+            height: 250px;
             border: 2px solid var(--neon-yellow);
             margin-top: 15px;
-            overflow: hidden;
             border-radius: 8px;
-            box-shadow: 0 0 15px rgba(255, 230, 0, 0.3);
+            box-shadow: 0 0 15px rgba(255, 230, 0, 0.2);
+        }
+        iframe { width: 100%; height: 100%; border: 0; filter: invert(90%) hue-rotate(180deg); }
+
+        /* BOTÕES DE GPS */
+        .gps-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+            flex-wrap: wrap;
         }
 
-        iframe {
-            width: 100%;
-            height: 100%;
-            border: 0;
-            filter: invert(90%) hue-rotate(180deg); /* Efeito mapa escuro/retro */
+        .btn-gps {
+            flex: 1;
+            min-width: 140px;
+            padding: 12px;
+            text-decoration: none;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            font-size: 1rem;
+            text-transform: uppercase;
+            color: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            border-radius: 5px;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
 
+        .btn-waze {
+            background-color: var(--neon-blue);
+            box-shadow: 0 0 10px var(--neon-blue);
+        }
+
+        .btn-maps {
+            background-color: var(--neon-green);
+            box-shadow: 0 0 10px var(--neon-green);
+        }
+
+        .btn-gps:hover {
+            transform: scale(1.05);
+            filter: brightness(1.2);
+        }
+
+        /* --- MUSIC PLAYER RETRO --- */
+        .music-player-container {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.9);
+            border: 2px solid var(--neon-pink);
+            border-radius: 50px;
+            padding: 10px 25px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            z-index: 100;
+            box-shadow: 0 0 20px var(--neon-pink), inset 0 0 10px rgba(255,0,255,0.3);
+            width: 90%;
+            max-width: 400px;
+            backdrop-filter: blur(10px);
+        }
+
+        .player-info {
+            flex-grow: 1;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--neon-blue);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .btn-control {
+            background: transparent;
+            border: 1px solid var(--neon-yellow);
+            color: var(--neon-yellow);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            font-size: 1rem;
+        }
+
+        .btn-control:hover {
+            background: var(--neon-yellow);
+            color: #000;
+            box-shadow: 0 0 15px var(--neon-yellow);
+        }
+
+        .btn-vol {
+            width: 30px;
+            height: 30px;
+            font-size: 0.8rem;
+            border-color: var(--neon-blue);
+            color: var(--neon-blue);
+        }
+
+        .btn-vol:hover {
+            background: var(--neon-blue);
+            box-shadow: 0 0 10px var(--neon-blue);
+        }
+
+        /* Animação do título */
         @keyframes pulse {
             0% { transform: scale(1); }
             50% { transform: scale(1.05); }
@@ -204,9 +315,10 @@
         }
 
         @media (max-width: 600px) {
-            .main-title { font-size: 3rem; }
-            .header-hero { height: 180px; }
-            .gallery-frame { height: 200px; }
+            .main-title { font-size: 3.5rem; }
+            .header-hero { height: 250px; }
+            .gallery-frame { height: 220px; }
+            .music-player-container { bottom: 10px; padding: 10px 15px; }
         }
     </style>
 </head>
@@ -225,7 +337,7 @@
         <div class="sub-title">Festa Anos 80 da</div>
         <div class="main-title">TATY</div>
 
-        <p style="color: #fff; margin-bottom: 10px;">Comemore conosco essa data especial!</p>
+        <p style="color: #fff; margin-bottom: 20px; font-size: 1.2rem;">Comemore conosco essa data especial!</p>
 
         <div class="gallery-frame">
             <div class="slide active">
@@ -240,9 +352,9 @@
         </div>
 
         <div class="info-box">
-            <h3 style="color: var(--neon-blue); margin-bottom: 10px;">INFO</h3>
+            <h3 style="color: var(--neon-blue); margin-bottom: 15px; font-size: 1.5rem;">INFO</h3>
             <div class="address">
-                <strong>20 de Dezembro • 19:30h</strong><br><br>
+                <strong style="color: var(--neon-yellow)">20 de Dezembro • 19:30h</strong><br><br>
                 Espaço 5.6 Casa de Festas<br>
                 R. Vítor Brecheret, 80 - Santíssimo<br>
                 Rio de Janeiro - RJ
@@ -251,27 +363,77 @@
             <div class="map-wrapper">
                 <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1092.8341755541824!2d-43.510023151058526!3d-22.882317847749754!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9be106f8e8767d%3A0xde5b170fee4b8032!2sEspa%C3%A7o%205.6%20Casa%20de%20Festas!5e0!3m2!1spt-BR!2sbr!4v1763924807464!5m2!1spt-BR!2sbr" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
+
+            <div class="gps-buttons">
+                <a href="https://waze.com/ul?q=R.+Vítor+Brecheret,+80+-+Santíssimo,+Rio+de+Janeiro+-+RJ" target="_blank" class="btn-gps btn-waze">
+                    <i class="fab fa-waze"></i> Abrir Waze
+                </a>
+                <a href="https://www.google.com/maps/search/?api=1&query=R.+Vítor+Brecheret,+80+-+Santíssimo,+Rio+de+Janeiro+-+RJ" target="_blank" class="btn-gps btn-maps">
+                    <i class="fas fa-map-marker-alt"></i> Google Maps
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <audio id="audioPlayer" loop>
+        <source src="song/anos80.mp3" type="audio/mpeg">
+        Seu navegador não suporta áudio.
+    </audio>
+
+    <div class="music-player-container">
+        <div class="player-info">
+            <i class="fas fa-music"></i> Taty - ANOS 80
+        </div>
+        <div class="controls">
+            <button class="btn-control btn-vol" onclick="adjustVolume(-0.1)">-</button>
+            <button class="btn-control" id="playPauseBtn" onclick="togglePlay()">
+                <i class="fas fa-play"></i>
+            </button>
+            <button class="btn-control btn-vol" onclick="adjustVolume(0.1)">+</button>
         </div>
     </div>
 
     <script>
-        // SCRIPT DO SLIDESHOW
+        // --- SCRIPT DO SLIDESHOW ---
         const slides = document.querySelectorAll('.slide');
         let currentSlide = 0;
 
         function nextSlide() {
-            // Remove a classe active da imagem atual
             slides[currentSlide].classList.remove('active');
-            
-            // Calcula a próxima imagem (volta pro 0 se chegar no fim)
             currentSlide = (currentSlide + 1) % slides.length;
-            
-            // Adiciona a classe active na nova imagem
             slides[currentSlide].classList.add('active');
         }
-
-        // Troca de imagem a cada 3000ms (3 segundos)
         setInterval(nextSlide, 3000);
+
+        // --- SCRIPT DO PLAYER DE MÚSICA ---
+        const audio = document.getElementById('audioPlayer');
+        const playBtn = document.getElementById('playPauseBtn');
+        
+        // Define volume inicial em 50%
+        audio.volume = 0.5;
+
+        function togglePlay() {
+            if (audio.paused) {
+                audio.play();
+                playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                playBtn.style.boxShadow = "0 0 15px var(--neon-yellow)";
+                playBtn.style.background = "var(--neon-yellow)";
+                playBtn.style.color = "#000";
+            } else {
+                audio.pause();
+                playBtn.innerHTML = '<i class="fas fa-play"></i>';
+                playBtn.style.boxShadow = "none";
+                playBtn.style.background = "transparent";
+                playBtn.style.color = "var(--neon-yellow)";
+            }
+        }
+
+        function adjustVolume(change) {
+            let newVolume = audio.volume + change;
+            if (newVolume > 1) newVolume = 1;
+            if (newVolume < 0) newVolume = 0;
+            audio.volume = newVolume;
+        }
     </script>
 
 </body>
