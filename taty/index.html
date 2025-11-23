@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Festa Anos 80 - O Retorno</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Monoton&family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --neon-pink: #ff00ff;
+            --neon-blue: #00f3ff;
+            --neon-yellow: #ffe600;
+            --bg-dark: #050510;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: #fff;
+            font-family: 'Orbitron', sans-serif;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        /* Fundo Retrowave (Grid e Sol) */
+        .retro-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(to bottom, #1a0b2e 0%, #2b0f3a 50%, #000000 100%);
+        }
+
+        .sun {
+            position: absolute;
+            bottom: 30%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 300px;
+            height: 300px;
+            background: linear-gradient(to top, var(--neon-pink), var(--neon-yellow));
+            border-radius: 50%;
+            box-shadow: 0 0 40px var(--neon-pink);
+            mask-image: linear-gradient(to bottom, black 50%, transparent 50%);
+            -webkit-mask-image: linear-gradient(to bottom, black 0%, black 40%, transparent 40%, transparent 45%, black 45%, black 55%, transparent 55%, transparent 60%, black 60%, black 100%);
+        }
+
+        .grid {
+            position: absolute;
+            bottom: 0;
+            width: 200%;
+            height: 40%;
+            background-image: 
+                linear-gradient(var(--neon-pink) 1px, transparent 1px),
+                linear-gradient(90deg, var(--neon-pink) 1px, transparent 1px);
+            background-size: 40px 40px;
+            transform: perspective(500px) rotateX(60deg) translateY(0);
+            animation: moveGrid 10s linear infinite;
+            left: -50%;
+            opacity: 0.4;
+            box-shadow: 0 0 20px var(--neon-pink);
+        }
+
+        @keyframes moveGrid {
+            0% { transform: perspective(500px) rotateX(60deg) translateY(0); }
+            100% { transform: perspective(500px) rotateX(60deg) translateY(40px); }
+        }
+
+        /* Cartão do Convite */
+        .container {
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid var(--neon-blue);
+            border-radius: 15px;
+            padding: 2rem;
+            max-width: 90%;
+            width: 500px;
+            text-align: center;
+            box-shadow: 0 0 20px var(--neon-blue), inset 0 0 20px rgba(0, 243, 255, 0.2);
+            position: relative;
+            z-index: 10;
+            backdrop-filter: blur(5px);
+            margin: 20px;
+        }
+
+        /* Tipografia e Efeitos Neon */
+        h1 {
+            font-family: 'Monoton', cursive;
+            font-size: 3.5rem;
+            font-weight: 400;
+            color: #fff;
+            text-shadow: 
+                0 0 5px #fff,
+                0 0 10px #fff,
+                0 0 20px var(--neon-pink),
+                0 0 40px var(--neon-pink),
+                0 0 80px var(--neon-pink);
+            margin-bottom: 10px;
+            animation: flicker 3s infinite alternate;
+            line-height: 1.2;
+        }
+
+        h2 {
+            font-family: 'Monoton', cursive;
+            font-size: 1.8rem;
+            color: var(--neon-blue);
+            margin-top: -10px;
+            margin-bottom: 30px;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px var(--neon-blue);
+        }
+
+        .info-box {
+            margin: 20px 0;
+            border-top: 1px solid rgba(255,255,255,0.3);
+            border-bottom: 1px solid rgba(255,255,255,0.3);
+            padding: 20px 0;
+        }
+
+        .date-time {
+            font-size: 1.5rem;
+            color: var(--neon-yellow);
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 0px #000;
+        }
+
+        .location-name {
+            font-size: 1.2rem;
+            color: #fff;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .address {
+            font-family: 'Share Tech Mono', monospace;
+            color: #ddd;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+
+        /* Botão Estilo Arcade */
+        .btn-map {
+            display: inline-block;
+            background: transparent;
+            color: var(--neon-blue);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            padding: 15px 30px;
+            border: 2px solid var(--neon-blue);
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.3s;
+            box-shadow: 0 0 10px var(--neon-blue);
+            cursor: pointer;
+            margin-top: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-map:hover {
+            background: var(--neon-blue);
+            color: #000;
+            box-shadow: 0 0 30px var(--neon-blue);
+        }
+
+        /* Animação de Glitch/Flicker */
+        @keyframes flicker {
+            0%, 18%, 22%, 25%, 53%, 57%, 100% {
+                text-shadow: 
+                0 0 4px #fff,
+                0 0 11px #fff,
+                0 0 19px #fff,
+                0 0 40px var(--neon-pink),
+                0 0 80px var(--neon-pink),
+                0 0 90px var(--neon-pink),
+                0 0 100px var(--neon-pink),
+                0 0 150px var(--neon-pink);
+            }
+            20%, 24%, 55% {        
+                text-shadow: none;
+            }
+        }
+
+        /* Formas geométricas flutuantes */
+        .shape {
+            position: absolute;
+            filter: blur(1px);
+            z-index: 0;
+            animation: float 20s infinite linear;
+            opacity: 0.6;
+        }
+
+        .triangle {
+            width: 0; 
+            height: 0; 
+            border-left: 25px solid transparent;
+            border-right: 25px solid transparent;
+            border-bottom: 50px solid var(--neon-blue);
+        }
+
+        .circle {
+            width: 50px;
+            height: 50px;
+            border: 3px solid var(--neon-yellow);
+            border-radius: 50%;
+        }
+
+        .square {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--neon-pink);
+            transform: rotate(45deg);
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); }
+            100% { transform: translateY(-20vh) rotate(360deg); }
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 2.5rem; }
+            h2 { font-size: 1.4rem; }
+            .container { width: 95%; padding: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="retro-bg">
+        <div class="sun"></div>
+        <div class="grid"></div>
+    </div>
+
+    <div class="shape triangle" style="left: 10%; animation-duration: 15s; top: 80%;"></div>
+    <div class="shape circle" style="left: 80%; animation-duration: 25s; top: 60%;"></div>
+    <div class="shape square" style="left: 20%; animation-duration: 18s; top: 40%;"></div>
+    <div class="shape triangle" style="left: 70%; animation-duration: 22s; top: 90%; border-bottom-color: var(--neon-pink);"></div>
+
+    <div class="container">
+        <h1>FESTA</h1>
+        <h2>ANOS 80</h2>
+
+        <p style="margin-bottom: 20px; font-size: 1.1rem;">Prepare sua melhor roupa neon!</p>
+
+        <div class="info-box">
+            <div class="date-time">
+                20 DE DEZEMBRO • 19:30h
+            </div>
+            <div class="location-name">
+                Espaço 5.6 Casa de Festas
+            </div>
+            <div class="address">
+                R. Vítor Brecheret, 80<br>
+                Santíssimo, Rio de Janeiro - RJ<br>
+                CEP 23010-297
+            </div>
+        </div>
+
+        <a href="https://www.google.com/maps/search/?api=1&query=R.+Vítor+Brecheret,+80+-+Santíssimo,+Rio+de+Janeiro+-+RJ,+23010-297" target="_blank" class="btn-map">
+            Ver no Mapa
+        </a>
+        
+        <p style="margin-top: 20px; font-size: 0.8rem; opacity: 0.7;">
+            Music • Dance • Retro Vibes
+        </p>
+    </div>
+
+    <script>
+        // Script simples para adicionar mais formas aleatórias
+        function createShapes() {
+            const shapes = ['triangle', 'circle', 'square'];
+            const colors = ['#ff00ff', '#00f3ff', '#ffe600'];
+            
+            for(let i=0; i<5; i++) {
+                let div = document.createElement('div');
+                let randomShape = shapes[Math.floor(Math.random() * shapes.length)];
+                let randomColor = colors[Math.floor(Math.random() * colors.length)];
+                
+                div.classList.add('shape', randomShape);
+                div.style.left = Math.random() * 100 + '%';
+                div.style.top = '100vh';
+                div.style.animationDuration = (Math.random() * 15 + 10) + 's';
+                div.style.animationDelay = (Math.random() * 5) + 's';
+                
+                if(randomShape === 'triangle') {
+                    div.style.borderBottomColor = randomColor;
+                } else {
+                    div.style.borderColor = randomColor;
+                }
+                
+                document.body.appendChild(div);
+            }
+        }
+        
+        createShapes();
+    </script>
+</body>
+</html>
