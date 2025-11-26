@@ -2,7 +2,8 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <title>Festa Anos 80 da Taty</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,7 +17,7 @@
             --neon-yellow: #ffe600;
             --neon-green: #39ff14;
             --bg-dark: #050510;
-			--neon-imaginista: #00A3FF;
+            --neon-imaginista: #00A3FF;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -43,7 +44,7 @@
             overflow: hidden;
         }
 
-        /* Brilho */
+        /* Brilho (Mantido) */
         .sparkle-overlay {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background-image: 
@@ -59,17 +60,43 @@
             100% { opacity: 0.5; transform: scale(1.1); }
         }
 
-        /* Vinis */
-        .vinyl-bg {
-            position: absolute; border-radius: 50%;
-            background: radial-gradient(circle, #111 10%, #333 15%, #000 16%, #000 30%, #222 31%, #000 32%, #111 45%, #000 46%);
-            border: 2px solid rgba(255, 255, 255, 0.1); opacity: 0.4; z-index: 0;
-            animation: spin-vinyl 5s linear infinite;
+        /* 3. NOVO EFEITO: EQUALIZADOR NEON (FUNDO) */
+        .equalizer-bg {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 60%;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            gap: 15px;
+            z-index: 0;
+            opacity: 0.3; /* Suave no fundo */
+            padding: 0 20px;
         }
-        .v1 { width: 150px; height: 150px; top: 10%; left: -50px; animation-duration: 6s; }
-        .v2 { width: 200px; height: 200px; bottom: 10%; right: -80px; animation-duration: 8s; animation-direction: reverse; }
-        .v3 { width: 80px; height: 80px; top: 20%; right: 20%; opacity: 0.2; animation-duration: 4s; }
-        @keyframes spin-vinyl { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        .eq-bar {
+            width: 10%;
+            max-width: 60px;
+            background: linear-gradient(to top, var(--neon-blue), var(--neon-pink));
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            animation: equalize 1s infinite ease-in-out alternate;
+            box-shadow: 0 0 20px var(--neon-blue);
+        }
+
+        /* Tempos diferentes para cada barra parecer que está tocando música */
+        .eq-bar:nth-child(1) { height: 40%; animation-duration: 0.8s; }
+        .eq-bar:nth-child(2) { height: 70%; animation-duration: 1.2s; animation-delay: 0.1s; background: linear-gradient(to top, var(--neon-green), var(--neon-yellow)); }
+        .eq-bar:nth-child(3) { height: 50%; animation-duration: 0.9s; animation-delay: 0.2s; }
+        .eq-bar:nth-child(4) { height: 80%; animation-duration: 1.1s; animation-delay: 0.3s; background: linear-gradient(to top, var(--neon-pink), var(--neon-yellow)); }
+        .eq-bar:nth-child(5) { height: 60%; animation-duration: 1.3s; animation-delay: 0.1s; }
+        
+        @keyframes equalize {
+            0% { height: 20%; filter: hue-rotate(0deg); }
+            100% { height: 90%; filter: hue-rotate(45deg); }
+        }
 
         .start-content {
             z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 20px; position: relative; width: 100%;
@@ -87,13 +114,13 @@
             filter: drop-shadow(0 0 2.7px var(--neon-imaginista));
         }
         
-        /* AJUSTE: TEXTO NA MESMA LINHA */
+        /* Texto da Intro */
         .intro-tagline {
             font-family: 'Share Tech Mono'; color: var(--neon-yellow);
             font-size: 1.3rem; 
             text-transform: uppercase; letter-spacing: 2px;
             text-align: center; 
-            white-space: nowrap; /* Força linha única */
+            white-space: nowrap; /* Padrão PC: uma linha */
             width: 100%;
             text-shadow: 0 0 8px var(--neon-yellow);
         }
@@ -107,15 +134,21 @@
             border-bottom: 4px solid var(--neon-pink);
             box-shadow: 0 5px 30px var(--neon-pink); z-index: 2;
         }
-        .header-hero img {
-            width: 100%; height: 100%; object-fit: cover;
-            filter: contrast(1.1) brightness(0.9);
-            animation: kenBurns 20s infinite alternate;
+        
+        /* CSS do Vídeo Banner */
+        .banner-desktop {
+            display: block;
+            width: 100%;
+            height: 100%; /* Ajustado para preencher o container */
+            object-fit: cover;
         }
-        @keyframes kenBurns {
-            0% { transform: scale(1); }
-            100% { transform: scale(1.15); }
+        .banner-mobile {
+            display: none;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
+
         .header-overlay {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background: linear-gradient(to bottom, transparent 60%, var(--bg-dark) 100%);
@@ -243,7 +276,7 @@
             color: var(--neon-blue); font-weight: bold; font-size: 1.5rem;
             text-transform: uppercase; text-shadow: 0 0 5px var(--neon-blue);
         }
-		.donation-aniversariante { 
+        .donation-aniversariante { 
             color: var(--neon-pink); font-weight: bold; font-size: 1.5rem;
             text-transform: uppercase; text-shadow: 0 0 5px var(--neon-pink);
         }
@@ -299,16 +332,28 @@
 
         /* --- MOBILE TWEAKS --- */
         @media (max-width: 768px) {
+            /* Banner Switch */
+            .banner-desktop { display: none; }
+            .banner-mobile { display: block; }
+
             .blink-text { font-size: 1.8rem; }
             .tap-icon { font-size: 3rem; margin-bottom: 20px; }
+            
             /* Ajuste Intro Mobile */
             .intro-logo { width: 150px; }
             
-            /* AJUSTE: Diminuir fonte no celular para manter em UMA linha */
-            .intro-tagline { font-size: 0.8rem; letter-spacing: 1px; }
+            /* 1. CORREÇÃO DA FRASE: Permitir quebra de linha no celular */
+            .intro-tagline { 
+                font-size: 1rem; 
+                letter-spacing: 1px; 
+                white-space: normal; /* Agora pode ter mais de uma linha */
+                line-height: 1.4;    /* Espaçamento para não ficar embolado */
+                padding: 0 20px;     /* Margem de segurança */
+            }
 
             .header-hero { height: 300px; }
-            .header-hero picture img { animation: vhs-scan 4s infinite linear; }
+            /* Efeito VHS no banner mobile */
+            .header-hero img { animation: vhs-scan 4s infinite linear; }
             @keyframes vhs-scan {
                 0% { filter: hue-rotate(0deg) contrast(1.2); }
                 25% { filter: hue-rotate(15deg) contrast(1.4) sepia(0.2); }
@@ -316,6 +361,7 @@
                 75% { filter: hue-rotate(-15deg) contrast(1.4) sepia(0.2); }
                 100% { filter: hue-rotate(0deg) contrast(1.2); }
             }
+            
             .container { margin-top: -40px; padding: 1.5rem 0.5rem; width: 98%; }
             .main-title { font-size: 3rem; }
             .sub-title { font-size: 1.2rem; letter-spacing: 2px; }
@@ -339,9 +385,14 @@
 
     <div id="start-screen" onclick="startParty()">
         <div class="sparkle-overlay"></div>
-        <div class="vinyl-bg v1"></div>
-        <div class="vinyl-bg v2"></div>
-        <div class="vinyl-bg v3"></div>
+        
+        <div class="equalizer-bg">
+            <div class="eq-bar"></div>
+            <div class="eq-bar"></div>
+            <div class="eq-bar"></div>
+            <div class="eq-bar"></div>
+            <div class="eq-bar"></div>
+        </div>
 
         <div class="start-content">
             <div class="blink-text">TOQUE PARA INICIAR A FESTA</div>
@@ -357,10 +408,13 @@
 
     <div class="header-hero">
         <div class="header-overlay"></div>
-        <picture>
-            <source media="(max-width: 768px)" srcset="imagens/banner-mobile.png">
-            <img src="imagens/banner.png" alt="Topo Festa 80s">
-        </picture>
+
+         <video autoplay muted loop playsinline class="banner-desktop" poster="imagens/banner.png">
+            <source src="movie/banner.mp4" type="video/mp4">
+              <img src="imagens/banner.png" alt="FESTA ANOS 80 DA TATY" style="width: 100%; height: auto;">
+         </video>
+
+        <img src="imagens/banner-mobile.png" alt="Topo Festa 80s" class="banner-mobile">
     </div>
 
     <div class="container">
@@ -409,8 +463,8 @@
                 <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d918.9632048170679!2d-43.50967610975466!3d-22.88189473607434!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9be106f8e8767d%3A0xde5b170fee4b8032!2sEspa%C3%A7o%205.6%20Casa%20de%20Festas!5e0!3m2!1spt-BR!2sbr!4v1763937839840!5m2!1spt-BR!2sbr" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
 
-         <div class="gps-buttons">  
-		 <a href="https://ul.waze.com/ul?ll=-22.88165136%2C-43.50978613&navigate=yes&zoom=17&utm_campaign=default&utm_source=waze_website&utm_medium=lm_share_location" target="_blank" class="btn-gps btn-waze"><i class="fab fa-waze"></i> Waze</a>
+            <div class="gps-buttons">  
+                <a href="https://ul.waze.com/ul?ll=-22.88165136%2C-43.50978613&navigate=yes&zoom=17&utm_campaign=default&utm_source=waze_website&utm_medium=lm_share_location" target="_blank" class="btn-gps btn-waze"><i class="fab fa-waze"></i> Waze</a>
                 <a href="https://maps.app.goo.gl/jRCG88TANsXdZaz58" target="_blank" class="btn-gps btn-maps"><i class="fas fa-map-marker-alt"></i> Google Maps</a>
             </div>
 
@@ -422,7 +476,7 @@
                 <p class="donation-text">
                     Vamos desbloquear sorrisos juntos?
                 </p>
-				                <p class="donation-text">
+                <p class="donation-text">
                     Substitua o presente da <span class="donation-aniversariante">ANIVERSARIANTE</span> por uma doação:
                 </p>
                 <p class="donation-text">
