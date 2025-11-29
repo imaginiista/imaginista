@@ -9,8 +9,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Monoton&family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-	
-	<link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96">
+    
+    <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96">
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg">
     <link rel="shortcut icon" href="/favicon/favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
@@ -229,7 +229,85 @@
         }
         .btn-waze { background-color: var(--neon-blue); box-shadow: 0 0 10px var(--neon-blue); }
         .btn-maps { background-color: var(--neon-green); box-shadow: 0 0 10px var(--neon-green); }
+
+        /* --- ESTILOS DO QR CODE FUTURISTA (NOVO) --- */
         .rsvp-section { margin: 25px 0 15px 0; }
+        
+        .qr-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 25px; /* Espaço para o botão abaixo */
+        }
+
+        .qr-frame {
+            position: relative;
+            width: 160px;  /* Tamanho ideal para não ocupar a tela toda */
+            height: 160px;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid var(--neon-blue);
+            border-radius: 15px;
+            box-shadow: 0 0 15px var(--neon-blue), inset 0 0 10px var(--neon-blue);
+            animation: float-qr 3s ease-in-out infinite, border-pulse 4s infinite alternate;
+            overflow: hidden; /* Importante para o laser não sair da caixa */
+        }
+
+        .qr-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 8px;
+            background: #fff; /* Garante fundo branco para o QR ler bem */
+        }
+
+        .qr-text {
+            font-family: 'Share Tech Mono', monospace;
+            color: var(--neon-yellow);
+            font-size: 0.9rem;
+            margin-top: 10px;
+            letter-spacing: 2px;
+            animation: blink 2s infinite;
+        }
+
+        /* Efeito de Laser Scaneando */
+        .scan-line {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--neon-pink);
+            box-shadow: 0 0 10px var(--neon-pink);
+            opacity: 0.6;
+            animation: scan-down 2.5s linear infinite;
+        }
+
+        /* --- ANIMAÇÕES DO QR --- */
+        @keyframes float-qr {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes border-pulse {
+            0% { 
+                border-color: var(--neon-blue); 
+                box-shadow: 0 0 15px var(--neon-blue), inset 0 0 10px var(--neon-blue);
+            }
+            100% { 
+                border-color: var(--neon-pink); 
+                box-shadow: 0 0 15px var(--neon-pink), inset 0 0 10px var(--neon-pink);
+            }
+        }
+
+        @keyframes scan-down {
+            0% { top: -10%; opacity: 0; }
+            15% { opacity: 1; }
+            85% { opacity: 1; }
+            100% { top: 110%; opacity: 0; }
+        }
+        /* --- FIM DOS ESTILOS QR CODE --- */
+
         .btn-rsvp {
             display: inline-block;
             background: linear-gradient(45deg, #25D366, #128C7E);
@@ -415,8 +493,8 @@
                 <strong style="color: var(--neon-yellow); font-size: 1.4rem;">20 de Dezembro • 19:30h</strong><br><br>
                 Espaço 5.6 Casa de Festas<br>
                 Rua Vítor Brecheret, 56 
-				  <br>
-				 Santíssimo - Rio de Janeiro - RJ
+                  <br>
+                 Santíssimo - Rio de Janeiro - RJ
             </div>
 
             <div id="countdown" class="retro-timer">
@@ -442,6 +520,12 @@
             </div>
 
             <div class="rsvp-section">
+                <div class="qr-wrapper">
+                    <div class="qr-frame">
+                        <img src="imagens/qr-confirmacao.png" alt="QR Code Presença" class="qr-img">
+                        <div class="scan-line"></div> </div>
+                    <p class="qr-text">ESCANEIE PARA CONFIRMAR</p>
+                </div>
                 <a href="https://wa.me/5521992133462?text=Ol%C3%A1!%20Gostaria%20de%20confirmar%20minha%20presen%C3%A7a." target="_blank" class="btn-rsvp">
                     <i class="fab fa-whatsapp"></i> CONFIRMAR PRESENÇA
                 </a>
