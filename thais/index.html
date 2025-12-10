@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>Thaís Mariane! 🎈</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Outfit:wght@300;500;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
@@ -33,22 +33,20 @@
             --player-bg: rgba(255, 255, 255, 0.95);
         }
 
-        /* --- PROTEÇÃO ANTI-CÓPIA --- */
+        /* --- PROTEÇÃO ANTI-CÓPIA (Mantida) --- */
         * { 
             margin: 0; padding: 0; box-sizing: border-box; outline: none; 
             -webkit-tap-highlight-color: transparent; 
-            /* Bloqueia seleção de texto */
             -webkit-user-select: none;
             -moz-user-select: none;
             -ms-user-select: none;
             user-select: none;
         }
 
-        /* Bloqueia arrastar imagens */
         img {
             -webkit-user-drag: none;
             user-drag: none;
-            pointer-events: auto; /* Permite clique mas não arrastar */
+            pointer-events: none; /* Bloqueia arrastar e menu de contexto na imagem */
         }
         
         body {
@@ -192,33 +190,7 @@
         .btn-play { width: 50px; height: 50px; background: linear-gradient(135deg, var(--primary), var(--purple)); border-radius: 50%; color: white; box-shadow: 0 5px 15px rgba(255, 0, 85, 0.4); }
         .material-icons-round { font-size: 28px; }
 
-        /* --- 5. LIGHTBOX DE ZOOM (NOVO!) --- */
-        #lightbox {
-            display: none;
-            position: fixed; z-index: 11000; /* Acima de tudo */
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.95);
-            justify-content: center; align-items: center;
-            opacity: 0; transition: opacity 0.3s;
-        }
-        #lightbox.active { display: flex; opacity: 1; }
-        
-        #lightbox img {
-            max-width: 95vw; max-height: 90vh;
-            border-radius: 8px;
-            box-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
-            transform: scale(0.8); transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        #lightbox.active img { transform: scale(1); }
-        
-        .close-lightbox {
-            position: absolute; top: 20px; right: 20px;
-            color: white; font-size: 2.5rem; cursor: pointer;
-            text-shadow: 0 0 10px rgba(0,0,0,0.5);
-            z-index: 11001;
-        }
-
-        /* --- 6. CONTEÚDO --- */
+        /* --- 5. CONTEÚDO --- */
         .container { max-width: 1200px; margin: 0 auto; padding: 4rem 1.5rem 2rem; position: relative; z-index: 5; }
         .section-header { text-align: center; margin-bottom: 3rem; margin-top: 4rem;}
         .section-title { font-family: 'Fredoka', sans-serif; font-size: 3rem; color: var(--purple); position: relative; display: inline-block; }
@@ -243,14 +215,31 @@
         .swiper-slide img { width: 100%; height: 100%; object-fit: cover; }
         .swiper-pagination-bullet-active { background: var(--purple); }
 
-        /* Grid */
+        /* Grid - AGORA COM ZOOM NATIVO (Sem Lightbox) */
         .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 20px; padding: 10px; }
         .photo-card {
             background: white; border-radius: 15px; overflow: hidden;
             aspect-ratio: 1/1; cursor: pointer; border: 4px solid white;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08); transition: transform 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08); 
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+            position: relative;
         }
-        .photo-card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.15); border-color: var(--blue); }
+        
+        /* Efeito Hover Desktop */
+        @media (min-width: 769px) {
+            .photo-card:hover { transform: scale(1.05) translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.15); border-color: var(--blue); z-index: 10; }
+        }
+
+        /* Classe de animação de clique (Pulso) */
+        .photo-card.pulse-anim {
+            animation: cardPulse 0.4s ease-in-out;
+        }
+        @keyframes cardPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(0.95); }
+            100% { transform: scale(1); }
+        }
+
         .photo-card img { width: 100%; height: 100%; object-fit: cover; }
         @media (min-width: 768px) { .gallery-grid { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); } }
 
@@ -289,11 +278,6 @@
         <button class="intro-btn animate__animated animate__pulse animate__infinite" id="openGateBtn">
             ENTRAR NA FESTA
         </button>
-    </div>
-
-    <div id="lightbox" onclick="closeLightbox()">
-        <span class="close-lightbox" onclick="closeLightbox()">&times;</span>
-        <img id="lightbox-img" src="" alt="Zoom Foto">
     </div>
 
     <div class="music-player-fixed">
@@ -355,15 +339,15 @@
         <div class="swiper-container-wrapper" data-aos="zoom-in-up" data-aos-duration="1000">
             <div class="swiper mySwiper">
                 <div class="swiper-wrapper">
-                    <div class="swiper-slide" onclick="openLightbox(this)"><img src="imagens/foto18.png" alt="Foto"></div>
-                    <div class="swiper-slide" onclick="openLightbox(this)"><img src="imagens/foto1.jpg" alt="Foto"></div>
-                    <div class="swiper-slide" onclick="openLightbox(this)"><img src="imagens/foto19.jpg" alt="Foto"></div>
-                    <div class="swiper-slide" onclick="openLightbox(this)"><img src="imagens/foto2.jpg" alt="Foto"></div>
-                    <div class="swiper-slide" onclick="openLightbox(this)"><img src="imagens/foto5.jpg" alt="Foto"></div>
-                    <div class="swiper-slide" onclick="openLightbox(this)"><img src="imagens/foto20.jpg" alt="Foto"></div>
-                    <div class="swiper-slide" onclick="openLightbox(this)"><img src="imagens/foto10.jpg" alt="Foto"></div>
-                    <div class="swiper-slide" onclick="openLightbox(this)"><img src="imagens/foto17.jpg" alt="Foto"></div>
-                    <div class="swiper-slide" onclick="openLightbox(this)"><img src="imagens/foto16.jpg" alt="Foto"></div>
+                    <div class="swiper-slide" onclick="triggerCardAction(this)"><img src="imagens/foto18.png" alt="Foto"></div>
+                    <div class="swiper-slide" onclick="triggerCardAction(this)"><img src="imagens/foto1.jpg" alt="Foto"></div>
+                    <div class="swiper-slide" onclick="triggerCardAction(this)"><img src="imagens/foto19.jpg" alt="Foto"></div>
+                    <div class="swiper-slide" onclick="triggerCardAction(this)"><img src="imagens/foto2.jpg" alt="Foto"></div>
+                    <div class="swiper-slide" onclick="triggerCardAction(this)"><img src="imagens/foto5.jpg" alt="Foto"></div>
+                    <div class="swiper-slide" onclick="triggerCardAction(this)"><img src="imagens/foto20.jpg" alt="Foto"></div>
+                    <div class="swiper-slide" onclick="triggerCardAction(this)"><img src="imagens/foto10.jpg" alt="Foto"></div>
+                    <div class="swiper-slide" onclick="triggerCardAction(this)"><img src="imagens/foto17.jpg" alt="Foto"></div>
+                    <div class="swiper-slide" onclick="triggerCardAction(this)"><img src="imagens/foto16.jpg" alt="Foto"></div>
                 </div>
                 <div class="swiper-pagination"></div>
             </div>
@@ -371,21 +355,21 @@
         
         <div class="section-header" data-aos="fade-up">
              <h2 class="section-title">Galeria da Thaís</h2>
-             <p style="margin-top:10px; color: #888;">Toque na foto para ampliar ✨</p>
+             <p style="margin-top:10px; color: #888;">Toque nas fotos para curtir! ✨</p>
         </div>
         <div class="gallery-grid">
-            <div class="photo-card" data-aos="fade-up" data-aos-delay="0" onclick="openLightbox(this)"><img src="imagens/foto3.jpg"></div>
-            <div class="photo-card" data-aos="fade-up" data-aos-delay="100" onclick="openLightbox(this)"><img src="imagens/foto4.jpg"></div>
-            <div class="photo-card" data-aos="fade-up" data-aos-delay="200" onclick="openLightbox(this)"><img src="imagens/foto6.jpg"></div>
-            <div class="photo-card" data-aos="fade-up" data-aos-delay="300" onclick="openLightbox(this)"><img src="imagens/foto7.jpg"></div>
-            <div class="photo-card" data-aos="fade-up" data-aos-delay="400" onclick="openLightbox(this)"><img src="imagens/foto8.jpg"></div>
-            <div class="photo-card" data-aos="fade-up" data-aos-delay="500" onclick="openLightbox(this)"><img src="imagens/foto9.jpg"></div>
-            <div class="photo-card" data-aos="fade-up" data-aos-delay="600" onclick="openLightbox(this)"><img src="imagens/foto11.jpg"></div>
-            <div class="photo-card" data-aos="fade-up" data-aos-delay="700" onclick="openLightbox(this)"><img src="imagens/foto12.jpg"></div>
-            <div class="photo-card" data-aos="fade-up" data-aos-delay="800" onclick="openLightbox(this)"><img src="imagens/foto13.jpg"></div>
-            <div class="photo-card" data-aos="fade-up" data-aos-delay="900" onclick="openLightbox(this)"><img src="imagens/foto14.jpg"></div>
-            <div class="photo-card" data-aos="fade-up" data-aos-delay="900" onclick="openLightbox(this)"><img src="imagens/foto15.jpg"></div>
-            <div class="photo-card" data-aos="fade-up" data-aos-delay="900" onclick="openLightbox(this)"><img src="imagens/foto22.jpg"></div>
+            <div class="photo-card" data-aos="fade-up" data-aos-delay="0" onclick="triggerCardAction(this)"><img src="imagens/foto3.jpg"></div>
+            <div class="photo-card" data-aos="fade-up" data-aos-delay="100" onclick="triggerCardAction(this)"><img src="imagens/foto4.jpg"></div>
+            <div class="photo-card" data-aos="fade-up" data-aos-delay="200" onclick="triggerCardAction(this)"><img src="imagens/foto6.jpg"></div>
+            <div class="photo-card" data-aos="fade-up" data-aos-delay="300" onclick="triggerCardAction(this)"><img src="imagens/foto7.jpg"></div>
+            <div class="photo-card" data-aos="fade-up" data-aos-delay="400" onclick="triggerCardAction(this)"><img src="imagens/foto8.jpg"></div>
+            <div class="photo-card" data-aos="fade-up" data-aos-delay="500" onclick="triggerCardAction(this)"><img src="imagens/foto9.jpg"></div>
+            <div class="photo-card" data-aos="fade-up" data-aos-delay="600" onclick="triggerCardAction(this)"><img src="imagens/foto11.jpg"></div>
+            <div class="photo-card" data-aos="fade-up" data-aos-delay="700" onclick="triggerCardAction(this)"><img src="imagens/foto12.jpg"></div>
+            <div class="photo-card" data-aos="fade-up" data-aos-delay="800" onclick="triggerCardAction(this)"><img src="imagens/foto13.jpg"></div>
+            <div class="photo-card" data-aos="fade-up" data-aos-delay="900" onclick="triggerCardAction(this)"><img src="imagens/foto14.jpg"></div>
+            <div class="photo-card" data-aos="fade-up" data-aos-delay="900" onclick="triggerCardAction(this)"><img src="imagens/foto15.jpg"></div>
+            <div class="photo-card" data-aos="fade-up" data-aos-delay="900" onclick="triggerCardAction(this)"><img src="imagens/foto22.jpg"></div>
         </div>
 
         <div class="section-header" data-aos="fade-up">
@@ -509,6 +493,17 @@
             confetti({ particleCount: 100, spread: 70, origin: { y: 0.8 }, colors: ['#FF0055', '#00D4FF', '#FFD600'] });
         }
 
+        // --- 6. NOVA LÓGICA DE CLIQUE NA FOTO (SEM LIGHTBOX) ---
+        function triggerCardAction(element) {
+            // 1. Efeito visual de clique (Pulso)
+            element.classList.remove('pulse-anim');
+            void element.offsetWidth; // Força repaint
+            element.classList.add('pulse-anim');
+
+            // 2. Solta confete
+            popConfetti(element);
+        }
+
         function popConfetti(element) {
             const rect = element.getBoundingClientRect();
             confetti({
@@ -516,26 +511,6 @@
                 origin: { x: (rect.left + rect.width/2)/window.innerWidth, y: (rect.top + rect.height/2)/window.innerHeight },
                 colors: ['#FF0055', '#6200EA']
             });
-        }
-
-        // --- 6. FUNÇÕES DO LIGHTBOX (ZOOM) ---
-        const lightbox = document.getElementById('lightbox');
-        const lightboxImg = document.getElementById('lightbox-img');
-
-        function openLightbox(element) {
-            const img = element.querySelector('img');
-            if (img) {
-                lightboxImg.src = img.src;
-                lightbox.style.display = 'flex';
-                // Pequeno delay para animação CSS funcionar
-                setTimeout(() => lightbox.classList.add('active'), 10);
-                popConfetti(element); // Mantém o efeito de confete
-            }
-        }
-
-        function closeLightbox() {
-            lightbox.classList.remove('active');
-            setTimeout(() => lightbox.style.display = 'none', 300);
         }
 
         document.body.style.overflow = 'hidden';
