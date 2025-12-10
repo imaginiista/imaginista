@@ -33,20 +33,20 @@
             --player-bg: rgba(255, 255, 255, 0.95);
         }
 
-        /* --- PROTEÇÃO ANTI-CÓPIA (Mantida) --- */
+        /* --- PROTEÇÃO ANTI-CÓPIA --- */
         * { 
             margin: 0; padding: 0; box-sizing: border-box; outline: none; 
             -webkit-tap-highlight-color: transparent; 
-            -webkit-user-select: none;
+            -webkit-user-select: none; /* Bloqueia seleção de texto */
             -moz-user-select: none;
             -ms-user-select: none;
             user-select: none;
         }
 
         img {
-            -webkit-user-drag: none;
+            -webkit-user-drag: none; /* Bloqueia arrastar imagem */
             user-drag: none;
-            pointer-events: none; /* Bloqueia arrastar e menu de contexto na imagem */
+            pointer-events: none; /* Bloqueia menu de contexto na imagem */
         }
         
         body {
@@ -215,7 +215,7 @@
         .swiper-slide img { width: 100%; height: 100%; object-fit: cover; }
         .swiper-pagination-bullet-active { background: var(--purple); }
 
-        /* Grid - AGORA COM ZOOM NATIVO (Sem Lightbox) */
+        /* Grid */
         .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 20px; padding: 10px; }
         .photo-card {
             background: white; border-radius: 15px; overflow: hidden;
@@ -254,8 +254,11 @@
 
         /* Footer */
         footer { background: #1a1a2e; color: white; text-align: center; padding: 5rem 2rem 8rem; margin-top: 6rem; }
-        .footer-logo { width: 140px; margin-bottom: 20px; cursor: pointer; transition: transform 0.3s; }
+        
+        /* LOGO COM CURSOR POINTER PARA INDICAR CLIQUE */
+        .footer-logo { width: 140px; margin-bottom: 20px; cursor: pointer; transition: transform 0.3s; pointer-events: auto; /* Garante que recebe clique */ }
         .footer-logo:hover { transform: scale(1.1); }
+        
         .footer-credit p { font-size: 0.9rem; opacity: 0.6; letter-spacing: 1px; }
 
         /* FAB */
@@ -355,7 +358,7 @@
         
         <div class="section-header" data-aos="fade-up">
              <h2 class="section-title">Galeria da Thaís</h2>
-             <p style="margin-top:10px; color: #888;">Toque nas fotos para curtir! ✨</p>
+             <p style="margin-top:10px; color: #888;">Clique para explodir confetes! ✨</p>
         </div>
         <div class="gallery-grid">
             <div class="photo-card" data-aos="fade-up" data-aos-delay="0" onclick="triggerCardAction(this)"><img src="imagens/foto3.jpg"></div>
@@ -387,7 +390,7 @@
     </div>
 
     <footer>
-        <img src="imagens/logo.png" class="footer-logo" onclick="popConfetti(this)" alt="Logo">
+        <img src="imagens/logo.png" class="footer-logo" onclick="triggerCardAction(this)" alt="Logo">
         <div class="footer-credit">
             <p>© 2025 IMAGINISTA. Todos os direitos reservados.</p>
         </div>
@@ -493,7 +496,7 @@
             confetti({ particleCount: 100, spread: 70, origin: { y: 0.8 }, colors: ['#FF0055', '#00D4FF', '#FFD600'] });
         }
 
-        // --- 6. NOVA LÓGICA DE CLIQUE NA FOTO (SEM LIGHTBOX) ---
+        // --- 6. NOVA LÓGICA DE CLIQUE NAS CARTAS E LOGO ---
         function triggerCardAction(element) {
             // 1. Efeito visual de clique (Pulso)
             element.classList.remove('pulse-anim');
