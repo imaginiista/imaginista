@@ -11,8 +11,8 @@
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
-	
-	    <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96">
+    
+    <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96">
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg">
     <link rel="shortcut icon" href="/favicon/favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
@@ -81,40 +81,64 @@
         }
         .intro-btn:active { transform: scale(0.95); }
 
-        /* --- 3. HERO BANNER (VIBRANTE) --- */
+        /* --- 3. HERO BANNER (AJUSTADO PARA IMAGENS) --- */
         .hero-banner {
-            position: relative; width: 100%; height: 75vh; min-height: 600px;
-            display: flex; align-items: center; justify-content: center;
-            background: linear-gradient(135deg, #FF0055 0%, #6200EA 50%, #00D4FF 100%);
-            background-size: 200% 200%; animation: vibrantGradient 8s ease infinite;
+            position: relative; 
+            width: 100%; 
+            height: 75vh; 
+            min-height: 600px;
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            
+            /* CONFIGURAÇÃO DA IMAGEM DESKTOP */
+            background-image: url('imagens/banner.png'); /* Busca a imagem normal */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            
             overflow: hidden;
         }
-        @keyframes vibrantGradient { 
-            0% { background-position: 0% 50%; } 
-            50% { background-position: 100% 50%; } 
-            100% { background-position: 0% 50%; } 
+
+        /* Overlay escuro para melhorar a leitura do texto sobre a foto */
+        .hero-banner::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.3); /* Escurece a foto em 30% */
+            z-index: 1;
         }
 
-        .hero-content { text-align: center; z-index: 10; padding: 0 1rem; }
+        .hero-content { 
+            text-align: center; 
+            z-index: 10; 
+            padding: 0 1rem; 
+        }
         
         h1.main-title {
             font-family: 'Outfit', sans-serif; font-weight: 900; font-size: 5.5rem;
-            color: white; text-shadow: 0px 5px 15px rgba(0,0,0,0.3); 
+            color: white; text-shadow: 0px 5px 15px rgba(0,0,0,0.5); 
             margin-bottom: 0.5rem; line-height: 1.1; letter-spacing: -2px;
         }
         .age-badge {
             display: inline-block; background: var(--yellow); color: var(--purple);
             font-size: 1.8rem; font-weight: 800; padding: 0.8rem 2.5rem;
-            border-radius: 50px; box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            border-radius: 50px; box-shadow: 0 10px 25px rgba(0,0,0,0.3);
             margin-top: 15px; transform: rotate(-2deg);
         }
         
-        .wave-divider { position: absolute; bottom: -1px; left: 0; width: 100%; overflow: hidden; line-height: 0; }
+        .wave-divider { position: absolute; bottom: -1px; left: 0; width: 100%; overflow: hidden; line-height: 0; z-index: 5; }
         .wave-divider svg { display: block; width: calc(136% + 1.3px); height: 120px; }
         .wave-divider .shape-fill { fill: var(--bg-body); }
 
+        /* RESPONSIVO: AQUI A MÁGICA ACONTECE */
         @media (max-width: 768px) {
-            .hero-banner { height: 80vh; }
+            .hero-banner { 
+                height: 80vh; 
+                /* TROCA PARA A IMAGEM MOBILE */
+                background-image: url('imagens/banner-mobile.png');
+                background-position: center bottom; /* Ajuste para focar melhor */
+            }
             h1.main-title { font-size: 3.5rem; }
         }
 
@@ -288,13 +312,13 @@
                 <div class="swiper-wrapper">
                     <div class="swiper-slide"><img src="imagens/foto18.png" alt="Foto"></div>
                     <div class="swiper-slide"><img src="imagens/foto1.jpg" alt="Foto"></div>
-					<div class="swiper-slide"><img src="imagens/foto19.jpg" alt="Foto"></div>
+                    <div class="swiper-slide"><img src="imagens/foto19.jpg" alt="Foto"></div>
                     <div class="swiper-slide"><img src="imagens/foto2.jpg" alt="Foto"></div>
                     <div class="swiper-slide"><img src="imagens/foto5.jpg" alt="Foto"></div>
-					<div class="swiper-slide"><img src="imagens/foto20.jpg" alt="Foto"></div>
+                    <div class="swiper-slide"><img src="imagens/foto20.jpg" alt="Foto"></div>
                     <div class="swiper-slide"><img src="imagens/foto10.jpg" alt="Foto"></div>
-					<div class="swiper-slide"><img src="imagens/foto17.jpg" alt="Foto"></div>
-					<div class="swiper-slide"><img src="imagens/foto16.jpg" alt="Foto"></div>
+                    <div class="swiper-slide"><img src="imagens/foto17.jpg" alt="Foto"></div>
+                    <div class="swiper-slide"><img src="imagens/foto16.jpg" alt="Foto"></div>
                 </div>
                 <div class="swiper-pagination"></div>
             </div>
@@ -315,8 +339,8 @@
             <div class="photo-card" data-aos="fade-up" data-aos-delay="700" onclick="popConfetti(this)"><img src="imagens/foto12.jpg"></div>
             <div class="photo-card" data-aos="fade-up" data-aos-delay="800" onclick="popConfetti(this)"><img src="imagens/foto13.jpg"></div>
             <div class="photo-card" data-aos="fade-up" data-aos-delay="900" onclick="popConfetti(this)"><img src="imagens/foto14.jpg"></div>
-			<div class="photo-card" data-aos="fade-up" data-aos-delay="900" onclick="popConfetti(this)"><img src="imagens/foto15.jpg"></div>
-			<div class="photo-card" data-aos="fade-up" data-aos-delay="900" onclick="popConfetti(this)"><img src="imagens/foto22.jpg"></div>
+            <div class="photo-card" data-aos="fade-up" data-aos-delay="900" onclick="popConfetti(this)"><img src="imagens/foto15.jpg"></div>
+            <div class="photo-card" data-aos="fade-up" data-aos-delay="900" onclick="popConfetti(this)"><img src="imagens/foto22.jpg"></div>
 
         </div>
 
@@ -348,7 +372,7 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
     <script>
-        // 1. FUNDO EMOJIS (VOLTOU!)
+        // 1. FUNDO EMOJIS
         const bgContainer = document.getElementById('bgIcons');
         const icons = ['🎈', '🦄', '✨', '🎉', '🧁', '💖', '🍭', '🎀'];
         for (let i = 0; i < 25; i++) {
@@ -391,7 +415,6 @@
         const openBtn = document.getElementById('openGateBtn');
         openBtn.addEventListener('click', () => {
             gate.classList.add('gate-open');
-            // Inicia AOS após abrir o portão
             setTimeout(() => {
                 AOS.init({ 
                     once: true, 
