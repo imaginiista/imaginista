@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Thaís Mariane! 🎈</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Outfit:wght@300;500;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+	
+	    <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg">
+    <link rel="shortcut icon" href="/favicon/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+    <meta name="apple-mobile-web-app-title" content="Imaginista">
+    <link rel="manifest" href="/favicon/site.webmanifest">
+    <meta name="theme-color" content="#ffffff">
+
+    <style>
+        :root {
+            /* Paleta "Vibrant Party" */
+            --primary: #FF0055;     
+            --primary-light: #ff5c8d;
+            --purple: #6200EA;      
+            --blue: #00D4FF;        
+            --yellow: #FFD600;      
+            --bg-body: #F9F9F9;
+            --text-main: #333333;
+            --player-bg: rgba(255, 255, 255, 0.95);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
+        
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            overflow-x: hidden;
+            position: relative;
+            padding-bottom: 100px; /* Espaço para o player */
+        }
+
+        /* --- 1. FUNDO ANIMADO (VOLTOU!) --- */
+        .bg-floating-icons {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: -1; overflow: hidden;
+        }
+        .bg-icon {
+            position: absolute; bottom: -50px; font-size: 2rem; opacity: 0.25; /* Suave para não poluir */
+            animation: floatUp linear infinite;
+            filter: blur(1px);
+        }
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            20% { opacity: 0.5; }
+            80% { opacity: 0.5; }
+            100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* --- 2. INTRO (Portão) --- */
+        #intro-gate {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, var(--purple), var(--primary));
+            z-index: 10000; display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            transition: transform 0.8s cubic-bezier(0.87, 0, 0.13, 1);
+        }
+        #intro-gate.gate-open { transform: translateY(-100%); }
+        
+        .intro-btn {
+            background: var(--yellow); color: var(--purple);
+            font-size: 1.4rem; font-weight: 800; padding: 1.2rem 3.5rem;
+            border-radius: 50px; border: none; cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            text-transform: uppercase; letter-spacing: 2px;
+            transition: transform 0.2s;
+        }
+        .intro-btn:active { transform: scale(0.95); }
+
+        /* --- 3. HERO BANNER (VIBRANTE) --- */
+        .hero-banner {
+            position: relative; width: 100%; height: 75vh; min-height: 600px;
+            display: flex; align-items: center; justify-content: center;
+            background: linear-gradient(135deg, #FF0055 0%, #6200EA 50%, #00D4FF 100%);
+            background-size: 200% 200%; animation: vibrantGradient 8s ease infinite;
+            overflow: hidden;
+        }
+        @keyframes vibrantGradient { 
+            0% { background-position: 0% 50%; } 
+            50% { background-position: 100% 50%; } 
+            100% { background-position: 0% 50%; } 
+        }
+
+        .hero-content { text-align: center; z-index: 10; padding: 0 1rem; }
+        
+        h1.main-title {
+            font-family: 'Outfit', sans-serif; font-weight: 900; font-size: 5.5rem;
+            color: white; text-shadow: 0px 5px 15px rgba(0,0,0,0.3); 
+            margin-bottom: 0.5rem; line-height: 1.1; letter-spacing: -2px;
+        }
+        .age-badge {
+            display: inline-block; background: var(--yellow); color: var(--purple);
+            font-size: 1.8rem; font-weight: 800; padding: 0.8rem 2.5rem;
+            border-radius: 50px; box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            margin-top: 15px; transform: rotate(-2deg);
+        }
+        
+        .wave-divider { position: absolute; bottom: -1px; left: 0; width: 100%; overflow: hidden; line-height: 0; }
+        .wave-divider svg { display: block; width: calc(136% + 1.3px); height: 120px; }
+        .wave-divider .shape-fill { fill: var(--bg-body); }
+
+        @media (max-width: 768px) {
+            .hero-banner { height: 80vh; }
+            h1.main-title { font-size: 3.5rem; }
+        }
+
+        /* --- 4. PLAYER DE MÚSICA FIXO --- */
+        .music-player-fixed {
+            position: fixed; bottom: 0; left: 0; width: 100%; height: 90px;
+            background: var(--player-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-top: 4px solid var(--primary);
+            box-shadow: 0 -10px 30px rgba(0,0,0,0.1); z-index: 9990;
+            display: flex; align-items: center; justify-content: center; padding: 0 20px;
+        }
+
+        .player-inner { width: 100%; max-width: 800px; display: flex; align-items: center; justify-content: space-between; gap: 15px; }
+
+        .track-display {
+            flex: 1; background: #f0f0f0; border-radius: 10px; padding: 8px 15px;
+            overflow: hidden; position: relative; border: 1px solid #ddd;
+        }
+        .track-marquee {
+            white-space: nowrap; display: inline-block;
+            font-family: 'Share Tech Mono', monospace; color: var(--primary);
+            font-weight: bold; font-size: 0.9rem; animation: scrollLeft 10s linear infinite;
+        }
+        @keyframes scrollLeft { from { transform: translateX(100%); } to { transform: translateX(-100%); } }
+
+        .player-controls { display: flex; align-items: center; gap: 15px; }
+        .btn-control {
+            background: transparent; border: none; color: #888;
+            cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s;
+        }
+        .btn-control:active { transform: scale(0.9); }
+        
+        .btn-play {
+            width: 50px; height: 50px; background: linear-gradient(135deg, var(--primary), var(--purple));
+            border-radius: 50%; color: white; box-shadow: 0 5px 15px rgba(255, 0, 85, 0.4);
+        }
+        .material-icons-round { font-size: 28px; }
+
+
+        /* --- 5. CONTEÚDO PRINCIPAL --- */
+        .container { max-width: 1200px; margin: 0 auto; padding: 4rem 1.5rem 2rem; position: relative; z-index: 5; }
+
+        .section-header { text-align: center; margin-bottom: 3rem; margin-top: 4rem;}
+        .section-title { font-family: 'Fredoka', sans-serif; font-size: 3rem; color: var(--purple); position: relative; display: inline-block; }
+        .section-title::after { content: ''; display: block; width: 60%; height: 6px; background: var(--blue); margin: 5px auto 0; border-radius: 10px; opacity: 0.5; }
+
+        .message-card {
+            background: white; border-radius: 20px; padding: 3rem; text-align: center;
+            border: 1px solid rgba(0,0,0,0.05); box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+            max-width: 800px; margin: -80px auto 4rem; position: relative; z-index: 20;
+        }
+        .message-text { font-size: 1.3rem; line-height: 1.8; color: #555; }
+        .message-signature { margin-top: 1.5rem; font-family: 'Fredoka', sans-serif; font-size: 1.5rem; color: var(--primary); font-weight: bold; }
+
+        /* Slider */
+        .swiper-container-wrapper { padding: 10px 0 50px 0; perspective: 1000px; }
+        .swiper { width: 100%; padding-top: 20px; padding-bottom: 50px; }
+        .swiper-slide {
+            background-position: center; background-size: cover;
+            width: 280px; height: 380px; border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2); border: 4px solid white; overflow: hidden;
+        }
+        .swiper-slide img { width: 100%; height: 100%; object-fit: cover; }
+        .swiper-pagination-bullet-active { background: var(--purple); }
+
+        /* Grid */
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 20px; padding: 10px; }
+        .photo-card {
+            background: white; border-radius: 15px; overflow: hidden;
+            aspect-ratio: 1/1; cursor: pointer; border: 4px solid white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08); transition: transform 0.3s ease;
+        }
+        .photo-card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.15); border-color: var(--blue); }
+        .photo-card img { width: 100%; height: 100%; object-fit: cover; }
+        @media (min-width: 768px) { .gallery-grid { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); } }
+
+        /* Vídeos */
+        .video-section { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-bottom: 3rem; }
+        .video-frame {
+            width: 310px; height: 580px; background: #111; border-radius: 35px;
+            border: 10px solid #222; overflow: hidden; position: relative;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+        }
+        .video-frame video { width: 100%; height: 100%; object-fit: cover; }
+
+        /* Footer */
+        footer { background: #1a1a2e; color: white; text-align: center; padding: 5rem 2rem 8rem; margin-top: 6rem; }
+        .footer-logo { width: 140px; margin-bottom: 20px; cursor: pointer; transition: transform 0.3s; }
+        .footer-logo:hover { transform: scale(1.1); }
+        .footer-credit p { font-size: 0.9rem; opacity: 0.6; letter-spacing: 1px; }
+
+        /* FAB */
+        .fab-btn {
+            position: fixed; bottom: 110px; right: 20px; width: 60px; height: 60px;
+            background: white; border-radius: 50%; display: flex; justify-content: center; align-items: center;
+            font-size: 2rem; border: none; cursor: pointer; box-shadow: 0 10px 25px rgba(0,0,0,0.15); z-index: 9980;
+            color: var(--primary); animation: bounceBtn 3s infinite;
+        }
+        @keyframes bounceBtn { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+    </style>
+</head>
+<body>
+
+    <div id="intro-gate">
+        <h1 style="color:white; font-size: 3rem; margin-bottom: 2rem; font-family: 'Fredoka', sans-serif;" class="animate__animated animate__bounceIn">
+            Thaís faz 9 Anos! 🎂
+        </h1>
+        <button class="intro-btn animate__animated animate__pulse animate__infinite" id="openGateBtn">
+            ENTRAR NA FESTA
+        </button>
+    </div>
+
+    <div class="music-player-fixed">
+        <div class="player-inner">
+            <div class="player-controls">
+                <button class="btn-control" onclick="changeVolume(-0.1)">
+                    <span class="material-icons-round">volume_down</span>
+                </button>
+            </div>
+            <button class="btn-control btn-play" id="playPauseBtn" onclick="togglePlay()">
+                <span class="material-icons-round" id="playIcon">play_arrow</span>
+            </button>
+            <div class="track-display">
+                <div class="track-marquee">
+                    🎵 Trilha Sonora: Parabéns da Thaís! - Volume Máximo! 🎵 &nbsp;&nbsp;&nbsp;&nbsp;
+                </div>
+            </div>
+            <div class="player-controls">
+                <button class="btn-control" onclick="changeVolume(0.1)">
+                    <span class="material-icons-round">volume_up</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <audio id="bgMusic" loop>
+        <source src="song/musica.mp3" type="audio/mp3">
+    </audio>
+
+
+    <div class="bg-floating-icons" id="bgIcons"></div>
+
+    <section class="hero-banner">
+        <div class="hero-content">
+            <h1 class="main-title animate__animated animate__zoomIn animate__delay-1s">Thaís Mariane</h1>
+            <div class="age-badge animate__animated animate__rubberBand animate__delay-2s">🎉 FELIZ ANIVERSÁRIO!</div>
+        </div>
+        <div class="wave-divider">
+            <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
+            </svg>
+        </div>
+    </section>
+
+    <div class="container">
+
+        <div class="message-card" data-aos="fade-up" data-aos-duration="1000">
+            <p class="message-text">
+                Para a minha irmãzinha que brilha mais que o sol! ✨<br><br>
+                Nove anos de pura alegria, inteligência e amor. Que seu novo ciclo seja doce como bolo e divertido como festa. Continue encantando o mundo com esse sorriso lindo.
+            </p>
+            <p class="message-signature">Feito com amor, Seu Irmão ❤️</p>
+        </div>
+
+        <div class="section-header" data-aos="fade-up">
+            <h2 class="section-title">Melhores Momentos</h2>
+        </div>
+        <div class="swiper-container-wrapper" data-aos="zoom-in-up" data-aos-duration="1000">
+            <div class="swiper mySwiper">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide"><img src="imagens/foto18.png" alt="Foto"></div>
+                    <div class="swiper-slide"><img src="imagens/foto1.jpg" alt="Foto"></div>
+					<div class="swiper-slide"><img src="imagens/foto19.jpg" alt="Foto"></div>
+                    <div class="swiper-slide"><img src="imagens/foto2.jpg" alt="Foto"></div>
+                    <div class="swiper-slide"><img src="imagens/foto5.jpg" alt="Foto"></div>
+					<div class="swiper-slide"><img src="imagens/foto20.jpg" alt="Foto"></div>
+                    <div class="swiper-slide"><img src="imagens/foto10.jpg" alt="Foto"></div>
+					<div class="swiper-slide"><img src="imagens/foto17.jpg" alt="Foto"></div>
+					<div class="swiper-slide"><img src="imagens/foto16.jpg" alt="Foto"></div>
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+        
+        <div class="section-header" data-aos="fade-up">
+             <h2 class="section-title">Galeria da Thaís</h2>
+             <p style="margin-top:10px; color: #888;">Clique para explodir confetes! ✨</p>
+        </div>
+        <div class="gallery-grid">
+            <div class="photo-card" data-aos="fade-up" data-aos-delay="0" onclick="popConfetti(this)"><img src="imagens/foto3.jpg"></div>
+            <div class="photo-card" data-aos="fade-up" data-aos-delay="100" onclick="popConfetti(this)"><img src="imagens/foto4.jpg"></div>
+            <div class="photo-card" data-aos="fade-up" data-aos-delay="200" onclick="popConfetti(this)"><img src="imagens/foto6.jpg"></div>
+            <div class="photo-card" data-aos="fade-up" data-aos-delay="300" onclick="popConfetti(this)"><img src="imagens/foto7.jpg"></div>
+            <div class="photo-card" data-aos="fade-up" data-aos-delay="400" onclick="popConfetti(this)"><img src="imagens/foto8.jpg"></div>
+            <div class="photo-card" data-aos="fade-up" data-aos-delay="500" onclick="popConfetti(this)"><img src="imagens/foto9.jpg"></div>
+            <div class="photo-card" data-aos="fade-up" data-aos-delay="600" onclick="popConfetti(this)"><img src="imagens/foto11.jpg"></div>
+            <div class="photo-card" data-aos="fade-up" data-aos-delay="700" onclick="popConfetti(this)"><img src="imagens/foto12.jpg"></div>
+            <div class="photo-card" data-aos="fade-up" data-aos-delay="800" onclick="popConfetti(this)"><img src="imagens/foto13.jpg"></div>
+            <div class="photo-card" data-aos="fade-up" data-aos-delay="900" onclick="popConfetti(this)"><img src="imagens/foto14.jpg"></div>
+			<div class="photo-card" data-aos="fade-up" data-aos-delay="900" onclick="popConfetti(this)"><img src="imagens/foto15.jpg"></div>
+			<div class="photo-card" data-aos="fade-up" data-aos-delay="900" onclick="popConfetti(this)"><img src="imagens/foto22.jpg"></div>
+
+        </div>
+
+        <div class="section-header" data-aos="fade-up">
+            <h2 class="section-title">Momentos Especiais 🎬</h2>
+       </div>
+        <div class="video-section">
+            <div class="video-frame" data-aos="flip-left" data-aos-duration="1200">
+                <video src="movie/movie-1.mp4" controls playsinline loop muted poster="imagens/foto1.jpg"></video>
+            </div>
+            <div class="video-frame" data-aos="flip-right" data-aos-duration="1200" data-aos-delay="200">
+                <video src="movie/movie-2.mp4" controls playsinline loop muted poster="imagens/foto2.jpg"></video>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        <img src="imagens/logo.png" class="footer-logo" onclick="popConfetti(this)" alt="Logo">
+        <div class="footer-credit">
+            <p>© 2025 IMAGINISTA. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <button class="fab-btn" onclick="triggerConfettiForce()">🎁</button>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <script>
+        // 1. FUNDO EMOJIS (VOLTOU!)
+        const bgContainer = document.getElementById('bgIcons');
+        const icons = ['🎈', '🦄', '✨', '🎉', '🧁', '💖', '🍭', '🎀'];
+        for (let i = 0; i < 25; i++) {
+            const icon = document.createElement('div');
+            icon.classList.add('bg-icon');
+            icon.innerText = icons[Math.floor(Math.random() * icons.length)];
+            icon.style.left = `${Math.random() * 100}vw`;
+            const size = Math.random() * 2 + 1;
+            icon.style.fontSize = `${size}rem`;
+            icon.style.animationDuration = `${Math.random() * 15 + 10}s`;
+            icon.style.animationDelay = `${Math.random() * 10}s`;
+            bgContainer.appendChild(icon);
+        }
+
+        // 2. PLAYER DE MÚSICA
+        const bgMusic = document.getElementById('bgMusic');
+        const playIcon = document.getElementById('playIcon');
+        let isPlaying = false;
+
+        function togglePlay() {
+            if (isPlaying) {
+                bgMusic.pause();
+                playIcon.innerText = 'play_arrow';
+            } else {
+                bgMusic.play().catch(e => console.log("Interação necessária"));
+                playIcon.innerText = 'pause';
+            }
+            isPlaying = !isPlaying;
+        }
+
+        function changeVolume(amount) {
+            let newVol = bgMusic.volume + amount;
+            if (newVol > 1) newVol = 1;
+            if (newVol < 0) newVol = 0;
+            bgMusic.volume = newVol;
+        }
+
+        // 3. INTRO & AOS INIT
+        const gate = document.getElementById('intro-gate');
+        const openBtn = document.getElementById('openGateBtn');
+        openBtn.addEventListener('click', () => {
+            gate.classList.add('gate-open');
+            // Inicia AOS após abrir o portão
+            setTimeout(() => {
+                AOS.init({ 
+                    once: true, 
+                    offset: 100, 
+                    duration: 800,
+                    easing: 'ease-out-cubic'
+                });
+            }, 500);
+            triggerConfettiForce();
+            togglePlay(); 
+        });
+
+        // 4. SLIDER & OUTROS
+        var swiper = new Swiper(".mySwiper", {
+            effect: "coverflow", grabCursor: true, centeredSlides: true, slidesPerView: "auto",
+            coverflowEffect: { rotate: 40, stretch: 0, depth: 100, modifier: 1, slideShadows: false },
+            pagination: { el: ".swiper-pagination", dynamicBullets: true },
+            autoplay: { delay: 3000 }
+        });
+
+        function triggerConfettiForce() {
+            confetti({ particleCount: 100, spread: 70, origin: { y: 0.8 }, colors: ['#FF0055', '#00D4FF', '#FFD600'] });
+        }
+
+        function popConfetti(element) {
+            const rect = element.getBoundingClientRect();
+            confetti({
+                particleCount: 20, spread: 50, scalar: 0.8,
+                origin: { x: (rect.left + rect.width/2)/window.innerWidth, y: (rect.top + rect.height/2)/window.innerHeight },
+                colors: ['#FF0055', '#6200EA']
+            });
+        }
+
+        document.body.style.overflow = 'hidden';
+        openBtn.addEventListener('click', () => { setTimeout(() => document.body.style.overflow = 'auto', 800); });
+    </script>
+</body>
+</html>
