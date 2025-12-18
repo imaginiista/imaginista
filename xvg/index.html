@@ -16,13 +16,16 @@
     <meta name="theme-color" content="#0a2a24">
 
     <style>
+        /* --- 1. CONFIGURAÇÕES GERAIS --- */
         :root {
             --bg-dark: #0a2a24;
             --green-main: #004d40;
             --gold: #d4af37;
+            --gold-light: #f3e5ab;
             --white: #ffffff;
             --text-dark: #2c3e50;
             --glass: rgba(255, 255, 255, 0.98);
+            --shadow-soft: 0 10px 40px rgba(0,0,0,0.3);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -41,7 +44,7 @@
         img { pointer-events: none; -webkit-user-drag: none; }
         body.stop-scrolling { overflow: hidden; height: 100vh; }
 
-        /* --- INTRO --- */
+        /* --- 2. INTRODUÇÃO --- */
         #intro-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999;
             background: radial-gradient(circle at center, #0e3029 0%, #000 100%);
@@ -61,6 +64,10 @@
             font-family: 'Dancing Script', cursive; font-size: 4rem; color: var(--white); 
             text-shadow: 0 0 15px var(--gold); margin: 10px 0 30px; line-height: 1.1;
         }
+        .intro-name span { display: inline-block; animation: floatChar 3s ease-in-out infinite; }
+        .intro-name span:nth-child(even) { animation-delay: 1s; }
+        @keyframes floatChar { 0%,100% {transform:translateY(0);} 50% {transform:translateY(-5px);} }
+
         .intro-text { color: #b8d8be; font-size: 1.3rem; margin-bottom: 30px; letter-spacing: 2px; text-transform: uppercase; }
         .enter-button {
             background: transparent; border: 2px solid var(--gold); color: var(--gold);
@@ -70,26 +77,30 @@
         .enter-button:hover { background: var(--gold); color: var(--bg-dark); box-shadow: 0 0 30px var(--gold); }
         .fade-out { opacity: 0; visibility: hidden; pointer-events: none; }
 
-        /* --- PLAYER --- */
+        /* --- 3. PLAYER DE MÚSICA --- */
         .player-container {
             position: fixed; bottom: 25px; z-index: 5000; transition: all 1s ease; opacity: 0;
             right: 25px; left: auto; transform: translateY(100px);
         }
         .player-container.visible { opacity: 1; transform: translateY(0); }
+
         .player-glass {
             background: rgba(10, 42, 36, 0.95); backdrop-filter: blur(8px);
             border: 1px solid var(--gold); border-radius: 50px;
             padding: 10px 20px; display: flex; align-items: center; gap: 15px;
             box-shadow: 0 8px 32px rgba(0,0,0,0.6); width: 360px;
         }
+
         .controls-left { display: flex; gap: 10px; align-items: center; }
         .ctrl-btn {
             background: transparent; border: 1px solid var(--gold); color: var(--gold);
             border-radius: 50%; display: flex; align-items: center; justify-content: center;
             cursor: pointer; transition: 0.2s;
         }
+        .ctrl-btn:hover { background: var(--gold); color: var(--bg-dark); }
         .ctrl-btn.play { width: 42px; height: 42px; font-size: 18px; background: rgba(212,175,55,0.15); }
         .ctrl-btn.sm { width: 32px; height: 32px; font-size: 16px; border-color: rgba(212,175,55,0.5); }
+
         .display-marquee {
             flex: 1; height: 32px; background: #000; border-radius: 6px; border: 1px solid #333;
             overflow: hidden; position: relative; display: flex; align-items: center;
@@ -100,7 +111,7 @@
         }
         @keyframes scrollText { from { left: 100%; } to { left: -180%; } }
 
-        /* --- BACKGROUNDS --- */
+        /* --- 4. BACKGROUNDS --- */
         .main-background {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: url('imagens/background.png') center center / cover no-repeat fixed;
@@ -119,11 +130,11 @@
         }
         @keyframes fly { 0% {opacity:0; transform:translate(0,0);} 10% {opacity:1;} 90% {opacity:1;} 100% {opacity:0; transform:translate(30vw, -40vh);} }
 
-        /* --- CONTAINER --- */
+        /* --- 5. CONTAINER --- */
         .container {
             max-width: 1000px; margin: 40px auto 0; padding-bottom: 60px;
             background: var(--glass); border-radius: 20px; position: relative;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            box-shadow: var(--shadow-soft);
             opacity: 0; transform: translateY(40px); transition: opacity 1.5s ease, transform 1.5s ease;
         }
         .container.show-content { opacity: 1; transform: translateY(0); }
@@ -138,6 +149,7 @@
         }
         @keyframes shine { 0%, 50% {left: -100%;} 100% { left: 200%; } }
 
+        /* Hero Ticker (Desktop) */
         .hero-ticker {
             height: 180px; background: var(--green-main); overflow: hidden;
             display: flex; align-items: center; border-bottom: 2px solid var(--gold);
@@ -148,7 +160,7 @@
         .hero-item img:hover { opacity: 1; transform: scale(1.05); z-index: 2; }
         @keyframes scrollHero { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
-        /* --- HEADER & TIMER (DESKTOP) --- */
+        /* --- 6. HEADER & TIMER (DESKTOP) --- */
         header { text-align: center; padding: 50px 20px; border-bottom: 1px dashed #ccc; }
         .header-stars { font-size: 2rem; color: var(--gold); animation: pulse 2s infinite; display: block; margin-bottom: 10px; }
         header h1 { font-family: 'Dancing Script', cursive; font-size: 6rem; color: var(--green-main); line-height: 1; text-shadow: 2px 2px 0 rgba(212,175,55,0.2); }
@@ -171,7 +183,7 @@
         .magic-circle span:first-child { font-family: 'Cinzel', serif; font-size: 2rem; color: var(--green-main); font-weight: bold; }
         .magic-circle .label { font-size: 0.75rem; text-transform: uppercase; margin-top: -2px; color: #777; }
 
-        /* --- TEXTOS --- */
+        /* --- 7. TEXTOS --- */
         section { padding: 50px 30px; text-align: center; opacity: 0; transform: translateY(30px); transition: 1s ease-out; }
         .fade-in.animated { opacity: 1; transform: translateY(0); }
 
@@ -191,7 +203,7 @@
         .quote { font-family: 'Dancing Script', cursive; font-size: 4rem; color: var(--gold); line-height: 1.1; }
         .sub-quote { font-family: 'Dancing Script', cursive; font-size: 2.8rem; color: var(--green-main); margin-top: 15px; }
 
-        /* --- DETALHES --- */
+        /* --- 8. DETALHES --- */
         .event-details h4 { font-family: 'Dancing Script', cursive; font-size: 3.5rem; color: var(--green-main); margin-bottom: 40px; }
         .details-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; max-width: 850px; margin: 0 auto 40px; }
         .card-detail {
@@ -228,7 +240,7 @@
         .waze { background: var(--green-main); color: var(--white); }
         .gps-btn:hover { transform: scale(1.05) translateY(-3px); }
 
-        /* RSVP (Botão abaixo) */
+        /* RSVP */
         .rsvp-area { 
             text-align: center; margin-top: 60px; padding: 50px; 
             border: 4px double var(--gold); border-radius: 25px; background: linear-gradient(to bottom, #fffdf9, #ffffff);
@@ -298,7 +310,6 @@
         .ticket-right-side { flex: 1; padding: 40px; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; }
         .ticket-right-side p { font-size: 1.3rem; font-weight: bold; margin-bottom: 15px; color: #3e2b05; }
         .qr-ticket-premium { width: 150px; border: 5px solid #fff; border-radius: 10px; box-shadow: 0 10px 20px rgba(0,0,0,0.2); margin-bottom: 20px; }
-        
         .btn-shine-gold {
             background: #0a2a24; color: #ffd700; padding: 15px 40px; border-radius: 40px;
             text-decoration: none; font-weight: bold; font-family: 'Cinzel', serif; font-size: 1.2rem;
@@ -325,18 +336,20 @@
         /* --- RODAPÉ --- */
         .imaginista-footer { text-align: center; padding: 80px 0 40px; margin-top: 50px; }
         .logo-area { display: inline-block; cursor: pointer; position: relative; transition: 0.3s; }
-        .logo-area:hover { transform: scale(1.1); }
-        .footer-logo { height: 100px; filter: drop-shadow(0 0 15px rgba(255,255,255,0.2)); transition: 0.3s; }
+        /* REMOVIDO HOVER EFFECT NO CSS PARA NÃO CONFLITAR */
+        .footer-logo { height: 100px; filter: drop-shadow(0 0 15px rgba(255,255,255,0.2)); }
         .copyright { color: #aaa; font-family: 'Cinzel', serif; font-size: 0.9rem; margin-top: 25px; letter-spacing: 2px; }
         
+        /* Estrelas Mágicas */
         .star-particle {
-            position: absolute; width: 15px; height: 15px; background: gold;
+            position: fixed; width: 20px; height: 20px; background: gold;
             clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
-            pointer-events: none; animation: starPop 1.2s ease-out forwards; z-index: 9999;
+            pointer-events: none; z-index: 10000;
+            animation: starExplode 1s ease-out forwards;
         }
-        @keyframes starPop { 
-            0% { opacity: 1; transform: translate(-50%, -50%) scale(0) rotate(0deg); } 
-            100% { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(1.5) rotate(360deg); } 
+        @keyframes starExplode {
+            0% { transform: translate(-50%, -50%) scale(0.5) rotate(0deg); opacity: 1; }
+            100% { transform: translate(var(--tx), var(--ty)) scale(0) rotate(180deg); opacity: 0; }
         }
 
         /* ------------------------------------------- */
@@ -351,22 +364,13 @@
             .hero-ticker { margin-top: 15px; border-top: 2px solid var(--gold); }
 
             /* TIMER MOBILE (LINHA ÚNICA) */
-            #timer { 
-                gap: 2px; flex-wrap: nowrap; justify-content: center; width: 100%; padding: 0;
-            }
-            .magic-circle { 
-                width: 58px; height: 58px; /* Reduzido para caber 4 em linha */
-                box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
-            }
+            #timer { gap: 2px; flex-wrap: nowrap; justify-content: space-around; width: 100%; padding: 0 10px; }
+            .magic-circle { width: 58px; height: 58px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
             .magic-circle svg { width: 58px; height: 58px; }
             .magic-circle span:first-child { font-size: 1.1rem; }
             .magic-circle .label { font-size: 0.55rem; }
 
-            /* Player Elevado */
-            .player-container { 
-                right: auto; left: 50%; transform: translateX(-50%) translateY(50px); 
-                bottom: 40px; width: 95%; max-width: 400px;
-            }
+            .player-container { right: auto; left: 50%; transform: translateX(-50%) translateY(50px); bottom: 40px; width: 95%; max-width: 400px; }
             .player-container.visible { transform: translateX(-50%) translateY(0); }
             .player-glass { width: 100%; justify-content: space-between; }
 
@@ -376,7 +380,7 @@
             .details-grid { grid-template-columns: 1fr; padding: 0 20px; }
             .card-detail { flex-direction: column; text-align: center; padding: 25px; }
             .info { text-align: center; width: 100%; } 
-            .event-details h4 { white-space: nowrap; font-size: 2.5rem; }
+            .event-details h4, .rsvp-area h5 { font-size: 2.5rem; white-space: nowrap; }
             
             .slideshow-box { aspect-ratio: 4/5; border-radius: 0; max-height: 500px; } 
             .mySlides img { height: 100%; object-fit: cover; }
@@ -388,13 +392,7 @@
             .ticket-left-side::before, .ticket-left-side::after { display: none; } 
             .ticket-scissors { top: auto; bottom: -18px; right: 50%; transform: translateX(50%) rotate(90deg); }
 
-            /* RSVP CARD */
             .rsvp-area { margin: 40px 20px; padding: 30px 20px; text-align: center; }
-            /* Título centralizado e dentro do card */
-            .rsvp-area h5 { 
-                white-space: nowrap; font-size: 1.5rem; margin-top: 0; 
-                width: 100%; display: block; text-align: center;
-            }
             .confirm-btn { padding: 12px 30px; font-size: 1rem; width: 100%; max-width: 250px; display: block; margin: 0 auto; }
 
             .size-wrapper { flex-direction: column; padding: 0 20px; }
@@ -407,8 +405,6 @@
             .final-quote, .final-invite-styled { font-size: 2rem; }
             
             .imaginista-footer { padding-bottom: 140px; }
-            
-            /* Correções Linha Única Mobile */
             .btn-shine-gold { white-space: nowrap; padding: 12px 15px; font-size: 1rem; width: auto; display: inline-block; }
             .copyright { font-size: 10px; white-space: nowrap; width: 100%; overflow: hidden; }
         }
@@ -481,10 +477,10 @@
             <div id="countdown" class="fade-in">
                 <p>A magia acontece em...</p>
                 <div id="timer">
-                    <div class="magic-circle"><svg><circle cx="45" cy="45" r="40"></circle></svg><span id="days">0</span><span class="label">Dias</span></div>
-                    <div class="magic-circle"><svg><circle cx="45" cy="45" r="40"></circle></svg><span id="hours">0</span><span class="label">Horas</span></div>
-                    <div class="magic-circle"><svg><circle cx="45" cy="45" r="40"></circle></svg><span id="minutes">0</span><span class="label">Min</span></div>
-                    <div class="magic-circle"><svg><circle cx="45" cy="45" r="40"></circle></svg><span id="seconds">0</span><span class="label">Seg</span></div>
+                    <div class="magic-circle"><svg><circle cx="50%" cy="50%" r="40%"></circle></svg><span id="days">0</span><span class="label">Dias</span></div>
+                    <div class="magic-circle"><svg><circle cx="50%" cy="50%" r="40%"></circle></svg><span id="hours">0</span><span class="label">Horas</span></div>
+                    <div class="magic-circle"><svg><circle cx="50%" cy="50%" r="40%"></circle></svg><span id="minutes">0</span><span class="label">Min</span></div>
+                    <div class="magic-circle"><svg><circle cx="50%" cy="50%" r="40%"></circle></svg><span id="seconds">0</span><span class="label">Seg</span></div>
                 </div>
             </div>
         </header>
@@ -493,6 +489,7 @@
             <p>"Um verdadeiro sonho é algo que nos segue até mesmo quando estamos acordados."</p>
             <p><strong>O meu grande sonho, agora, é celebrar a vida ao lado de quem eu amo!</strong></p>
             <p>Convido você para uma noite de magia, músicas e sonhos realizados, com todo o encanto e a energia de Nova Orleans.</p>
+            
             <div class="quote-area">
                 <div class="crown-icon">👑</div>
                 <p class="quote">"Quando você sonha, sonha pra valer!"</p>
@@ -640,9 +637,6 @@
         const logoArea = document.querySelector('.logo-area');
         if(logoArea){
             logoArea.addEventListener('click', function(e) {
-                const img = this.querySelector('img');
-                img.style.transform = "scale(1.2) rotate(10deg)";
-                setTimeout(() => img.style.transform = "scale(1)", 300);
                 createStars(e.clientX, e.clientY);
             });
         }
