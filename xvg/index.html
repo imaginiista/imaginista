@@ -418,10 +418,20 @@
             .copyright { font-size: 10px; white-space: nowrap; width: 100%; overflow: hidden; }
         
 		
-		
-		/* --- ADICIONEI ESSE ULTIMO PARA TESTE NO MOBILE ---*/
-		        .gallery h3 { font-family: 'Dancing Script', cursive; font-size: 2.6rem; color: var(--green-main); margin-bottom: 25px; }
-				}
+	.gallery h3 { 
+                font-family: 'Dancing Script', cursive; 
+                font-size: 2.5rem;
+                color: var(--green-main); 
+                margin-bottom: 25px; 
+                line-height: 1.2;
+            }
+            
+            /* Esconde o traço | no celular */
+            .sep { display: none; }
+            
+            /* Joga o nome para a linha de baixo */
+            .name-break { display: block; margin-top: 5px; }
+        }
 				
     </style>
 </head>
@@ -541,7 +551,7 @@
         </section>
 
         <section class="gallery fade-in">
-            <h3>Galeria | Geovana Frigoletto</h3>
+            <h3>Galeria <span class="sep">|</span> <span class="name-break">Geovana Frigoletto</span></h3>
             <div class="slideshow-box">
                 <div class="mySlides fade"><img src="imagens/slide/slide-7.jpg"></div>
                 <div class="mySlides fade"><img src="imagens/slide/slide-8.jpg"></div>
