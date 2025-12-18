@@ -16,7 +16,7 @@
     <meta name="theme-color" content="#0a2a24">
 
     <style>
-        /* --- 1. VARIÁVEIS E GERAL --- */
+        /* --- 1. CONFIGURAÇÕES GERAIS --- */
         :root {
             --bg-dark: #0a2a24;
             --green-main: #004d40;
@@ -38,13 +38,13 @@
             overflow-x: hidden;
             position: relative;
             font-size: 19px;
-            user-select: none; -webkit-user-select: none; /* Proteção de seleção */
+            user-select: none; -webkit-user-select: none;
         }
         
         img { pointer-events: none; -webkit-user-drag: none; }
         body.stop-scrolling { overflow: hidden; height: 100vh; }
 
-        /* --- 2. INTRO E PLAYER --- */
+        /* --- 2. INTRODUÇÃO --- */
         #intro-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999;
             background: radial-gradient(circle at center, #0e3029 0%, #000 100%);
@@ -77,25 +77,30 @@
         .enter-button:hover { background: var(--gold); color: var(--bg-dark); box-shadow: 0 0 30px var(--gold); }
         .fade-out { opacity: 0; visibility: hidden; pointer-events: none; }
 
+        /* --- 3. PLAYER DE MÚSICA --- */
         .player-container {
             position: fixed; bottom: 25px; z-index: 5000; transition: all 1s ease; opacity: 0;
             right: 25px; left: auto; transform: translateY(100px);
         }
         .player-container.visible { opacity: 1; transform: translateY(0); }
+
         .player-glass {
             background: rgba(10, 42, 36, 0.95); backdrop-filter: blur(8px);
             border: 1px solid var(--gold); border-radius: 50px;
             padding: 10px 20px; display: flex; align-items: center; gap: 15px;
             box-shadow: 0 8px 32px rgba(0,0,0,0.6); width: 360px;
         }
+
         .controls-left { display: flex; gap: 10px; align-items: center; }
         .ctrl-btn {
             background: transparent; border: 1px solid var(--gold); color: var(--gold);
             border-radius: 50%; display: flex; align-items: center; justify-content: center;
             cursor: pointer; transition: 0.2s;
         }
+        .ctrl-btn:hover { background: var(--gold); color: var(--bg-dark); }
         .ctrl-btn.play { width: 42px; height: 42px; font-size: 18px; background: rgba(212,175,55,0.15); }
         .ctrl-btn.sm { width: 32px; height: 32px; font-size: 16px; border-color: rgba(212,175,55,0.5); }
+
         .display-marquee {
             flex: 1; height: 32px; background: #000; border-radius: 6px; border: 1px solid #333;
             overflow: hidden; position: relative; display: flex; align-items: center;
@@ -106,7 +111,7 @@
         }
         @keyframes scrollText { from { left: 100%; } to { left: -180%; } }
 
-        /* --- 3. BACKGROUNDS --- */
+        /* --- 4. BACKGROUNDS --- */
         .main-background {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: url('imagens/background.png') center center / cover no-repeat fixed;
@@ -125,7 +130,7 @@
         }
         @keyframes fly { 0% {opacity:0; transform:translate(0,0);} 10% {opacity:1;} 90% {opacity:1;} 100% {opacity:0; transform:translate(30vw, -40vh);} }
 
-        /* --- 4. CONTAINER & BANNER --- */
+        /* --- 5. CONTAINER --- */
         .container {
             max-width: 1000px; margin: 40px auto 0; padding-bottom: 60px;
             background: var(--glass); border-radius: 20px; position: relative;
@@ -155,7 +160,7 @@
         .hero-item img:hover { opacity: 1; transform: scale(1.05); z-index: 2; }
         @keyframes scrollHero { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
-        /* --- 5. HEADER & TIMER (Desktop) --- */
+        /* --- 6. HEADER & TIMER (CORREÇÃO DE TAMANHO) --- */
         header { text-align: center; padding: 50px 20px; border-bottom: 1px dashed #ccc; }
         .header-stars { font-size: 2rem; color: var(--gold); animation: pulse 2s infinite; display: block; margin-bottom: 10px; }
         header h1 { font-family: 'Dancing Script', cursive; font-size: 6rem; color: var(--green-main); line-height: 1; text-shadow: 2px 2px 0 rgba(212,175,55,0.2); }
@@ -164,28 +169,28 @@
 
         #countdown { margin-top: 40px; }
         #countdown p { font-family: 'Cinzel', serif; font-size: 1.2rem; color: var(--green-main); margin-bottom: 15px; }
-        /* Flex padrão para Desktop */
-        #timer { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
+        
+        /* TIMER DESKTOP (Grande e Espaçado) */
+        #timer { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; }
         
         .magic-circle {
-            position: relative; width: 85px; height: 85px; display: flex; flex-direction: column;
+            position: relative; width: 90px; height: 90px; display: flex; flex-direction: column;
             align-items: center; justify-content: center; background: #fff; border-radius: 50%;
             box-shadow: 0 5px 15px rgba(0,0,0,0.15); border: 1px solid #eee;
         }
-        .magic-circle svg { position: absolute; width: 85px; height: 85px; transform: rotate(-90deg); }
+        .magic-circle svg { position: absolute; width: 90px; height: 90px; transform: rotate(-90deg); }
         .magic-circle circle { fill: none; stroke: var(--gold); stroke-width: 3; stroke-dasharray: 200; stroke-dashoffset: 0; animation: dash 2s infinite alternate; }
         @keyframes dash { to { stroke-dashoffset: 50; } }
-        .magic-circle span:first-child { font-family: 'Cinzel', serif; font-size: 1.8rem; color: var(--green-main); font-weight: bold; }
-        .magic-circle .label { font-size: 0.7rem; text-transform: uppercase; margin-top: -2px; color: #777; }
+        .magic-circle span:first-child { font-family: 'Cinzel', serif; font-size: 2rem; color: var(--green-main); font-weight: bold; }
+        .magic-circle .label { font-size: 0.75rem; text-transform: uppercase; margin-top: -2px; color: #777; }
 
-        /* --- 6. TEXTOS E COROA --- */
+        /* --- 7. TEXTOS --- */
         section { padding: 50px 30px; text-align: center; opacity: 0; transform: translateY(30px); transition: 1s ease-out; }
         .fade-in.animated { opacity: 1; transform: translateY(0); }
 
         .invitation-text p { font-size: 1.4rem; margin-bottom: 20px; color: #333; }
         .invitation-text strong { color: var(--green-main); font-weight: 700; font-size: 1.5rem; }
         
-        /* Coroa e Citação */
         .quote-area {
             margin-top: 50px; padding: 50px 35px 35px; 
             border: 3px double var(--gold); background: #fffbf0; border-radius: 15px; 
@@ -193,24 +198,22 @@
         }
         .crown-icon {
             font-size: 4rem; line-height: 1; margin-top: -80px; 
-            background: transparent; /* COROA TRANSPARENTE */
+            background: transparent;
             padding: 0 20px; margin-bottom: 20px;
             text-shadow: 0 5px 10px rgba(0,0,0,0.1);
         }
         .quote { font-family: 'Dancing Script', cursive; font-size: 4rem; color: var(--gold); line-height: 1.1; }
         .sub-quote { font-family: 'Dancing Script', cursive; font-size: 2.8rem; color: var(--green-main); margin-top: 15px; }
 
-        /* --- 7. DETALHES DA FESTA (CARDS) --- */
+        /* --- 8. DETALHES --- */
         .event-details h4 { font-family: 'Dancing Script', cursive; font-size: 3.5rem; color: var(--green-main); margin-bottom: 40px; }
         .details-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; max-width: 850px; margin: 0 auto 40px; }
-        
         .card-detail {
             background: #fff; border: 1px solid #e0e0e0; border-radius: 15px; padding: 25px;
             display: flex; align-items: center; gap: 20px; transition: 0.3s; position: relative; overflow: hidden;
         }
         .card-detail:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(212,175,55,0.2); border-color: var(--gold); }
         .full { grid-column: 1 / -1; justify-content: center; }
-        
         .icon-orb {
             width: 60px; height: 60px; background: var(--bg-dark); color: var(--gold); border-radius: 50%;
             display: flex; align-items: center; justify-content: center; font-size: 2rem; flex-shrink: 0;
@@ -219,8 +222,6 @@
         .icon-svg { width: 32px; height: 32px; fill: var(--gold); }
         .pulse { animation: pulseOrb 2s infinite; }
         @keyframes pulseOrb { 0% {transform:scale(1);} 50% {transform:scale(1.05); box-shadow: 0 0 0 10px rgba(212, 175, 55, 0);} 100% {transform:scale(1); box-shadow: 0 0 0 5px rgba(212, 175, 55, 0.2);} }
-        .delay-1 { animation-delay: 0.2s; } .delay-2 { animation-delay: 0.4s; } .delay-3 { animation-delay: 0.6s; } .delay-4 { animation-delay: 0.8s; }
-
         .info { text-align: left; }
         .info strong { display: block; font-family: 'Cinzel', serif; color: var(--green-main); font-size: 1.1rem; text-transform: uppercase; margin-bottom: 5px; }
         .info span { font-size: 1.3rem; color: #333; }
@@ -238,7 +239,7 @@
         .waze { background: var(--green-main); color: var(--white); }
         .gps-btn:hover { transform: scale(1.05) translateY(-3px); }
 
-        /* --- RSVP --- */
+        /* RSVP */
         .rsvp-area { 
             text-align: center; margin-top: 60px; padding: 50px; 
             border: 4px double var(--gold); border-radius: 25px; background: linear-gradient(to bottom, #fffdf9, #ffffff);
@@ -247,7 +248,7 @@
         .rsvp-area h5 { font-family: 'Cinzel', serif; color: var(--green-main); font-size: 1.8rem; margin-bottom: 15px; }
         .rsvp-area p { font-size: 1.2rem; margin-bottom: 25px; }
         .qr-container { display: flex; flex-direction: column; align-items: center; gap: 25px; }
-        .qr-img-small { width: 150px; border: 5px solid #fff; box-shadow: 0 8px 20px rgba(0,0,0,0.15); border-radius: 12px; }
+        .qr-img-small { width: 160px; border: 5px solid #fff; box-shadow: 0 8px 20px rgba(0,0,0,0.15); border-radius: 12px; }
         .confirm-btn {
             background: var(--gold); color: var(--bg-dark); padding: 18px 45px; border-radius: 50px;
             text-decoration: none; font-weight: bold; font-family: 'Cinzel', serif; font-size: 1.3rem; transition: 0.3s; display: inline-block;
@@ -260,7 +261,7 @@
         .slideshow-box { 
             border-radius: 15px; overflow: hidden; position: relative; max-width: 900px; margin: 0 auto; 
             box-shadow: 0 15px 40px rgba(0,0,0,0.25); border: 5px solid #fff; 
-            aspect-ratio: 16/9; /* Aspect Ratio Desktop */
+            aspect-ratio: 16/9;
         }
         .mySlides { display: none; width: 100%; height: 100%; }
         .mySlides img { width: 100%; height: 100%; object-fit: cover; display: block; }
@@ -291,7 +292,7 @@
         .measurements strong { color: var(--text-dark); }
         .note { font-family: 'Dancing Script', cursive; font-size: 1.8rem; color: var(--gold); margin-top: 20px; text-align: center; }
 
-        /* --- TICKET PREMIUM (CORREÇÃO DE ESTRUTURA) --- */
+        /* --- TICKET DOURADO --- */
         .gift-voucher { margin-top: 60px; }
         .premium-ticket {
             max-width: 800px; margin: 0 auto; display: flex;
@@ -314,6 +315,7 @@
             text-decoration: none; font-weight: bold; font-family: 'Cinzel', serif; font-size: 1.2rem;
             box-shadow: 0 0 20px rgba(255,215,0,0.4); animation: pulseBtn 2s infinite; position: relative; overflow: hidden;
         }
+        @keyframes pulseBtn { 0% {transform:scale(1);} 50% {transform:scale(1.05);} 100% {transform:scale(1);} }
         .ticket-left-side::before, .ticket-left-side::after {
             content: ''; position: absolute; width: 34px; height: 34px; background-color: var(--glass); border-radius: 50%; right: -17px;
         }
@@ -331,15 +333,24 @@
         .final-quote { font-family: 'Dancing Script', cursive; font-size: 2.2rem; color: var(--green-main); line-height: 1.2; margin-bottom: 20px; }
         .final-invite-styled { font-family: 'Dancing Script', cursive; font-size: 2.2rem; color: var(--green-main); line-height: 1.2; }
 
-        /* --- RODAPÉ --- */
+        /* --- RODAPÉ EXTERNO --- */
         .imaginista-footer { text-align: center; padding: 80px 0 40px; margin-top: 50px; }
         .logo-area { display: inline-block; cursor: pointer; position: relative; transition: 0.3s; }
         .logo-area:hover { transform: scale(1.1); }
         .footer-logo { height: 100px; filter: drop-shadow(0 0 15px rgba(255,255,255,0.2)); transition: 0.3s; }
         .footer-logo:hover { filter: drop-shadow(0 0 25px var(--gold)); }
         .copyright { color: #aaa; font-family: 'Cinzel', serif; font-size: 0.9rem; margin-top: 25px; letter-spacing: 2px; }
-        .star-particle { position: absolute; width: 15px; height: 15px; background: gold; clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); pointer-events: none; animation: starPop 1.2s ease-out forwards; z-index: 9999; }
-        @keyframes starPop { 0% { opacity: 1; transform: translate(-50%, -50%) scale(0) rotate(0deg); } 100% { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(1.5) rotate(360deg); } }
+
+        /* Partícula Estrela */
+        .star-particle {
+            position: absolute; width: 15px; height: 15px; background: gold;
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+            pointer-events: none; animation: starPop 1.2s ease-out forwards; z-index: 9999;
+        }
+        @keyframes starPop { 
+            0% { opacity: 1; transform: translate(-50%, -50%) scale(0) rotate(0deg); } 
+            100% { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(1.5) rotate(360deg); } 
+        }
 
         /* ------------------------------------------- */
         /* --- AJUSTES ESPECÍFICOS PARA MOBILE --- */
@@ -347,17 +358,14 @@
         @media (max-width: 768px) {
             body { font-size: 16px; }
             
-            /* Banner total, sem margem */
             .container { margin: 0; padding: 0 0 40px 0; width: 100%; border-radius: 0; max-width: 100%; }
             .banner-area { border-radius: 0; border-bottom: 2px solid var(--gold); } 
             .banner-wrapper { border-radius: 0; }
-            
-            /* Hero Ticker Separado */
             .hero-ticker { margin-top: 15px; border-top: 2px solid var(--gold); }
 
-            /* Timer: Círculos Alinhados na Mesma Linha */
+            /* TIMER MOBILE (LINHA ÚNICA) */
             #timer { 
-                gap: 5px; flex-wrap: nowrap; /* Impede quebra de linha */
+                gap: 5px; flex-wrap: nowrap; /* Não quebra linha */
                 justify-content: space-around; width: 100%; padding: 0 10px;
             }
             .magic-circle { 
@@ -368,41 +376,6 @@
             .magic-circle span:first-child { font-size: 1.4rem; }
             .magic-circle .label { font-size: 0.6rem; }
 
-            /* Detalhes: Mesma Linha */
-            .event-details h4 { white-space: nowrap; font-size: 2.5rem; }
-            .rsvp-area h5 { white-space: nowrap; font-size: 1.5rem; }
-
-            /* Detalhes Centralizados */
-            .details-grid { grid-template-columns: 1fr; padding: 0 20px; }
-            .card-detail { 
-                flex-direction: column; text-align: center; padding: 25px; 
-            }
-            .info { text-align: center; width: 100%; } 
-            
-            /* Galeria (Aumentada e Ajustada) */
-            .slideshow-box { aspect-ratio: 4/5; border-radius: 0; max-height: 500px; } 
-            .mySlides img { height: 100%; object-fit: cover; } /* Preenche tudo */
-
-            /* Presentes: Ajuste de Layout */
-            .gift-list-elegant { grid-template-columns: 1fr; gap: 10px; padding: 0 20px; }
-
-            /* Ticket: Ajuste visual */
-            .premium-ticket { flex-direction: column; margin: 0 15px; }
-            .ticket-left-side { border-right: none; border-bottom: 3px dashed rgba(0,0,0,0.3); width: 100%; padding: 25px; }
-            .ticket-left-side::before, .ticket-left-side::after { display: none; } 
-            .ticket-scissors { top: auto; bottom: -18px; right: 50%; transform: translateX(50%) rotate(90deg); }
-
-            /* RSVP Botão Menor e Centralizado */
-            .rsvp-area { margin: 40px 20px; padding: 30px 20px; }
-            .confirm-btn { padding: 12px 30px; font-size: 1rem; width: 100%; max-width: 250px; }
-
-            /* Medidas Vertical */
-            .size-wrapper { flex-direction: column; padding: 0 20px; }
-            .size-img { flex: none; width: 100%; margin: 0 auto; max-width: 250px; }
-            .size-info { width: 100%; text-align: center; }
-            .measurements { border-left: none; border-top: 5px solid var(--gold); border-radius: 0 0 15px 15px; }
-
-            /* Player Elevado */
             .player-container { 
                 right: auto; left: 50%; transform: translateX(-50%) translateY(50px); 
                 bottom: 40px; width: 95%; max-width: 400px;
@@ -410,7 +383,36 @@
             .player-container.visible { transform: translateX(-50%) translateY(0); }
             .player-glass { width: 100%; justify-content: space-between; }
 
-            /* Padding extra para rodapé não cortar */
+            header h1 { font-size: 3.5rem; } header h2 { font-size: 3rem; }
+            .intro-title { font-size: 3.5rem; } .intro-name { font-size: 3.5rem; }
+            
+            .details-grid { grid-template-columns: 1fr; padding: 0 20px; }
+            .card-detail { flex-direction: column; text-align: center; padding: 25px; }
+            .info { text-align: center; width: 100%; } 
+            .event-details h4, .rsvp-area h5 { font-size: 2.5rem; white-space: nowrap; }
+            
+            .slideshow-box { aspect-ratio: 4/5; border-radius: 0; max-height: 500px; } 
+            .mySlides img { height: 100%; object-fit: cover; }
+
+            .gift-list-elegant { grid-template-columns: 1fr; gap: 10px; padding: 0 20px; }
+
+            .premium-ticket { flex-direction: column; margin: 0 15px; }
+            .ticket-left-side { border-right: none; border-bottom: 2px dashed rgba(0,0,0,0.3); width: 100%; padding: 25px; }
+            .ticket-left-side::before, .ticket-left-side::after { display: none; } 
+            .ticket-scissors { top: auto; bottom: -18px; right: 50%; transform: translateX(50%) rotate(90deg); }
+
+            .rsvp-area { margin: 40px 20px; padding: 30px 20px; }
+            .confirm-btn { padding: 12px 30px; font-size: 1rem; width: 100%; max-width: 250px; }
+
+            .size-wrapper { flex-direction: column; padding: 0 20px; }
+            .size-img { flex: none; width: 100%; margin: 0 auto; max-width: 250px; }
+            .size-info { width: 100%; text-align: center; }
+            .measurements { border-left: none; border-top: 5px solid var(--gold); border-radius: 0 0 15px 15px; }
+
+            .quote { font-size: 2.8rem; }
+            .quote-area::after { font-size: 3rem; top: -30px; }
+            .final-quote, .final-invite-styled { font-size: 2rem; }
+            
             .imaginista-footer { padding-bottom: 140px; }
         }
     </style>
@@ -482,10 +484,10 @@
             <div id="countdown" class="fade-in">
                 <p>A magia acontece em...</p>
                 <div id="timer">
-                    <div class="magic-circle"><svg><circle cx="32.5" cy="32.5" r="28"></circle></svg><span id="days">0</span><span class="label">Dias</span></div>
-                    <div class="magic-circle"><svg><circle cx="32.5" cy="32.5" r="28"></circle></svg><span id="hours">0</span><span class="label">Horas</span></div>
-                    <div class="magic-circle"><svg><circle cx="32.5" cy="32.5" r="28"></circle></svg><span id="minutes">0</span><span class="label">Min</span></div>
-                    <div class="magic-circle"><svg><circle cx="32.5" cy="32.5" r="28"></circle></svg><span id="seconds">0</span><span class="label">Seg</span></div>
+                    <div class="magic-circle"><svg><circle cx="45" cy="45" r="40"></circle></svg><span id="days">0</span><span class="label">Dias</span></div>
+                    <div class="magic-circle"><svg><circle cx="45" cy="45" r="40"></circle></svg><span id="hours">0</span><span class="label">Horas</span></div>
+                    <div class="magic-circle"><svg><circle cx="45" cy="45" r="40"></circle></svg><span id="minutes">0</span><span class="label">Min</span></div>
+                    <div class="magic-circle"><svg><circle cx="45" cy="45" r="40"></circle></svg><span id="seconds">0</span><span class="label">Seg</span></div>
                 </div>
             </div>
         </header>
