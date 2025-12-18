@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XV Geovana Frigoletto</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Lato:wght@300;400;700&family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+    
+    <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg">
+    <link rel="shortcut icon" href="/favicon/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+    <meta name="theme-color" content="#ffffff">
+    
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body class="stop-scrolling no-select">
+
+    <div id="intro-overlay">
+        <div class="intro-bg-sparkles"></div>
+        <div class="intro-content">
+            <h1 class="intro-title">XV</h1>
+            <h2 class="intro-name">
+                <span class="char">G</span><span class="char">e</span><span class="char">o</span><span class="char">v</span><span class="char">a</span><span class="char">n</span><span class="char">a</span>
+                <br>
+                <span class="char">F</span><span class="char">r</span><span class="char">i</span><span class="char">g</span><span class="char">o</span><span class="char">l</span><span class="char">e</span><span class="char">t</span><span class="char">t</span><span class="char">o</span>
+            </h2>
+            <p class="intro-text">Toque para entrar no sonho</p>
+            <button id="enter-btn" class="enter-button">Entrar no Castelo</button>
+        </div>
+    </div>
+
+    <audio id="bg-music" loop><source src="song/geovana.mp3" type="audio/mp3"></audio>
+    <div id="music-player" class="player-container hidden">
+        <div class="player-glass">
+            <div class="controls-left">
+                <button id="vol-down" class="ctrl-btn sm">－</button>
+                <button id="play-pause" class="ctrl-btn play">▶</button>
+                <button id="vol-up" class="ctrl-btn sm">＋</button>
+            </div>
+            <div class="display-marquee">
+                <div class="scrolling-text">🎵 XV Geovana Frigoletto • Uma Noite em Nova Orleans • A Magia Está no Ar 🎵</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-background"></div>
+    <div class="fog-container"></div> <div class="firefly-container"></div>
+
+    <div class="container fade-in-container">
+        
+        <div class="banner-area">
+            <div class="banner-wrapper">
+                <picture>
+                    <source media="(max-width: 768px)" srcset="imagens/banner-mobile.png">
+                    <img src="imagens/banner.png" alt="Banner" class="banner-img">
+                </picture>
+                <div class="magic-shine"></div>
+            </div>
+            <div class="hero-ticker">
+                <div class="hero-track">
+                    <div class="hero-item"><img src="imagens/slide/slide-1.png"></div>
+                    <div class="hero-item"><img src="imagens/slide/slide-2.png"></div>
+                    <div class="hero-item"><img src="imagens/slide/slide-3.png"></div>
+                    <div class="hero-item"><img src="imagens/slide/slide-4.png"></div>
+                    <div class="hero-item"><img src="imagens/slide/slide-1.png"></div>
+                    <div class="hero-item"><img src="imagens/slide/slide-2.png"></div>
+                </div>
+            </div>
+        </div>
+
+        <header>
+            <div class="header-stars">✦</div>
+            <h1>XV</h1>
+            <h2>Geovana Frigoletto</h2>
+            <h3>Uma Noite Mágica em Nova Orleans</h3>
+            <div id="countdown" class="fade-in">
+                <p>A magia acontece em...</p>
+                <div id="timer">
+                    <div class="magic-circle"><svg><circle cx="35" cy="35" r="32"></circle></svg><span id="days">0</span><span class="label">Dias</span></div>
+                    <div class="magic-circle"><svg><circle cx="35" cy="35" r="32"></circle></svg><span id="hours">0</span><span class="label">Horas</span></div>
+                    <div class="magic-circle"><svg><circle cx="35" cy="35" r="32"></circle></svg><span id="minutes">0</span><span class="label">Min</span></div>
+                    <div class="magic-circle"><svg><circle cx="35" cy="35" r="32"></circle></svg><span id="seconds">0</span><span class="label">Seg</span></div>
+                </div>
+            </div>
+        </header>
+
+        <section class="invitation-text fade-in">
+            <p>"Um verdadeiro sonho é algo que nos segue até mesmo quando estamos acordados."</p>
+            <p><strong>O meu grande sonho, agora, é celebrar a vida ao lado de quem eu amo!</strong></p>
+            <p>Convido você para uma noite de magia, músicas e sonhos realizados, com todo o encanto e a energia de Nova Orleans.</p>
+            
+            <div class="quote-area">
+                <p class="quote">"Quando você sonha, sonha pra valer!"</p>
+                <p class="sub-quote">E eu sonho em ter você comigo nesse dia!</p>
+            </div>
+        </section>
+
+        <section class="event-details fade-in">
+            <h4>Detalhes da Festa</h4>
+            <div class="details-grid">
+                <div class="card-detail">
+                    <div class="icon-orb pulse">📅</div>
+                    <div class="info"><strong>Data</strong><span>31 de Janeiro de 2026</span></div>
+                </div>
+                <div class="card-detail">
+                    <div class="icon-orb pulse delay-1">🕑</div>
+                    <div class="info"><strong>Horário</strong><span>19:00 Horas</span></div>
+                </div>
+                <div class="card-detail">
+                    <div class="icon-orb pulse delay-2">🎉</div>
+                    <div class="info"><strong>Local</strong><span>Espaço 5.6 - Casa de Festas</span></div>
+                </div>
+                <div class="card-detail">
+                    <div class="icon-orb pulse delay-3">📍</div>
+                    <div class="info"><strong>Endereço</strong><span>Rua Vitor Brecheret, 80<br>Santíssimo, RJ</span></div>
+                </div>
+                <div class="card-detail full">
+                    <div class="icon-orb pulse delay-4">👔</div>
+                    <div class="info"><strong>Traje</strong><span>Esporte Fino</span></div>
+                </div>
+            </div>
+
+            <div class="map-wrapper">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3675.857553209926!2d-43.50973990000001!3d-22.8817199!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9be106f8e8767d%3A0xde5b170fee4b8032!2sEspa%C3%A7o%205.6%20Casa%20de%20Festas!5e0!3m2!1spt-BR!2sbr!4v1762229449389!5m2!1spt-BR!2sbr" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+            
+            <div class="gps-buttons">
+                <div class="btn-group">
+                    <a href="https://share.google/BJn47MFlDXP3VM6YW" target="_blank" class="gps-btn google">Google Maps</a>
+                    <a href="https://www.waze.com/ul?q=Espaço%205.6%20-%20Casa%20de%20Festas%2C%20Rua%20Vitor%20Brecheret%2C%2080%20-%20Santíssimo%2C%20RJ&navigate=yes" target="_blank" class="gps-btn waze">Waze</a>
+                </div>
+            </div>
+
+            <div class="rsvp-area">
+                <h5>Confirmação Real</h5>
+                <p>Por favor, confirme sua presença até o dia <strong>09/01</strong></p>
+                <div class="qr-container">
+                    <img src="imagens/qr-confirmacao.png" alt="QR Code" class="qr-img-small">
+                    <a href="https://wa.me/5521970825778?text=Ol%C3%A1!%20Gostaria%20de%20confirmar%20minha%20presen%C3%A7a." class="confirm-btn">Confirmar Presença</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="gallery fade-in">
+            <h3>Nossos Momentos</h3>
+            <div class="slideshow-box">
+                <div class="mySlides fade"><img src="imagens/slide/slide-1.png"></div>
+                <div class="mySlides fade"><img src="imagens/slide/slide-2.png"></div>
+                <div class="mySlides fade"><img src="imagens/slide/slide-3.png"></div>
+                <div class="mySlides fade"><img src="imagens/slide/slide-4.png"></div>
+                <a class="prev" onclick="plusSlides(-1)">❮</a>
+                <a class="next" onclick="plusSlides(1)">❯</a>
+            </div>
+            <div class="dots-container">
+                <span class="dot" onclick="currentSlide(1)"></span>
+                <span class="dot" onclick="currentSlide(2)"></span>
+                <span class="dot" onclick="currentSlide(3)"></span>
+                <span class="dot" onclick="currentSlide(4)"></span>
+            </div>
+        </section>
+        
+        <section class="gift-suggestions fade-in">
+            <h3>Sugestões de Presentes</h3>
+            <ul class="gift-list-elegant">
+                <li>Perfume Feminino</li>
+                <li>Acessórios (Prata/Dourado)</li>
+                <li>Esmaltes</li>
+                <li>Esfoliantes</li>
+                <li>Sabonetes</li>
+                <li>Hidratantes Corporais</li>
+                <li>Protetor Solar</li>
+                <li>Rímel Preto (Prova d'água)</li>
+                <li>Gloss</li>
+                <li>Contorno</li>
+                <li>Delineador Preto</li>
+                <li>Pincéis</li>
+                <li>Lápis Labial (Tom de Marrom)</li>
+                <li>Blush</li>
+                <li>Paleta de Sombra</li>
+                <li>Iluminador</li>
+                <li>Bindagem</li>
+            </ul>
+        </section>
+
+        <section class="clothing-sizes fade-in">
+            <h3>Minhas Medidas</h3>
+            <div class="size-wrapper">
+                <div class="size-img">
+                    <img src="imagens/vestido.png" alt="Vestido">
+                </div>
+                <div class="size-info">
+                    <p class="intro-medidas">Para me ajudar a brilhar:</p>
+                    <div class="measurements">
+                        <span><strong>Blusa:</strong> Tamanho P</span>
+                        <span><strong>Cintura:</strong> Tamanho 36</span>
+                    </div>
+                    <p class="note">Fique à vontade para escolher!</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="gift-voucher fade-in">
+            <div class="premium-ticket">
+                <div class="ticket-left-side">
+                    <h4>Vale Presente</h4>
+                    <p>Mimo via Pix</p>
+                    <div class="holes-left"></div>
+                </div>
+                <div class="ticket-dashed-line"></div>
+                <div class="ticket-right-side">
+                    <p>Escaneie ou clique:</p>
+                    <img src="imagens/qr-vale.png" class="qr-ticket-premium">
+                    <a href="https://nubank.com.br/cobrar/7sd9nw/68f77381-6098-4138-9855-86f47a674546" class="btn-shine-gold">
+                        ✨ Enviar Mimo ✨
+                    </a>
+                    <div class="holes-right"></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="final-message fade-in">
+            <p class="final-quote">"Não importa de onde você vem, mas para onde está indo."</p>
+            <p class="final-invite-styled">Espero por você para tornarmos este sonho realidade!</p>
+        </section>
+        
+    </div>
+
+    <footer class="imaginista-footer fade-in">
+        <div class="logo-area" id="logo-click-area">
+            <img src="imagens/logo.png" alt="O Imaginista" class="footer-logo">
+            <div class="click-hint">Clique para mágica ✨</div>
+        </div>
+        <p class="copyright">© 2025 IMAGINISTA. Todos os direitos reservados.</p>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
