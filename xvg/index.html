@@ -16,7 +16,7 @@
     <meta name="theme-color" content="#0a2a24">
 
     <style>
-        /* --- 1. CONFIGURAÇÕES GERAIS --- */
+        /* --- CONFIGURAÇÕES GERAIS --- */
         :root {
             --bg-dark: #0a2a24;
             --green-main: #004d40;
@@ -30,6 +30,7 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
+        /* Proteção Total */
         body {
             font-family: 'Lato', sans-serif;
             background-color: var(--bg-dark);
@@ -44,7 +45,7 @@
         img { pointer-events: none; -webkit-user-drag: none; }
         body.stop-scrolling { overflow: hidden; height: 100vh; }
 
-        /* --- 2. INTRODUÇÃO --- */
+        /* --- INTRODUÇÃO --- */
         #intro-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999;
             background: radial-gradient(circle at center, #0e3029 0%, #000 100%);
@@ -77,7 +78,7 @@
         .enter-button:hover { background: var(--gold); color: var(--bg-dark); box-shadow: 0 0 30px var(--gold); }
         .fade-out { opacity: 0; visibility: hidden; pointer-events: none; }
 
-        /* --- 3. PLAYER DE MÚSICA --- */
+        /* --- PLAYER DE MÚSICA --- */
         .player-container {
             position: fixed; bottom: 25px; z-index: 5000; transition: all 1s ease; opacity: 0;
             right: 25px; left: auto; transform: translateY(100px);
@@ -111,7 +112,7 @@
         }
         @keyframes scrollText { from { left: 100%; } to { left: -180%; } }
 
-        /* --- 4. BACKGROUNDS --- */
+        /* --- BACKGROUNDS --- */
         .main-background {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: url('imagens/background.png') center center / cover no-repeat fixed;
@@ -130,7 +131,7 @@
         }
         @keyframes fly { 0% {opacity:0; transform:translate(0,0);} 10% {opacity:1;} 90% {opacity:1;} 100% {opacity:0; transform:translate(30vw, -40vh);} }
 
-        /* --- 5. CONTAINER --- */
+        /* --- CONTAINER --- */
         .container {
             max-width: 1000px; margin: 40px auto 0; padding-bottom: 60px;
             background: var(--glass); border-radius: 20px; position: relative;
@@ -160,7 +161,7 @@
         .hero-item img:hover { opacity: 1; transform: scale(1.05); z-index: 2; }
         @keyframes scrollHero { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
-        /* --- 6. HEADER & TIMER (DESKTOP) --- */
+        /* --- HEADER & TIMER (DESKTOP) --- */
         header { text-align: center; padding: 50px 20px; border-bottom: 1px dashed #ccc; }
         .header-stars { font-size: 2rem; color: var(--gold); animation: pulse 2s infinite; display: block; margin-bottom: 10px; }
         header h1 { font-family: 'Dancing Script', cursive; font-size: 6rem; color: var(--green-main); line-height: 1; text-shadow: 2px 2px 0 rgba(212,175,55,0.2); }
@@ -172,18 +173,21 @@
         
         /* TIMER (Desktop Default) */
         #timer { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; }
+        
         .magic-circle {
             position: relative; width: 90px; height: 90px; display: flex; flex-direction: column;
             align-items: center; justify-content: center; background: #fff; border-radius: 50%;
             box-shadow: 0 5px 15px rgba(0,0,0,0.15); border: 1px solid #eee;
         }
-        .magic-circle svg { position: absolute; width: 90px; height: 90px; transform: rotate(-90deg); }
+        /* Importante: SVG responsivo */
+        .magic-circle svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+        
         .magic-circle circle { fill: none; stroke: var(--gold); stroke-width: 3; stroke-dasharray: 200; stroke-dashoffset: 0; animation: dash 2s infinite alternate; }
         @keyframes dash { to { stroke-dashoffset: 50; } }
         .magic-circle span:first-child { font-family: 'Cinzel', serif; font-size: 2rem; color: var(--green-main); font-weight: bold; }
         .magic-circle .label { font-size: 0.75rem; text-transform: uppercase; margin-top: -2px; color: #777; }
 
-        /* --- 7. TEXTOS --- */
+        /* --- TEXTOS --- */
         section { padding: 50px 30px; text-align: center; opacity: 0; transform: translateY(30px); transition: 1s ease-out; }
         .fade-in.animated { opacity: 1; transform: translateY(0); }
 
@@ -203,7 +207,7 @@
         .quote { font-family: 'Dancing Script', cursive; font-size: 4rem; color: var(--gold); line-height: 1.1; }
         .sub-quote { font-family: 'Dancing Script', cursive; font-size: 2.8rem; color: var(--green-main); margin-top: 15px; }
 
-        /* --- 8. DETALHES --- */
+        /* --- DETALHES --- */
         .event-details h4 { font-family: 'Dancing Script', cursive; font-size: 3.5rem; color: var(--green-main); margin-bottom: 40px; }
         .details-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; max-width: 850px; margin: 0 auto 40px; }
         .card-detail {
@@ -278,7 +282,7 @@
         .dot { cursor: pointer; height: 14px; width: 14px; margin: 0 5px; background-color: #ddd; border-radius: 50%; display: inline-block; }
         .active, .dot:hover { background-color: var(--gold); }
 
-        /* --- PRESENTES --- */
+        /* --- PRESENTES & MEDIDAS --- */
         .gift-suggestions h3, .clothing-sizes h3 { font-family: 'Dancing Script', cursive; font-size: 3.5rem; color: var(--green-main); margin-bottom: 30px; }
         .gift-list-elegant { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 15px 40px; max-width: 800px; margin: 0 auto; text-align: left; }
         .gift-list-elegant li { padding-left: 35px; position: relative; font-size: 1.3rem; color: var(--green-main); border-bottom: 1px dotted rgba(0,77,64,0.15); padding-bottom: 8px; }
@@ -287,6 +291,7 @@
         .size-wrapper { display: flex; align-items: center; gap: 40px; text-align: left; margin-top: 30px; justify-content: center; }
         .size-img img { width: 100%; max-width: 280px; border-radius: 15px; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.2)); }
         .size-info { flex: 0 1 400px; }
+        .intro-medidas { font-size: 1.4rem; margin-bottom: 20px; color: #444; }
         .measurements { background: #fff; padding: 25px; border-left: 6px solid var(--gold); font-size: 1.5rem; color: var(--green-main); border-radius: 0 15px 15px 0; }
         .measurements span { display: block; margin-bottom: 10px; }
         .measurements strong { color: var(--text-dark); }
@@ -333,7 +338,7 @@
         .final-quote { font-family: 'Dancing Script', cursive; font-size: 2.2rem; color: var(--green-main); line-height: 1.2; margin-bottom: 20px; }
         .final-invite-styled { font-family: 'Dancing Script', cursive; font-size: 2.2rem; color: var(--green-main); line-height: 1.2; }
 
-        /* --- RODAPÉ --- */
+        /* --- RODAPÉ EXTERNO --- */
         .imaginista-footer { text-align: center; padding: 80px 0 40px; margin-top: 50px; }
         .logo-area { display: inline-block; cursor: pointer; position: relative; transition: 0.3s; }
         /* REMOVIDO HOVER EFFECT NO CSS PARA NÃO CONFLITAR */
@@ -342,7 +347,8 @@
         
         /* Estrelas Mágicas */
         .star-particle {
-            position: fixed; width: 20px; height: 20px; background: gold;
+            position: fixed; /* Fixado na tela */
+            width: 20px; height: 20px; background: gold;
             clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
             pointer-events: none; z-index: 10000;
             animation: starExplode 1s ease-out forwards;
@@ -363,14 +369,24 @@
             .banner-wrapper { border-radius: 0; }
             .hero-ticker { margin-top: 15px; border-top: 2px solid var(--gold); }
 
-            /* TIMER MOBILE (LINHA ÚNICA) */
-            #timer { gap: 2px; flex-wrap: nowrap; justify-content: space-around; width: 100%; padding: 0 10px; }
-            .magic-circle { width: 58px; height: 58px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-            .magic-circle svg { width: 58px; height: 58px; }
-            .magic-circle span:first-child { font-size: 1.1rem; }
+            /* TIMER MOBILE (LINHA ÚNICA) - Correção Crítica */
+            #timer { 
+                gap: 5px; flex-wrap: nowrap; justify-content: center; width: 100%; padding: 0 10px; 
+            }
+            .magic-circle { 
+                width: 60px; height: 60px; /* Reduzido */
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
+            }
+            /* O SEGREDO: SVG preenche o pai */
+            .magic-circle svg { width: 100%; height: 100%; }
+            
+            .magic-circle span:first-child { font-size: 1.2rem; }
             .magic-circle .label { font-size: 0.55rem; }
 
-            .player-container { right: auto; left: 50%; transform: translateX(-50%) translateY(50px); bottom: 40px; width: 95%; max-width: 400px; }
+            .player-container { 
+                right: auto; left: 50%; transform: translateX(-50%) translateY(50px); 
+                bottom: 40px; width: 95%; max-width: 400px;
+            }
             .player-container.visible { transform: translateX(-50%) translateY(0); }
             .player-glass { width: 100%; justify-content: space-between; }
 
@@ -378,9 +394,11 @@
             .intro-title { font-size: 3.5rem; } .intro-name { font-size: 3.5rem; }
             
             .details-grid { grid-template-columns: 1fr; padding: 0 20px; }
+            /* Card Mobile Centralizado */
             .card-detail { flex-direction: column; text-align: center; padding: 25px; }
             .info { text-align: center; width: 100%; } 
-            .event-details h4, .rsvp-area h5 { font-size: 2.5rem; white-space: nowrap; }
+            
+            .event-details h4 { white-space: nowrap; font-size: 2.5rem; }
             
             .slideshow-box { aspect-ratio: 4/5; border-radius: 0; max-height: 500px; } 
             .mySlides img { height: 100%; object-fit: cover; }
@@ -392,7 +410,15 @@
             .ticket-left-side::before, .ticket-left-side::after { display: none; } 
             .ticket-scissors { top: auto; bottom: -18px; right: 50%; transform: translateX(50%) rotate(90deg); }
 
-            .rsvp-area { margin: 40px 20px; padding: 30px 20px; text-align: center; }
+            /* RSVP CARD - Correção Centralização */
+            .rsvp-area { 
+                margin: 40px 20px; padding: 30px 20px; text-align: center; 
+                display: flex; flex-direction: column; align-items: center; /* FORÇA CENTRO */
+            }
+            .rsvp-area h5 { 
+                white-space: nowrap; font-size: 1.5rem; margin-top: 0; 
+                width: 100%; text-align: center;
+            }
             .confirm-btn { padding: 12px 30px; font-size: 1rem; width: 100%; max-width: 250px; display: block; margin: 0 auto; }
 
             .size-wrapper { flex-direction: column; padding: 0 20px; }
@@ -477,10 +503,10 @@
             <div id="countdown" class="fade-in">
                 <p>A magia acontece em...</p>
                 <div id="timer">
-                    <div class="magic-circle"><svg><circle cx="50%" cy="50%" r="40%"></circle></svg><span id="days">0</span><span class="label">Dias</span></div>
-                    <div class="magic-circle"><svg><circle cx="50%" cy="50%" r="40%"></circle></svg><span id="hours">0</span><span class="label">Horas</span></div>
-                    <div class="magic-circle"><svg><circle cx="50%" cy="50%" r="40%"></circle></svg><span id="minutes">0</span><span class="label">Min</span></div>
-                    <div class="magic-circle"><svg><circle cx="50%" cy="50%" r="40%"></circle></svg><span id="seconds">0</span><span class="label">Seg</span></div>
+                    <div class="magic-circle"><svg viewBox="0 0 90 90"><circle cx="45" cy="45" r="40"></circle></svg><span id="days">0</span><span class="label">Dias</span></div>
+                    <div class="magic-circle"><svg viewBox="0 0 90 90"><circle cx="45" cy="45" r="40"></circle></svg><span id="hours">0</span><span class="label">Horas</span></div>
+                    <div class="magic-circle"><svg viewBox="0 0 90 90"><circle cx="45" cy="45" r="40"></circle></svg><span id="minutes">0</span><span class="label">Min</span></div>
+                    <div class="magic-circle"><svg viewBox="0 0 90 90"><circle cx="45" cy="45" r="40"></circle></svg><span id="seconds">0</span><span class="label">Seg</span></div>
                 </div>
             </div>
         </header>
@@ -500,11 +526,11 @@
         <section class="event-details fade-in">
             <h4>Detalhes da Festa</h4>
             <div class="details-grid">
-                <div class="card-detail"><div class="icon-orb pulse">📅</div><div class="info"><strong>Data</strong><span>31 de Janeiro de 2026</span></div></div>
-                <div class="card-detail"><div class="icon-orb pulse delay-1">🕑</div><div class="info"><strong>Horário</strong><span>19:00 Horas</span></div></div>
-                <div class="card-detail"><div class="icon-orb pulse delay-2">🎉</div><div class="info"><strong>Local</strong><span>Espaço 5.6 - Casa de Festas</span></div></div>
-                <div class="card-detail"><div class="icon-orb pulse delay-3">📍</div><div class="info"><strong>Endereço</strong><span>Rua Vitor Brecheret, 80<br>Santíssimo, RJ</span></div></div>
-                <div class="card-detail full"><div class="icon-orb pulse delay-4">👔</div><div class="info"><strong>Traje</strong><span>Esporte Fino</span></div></div>
+                <div class="card-detail"><div class="icon-orb pulse"><svg class="icon-svg" viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2zm-7 5h5v5h-5z"/></svg></div><div class="info"><strong>Data</strong><span>31 de Janeiro de 2026</span></div></div>
+                <div class="card-detail"><div class="icon-orb pulse delay-1"><svg class="icon-svg" viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg></div><div class="info"><strong>Horário</strong><span>19:00 Horas</span></div></div>
+                <div class="card-detail"><div class="icon-orb pulse delay-2"><svg class="icon-svg" viewBox="0 0 24 24"><path d="M12 1L8 5h3v9h2V5h3L12 1zm-4 11l-4 4h3v7h2v-7h3l-4-4z"/></svg></div><div class="info"><strong>Local</strong><span>Espaço 5.6 - Casa de Festas</span></div></div>
+                <div class="card-detail"><div class="icon-orb pulse delay-3"><svg class="icon-svg" viewBox="0 0 24 24"><path d="M12 2L9 9l3 3 3-3-3-7zm0 14c-2.33 0-4.31-1.46-5.11-3.5h10.22c-.8 2.04-2.78 3.5-5.11 3.5z"/></svg></div><div class="info"><strong>Endereço</strong><span>Rua Vitor Brecheret, 80<br>Santíssimo, RJ</span></div></div>
+                <div class="card-detail full"><div class="icon-orb pulse delay-4"><svg class="icon-svg" viewBox="0 0 24 24"><path d="M2 12c0 2.21 1.79 4 4 4s4-1.79 4-4-1.79-4-4-4-4 1.79-4 4zm18 0c0 2.21-1.79 4-4 4s-4-1.79-4-4 1.79-4 4-4 4 1.79 4 4z"/></svg></div><div class="info"><strong>Traje</strong><span>Esporte Fino</span></div></div>
             </div>
 
             <div class="map-wrapper"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3675.857553209926!2d-43.50973990000001!3d-22.8817199!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9be106f8e8767d%3A0xde5b170fee4b8032!2sEspa%C3%A7o%205.6%20Casa%20de%20Festas!5e0!3m2!1spt-BR!2sbr!4v1762229449389!5m2!1spt-BR!2sbr" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe></div>
