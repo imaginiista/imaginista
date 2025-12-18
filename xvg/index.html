@@ -154,7 +154,7 @@
         .hero-item img:hover { opacity: 1; transform: scale(1.05); z-index: 2; }
         @keyframes scrollHero { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
-        /* --- HEADER & TIMER --- */
+        /* --- HEADER & TIMER (MELHORADO) --- */
         header { text-align: center; padding: 50px 20px; border-bottom: 1px dashed #ccc; }
         .header-stars { font-size: 2rem; color: var(--gold); animation: pulse 2s infinite; display: block; margin-bottom: 10px; }
         header h1 { font-family: 'Dancing Script', cursive; font-size: 6rem; color: var(--green-main); line-height: 1; text-shadow: 2px 2px 0 rgba(212,175,55,0.2); }
@@ -165,15 +165,38 @@
         #countdown p { font-family: 'Cinzel', serif; font-size: 1.6rem; color: var(--green-main); margin-bottom: 15px; }
         
         #timer { display: flex; justify-content: center; gap: 20px; }
+        
+        /* ESTILO NOVO DO CRONÔMETRO */
         .timer-box {
-            background: linear-gradient(135deg, #fff, #f9f9f9);
-            border: 3px solid var(--gold); border-radius: 12px;
+            background: rgba(10, 42, 36, 0.85); /* Fundo escuro com transparência */
+            backdrop-filter: blur(5px); /* Efeito de vidro */
+            border: 1px solid var(--gold); 
+            border-radius: 12px;
             padding: 15px 20px; min-width: 120px;
-            box-shadow: 0 8px 20px rgba(212,175,55,0.25);
+            box-shadow: 0 0 15px rgba(212,175,55,0.15), inset 0 0 10px rgba(0,0,0,0.5); /* Glow externo e sombra interna */
             display: flex; flex-direction: column; align-items: center; justify-content: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        .timer-box span:first-child { font-family: 'Cinzel', serif; font-size: 3rem; color: var(--green-main); font-weight: bold; line-height: 1; }
-        .timer-box .label { font-size: 0.9rem; text-transform: uppercase; margin-top: 5px; color: #777; letter-spacing: 1px; font-weight: bold; }
+        .timer-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(212,175,55,0.3);
+        }
+        .timer-box span:first-child { 
+            font-family: 'Cinzel', serif; 
+            font-size: 3rem; 
+            color: var(--gold); /* Números Dourados */
+            font-weight: bold; 
+            line-height: 1; 
+            text-shadow: 0 0 10px rgba(212,175,55,0.5); /* Brilho neon no texto */
+        }
+        .timer-box .label { 
+            font-size: 0.8rem; 
+            text-transform: uppercase; 
+            margin-top: 5px; 
+            color: #ccc; /* Texto da label mais claro para contraste */
+            letter-spacing: 1px; 
+            font-weight: bold; 
+        }
 
         /* --- TEXTOS --- */
         section { padding: 50px 30px; text-align: center; opacity: 0; transform: translateY(30px); transition: 1s ease-out; }
@@ -276,7 +299,9 @@
         .info strong { display: block; font-family: 'Cinzel', serif; color: var(--green-main); font-size: 1.1rem; text-transform: uppercase; margin-bottom: 5px; }
         .info span { font-size: 1.3rem; color: #333; }
         
-        /* --- AJUSTES QUEBRA DE LINHA (LOCAL E ENDEREÇO) --- */
+        /* Classe Auxiliar para não quebrar texto */
+        .no-break { white-space: nowrap; }
+        
         /* Padrão Desktop: Esconde a quebra mobile */
         .mobile-break { display: none; }
         .desktop-sep { display: inline; }
@@ -425,9 +450,10 @@
             .hero-ticker { margin-top: 15px; border-top: 2px solid var(--gold); }
 
             #timer { gap: 5px; flex-wrap: nowrap; justify-content: center; width: 100%; padding: 0 5px; }
-            .timer-box { min-width: 70px; padding: 5px; }
+            /* Ajuste mobile do timer */
+            .timer-box { min-width: 70px; padding: 10px 5px; }
             .timer-box span:first-child { font-size: 1.8rem; }
-            .timer-box .label { font-size: 0.6rem; }
+            .timer-box .label { font-size: 0.6rem; color: #ddd; }
 
             .player-container { 
                 right: auto; left: 50%; transform: translateX(-50%) translateY(50px); 
@@ -441,7 +467,11 @@
             
             .details-grid { grid-template-columns: 1fr; padding: 0 20px; }
             .card-detail { flex-direction: column; text-align: center; padding: 25px; }
+            
+            /* Correção endereço mobile */
             .info { text-align: center; width: 100%; } 
+            .info span { font-size: 1.1rem; } /* Leve redução para garantir que não quebre */
+            
             .event-details h4 { white-space: nowrap; font-size: 2.5rem; }
             
             /* -- Aplica Quebra de linha no Mobile -- */
@@ -605,7 +635,7 @@
                 <div class="card-detail"><div class="icon-orb pulse delay-3"><svg class="icon-svg" viewBox="0 0 24 24"><path d="M12 2L9 9l3 3 3-3-3-7zm0 14c-2.33 0-4.31-1.46-5.11-3.5h10.22c-.8 2.04-2.78 3.5-5.11 3.5z"/></svg></div>
                     <div class="info">
                         <strong>Endereço</strong>
-                        <span>Rua Vitor Brecheret, 80 <br class="mobile-break">Santíssimo, RJ</span>
+                        <span><span class="no-break">Rua Vitor Brecheret, 80</span> <br class="mobile-break">Santíssimo, RJ</span>
                     </div>
                 </div>
                 <div class="card-detail full"><div class="icon-orb pulse delay-4"><svg class="icon-svg" viewBox="0 0 24 24"><path d="M2 12c0 2.21 1.79 4 4 4s4-1.79 4-4-1.79-4-4-4-4 1.79-4 4zm18 0c0 2.21-1.79 4-4 4s-4-1.79-4-4 1.79-4 4-4 4 1.79 4 4z"/></svg></div><div class="info"><strong>Traje</strong><span>Esporte Fino</span></div></div>
