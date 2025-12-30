@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Financeiro Seguro | Jorge Cazé</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --sidebar-bg: rgba(30, 41, 59, 0.7);
+            --header-bg: rgba(15, 23, 42, 0.98);
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent-gold: #fbbf24;
+            --accent-green: #10b981;
+            --accent-red: #ef4444;
+            --accent-blue: #3b82f6;
+        }
+
+        /* Bloqueio de seleção de texto para segurança */
+        * { 
+            margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; 
+            -webkit-user-select: none; /* Safari */
+            -ms-user-select: none; /* IE 10 and IE 11 */
+            user-select: none; /* Standard syntax */
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* --- BACKGROUND ANIMATION (Melhorado) --- */
+        .money-rain {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 0; overflow: hidden;
+        }
+        .money-icon {
+            position: absolute; 
+            color: rgba(255, 255, 255, 0.12); /* Aumentado para 12% */
+            text-shadow: 0 0 5px rgba(255,255,255,0.1); /* Brilho leve */
+            font-size: 24px; animation: fall linear infinite;
+        }
+        @keyframes fall {
+            0% { transform: translateY(-100px) rotate(0deg); opacity: 0; }
+            20% { opacity: 1; }
+            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* --- LAYOUT WRAPPER --- */
+        .app-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* --- SIDEBAR / HEADER AREA --- */
+        .info-panel {
+            background-color: var(--header-bg);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding: 20px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        /* Badge de Segurança no Topo */
+        .security-badge-top {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 0.7rem;
+            color: var(--accent-green);
+            border: 1px solid var(--accent-green);
+            padding: 2px 8px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            background: rgba(16, 185, 129, 0.1);
+            animation: pulseSecurity 3s infinite;
+        }
+
+        @keyframes pulseSecurity {
+            0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
+            70% { box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+
+        /* Relógio */
+        .clock-container {
+            font-size: 1.01rem; color: var(--accent-blue);
+            background: rgba(59, 130, 246, 0.1);
+            padding: 4px 10px; border-radius: 4px; display: inline-block;
+            border: 1px solid rgba(59, 130, 246, 0.2); font-family: monospace;
+            margin-bottom: 15px; margin-top: 10px; width: 100%; text-align: center;
+        }
+
+        .header-title-area { margin-bottom: 20px; }
+        .header-title-area h1 { font-size: 0.8rem; color: var(--accent-gold); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 5px; }
+        .header-title-area h2 { font-size: 1.8rem; font-weight: 700; color: #fff; line-height: 1.1; }
+
+        .counter-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--accent-gold), #d97706);
+            color: #000; padding: 5px 15px; border-radius: 20px;
+            font-weight: 800; font-size: 0.9rem; margin-top: 10px;
+        }
+
+        /* Resumo Financeiro */
+        .summary-block { margin: 25px 0; }
+        .big-total {
+            font-size: 2.8rem; font-weight: 700;
+            background: linear-gradient(to right, #fff, #94a3b8);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .label-total { font-size: 0.8rem; color: var(--text-secondary); letter-spacing: 1px; text-transform: uppercase; }
+
+        .progress-wrapper {
+            background: rgba(255,255,255,0.1); height: 10px; border-radius: 10px;
+            width: 100%; margin-top: 15px; overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%; background: linear-gradient(90deg, var(--accent-green), #34d399);
+            width: 0%; transition: width 1s ease;
+        }
+        .progress-label { font-size: 0.85rem; color: var(--accent-green); margin-top: 8px; text-align: right; font-weight: bold; }
+
+        /* PIX Box */
+        .pix-box {
+            background: rgba(16, 185, 129, 0.08);
+            padding: 15px; border-radius: 12px; border: 1px solid rgba(16, 185, 129, 0.2);
+            margin-top: 20px;
+        }
+        .pix-title { color: var(--accent-green); font-size: 0.75rem; font-weight: bold; margin-bottom: 8px; display: flex; align-items: center; gap: 5px; }
+        .pix-key-row { display: flex; gap: 10px; }
+        .pix-key {
+            flex-grow: 1; font-family: monospace; font-size: 0.95rem;
+            color: #fff; background: rgba(0,0,0,0.2); padding: 8px; border-radius: 6px;
+            overflow: hidden; text-overflow: ellipsis; white-space: nowrap; border: 1px solid rgba(255,255,255,0.05);
+            /* Permite selecionar apenas a chave PIX se necessário, mas o botão copiar resolve */
+            user-select: text; 
+        }
+        .btn-copy {
+            background: var(--accent-green); border: none; color: #000;
+            padding: 0 15px; border-radius: 6px; font-weight: bold;
+            font-size: 0.8rem; cursor: pointer; transition: transform 0.2s;
+        }
+        .btn-copy:active { transform: scale(0.95); }
+
+        /* --- CONTENT AREA (LIST) --- */
+        .content-panel { padding: 20px; flex: 1; }
+
+        .list-controls {
+            display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;
+        }
+        .toggle-btn {
+            background: transparent; border: 1px solid var(--text-secondary);
+            color: var(--text-secondary); padding: 6px 16px; border-radius: 20px;
+            font-size: 0.8rem; cursor: pointer; transition: all 0.3s;
+        }
+        .toggle-btn:hover { border-color: #fff; color: #fff; }
+        .toggle-btn.active { background: var(--card-bg); border-color: var(--accent-gold); color: var(--accent-gold); }
+
+        .installments-list { display: flex; flex-direction: column; gap: 15px; }
+
+        /* Card Styles */
+        .card {
+            background: var(--card-bg); padding: 20px; border-radius: 12px;
+            border-left: 4px solid var(--text-secondary); display: flex;
+            justify-content: space-between; align-items: center;
+            animation: slideIn 0.4s ease-out; position: relative;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2); transition: transform 0.2s;
+        }
+        .card:hover { transform: translateY(-2px); }
+
+        .card.is-late {
+            border-left-color: var(--accent-red); background: rgba(239, 68, 68, 0.05);
+            border-right: 1px solid rgba(239, 68, 68, 0.2);
+        }
+        .card.is-next {
+            border-left: 5px solid var(--accent-gold);
+            box-shadow: 0 0 20px rgba(251, 191, 36, 0.1);
+            background: linear-gradient(90deg, #1e293b 0%, rgba(251, 191, 36, 0.05) 100%);
+            z-index: 10;
+        }
+        .card.is-paid {
+            border-left-color: var(--accent-green); background: rgba(30, 41, 59, 0.4);
+            opacity: 0.5; display: none; filter: grayscale(0.5);
+        }
+        .card.is-paid.visible { display: flex; }
+
+        .card-info h4 { font-size: 1.1rem; color: #fff; margin-bottom: 4px; }
+        .card-info p { font-size: 0.85rem; color: var(--text-secondary); }
+
+        .status-container { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+        .status {
+            font-size: 0.75rem; padding: 5px 12px; border-radius: 12px;
+            text-transform: uppercase; font-weight: bold; text-align: center; min-width: 90px;
+        }
+        .days-counter { font-size: 0.75rem; color: var(--accent-gold); font-weight: bold; }
+
+        .status-open { background: rgba(148, 163, 184, 0.15); color: var(--text-secondary); }
+        .status-next { background: var(--accent-gold); color: #000; }
+        .status-late { background: rgba(239, 68, 68, 0.2); color: var(--accent-red); border: 1px solid var(--accent-red); }
+        .status-done { background: rgba(16, 185, 129, 0.15); color: var(--accent-green); }
+
+        .next-label {
+            position: absolute; top: -10px; left: 15px; background: var(--accent-gold);
+            color: #000; font-size: 0.65rem; padding: 3px 10px; border-radius: 4px;
+            font-weight: 800; text-transform: uppercase; display: none; z-index: 10;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+        .card.is-next .next-label { display: block; }
+
+        /* MENSAGEM DO SISTEMA - NOVA E ANIMADA */
+        .system-msg-container {
+            display: flex;
+            justify-content: center;
+            margin: 40px 0 20px 0;
+        }
+        
+        .system-msg {
+            background: linear-gradient(90deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.2));
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: var(--accent-green);
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-size: 1.15rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.1);
+            animation: glowSystem 3s infinite alternate;
+        }
+
+        @keyframes glowSystem {
+            from { box-shadow: 0 0 5px rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.2); }
+            to { box-shadow: 0 0 15px rgba(16, 185, 129, 0.4); border-color: rgba(16, 185, 129, 0.6); }
+        }
+
+        /* --- FOOTER (FULL WIDTH) --- */
+        .imaginista-footer {
+            width: 100%;
+            background: #020617;
+            padding: 40px 20px;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            position: relative;
+            z-index: 2;
+            margin-top: auto;
+        }
+
+        .logo-area {
+            margin-bottom: 20px; cursor: pointer; display: inline-block; transition: transform 0.2s;
+        }
+        .footer-logo { height: 90px; width: auto; display: block; }
+        .logo-animate { animation: spinLogo 1.5s cubic-bezier(0.68, -0.55, 0.27, 1.55); }
+
+        @keyframes spinLogo {
+            0% { transform: scale(1) rotateY(0deg); }
+            50% { transform: scale(1.2) rotateY(180deg); }
+            100% { transform: scale(1) rotateY(360deg); }
+        }
+
+        .copyright { font-size: 0.85rem; color: #64748b; line-height: 1.5; }
+        .footer-dot { color: var(--accent-gold); font-weight: bold; }
+        .footer-break { display: block; }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* =========================================
+           DESKTOP STYLES
+           ========================================= */
+        @media (min-width: 1024px) {
+            body { overflow-y: scroll; }
+
+            .app-wrapper {
+                flex-direction: row; align-items: flex-start;
+                padding-top: 40px; gap: 40px;
+                padding-left: 20px; padding-right: 20px;
+                min-height: calc(100vh - 200px);
+            }
+
+            .info-panel {
+                width: 380px; position: sticky; top: 40px;
+                background: var(--sidebar-bg); border-radius: 20px;
+                border: 1px solid rgba(255,255,255,0.05);
+                box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
+                padding: 30px;
+            }
+
+            .content-panel { padding: 0; margin-top: 0; }
+            .big-total { font-size: 3.5rem; }
+            .header-title-area h2 { font-size: 2.2rem; }
+            
+            /* Footer Desktop - FONTE MAIOR AQUI */
+            .footer-break { display: none; }
+            .copyright { 
+                display: flex; justify-content: center; gap: 5px; 
+                font-size: 1.1rem; /* Aumentado como solicitado */
+                letter-spacing: 0.5px;
+            }
+            .imaginista-footer { margin-top: 60px; }
+            
+            /* Ajuste do relógio no painel desktop para ficar mais elegante */
+            .clock-container { margin-top: 0; }
+        }
+
+    </style>
+</head>
+<body oncontextmenu="return false;"> <div class="money-rain" id="moneyRain"></div>
+
+    <div class="app-wrapper">
+        
+        <aside class="info-panel">
+            <div class="security-badge-top">
+                <span>🛡️</span> SEGURO
+            </div>
+
+            <div class="clock-container">
+                <span id="liveClock">--/--/---- --:--:--</span> | BRASÍLIA
+            </div>
+
+            <div class="header-title-area">
+                <h1>Lembrete Financeiro</h1>
+                <h2>Jorge Cazé</h2>
+                <div class="counter-badge" id="counterBadge">0/31</div>
+            </div>
+
+            <div class="summary-block">
+                <div class="label-total">Restante a Pagar</div>
+                <div class="big-total" id="remainingValue">R$ 4.068,00</div>
+                
+                <div class="progress-wrapper">
+                    <div class="progress-fill" id="progressBar"></div>
+                </div>
+                <div class="progress-label" id="progressText">0% Quitado</div>
+            </div>
+
+            <div class="pix-box">
+                <div class="pix-title"><span>💠</span> CHAVE PIX</div>
+                <div class="pix-key-row">
+                    <div class="pix-key" id="pixKey">robsonbatiiista@gmail.com</div>
+                    <button class="btn-copy" onclick="copyPix()">COPIAR</button>
+                </div>
+            </div>
+        </aside>
+
+        <main class="content-panel">
+            <div class="list-controls">
+                <span style="font-size: 0.9rem; font-weight: bold; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px;">Histórico de Pagamentos</span>
+                <button class="toggle-btn" id="toggleBtn" onclick="toggleHistory()">
+                    👁️ Ver Pagas
+                </button>
+            </div>
+
+            <div class="installments-list" id="listContainer"></div>
+
+            <div class="system-msg-container">
+                <div class="system-msg">
+                    <span>🔄</span> 
+                    <span>Atualizado automaticamente via sistema seguro</span>
+                    <span style="font-size: 0.7em;">🔒</span>
+                </div>
+            </div>
+        </main>
+
+    </div>
+
+    <footer class="imaginista-footer fade-in">
+        <div class="logo-area" id="logo-click-area" onclick="animateLogo()">
+            <img src="imagens/logo.png" alt="O Imaginista" class="footer-logo">
+        </div>
+        <p class="copyright">
+            © 2025 IMAGINISTA<span class="footer-dot">∴</span>
+            <br class="footer-break">
+            Todos os direitos reservados.
+        </p>
+    </footer>
+
+    <script>
+        /* ==========================================================
+           SEGURANÇA (Anti-Cópia e Anti-Fraude)
+           ========================================================== */
+        // Desativa clique direito
+        document.addEventListener('contextmenu', event => event.preventDefault());
+
+        // Desativa teclas de desenvolvedor (F12, Ctrl+Shift+I, etc)
+        document.onkeydown = function(e) {
+            if(e.keyCode == 123) { return false; } // F12
+            if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)){ return false; } // Ctrl+Shift+I
+            if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)){ return false; } // Ctrl+Shift+J
+            if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)){ return false; } // Ctrl+U
+        }
+
+        /* ==========================================================
+           DADOS FINANCEIROS
+           ========================================================== */
+        
+        const parcelas = [
+            { id: 1, valor: 168.00, venc: "10/01/2026", obs: "Entrada + Parcela", pago: false },
+            { id: 2, valor: 130.00, venc: "10/02/2026", obs: "", pago: false },
+            { id: 3, valor: 130.00, venc: "10/03/2026", obs: "", pago: false },
+            { id: 4, valor: 130.00, venc: "10/04/2026", obs: "", pago: false },
+            { id: 5, valor: 130.00, venc: "10/05/2026", obs: "", pago: false },
+            { id: 6, valor: 130.00, venc: "10/06/2026", obs: "", pago: false },
+            { id: 7, valor: 130.00, venc: "10/07/2026", obs: "", pago: false },
+            { id: 8, valor: 130.00, venc: "10/08/2026", obs: "", pago: false },
+            { id: 9, valor: 130.00, venc: "10/09/2026", obs: "", pago: false },
+            { id: 10, valor: 130.00, venc: "10/10/2026", obs: "", pago: false },
+            { id: 11, valor: 130.00, venc: "10/11/2026", obs: "", pago: false },
+            { id: 12, valor: 130.00, venc: "10/12/2026", obs: "", pago: false },
+            { id: 13, valor: 130.00, venc: "10/01/2027", obs: "", pago: false },
+            { id: 14, valor: 130.00, venc: "10/02/2027", obs: "", pago: false },
+            { id: 15, valor: 130.00, venc: "10/03/2027", obs: "", pago: false },
+            { id: 16, valor: 130.00, venc: "10/04/2027", obs: "", pago: false },
+            { id: 17, valor: 130.00, venc: "10/05/2027", obs: "", pago: false },
+            { id: 18, valor: 130.00, venc: "10/06/2027", obs: "", pago: false },
+            { id: 19, valor: 130.00, venc: "10/07/2027", obs: "", pago: false },
+            { id: 20, valor: 130.00, venc: "10/08/2027", obs: "", pago: false },
+            { id: 21, valor: 130.00, venc: "10/09/2027", obs: "", pago: false },
+            { id: 22, valor: 130.00, venc: "10/10/2027", obs: "", pago: false },
+            { id: 23, valor: 130.00, venc: "10/11/2027", obs: "", pago: false },
+            { id: 24, valor: 130.00, venc: "10/12/2027", obs: "", pago: false },
+            { id: 25, valor: 130.00, venc: "10/01/2028", obs: "", pago: false },
+            { id: 26, valor: 130.00, venc: "10/02/2028", obs: "", pago: false },
+            { id: 27, valor: 130.00, venc: "10/03/2028", obs: "", pago: false },
+            { id: 28, valor: 130.00, venc: "10/04/2028", obs: "", pago: false },
+            { id: 29, valor: 130.00, venc: "10/05/2028", obs: "", pago: false },
+            { id: 30, valor: 130.00, venc: "10/06/2028", obs: "", pago: false },
+            { id: 31, valor: 130.00, venc: "10/07/2028", obs: "", pago: false }
+        ];
+
+        /* ==========================================================
+           LÓGICA DO SISTEMA
+           ========================================================== */
+
+        let mostrarHistorico = false;
+        const totalDivida = 4068.00;
+
+        function init() {
+            createRain();
+            renderList();
+            setInterval(updateClock, 1000);
+            updateClock();
+        }
+
+        function updateClock() {
+            const options = { 
+                timeZone: 'America/Sao_Paulo', 
+                day: '2-digit', month: '2-digit', year: 'numeric',
+                hour: '2-digit', minute: '2-digit', second: '2-digit'
+            };
+            const now = new Date().toLocaleString('pt-BR', options);
+            document.getElementById('liveClock').innerText = now;
+        }
+
+        function stringToDate(dateStr) {
+            const [day, month, year] = dateStr.split('/');
+            return new Date(year, month - 1, day);
+        }
+
+        function getDaysDiff(dateTarget) {
+            const today = new Date();
+            today.setHours(0,0,0,0);
+            const target = new Date(dateTarget);
+            const diffTime = target - today;
+            return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        }
+
+        function renderList() {
+            const container = document.getElementById('listContainer');
+            const elCounter = document.getElementById('counterBadge');
+            const elRemaining = document.getElementById('remainingValue');
+            const elProgressBar = document.getElementById('progressBar');
+            const elProgressText = document.getElementById('progressText');
+            const btnToggle = document.getElementById('toggleBtn');
+            
+            container.innerHTML = '';
+
+            let totalPago = 0;
+            let qtdPagas = 0;
+            let nextFound = false; 
+
+            const hoje = new Date();
+            hoje.setHours(0,0,0,0);
+
+            parcelas.forEach(p => {
+                const dataVencimento = stringToDate(p.venc);
+                const diasRestantes = getDaysDiff(dataVencimento);
+
+                let statusClass = 'status-open';
+                let statusText = 'ABERTO';
+                let cardClass = '';
+                let countdownHTML = '';
+
+                if(p.pago) {
+                    totalPago += p.valor;
+                    qtdPagas++;
+                    statusClass = 'status-done';
+                    statusText = 'QUITADO';
+                } else {
+                    if (dataVencimento < hoje) {
+                        statusClass = 'status-late';
+                        statusText = 'ATRASADO';
+                        cardClass = 'is-late';
+                    } else {
+                        if (!nextFound) {
+                            cardClass += ' is-next';
+                            statusClass = 'status-next';
+                            statusText = 'PAGAR';
+                            nextFound = true; 
+
+                            if(diasRestantes === 0) {
+                                countdownHTML = `<span class="days-counter" style="color:red">VENCE HOJE!</span>`;
+                            } else if (diasRestantes === 1) {
+                                countdownHTML = `<span class="days-counter">Vence Amanhã</span>`;
+                            } else {
+                                countdownHTML = `<span class="days-counter">Vence em ${diasRestantes} dias</span>`;
+                            }
+                        }
+                    }
+                }
+
+                const div = document.createElement('div');
+                div.className = `card ${p.pago ? 'is-paid' : ''} ${mostrarHistorico && p.pago ? 'visible' : ''} ${cardClass}`;
+                
+                const valorFmt = p.valor.toLocaleString('pt-BR', {style:'currency', currency:'BRL'});
+                const obsText = p.obs ? `(${p.obs})` : '';
+
+                const labelHTML = div.className.includes('is-next') ? '<div class="next-label">PRIORIDADE</div>' : '';
+
+                div.innerHTML = `
+                    ${labelHTML}
+                    <div class="card-info">
+                        <h4>#${p.id} - ${valorFmt} <span style="font-size:0.7em; color:#fbbf24">${obsText}</span></h4>
+                        <p>Vencimento: ${p.venc}</p>
+                    </div>
+                    <div class="status-container">
+                        <div class="status ${statusClass}">${statusText}</div>
+                        ${countdownHTML}
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+
+            // Atualiza Totais
+            elCounter.innerText = `${qtdPagas}/${parcelas.length}`;
+            const restante = totalDivida - totalPago;
+            const porcentagem = (totalPago / totalDivida) * 100;
+
+            elRemaining.innerText = restante.toLocaleString('pt-BR', {style:'currency', currency:'BRL'});
+            
+            setTimeout(() => { elProgressBar.style.width = `${porcentagem}%`; }, 200);
+            elProgressText.innerText = `${porcentagem.toFixed(1)}% Quitado`;
+
+            if(mostrarHistorico) {
+                btnToggle.classList.add('active');
+                btnToggle.innerText = "👁️ Ocultar Pagas";
+            } else {
+                btnToggle.classList.remove('active');
+                btnToggle.innerText = "👁️ Ver Pagas";
+            }
+        }
+
+        function toggleHistory() {
+            mostrarHistorico = !mostrarHistorico;
+            renderList();
+        }
+
+        function copyPix() {
+            const key = document.getElementById('pixKey').innerText;
+            navigator.clipboard.writeText(key).then(() => {
+                const btn = document.querySelector('.btn-copy');
+                const originalText = btn.innerText;
+                btn.innerText = "COPIADO!";
+                setTimeout(() => btn.innerText = originalText, 2000);
+            });
+        }
+
+        function animateLogo() {
+            const logoArea = document.getElementById('logo-click-area');
+            if (!logoArea.classList.contains('logo-animate')) {
+                logoArea.classList.add('logo-animate');
+                setTimeout(() => {
+                    logoArea.classList.remove('logo-animate');
+                }, 1500);
+            }
+        }
+
+        function createRain() {
+            const container = document.getElementById('moneyRain');
+            const symbols = ['💲', '💸', '💰', '💳', 'R$'];
+            const amount = 25; 
+            for(let i=0; i<amount; i++) {
+                const el = document.createElement('div');
+                el.className = 'money-icon';
+                el.innerText = symbols[Math.floor(Math.random() * symbols.length)];
+                el.style.left = Math.random() * 100 + 'vw';
+                el.style.animationDuration = (Math.random() * 5 + 5) + 's';
+                el.style.animationDelay = (Math.random() * 5) + 's';
+                el.style.fontSize = (Math.random() * 20 + 15) + 'px';
+                container.appendChild(el);
+            }
+        }
+
+        init();
+    </script>
+</body>
+</html>
