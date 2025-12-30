@@ -352,7 +352,7 @@
 
             <div class="summary-block">
                 <div class="label-total">Restante a Pagar</div>
-                <div class="big-total" id="remainingValue">R$ 4.068,00</div>
+                <div class="big-total" id="remainingValue">R$ 4.030,00</div>
                 
                 <div class="progress-wrapper">
                     <div class="progress-fill" id="progressBar"></div>
@@ -421,8 +421,8 @@
            ========================================================== */
         
         const parcelas = [
-            { id: 1, valor: 168.00, venc: "10/01/2026", obs: "Ent + Parc", pago: true },
-            { id: 2, valor: 130.00, venc: "10/02/2026", obs: "", pago: true },
+            { id: 1, valor: 130.00, venc: "10/01/2026", obs: "1ª parcela", pago: true },
+            { id: 2, valor: 130.00, venc: "10/02/2026", obs: "", pago: false },
             { id: 3, valor: 130.00, venc: "10/03/2026", obs: "", pago: false },
             { id: 4, valor: 130.00, venc: "10/04/2026", obs: "", pago: false },
             { id: 5, valor: 130.00, venc: "10/05/2026", obs: "", pago: false },
@@ -459,7 +459,7 @@
            ========================================================== */
 
         let mostrarHistorico = false;
-        const totalDivida = 4068.00;
+        const totalDivida = 4030.00;
 
         function init() {
             createRain();
