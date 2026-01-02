@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Imaginista Platinum Motion</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cinzel+Decorative:wght@700&family=Raleway:wght@300;600&family=Parisienne&family=Dancing+Script:wght@700&family=Montserrat:wght@300;700&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --gold: #d4af37;
+            --panel: #111;
+            --border: #333;
+        }
+
+        body {
+            font-family: 'Raleway', sans-serif;
+            background: #050505;
+            color: #ddd;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 3.5em; 
+            color: var(--gold);
+            margin: 0;
+            text-shadow: 0 0 25px rgba(212, 175, 55, 0.4);
+        }
+        h2 { font-size: 0.9em; letter-spacing: 6px; color: #666; margin-bottom: 30px; text-transform: uppercase; }
+
+        /* PAINEL */
+        .studio-deck {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-top: 4px solid var(--gold);
+            box-shadow: 0 30px 80px rgba(0,0,0,0.9);
+            max-width: 1400px; 
+            margin: 0 auto; 
+            padding: 30px;
+            display: grid; 
+            grid-template-columns: 300px 1fr 300px;
+            gap: 30px;
+            text-align: left;
+            border-radius: 12px;
+        }
+
+        .section-title { 
+            color: var(--gold); 
+            font-size: 0.85em; 
+            font-weight: 700;
+            text-transform: uppercase; 
+            border-bottom: 1px solid #333; 
+            padding-bottom: 10px; 
+            margin-bottom: 15px;
+        }
+
+        /* CONTROLES */
+        .control-group { margin-bottom: 15px; }
+        .control-group label { display: block; font-size: 0.75em; color: #999; margin-bottom: 5px; }
+        
+        input[type="text"], select {
+            background: #050505; border: 1px solid #444; color: #fff;
+            padding: 12px; font-family: 'Raleway', sans-serif; width: 100%; 
+            box-sizing: border-box; border-radius: 5px; font-size: 0.9em;
+        }
+        input[type="text"]:focus, select:focus { border-color: var(--gold); outline: none; }
+
+        /* --- NOVO PICKER DE COR COM DESTAQUE --- */
+        .color-picker-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+        
+        /* Wrapper do arco-íris para destacar o custom */
+        .custom-picker-wrap {
+            position: relative;
+            width: 34px; height: 34px;
+            border-radius: 50%;
+            background: conic-gradient(red, yellow, lime, aqua, blue, magenta, red);
+            display: flex; justify-content: center; align-items: center;
+            cursor: pointer;
+            transition: transform 0.2s;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+        }
+        .custom-picker-wrap:hover { transform: scale(1.1); }
+        .custom-picker-wrap input[type="color"] {
+            position: absolute; width: 26px; height: 26px; border: none; padding: 0;
+            background: none; border-radius: 50%; cursor: pointer;
+        }
+        
+        /* Presets Normais */
+        .preset-dot {
+            width: 26px; height: 26px; border-radius: 50%; cursor: pointer;
+            border: 2px solid #333; transition: transform 0.2s;
+        }
+        .preset-dot:hover { transform: scale(1.1); }
+        .preset-dot.active { border-color: #fff; transform: scale(1.2); box-shadow: 0 0 10px rgba(255,255,255,0.5); }
+
+        /* EFEITOS & TOGGLES */
+        .fx-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
+            background: #080808; padding: 10px; border-radius: 6px; border: 1px solid #222;
+        }
+        .fx-btn {
+            background: #181818; color: #888; border: 1px solid #2a2a2a;
+            padding: 8px; font-size: 0.7em; cursor: pointer; text-align: center;
+            border-radius: 4px; transition: 0.2s;
+        }
+        .fx-btn:hover { background: #222; color: #fff; }
+        .fx-btn.active { background: var(--gold); color: #000; font-weight: bold; border-color: var(--gold); }
+
+        .toggle-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .toggle-item { display: flex; align-items: center; gap: 8px; font-size: 0.8em; color: #ccc; cursor: pointer; }
+        .toggle-item input { accent-color: var(--gold); }
+
+        /* BOTÕES */
+        .action-panel { display: flex; flex-direction: column; gap: 12px; margin-top: auto; }
+        .btn-render-img {
+            background: linear-gradient(135deg, #b8860b, #ffe066);
+            color: #000; font-size: 1.1em; padding: 15px; width: 100%;
+            border: none; cursor: pointer; font-weight: 700; border-radius: 6px;
+            text-transform: uppercase; box-shadow: 0 5px 20px rgba(184, 134, 11, 0.3);
+            transition: 0.3s;
+        }
+        .btn-render-img:hover { filter: brightness(1.1); transform: translateY(-2px); }
+        .btn-render-video {
+            background: transparent; border: 2px solid var(--gold); color: var(--gold);
+            padding: 15px; width: 100%; font-size: 1em; cursor: pointer; font-weight: 600;
+            border-radius: 6px; display: flex; align-items: center; justify-content: center; gap: 10px;
+            transition: 0.3s;
+        }
+        .btn-render-video:hover { background: var(--gold); color: #000; }
+
+        /* GALERIA & UPLOAD */
+        .upload-box {
+            background: #151515; border: 1px dashed #555; color: #aaa; 
+            padding: 15px; cursor: pointer; display: flex; align-items: center; 
+            gap: 10px; font-size: 0.8em; border-radius: 6px; transition: 0.3s;
+        }
+        .upload-box:hover { border-color: var(--gold); color: #fff; }
+        .preview-thumb { width: 40px; height: 40px; object-fit: contain; display: none; background: #000; }
+
+        #gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); gap: 30px; padding: 40px; }
+        .card { background: #000; border: 1px solid #333; padding: 5px; position: relative; }
+        .card video, .card img { width: 100%; height: auto; display: block; }
+        .dl-btn { 
+            display: block; background: #111; color: var(--gold); padding: 12px; 
+            text-decoration: none; text-align: center; border-top: 1px solid #333; font-weight: 600;
+        }
+        .dl-btn:hover { background: var(--gold); color: #000; }
+
+        #loader {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.95); z-index: 9999; display: none;
+            justify-content: center; align-items: center; flex-direction: column;
+        }
+        .spinner {
+            width: 60px; height: 60px; border: 5px solid #222; border-top: 5px solid var(--gold);
+            border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 20px;
+        }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+
+    <div id="loader">
+        <div class="spinner"></div>
+        <div id="loader-msg" style="color:var(--gold); font-size:1.2em;">Processando...</div>
+    </div>
+
+    <h1>Imaginista Platinum</h1>
+    <h2>Motion & Design Studio</h2>
+
+    <div class="studio-deck">
+        
+        <div class="panel-col">
+            <div class="section-title">1. Identidade</div>
+            
+            <label class="upload-box">
+                <img id="prev-logo" class="preview-thumb">
+                <span>📂 Carregar Logo (PNG)</span>
+                <input type="file" id="file-logo" accept="image/*">
+            </label>
+
+            <div class="control-group">
+                <label>Nome Principal</label>
+                <input type="text" id="in-nome" value="Geovana Frigoletto">
+                <div class="color-picker-row" style="margin-top:5px;">
+                    <div class="custom-picker-wrap" title="Cor Personalizada">
+                        <input type="color" id="col-nome-custom" value="#ffe066">
+                    </div>
+                    <div class="preset-dot active" style="background:#ffe066" onclick="setCol('nome', '#ffe066')"></div>
+                    <div class="preset-dot" style="background:#ffffff" onclick="setCol('nome', '#ffffff')"></div>
+                    <div class="preset-dot" style="background:#000000" onclick="setCol('nome', '#000000')"></div>
+                </div>
+                <select id="sel-font-nome" style="margin-top:5px;">
+                    <option value="Great Vibes" selected>Great Vibes (Padrão)</option>
+                    <option value="Parisienne">Parisienne (Elegante)</option>
+                    <option value="Dancing Script">Dancing Script (Moderna)</option>
+                    <option value="Cinzel Decorative">Cinzel (Imperial)</option>
+                </select>
+            </div>
+
+            <div class="control-group">
+                <label>Subtítulo</label>
+                <input type="text" id="in-sub" value="XV ANOS">
+                <div class="color-picker-row" style="margin-top:5px;">
+                    <div class="custom-picker-wrap">
+                        <input type="color" id="col-sub-custom" value="#d4af37">
+                    </div>
+                    <div class="preset-dot active" style="background:#d4af37" onclick="setCol('sub', '#d4af37')"></div>
+                    <div class="preset-dot" style="background:#888" onclick="setCol('sub', '#888888')"></div>
+                </div>
+                <select id="sel-font-sub" style="margin-top:5px;">
+                    <option value="Cinzel Decorative" selected>Cinzel (Padrão)</option>
+                    <option value="Montserrat">Montserrat (Limpa)</option>
+                    <option value="Raleway">Raleway (Fina)</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="panel-col">
+            <div class="section-title">2. Estrutura</div>
+
+            <div class="control-group">
+                <label>Layout do Grid</label>
+                <select id="sel-layout">
+                    <option value="single" selected>🏆 Moldura Única (Clássico)</option>
+                    <option value="grid_quint">💎 Royal (5 Fotos - Centro Destaque)</option>
+                    <option value="grid_quad">▦ Grid (4 Fotos)</option>
+                    <option value="collage_dyn">🎨 Dinâmico (3 Fotos)</option>
+                    <option value="dual_vert">👥 Dupla Vertical</option>
+                </select>
+            </div>
+
+            <div class="control-group">
+                <label>Estilo dos Cantos (Moldura)</label>
+                <select id="sel-radius">
+                    <option value="0">Quadrado (Reto)</option>
+                    <option value="20" selected>Levemente Arredondado (Moderno)</option>
+                    <option value="50">Arredondado (Suave)</option>
+                </select>
+            </div>
+
+            <div class="control-group">
+                <label>Cor do Fundo</label>
+                <div class="color-picker-row">
+                    <div class="custom-picker-wrap">
+                        <input type="color" id="col-bg-custom" value="#0f2b15">
+                    </div>
+                    <div class="preset-dot active" style="background:#0f2b15" onclick="setCol('bg', '#0f2b15')"></div>
+                    <div class="preset-dot" style="background:#000" onclick="setCol('bg', '#000000')"></div>
+                    <div class="preset-dot" style="background:#2b0f0f" onclick="setCol('bg', '#2b0f0f')"></div>
+                    <div class="preset-dot" style="background:#0f152b" onclick="setCol('bg', '#0f152b')"></div>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label>Cor da Moldura</label>
+                <div class="color-picker-row">
+                    <div class="custom-picker-wrap">
+                        <input type="color" id="col-frame-custom" value="#d4af37">
+                    </div>
+                    <div class="preset-dot active" style="background:#d4af37" onclick="setCol('frame', '#d4af37')"></div>
+                    <div class="preset-dot" style="background:#c0c0c0" onclick="setCol('frame', '#c0c0c0')"></div>
+                    <div class="preset-dot" style="background:#ffb7c5" onclick="setCol('frame', '#ffb7c5')"></div>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label>Filtros de Imagem</label>
+                <div class="fx-grid" id="fx-container"></div>
+            </div>
+        </div>
+
+        <div class="panel-col">
+            <div class="section-title">3. Render & Atmosfera</div>
+            
+            <div class="toggle-grid">
+                <label class="toggle-item"><input type="checkbox" id="chk-kenburns" checked> 🎥 Zoom Motion</label>
+                <label class="toggle-item"><input type="checkbox" id="chk-gold" checked> ✨ Pó de Ouro</label>
+                <label class="toggle-item"><input type="checkbox" id="chk-vignette" checked> 🌑 Vinheta</label>
+                <label class="toggle-item"><input type="checkbox" id="chk-grain" checked> 🎞️ Granulado</label>
+                <label class="toggle-item"><input type="checkbox" id="chk-lightleak"> ☀️ Luz Solar</label>
+                <label class="toggle-item"><input type="checkbox" id="chk-blur" checked> 🌫️ Desfoque Fundo</label>
+                <label class="toggle-item"><input type="checkbox" id="chk-border" checked> 🖼️ Filete Fino</label>
+            </div>
+
+            <div class="control-group" style="margin-top:15px;">
+                <label>Qualidade & Tempo</label>
+                <div style="display:flex; gap:10px;">
+                    <select id="sel-quality">
+                        <option value="1">Full HD (Rápido)</option>
+                        <option value="2" selected>4K Ultra (Pro)</option>
+                    </select>
+                    <select id="sel-duration">
+                        <option value="10">10s</option>
+                        <option value="15" selected>15s</option>
+                        <option value="30">30s</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="action-panel">
+                <button class="btn-render-img" onclick="startRender('image')">📸 Gerar Imagem</button>
+                <button class="btn-render-video" onclick="startRender('video')">🎥 Gerar Motion Video</button>
+                <input type="file" id="file-photos" multiple accept="image/*" style="display:none">
+            </div>
+            <p style="font-size:0.7em; color:#666; text-align:center; margin-top:5px;">*O vídeo pode demorar um pouco em 4K.</p>
+        </div>
+
+    </div>
+
+    <div id="gallery"></div>
+
+    <script>
+        const state = {
+            colors: { nome: '#ffe066', sub: '#d4af37', bg: '#0f2b15', frame: '#d4af37' },
+            effect: 'hdr', renderType: 'image'
+        };
+
+        const EFFECTS = [
+            {id:'normal', n:'Normal'}, {id:'hdr', n:'HDR Pro'}, {id:'bw', n:'Noir B&W'},
+            {id:'film', n:'Cinema'}, {id:'warm', n:'Quente'}, {id:'cold', n:'Frio'},
+            {id:'dream', n:'Sonho'}, {id:'purple', n:'Vodu'}, {id:'gold', n:'Golden'}
+        ];
+
+        window.onload = () => {
+            const fxBox = document.getElementById('fx-container');
+            EFFECTS.forEach(fx => {
+                const b = document.createElement('div');
+                b.className = `fx-btn ${fx.id==='hdr'?'active':''}`; b.innerText = fx.n;
+                b.onclick = () => {
+                    document.querySelectorAll('.fx-btn').forEach(x=>x.classList.remove('active'));
+                    b.classList.add('active'); state.effect = fx.id;
+                };
+                fxBox.appendChild(b);
+            });
+
+            bindColorInput('col-nome-custom', 'nome');
+            bindColorInput('col-sub-custom', 'sub');
+            bindColorInput('col-bg-custom', 'bg');
+            bindColorInput('col-frame-custom', 'frame');
+
+            document.getElementById('file-logo').onchange = e => {
+                const f = e.target.files[0];
+                if(f) loadImg(f).then(img => {
+                    window.logoImg = img;
+                    document.getElementById('prev-logo').src = img.src;
+                    document.getElementById('prev-logo').style.display = 'block';
+                });
+            };
+            document.getElementById('file-photos').onchange = processFiles;
+        };
+
+        function bindColorInput(id, key) {
+            document.getElementById(id).addEventListener('input', (e) => state.colors[key] = e.target.value);
+        }
+        function setCol(key, hex) {
+            state.colors[key] = hex; document.getElementById(`col-${key}-custom`).value = hex;
+        }
+        function startRender(type) { state.renderType = type; document.getElementById('file-photos').click(); }
+
+        async function processFiles(e) {
+            const files = Array.from(e.target.files);
+            if(!files.length) return;
+            const loader = document.getElementById('loader'); loader.style.display = 'flex';
+            
+            const layout = document.getElementById('sel-layout').value;
+            let bs = 1;
+            if(layout === 'dual_vert') bs = 2;
+            if(layout === 'collage_dyn') bs = 3;
+            if(layout === 'grid_quad') bs = 4;
+            if(layout === 'grid_quint') bs = 5;
+
+            try {
+                for(let i=0; i<files.length; i+=bs) {
+                    const group = files.slice(i, i+bs);
+                    if(group.length < bs && bs > 1) for(let f of group) await runCanvas([f], 'single', f.name);
+                    else await runCanvas(group, layout, group[0].name.split('.')[0]);
+                }
+            } catch(err) { alert(err.message); } 
+            finally { loader.style.display = 'none'; document.getElementById('file-photos').value = ''; }
+        }
+
+        async function runCanvas(fileList, mode, name) {
+            const imgs = []; for(let f of fileList) imgs.push(await loadImg(f));
+            
+            // Resolução Dinâmica
+            const qualityMult = parseInt(document.getElementById('sel-quality').value);
+            const BaseW = 1920, BaseH = 1080; // Full HD Base
+            const W = BaseW * qualityMult; 
+            const H = BaseH * qualityMult;
+            
+            const cvs = document.createElement('canvas'); cvs.width = W; cvs.height = H;
+            const ctx = cvs.getContext('2d');
+
+            if(state.renderType === 'video') {
+                const dur = parseInt(document.getElementById('sel-duration').value);
+                await renderVideo(cvs, ctx, imgs, mode, name, dur, W, H);
+            } else {
+                drawFrame(ctx, imgs, mode, 0, W, H);
+                saveImage(cvs, name);
+            }
+        }
+
+        function drawFrame(ctx, imgs, mode, time, W, H) {
+            const Scale = W / 3840; // Ajusta posições baseadas no 4K original
+
+            // 1. Fundo
+            const bgC = state.colors.bg;
+            const grad = ctx.createRadialGradient(W/2,H/2, 100*Scale, W/2,H/2, 2500*Scale);
+            grad.addColorStop(0, adjustColor(bgC, 20)); grad.addColorStop(0.6, bgC); grad.addColorStop(1, '#000');
+            ctx.fillStyle = grad; ctx.fillRect(0,0,W,H);
+
+            // 2. Slots
+            const slots = getLayout(mode, W, H);
+            const drawOrder = mode==='grid_quint' ? [0,1,2,3,4] : slots.map((_,i)=>i);
+            
+            drawOrder.forEach(idx => {
+                if(imgs[idx] && slots[idx]) {
+                    const isCenter = (mode==='grid_quint' && idx===4);
+                    drawPhoto(ctx, imgs[idx], slots[idx], isCenter, time, W, H);
+                }
+            });
+
+            // 3. Atmosfera
+            drawEffects(ctx, time, W, H);
+
+            // 4. Texto
+            drawText(ctx, W, H);
+        }
+
+        function drawPhoto(ctx, img, slot, isCenter, time, W, H) {
+            const Scale = W / 3840;
+            const radius = parseInt(document.getElementById('sel-radius').value) * Scale;
+
+            const pad = slot.pad;
+            const aw = slot.w - pad*2; const ah = slot.h - pad*2;
+            const ax = slot.x + pad; const ay = slot.y + pad;
+
+            const scale = Math.min(aw/img.width, ah/img.height);
+            const dw = img.width * scale; const dh = img.height * scale;
+            const dx = ax + (aw - dw)/2; const dy = ay + (ah - dh)/2;
+
+            // Desenhar com Cantos Arredondados
+            ctx.save();
+            roundedRect(ctx, dx, dy, dw, dh, radius);
+            
+            // Sombra
+            ctx.shadowColor = "rgba(0,0,0,0.8)"; ctx.shadowBlur = (isCenter?60:30)*Scale; ctx.shadowOffsetY = 20*Scale;
+            ctx.fillStyle = "#000"; ctx.fill(); 
+            ctx.shadowBlur = 0; ctx.shadowOffsetY = 0;
+
+            // Moldura
+            const b = (isCenter ? 20 : 12) * Scale;
+            const mCol = state.colors.frame;
+            const mGrad = ctx.createLinearGradient(dx,dy,dx+dw,dy+dh);
+            mGrad.addColorStop(0, adjustColor(mCol, -30)); mGrad.addColorStop(0.5, adjustColor(mCol, 30)); mGrad.addColorStop(1, adjustColor(mCol, -30));
+            ctx.fillStyle = mGrad;
+            roundedRect(ctx, dx-b, dy-b, dw+b*2, dh+b*2, radius);
+            ctx.fill();
+
+            // Imagem Clipada
+            roundedRect(ctx, dx, dy, dw, dh, radius);
+            ctx.clip();
+
+            if(state.renderType === 'video' && document.getElementById('chk-kenburns').checked) {
+                 const z = 1.0 + (time * 0.0005); 
+                 ctx.translate(dx + dw/2, dy + dh/2); ctx.scale(z, z); ctx.translate(-(dx + dw/2), -(dy + dh/2));
+            }
+
+            applyFilters(ctx);
+            ctx.drawImage(img, dx, dy, dw, dh);
+            ctx.restore();
+
+            // Filete
+            if(document.getElementById('chk-border').checked) {
+                ctx.strokeStyle = "rgba(255,255,255,0.4)"; ctx.lineWidth = 2*Scale;
+                roundedRect(ctx, dx+6*Scale, dy+6*Scale, dw-12*Scale, dh-12*Scale, radius);
+                ctx.stroke();
+            }
+        }
+
+        function roundedRect(ctx, x, y, w, h, r) {
+            ctx.beginPath(); ctx.moveTo(x+r, y); ctx.lineTo(x+w-r, y); ctx.quadraticCurveTo(x+w, y, x+w, y+r);
+            ctx.lineTo(x+w, y+h-r); ctx.quadraticCurveTo(x+w, y+h, x+w-r, y+h); ctx.lineTo(x+r, y+h);
+            ctx.quadraticCurveTo(x, y+h, x, y+h-r); ctx.lineTo(x, y+r); ctx.quadraticCurveTo(x, y, x+r, y); ctx.closePath();
+        }
+
+        function drawEffects(ctx, t, W, H) {
+            const Scale = W / 3840;
+            if(document.getElementById('chk-vignette').checked) {
+                const g = ctx.createRadialGradient(W/2,H/2, H/3, W/2,H/2, W*0.8);
+                g.addColorStop(0, "transparent"); g.addColorStop(1, "rgba(0,0,0,0.8)");
+                ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
+            }
+            if(document.getElementById('chk-gold').checked) {
+                ctx.save(); ctx.globalCompositeOperation="screen"; ctx.fillStyle="#ffd700";
+                for(let i=0; i<150; i++) {
+                    const x = (i*93 + t*10) % W; const y = (i*71 + Math.sin(t/20 + i)*20*Scale) % H; 
+                    const s = ((i%5)+2)*Scale;
+                    ctx.globalAlpha = 0.4 + Math.sin(t/10 + i)*0.3;
+                    ctx.beginPath(); ctx.arc(x,y,s,0,Math.PI*2); ctx.fill();
+                }
+                ctx.restore();
+            }
+        }
+
+        function drawText(ctx, W, H) {
+            const Scale = W / 3840;
+            const yBase = 2050 * Scale; const xBase = 3700 * Scale;
+
+            if(window.logoImg) {
+                const h = 140 * Scale; const w = window.logoImg.width * (h/window.logoImg.height);
+                ctx.globalAlpha = 0.9; ctx.drawImage(window.logoImg, 140*Scale, yBase - h, w, h); ctx.globalAlpha = 1.0;
+            }
+
+            ctx.textAlign = "right";
+            const fontNome = document.getElementById('sel-font-nome').value;
+            ctx.font = `${120*Scale}px '${fontNome}'`;
+            ctx.fillStyle = state.colors.nome; ctx.shadowColor="rgba(0,0,0,0.8)"; ctx.shadowBlur=15*Scale;
+            ctx.fillText(document.getElementById('in-nome').value, xBase, yBase - 75*Scale);
+
+            const fontSub = document.getElementById('sel-font-sub').value;
+            ctx.font = `${45*Scale}px '${fontSub}'`;
+            ctx.fillStyle = state.colors.sub; ctx.letterSpacing = `${8*Scale}px`; ctx.shadowBlur=0;
+            ctx.fillText(document.getElementById('in-sub').value.toUpperCase(), xBase, yBase);
+        }
+
+        async function renderVideo(cvs, ctx, imgs, mode, name, durationSec, W, H) {
+            const fps = 30; const totalFrames = durationSec * fps;
+            const stream = cvs.captureStream(fps);
+            const rec = new MediaRecorder(stream, { mimeType: 'video/webm; codecs=vp9', videoBitsPerSecond: 8000000 });
+            const chunks = []; rec.ondataavailable = e => chunks.push(e.data);
+            rec.onstop = () => {
+                const blob = new Blob(chunks, {type:'video/mp4'});
+                const url = URL.createObjectURL(blob);
+                addGalleryItem(url, name, 'video');
+            };
+            rec.start();
+            for(let f=0; f<totalFrames; f++) {
+                drawFrame(ctx, imgs, mode, f, W, H);
+                await new Promise(r => requestAnimationFrame(r));
+            }
+            rec.stop();
+        }
+
+        function saveImage(cvs, name) { addGalleryItem(cvs.toDataURL('image/png'), name, 'image'); }
+        function addGalleryItem(url, name, type) {
+            const d = document.createElement('div'); d.className='card';
+            d.innerHTML = type === 'video' ? 
+                `<video src="${url}" controls loop autoplay muted></video><a href="${url}" download="${name}_motion.mp4" class="dl-btn">⬇ Baixar Vídeo</a>` :
+                `<img src="${url}"><a href="${url}" download="${name}_print.png" class="dl-btn">⬇ Baixar Imagem</a>`;
+            document.getElementById('gallery').prepend(d);
+        }
+
+        function loadImg(f) { return new Promise(r=>{const fr=new FileReader(); fr.onload=e=>{const i=new Image(); i.onload=()=>r(i); i.src=e.target.result;}; fr.readAsDataURL(f);}); }
+        function adjustColor(hex, amt) { 
+            let usePound = false; if (hex[0] == "#") { hex = hex.slice(1); usePound = true; }
+            let num = parseInt(hex,16);
+            let r = (num >> 16) + amt; if (r > 255) r = 255; else if (r < 0) r = 0;
+            let b = ((num >> 8) & 0x00FF) + amt; if (b > 255) b = 255; else if (b < 0) b = 0;
+            let g = (num & 0x0000FF) + amt; if (g > 255) g = 255; else if (g < 0) g = 0;
+            return (usePound?"#":"") + (g | (b << 8) | (r << 16)).toString(16);
+        }
+        function applyFilters(ctx) {
+            const f = state.effect;
+            if(f==='hdr') ctx.filter="contrast(1.1) saturate(1.2)";
+            else if(f==='bw') ctx.filter="grayscale(1) contrast(1.2)";
+            else if(f==='film') ctx.filter="sepia(0.3) contrast(1.1) brightness(0.9)";
+            else if(f==='purple') ctx.filter="hue-rotate(250deg) saturate(1.5)";
+            else if(f==='gold') ctx.filter="sepia(1) saturate(1.5) brightness(1.1)";
+            else ctx.filter="none";
+        }
+        function getLayout(mode, W, H) {
+            const fH=250*(W/3840), aH=H-fH; const l=[]; const S=W/3840;
+            if(mode==='single') l.push({x:0,y:0,w:W,h:aH,pad:120*S});
+            else if(mode==='grid_quad') {
+                const w2=W/2, h2=aH/2;
+                l.push({x:0,y:0,w:w2,h:h2,pad:80*S},{x:w2,y:0,w:w2,h:h2,pad:80*S},
+                       {x:0,y:h2,w:w2,h:h2,pad:80*S},{x:w2,y:h2,w:w2,h:h2,pad:80*S});
+            } else if(mode==='grid_quint') {
+                 const w2=W/2, h2=aH/2;
+                 l.push({x:0,y:0,w:w2,h:h2,pad:100*S},{x:w2,y:0,w:w2,h:h2,pad:100*S},
+                        {x:0,y:h2,w:w2,h:h2,pad:100*S},{x:w2,y:h2,w:w2,h:h2,pad:100*S},
+                        {x:(W-(1200*S))/2,y:(aH-(1600*S))/2,w:1200*S,h:1600*S,pad:20*S});
+            } else if(mode==='collage_dyn') {
+                l.push({x:0,y:0,w:W*0.6,h:aH,pad:100*S},{x:W*0.6,y:0,w:W*0.4,h:aH/2,pad:80*S},
+                       {x:W*0.6,y:aH/2,w:W*0.4,h:aH/2,pad:80*S});
+            } else if(mode==='dual_vert') {
+                l.push({x:0,y:50*S,w:W/2,h:aH-(100*S),pad:100*S},{x:W/2,y:50*S,w:W/2,h:aH-(100*S),pad:100*S});
+            }
+            return l;
+        }
+    </script>
+</body>
+</html>
