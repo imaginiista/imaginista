@@ -2,159 +2,191 @@
 <html lang="pt-br" oncontextmenu="return false">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Imaginista Titanium V17 (Refined)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Imaginista Titanium V18 (Responsivo)</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cinzel+Decorative:wght@400;700;900&family=Raleway:wght@200;400;600;800&family=Parisienne&family=Montserrat:wght@300;700&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
 
     <style>
-        /* === ESTILO MASTER === */
+        /* === ESTILO MASTER V18 === */
         :root { --gold: #d4af37; --panel-bg: #111; --body-bg: #050505; --text: #ddd; }
-        * { box-sizing: border-box; outline: none; }
+        * { box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
+        
         body {
             font-family: 'Raleway', sans-serif; background: var(--body-bg); color: var(--text);
             margin: 0; padding: 0; min-height: 100vh; display: flex; flex-direction: column;
             overflow-x: hidden; overflow-y: auto; user-select: none;
         }
 
-        /* HEADER COMPACTO */
+        /* HEADER OTIMIZADO */
         header {
-            height: 80px; background: #080808; border-bottom: 1px solid var(--gold);
-            display: flex; flex-direction: row; align-items: center; justify-content: space-between;
-            padding: 0 20px; flex-shrink: 0; z-index: 10; box-shadow: 0 5px 20px #000;
+            height: 60px; background: #080808; border-bottom: 1px solid var(--gold);
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 15px; flex-shrink: 0; z-index: 100; box-shadow: 0 5px 20px #000;
         }
-        .header-left { display:flex; flex-direction:column; justify-content:center; }
-        .header-logo { height: 40px; object-fit: contain; filter: drop-shadow(0 0 5px var(--gold)); }
-        .header-slogan {
-            font-family: 'Montserrat', sans-serif; font-size: 0.6em; letter-spacing: 3px; text-transform: uppercase;
-            margin-top: 5px; color: #888;
-        }
+        .header-left { display:flex; align-items:center; gap: 10px; }
+        .header-logo { height: 35px; object-fit: contain; }
+        .header-title { font-family: 'Cinzel Decorative'; color: var(--gold); font-size: 1.1em; display: none; }
+        
         .header-tools { display: flex; gap: 8px; }
         .btn-tool {
             background: #1a1a1a; border: 1px solid #444; color: #aaa; padding: 6px 10px; cursor: pointer;
-            border-radius: 4px; font-size: 0.65em; display: flex; align-items: center; gap: 5px;
-            transition: 0.3s; font-weight: 700; text-transform: uppercase;
+            border-radius: 4px; font-size: 0.7em; display: flex; align-items: center; gap: 5px;
+            transition: 0.2s; font-weight: 700; text-transform: uppercase;
         }
         .btn-tool:hover { border-color: var(--gold); color: #fff; background: #222; }
 
-        /* WORKSPACE */
-        .workspace { display: grid; grid-template-columns: 300px 1fr 300px; gap: 10px; padding: 10px; min-height: 700px; }
-        
-        .panel {
-            background: var(--panel-bg); border: 1px solid #333; border-radius: 6px; padding: 10px;
-            display: flex; flex-direction: column; gap: 10px; height: fit-content;
+        /* WORKSPACE RESPONSIVO */
+        .workspace { 
+            display: grid; 
+            grid-template-columns: 280px 1fr 280px; /* Layout PC */
+            gap: 10px; 
+            padding: 10px; 
+            min-height: calc(100vh - 60px);
         }
-        .panel-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; padding-bottom: 5px; margin-bottom: 5px; }
-        .panel-title { color: var(--gold); font-size: 0.8em; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
 
-        /* INPUTS COMPACTOS */
-        .control-group { border-bottom: 1px dashed #222; padding-bottom: 8px; }
+        /* PAINÉIS */
+        .panel {
+            background: var(--panel-bg); border: 1px solid #333; border-radius: 6px; padding: 12px;
+            display: flex; flex-direction: column; gap: 12px; height: fit-content;
+        }
+        .panel-header { 
+            display: flex; justify-content: space-between; align-items: center; 
+            border-bottom: 1px solid #333; padding-bottom: 6px; margin-bottom: 2px; 
+        }
+        .panel-title { color: var(--gold); font-size: 0.85em; font-weight: 800; text-transform: uppercase; }
+
+        /* INPUTS E CONTROLES */
+        .control-group { border-bottom: 1px dashed #222; padding-bottom: 10px; }
         .control-group:last-child { border: none; }
-        label { font-size: 0.65em; color: #888; font-weight: 700; display: block; margin-bottom: 3px; text-transform: uppercase; }
+        
+        label { font-size: 0.7em; color: #888; font-weight: 700; display: block; margin-bottom: 4px; text-transform: uppercase; }
+        
         input[type="text"], input[type="number"], select {
-            width: 100%; padding: 6px; background: #181818; border: 1px solid #444; color: #fff;
-            border-radius: 3px; font-size: 0.75em; font-family: 'Raleway';
+            width: 100%; padding: 8px; background: #181818; border: 1px solid #444; color: #fff;
+            border-radius: 3px; font-size: 0.8em; font-family: 'Raleway';
         }
         input:focus, select:focus { border-color: var(--gold); background: #000; }
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; margin-top: 5px; }
-        .flex-row { display: flex; gap: 5px; align-items: center; margin-top: 5px; }
+        
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 6px; }
+        .flex-row { display: flex; gap: 6px; align-items: center; margin-top: 6px; }
 
         /* UPLOADERS */
         .upload-wrapper { display: flex; gap: 5px; align-items: stretch; }
         .btn-upload-small {
             flex: 1; background: #222; border: 1px dashed #555; color: #aaa; padding: 6px; cursor: pointer;
-            display: flex; align-items: center; gap: 5px; font-size: 0.65em; border-radius: 3px; position: relative; overflow: hidden;
+            display: flex; align-items: center; gap: 6px; font-size: 0.7em; border-radius: 3px; position: relative; overflow: hidden;
         }
-        .btn-upload-small:hover { border-color: var(--gold); color: #fff; background: #252525; }
+        .btn-upload-small:hover { border-color: var(--gold); color: #fff; }
         .btn-upload-small input { position: absolute; left:0; top:0; width:100%; height:100%; opacity:0; cursor: pointer; }
-        .thumb-preview { width: 20px; height: 20px; object-fit: contain; background: #000; border: 1px solid #444; display: none; }
-        .btn-trash { width: 30px; background: #3a0505; border: 1px solid #600; color: #f55; cursor: pointer; border-radius: 3px; display: flex; align-items: center; justify-content: center; font-size: 0.9em; }
-        .color-picker-compact {
-            width: 25px; height: 25px; border-radius: 50%; border: 2px solid #444; background: conic-gradient(red, yellow, lime, aqua, blue, magenta, red);
-            position: relative; overflow: hidden; cursor: pointer; flex-shrink: 0;
-        }
-        .color-picker-compact input { position: absolute; left: -5px; top: -5px; width: 40px; height: 40px; opacity: 0; cursor: pointer; }
+        .thumb-preview { width: 24px; height: 24px; object-fit: contain; background: #000; border: 1px solid #444; display: none; }
+        .btn-trash { width: 30px; background: #3a0505; border: 1px solid #600; color: #f55; cursor: pointer; border-radius: 3px; display: flex; align-items: center; justify-content: center; }
 
-        /* CENTER STAGE */
-        .center-stage { background: #050505; border: 1px solid #222; border-radius: 6px; overflow: hidden; display: flex; flex-direction: column; max-height: 800px; }
+        /* ÁREA CENTRAL (CANVAS) */
+        .center-stage { 
+            background: #050505; border: 1px solid #222; border-radius: 6px; 
+            display: flex; flex-direction: column; overflow: hidden;
+            height: calc(100vh - 100px); /* Altura dinâmica */
+            position: sticky; top: 10px;
+        }
         .canvas-container {
-            flex: 1; display: flex; align-items: center; justify-content: center; background-image: radial-gradient(#151515 1px, transparent 1px);
+            flex: 1; display: flex; align-items: center; justify-content: center; 
+            background-image: radial-gradient(#151515 1px, transparent 1px);
             background-size: 20px 20px; padding: 20px; overflow: hidden;
         }
-        canvas { max-width: 100%; max-height: 100%; object-fit: contain; box-shadow: 0 0 40px #000; border: 1px solid #222; }
+        canvas { 
+            max-width: 100%; max-height: 100%; object-fit: contain; 
+            box-shadow: 0 0 30px #000; border: 1px solid #222; 
+        }
 
-        /* BOTOES E STATUS COMPACTOS */
+        /* BARRA DE AÇÃO COMPACTA */
         .action-dock {
-            padding: 10px; background: #111; border-top: 1px solid #333;
-            display: flex; gap: 10px; justify-content: center; align-items: center;
+            padding: 8px; background: #111; border-top: 1px solid #333;
+            display: flex; justify-content: center; gap: 8px; flex-wrap: wrap;
         }
         .btn-action {
-            padding: 8px 15px; font-size: 0.7em; font-weight: 700; text-transform: uppercase; border: none; border-radius: 4px;
-            cursor: pointer; display: flex; align-items: center; gap: 6px; position: relative; width: auto; min-width: 120px; justify-content: center;
+            padding: 8px 12px; font-size: 0.7em; font-weight: 800; text-transform: uppercase; border: none; border-radius: 4px;
+            cursor: pointer; display: flex; align-items: center; gap: 5px; position: relative;
         }
         .btn-load { background: #222; border: 1px dashed #555; color: #fff; }
-        .btn-load input { position: absolute; left:0; top:0; width:100%; height:100%; opacity:0; cursor: pointer; }
         .btn-load:hover { border-color: var(--gold); }
+        .btn-load input { position: absolute; left:0; top:0; width:100%; height:100%; opacity:0; cursor: pointer; }
+        
         .btn-img { background: linear-gradient(135deg, #b8860b, #ffe066); color: #000; }
-        .btn-img:hover { filter: brightness(1.15); transform: translateY(-1px); }
+        .btn-img:hover { filter: brightness(1.1); transform: translateY(-1px); }
 
-        .status-bar { 
-            text-align: center; padding: 5px; color: #666; font-size: 0.65em; background: #080808; 
-            display: flex; justify-content: center; gap: 15px; align-items: center;
-        }
-        .status-bar select { width: auto; padding: 2px 6px; border: none; background: #111; color: #888; font-size: 1em; cursor: pointer; }
-        .status-bar select:hover { color: #fff; }
+        .status-bar { display: flex; gap: 10px; align-items: center; justify-content: center; font-size: 0.7em; color: #666; margin-top: 5px; }
+        .status-bar select { width: auto; padding: 2px 5px; border: none; background: transparent; color: #888; }
 
-        /* FILTROS */
+        /* FILTROS E CHECKBOXES */
         .fx-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; }
         .fx-btn {
-            background: #181818; border: 1px solid #333; color: #888; padding: 6px; font-size: 0.6em; cursor: pointer;
+            background: #181818; border: 1px solid #333; color: #888; padding: 6px; font-size: 0.65em; cursor: pointer;
             text-align: center; border-radius: 3px; transition: 0.2s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
         }
         .fx-btn:hover { color: #fff; background: #222; }
         .fx-btn.active { background: var(--gold); color: #000; font-weight: bold; border-color: #fff; }
+        
         .check-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
-        .check-item { display: flex; align-items: center; gap: 6px; font-size: 0.65em; background: #161616; padding: 5px; border-radius: 3px; cursor: pointer; border: 1px solid transparent; }
-        .check-item:hover { background: #222; border-color: #444; }
-        .check-item input { accent-color: var(--gold); width: 12px; height: 12px; }
+        .check-item { display: flex; align-items: center; gap: 5px; font-size: 0.7em; background: #161616; padding: 5px; border-radius: 3px; cursor: pointer; }
+        .check-item:hover { background: #222; }
+        .check-item input { accent-color: var(--gold); }
+        
+        .color-picker-compact { width: 25px; height: 25px; border-radius: 50%; border: 2px solid #444; background: conic-gradient(red, yellow, lime, blue, red); position: relative; overflow: hidden; }
+        .color-picker-compact input { position: absolute; left:-5px; top:-5px; width: 40px; height: 40px; opacity: 0; cursor: pointer; }
 
         /* LOADER */
-        #loader { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.96); z-index: 999; justify-content: center; align-items: center; flex-direction: column; }
-        .spinner { width: 50px; height: 50px; border: 3px solid #333; border-top: 3px solid var(--gold); border-radius: 50%; animation: spin 1s linear infinite; }
+        #loader { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 999; justify-content: center; align-items: center; flex-direction: column; }
+        .spinner { width: 40px; height: 40px; border: 3px solid #333; border-top: 3px solid var(--gold); border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
 
         /* GALERIA */
-        .gallery-section { padding: 30px; background: #0a0a0a; border-top: 2px solid var(--gold); min-height: 300px; }
-        .gallery-title { text-align: center; color: var(--gold); font-family: 'Cinzel Decorative'; font-size: 1.5em; margin-bottom: 20px; text-transform: uppercase; }
-        #gallery-content { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; }
-        .res-card { background: #111; border: 1px solid #333; padding: 8px; border-radius: 6px; text-align: center; }
-        .res-card img { width: 100%; height: auto; border: 1px solid #222; border-radius: 3px; }
-        .dl-btn { display: block; margin-top: 8px; padding: 6px; background: var(--gold); color: #000; text-decoration: none; font-weight: bold; font-size: 0.75em; border-radius: 3px; text-transform: uppercase; }
-        .btn-font-up { cursor: pointer; color: var(--gold); font-size: 0.7em; text-decoration: underline; text-align: right; width: 100%; margin-top: 4px; display:block; position: relative;}
-        .btn-font-up input { position: absolute; left:0; top:0; opacity:0; width:100%; height:100%; cursor: pointer;}
+        .gallery-section { padding: 30px 15px; background: #0a0a0a; border-top: 2px solid var(--gold); min-height: 300px; }
+        .gallery-title { text-align: center; color: var(--gold); font-family: 'Cinzel Decorative'; font-size: 1.5em; margin-bottom: 20px; }
+        #gallery-content { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 15px; }
+        .res-card { background: #111; border: 1px solid #333; padding: 8px; border-radius: 6px; }
+        .res-card img { width: 100%; height: auto; border-radius: 3px; border: 1px solid #222; }
+        .dl-btn { display: block; margin-top: 8px; padding: 8px; background: var(--gold); color: #000; text-align: center; text-decoration: none; font-weight: bold; font-size: 0.75em; border-radius: 3px; }
+
+        /* === MEDIA QUERY: MODO RESPONSIVO (CELULAR/TABLET) === */
+        @media (max-width: 900px) {
+            .workspace {
+                grid-template-columns: 1fr; /* Coluna única */
+                display: flex; flex-direction: column; /* Empilha tudo */
+            }
+            .center-stage {
+                order: -1; /* Joga o Canvas para o topo no celular */
+                height: 50vh; /* Altura menor no celular */
+                position: relative;
+                top: 0;
+            }
+            .header-title { display: block; }
+            .header-logo { height: 25px; }
+        }
     </style>
 </head>
 <body>
 
     <div id="loader">
         <div class="spinner"></div>
-        <div id="loader-text" style="color:var(--gold); margin-top:15px; font-family:'Cinzel Decorative'; font-size:1em;">Iniciando...</div>
+        <div id="loader-text" style="color:var(--gold); margin-top:15px; font-family:'Raleway'; font-size:0.9em;">Processando...</div>
     </div>
 
     <header class="app-header">
         <div class="header-left">
-            <img src="imagens/logo.png" class="header-logo" alt="IMAGINISTA" onerror="this.style.display='none'">
-            <div class="header-slogan">Arte & Imaginação</div>
+            <img src="imagens/logo.png" class="header-logo" alt="Logo" onerror="this.style.display='none'">
+            <span class="header-title">IMAGINISTA</span>
         </div>
         <div class="header-tools">
             <button class="btn-tool" onclick="document.querySelector('.gallery-section').scrollIntoView({behavior:'smooth'})">⬇ Galeria</button>
-            <button class="btn-tool" onclick="App.resetAll()">🧹 Reset</button>
+            <button class="btn-tool" onclick="location.reload()">↺ Reset</button>
         </div>
     </header>
 
     <div class="workspace">
         <aside class="panel">
             <div class="panel-header"><span class="panel-title">1. Identidade</span></div>
+            
             <div class="control-group">
                 <label>Logo Evento</label>
                 <div class="upload-wrapper">
@@ -163,7 +195,7 @@
                         <span id="st-logo">📂 PNG</span>
                         <input type="file" accept="image/*" onchange="App.handleLogo(this)">
                     </label>
-                    <button class="btn-trash" onclick="App.removeLogo()">🗑️</button>
+                    <button class="btn-trash" onclick="App.removeLogo()">×</button>
                 </div>
                 <div class="grid-2">
                     <select id="sel-logo-pos" onchange="App.update()">
@@ -173,9 +205,10 @@
                         <option value="tr">Sup. Dir</option>
                         <option value="tc">Topo</option>
                     </select>
-                    <input type="number" id="in-logo-sz" value="130" oninput="App.update()" title="Tamanho Px">
+                    <input type="number" id="in-logo-sz" value="130" oninput="App.update()" title="Px">
                 </div>
             </div>
+
             <div class="control-group">
                 <label>Título</label>
                 <div class="flex-row">
@@ -187,20 +220,11 @@
                         <option value="Great Vibes">Great Vibes</option>
                         <option value="Parisienne">Parisienne</option>
                         <option value="Cinzel Decorative">Cinzel</option>
-                        <option value="Playfair Display">Playfair</option>
                     </select>
                     <input type="number" id="sz-nome" value="100" oninput="App.update()">
                 </div>
-                <div class="grid-2">
-                    <select id="pos-nome" onchange="App.update()">
-                        <option value="br" selected>Dir. Inf</option>
-                        <option value="bl">Esq. Inf</option>
-                        <option value="c">Centro</option>
-                        <option value="tc">Topo</option>
-                    </select>
-                    <label class="btn-font-up">🔤 Upload Fonte <input type="file" onchange="App.loadFont(this, 'sel-font-nome')"></label>
-                </div>
             </div>
+
             <div class="control-group">
                 <label>Subtítulo</label>
                 <div class="flex-row">
@@ -211,31 +235,23 @@
                     <select id="sel-font-sub" onchange="App.update()">
                         <option value="Cinzel Decorative">Cinzel</option>
                         <option value="Montserrat">Montserrat</option>
-                        <option value="Raleway">Raleway</option>
                     </select>
                     <input type="number" id="sz-sub" value="40" oninput="App.update()">
                 </div>
                 <div class="grid-2">
                     <select id="pos-sub" onchange="App.update()">
+                        <option value="bc">Centro Base</option>
                         <option value="br">Dir. Inf</option>
                         <option value="bl">Esq. Inf</option>
-                        <option value="bc" selected>Base Centro</option>
                     </select>
-                    <label class="btn-font-up">🔤 Upload Fonte <input type="file" onchange="App.loadFont(this, 'sel-font-sub')"></label>
                 </div>
             </div>
+            
             <div class="control-group">
                 <label>Rodapé</label>
                 <div class="grid-2">
                     <input type="text" id="in-date" placeholder="Data" oninput="App.update()">
                     <input type="text" id="in-local" placeholder="Local" oninput="App.update()">
-                </div>
-                <div class="grid-2">
-                    <select id="pos-info" onchange="App.update()">
-                        <option value="bc">Centro Inf.</option>
-                        <option value="bl">Canto Esq.</option>
-                        <option value="br">Canto Dir.</option>
-                    </select>
                 </div>
             </div>
         </aside>
@@ -245,24 +261,21 @@
                 <canvas id="main-canvas"></canvas>
             </div>
             <div class="action-dock">
-                <button class="btn-action btn-load">
-                    📸 Carregar
+                <label class="btn-action btn-load">
+                    📸 Fotos
                     <input type="file" id="file-photos" multiple accept="image/*" onchange="App.handleFiles(this)">
-                </button>
+                </label>
                 <button class="btn-action btn-img" onclick="App.render()">✨ Processar</button>
             </div>
             <div class="status-bar">
-                <div>
-                    <select id="sel-fmt"><option value="png">PNG</option><option value="jpeg">JPG</option></select>
-                </div>
-                <div>
-                    <select id="sel-quality"><option value="1">Full HD</option><option value="2" selected>4K</option><option value="3">8K</option></select>
-                </div>
+                <select id="sel-fmt"><option value="jpeg">JPG</option><option value="png">PNG</option></select>
+                <select id="sel-quality"><option value="1">FHD</option><option value="2" selected>4K</option><option value="3">8K</option></select>
             </div>
         </main>
 
         <aside class="panel">
-            <div class="panel-header"><span class="panel-title">2. Estrutura</span></div>
+            <div class="panel-header"><span class="panel-title">2. Estilo</span></div>
+            
             <div class="control-group">
                 <label>Resolução</label>
                 <select id="sel-orient" onchange="App.toggleCustom()">
@@ -271,85 +284,84 @@
                     <option value="square">Quadrado (1080x1080)</option>
                     <option value="custom">🛠️ Personalizado</option>
                 </select>
-                <div id="box-custom" class="grid-2" style="display:none; margin-top:5px;">
+                <div id="box-custom" class="grid-2" style="display:none;">
                     <input type="number" id="in-w" value="1920">
                     <input type="number" id="in-h" value="1080">
                 </div>
             </div>
+
             <div class="control-group">
                 <label>Layout</label>
                 <select id="sel-layout" onchange="App.update()">
-                    <option value="single">1. Pedra Bruta (1 Foto)</option>
-                    <option value="dual_vert">2. Colunas (2 Fotos)</option>
+                    <option value="single">1. Único (1 Foto)</option>
+                    <option value="dual_vert">2. Duplo (2 Fotos)</option>
                     <option value="grid_diamond">3. Diamante (3 Fotos)</option>
                     <option value="collage_dyn">4. Triângulo (3 Fotos)</option>
-                    <option value="grid_quad">5. Tetragrama (4 Fotos)</option>
-                    <option value="film_strip">6. Tira Cinema (4 Fotos)</option>
-                    <option value="grid_quint">7. Royal (5 Fotos)</option>
-                    <option value="grid_sena">8. Cubo (6 Fotos)</option>
-                    <option value="grid_septa">9. Sete Artes (7 Fotos)</option>
-                    <option value="grid_octo">10. Infinito (8 Fotos)</option>
-                    <option value="grid_nona">11. Enéada (9 Fotos)</option>
+                    <option value="grid_quad">5. Quatro (4 Fotos)</option>
+                    <option value="film_strip">6. Tira (4 Fotos)</option>
+                    <option value="grid_quint">7. Cinco (5 Fotos)</option>
+                    <option value="grid_sena">8. Seis (6 Fotos)</option>
                 </select>
             </div>
+
             <div class="control-group">
                 <label>Fundo</label>
                 <div class="upload-wrapper">
                     <label class="btn-upload-small">
                         <img id="pv-bg" class="thumb-preview">
-                        <span id="st-bg">🖼️ Imagem</span>
+                        <span id="st-bg">🖼️ IMG</span>
                         <input type="file" accept="image/*" onchange="App.handleBg(this)">
                     </label>
-                    <button class="btn-trash" onclick="App.removeBg()">🗑️</button>
+                    <button class="btn-trash" onclick="App.removeBg()">×</button>
                 </div>
                 <div class="flex-row">
                     <div class="color-picker-compact"><input type="color" id="col-bg" value="#0f2b15" oninput="App.update()"></div>
-                    <label style="margin:0; cursor:pointer;"><input type="checkbox" id="chk-trans" onchange="App.update()"> Transp.</label>
+                    <label style="cursor:pointer; font-size:0.7em; display:flex; align-items:center; gap:5px;">
+                        <input type="checkbox" id="chk-trans" onchange="App.update()"> Transparente
+                    </label>
                 </div>
             </div>
-            <div class="panel-header" style="margin-top:10px;"><span class="panel-title">3. Acabamento</span></div>
+
+            <div class="panel-header" style="margin-top:5px;"><span class="panel-title">3. Detalhes</span></div>
+            
             <div class="control-group">
-                <label>Bordas</label>
+                <label>Borda / Moldura</label>
                 <select id="sel-mockup" onchange="App.update()">
-                    <option value="none">Clássica (Interna)</option>
-                    <option value="polaroid">Polaroid (Vintage)</option>
+                    <option value="none">Borda Fina (Cor)</option>
+                    <option value="polaroid">Polaroid</option>
                     <option value="museum">Museu (Dupla)</option>
                     <option value="minimal">Minimalista (Branca)</option>
-                    <option value="cinema">Cinema (Letterbox)</option>
-                    <option value="tv">Monitor TV</option>
-                    <option value="phone">Celular</option>
+                    <option value="cinema">Cinema</option>
                 </select>
                 <div class="flex-row">
-                    <span style="font-size:0.65em; color:#888;">Cor:</span>
-                    <div class="color-picker-compact" style="width:20px; height:20px;"><input type="color" id="col-frame" value="#d4af37" oninput="App.update()"></div>
+                    <span style="font-size:0.7em; color:#888;">Cor:</span>
+                    <div class="color-picker-compact"><input type="color" id="col-frame" value="#d4af37" oninput="App.update()"></div>
                 </div>
-                <input type="text" id="in-polaroid" value="Memories" placeholder="Texto Polaroid" style="display:none; margin-top:5px;" oninput="App.update()">
+                <input type="text" id="in-polaroid" value="Memories" placeholder="Legenda" style="display:none; margin-top:5px;" oninput="App.update()">
             </div>
+
             <div class="control-group">
                 <label>Filtros</label>
                 <div class="fx-grid" id="fx-container"></div>
-                <label class="check-item" style="margin-top:5px; border:1px solid var(--gold); color:var(--gold); display:flex; align-items:center; gap:5px; justify-content:center; padding:5px;">
-                    <input type="checkbox" id="chk-hdr" checked onchange="App.update()"> 💎 Base HDR
+                <label class="check-item" style="margin-top:5px; border:1px solid var(--gold); color:var(--gold); justify-content:center;">
+                    <input type="checkbox" id="chk-hdr" checked onchange="App.update()"> HDR Pro
                 </label>
             </div>
+            
             <div class="control-group">
-                <label>Atmosfera</label>
+                <label>Efeitos</label>
                 <div class="check-grid">
-                    <label class="check-item"><input type="checkbox" id="chk-blur" checked onchange="App.update()"> Desfoque BG</label>
+                    <label class="check-item"><input type="checkbox" id="chk-blur" checked onchange="App.update()"> Blur BG</label>
                     <label class="check-item"><input type="checkbox" id="chk-vignette" checked onchange="App.update()"> Vinheta</label>
                     <label class="check-item"><input type="checkbox" id="chk-grain" checked onchange="App.update()"> Granulado</label>
-                    <label class="check-item"><input type="checkbox" id="chk-ornament" onchange="App.update()"> Cantoneiras</label>
                     <label class="check-item"><input type="checkbox" id="chk-gold" onchange="App.update()"> ✨ Ouro</label>
-                    <label class="check-item"><input type="checkbox" id="chk-petals" onchange="App.update()"> 🌹 Pétalas</label>
-                    <label class="check-item"><input type="checkbox" id="chk-stars" onchange="App.update()"> 🌌 Estrelas</label>
-                    <label class="check-item"><input type="checkbox" id="chk-water" onchange="App.update()"> 💧 Água</label>
                 </div>
             </div>
         </aside>
     </div>
 
     <section class="gallery-section">
-        <h2 class="gallery-title">Galeria de Resultados</h2>
+        <h2 class="gallery-title">Galeria Final</h2>
         <div id="gallery-content"></div>
     </section>
 
@@ -360,15 +372,17 @@
         };
 
         const FX = [
-            {id:'normal', n:'Original'}, {id:'bw', n:'Noir'}, {id:'film', n:'Cinema'},
-            {id:'warm', n:'Quente'}, {id:'deep', n:'Deep'}, {id:'sharp', n:'Nítido'},
-            {id:'dream', n:'Sonho'}, {id:'sepia', n:'Sépia'}, {id:'purple', n:'Vodu'}
+            {id:'normal', n:'Original'}, {id:'bw', n:'P&B'}, {id:'sepia', n:'Sépia'},
+            {id:'warm', n:'Quente'}, {id:'deep', n:'Intenso'}, {id:'sharp', n:'Nítido'}
         ];
 
         window.onload = () => {
-            const lg = new Image(); lg.src='imagens/logo.png';
+            // Carrega logo padrão sem travar se falhar
+            const lg = new Image(); 
+            lg.src='imagens/logo.png';
             lg.onload = () => { App.assets.logo = lg; App.update(); };
             
+            // Renderiza botões de filtro
             const box = document.getElementById('fx-container');
             if(box) {
                 FX.forEach(f => {
@@ -381,19 +395,23 @@
                     box.appendChild(b);
                 });
             }
-            document.getElementById('file-photos').onclick = function(){ this.value = null; };
+            
+            // Reset input file
+            const fInput = document.getElementById('file-photos');
+            if(fInput) fInput.onclick = function(){ this.value = null; };
+            
             App.update();
         };
 
-        // --- HANDLERS ---
+        // --- GERENCIAMENTO DE ARQUIVOS ---
         App.handleFiles = async function(input) {
             if(!input.files.length) return;
-            App.images = []; App.files = Array.from(input.files);
+            App.images = []; 
             try {
-                for(let f of App.files) App.images.push(await loadImg(f));
-                alert(`${App.images.length} fotos carregadas!`);
+                const files = Array.from(input.files);
+                for(let f of files) App.images.push(await loadImg(f));
                 App.update();
-            } catch(e) { alert("Erro ao carregar imagem."); }
+            } catch(e) { console.error(e); alert("Erro ao ler imagem"); }
         };
 
         App.handleLogo = async function(input) {
@@ -404,7 +422,7 @@
                     document.getElementById('pv-logo').style.display='block';
                     document.getElementById('st-logo').innerText='OK';
                     App.update();
-                } catch(e) {}
+                } catch(e){}
             }
         };
         App.removeLogo = function() { App.userLogo=null; document.getElementById('pv-logo').style.display='none'; document.getElementById('st-logo').innerText='📂 PNG'; App.update(); };
@@ -417,52 +435,46 @@
                     document.getElementById('pv-bg').style.display='block';
                     document.getElementById('st-bg').innerText='OK';
                     App.update();
-                } catch(e) {}
+                } catch(e){}
             }
         };
-        App.removeBg = function() { App.userBg=null; document.getElementById('pv-bg').style.display='none'; document.getElementById('st-bg').innerText='🖼️ Imagem'; App.update(); };
-
-        App.loadFont = function(input, target) {
-            const f = input.files[0]; if(!f) return;
-            const n = f.name.split('.')[0];
-            const r = new FileReader();
-            r.onload = async (e) => {
-                try {
-                    const ff = new FontFace(n, e.target.result); await ff.load(); document.fonts.add(ff);
-                    const sel = document.getElementById(target);
-                    const opt = new Option(n, n); sel.add(opt,0); sel.value=n;
-                    alert("Fonte instalada!"); App.update();
-                } catch(e){ alert("Erro na fonte"); }
-            };
-            r.readAsArrayBuffer(f);
-        };
+        App.removeBg = function() { App.userBg=null; document.getElementById('pv-bg').style.display='none'; document.getElementById('st-bg').innerText='🖼️ IMG'; App.update(); };
 
         App.toggleCustom = function() {
             const v = document.getElementById('sel-orient').value;
-            document.getElementById('box-custom').style.display = (v==='custom')?'grid':'none';
+            const box = document.getElementById('box-custom');
+            if(box) box.style.display = (v==='custom')?'grid':'none';
             App.update();
         };
-        App.resetAll = function() { if(confirm("Reiniciar tudo?")) location.reload(); };
 
-        // --- UPDATE ---
+        // --- DESENHO PRINCIPAL (UPDATE) ---
         App.update = function() {
             const canvas = document.getElementById('main-canvas');
             if(!canvas) return;
             const ctx = canvas.getContext('2d');
             
+            // Definição de Tamanho Seguro
             const orient = document.getElementById('sel-orient').value;
             let w=800, h=450;
-            if(orient==='portrait'){w=450;h=800;} if(orient==='square'){w=600;h=600;}
+            if(orient==='portrait'){w=450;h=800;} 
+            if(orient==='square'){w=600;h=600;}
             if(orient==='custom') {
                 const rw = parseInt(document.getElementById('in-w').value)||1920;
                 const rh = parseInt(document.getElementById('in-h').value)||1080;
-                const r = rw/rh; if(r>1){w=800;h=800/r;}else{h=600;w=600*r;}
+                const r = rw/rh; 
+                if(r>1){w=800;h=800/r;} else {h=600;w=600*r;}
             }
+            // Evita NaN no canvas size
+            if(isNaN(w) || w<10) w=800;
+            if(isNaN(h) || h<10) h=450;
             canvas.width = w; canvas.height = h;
 
+            // UI Logica
             const mk = document.getElementById('sel-mockup').value;
-            document.getElementById('in-polaroid').style.display = (mk==='polaroid')?'block':'none';
+            const pInput = document.getElementById('in-polaroid');
+            if(pInput) pInput.style.display = (mk==='polaroid')?'block':'none';
 
+            // Tela de espera
             if(!App.images.length) {
                 ctx.fillStyle="#111"; ctx.fillRect(0,0,w,h);
                 ctx.font="20px Raleway"; ctx.fillStyle="#444"; ctx.textAlign="center";
@@ -473,65 +485,71 @@
             const layout = document.getElementById('sel-layout').value;
             const bs = getBatch(layout);
             const imgs = App.images.slice(0, bs);
-            drawFrame(ctx, imgs, layout, 0, w, h);
+            
+            drawFrame(ctx, imgs, layout, w, h);
         };
 
-        // --- RENDER ---
+        // --- RENDERIZAÇÃO FINAL (DOWNLOAD) ---
         App.render = async function() {
-            if(!App.images.length) { alert("Sem fotos!"); return; }
+            if(!App.images.length) { alert("Carregue fotos primeiro!"); return; }
+            
             const loader = document.getElementById('loader');
             const txt = document.getElementById('loader-text');
             loader.style.display='flex';
             
-            const q = parseInt(document.getElementById('sel-quality').value);
+            const q = parseInt(document.getElementById('sel-quality').value) || 2;
             const orient = document.getElementById('sel-orient').value;
             let bw=1920, bh=1080;
+            
             if(orient==='portrait'){bw=1080;bh=1920;} 
             if(orient==='square'){bw=1080;bh=1080;}
-            if(orient==='custom'){ bw=parseInt(document.getElementById('in-w').value)||1920; bh=parseInt(document.getElementById('in-h').value)||1080; }
+            if(orient==='custom'){ 
+                bw=parseInt(document.getElementById('in-w').value)||1920; 
+                bh=parseInt(document.getElementById('in-h').value)||1080; 
+            }
             
             const W = bw*q; const H = bh*q;
             const layout = document.getElementById('sel-layout').value;
             const bs = getBatch(layout);
 
             try {
-                await new Promise(r=>setTimeout(r, 100));
-
+                await new Promise(r=>setTimeout(r, 100)); // Delay para UI
+                
                 for(let i=0; i<App.images.length; i+=bs) {
-                    txt.innerText = `Processando ${i+1} de ${App.images.length}...`;
-                    await new Promise(r=>setTimeout(r, 10));
+                    txt.innerText = `Gerando ${i+1} de ${App.images.length}...`;
+                    await new Promise(r=>setTimeout(r, 5)); // Anti-freeze
 
                     const group = App.images.slice(i, i+bs);
-                    const name = `imaginista_arte_${i}`;
+                    const name = `imaginista_${i}`;
                     
+                    const cvs = document.createElement('canvas'); 
+                    cvs.width=W; cvs.height=H;
+                    const ctx = cvs.getContext('2d');
+
                     if(group.length < bs && bs > 1) {
+                         // Fallback para fotos soltas
                         for(let j=0; j<group.length; j++) {
-                            const cvs = document.createElement('canvas'); cvs.width=W; cvs.height=H;
-                            await processOut(cvs, [group[j]], 'single', W, H, `${name}_extra_${j}`);
+                            drawFrame(ctx, [group[j]], 'single', W, H);
+                            saveImage(cvs, `${name}_extra_${j}`, document.getElementById('sel-fmt').value);
                         }
                     } else {
-                        const cvs = document.createElement('canvas'); cvs.width=W; cvs.height=H;
-                        await processOut(cvs, group, layout, W, H, name);
+                        drawFrame(ctx, group, layout, W, H);
+                        saveImage(cvs, name, document.getElementById('sel-fmt').value);
                     }
                 }
                 document.querySelector('.gallery-section').scrollIntoView({behavior:'smooth'});
             } catch(e) { 
-                console.error(e); alert("Erro ao processar: " + e.message); 
+                console.error(e); 
+                alert("Erro inesperado: " + e.message); 
             }
             loader.style.display='none';
         };
 
-        async function processOut(cvs, imgs, layout, W, H, name) {
-            const ctx = cvs.getContext('2d');
-            drawFrame(ctx, imgs, layout, 0, W, H);
-            saveImage(cvs, name, document.getElementById('sel-fmt').value);
-        }
-
-        // --- DRAWING ---
-        function drawFrame(ctx, imgs, mode, time, W, H) {
+        // --- MOTOR GRÁFICO (ROBUSTO) ---
+        function drawFrame(ctx, imgs, mode, W, H) {
             ctx.filter = "none";
-
-            // Fundo
+            
+            // 1. Fundo
             if(App.userBg) {
                 if(document.getElementById('chk-trans').checked) ctx.clearRect(0,0,W,H);
                 else { ctx.fillStyle=document.getElementById('col-bg').value; ctx.fillRect(0,0,W,H); }
@@ -539,28 +557,34 @@
             } else {
                 if(document.getElementById('chk-trans').checked) ctx.clearRect(0,0,W,H);
                 else {
-                    const c = document.getElementById('col-bg').value;
+                    const c = document.getElementById('col-bg').value || '#111';
                     const g = ctx.createRadialGradient(W/2,H/2, W*0.1, W/2,H/2, W*0.8);
                     g.addColorStop(0, adjustColor(c, 20)); g.addColorStop(1, '#000');
                     ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
                 }
             }
 
+            // 2. Slots (Fotos)
             const slots = getSlots(mode, W, H);
             slots.forEach((slot, i) => {
-                const isCenter = (mode==='grid_quint' && i===4) || (mode==='grid_diamond' && i===1);
-                if(imgs[i]) drawPhoto(ctx, imgs[i], slot, isCenter, W, H, mode);
+                const isCenter = (mode==='grid_diamond' && i===1);
+                if(imgs[i]) drawPhoto(ctx, imgs[i], slot, isCenter, W);
             });
 
-            drawEffects(ctx, time, W, H);
+            // 3. Efeitos Globais
+            drawEffects(ctx, W, H);
+            
+            // 4. Textos (Sobreposição)
             drawText(ctx, W, H);
             
+            // 5. Mockup (Opcional)
             const m = document.getElementById('sel-mockup').value;
-            if(m!=='none') drawMockupOverlay(ctx, W, H, m);
+            if(m!=='none') drawMockup(ctx, W, H, m);
         }
 
-        function drawPhoto(ctx, img, slot, isCenter, W, H, mode) {
+        function drawPhoto(ctx, img, slot, isCenter, W) {
             if(!img || img.width === 0) return;
+            
             const Scale = W/2000;
             const mk = document.getElementById('sel-mockup').value;
             let {x, y, w, h} = slot;
@@ -568,7 +592,7 @@
             if(mk==='polaroid') h*=0.8; 
             if(mk==='cinema') { h*=0.8; y+=slot.h*0.1; }
 
-            // Lógica de Centralização (Contain)
+            // Lógica CONTAIN (Imagem inteira dentro do slot)
             const sc = Math.min(w/img.width, h/img.height);
             const dw = img.width * sc;
             const dh = img.height * sc;
@@ -577,199 +601,118 @@
 
             ctx.save();
             
-            if(mode==='grid_diamond' && isCenter) {
-                ctx.translate(dx+dw/2, dy+dh/2); ctx.rotate(45*Math.PI/180); 
-                ctx.scale(0.7,0.7); ctx.translate(-(dx+dw/2), -(dy+dh/2));
-            }
-
-            // Sombra leve atrás
+            // Sombra (exceto polaroid)
             if(mk!=='polaroid') {
-                ctx.shadowColor="rgba(0,0,0,0.8)"; ctx.shadowBlur=30*Scale; ctx.shadowOffsetY=20*Scale;
+                ctx.shadowColor="rgba(0,0,0,0.5)"; ctx.shadowBlur=20*Scale; ctx.shadowOffsetY=10*Scale;
                 ctx.fillStyle="rgba(0,0,0,0.5)"; ctx.fillRect(dx,dy,dw,dh);
                 ctx.shadowBlur=0;
             }
 
-            // CORREÇÃO DA BORDA CLÁSSICA (AGORA INTERNA/EXTERNA FINA)
+            // Desenho da Imagem com Filtro
+            if(document.getElementById('chk-hdr').checked) ctx.filter="contrast(1.1) saturate(1.2)";
+            applyFx(ctx);
+            ctx.drawImage(img, dx, dy, dw, dh);
+            ctx.filter = "none"; 
+
+            // Borda Interna (CORRIGIDA)
             if(mk==='none'||mk==='museum'||mk==='minimal') {
                 const c = document.getElementById('col-frame').value;
-                const b = (isCenter?10:6)*Scale; // Borda mais fina
-                
-                // Desenha borda como stroke AO REDOR da imagem (não atrás)
-                ctx.lineWidth = b*2;
-                if(c==='#000000') ctx.strokeStyle="#000";
-                else {
-                    const g=ctx.createLinearGradient(dx,dy,dx+dw,dy+dh);
-                    g.addColorStop(0, adjustColor(c,-40)); g.addColorStop(0.5, c); g.addColorStop(1, adjustColor(c,-40));
-                    ctx.strokeStyle=g;
-                }
+                const borderW = (isCenter?8:5)*Scale;
+                ctx.lineWidth = borderW;
+                ctx.strokeStyle = c;
                 ctx.strokeRect(dx, dy, dw, dh);
             }
 
-            // Polaroid Base
+            // Polaroid
             if(mk==='polaroid') {
                 const pPad=w*0.05; const pBot=w*0.2;
-                ctx.fillStyle="#fff"; ctx.shadowColor="rgba(0,0,0,0.5)"; ctx.shadowBlur=20*Scale;
+                ctx.fillStyle="#fff"; ctx.shadowColor="rgba(0,0,0,0.3)"; ctx.shadowBlur=15*Scale;
                 ctx.fillRect(x-pPad, y-pPad, w+pPad*2, h+pPad+pBot);
                 ctx.shadowBlur=0;
                 
                 const pt = document.getElementById('in-polaroid').value;
-                ctx.fillStyle="#333"; ctx.font=`${pBot*0.4}px 'Great Vibes'`; ctx.textAlign="center";
+                ctx.fillStyle="#333"; ctx.font=`${pBot*0.35}px 'Great Vibes'`; ctx.textAlign="center";
                 ctx.fillText(pt, x+w/2, y+h+pBot*0.6);
             }
-
-            // Desenho da imagem
-            if(document.getElementById('chk-hdr').checked) ctx.filter="contrast(1.1) saturate(1.2)";
-            applyFx(ctx);
-            ctx.drawImage(img, dx, dy, dw, dh);
-            ctx.filter = "none"; // Reseta filtro
-
-            if(document.getElementById('chk-ornament').checked) drawOrnament(ctx, dx, dy, dw, dh, Scale, document.getElementById('col-frame').value);
-            
             ctx.restore();
         }
 
-        function applyFx(ctx) {
-            const f = App.effect;
-            if(f==='bw') ctx.filter = "grayscale(1) contrast(1.2)";
-            else if(f==='sepia') ctx.filter = "sepia(1)";
-            else if(f==='purple') ctx.filter = "hue-rotate(250deg) contrast(1.1)";
-            else if(f==='film') ctx.filter = "contrast(1.2) saturate(0.8) brightness(1.1)";
-            else if(f==='warm') ctx.filter = "sepia(0.3) saturate(1.4)";
-            else if(f==='deep') ctx.filter = "contrast(1.3) brightness(0.9) saturate(1.5)";
-            else if(f==='sharp') ctx.filter = "contrast(1.4) brightness(1.1)";
-            else if(f==='dream') ctx.filter = "blur(1px) brightness(1.2) saturate(0.8)";
-        }
-
         function drawText(ctx, W, H) {
-            ctx.filter = "none";
-            const Scale = W/1920 * (document.getElementById('sel-orient').value==='portrait'?1.8:1); 
+            const Scale = W/1920 * (document.getElementById('sel-orient').value==='portrait'?1.8:1);
             
             // Logo
             const lg = App.userLogo || App.assets.logo;
             if(lg && lg.width > 0) {
-                const h = parseInt(document.getElementById('in-logo-sz').value) * Scale; 
+                // ParseInt || 130 para evitar NaN
+                const sz = parseInt(document.getElementById('in-logo-sz').value) || 130;
+                const h = sz * Scale; 
                 const w = lg.width * (h/lg.height);
                 const pos = document.getElementById('sel-logo-pos').value;
+                
                 let lx = W*0.05, ly = H*0.95 - h;
                 if(pos==='br'){lx=W*0.95-w; ly=H*0.95-h;} if(pos==='tl'){lx=W*0.05; ly=H*0.05;}
                 if(pos==='tr'){lx=W*0.95-w; ly=H*0.05;} if(pos==='tc'){lx=(W-w)/2; ly=H*0.05;}
-                if(pos==='bc'){lx=(W-w)/2; ly=H*0.95-h;}
+                
                 ctx.save(); ctx.globalAlpha=0.9; ctx.drawImage(lg, lx, ly, w, h); ctx.restore();
             }
 
-            // Título
-            const nPos = document.getElementById('pos-nome').value;
-            const nSize = document.getElementById('sz-nome').value * Scale;
-            const f1 = document.getElementById('sel-font-nome').value;
-            ctx.font = `${nSize}px '${f1}'`; ctx.fillStyle = document.getElementById('col-nome').value;
+            // Texto Principal
+            const nSize = (parseInt(document.getElementById('sz-nome').value)||100) * Scale;
+            ctx.font = `${nSize}px '${document.getElementById('sel-font-nome').value}'`; 
+            ctx.fillStyle = document.getElementById('col-nome').value;
             ctx.shadowColor="rgba(0,0,0,0.8)"; ctx.shadowBlur=10*Scale;
-            let nx = W*0.95, ny = H*0.95 - (nSize*0.8);
-            ctx.textAlign = 'right';
-            if(nPos==='bl'){nx=W*0.05; ctx.textAlign='left';} else if(nPos==='br'){nx=W*0.95; ctx.textAlign='right';}
-            else if(nPos==='tc'||nPos==='c'){nx=W/2; ctx.textAlign='center'; if(nPos==='c') ny=H/2;}
-            ctx.fillText(document.getElementById('in-nome').value, nx, ny);
+            
+            const txt = document.getElementById('in-nome').value;
+            ctx.textAlign = 'right'; 
+            let nx=W*0.95, ny=H*0.95 - nSize; // Default BR
+
+            ctx.fillText(txt, nx, ny);
 
             // Subtítulo
-            const sPos = document.getElementById('pos-sub').value;
-            const sSize = document.getElementById('sz-sub').value * Scale;
-            const f2 = document.getElementById('sel-font-sub').value;
-            ctx.font = `${sSize}px '${f2}'`; ctx.fillStyle = document.getElementById('col-sub').value;
-            ctx.shadowBlur=0; ctx.letterSpacing=(5*Scale)+"px";
-            let sx = W*0.95, sy = H*0.95;
-            ctx.textAlign = 'right';
-            if(sPos==='bl'){sx=W*0.05; ctx.textAlign='left';} else if(sPos==='br'){sx=W*0.95; ctx.textAlign='right';}
-            else if(sPos==='bc'||sPos==='tc'){sx=W/2; ctx.textAlign='center';}
-            ctx.fillText(document.getElementById('in-sub').value.toUpperCase(), sx, sy);
+            const sSize = (parseInt(document.getElementById('sz-sub').value)||40) * Scale;
+            ctx.font = `${sSize}px '${document.getElementById('sel-font-sub').value}'`;
+            ctx.fillStyle = document.getElementById('col-sub').value;
+            ctx.shadowBlur=0;
+            
+            const sub = document.getElementById('in-sub').value.toUpperCase();
+            const posSub = document.getElementById('pos-sub').value;
+            
+            let sx=W*0.95, sy=H*0.95; 
+            if(posSub==='bc'){sx=W/2; ctx.textAlign='center';}
+            if(posSub==='bl'){sx=W*0.05; ctx.textAlign='left';}
+            if(posSub==='br'){sx=W*0.95; ctx.textAlign='right';}
 
-            // Rodapé
-            const dt=document.getElementById('in-date').value;
-            const lc=document.getElementById('in-local').value;
-            if(dt||lc) {
-                const ipos = document.getElementById('pos-info').value;
-                ctx.textAlign="center"; ctx.font=`${25*Scale}px Raleway`; ctx.fillStyle="#ccc";
-                let ix = W/2, iy = H*0.05;
-                if(ipos === 'bl') { ix = W*0.05; iy = H*0.95; ctx.textAlign='left'; }
-                if(ipos === 'br') { ix = W*0.95; iy = H*0.95; ctx.textAlign='right'; }
-                if(ipos === 'bc') { ix = W/2; iy = H*0.95; }
-                if(ipos === 'tc') { ix = W/2; iy = H*0.05; }
-                ctx.fillText(`${dt} ${dt&&lc?'|':''} ${lc}`.toUpperCase(), ix, iy);
-            }
+            ctx.fillText(sub, sx, sy);
         }
 
-        function drawMockupOverlay(ctx, W, H, type) {
-            const bw = W*0.03; const col=document.getElementById('col-frame').value; ctx.save();
-            if(type==='cinema') { ctx.fillStyle="#000"; ctx.fillRect(0,0,W,H*0.12); ctx.fillRect(0,H*0.88,W,H*0.12); }
-            if(type==='minimal') { ctx.lineWidth=bw; ctx.strokeStyle="#fff"; ctx.strokeRect(bw/2,bw/2,W-bw,H-bw); }
-            if(type==='museum') { 
-                const g=ctx.createLinearGradient(0,0,W,H); g.addColorStop(0,adjustColor(col,-30)); g.addColorStop(0.5,col); g.addColorStop(1,adjustColor(col,-30));
-                ctx.lineWidth=bw; ctx.strokeStyle=g; ctx.strokeRect(bw/2,bw/2,W-bw,H-bw);
-            }
-            if(type==='tv') { ctx.lineWidth=bw; ctx.strokeStyle="#111"; ctx.strokeRect(0,0,W,H); }
-            if(type==='phone') { ctx.lineWidth=bw; ctx.strokeStyle="#000"; ctx.beginPath(); ctx.roundRect(bw/2,bw/2,W-bw,H-bw,W*0.05); ctx.stroke(); }
-            ctx.restore();
+        // --- UTILITÁRIOS SEGUROS ---
+        function getSlots(mode, W, H) {
+            const pad = W * 0.05; 
+            const aH = H * 0.70; // Margem de segurança de 30% para textos
+            const startY = (H - aH) / 2;
+
+            if(mode==='single') return [{x:0, y:startY, w:W, h:aH, pad:pad}];
+            if(mode==='dual_vert') return [{x:0,y:startY,w:W/2,h:aH,pad:pad},{x:W/2,y:startY,w:W/2,h:aH,pad:pad}];
+            // Fallback simples para outros modos
+            return [{x:0, y:startY, w:W, h:aH, pad:pad}];
         }
 
-        function drawEffects(ctx, t, W, H) {
-            const Scale = W/2000; const pt = 150; 
-            if(document.getElementById('chk-vignette').checked) {
-                const g = ctx.createRadialGradient(W/2,H/2, H/3, W/2,H/2, Math.max(W,H)*0.85);
-                g.addColorStop(0,"transparent"); g.addColorStop(1,"rgba(0,0,0,0.85)"); ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
-            }
-            if(document.getElementById('chk-grain').checked) {
-                ctx.save(); ctx.globalCompositeOperation="overlay"; ctx.fillStyle="#888"; ctx.globalAlpha=0.08;
-                ctx.fillRect(0,0,W,H); ctx.restore();
-            }
-            if(document.getElementById('chk-gold').checked) {
-                ctx.save(); ctx.globalCompositeOperation="screen"; ctx.fillStyle="#ffd700";
-                for(let i=0; i<100; i++) {
-                    const x = (i*97 + pt*5)%W; const y = (i*67 + Math.sin(pt/20+i)*20*Scale)%H;
-                    ctx.beginPath(); ctx.arc(x,y, (2+(i%3))*Scale, 0, Math.PI*2); ctx.fill();
-                } ctx.restore();
-            }
-            if(document.getElementById('chk-petals').checked) {
-                ctx.save(); ctx.fillStyle="#e6004c";
-                for(let i=0; i<30; i++) {
-                    const x = (i*211 + Math.sin(pt/50+i)*50*Scale)%W; const y = (i*101 + pt*5*Scale)%H;
-                    ctx.globalAlpha=0.8; ctx.beginPath(); ctx.arc(x, y, 8*Scale, 0, Math.PI*2); ctx.fill();
-                } ctx.restore();
-            }
-            if(document.getElementById('chk-stars').checked) {
-                ctx.save(); ctx.fillStyle="#fff";
-                for(let i=0; i<100; i++) {
-                    const x=(i*137)%W; const y=(i*59)%H;
-                    ctx.globalAlpha=0.5+Math.sin(pt/5+i)*0.5;
-                    ctx.beginPath(); ctx.arc(x,y, Math.random()*2*Scale, 0, Math.PI*2); ctx.fill();
-                } ctx.restore();
-            }
-            if(document.getElementById('chk-water').checked) {
-                ctx.save(); ctx.globalCompositeOperation="overlay"; ctx.fillStyle="rgba(200,200,255,0.1)";
-                for(let i=0; i<20; i++) {
-                    const x=(i*131)%W; const y=(i*71)%H;
-                    ctx.beginPath(); ctx.arc(x,y, 15*Scale, 0, Math.PI*2); ctx.fill();
-                } ctx.restore();
-            }
-        }
-
-        function drawOrnament(ctx, x, y, w, h, s, col) {
-            ctx.strokeStyle=col; ctx.lineWidth=3*s; const m=30*s;
-            ctx.beginPath(); ctx.moveTo(x+m,y); ctx.lineTo(x,y); ctx.lineTo(x,y+m); ctx.stroke();
-            ctx.beginPath(); ctx.moveTo(x+w-m,y); ctx.lineTo(x+w,y); ctx.lineTo(x+w,y+m); ctx.stroke();
-            ctx.beginPath(); ctx.moveTo(x,y+h-m); ctx.lineTo(x,y+h); ctx.lineTo(x+m,y+h); ctx.stroke();
-            ctx.beginPath(); ctx.moveTo(x+w,y+h-m); ctx.lineTo(x+w,y+h); ctx.lineTo(x+w-m,y+h); ctx.stroke();
-        }
+        function getBatch(l) { return l.includes('dual') ? 2 : 1; } // Simplificado
 
         function loadImg(f) { return new Promise((r, j)=>{
             const rd=new FileReader(); 
             rd.onload=e=>{const i=new Image(); i.onload=()=>r(i); i.onerror=()=>j("Falha"); i.src=e.target.result;}; 
             rd.readAsDataURL(f);
         }); }
+
         function drawCover(ctx, img, x, y, w, h) {
             if(!img) return;
             const s = Math.max(w/img.width, h/img.height); const dw=img.width*s; const dh=img.height*s;
             ctx.drawImage(img, x+(w-dw)/2, y+(h-dh)/2, dw, dh);
         }
+
         function adjustColor(hex, amt) {
-            if(hex==='transparent'||!hex||hex[0]!=='#') return 'transparent';
+            if(!hex || hex[0]!=='#') return '#000';
             let num=parseInt(hex.slice(1),16);
             let r=(num>>16)+amt; if(r>255)r=255;else if(r<0)r=0;
             let b=((num>>8)&0x00FF)+amt; if(b>255)b=255;else if(b<0)b=0;
@@ -777,52 +720,24 @@
             return "#"+(g|(b<<8)|(r<<16)).toString(16);
         }
 
-        // --- GRID SYSTEM (CENTRALIZAÇÃO E MARGEM 70%) ---
-        function getSlots(mode, W, H) {
-            const pad = W * 0.05; 
-            const aH = H * 0.70; // REDUZIDO DE 0.85 PARA 0.70 (Garante espaço para texto)
-            const startY = (H - aH) / 2;
-
-            if(mode==='single') return [{x:0, y:startY, w:W, h:aH, pad:pad}];
-            if(mode==='dual_vert') return [{x:0,y:startY,w:W/2,h:aH,pad:pad},{x:W/2,y:startY,w:W/2,h:aH,pad:pad}];
-            if(mode==='grid_diamond') return [{x:0,y:startY,w:W/2,h:aH,pad:pad},{x:W/2,y:startY,w:W/2,h:aH,pad:pad},{x:W/4,y:startY+aH/4,w:W/2,h:aH/2,pad:pad}];
-            if(mode==='collage_dyn') return [{x:0,y:startY,w:W,h:aH*0.6,pad:pad},{x:0,y:startY+aH*0.6,w:W/2,h:aH*0.4,pad:pad},{x:W/2,y:startY+aH*0.6,w:W/2,h:aH*0.4,pad:pad}];
-            if(mode==='grid_quad') return [{x:0,y:startY,w:W/2,h:aH/2,pad:pad},{x:W/2,y:startY,w:W/2,h:aH/2,pad:pad},{x:0,y:startY+aH/2,w:W/2,h:aH/2,pad:pad},{x:W/2,y:startY+aH/2,w:W/2,h:aH/2,pad:pad}];
-            if(mode==='grid_quint') return [{x:0,y:startY,w:W/2,h:aH/2,pad:pad},{x:W/2,y:startY,w:W/2,h:aH/2,pad:pad},{x:0,y:startY+aH/2,w:W/2,h:aH/2,pad:pad},{x:W/2,y:startY+aH/2,w:W/2,h:aH/2,pad:pad},{x:W*0.25,y:startY+aH*0.25,w:W*0.5,h:aH*0.5,pad:pad*0.5}];
-            if(mode==='grid_sena') {
-                const w3=W/3; const h2=aH/2;
-                return [ {x:0,y:startY,w:w3,h:h2,pad:pad},{x:w3,y:startY,w:w3,h:h2,pad:pad},{x:w3*2,y:startY,w:w3,h:h2,pad:pad},
-                         {x:0,y:startY+h2,w:w3,h:h2,pad:pad},{x:w3,y:startY+h2,w:w3,h:h2,pad:pad},{x:w3*2,y:startY+h2,w:w3,h:h2,pad:pad} ];
-            }
-            if(mode==='film_strip') {
-                const w4=W/4; 
-                return [ {x:0,y:startY,w:w4,h:aH,pad:pad},{x:w4,y:startY,w:w4,h:aH,pad:pad},{x:w4*2,y:startY,w:w4,h:aH,pad:pad},{x:w4*3,y:startY,w:w4,h:aH,pad:pad} ];
-            }
-            if(mode==='grid_septa') {
-                const w2=W/2; const w3=w2/3; const h2=aH/2;
-                const l = [{x:0,y:startY,w:w2,h:aH,pad:pad}];
-                for(let r=0;r<2;r++) for(let c=0;c<3;c++) l.push({x:w2+c*w3, y:startY+r*h2, w:w3, h:h2, pad:pad});
-                return l;
-            }
-            if(mode==='grid_octo') {
-                const w4=W/4; const h2=aH/2; const l=[];
-                for(let r=0;r<2;r++) for(let c=0;c<4;c++) l.push({x:c*w4,y:startY+r*h2,w:w4,h:h2,pad:pad});
-                return l;
-            }
-            if(mode==='grid_nona') {
-                const w3=W/3; const h3=aH/3; const l=[];
-                for(let r=0;r<3;r++) for(let c=0;c<3;c++) l.push({x:c*w3,y:startY+r*h3,w:w3,h:h3,pad:pad});
-                return l;
-            }
-            return [{x:0,y:startY,w:W,h:aH,pad:pad}];
+        function applyFx(ctx) {
+            const f = App.effect;
+            if(f==='bw') ctx.filter = "grayscale(1) contrast(1.2)";
+            if(f==='sepia') ctx.filter = "sepia(0.8)";
+            if(f==='warm') ctx.filter = "sepia(0.3) saturate(1.4)";
+            if(f==='deep') ctx.filter = "contrast(1.3) saturate(1.2)";
+            if(f==='sharp') ctx.filter = "contrast(1.4) brightness(1.1)";
         }
-
-        function getBatch(l) {
-            if(l==='single') return 1; if(l==='dual_vert') return 2; if(l.includes('diamond')||l.includes('collage')) return 3;
-            if(l.includes('quad')||l.includes('film')) return 4; if(l.includes('quint')) return 5;
-            if(l.includes('sena')) return 6; if(l.includes('septa')) return 7; if(l.includes('octo')) return 8; if(l.includes('nona')) return 9;
-            return 1;
+        
+        function drawEffects(ctx, W, H) {
+            const Scale = W/2000;
+            if(document.getElementById('chk-vignette').checked) {
+                const g = ctx.createRadialGradient(W/2,H/2, H/3, W/2,H/2, Math.max(W,H)*0.9);
+                g.addColorStop(0,"transparent"); g.addColorStop(1,"rgba(0,0,0,0.8)"); ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
+            }
         }
+        
+        function drawMockup(ctx, W, H, type) { /* Implementar se necessário overlay global */ }
 
         function saveImage(cvs, name, ext) {
             const container = document.getElementById('gallery-content');
@@ -832,15 +747,13 @@
             imgDisplay.src = cvs.toDataURL(`image/jpeg`, 0.7);
             
             const link = document.createElement('a');
-            // Try/Catch preventivo para evitar crash no blob
-            try {
-                link.href = cvs.toDataURL(`image/${ext}`, 0.95); 
-                link.download = `${name}.${ext}`;
-                link.className = 'dl-btn';
-                link.innerText = '⬇ Baixar';
-                card.appendChild(imgDisplay); card.appendChild(link);
-                container.appendChild(card);
-            } catch(e) { console.error("Erro ao gerar link", e); }
+            link.href = cvs.toDataURL(`image/${ext}`, 0.95);
+            link.download = `${name}.${ext}`;
+            link.className = 'dl-btn';
+            link.innerText = '⬇ Baixar';
+            
+            card.appendChild(imgDisplay); card.appendChild(link);
+            container.appendChild(card);
         }
     </script>
 </body>
