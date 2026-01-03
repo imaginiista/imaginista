@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Imaginista V21 - Ultimate</title>
+    <title>Imaginista V22 - Stability</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cinzel+Decorative:wght@400;700;900&family=Raleway:wght@200;400;600;800&family=Parisienne&family=Montserrat:wght@300;700&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
 
     <style>
-        /* === ESTILO MASTER === */
+        /* === ESTILO BASE V22 === */
         :root { --gold: #d4af37; --panel-bg: #111; --body-bg: #050505; --text: #ddd; }
         * { box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
         
@@ -18,7 +18,7 @@
             overflow-x: hidden; overflow-y: auto; user-select: none;
         }
 
-        /* HEADER CENTRALIZADO (NOVO) */
+        /* HEADER CENTRALIZADO */
         header {
             background: #080808; border-bottom: 2px solid var(--gold);
             display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -26,19 +26,12 @@
         }
         .header-logo { 
             height: 50px; object-fit: contain; margin-bottom: 5px;
-            filter: drop-shadow(0 0 5px var(--gold)); transition: transform 0.3s;
+            filter: drop-shadow(0 0 5px var(--gold));
         }
-        .header-logo:hover { transform: scale(1.05); }
-        
         .header-slogan {
             font-family: 'Montserrat', sans-serif; font-size: 0.8em; letter-spacing: 4px; text-transform: uppercase;
-            font-weight: 300; 
-            background: linear-gradient(to right, #444 0%, #fff 50%, #444 100%);
-            background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            animation: shine 4s linear infinite;
+            font-weight: 300; color: #aaa;
         }
-        @keyframes shine { to { background-position: 200% center; } }
-
         .header-tools { margin-top: 10px; display: flex; gap: 15px; }
         .btn-tool {
             background: #1a1a1a; border: 1px solid #444; color: #aaa; padding: 6px 12px; cursor: pointer;
@@ -47,13 +40,12 @@
         }
         .btn-tool:hover { border-color: var(--gold); color: #fff; background: #222; }
 
-        /* LAYOUT */
+        /* WORKSPACE */
         .workspace { 
             display: grid; grid-template-columns: 300px 1fr 300px; 
             gap: 15px; padding: 20px; min-height: 800px;
         }
 
-        /* PAINÉIS */
         .panel {
             background: var(--panel-bg); border: 1px solid #333; border-radius: 8px; padding: 15px;
             display: flex; flex-direction: column; gap: 15px; height: fit-content; box-shadow: 0 5px 15px rgba(0,0,0,0.5);
@@ -64,8 +56,8 @@
         }
         .panel-title { color: var(--gold); font-size: 0.9em; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
 
-        /* CONTROLES */
-        .control-group { border-bottom: 1px dashed #222; padding-bottom: 10px; }
+        /* INPUTS */
+        .control-group { border-bottom: 1px dashed #222; padding-bottom: 12px; }
         .control-group:last-child { border: none; }
         label { font-size: 0.7em; color: #888; font-weight: 700; display: block; margin-bottom: 4px; text-transform: uppercase; }
         input[type="text"], input[type="number"], select {
@@ -76,7 +68,7 @@
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 5px; }
         .flex-row { display: flex; gap: 8px; align-items: center; margin-top: 5px; }
 
-        /* UPLOAD & BOTOES */
+        /* BOTOES E UPLOAD */
         .btn-upload-small {
             flex: 1; background: #222; border: 1px dashed #555; color: #aaa; padding: 8px; cursor: pointer;
             display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 0.75em; border-radius: 4px; position: relative; overflow: hidden;
@@ -92,11 +84,11 @@
 
         .btn-font-extra {
             background: #222; border: 1px solid #444; color: var(--gold); width: 100%; margin-top: 5px;
-            padding: 6px; font-size: 0.7em; cursor: pointer; text-align: center; border-radius: 4px; position: relative;
+            padding: 8px; font-size: 0.7em; cursor: pointer; text-align: center; border-radius: 4px; position: relative; font-weight: bold;
         }
         .btn-font-extra input { position: absolute; left:0; top:0; width:100%; height:100%; opacity:0; cursor: pointer; }
 
-        /* CANVAS AREA */
+        /* CANVAS CENTRAL */
         .center-stage { 
             background: #050505; border: 1px solid #222; border-radius: 8px; 
             display: flex; flex-direction: column; overflow: hidden;
@@ -111,16 +103,17 @@
 
         .action-dock { padding: 15px; background: #111; border-top: 1px solid #333; display: flex; justify-content: center; gap: 15px; }
         .btn-action {
-            padding: 10px 25px; font-size: 0.8em; font-weight: 800; text-transform: uppercase; border: none; border-radius: 4px;
-            cursor: pointer; display: flex; align-items: center; gap: 8px; position: relative; color: #000;
+            padding: 12px 25px; font-size: 0.85em; font-weight: 800; text-transform: uppercase; border: none; border-radius: 4px;
+            cursor: pointer; display: flex; align-items: center; gap: 8px; position: relative; color: #000; transition: 0.2s;
         }
-        .btn-load { background: #ddd; }
+        .btn-load { background: #ddd; color:#111; }
+        .btn-load:hover { background: #fff; }
         .btn-load input { position: absolute; left:0; top:0; width:100%; height:100%; opacity:0; cursor: pointer; }
-        .btn-process { background: linear-gradient(135deg, #d4af37, #ffe066); }
-        .btn-process:hover { filter: brightness(1.1); transform: translateY(-2px); transition:0.3s; }
+        .btn-process { background: linear-gradient(135deg, #d4af37, #ffe066); box-shadow: 0 0 15px rgba(212, 175, 55, 0.3); }
+        .btn-process:hover { filter: brightness(1.1); transform: translateY(-2px); box-shadow: 0 0 25px rgba(212, 175, 55, 0.5); }
 
         .status-bar { display: flex; gap: 20px; align-items: center; justify-content: center; font-size: 0.75em; color: #666; padding: 8px; background:#000; }
-        .status-bar select { width: auto; padding: 2px 8px; border: none; background: #111; color: #888; cursor:pointer; }
+        .status-bar select { width: auto; padding: 4px 8px; border: 1px solid #333; background: #111; color: #888; cursor:pointer; }
 
         /* FX & COLORS */
         .color-picker-compact { width: 30px; height: 30px; border-radius: 50%; border: 2px solid #444; background: conic-gradient(red, yellow, lime, blue, red); position: relative; overflow: hidden; cursor:pointer;}
@@ -137,8 +130,8 @@
         .check-item input { accent-color: var(--gold); width:14px; height:14px; }
 
         /* LOADER & GALERIA */
-        #loader { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 999; justify-content: center; align-items: center; flex-direction: column; }
-        .spinner { width: 50px; height: 50px; border: 4px solid #333; border-top: 4px solid var(--gold); border-radius: 50%; animation: spin 1s linear infinite; }
+        #loader { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.96); z-index: 9999; justify-content: center; align-items: center; flex-direction: column; }
+        .spinner { width: 60px; height: 60px; border: 5px solid #333; border-top: 5px solid var(--gold); border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
 
         .gallery-section { padding: 40px; background: #0a0a0a; border-top: 2px solid var(--gold); min-height: 400px; }
@@ -147,7 +140,8 @@
         .res-card { background: #111; border: 1px solid #333; padding: 10px; border-radius: 8px; text-align:center; transition:0.3s; }
         .res-card:hover { transform:translateY(-5px); border-color:var(--gold); }
         .res-card img { width: 100%; height: auto; border: 1px solid #222; border-radius:4px; }
-        .dl-btn { display: block; margin-top: 10px; padding: 10px; background: var(--gold); color: #000; text-decoration: none; font-weight: bold; font-size: 0.8em; border-radius: 4px; text-transform: uppercase; }
+        .dl-btn { display: block; margin-top: 10px; padding: 12px; background: var(--gold); color: #000; text-decoration: none; font-weight: bold; font-size: 0.85em; border-radius: 4px; text-transform: uppercase; transition:0.2s; }
+        .dl-btn:hover { filter: brightness(1.1); }
 
         /* RESPONSIVIDADE */
         @media (max-width: 900px) {
@@ -160,7 +154,7 @@
 
     <div id="loader">
         <div class="spinner"></div>
-        <div id="loader-text" style="color:var(--gold); margin-top:15px; font-family:'Cinzel Decorative';">Processando...</div>
+        <div id="loader-text" style="color:var(--gold); margin-top:20px; font-family:'Raleway'; font-weight:bold; letter-spacing: 1px;">PROCESSANDO IMAGENS...</div>
     </div>
 
     <header class="app-header">
@@ -176,17 +170,17 @@
     <div class="workspace">
         
         <aside class="panel">
-            <div class="panel-header"><span class="panel-title">1. Identidade</span></div>
+            <div class="panel-header"><span class="panel-title">1. Identidade Visual</span></div>
             
             <div class="control-group">
-                <label>Logo (Canvas)</label>
+                <label>Logo do Evento (Upload)</label>
                 <div class="upload-wrapper">
                     <label class="btn-upload-small">
                         <img id="pv-logo" class="thumb-preview" style="display:none; width:20px; height:20px; object-fit:contain;">
-                        <span id="st-logo">📂 Carregar PNG</span>
+                        <span id="st-logo">📂 Arquivo PNG</span>
                         <input type="file" accept="image/*" onchange="App.handleLogo(this)">
                     </label>
-                    <button class="btn-trash" onclick="App.removeLogo()">🗑️</button>
+                    <button class="btn-trash" onclick="App.removeLogo()" title="Remover Logo">🗑️</button>
                 </div>
                 <div class="grid-2">
                     <select id="sel-logo-pos" onchange="App.update()">
@@ -196,11 +190,11 @@
                         <option value="tr">Sup. Dir</option>
                         <option value="tc">Topo</option>
                     </select>
-                    <input type="number" id="in-logo-sz" value="130" oninput="App.update()" title="Tamanho">
+                    <input type="number" id="in-logo-sz" value="130" oninput="App.update()" title="Tamanho Px">
                 </div>
-                <div style="margin-top:5px;">
-                    <label>Ajuste Vertical (Logo)</label>
-                    <input type="number" id="off-logo-y" value="0" oninput="App.update()" placeholder="Subir/Descer (-/+)">
+                <div style="margin-top:8px;">
+                    <label>Ajuste Vertical Y (Logo)</label>
+                    <input type="number" id="off-logo-y" value="0" oninput="App.update()" placeholder="Subir (-) / Descer (+)">
                 </div>
             </div>
 
@@ -227,7 +221,10 @@
                         <option value="c">Centro</option>
                         <option value="tc">Topo</option>
                     </select>
-                    <input type="number" id="off-nome-y" value="0" oninput="App.update()" title="Altura Y">
+                </div>
+                <div style="margin-top:8px;">
+                     <label>Ajuste Vertical Y (Título)</label>
+                    <input type="number" id="off-nome-y" value="0" oninput="App.update()" placeholder="Subir (-) / Descer (+)">
                 </div>
             </div>
 
@@ -252,7 +249,18 @@
                         <option value="bl">Esq. Inf</option>
                         <option value="bc" selected>Centro Base</option>
                     </select>
-                    <input type="number" id="off-sub-y" value="0" oninput="App.update()" title="Altura Y">
+                </div>
+                 <div style="margin-top:8px;">
+                     <label>Ajuste Vertical Y (Subtítulo)</label>
+                    <input type="number" id="off-sub-y" value="0" oninput="App.update()" placeholder="Subir (-) / Descer (+)">
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label>Rodapé (Opcional)</label>
+                <div class="grid-2">
+                    <input type="text" id="in-date" placeholder="Data (ex: 20.10.2025)" oninput="App.update()">
+                    <input type="text" id="in-local" placeholder="Local (ex: Espaço Vida)" oninput="App.update()">
                 </div>
             </div>
         </aside>
@@ -266,19 +274,21 @@
                     📸 Carregar Fotos
                     <input type="file" id="file-photos" multiple accept="image/*" onchange="App.handleFiles(this)">
                 </label>
-                <button class="btn-action btn-process" onclick="App.render()">✨ Processar</button>
+                <button class="btn-action btn-process" onclick="App.render()">✨ Processar Tudo</button>
             </div>
             <div class="status-bar">
-                <select id="sel-fmt"><option value="jpeg">JPG</option><option value="png">PNG</option></select>
+                <span>Formato:</span>
+                <select id="sel-fmt"><option value="jpeg">JPG (Leve)</option><option value="png">PNG (Alta Qualidade)</option></select>
+                <span>Resolução:</span>
                 <select id="sel-quality"><option value="1">Full HD</option><option value="2" selected>4K Ultra</option><option value="3">8K Master</option></select>
             </div>
         </main>
 
         <aside class="panel">
-            <div class="panel-header"><span class="panel-title">2. Layout & Efeitos</span></div>
+            <div class="panel-header"><span class="panel-title">2. Layout & Estrutura</span></div>
             
             <div class="control-group">
-                <label>Formato</label>
+                <label>Orientação da Tela</label>
                 <select id="sel-orient" onchange="App.toggleCustom()">
                     <option value="landscape">Horizontal (1920x1080)</option>
                     <option value="portrait">Vertical (1080x1920)</option>
@@ -286,13 +296,13 @@
                     <option value="custom">🛠️ Personalizado</option>
                 </select>
                 <div id="box-custom" class="grid-2" style="display:none;">
-                    <input type="number" id="in-w" value="1920">
-                    <input type="number" id="in-h" value="1080">
+                    <input type="number" id="in-w" value="1920" placeholder="Largura">
+                    <input type="number" id="in-h" value="1080" placeholder="Altura">
                 </div>
             </div>
 
             <div class="control-group">
-                <label>Grid (Mosaico)</label>
+                <label>Grid (Mosaico de Fotos)</label>
                 <select id="sel-layout" onchange="App.update()">
                     <option value="single">1. Único (1 Foto)</option>
                     <option value="dual_vert">2. Duplo (2 Fotos)</option>
@@ -309,46 +319,46 @@
             </div>
 
             <div class="control-group">
-                <label>Fundo</label>
+                <label>Fundo (Background)</label>
                 <div class="upload-wrapper">
                     <label class="btn-upload-small">
-                        <img id="pv-bg" class="thumb-preview">
+                        <img id="pv-bg" class="thumb-preview" style="display:none; width:20px; height:20px;">
                         <span id="st-bg">🖼️ Imagem</span>
                         <input type="file" accept="image/*" onchange="App.handleBg(this)">
                     </label>
-                    <button class="btn-trash" onclick="App.removeBg()">🗑️</button>
+                    <button class="btn-trash" onclick="App.removeBg()" title="Remover Fundo">🗑️</button>
                 </div>
                 <div class="flex-row">
                     <div class="color-picker-compact"><input type="color" id="col-bg" value="#0f2b15" oninput="App.update()"></div>
                     <label style="cursor:pointer; display:flex; align-items:center; gap:5px; font-size:0.7em;">
-                        <input type="checkbox" id="chk-trans" onchange="App.update()"> Transp.
+                        <input type="checkbox" id="chk-trans" onchange="App.update()"> Transparente
                     </label>
                 </div>
             </div>
 
-            <div class="panel-header" style="margin-top:10px;"><span class="panel-title">3. Acabamento</span></div>
+            <div class="panel-header" style="margin-top:10px;"><span class="panel-title">3. Acabamento Final</span></div>
             
             <div class="control-group">
-                <label>Moldura</label>
+                <label>Estilo de Moldura</label>
                 <select id="sel-mockup" onchange="App.update()">
                     <option value="none">Borda Simples</option>
                     <option value="polaroid">Polaroid</option>
                     <option value="museum">Museu (Dupla)</option>
                     <option value="minimal">Minimalista</option>
-                    <option value="cinema">Cinema</option>
+                    <option value="cinema">Cinema (Barras)</option>
                 </select>
                 <div class="flex-row">
-                    <span style="font-size:0.7em; color:#888;">Cor:</span>
+                    <span style="font-size:0.7em; color:#888;">Cor da Borda:</span>
                     <div class="color-picker-compact"><input type="color" id="col-frame" value="#d4af37" oninput="App.update()"></div>
                 </div>
-                <input type="text" id="in-polaroid" value="Memories" placeholder="Legenda Polaroid" style="display:none; margin-top:5px;" oninput="App.update()">
+                <input type="text" id="in-polaroid" value="Memories" placeholder="Legenda Polaroid" style="display:none; margin-top:8px;" oninput="App.update()">
             </div>
 
             <div class="control-group">
-                <label>Filtros</label>
+                <label>Filtros de Cor</label>
                 <div class="fx-grid" id="fx-container"></div>
-                <label class="check-item" style="margin-top:5px; border:1px solid var(--gold); color:var(--gold); justify-content:center;">
-                    <input type="checkbox" id="chk-hdr" checked onchange="App.update()"> HDR Pro
+                <label class="check-item" style="margin-top:8px; border:1px solid var(--gold); color:var(--gold); justify-content:center; font-weight:bold;">
+                    <input type="checkbox" id="chk-hdr" checked onchange="App.update()"> 💎 HDR Pro (Realce)
                 </label>
             </div>
             
@@ -362,14 +372,6 @@
                     <label class="check-item"><input type="checkbox" id="chk-stars" onchange="App.update()"> 🌌 Estrelas</label>
                     <label class="check-item"><input type="checkbox" id="chk-light" onchange="App.update()"> 🔦 Luz</label>
                     <label class="check-item"><input type="checkbox" id="chk-water" onchange="App.update()"> 💧 Água</label>
-                </div>
-            </div>
-
-            <div class="control-group">
-                <label>Rodapé</label>
-                <div class="grid-2">
-                    <input type="text" id="in-date" placeholder="Data" oninput="App.update()">
-                    <input type="text" id="in-local" placeholder="Local" oninput="App.update()">
                 </div>
             </div>
         </aside>
@@ -387,7 +389,7 @@
         };
 
         const FX = [
-            {id:'normal', n:'Normal'}, {id:'bw', n:'P&B'}, {id:'sepia', n:'Sépia'},
+            {id:'normal', n:'Original'}, {id:'bw', n:'P&B'}, {id:'sepia', n:'Sépia'},
             {id:'warm', n:'Quente'}, {id:'deep', n:'Intenso'}, {id:'sharp', n:'Nítido'}
         ];
 
@@ -409,23 +411,28 @@
             App.update();
         };
 
-        // --- HANDLERS ---
+        // --- HANDLERS ROBUSTOS ---
         App.handleFiles = async function(input) {
             if(!input.files.length) return;
             App.images = []; 
             try {
                 const files = Array.from(input.files);
-                for(let f of files) App.images.push(await loadImg(f));
-                alert(`${App.images.length} fotos prontas!`);
-                App.update();
-            } catch(e) { console.error(e); }
+                alert(`Carregando ${files.length} imagens. Aguarde a prévia...`);
+                for(let f of files) {
+                    App.images.push(await loadImg(f));
+                }
+                // Força atualização imediata após carregar
+                App.update(); 
+            } catch(e) { 
+                console.error(e); 
+                alert("Erro ao ler algumas imagens. Tente novamente.");
+            }
         };
 
         App.handleLogo = async function(input) {
             if(input.files[0]) {
                 try {
                     App.userLogo = await loadImg(input.files[0]);
-                    document.getElementById('pv-logo').src = App.userLogo.src;
                     document.getElementById('pv-logo').style.display='block';
                     document.getElementById('st-logo').innerText='OK';
                     App.update();
@@ -435,7 +442,7 @@
         App.removeLogo = function() { 
             App.userLogo=null; 
             document.getElementById('pv-logo').style.display='none'; 
-            document.getElementById('st-logo').innerText='📂 Carregar PNG'; 
+            document.getElementById('st-logo').innerText='📂 Arquivo PNG'; 
             App.update(); 
         };
 
@@ -443,7 +450,6 @@
             if(input.files[0]) {
                 try {
                     App.userBg = await loadImg(input.files[0]);
-                    document.getElementById('pv-bg').src = App.userBg.src;
                     document.getElementById('pv-bg').style.display='block';
                     document.getElementById('st-bg').innerText='OK';
                     App.update();
@@ -466,8 +472,8 @@
                     const ff = new FontFace(n, e.target.result); await ff.load(); document.fonts.add(ff);
                     const sel = document.getElementById(target);
                     const opt = new Option(n, n); sel.add(opt,0); sel.value=n;
-                    alert("Fonte instalada!"); App.update();
-                } catch(e){ alert("Erro na fonte."); }
+                    alert("Fonte instalada com sucesso!"); App.update();
+                } catch(e){ alert("Erro: Arquivo de fonte inválido."); }
             };
             r.readAsArrayBuffer(f);
         };
@@ -479,7 +485,7 @@
             App.update();
         };
 
-        // --- UPDATE ---
+        // --- UPDATE SEGURO ---
         App.update = function() {
             const canvas = document.getElementById('main-canvas');
             if(!canvas) return;
@@ -494,31 +500,32 @@
                 const rh = parseInt(document.getElementById('in-h').value)||1080;
                 const r = rw/rh; if(r>1){w=800;h=800/r;} else {h=600;w=600*r;}
             }
+            // Proteção contra NaN
             if(isNaN(w) || w<10) w=800;
             if(isNaN(h) || h<10) h=450;
             canvas.width = w; canvas.height = h;
 
             const mk = document.getElementById('sel-mockup').value;
-            const pInput = document.getElementById('in-polaroid');
-            if(pInput) pInput.style.display = (mk==='polaroid')?'block':'none';
+            document.getElementById('in-polaroid').style.display = (mk==='polaroid')?'block':'none';
 
-            if(!App.images.length) {
+            if(!App.images.length || !App.images[0]) {
                 ctx.fillStyle="#111"; ctx.fillRect(0,0,w,h);
-                ctx.font="20px Raleway"; ctx.fillStyle="#444"; ctx.textAlign="center";
-                ctx.fillText("Carregue as fotos...", w/2, h/2);
+                ctx.font="20px Raleway"; ctx.fillStyle="#666"; ctx.textAlign="center";
+                ctx.fillText("Aguardando fotos...", w/2, h/2);
                 return;
             }
 
             const layout = document.getElementById('sel-layout').value;
             const bs = getBatch(layout);
+            // Pega apenas as imagens necessárias para a prévia
             const imgs = App.images.slice(0, bs);
             
             drawFrame(ctx, imgs, layout, w, h);
         };
 
-        // --- RENDER ---
+        // --- RENDERIZADOR ESTÁVEL (ANTI-TRAVAMENTO) ---
         App.render = async function() {
-            if(!App.images.length) { alert("Carregue fotos primeiro!"); return; }
+            if(!App.images.length) { alert("Por favor, carregue fotos primeiro."); return; }
             const loader = document.getElementById('loader');
             loader.style.display='flex';
             
@@ -537,18 +544,25 @@
             const bs = getBatch(layout);
 
             try {
-                await new Promise(r=>setTimeout(r, 100)); // Delay UI
+                // Espera o navegador atualizar a UI antes de começar
+                await new Promise(r => setTimeout(r, 200)); 
+
                 for(let i=0; i<App.images.length; i+=bs) {
                     const group = App.images.slice(i, i+bs);
-                    const name = `arte_${i}`;
+                    const name = `imaginista_arte_${i+1}`;
                     const cvs = document.createElement('canvas'); 
                     cvs.width=W; cvs.height=H;
                     const ctx = cvs.getContext('2d');
 
+                    // Pausa essencial para não travar o navegador
+                    await new Promise(r => requestAnimationFrame(r));
+
                     if(group.length < bs && bs > 1) {
                         for(let j=0; j<group.length; j++) {
-                            drawFrame(ctx, [group[j]], 'single', W, H);
-                            saveImage(cvs, `${name}_extra_${j}`, document.getElementById('sel-fmt').value);
+                             if(group[j]) {
+                                drawFrame(ctx, [group[j]], 'single', W, H);
+                                saveImage(cvs, `${name}_extra_${j+1}`, document.getElementById('sel-fmt').value);
+                             }
                         }
                     } else {
                         drawFrame(ctx, group, layout, W, H);
@@ -556,11 +570,14 @@
                     }
                 }
                 document.querySelector('.gallery-section').scrollIntoView({behavior:'smooth'});
-            } catch(e) { console.error(e); }
+            } catch(e) { 
+                console.error(e);
+                alert("Erro durante o processamento. Tente reduzir a qualidade se persistir.");
+            }
             loader.style.display='none';
         };
 
-        // --- DRAWING ENGINE ---
+        // --- MOTOR GRÁFICO ---
         function drawFrame(ctx, imgs, mode, W, H) {
             ctx.filter = "none";
             
@@ -583,13 +600,14 @@
             const slots = getSlots(mode, W, H);
             slots.forEach((slot, i) => {
                 const isCenter = (mode==='grid_diamond' && i===1);
-                if(imgs[i]) drawPhoto(ctx, imgs[i], slot, isCenter, W);
+                // Verificação extra se a imagem existe antes de desenhar
+                if(imgs[i] && imgs[i].width) drawPhoto(ctx, imgs[i], slot, isCenter, W);
             });
 
-            // 3. Efeitos Especiais (Restaurados)
+            // 3. Efeitos
             drawEffects(ctx, W, H);
             
-            // 4. Texto
+            // 4. Texto (Com novos ajustes Y)
             drawText(ctx, W, H);
             
             // 5. Mockup overlay
@@ -600,7 +618,9 @@
         }
 
         function drawPhoto(ctx, img, slot, isCenter, W) {
-            if(!img || img.width === 0) return;
+            // Proteção dupla contra imagens inválidas
+            if(!img || img.width === 0 || isNaN(img.width)) return;
+            
             const Scale = W/2000;
             const mk = document.getElementById('sel-mockup').value;
             let {x, y, w, h} = slot;
@@ -649,11 +669,11 @@
         function drawText(ctx, W, H) {
             const Scale = W/1920 * (document.getElementById('sel-orient').value==='portrait'?1.8:1);
             
-            // Logo
+            // Logo (Com Ajuste Y)
             const lg = App.userLogo; 
             if(lg && lg.width > 0) {
                 const sz = parseInt(document.getElementById('in-logo-sz').value) || 130;
-                const offLogoY = (parseInt(document.getElementById('off-logo-y').value)||0) * Scale; // Novo offset
+                const offLogoY = (parseInt(document.getElementById('off-logo-y').value)||0) * Scale;
                 const h = sz * Scale; 
                 const w = lg.width * (h/lg.height);
                 const pos = document.getElementById('sel-logo-pos').value;
@@ -663,11 +683,11 @@
                 if(pos==='tr'){lx=W*0.95-w; ly=H*0.05;} if(pos==='tc'){lx=(W-w)/2; ly=H*0.05;}
                 
                 ctx.save(); ctx.globalAlpha=0.9; 
-                ctx.drawImage(lg, lx, ly + offLogoY, w, h); // Aplica Offset
+                ctx.drawImage(lg, lx, ly + offLogoY, w, h); 
                 ctx.restore();
             }
 
-            // TÍTULO
+            // TÍTULO (Com Ajuste Y)
             const nSize = (parseInt(document.getElementById('sz-nome').value)||100) * Scale;
             const offY = (parseInt(document.getElementById('off-nome-y').value)||0) * Scale;
             
@@ -686,7 +706,7 @@
             
             ctx.fillText(txt, nx, ny + offY);
 
-            // SUBTÍTULO
+            // SUBTÍTULO (Com Ajuste Y)
             const sSize = (parseInt(document.getElementById('sz-sub').value)||40) * Scale;
             const offSubY = (parseInt(document.getElementById('off-sub-y').value)||0) * Scale;
 
@@ -704,30 +724,27 @@
             
             ctx.fillText(sub, sx, sy + offSubY);
 
-            // Rodapé
+            // Rodapé (Data/Local)
             const dt=document.getElementById('in-date').value;
             const lc=document.getElementById('in-local').value;
             if(dt||lc) {
                 ctx.textAlign="center"; ctx.font=`${25*Scale}px Raleway`; ctx.fillStyle="#ccc";
+                ctx.shadowBlur=0;
                 ctx.fillText(`${dt} ${dt&&lc?'|':''} ${lc}`.toUpperCase(), W/2, H*0.98);
             }
         }
 
-        // --- SISTEMA DE EFEITOS (RESTAURADO DA V20) ---
+        // --- EFEITOS MATEMÁTICOS ---
         function drawEffects(ctx, W, H) {
             const Scale = W/2000;
-            
-            // Vinheta
             if(document.getElementById('chk-vignette').checked) {
                 const g = ctx.createRadialGradient(W/2,H/2, H/3, W/2,H/2, Math.max(W,H)*0.9);
                 g.addColorStop(0,"transparent"); g.addColorStop(1,"rgba(0,0,0,0.85)"); ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
             }
-            // Granulado
             if(document.getElementById('chk-grain').checked) {
                 ctx.save(); ctx.globalCompositeOperation="overlay"; ctx.fillStyle="#888"; ctx.globalAlpha=0.08;
                 ctx.fillRect(0,0,W,H); ctx.restore();
             }
-            // Ouro/Brilho
             if(document.getElementById('chk-gold').checked) {
                 ctx.save(); ctx.globalCompositeOperation="screen"; ctx.fillStyle="#ffd700";
                 for(let i=0; i<100; i++) {
@@ -735,7 +752,6 @@
                     ctx.beginPath(); ctx.arc(x,y, (2+(i%3))*Scale, 0, Math.PI*2); ctx.fill();
                 } ctx.restore();
             }
-            // Estrelas
             if(document.getElementById('chk-stars').checked) {
                 ctx.save(); ctx.fillStyle="#fff";
                 for(let i=0; i<150; i++) {
@@ -744,7 +760,6 @@
                     ctx.beginPath(); ctx.arc(x,y, (1 + (i%2))*Scale, 0, Math.PI*2); ctx.fill();
                 } ctx.restore();
             }
-            // Luz (Light Leak)
             if(document.getElementById('chk-light').checked) {
                 ctx.save(); ctx.globalCompositeOperation="screen";
                 const g = ctx.createLinearGradient(0,0,W*0.4,H);
@@ -753,7 +768,6 @@
                 ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
                 ctx.restore();
             }
-            // Água (Ripple Overlay)
             if(document.getElementById('chk-water').checked) {
                 ctx.save(); ctx.globalCompositeOperation="overlay"; ctx.fillStyle="rgba(200,200,255,0.08)";
                 for(let i=0; i<15; i++) {
@@ -764,12 +778,11 @@
             }
         }
 
-        // --- GRID SYSTEM (COMPLETO RESTAURADO) ---
+        // --- UTILITÁRIOS ---
         function getSlots(mode, W, H) {
             const pad = W * 0.05; 
             const aH = H * 0.70; 
             const startY = (H - aH) / 2;
-
             if(mode==='single') return [{x:0, y:startY, w:W, h:aH, pad:pad}];
             if(mode==='dual_vert') return [{x:0,y:startY,w:W/2,h:aH,pad:pad},{x:W/2,y:startY,w:W/2,h:aH,pad:pad}];
             if(mode==='grid_diamond') return [{x:0,y:startY,w:W/2,h:aH,pad:pad},{x:W/2,y:startY,w:W/2,h:aH,pad:pad},{x:W/4,y:startY+aH/4,w:W/2,h:aH/2,pad:pad}];
@@ -780,10 +793,6 @@
                 const w3=W/3; const h2=aH/2;
                 return [ {x:0,y:startY,w:w3,h:h2,pad:pad},{x:w3,y:startY,w:w3,h:h2,pad:pad},{x:w3*2,y:startY,w:w3,h:h2,pad:pad},
                          {x:0,y:startY+h2,w:w3,h:h2,pad:pad},{x:w3,y:startY+h2,w:w3,h:h2,pad:pad},{x:w3*2,y:startY+h2,w:w3,h:h2,pad:pad} ];
-            }
-            if(mode==='film_strip') {
-                const w4=W/4; 
-                return [ {x:0,y:startY,w:w4,h:aH,pad:pad},{x:w4,y:startY,w:w4,h:aH,pad:pad},{x:w4*2,y:startY,w:w4,h:aH,pad:pad},{x:w4*3,y:startY,w:w4,h:aH,pad:pad} ];
             }
             if(mode==='grid_septa') {
                 const w2=W/2; const w3=w2/3; const h2=aH/2;
@@ -807,7 +816,7 @@
         
         function loadImg(f) { return new Promise((r, j)=>{
             const rd=new FileReader(); 
-            rd.onload=e=>{const i=new Image(); i.onload=()=>r(i); i.onerror=()=>j("Falha"); i.src=e.target.result;}; 
+            rd.onload=e=>{const i=new Image(); i.onload=()=>r(i); i.onerror=()=>j("Falha ao ler imagem"); i.src=e.target.result;}; 
             rd.readAsDataURL(f);
         }); }
         function drawCover(ctx, img, x, y, w, h) {
@@ -823,16 +832,26 @@
             let g=(num&0x0000FF)+amt; if(g>255)g=255;else if(g<0)g=0;
             return "#"+(g|(b<<8)|(r<<16)).toString(16);
         }
+        function applyFx(ctx) {
+            const f = App.effect;
+            if(f==='bw') ctx.filter = "grayscale(1) contrast(1.2)";
+            if(f==='sepia') ctx.filter = "sepia(0.8)";
+            if(f==='warm') ctx.filter = "sepia(0.3) saturate(1.4)";
+            if(f==='deep') ctx.filter = "contrast(1.3) saturate(1.2)";
+            if(f==='sharp') ctx.filter = "contrast(1.4) brightness(1.1)";
+        }
         function saveImage(cvs, name, ext) {
             const container = document.getElementById('gallery-content');
             const card = document.createElement('div'); card.className='res-card';
             const imgDisplay = document.createElement('img');
-            imgDisplay.src = cvs.toDataURL(`image/jpeg`, 0.7);
+            // Usa qualidade média para prévia na galeria para não pesar
+            imgDisplay.src = cvs.toDataURL(`image/jpeg`, 0.6);
             const link = document.createElement('a');
+            // Usa qualidade alta para o download
             link.href = cvs.toDataURL(`image/${ext}`, 0.95);
             link.download = `${name}.${ext}`;
             link.className = 'dl-btn';
-            link.innerText = '⬇ Baixar';
+            link.innerText = '⬇ Baixar Imagem';
             card.appendChild(imgDisplay); card.appendChild(link);
             container.appendChild(card);
         }
