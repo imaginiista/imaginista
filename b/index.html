@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Imaginista V23 - Gold Master</title>
+    <title>Imaginista V25 - Platinum Fix</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cinzel+Decorative:wght@400;700;900&family=Raleway:wght@200;400;600;800&family=Parisienne&family=Montserrat:wght@300;700&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
 
     <style>
-        /* === ESTILO MASTER V23 === */
+        /* === ESTILO V25 === */
         :root { --gold: #d4af37; --panel-bg: #111; --body-bg: #050505; --text: #ddd; }
         * { box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
         
@@ -22,14 +22,14 @@
         header {
             background: #080808; border-bottom: 2px solid var(--gold);
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            padding: 15px; flex-shrink: 0; z-index: 100; box-shadow: 0 10px 30px #000;
+            padding: 10px; flex-shrink: 0; z-index: 100; box-shadow: 0 10px 30px #000;
         }
-        .header-logo { height: 50px; object-fit: contain; margin-bottom: 5px; filter: drop-shadow(0 0 5px var(--gold)); }
+        .header-logo { height: 45px; object-fit: contain; margin-bottom: 5px; filter: drop-shadow(0 0 5px var(--gold)); }
         .header-slogan {
-            font-family: 'Montserrat', sans-serif; font-size: 0.8em; letter-spacing: 4px; text-transform: uppercase;
+            font-family: 'Montserrat', sans-serif; font-size: 0.7em; letter-spacing: 3px; text-transform: uppercase;
             font-weight: 300; color: #aaa;
         }
-        .header-tools { margin-top: 10px; display: flex; gap: 15px; }
+        .header-tools { margin-top: 8px; display: flex; gap: 15px; }
         .btn-tool {
             background: #1a1a1a; border: 1px solid #444; color: #aaa; padding: 6px 12px; cursor: pointer;
             border-radius: 4px; font-size: 0.7em; display: flex; align-items: center; gap: 5px;
@@ -40,23 +40,24 @@
         /* WORKSPACE */
         .workspace { 
             display: grid; grid-template-columns: 300px 1fr 300px; 
-            gap: 15px; padding: 20px; min-height: 800px;
+            gap: 15px; padding: 15px; min-height: 800px;
         }
 
         .panel {
-            background: var(--panel-bg); border: 1px solid #333; border-radius: 8px; padding: 15px;
-            display: flex; flex-direction: column; gap: 15px; height: fit-content; box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            background: var(--panel-bg); border: 1px solid #333; border-radius: 8px; padding: 12px;
+            display: flex; flex-direction: column; gap: 12px; height: fit-content; box-shadow: 0 5px 15px rgba(0,0,0,0.5);
         }
         .panel-header { 
             display: flex; justify-content: space-between; align-items: center; 
             border-bottom: 1px solid #333; padding-bottom: 8px; margin-bottom: 5px; 
         }
-        .panel-title { color: var(--gold); font-size: 0.9em; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
+        .panel-title { color: var(--gold); font-size: 0.85em; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
 
         /* CONTROLES */
-        .control-group { border-bottom: 1px dashed #222; padding-bottom: 12px; }
+        .control-group { border-bottom: 1px dashed #222; padding-bottom: 10px; }
         .control-group:last-child { border: none; }
-        label { font-size: 0.7em; color: #888; font-weight: 700; display: block; margin-bottom: 4px; text-transform: uppercase; }
+        label { font-size: 0.7em; color: #888; font-weight: 700; display: block; margin-bottom: 3px; text-transform: uppercase; }
+        
         input[type="text"], input[type="number"], select {
             width: 100%; padding: 8px; background: #181818; border: 1px solid #444; color: #fff;
             border-radius: 4px; font-size: 0.8em; font-family: 'Raleway';
@@ -65,10 +66,10 @@
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 5px; }
         .flex-row { display: flex; gap: 8px; align-items: center; margin-top: 5px; }
 
-        /* UPLOAD & BOTOES */
+        /* BOTOES */
         .btn-upload-small {
             flex: 1; background: #222; border: 1px dashed #555; color: #aaa; padding: 8px; cursor: pointer;
-            display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 0.75em; border-radius: 4px; position: relative; overflow: hidden;
+            display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 0.7em; border-radius: 4px; position: relative; overflow: hidden;
         }
         .btn-upload-small:hover { border-color: var(--gold); color: #fff; }
         .btn-upload-small input { position: absolute; left:0; top:0; width:100%; height:100%; opacity:0; cursor: pointer; }
@@ -78,7 +79,7 @@
 
         .btn-font-extra {
             background: #222; border: 1px solid #444; color: var(--gold); width: 100%; margin-top: 5px;
-            padding: 8px; font-size: 0.7em; cursor: pointer; text-align: center; border-radius: 4px; position: relative; font-weight: bold;
+            padding: 6px; font-size: 0.7em; cursor: pointer; text-align: center; border-radius: 4px; position: relative; font-weight: bold;
         }
         .btn-font-extra input { position: absolute; left:0; top:0; width:100%; height:100%; opacity:0; cursor: pointer; }
 
@@ -95,25 +96,26 @@
         }
         canvas { max-width: 100%; max-height: 100%; object-fit: contain; box-shadow: 0 0 40px #000; border: 1px solid #222; }
 
-        .action-dock { padding: 15px; background: #111; border-top: 1px solid #333; display: flex; justify-content: center; gap: 15px; }
+        .action-dock { padding: 10px; background: #111; border-top: 1px solid #333; display: flex; justify-content: center; gap: 15px; }
         .btn-action {
-            padding: 12px 25px; font-size: 0.85em; font-weight: 800; text-transform: uppercase; border: none; border-radius: 4px;
+            padding: 10px 20px; font-size: 0.8em; font-weight: 800; text-transform: uppercase; border: none; border-radius: 4px;
             cursor: pointer; display: flex; align-items: center; gap: 8px; position: relative; color: #000; transition: 0.2s;
         }
         .btn-load { background: #ddd; color:#111; }
+        .btn-load:hover { background: #fff; }
         .btn-load input { position: absolute; left:0; top:0; width:100%; height:100%; opacity:0; cursor: pointer; }
         .btn-process { background: linear-gradient(135deg, #d4af37, #ffe066); box-shadow: 0 0 15px rgba(212, 175, 55, 0.3); }
         .btn-process:hover { filter: brightness(1.1); transform: translateY(-2px); box-shadow: 0 0 25px rgba(212, 175, 55, 0.5); }
 
-        .status-bar { display: flex; gap: 20px; align-items: center; justify-content: center; font-size: 0.75em; color: #666; padding: 8px; background:#000; }
-        .status-bar select { width: auto; padding: 4px 8px; border: 1px solid #333; background: #111; color: #888; cursor:pointer; }
+        .status-bar { display: flex; gap: 15px; align-items: center; justify-content: center; font-size: 0.7em; color: #666; padding: 5px; background:#000; }
+        .status-bar select { width: auto; padding: 3px 6px; border: 1px solid #333; background: #111; color: #888; cursor:pointer; }
 
         /* FX */
         .color-picker-compact { width: 30px; height: 30px; border-radius: 50%; border: 2px solid #444; background: conic-gradient(red, yellow, lime, blue, red); position: relative; overflow: hidden; cursor:pointer;}
         .color-picker-compact input { position: absolute; left:-5px; top:-5px; width: 40px; height: 40px; opacity: 0; cursor: pointer; }
 
         .fx-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; }
-        .fx-btn { background: #181818; border: 1px solid #333; color: #888; padding: 8px; font-size: 0.65em; cursor: pointer; text-align: center; border-radius: 4px; transition:0.2s; }
+        .fx-btn { background: #181818; border: 1px solid #333; color: #888; padding: 8px; font-size: 0.6em; cursor: pointer; text-align: center; border-radius: 4px; transition:0.2s; }
         .fx-btn:hover { color: #fff; background: #222; }
         .fx-btn.active { background: var(--gold); color: #000; font-weight: bold; border-color:#fff; }
 
@@ -129,7 +131,7 @@
         .res-card { background: #111; border: 1px solid #333; padding: 10px; border-radius: 8px; text-align:center; transition:0.3s; }
         .res-card:hover { transform:translateY(-5px); border-color:var(--gold); }
         .res-card img { width: 100%; height: auto; border: 1px solid #222; border-radius:4px; }
-        .dl-btn { display: block; margin-top: 10px; padding: 12px; background: var(--gold); color: #000; text-decoration: none; font-weight: bold; font-size: 0.85em; border-radius: 4px; text-transform: uppercase; transition:0.2s; }
+        .dl-btn { display: block; margin-top: 10px; padding: 12px; background: var(--gold); color: #000; text-decoration: none; font-weight: bold; font-size: 0.8em; border-radius: 4px; text-transform: uppercase; transition:0.2s; }
         .dl-btn:hover { filter: brightness(1.1); }
 
         /* LOADER */
@@ -153,6 +155,7 @@
     <header class="app-header">
         <img src="imagens/logo.png" class="header-logo" alt="IMAGINISTA" onerror="this.style.display='none'">
         <div class="header-slogan">Onde a imaginação vira arte</div>
+        
         <div class="header-tools">
             <button class="btn-tool" onclick="document.querySelector('.gallery-section').scrollIntoView({behavior:'smooth'})">⬇ Galeria</button>
             <button class="btn-tool" onclick="location.reload()">↺ Reset</button>
@@ -160,6 +163,7 @@
     </header>
 
     <div class="workspace">
+        
         <aside class="panel">
             <div class="panel-header"><span class="panel-title">1. Identidade Visual</span></div>
             
@@ -179,13 +183,15 @@
                         <option value="br">Inf. Dir</option>
                         <option value="tl">Sup. Esq</option>
                         <option value="tr">Sup. Dir</option>
-                        <option value="tc">Topo</option>
+                        <option value="tc">Topo Centro</option>
+                        <option value="bc">Base Centro</option>
+                        <option value="c">Centro</option>
                     </select>
                     <input type="number" id="in-logo-sz" value="130" oninput="App.update()" title="Tamanho Px">
                 </div>
                 <div class="grid-2">
-                    <input type="number" id="off-logo-x" value="0" oninput="App.update()" placeholder="Ajuste X (Horiz.)">
-                    <input type="number" id="off-logo-y" value="0" oninput="App.update()" placeholder="Ajuste Y (Vert.)">
+                    <input type="number" id="off-logo-x" value="0" oninput="App.update()" placeholder="Horiz. X">
+                    <input type="number" id="off-logo-y" value="0" oninput="App.update()" placeholder="Vert. Y">
                 </div>
             </div>
 
@@ -209,13 +215,16 @@
                     <select id="pos-nome" onchange="App.update()">
                         <option value="br" selected>Dir. Inf</option>
                         <option value="bl">Esq. Inf</option>
+                        <option value="bc">Base Centro</option>
+                        <option value="tc">Topo Centro</option>
+                        <option value="tl">Topo Esq</option>
+                        <option value="tr">Topo Dir</option>
                         <option value="c">Centro</option>
-                        <option value="tc">Topo</option>
                     </select>
                 </div>
                 <div class="grid-2">
-                    <input type="number" id="off-nome-x" value="0" oninput="App.update()" placeholder="Ajuste X">
-                    <input type="number" id="off-nome-y" value="0" oninput="App.update()" placeholder="Ajuste Y">
+                    <input type="number" id="off-nome-x" value="0" oninput="App.update()" placeholder="Horiz. X">
+                    <input type="number" id="off-nome-y" value="0" oninput="App.update()" placeholder="Vert. Y">
                 </div>
             </div>
 
@@ -238,12 +247,16 @@
                     <select id="pos-sub" onchange="App.update()">
                         <option value="br">Dir. Inf</option>
                         <option value="bl">Esq. Inf</option>
-                        <option value="bc" selected>Centro Base</option>
+                        <option value="bc" selected>Base Centro</option>
+                        <option value="tc">Topo Centro</option>
+                        <option value="tl">Topo Esq</option>
+                        <option value="tr">Topo Dir</option>
+                        <option value="c">Centro</option>
                     </select>
                 </div>
                 <div class="grid-2">
-                    <input type="number" id="off-sub-x" value="0" oninput="App.update()" placeholder="Ajuste X">
-                    <input type="number" id="off-sub-y" value="0" oninput="App.update()" placeholder="Ajuste Y">
+                    <input type="number" id="off-sub-x" value="0" oninput="App.update()" placeholder="Horiz. X">
+                    <input type="number" id="off-sub-y" value="0" oninput="App.update()" placeholder="Vert. Y">
                 </div>
             </div>
 
@@ -255,12 +268,21 @@
                 </div>
                 <div class="grid-2">
                     <input type="number" id="sz-info" value="25" oninput="App.update()" title="Tam. Fonte">
-                    <button class="btn-font-extra" style="margin:0;">🔤 Fonte <input type="file" onchange="App.loadFont(this, 'sel-font-info')"></button>
                     <select id="sel-font-info" style="display:none;"><option value="Raleway">Raleway</option></select>
                 </div>
+                <button class="btn-font-extra" style="margin-top:5px;">🔤 Fonte <input type="file" onchange="App.loadFont(this, 'sel-font-info')"></button>
                 <div class="grid-2">
-                    <input type="number" id="off-info-x" value="0" oninput="App.update()" placeholder="Ajuste X">
-                    <input type="number" id="off-info-y" value="0" oninput="App.update()" placeholder="Ajuste Y">
+                    <select id="pos-info" onchange="App.update()">
+                        <option value="bc" selected>Base Centro</option>
+                        <option value="bl">Base Esq</option>
+                        <option value="br">Base Dir</option>
+                        <option value="tc">Topo Centro</option>
+                        <option value="c">Centro</option>
+                    </select>
+                </div>
+                <div class="grid-2">
+                    <input type="number" id="off-info-x" value="0" oninput="App.update()" placeholder="Horiz. X">
+                    <input type="number" id="off-info-y" value="0" oninput="App.update()" placeholder="Vert. Y">
                 </div>
             </div>
         </aside>
@@ -300,7 +322,7 @@
             </div>
 
             <div class="control-group">
-                <label>Grid (Com Espaçamento)</label>
+                <label>Grid (Mosaico)</label>
                 <select id="sel-layout" onchange="App.update()">
                     <option value="single">1. Único (1 Foto)</option>
                     <option value="dual_vert">2. Duplo (2 Fotos)</option>
@@ -327,7 +349,7 @@
                     <button class="btn-trash" onclick="App.removeBg()">🗑️</button>
                 </div>
                 <div class="flex-row">
-                    <div class="color-picker-compact"><input type="color" id="col-bg" value="#0f2b15" oninput="App.update()"></div>
+                    <div class="color-picker-compact"><input type="color" id="col-bg" value="#111111" oninput="App.update()"></div>
                     <label style="cursor:pointer; display:flex; align-items:center; gap:5px; font-size:0.7em;">
                         <input type="checkbox" id="chk-trans" onchange="App.update()"> Transparente
                     </label>
@@ -363,6 +385,7 @@
             <div class="control-group">
                 <label>Efeitos Especiais</label>
                 <div class="check-grid">
+                    <label class="check-item"><input type="checkbox" id="chk-upscale" onchange="App.update()"> ✨ Super Resolução (HD)</label>
                     <label class="check-item"><input type="checkbox" id="chk-blur" checked onchange="App.update()"> Blur Fundo</label>
                     <label class="check-item"><input type="checkbox" id="chk-vignette" checked onchange="App.update()"> Vinheta</label>
                     <label class="check-item"><input type="checkbox" id="chk-grain" checked onchange="App.update()"> Granulado</label>
@@ -415,10 +438,23 @@
             App.images = []; 
             try {
                 const files = Array.from(input.files);
-                alert(`Carregando ${files.length} imagens. Aguarde...`);
-                for(let f of files) App.images.push(await loadImg(f));
-                App.update();
-            } catch(e) { console.error(e); }
+                // Feedback visual simples
+                const btn = document.querySelector('.btn-load');
+                const oldText = btn.innerHTML;
+                btn.innerHTML = '⏳ Carregando...';
+                
+                for(let f of files) {
+                    App.images.push(await loadImg(f));
+                }
+                btn.innerHTML = oldText;
+                
+                // Força atualização imediata
+                setTimeout(App.update, 100);
+                setTimeout(App.update, 500); 
+            } catch(e) { 
+                console.error(e); 
+                alert("Erro ao ler imagens.");
+            }
         };
 
         App.handleLogo = async function(input) {
@@ -463,7 +499,16 @@
                 try {
                     const ff = new FontFace(n, e.target.result); await ff.load(); document.fonts.add(ff);
                     const sel = document.getElementById(target);
-                    const opt = new Option(n, n); sel.add(opt,0); sel.value=n;
+                    // Adiciona se não existir
+                    let exists = false;
+                    for (let i=0; i<sel.options.length; i++){ if(sel.options[i].value == n) exists=true;}
+                    
+                    if(!exists) {
+                        const opt = new Option(n, n); 
+                        sel.add(opt, 0); 
+                    }
+                    sel.value=n;
+                    if(target === 'sel-font-info') sel.style.display = 'block'; // Mostra select rodapé se oculto
                     alert("Fonte instalada!"); App.update();
                 } catch(e){ alert("Erro na fonte."); }
             };
@@ -492,16 +537,19 @@
                 const rh = parseInt(document.getElementById('in-h').value)||1080;
                 const r = rw/rh; if(r>1){w=800;h=800/r;} else {h=600;w=600*r;}
             }
-            if(isNaN(w)) w=800; if(isNaN(h)) h=450;
+            // Proteção contra NaN/Zero
+            if(isNaN(w) || w<10) w=800; 
+            if(isNaN(h) || h<10) h=450;
+            
             canvas.width = w; canvas.height = h;
 
             const mk = document.getElementById('sel-mockup').value;
             document.getElementById('in-polaroid').style.display = (mk==='polaroid')?'block':'none';
 
-            if(!App.images.length) {
+            if(!App.images.length || !App.images[0]) {
                 ctx.fillStyle="#111"; ctx.fillRect(0,0,w,h);
                 ctx.font="20px Raleway"; ctx.fillStyle="#444"; ctx.textAlign="center";
-                ctx.fillText("Sem fotos...", w/2, h/2);
+                ctx.fillText("Carregue as fotos...", w/2, h/2);
                 return;
             }
 
@@ -533,7 +581,7 @@
                 await new Promise(r=>setTimeout(r, 200)); 
                 for(let i=0; i<App.images.length; i+=bs) {
                     const group = App.images.slice(i, i+bs);
-                    const name = `imaginista_arte_${i+1}`;
+                    const name = `imaginista_${i+1}`;
                     const cvs = document.createElement('canvas'); 
                     cvs.width=W; cvs.height=H;
                     const ctx = cvs.getContext('2d');
@@ -543,7 +591,7 @@
                         for(let j=0; j<group.length; j++) {
                              if(group[j]) {
                                 drawFrame(ctx, [group[j]], 'single', W, H);
-                                saveImage(cvs, `${name}_extra_${j+1}`, document.getElementById('sel-fmt').value);
+                                saveImage(cvs, `${name}_${j+1}`, document.getElementById('sel-fmt').value);
                              }
                         }
                     } else {
@@ -556,40 +604,34 @@
             loader.style.display='none';
         };
 
-        // --- DRAWING ---
+        // --- CORE DRAWING ---
         function drawFrame(ctx, imgs, mode, W, H) {
             ctx.filter = "none";
             
-            // 1. Fundo (Com Blur se ativo)
+            // 1. Fundo
             if(App.userBg) {
                 if(document.getElementById('chk-trans').checked) ctx.clearRect(0,0,W,H);
                 else { 
                     ctx.fillStyle=document.getElementById('col-bg').value; ctx.fillRect(0,0,W,H); 
                 }
-                
-                // Blur Background Logic
                 ctx.save();
                 if(document.getElementById('chk-blur').checked) {
-                    ctx.filter = "blur(15px) brightness(0.7)";
-                    // Escala para evitar bordas brancas no blur
+                    ctx.filter = "blur(20px) brightness(0.7)";
                     ctx.translate(-20, -20);
                     drawCover(ctx, App.userBg, 0,0,W+40,H+40); 
                 } else {
                     drawCover(ctx, App.userBg, 0,0,W,H);
                 }
                 ctx.restore();
-
             } else {
                 if(document.getElementById('chk-trans').checked) ctx.clearRect(0,0,W,H);
                 else {
                     const c = document.getElementById('col-bg').value || '#111';
-                    const g = ctx.createRadialGradient(W/2,H/2, W*0.1, W/2,H/2, W*0.8);
-                    g.addColorStop(0, adjustColor(c, 20)); g.addColorStop(1, '#000');
-                    ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
+                    ctx.fillStyle = c; ctx.fillRect(0,0,W,H);
                 }
             }
 
-            // 2. Fotos e Grid
+            // 2. Fotos
             const slots = getSlots(mode, W, H);
             slots.forEach((slot, i) => {
                 const isCenter = (mode==='grid_diamond' && i===1);
@@ -609,9 +651,7 @@
             const mk = document.getElementById('sel-mockup').value;
             let {x, y, w, h} = slot;
 
-            // Ajustes de Área
             if(mk==='polaroid') { h*=0.85; }
-            // Cinema agora é interno, não muda tamanho do slot, apenas desenha barras
 
             const sc = Math.min(w/img.width, h/img.height);
             const dw = img.width * sc;
@@ -621,62 +661,72 @@
 
             ctx.save();
             
-            // Sombra Externa (Apenas)
+            // Sombra Externa (DROP SHADOW APENAS)
             if(mk!=='polaroid') {
                 ctx.shadowColor="rgba(0,0,0,0.6)"; ctx.shadowBlur=25*Scale; ctx.shadowOffsetY=15*Scale;
                 ctx.fillStyle="rgba(0,0,0,1)"; ctx.fillRect(dx,dy,dw,dh);
                 ctx.shadowBlur=0;
             }
 
-            // Polaroid Fundo Branco
+            // Polaroid Fundo
             if(mk==='polaroid') {
-                const pPad=w*0.05; const pBot=w*0.25;
-                ctx.fillStyle="#fff"; ctx.shadowColor="rgba(0,0,0,0.3)"; ctx.shadowBlur=15*Scale;
-                ctx.fillRect(x-pPad, y-pPad, w+pPad*2, h+pPad+pBot);
+                const pPad = w*0.04; 
+                const pBot = w*0.2;
+                ctx.fillStyle="#fff"; 
+                ctx.shadowColor="rgba(0,0,0,0.4)"; ctx.shadowBlur=15*Scale;
+                ctx.fillRect(dx-pPad, dy-pPad, dw+(pPad*2), dh+pPad+pBot);
                 ctx.shadowBlur=0;
                 
                 const pt = document.getElementById('in-polaroid').value;
                 ctx.fillStyle="#333"; ctx.font=`${pBot*0.35}px 'Great Vibes'`; ctx.textAlign="center";
-                ctx.fillText(pt, x+w/2, y+h+pBot*0.6);
-            }
+                ctx.fillText(pt, dx + dw/2, dy + dh + pBot*0.6);
+            } 
 
-            // Desenho da Foto
+            // Filtros & Upscale Simulado
             if(document.getElementById('chk-hdr').checked) ctx.filter="contrast(1.1) saturate(1.2)";
+            if(document.getElementById('chk-upscale').checked) ctx.filter+=" contrast(1.1) brightness(1.05) saturate(1.05)";
+            
             applyFx(ctx);
             ctx.drawImage(img, dx, dy, dw, dh);
             ctx.filter = "none"; 
 
-            // Bordas e Acabamentos
+            // Bordas
             const c = document.getElementById('col-frame').value;
-            
             if(mk==='none') {
                 const borderW = (isCenter?8:5)*Scale;
                 ctx.lineWidth = borderW; ctx.strokeStyle = c; ctx.strokeRect(dx, dy, dw, dh);
             }
-            
             if(mk==='minimal') {
                 const b = 15*Scale;
-                ctx.lineWidth = b; ctx.strokeStyle = "#fff"; 
-                // Desenha borda interna (inset)
-                ctx.strokeRect(dx+b/2, dy+b/2, dw-b, dh-b);
+                ctx.lineWidth = b; ctx.strokeStyle = "#fff"; ctx.strokeRect(dx+b/2, dy+b/2, dw-b, dh-b);
             }
-
             if(mk==='museum') {
-                // Borda Dupla
-                const b1 = 4*Scale; const b2 = 12*Scale;
+                const b1 = 4*Scale; 
                 ctx.lineWidth = b1; ctx.strokeStyle = "#fff"; ctx.strokeRect(dx, dy, dw, dh);
-                ctx.lineWidth = b1; ctx.strokeStyle = c; ctx.strokeRect(dx-b1, dy-b1, dw+b1*2, dh+b1*2);
+                ctx.strokeStyle = c; ctx.strokeRect(dx-b1, dy-b1, dw+b1*2, dh+b1*2);
             }
-
             if(mk==='cinema') {
-                // Barras Pretas (Letterbox)
                 const barH = dh * 0.12;
                 ctx.fillStyle = "#000";
-                ctx.fillRect(dx, dy, dw, barH); // Topo
-                ctx.fillRect(dx, dy + dh - barH, dw, barH); // Base
+                ctx.fillRect(dx, dy, dw, barH);
+                ctx.fillRect(dx, dy + dh - barH, dw, barH);
             }
-
             ctx.restore();
+        }
+
+        function getTextPos(W, H, pos, w, h) {
+            let x = 0, y = 0;
+            // X Logic
+            if(pos.includes('l')) x = W*0.05;
+            else if(pos.includes('r')) x = W*0.95 - w;
+            else x = (W-w)/2; 
+
+            // Y Logic
+            if(pos.includes('t')) y = H*0.05;
+            else if(pos.includes('b')) y = H*0.95 - h;
+            else y = (H-h)/2; 
+            
+            return {x, y};
         }
 
         function drawText(ctx, W, H) {
@@ -691,13 +741,10 @@
                 
                 const h = sz * Scale; const w = lg.width * (h/lg.height);
                 const pos = document.getElementById('sel-logo-pos').value;
-                let lx = W*0.05, ly = H*0.95 - h;
-                
-                if(pos==='br'){lx=W*0.95-w; ly=H*0.95-h;} if(pos==='tl'){lx=W*0.05; ly=H*0.05;}
-                if(pos==='tr'){lx=W*0.95-w; ly=H*0.05;} if(pos==='tc'){lx=(W-w)/2; ly=H*0.05;}
+                const p = getTextPos(W, H, pos, w, h);
                 
                 ctx.save(); ctx.globalAlpha=0.9; 
-                ctx.drawImage(lg, lx + offX, ly + offY, w, h); 
+                ctx.drawImage(lg, p.x + offX, p.y + offY, w, h); 
                 ctx.restore();
             }
 
@@ -712,14 +759,14 @@
             
             const txt = document.getElementById('in-nome').value;
             const nPos = document.getElementById('pos-nome').value;
-            let nx=W*0.95, ny=H*0.95 - nSize; 
+            const tw = ctx.measureText(txt).width;
+            const np = getTextPos(W, H, nPos, tw, nSize); 
             
-            ctx.textAlign = 'right'; 
-            if(nPos==='bl'){ nx=W*0.05; ctx.textAlign='left'; }
-            if(nPos==='c'){ nx=W/2; ctx.textAlign='center'; ny=H/2; }
-            if(nPos==='tc'){ nx=W/2; ctx.textAlign='center'; ny=H*0.1; }
-            
-            ctx.fillText(txt, nx + nOffX, ny + nOffY);
+            ctx.textAlign = 'left';
+            if(nPos.includes('r')) { ctx.textAlign='right'; np.x += tw; }
+            if(nPos==='c' || nPos==='tc' || nPos==='bc') { ctx.textAlign='center'; np.x += tw/2; }
+
+            ctx.fillText(txt, np.x + nOffX, np.y + nSize + nOffY);
 
             // Subtítulo
             const sSize = (parseInt(document.getElementById('sz-sub').value)||40) * Scale;
@@ -731,15 +778,17 @@
             ctx.shadowBlur=0;
             
             const sub = document.getElementById('in-sub').value.toUpperCase();
-            const posSub = document.getElementById('pos-sub').value;
-            let sx=W*0.95, sy=H*0.95; 
-            ctx.textAlign = 'right'; 
-            if(posSub==='bc'){ sx=W/2; ctx.textAlign='center'; }
-            if(posSub==='bl'){ sx=W*0.05; ctx.textAlign='left'; }
-            
-            ctx.fillText(sub, sx + sOffX, sy + sOffY);
+            const sPos = document.getElementById('pos-sub').value;
+            const sw = ctx.measureText(sub).width;
+            const sp = getTextPos(W, H, sPos, sw, sSize);
 
-            // Rodapé (Novo)
+            ctx.textAlign = 'left';
+            if(sPos.includes('r')) { ctx.textAlign='right'; sp.x += sw; }
+            if(sPos==='c' || sPos==='tc' || sPos==='bc') { ctx.textAlign='center'; sp.x += sw/2; }
+            
+            ctx.fillText(sub, sp.x + sOffX, sp.y + sSize + sOffY);
+
+            // Rodapé
             const dt=document.getElementById('in-date').value;
             const lc=document.getElementById('in-local').value;
             if(dt||lc) {
@@ -747,26 +796,33 @@
                 const iOffX = (parseInt(document.getElementById('off-info-x').value)||0) * Scale;
                 const iOffY = (parseInt(document.getElementById('off-info-y').value)||0) * Scale;
                 
-                ctx.textAlign="center"; ctx.font=`${iSize}px Raleway`; ctx.fillStyle="#ccc";
-                ctx.shadowBlur=0;
-                ctx.fillText(`${dt} ${dt&&lc?'|':''} ${lc}`.toUpperCase(), (W/2) + iOffX, (H*0.98) + iOffY);
+                const fName = document.getElementById('sel-font-info').value || 'Raleway';
+                ctx.font = `${iSize}px '${fName}'`; 
+                ctx.fillStyle="#ccc"; ctx.shadowBlur=0;
+
+                const textInfo = `${dt} ${dt&&lc?'|':''} ${lc}`.toUpperCase();
+                const iw = ctx.measureText(textInfo).width;
+                const iPos = document.getElementById('pos-info').value;
+                const ip = getTextPos(W, H, iPos, iw, iSize);
+
+                ctx.textAlign = 'left';
+                if(iPos.includes('r')) { ctx.textAlign='right'; ip.x += iw; }
+                if(iPos.includes('c') || iPos==='tc' || iPos==='bc') { ctx.textAlign='center'; ip.x += iw/2; }
+
+                ctx.fillText(textInfo, ip.x + iOffX, ip.y + iSize + iOffY);
             }
         }
 
-        // --- EFEITOS ---
         function drawEffects(ctx, W, H) {
             const Scale = W/2000;
-            // Vinheta
             if(document.getElementById('chk-vignette').checked) {
                 const g = ctx.createRadialGradient(W/2,H/2, H/3, W/2,H/2, Math.max(W,H)*0.9);
                 g.addColorStop(0,"transparent"); g.addColorStop(1,"rgba(0,0,0,0.85)"); ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
             }
-            // Granulado
             if(document.getElementById('chk-grain').checked) {
                 ctx.save(); ctx.globalCompositeOperation="overlay"; ctx.fillStyle="#888"; ctx.globalAlpha=0.12;
                 ctx.fillRect(0,0,W,H); ctx.restore();
             }
-            // Água
             if(document.getElementById('chk-water').checked) {
                 ctx.save(); ctx.globalCompositeOperation="soft-light"; ctx.strokeStyle="rgba(255,255,255,0.3)"; ctx.lineWidth=3*Scale;
                 for(let i=0; i<8; i++) {
@@ -774,7 +830,6 @@
                 }
                 ctx.restore();
             }
-            // Ouro
             if(document.getElementById('chk-gold').checked) {
                 ctx.save(); ctx.globalCompositeOperation="screen"; ctx.fillStyle="#ffd700";
                 for(let i=0; i<80; i++) {
@@ -782,7 +837,6 @@
                     ctx.beginPath(); ctx.arc(x,y, (2+(i%3))*Scale, 0, Math.PI*2); ctx.fill();
                 } ctx.restore();
             }
-            // Estrelas
             if(document.getElementById('chk-stars').checked) {
                 ctx.save(); ctx.fillStyle="#fff";
                 for(let i=0; i<150; i++) {
@@ -791,7 +845,6 @@
                     ctx.beginPath(); ctx.arc(x,y, (1+(i%2))*Scale, 0, Math.PI*2); ctx.fill();
                 } ctx.restore();
             }
-            // Luz
             if(document.getElementById('chk-light').checked) {
                 ctx.save(); ctx.globalCompositeOperation="screen";
                 const g = ctx.createLinearGradient(0,0,W*0.4,H);
@@ -800,26 +853,94 @@
             }
         }
 
-        // --- GRID SYSTEM (COM GAP/ESPAÇO) ---
+        // --- GRID SYSTEM (CORRIGIDO) ---
         function getSlots(mode, W, H) {
             const pad = W * 0.05; 
             const aH = H * 0.70; 
             const startY = (H - aH) / 2;
-            const gap = W * 0.01; // Espaçamento entre fotos
+            const gap = W * 0.01;
 
             if(mode==='single') return [{x:0, y:startY, w:W, h:aH, pad:pad}];
             if(mode==='dual_vert') {
-                const wHalf = (W - gap)/2;
+                const w2 = (W-gap)/2;
+                return [{x:0,y:startY,w:w2,h:aH,pad:pad}, {x:w2+gap,y:startY,w:w2,h:aH,pad:pad}];
+            }
+            if(mode==='grid_diamond') {
+                const w2=(W-gap)/2; const h2=(aH-gap)/2;
+                return [{x:0,y:startY,w:w2,h:aH,pad:pad},{x:w2+gap,y:startY,w:w2,h:aH,pad:pad},{x:W/4,y:startY+aH/4,w:W/2,h:aH/2,pad:pad}];
+            }
+            if(mode==='collage_dyn') {
+                const w2=(W-gap)/2; const h1=aH*0.6; const h2=aH*0.4-gap;
                 return [
-                    {x:0, y:startY, w:wHalf, h:aH, pad:pad},
-                    {x:wHalf+gap, y:startY, w:wHalf, h:aH, pad:pad}
+                    {x:0,y:startY,w:W,h:h1,pad:pad},
+                    {x:0,y:startY+h1+gap,w:w2,h:h2,pad:pad},
+                    {x:w2+gap,y:startY+h1+gap,w:w2,h:h2,pad:pad}
                 ];
             }
-            if(mode==='grid_diamond') return [{x:0,y:startY,w:W/2,h:aH,pad:pad},{x:W/2,y:startY,w:W/2,h:aH,pad:pad},{x:W/4,y:startY+aH/4,w:W/2,h:aH/2,pad:pad}];
-            // Simplificado para outros modos por brevidade, mas o conceito de Gap é esse.
+            if(mode==='grid_quad') {
+                const w2=(W-gap)/2; const h2=(aH-gap)/2;
+                return [
+                    {x:0,y:startY,w:w2,h:h2,pad:pad}, {x:w2+gap,y:startY,w:w2,h:h2,pad:pad},
+                    {x:0,y:startY+h2+gap,w:w2,h:h2,pad:pad}, {x:w2+gap,y:startY+h2+gap,w:w2,h:h2,pad:pad}
+                ];
+            }
+            if(mode==='film_strip') {
+                const w4=(W-3*gap)/4;
+                return [
+                    {x:0,y:startY,w:w4,h:aH,pad:pad}, {x:w4+gap,y:startY,w:w4,h:aH,pad:pad},
+                    {x:2*(w4+gap),y:startY,w:w4,h:aH,pad:pad}, {x:3*(w4+gap),y:startY,w:w4,h:aH,pad:pad}
+                ];
+            }
+            if(mode==='grid_quint') {
+                const w2=(W-gap)/2; const h2=(aH-gap)/2;
+                return [
+                    {x:0,y:startY,w:w2,h:h2,pad:pad}, {x:w2+gap,y:startY,w:w2,h:h2,pad:pad},
+                    {x:0,y:startY+h2+gap,w:w2,h:h2,pad:pad}, {x:w2+gap,y:startY+h2+gap,w:w2,h:h2,pad:pad},
+                    {x:W*0.25,y:startY+aH*0.25,w:W*0.5,h:aH*0.5,pad:pad}
+                ];
+            }
+            if(mode==='grid_sena') {
+                const w3=(W-2*gap)/3; const h2=(aH-gap)/2;
+                return [
+                    {x:0,y:startY,w:w3,h:h2}, {x:w3+gap,y:startY,w:w3,h:h2}, {x:2*(w3+gap),y:startY,w:w3,h:h2},
+                    {x:0,y:startY+h2+gap,w:w3,h:h2}, {x:w3+gap,y:startY+h2+gap,w:w3,h:h2}, {x:2*(w3+gap),y:startY+h2+gap,w:w3,h:h2}
+                ];
+            }
+            if(mode==='grid_septa') {
+                const w2=(W-gap)/2; const w3=(W-2*gap)/3; const h2=(aH-gap)/2;
+                return [
+                    {x:0,y:startY,w:w2,h:aH}, 
+                    {x:w2+gap,y:startY,w:w3,h:h2}, {x:w2+gap+w3+gap,y:startY,w:w3,h:h2},
+                    {x:w2+gap,y:startY+h2+gap,w:w3,h:h2}, {x:w2+gap+w3+gap,y:startY+h2+gap,w:w3,h:h2},
+                    {x:w2+gap,y:startY,w:w3,h:h2}, {x:w2+gap,y:startY,w:w3,h:h2} 
+                ];
+            }
+            if(mode==='grid_octo') {
+                const w4=(W-3*gap)/4; const h2=(aH-gap)/2;
+                let arr = [];
+                for(let r=0;r<2;r++) for(let c=0;c<4;c++) arr.push({x:c*(w4+gap), y:startY+r*(h2+gap), w:w4, h:h2});
+                return arr;
+            }
+            if(mode==='grid_nona') {
+                const w3=(W-2*gap)/3; const h3=(aH-2*gap)/3;
+                let arr = [];
+                for(let r=0;r<3;r++) for(let c=0;c<3;c++) arr.push({x:c*(w3+gap), y:startY+r*(h3+gap), w:w3, h:h3});
+                return arr;
+            }
             return [{x:0, y:startY, w:W, h:aH, pad:pad}];
         }
-        function getBatch(l) { return l.includes('dual') ? 2 : 1; }
+        
+        function getBatch(l) { 
+            if(l.includes('dual')) return 2;
+            if(l.includes('diamond') || l.includes('collage')) return 3;
+            if(l.includes('quad') || l.includes('film')) return 4;
+            if(l.includes('quint')) return 5;
+            if(l.includes('sena')) return 6;
+            if(l.includes('septa')) return 7;
+            if(l.includes('octo')) return 8;
+            if(l.includes('nona')) return 9;
+            return 1;
+        }
         
         function loadImg(f) { return new Promise((r, j)=>{
             const rd=new FileReader(); 
