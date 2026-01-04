@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Imaginista V31 - Absolute</title>
+    <title>Imaginista V32 - Diamond Plus</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cinzel+Decorative:wght@400;700;900&family=Raleway:wght@200;400;600;800&family=Parisienne&family=Montserrat:wght@300;700&family=Playfair+Display:ital@1&family=Oswald&family=Merriweather&family=Lato&family=Poppins&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cinzel+Decorative:wght@400;700;900&family=Raleway:wght@200;400;600;800&family=Parisienne&family=Montserrat:wght@300;700&family=Playfair+Display:ital@1&family=Oswald&family=Merriweather&family=Lato&family=Poppins&family=Dancing+Script&display=swap" rel="stylesheet">
 
     <style>
-        /* === ESTILO V31 === */
+        /* === ESTILO MASTER V32 === */
         :root { --gold: #d4af37; --panel-bg: #111; --body-bg: #050505; --text: #ddd; }
         * { box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
         
@@ -24,25 +24,27 @@
             display: flex; flex-direction: column; align-items: center; padding: 10px;
             flex-shrink: 0; z-index: 100; box-shadow: 0 5px 20px #000;
         }
-        .header-logo { height: 40px; object-fit: contain; margin-bottom: 5px; filter: drop-shadow(0 0 5px var(--gold)); }
+        .header-logo { height: 45px; object-fit: contain; margin-bottom: 5px; filter: drop-shadow(0 0 5px var(--gold)); }
         .header-slogan { font-size: 0.7em; letter-spacing: 3px; text-transform: uppercase; color: #aaa; }
-        .header-tools { margin-top: 5px; display: flex; gap: 10px; }
+        .header-tools { margin-top: 8px; display: flex; gap: 15px; }
         .btn-tool {
-            background: #222; border: 1px solid #444; color: #aaa; padding: 5px 10px; cursor: pointer;
-            border-radius: 4px; font-size: 0.7em; font-weight: 700; text-transform: uppercase;
+            background: #222; border: 1px solid #444; color: #aaa; padding: 6px 12px; cursor: pointer;
+            border-radius: 4px; font-size: 0.7em; display: flex; align-items: center; gap: 5px;
+            transition: 0.2s; font-weight: 700; text-transform: uppercase;
         }
-        .btn-tool:hover { border-color: var(--gold); color: #fff; }
+        .btn-tool:hover { border-color: var(--gold); color: #fff; background: #222; }
 
         /* LAYOUT */
         .workspace { 
             display: grid; grid-template-columns: 300px 1fr 300px; 
             gap: 15px; padding: 15px; min-height: 800px;
         }
+
         .panel {
-            background: var(--panel-bg); border: 1px solid #333; border-radius: 6px; padding: 10px;
-            display: flex; flex-direction: column; gap: 10px; height: fit-content; box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            background: var(--panel-bg); border: 1px solid #333; border-radius: 8px; padding: 12px;
+            display: flex; flex-direction: column; gap: 12px; height: fit-content; box-shadow: 0 5px 15px rgba(0,0,0,0.5);
         }
-        .panel-header { border-bottom: 1px solid #333; padding-bottom: 5px; margin-bottom: 5px; }
+        .panel-header { border-bottom: 1px solid #333; padding-bottom: 8px; margin-bottom: 5px; }
         .panel-title { color: var(--gold); font-size: 0.85em; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
 
         /* CONTROLES */
@@ -50,19 +52,19 @@
         .control-group:last-child { border: none; }
         label { font-size: 0.7em; color: #888; font-weight: 700; display: block; margin-bottom: 3px; text-transform: uppercase; }
         
-        .input-wrap { display: flex; align-items: center; background: #181818; border: 1px solid #444; border-radius: 3px; padding-left: 5px; }
+        .input-wrap { display: flex; align-items: center; background: #222; border: 1px solid #444; border-radius: 3px; padding-left: 5px; }
         .xy-tag { color: var(--gold); font-weight: bold; font-size: 0.7em; margin-right: 5px; font-family: monospace; }
         
         input[type="text"], input[type="number"], select {
-            width: 100%; padding: 6px; background: #181818; border: 1px solid #444; color: #fff;
+            width: 100%; padding: 8px; background: #222; border: 1px solid #444; color: #fff;
             border-radius: 4px; font-size: 0.8em; font-family: 'Raleway';
         }
         input:focus, select:focus { border-color: var(--gold); background: #000; }
         
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; margin-top: 5px; }
-        .flex-row { display: flex; gap: 5px; align-items: center; margin-top: 5px; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 5px; }
+        .flex-row { display: flex; gap: 8px; align-items: center; margin-top: 5px; }
 
-        /* BOTOES */
+        /* BOTOES & UPLOAD */
         .btn-upload-small {
             flex: 1; background: #222; border: 1px dashed #555; color: #aaa; padding: 8px; cursor: pointer;
             display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 0.7em; border-radius: 4px; position: relative; overflow: hidden;
@@ -70,8 +72,11 @@
         .btn-upload-small:hover { border-color: var(--gold); color: #fff; }
         .btn-upload-small input { position: absolute; left:0; top:0; width:100%; height:100%; opacity:0; cursor: pointer; }
         
-        .btn-trash { width: 30px; background: #3a0505; border: 1px solid #600; color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; border-radius: 3px; }
-        .btn-font-extra { background: #222; border: 1px solid #444; color: var(--gold); width: 100%; margin-top: 5px; padding: 6px; font-size: 0.7em; cursor: pointer; text-align: center; border-radius: 4px; position: relative; font-weight: bold; }
+        .btn-trash { width: 35px; background: #3a0505; border: 1px solid #600; color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; border-radius: 3px; }
+        .btn-trash:hover { background: #f00; }
+
+        .font-row { display: flex; gap: 5px; margin-top: 5px; }
+        .btn-font-extra { flex:1; background: #222; border: 1px solid #444; color: var(--gold); padding: 6px; font-size: 0.7em; cursor: pointer; text-align: center; border-radius: 4px; position: relative; font-weight: bold; }
         .btn-font-extra input { position: absolute; left:0; top:0; width:100%; height:100%; opacity:0; cursor: pointer; }
 
         /* CANVAS */
@@ -87,56 +92,48 @@
         }
         canvas { max-width: 100%; max-height: 100%; object-fit: contain; box-shadow: 0 0 40px #000; border: 1px solid #222; }
 
-        .action-dock { padding: 10px; background: #111; border-top: 1px solid #333; display: flex; justify-content: center; gap: 10px; }
+        .action-dock { padding: 10px; background: #111; border-top: 1px solid #333; display: flex; justify-content: center; gap: 15px; }
         .btn-action {
             padding: 10px 20px; font-size: 0.8em; font-weight: 800; text-transform: uppercase; border: none; border-radius: 4px;
             cursor: pointer; display: flex; align-items: center; gap: 8px; position: relative; color: #000; transition: 0.2s;
         }
         .btn-load { background: #ddd; color:#111; }
-        .btn-process { background: var(--gold); }
+        .btn-process { background: linear-gradient(135deg, #d4af37, #ffe066); box-shadow: 0 0 15px rgba(212, 175, 55, 0.3); }
+        .btn-process:hover { filter: brightness(1.1); transform: translateY(-2px); box-shadow: 0 0 25px rgba(212, 175, 55, 0.5); }
         .btn-load input { position: absolute; left:0; top:0; width:100%; height:100%; opacity:0; cursor: pointer; }
 
-        .status-bar { display: flex; gap: 10px; align-items: center; justify-content: center; font-size: 0.7em; color: #666; padding: 5px; background: #000; }
-        /* Seletor Compacto */
-        .status-bar select { 
-            width: auto; padding: 2px 5px; border: 1px solid #333; background: #111; color: #aaa; 
-            cursor:pointer; font-size: 0.85em; height: 24px; border-radius: 3px; 
-        }
+        .status-bar { display: flex; gap: 15px; align-items: center; justify-content: center; font-size: 0.7em; color: #666; padding: 5px; background:#000; }
+        .status-bar select { width: auto; padding: 3px 6px; border: 1px solid #333; background: #111; color: #aaa; cursor:pointer; font-size: 0.85em; height: 26px; border-radius: 3px; }
         .status-bar select:hover { border-color: var(--gold); color: #fff; }
 
-        /* CORES */
-        .color-picker-compact { width: 25px; height: 25px; border-radius: 50%; border: 2px solid #444; background: conic-gradient(red, yellow, lime, blue, red); position: relative; overflow: hidden; cursor:pointer;}
-        .color-picker-compact input { position: absolute; left:-5px; top:-5px; width: 35px; height: 35px; opacity: 0; cursor: pointer; }
+        /* FX */
+        .color-picker-compact { width: 30px; height: 30px; border-radius: 50%; border: 2px solid #444; background: conic-gradient(red, yellow, lime, blue, red); position: relative; overflow: hidden; cursor:pointer;}
+        .color-picker-compact input { position: absolute; left:-5px; top:-5px; width: 40px; height: 40px; opacity: 0; cursor: pointer; }
 
-        /* FX GRID */
-        .fx-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; }
-        .fx-btn { background: #181818; border: 1px solid #333; color: #888; padding: 6px; font-size: 0.6em; cursor: pointer; text-align: center; border-radius: 3px; }
+        .fx-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; }
+        .fx-btn { background: #181818; border: 1px solid #333; color: #888; padding: 8px; font-size: 0.65em; cursor: pointer; text-align: center; border-radius: 4px; transition:0.2s; }
         .fx-btn:hover { color: #fff; background: #222; }
         .fx-btn.active { background: var(--gold); color: #000; font-weight: bold; border-color:#fff; }
 
-        /* CHECKBOXES ORGANIZADOS */
-        .check-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
-        .check-item { 
-            display: flex; align-items: center; gap: 6px; font-size: 0.7em; 
-            background: #161616; padding: 6px; border-radius: 3px; 
-            cursor: pointer; border: 1px solid #333; 
-        }
+        .check-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+        .check-item { display: flex; align-items: center; gap: 6px; font-size: 0.7em; background: #161616; padding: 8px; border-radius: 4px; cursor: pointer; border: 1px solid #333; transition:0.2s; }
         .check-item:hover { border-color: var(--gold); background:#222; }
         .check-item input { accent-color: var(--gold); width:14px; height:14px; }
-        
-        .section-label { color: var(--gold); font-size: 0.7em; font-weight: bold; margin-top: 8px; margin-bottom: 3px; display: block; border-bottom: 1px solid #333; padding-bottom: 2px; }
+        .section-label { color: var(--gold); font-size: 0.7em; font-weight: bold; margin-top: 10px; margin-bottom: 5px; display: block; border-bottom: 1px solid #333; padding-bottom: 2px; }
 
         /* GALERIA */
         .gallery-section { padding: 40px; background: #0a0a0a; border-top: 2px solid var(--gold); min-height: 400px; }
         .gallery-title { text-align: center; color: var(--gold); font-family: 'Cinzel Decorative'; font-size: 2em; margin-bottom: 30px; }
-        #gallery-content { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; }
-        .res-card { background: #111; border: 1px solid #333; padding: 10px; border-radius: 8px; text-align:center; }
-        .res-card img { width: 100%; height: auto; border: 1px solid #222; }
-        .dl-btn { display: block; margin-top: 5px; padding: 8px; background: var(--gold); color: #000; text-decoration: none; font-weight: bold; font-size: 0.8em; border-radius: 3px; }
+        #gallery-content { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
+        .res-card { background: #111; border: 1px solid #333; padding: 10px; border-radius: 8px; text-align:center; transition:0.3s; }
+        .res-card:hover { transform:translateY(-5px); border-color:var(--gold); }
+        .res-card img { width: 100%; height: auto; border: 1px solid #222; border-radius:4px; }
+        .dl-btn { display: block; margin-top: 10px; padding: 12px; background: var(--gold); color: #000; text-decoration: none; font-weight: bold; font-size: 0.85em; border-radius: 4px; text-transform: uppercase; transition:0.2s; }
+        .dl-btn:hover { filter: brightness(1.1); }
 
         /* LOADER */
         #loader { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.96); z-index: 9999; justify-content: center; align-items: center; flex-direction: column; }
-        .spinner { width: 50px; height: 50px; border: 4px solid #333; border-top: 4px solid var(--gold); border-radius: 50%; animation: spin 1s linear infinite; }
+        .spinner { width: 60px; height: 60px; border: 5px solid #333; border-top: 5px solid var(--gold); border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
 
         @media (max-width: 900px) {
@@ -171,7 +168,7 @@
                     <label class="btn-upload-small">
                         <img id="pv-logo" class="thumb-preview" style="display:none; width:20px;">
                         <span id="st-logo">📂 PNG</span>
-                        <input type="file" accept="image/*" onchange="App.handleLogo(this)">
+                        <input type="file" accept="image/*" onclick="this.value=null" onchange="App.handleLogo(this)">
                     </label>
                     <button class="btn-trash" onclick="App.removeLogo()">🗑️</button>
                 </div>
@@ -179,14 +176,14 @@
                     <select id="sel-logo-pos" onchange="App.update()">
                         <option value="bl">Inf. Esq</option> <option value="br">Inf. Dir</option>
                         <option value="tl">Sup. Esq</option> <option value="tr">Sup. Dir</option>
-                        <option value="tc">Topo</option> <option value="bc">Base</option> <option value="c">Centro</option>
+                        <option value="tc">Topo Centro</option> <option value="bc">Base Centro</option> <option value="c">Centro</option>
                     </select>
                     <input type="number" id="in-logo-sz" value="130" oninput="App.update()" title="Px">
                 </div>
                 <div class="flex-row">
                     <span style="font-size:0.7em; color:#888;">Cor:</span>
                     <div class="color-picker-compact"><input type="color" id="col-logo-tint" value="#ffffff" oninput="App.update()"></div>
-                    <label style="margin:0; font-size:0.7em;"><input type="checkbox" id="chk-logo-tint" onchange="App.update()"> Ativar</label>
+                    <label style="margin:0; font-size:0.7em;"><input type="checkbox" id="chk-logo-tint" onchange="App.update()"> Pintar</label>
                 </div>
                 <div class="grid-2">
                     <div class="input-wrap"><span class="xy-tag">X</span><input type="number" id="off-logo-x" value="0" oninput="App.update()"></div>
@@ -207,12 +204,13 @@
                         <option value="Montserrat">Montserrat</option><option value="Raleway">Raleway</option>
                         <option value="Oswald">Oswald</option><option value="Merriweather">Merriweather</option>
                         <option value="Lato">Lato</option><option value="Poppins">Poppins</option>
+                        <option value="Dancing Script">Dancing Script</option><option value="Arial">Arial</option><option value="Comic Sans MS">Comic Sans</option>
                     </select>
                     <input type="number" id="sz-nome" value="100" oninput="App.update()" title="Tamanho">
                 </div>
                 <div class="font-row">
-                    <button class="btn-font-extra">🔤 Upload .TTF <input type="file" onchange="App.loadFont(this, 'sel-font-nome')"></button>
-                    <button class="btn-trash" onclick="App.resetFont('sel-font-nome')" title="Limpar Fonte">🗑️</button>
+                    <button class="btn-font-extra">🔤 Upload .TTF <input type="file" onclick="this.value=null" onchange="App.loadFont(this, 'sel-font-nome')"></button>
+                    <button class="btn-trash" onclick="App.resetFont('sel-font-nome')">🗑️</button>
                 </div>
                 <div class="grid-2">
                     <select id="pos-nome" onchange="App.update()">
@@ -240,11 +238,12 @@
                         <option value="Raleway">Raleway</option><option value="Playfair Display">Playfair</option>
                         <option value="Oswald">Oswald</option><option value="Merriweather">Merriweather</option>
                         <option value="Lato">Lato</option><option value="Poppins">Poppins</option>
+                        <option value="Dancing Script">Dancing Script</option><option value="Arial">Arial</option><option value="Comic Sans MS">Comic Sans</option>
                     </select>
                     <input type="number" id="sz-sub" value="40" oninput="App.update()" title="Tamanho">
                 </div>
                 <div class="font-row">
-                    <button class="btn-font-extra">🔤 Upload .TTF <input type="file" onchange="App.loadFont(this, 'sel-font-sub')"></button>
+                    <button class="btn-font-extra">🔤 Upload .TTF <input type="file" onclick="this.value=null" onchange="App.loadFont(this, 'sel-font-sub')"></button>
                     <button class="btn-trash" onclick="App.resetFont('sel-font-sub')">🗑️</button>
                 </div>
                 <div class="grid-2">
@@ -267,7 +266,7 @@
                     <input type="text" id="in-local" placeholder="Local" oninput="App.update()">
                 </div>
                 <div class="flex-row">
-                    <div class="color-picker-compact"><input type="color" id="col-info" value="#cccccc" oninput="App.update()"></div>
+                    <div class="color-picker-compact"><input type="color" id="col-info" value="#ffffff" oninput="App.update()"></div>
                     <input type="number" id="sz-info" value="25" oninput="App.update()" title="Tamanho">
                 </div>
                 <div class="grid-2">
@@ -277,9 +276,10 @@
                         <option value="Cinzel Decorative">Cinzel</option><option value="Playfair Display">Playfair</option>
                         <option value="Oswald">Oswald</option><option value="Merriweather">Merriweather</option>
                         <option value="Lato">Lato</option><option value="Poppins">Poppins</option>
+                        <option value="Dancing Script">Dancing Script</option><option value="Arial">Arial</option><option value="Comic Sans MS">Comic Sans</option>
                     </select>
                     <div class="font-row" style="margin:0">
-                        <button class="btn-font-extra" style="margin:0; padding:4px;">🔤 <input type="file" onchange="App.loadFont(this, 'sel-font-info')"></button>
+                        <button class="btn-font-extra" style="margin:0; padding:4px;">🔤 <input type="file" onclick="this.value=null" onchange="App.loadFont(this, 'sel-font-info')"></button>
                         <button class="btn-trash" style="width:25px;" onclick="App.resetFont('sel-font-info')">🗑️</button>
                     </div>
                 </div>
@@ -317,8 +317,10 @@
             <div class="control-group">
                 <label>Orientação</label>
                 <select id="sel-orient" onchange="App.toggleCustom()">
-                    <option value="landscape">Horizontal</option><option value="portrait">Vertical</option>
-                    <option value="square">Quadrado</option><option value="custom">Personalizado</option>
+                    <option value="landscape">Horizontal (1920x1080)</option>
+                    <option value="portrait">Vertical (1080x1920)</option>
+                    <option value="square">Quadrado (1080x1080)</option>
+                    <option value="custom">Personalizado</option>
                 </select>
                 <div id="box-custom" class="grid-2" style="display:none;">
                     <input type="number" id="in-w" value="1920"><input type="number" id="in-h" value="1080">
@@ -370,26 +372,38 @@
             <div class="panel-header" style="margin-top:10px;"><span class="panel-title">3. Acabamento</span></div>
             
             <div class="control-group">
-                <label>Moldura</label>
+                <label>Moldura (20 Estilos)</label>
                 <select id="sel-mockup" onchange="App.update()">
-                    <option value="none">Clássica (Borda Cor)</option>
-                    <option value="polaroid">Polaroid</option>
+                    <option value="none">Borda Simples</option>
+                    <option value="polaroid">Polaroid Clássica</option>
                     <option value="museum">Museu (Dupla)</option>
-                    <option value="minimal">Minimalista (Branca)</option>
+                    <option value="minimal">Minimalista (Interna)</option>
                     <option value="cinema">Cinema (Letterbox)</option>
-                    <option value="tv">Monitor TV</option>
-                    <option value="tablet">Tablet</option>
+                    <option value="tv">Smart TV</option>
+                    <option value="tablet">Tablet Moderno</option>
                     <option value="phone">Smartphone</option>
+                    <option value="laptop">Notebook</option>
+                    <option value="monitor">Monitor PC</option>
+                    <option value="browser">Navegador Web</option>
+                    <option value="insta">Post Social</option>
+                    <option value="gold_border">Borda Dourada Luxo</option>
+                    <option value="neon">Neon Glow</option>
+                    <option value="shadow_box">Caixa Sombreada</option>
+                    <option value="paper">Papel Rasgado</option>
+                    <option value="rounded">Cantos Arredondados</option>
+                    <option value="circle">Circular (Perfil)</option>
+                    <option value="double_line">Linha Dupla Fina</option>
+                    <option value="vignette_border">Borda Difusa</option>
                 </select>
                 <div class="flex-row">
-                    <span style="font-size:0.7em; color:#888;">Cor da Moldura:</span>
+                    <span style="font-size:0.7em; color:#888;">Cor:</span>
                     <div class="color-picker-compact"><input type="color" id="col-frame" value="#d4af37" oninput="App.update()"></div>
                 </div>
-                <input type="text" id="in-polaroid" value="Memories" placeholder="Legenda Polaroid" style="display:none; margin-top:8px;" oninput="App.update()">
+                <input type="text" id="in-polaroid" value="Moments" placeholder="Legenda Polaroid" style="display:none; margin-top:8px;" oninput="App.update()">
             </div>
 
             <div class="control-group">
-                <label>Filtros de Cor</label>
+                <label>Filtros</label>
                 <div class="fx-grid" id="fx-container"></div>
                 <label class="check-item" style="margin-top:8px; border:1px solid var(--gold); color:var(--gold); justify-content:center; width:100%; box-sizing:border-box;">
                     <input type="checkbox" id="chk-hdr" checked onchange="App.update()"> 💎 HDR Pro
@@ -397,7 +411,7 @@
             </div>
             
             <div class="control-group">
-                <label>Efeitos Especiais</label>
+                <label>Efeitos</label>
                 
                 <span class="section-label">Atmosfera</span>
                 <div class="check-grid">
@@ -419,7 +433,7 @@
     </div>
 
     <section class="gallery-section">
-        <h2 class="gallery-title">Galeria de Resultados</h2>
+        <h2 class="gallery-title">Galeria</h2>
         <div id="gallery-content"></div>
     </section>
 
@@ -574,10 +588,17 @@
             const c = document.getElementById('col-frame').value;
 
             ctx.save();
+            
+            // Renderização Específica de Molduras
             if(mk==='polaroid') {
                 const pPad=w*0.03; const pBot=w*0.15;
-                ctx.fillStyle=c; ctx.shadowColor="rgba(0,0,0,0.4)"; ctx.shadowBlur=15*Scale;
-                ctx.fillRect(dx-pPad, dy-pPad, dw+(pPad*2), dh+pPad+pBot); ctx.shadowBlur=0;
+                ctx.fillStyle="#fff"; ctx.shadowColor="rgba(0,0,0,0.4)"; ctx.shadowBlur=15*Scale;
+                // Borda externa
+                ctx.lineWidth = 2*Scale; ctx.strokeStyle = c;
+                ctx.strokeRect(dx-pPad, dy-pPad, dw+(pPad*2), dh+pPad+pBot);
+                ctx.fillRect(dx-pPad, dy-pPad, dw+(pPad*2), dh+pPad+pBot); 
+                ctx.shadowBlur=0;
+                
                 const pt = document.getElementById('in-polaroid').value;
                 ctx.fillStyle="#333"; ctx.font=`${pBot*0.35}px 'Great Vibes'`; ctx.textAlign="center";
                 ctx.fillText(pt, dx + dw/2, dy + dh + pBot*0.7);
@@ -593,6 +614,7 @@
             ctx.drawImage(img, dx, dy, dw, dh);
             ctx.filter = "none";
 
+            // Bordas (Overlay)
             if(mk==='none') { ctx.lineWidth = (isCenter?8:5)*Scale; ctx.strokeStyle = c; ctx.strokeRect(dx, dy, dw, dh); }
             if(mk==='minimal') { ctx.lineWidth = 15*Scale; ctx.strokeStyle = c; ctx.strokeRect(dx+7*Scale, dy+7*Scale, dw-15*Scale, dh-15*Scale); }
             if(mk==='museum') {
@@ -600,9 +622,58 @@
                 ctx.strokeStyle = c; ctx.strokeRect(dx-b1, dy-b1, dw+b1*2, dh+b1*2);
             }
             if(mk==='cinema') { const barH = dh * 0.12; ctx.fillStyle = "#000"; ctx.fillRect(dx, dy, dw, barH); ctx.fillRect(dx, dy + dh - barH, dw, barH); }
-            if(mk==='tv') { ctx.lineWidth=15*Scale; ctx.strokeStyle="#111"; ctx.strokeRect(dx,dy,dw,dh); }
-            if(mk==='tablet') { ctx.lineWidth=20*Scale; ctx.strokeStyle="#333"; ctx.strokeRect(dx,dy,dw,dh); ctx.fillStyle="#333"; ctx.beginPath(); ctx.arc(dx+dw+10*Scale, dy+dh/2, 8*Scale, 0, Math.PI*2); ctx.fill(); }
-            if(mk==='phone') { ctx.lineWidth=10*Scale; ctx.strokeStyle="#000"; ctx.strokeRect(dx,dy,dw,dh); }
+            
+            // Devices (Vetorial)
+            if(mk==='tv') {
+                ctx.lineWidth=15*Scale; ctx.strokeStyle="#111"; ctx.strokeRect(dx,dy,dw,dh);
+                ctx.fillStyle="#111"; ctx.fillRect(dx+dw/2-20*Scale, dy+dh, 40*Scale, 10*Scale);
+            }
+            if(mk==='tablet') {
+                ctx.lineWidth=20*Scale; ctx.strokeStyle="#333"; ctx.lineJoin="round";
+                ctx.strokeRect(dx,dy,dw,dh); 
+                ctx.fillStyle="#333"; ctx.beginPath(); ctx.arc(dx+dw+12*Scale, dy+dh/2, 6*Scale, 0, Math.PI*2); ctx.fill();
+            }
+            if(mk==='phone') {
+                ctx.lineWidth=12*Scale; ctx.strokeStyle="#000"; ctx.lineJoin="round"; ctx.strokeRect(dx,dy,dw,dh);
+                ctx.fillStyle="#000"; ctx.fillRect(dx+dw/2-30*Scale, dy, 60*Scale, 15*Scale); // Notch
+            }
+            if(mk==='laptop') {
+                 ctx.lineWidth=15*Scale; ctx.strokeStyle="#222"; ctx.strokeRect(dx,dy,dw,dh);
+                 ctx.fillStyle="#333"; ctx.fillRect(dx-10*Scale, dy+dh, dw+20*Scale, 15*Scale); // Base
+            }
+            if(mk==='monitor') {
+                ctx.lineWidth=12*Scale; ctx.strokeStyle="#222"; ctx.strokeRect(dx,dy,dw,dh);
+                ctx.fillStyle="#222"; ctx.fillRect(dx+dw/2-10*Scale, dy+dh, 20*Scale, 20*Scale);
+                ctx.fillRect(dx+dw/2-30*Scale, dy+dh+20*Scale, 60*Scale, 5*Scale);
+            }
+            if(mk==='browser') {
+                ctx.fillStyle="#ddd"; ctx.fillRect(dx, dy-20*Scale, dw, 20*Scale);
+                ctx.fillStyle="#ff5f56"; ctx.beginPath(); ctx.arc(dx+10*Scale, dy-10*Scale, 4*Scale, 0, Math.PI*2); ctx.fill();
+                ctx.fillStyle="#ffbd2e"; ctx.beginPath(); ctx.arc(dx+22*Scale, dy-10*Scale, 4*Scale, 0, Math.PI*2); ctx.fill();
+                ctx.fillStyle="#27c93f"; ctx.beginPath(); ctx.arc(dx+34*Scale, dy-10*Scale, 4*Scale, 0, Math.PI*2); ctx.fill();
+            }
+            if(mk==='insta') {
+                ctx.strokeStyle=c; ctx.lineWidth=2*Scale; ctx.strokeRect(dx, dy, dw, dh);
+                ctx.fillStyle="#fff"; ctx.font=`${20*Scale}px Arial`; ctx.textAlign="left"; ctx.fillText("♥  💬  ➢", dx, dy+dh+25*Scale);
+            }
+            if(mk==='gold_border') {
+                const g = ctx.createLinearGradient(dx, dy, dx+dw, dy+dh);
+                g.addColorStop(0, "#d4af37"); g.addColorStop(0.5, "#fff"); g.addColorStop(1, "#d4af37");
+                ctx.lineWidth=10*Scale; ctx.strokeStyle=g; ctx.strokeRect(dx, dy, dw, dh);
+            }
+            if(mk==='neon') {
+                ctx.lineWidth=5*Scale; ctx.strokeStyle="#fff"; ctx.shadowColor=c; ctx.shadowBlur=20*Scale; ctx.strokeRect(dx, dy, dw, dh);
+                ctx.shadowBlur=0;
+            }
+            if(mk==='rounded') {
+                // Simples hack visual para arredondar cantos sem cortar
+                ctx.lineWidth=20*Scale; ctx.strokeStyle=App.userBg ? "#000" : document.getElementById('col-bg').value; 
+                ctx.lineJoin="round"; ctx.strokeRect(dx, dy, dw, dh);
+            }
+            if(mk==='circle') {
+                ctx.lineWidth=dw/2; ctx.strokeStyle=c; 
+                ctx.beginPath(); ctx.arc(dx+dw/2, dy+dh/2, dw, 0, Math.PI*2); ctx.stroke();
+            }
             
             ctx.restore();
         }
@@ -646,7 +717,7 @@
                 if(id==='info') {
                     const dt = document.getElementById('in-date').value; const lc = document.getElementById('in-local').value;
                     if(!dt && !lc) return;
-                    content = `${dt} ${dt&&lc?'|':''} ${lc}`.toUpperCase();
+                    content = `${dt} ${dt&&lc?'|':''} ${lc}`; // Case sensitive
                 } else {
                     content = document.getElementById(`in-${id}`).value;
                 }
