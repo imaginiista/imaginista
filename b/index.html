@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Imaginista V38 - Titanium Ultra</title>
+    <title>Imaginista V39 - Titanium Ultra Pro</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cinzel+Decorative:wght@400;700;900&family=Raleway:wght@200;400;600;800&family=Parisienne&family=Montserrat:wght@300;700&family=Playfair+Display:ital@1&family=Oswald&family=Merriweather&family=Lato&family=Poppins&family=Dancing+Script&display=swap" rel="stylesheet">
 
     <style>
-        /* === ESTILO MASTER V38 === */
+        /* === ESTILO MASTER V39 === */
         :root { --gold: #d4af37; --panel-bg: #111; --body-bg: #050505; --text: #ddd; }
         * { box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
         
@@ -22,10 +22,24 @@
         header {
             background: #080808; border-bottom: 2px solid var(--gold);
             display: flex; flex-direction: column; align-items: center; padding: 10px;
-            flex-shrink: 0; z-index: 100; box-shadow: 0 5px 20px #000;
+            flex-shrink: 0; z-index: 100; box-shadow: 0 5px 20px #000; position: relative;
         }
-        .header-logo { height: 45px; object-fit: contain; margin-bottom: 5px; filter: drop-shadow(0 0 5px var(--gold)); }
-        .header-slogan { font-size: 0.7em; letter-spacing: 3px; text-transform: uppercase; color: #aaa; }
+        .header-logo { 
+            height: 45px; object-fit: contain; margin-bottom: 5px; 
+            filter: drop-shadow(0 0 5px var(--gold)); cursor: pointer; transition: transform 0.2s;
+        }
+        .header-logo:active { transform: scale(0.95); }
+        
+        /* Efeito Shimmer na Frase */
+        .header-slogan { 
+            font-size: 0.7em; letter-spacing: 3px; text-transform: uppercase; color: #555;
+            background: linear-gradient(to right, #555 0%, #fff 50%, #555 100%);
+            background-size: 200% auto;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            animation: shimmer 5s infinite linear; font-weight: bold;
+        }
+        @keyframes shimmer { to { background-position: 200% center; } }
+
         .header-tools { margin-top: 8px; display: flex; gap: 15px; }
         .btn-tool {
             background: #222; border: 1px solid #444; color: #aaa; padding: 6px 12px; cursor: pointer;
@@ -33,6 +47,10 @@
             transition: 0.2s; font-weight: 700; text-transform: uppercase;
         }
         .btn-tool:hover { border-color: var(--gold); color: #fff; background: #222; }
+
+        /* PARTICULAS (Fogos) */
+        .particle { position: absolute; width: 5px; height: 5px; background: var(--gold); border-radius: 50%; pointer-events: none; animation: pop 1s forwards; }
+        @keyframes pop { 0% { transform: translate(0,0) scale(1); opacity: 1; } 100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; } }
 
         /* LAYOUT */
         .workspace { 
@@ -122,12 +140,13 @@
 
         /* GALERIA */
         .gallery-section { padding: 40px; background: #0a0a0a; border-top: 2px solid var(--gold); min-height: 400px; }
-        .gallery-title { text-align: center; color: var(--gold); font-family: 'Cinzel Decorative'; font-size: 2em; margin-bottom: 30px; }
+        .gallery-title { text-align: center; color: var(--gold); font-family: 'Cinzel Decorative'; font-size: 2.5em; margin-bottom: 30px; letter-spacing: 2px; text-shadow: 0 0 10px rgba(212, 175, 55, 0.3); }
         #gallery-content { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
-        .res-card { background: #111; border: 1px solid #333; padding: 10px; border-radius: 8px; text-align:center; transition:0.3s; }
+        .res-card { background: #111; border: 1px solid #333; padding: 10px; border-radius: 8px; text-align:center; transition:0.3s; animation: fadeIn 0.5s ease; }
+        @keyframes fadeIn { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
         .res-card:hover { transform:translateY(-5px); border-color:var(--gold); }
         .res-card img { width: 100%; height: auto; border: 1px solid #222; border-radius:4px; }
-        .dl-btn { display: block; margin-top: 10px; padding: 12px; background: var(--gold); color: #000; text-decoration: none; font-weight: bold; font-size: 0.85em; border-radius: 4px; text-transform: uppercase; transition:0.2s; }
+        .dl-btn { display: block; margin-top: 10px; padding: 12px; background: var(--gold); color: #000; text-decoration: none; font-weight: bold; font-size: 0.8em; border-radius: 4px; text-transform: uppercase; transition:0.2s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .dl-btn:hover { filter: brightness(1.1); }
 
         /* LOADER */
@@ -149,10 +168,10 @@
     </div>
 
     <header class="app-header">
-        <img src="imagens/logo.png" class="header-logo" alt="IMAGINISTA" onerror="this.style.display='none'">
+        <img src="imagens/logo.png" class="header-logo" alt="IMAGINISTA" onerror="this.style.display='none'" onclick="App.confetti(event)">
         <div class="header-slogan">Onde a imaginação vira arte</div>
         <div class="header-tools">
-            <button class="btn-tool" onclick="document.querySelector('.gallery-section').scrollIntoView({behavior:'smooth'})">⬇ Galeria</button>
+            <button class="btn-tool" onclick="document.querySelector('.gallery-section').scrollIntoView({behavior:'smooth'})">⬇ Obras</button>
             <button class="btn-tool" onclick="location.reload()">↺ Reset</button>
         </div>
     </header>
@@ -455,7 +474,7 @@
     </div>
 
     <section class="gallery-section">
-        <h2 class="gallery-title">Galeria</h2>
+        <h2 class="gallery-title">Obras-Primas</h2>
         <div id="gallery-content"></div>
     </section>
 
@@ -471,6 +490,28 @@
                 box.appendChild(b);
             });
             App.update();
+        };
+
+        App.confetti = function(e) {
+            const colors = ['#d4af37', '#ffffff', '#ffe066'];
+            const btn = e.target;
+            const rect = btn.getBoundingClientRect();
+            
+            for(let i=0; i<30; i++) {
+                const p = document.createElement('div');
+                p.classList.add('particle');
+                p.style.backgroundColor = colors[Math.floor(Math.random()*colors.length)];
+                p.style.left = (e.clientX) + 'px';
+                p.style.top = (e.clientY) + 'px';
+                
+                const angle = Math.random() * Math.PI * 2;
+                const velocity = 50 + Math.random() * 100;
+                p.style.setProperty('--tx', Math.cos(angle) * velocity + 'px');
+                p.style.setProperty('--ty', Math.sin(angle) * velocity + 'px');
+                
+                document.body.appendChild(p);
+                setTimeout(() => p.remove(), 1000);
+            }
         };
 
         App.handleFiles = async function(input) {
@@ -599,6 +640,9 @@
             const layout = document.getElementById('sel-layout').value;
             const bs = getBatch(layout);
             const format = document.getElementById('sel-fmt').value;
+            
+            // Get quality label for button
+            const qLabel = q === 1 ? 'FullHD' : (q === 2 ? '4K' : '8K');
 
             // Desativa números temporariamente ao salvar
             const numCheck = document.getElementById('chk-show-nums');
@@ -617,12 +661,12 @@
                         for(let j=0; j<group.length; j++) {
                              if(group[j]) {
                                 drawFrame(ctx, [group[j]], 'single', W, H, i+j); 
-                                saveImage(cvs, `arte_${i+1}_${j+1}`, format);
+                                saveImage(cvs, `arte_${i+1}_${j+1}`, format, qLabel);
                              }
                          }
                     } else {
                         drawFrame(ctx, group, layout, W, H, i); 
-                        saveImage(cvs, `arte_${i+1}`, format);
+                        saveImage(cvs, `arte_${i+1}`, format, qLabel);
                     }
                 }
                 document.querySelector('.gallery-section').scrollIntoView({behavior:'smooth'});
@@ -696,6 +740,18 @@
             const dx = x + (w - dw)/2 + panX; const dy = y + (h - dh)/2 + panY;
             const c = document.getElementById('col-frame').value;
 
+            // FIX 1: Desenhando fundo do polaroid ANTES da foto
+            if(mk==='polaroid') {
+                const pPad=w*0.04; const pBot=w*0.18;
+                ctx.save();
+                ctx.shadowColor="rgba(0,0,0,0.4)"; ctx.shadowBlur=15*Scale;
+                ctx.fillStyle = c; 
+                ctx.beginPath(); 
+                ctx.rect(dx-pPad, dy-pPad, dw+(pPad*2), dh+pPad+pBot); 
+                ctx.fill();
+                ctx.restore();
+            }
+
             if(mk==='shadow_box') {
                 ctx.save();
                 ctx.shadowColor = "rgba(0,0,0,0.8)"; ctx.shadowBlur = 40 * Scale; ctx.fillStyle = "#000";
@@ -724,12 +780,11 @@
             ctx.filter = "none";
             ctx.restore(); 
 
+            // Overlays (Molduras por cima)
             ctx.save();
+            // Polaroid Texto apenas (fundo já foi desenhado)
             if(mk==='polaroid') {
                 const pPad=w*0.04; const pBot=w*0.18;
-                ctx.shadowColor="rgba(0,0,0,0.4)"; ctx.shadowBlur=15*Scale; ctx.fillStyle = c; 
-                ctx.beginPath(); ctx.rect(dx-pPad, dy-pPad, dw+(pPad*2), dh+pPad+pBot); ctx.fill();
-                ctx.shadowBlur=0;
                 const pt = document.getElementById('in-polaroid').value;
                 ctx.fillStyle="#222"; ctx.font=`${pBot*0.35}px 'Great Vibes'`; ctx.textAlign="center";
                 ctx.fillText(pt, dx + dw/2, dy + dh + pBot*0.65);
@@ -875,18 +930,13 @@
                     {x:0,y:startY+h2+gapY,w:w3,h:h2}, {x:w3+gapX,y:startY+h2+gapY,w:w3,h:h2}, {x:2*(w3+gapX),y:startY+h2+gapY,w:w3,h:h2}
                 ]; 
             }
-            // NOVO GRID 7 (2-3-2)
             if(mode==='grid_septa') { 
                 const h3 = (aH - 2*gapY)/3;
                 const w2 = (W - gapX)/2;
                 const w3 = (W - 2*gapX)/3;
-                
                 return [
-                    // Row 1 (2 pics)
                     {x:0, y:startY, w:w2, h:h3}, {x:w2+gapX, y:startY, w:w2, h:h3},
-                    // Row 2 (3 pics)
                     {x:0, y:startY+h3+gapY, w:w3, h:h3}, {x:w3+gapX, y:startY+h3+gapY, w:w3, h:h3}, {x:2*(w3+gapX), y:startY+h3+gapY, w:w3, h:h3},
-                    // Row 3 (2 pics)
                     {x:0, y:startY+2*(h3+gapY), w:w2, h:h3}, {x:w2+gapX, y:startY+2*(h3+gapY), w:w2, h:h3}
                 ];
             }
@@ -930,7 +980,7 @@
         function adjustColor(hex, amt) { if(!hex || hex[0]!=='#') return '#000'; let num=parseInt(hex.slice(1),16); let r=(num>>16)+amt; let b=((num>>8)&0x00FF)+amt; let g=(num&0x0000FF)+amt; return "#"+(g|(b<<8)|(r<<16)).toString(16); }
         function applyFx(ctx) { const f = App.effect; if(f==='bw') ctx.filter = "grayscale(1) contrast(1.2)"; if(f==='sepia') ctx.filter = "sepia(0.8)"; if(f==='warm') ctx.filter = "sepia(0.3) saturate(1.4)"; if(f==='deep') ctx.filter = "contrast(1.3) saturate(1.2)"; if(f==='sharp') ctx.filter = "contrast(1.4) brightness(1.1)"; }
         
-        function saveImage(cvs, name, fmt) { 
+        function saveImage(cvs, name, fmt, qLabel) { 
             const container = document.getElementById('gallery-content'); 
             const card = document.createElement('div'); card.className='res-card'; 
             const mime = fmt === 'png' ? 'image/png' : 'image/jpeg';
@@ -942,10 +992,9 @@
             link.href = cvs.toDataURL(mime, 0.95); 
             link.download = `${name}.${fmt}`; 
             link.className = 'dl-btn'; 
-            link.innerText = `⬇ Baixar (${fmt.toUpperCase()})`; 
+            link.innerText = `⬇ Baixar (${fmt.toUpperCase()} - ${qLabel})`; 
             
             card.appendChild(imgDisplay); card.appendChild(link); 
-            // Inverte a ordem: adiciona no começo
             if(container.firstChild) container.insertBefore(card, container.firstChild);
             else container.appendChild(card);
         }
