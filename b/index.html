@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Imaginista V42 - Diamond Edition</title>
+    <title>Imaginista V43 - Final Fix</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cinzel+Decorative:wght@400;700;900&family=Raleway:wght@200;400;600;800&family=Parisienne&family=Montserrat:wght@300;700&family=Playfair+Display:ital@1&family=Oswald&family=Merriweather&family=Lato&family=Poppins&family=Dancing+Script&display=swap" rel="stylesheet">
 
     <style>
-        /* === ESTILO MASTER V42 === */
+        /* === ESTILO MASTER V43 === */
         :root { --gold: #d4af37; --panel-bg: #111; --body-bg: #050505; --text: #ddd; }
         * { box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
         
@@ -18,43 +18,45 @@
             overflow-x: hidden; overflow-y: auto; user-select: none;
         }
 
-        /* HEADER */
+        /* HEADER CENTRALIZADO */
         header {
             background: #080808; border-bottom: 2px solid var(--gold);
-            display: flex; flex-direction: column; align-items: center; padding: 15px 10px;
-            flex-shrink: 0; z-index: 100; box-shadow: 0 5px 20px #000; position: relative;
+            display: flex; flex-direction: column; align-items: center; justify-content: center; /* FORÇA CENTRO */
+            padding: 20px 10px; flex-shrink: 0; z-index: 100; box-shadow: 0 5px 20px #000; position: relative;
         }
         .header-logo { 
-            height: 55px; object-fit: contain; margin-bottom: 5px; 
+            height: 55px; object-fit: contain; margin-bottom: 10px; display: block;
             filter: drop-shadow(0 0 5px var(--gold)); cursor: pointer; transition: transform 0.1s;
         }
         .header-logo:active { transform: scale(0.9); }
         
-        /* Frase com Efeito Shimmer */
+        /* Frase com Efeito Shimmer + Centralização */
         .header-slogan { 
-            font-size: 0.85em; letter-spacing: 2px; text-transform: uppercase; font-weight: 800;
+            font-size: 0.9em; letter-spacing: 2px; text-transform: uppercase; font-weight: 800;
             background: linear-gradient(90deg, #666 0%, #fff 50%, #666 100%);
             background-size: 200% auto;
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            animation: shimmer 4s infinite linear; display: flex; align-items: center; justify-content: center; gap: 8px;
+            animation: shimmer 4s infinite linear; 
+            display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; text-align: center;
         }
         @keyframes shimmer { to { background-position: 200% center; } }
 
-        /* PINCEL MÁGICO (Cereja do Bolo) */
+        /* PINCEL MÁGICO (ANIMAÇÃO) */
         .magic-brush {
             display: inline-block; font-size: 1.4em; filter: drop-shadow(0 0 2px gold);
             animation: brush-life 2s infinite ease-in-out alternate;
+            -webkit-text-fill-color: initial; /* Garante que o emoji tenha cor */
         }
         @keyframes brush-life {
             0% { transform: rotate(0deg) scale(1); filter: hue-rotate(0deg) drop-shadow(0 0 2px gold); }
-            50% { transform: rotate(15deg) scale(1.1); filter: hue-rotate(90deg) drop-shadow(0 0 5px red); }
+            50% { transform: rotate(15deg) scale(1.2); filter: hue-rotate(90deg) drop-shadow(0 0 5px red); }
             100% { transform: rotate(-5deg) scale(1); filter: hue-rotate(0deg) drop-shadow(0 0 2px gold); }
         }
 
-        .header-tools { margin-top: 10px; display: flex; gap: 15px; }
+        .header-tools { margin-top: 15px; display: flex; gap: 15px; justify-content: center; }
         .btn-tool {
-            background: #222; border: 1px solid #444; color: #aaa; padding: 6px 12px; cursor: pointer;
-            border-radius: 4px; font-size: 0.7em; display: flex; align-items: center; gap: 5px;
+            background: #222; border: 1px solid #444; color: #aaa; padding: 8px 16px; cursor: pointer;
+            border-radius: 4px; font-size: 0.75em; display: flex; align-items: center; gap: 5px;
             transition: 0.2s; font-weight: 700; text-transform: uppercase;
         }
         .btn-tool:hover { border-color: var(--gold); color: #fff; background: #222; }
@@ -156,12 +158,27 @@
         .check-item input { accent-color: var(--gold); width:14px; height:14px; }
         .section-label { color: var(--gold); font-size: 0.7em; font-weight: bold; margin-top: 10px; margin-bottom: 5px; display: block; border-bottom: 1px solid #333; padding-bottom: 2px; }
 
-        /* GALERIA */
-        .gallery-section { padding: 40px; background: #0a0a0a; border-top: 2px solid var(--gold); min-height: 400px; text-align: center; }
-        .gallery-title { text-align: center; color: var(--gold); font-family: 'Cinzel Decorative'; font-size: 2.5em; margin-bottom: 5px; letter-spacing: 2px; text-shadow: 0 0 10px rgba(212, 175, 55, 0.3); }
-        .gallery-slogan-box { display: flex; justify-content: center; align-items: center; margin-bottom: 40px; }
+        /* GALERIA CENTRALIZADA */
+        .gallery-section { 
+            padding: 40px; background: #0a0a0a; border-top: 2px solid var(--gold); 
+            min-height: 400px; display: flex; flex-direction: column; align-items: center; 
+        }
+        .gallery-title { 
+            text-align: center; color: var(--gold); font-family: 'Cinzel Decorative'; 
+            font-size: 2.5em; margin-bottom: 10px; letter-spacing: 2px; 
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.3); width: 100%;
+        }
         
-        #gallery-content { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; text-align: left; }
+        /* Reutiliza o estilo shimmer mas força o centro */
+        .gallery-slogan-box { 
+            display: flex; justify-content: center; align-items: center; gap: 10px;
+            margin-bottom: 40px; width: 100%;
+        }
+        
+        #gallery-content { 
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); 
+            gap: 20px; width: 100%; max-width: 1200px;
+        }
         .res-card { background: #111; border: 1px solid #333; padding: 10px; border-radius: 8px; text-align:center; transition:0.3s; animation: fadeIn 0.5s ease; }
         @keyframes fadeIn { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
         .res-card:hover { transform:translateY(-5px); border-color:var(--gold); }
@@ -964,6 +981,7 @@
         function getSlots(mode, W, H) {
             const pad = W * 0.05; const aH = H * 0.70; const startY = (H - aH) / 2; 
             
+            // X and Y Gaps independently controlled
             const userGapX = parseInt(document.getElementById('in-gap-x').value) || 10;
             const userGapY = parseInt(document.getElementById('in-gap-y').value) || 10;
             const gapX = W * (userGapX / 1000); 
