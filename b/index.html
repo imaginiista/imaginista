@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Imaginista V25 - Platinum Fix</title>
+    <title>Imaginista V27 - Final Stable</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cinzel+Decorative:wght@400;700;900&family=Raleway:wght@200;400;600;800&family=Parisienne&family=Montserrat:wght@300;700&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
 
     <style>
-        /* === ESTILO V25 === */
+        /* ESTILO MASTER V27 */
         :root { --gold: #d4af37; --panel-bg: #111; --body-bg: #050505; --text: #ddd; }
         * { box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
         
@@ -21,122 +21,84 @@
         /* HEADER */
         header {
             background: #080808; border-bottom: 2px solid var(--gold);
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            padding: 10px; flex-shrink: 0; z-index: 100; box-shadow: 0 10px 30px #000;
+            display: flex; flex-direction: column; align-items: center; padding: 10px;
+            flex-shrink: 0; z-index: 100; box-shadow: 0 5px 20px #000;
         }
-        .header-logo { height: 45px; object-fit: contain; margin-bottom: 5px; filter: drop-shadow(0 0 5px var(--gold)); }
-        .header-slogan {
-            font-family: 'Montserrat', sans-serif; font-size: 0.7em; letter-spacing: 3px; text-transform: uppercase;
-            font-weight: 300; color: #aaa;
-        }
-        .header-tools { margin-top: 8px; display: flex; gap: 15px; }
+        .header-logo { height: 40px; object-fit: contain; margin-bottom: 5px; filter: drop-shadow(0 0 5px var(--gold)); }
+        .header-slogan { font-size: 0.7em; letter-spacing: 3px; text-transform: uppercase; color: #aaa; }
+        .header-tools { margin-top: 5px; display: flex; gap: 15px; }
         .btn-tool {
-            background: #1a1a1a; border: 1px solid #444; color: #aaa; padding: 6px 12px; cursor: pointer;
-            border-radius: 4px; font-size: 0.7em; display: flex; align-items: center; gap: 5px;
-            transition: 0.2s; font-weight: 700; text-transform: uppercase;
+            background: #222; border: 1px solid #444; color: #aaa; padding: 5px 10px; cursor: pointer;
+            border-radius: 4px; font-size: 0.7em; font-weight: 700; text-transform: uppercase;
         }
-        .btn-tool:hover { border-color: var(--gold); color: #fff; background: #222; }
+        .btn-tool:hover { border-color: var(--gold); color: #fff; }
 
-        /* WORKSPACE */
+        /* LAYOUT */
         .workspace { 
             display: grid; grid-template-columns: 300px 1fr 300px; 
             gap: 15px; padding: 15px; min-height: 800px;
         }
-
         .panel {
-            background: var(--panel-bg); border: 1px solid #333; border-radius: 8px; padding: 12px;
-            display: flex; flex-direction: column; gap: 12px; height: fit-content; box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            background: var(--panel-bg); border: 1px solid #333; border-radius: 6px; padding: 10px;
+            display: flex; flex-direction: column; gap: 10px; height: fit-content;
         }
-        .panel-header { 
-            display: flex; justify-content: space-between; align-items: center; 
-            border-bottom: 1px solid #333; padding-bottom: 8px; margin-bottom: 5px; 
-        }
-        .panel-title { color: var(--gold); font-size: 0.85em; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
+        .panel-header { border-bottom: 1px solid #333; padding-bottom: 5px; margin-bottom: 5px; }
+        .panel-title { color: var(--gold); font-size: 0.85em; font-weight: 800; text-transform: uppercase; }
 
-        /* CONTROLES */
+        /* INPUTS */
         .control-group { border-bottom: 1px dashed #222; padding-bottom: 10px; }
-        .control-group:last-child { border: none; }
         label { font-size: 0.7em; color: #888; font-weight: 700; display: block; margin-bottom: 3px; text-transform: uppercase; }
+        .input-wrap { display: flex; align-items: center; background: #181818; border: 1px solid #444; border-radius: 3px; padding-left: 5px; }
+        .xy-tag { color: var(--gold); font-weight: bold; font-size: 0.7em; margin-right: 5px; font-family: monospace; }
+        input, select { width: 100%; padding: 6px; background: transparent; border: none; color: #fff; font-size: 0.8em; font-family: 'Raleway'; }
+        select { background: #181818; border: 1px solid #444; border-radius: 3px; }
         
-        input[type="text"], input[type="number"], select {
-            width: 100%; padding: 8px; background: #181818; border: 1px solid #444; color: #fff;
-            border-radius: 4px; font-size: 0.8em; font-family: 'Raleway';
-        }
-        input:focus, select:focus { border-color: var(--gold); background: #000; }
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 5px; }
-        .flex-row { display: flex; gap: 8px; align-items: center; margin-top: 5px; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; margin-top: 5px; }
+        .flex-row { display: flex; gap: 5px; align-items: center; margin-top: 5px; }
 
         /* BOTOES */
         .btn-upload-small {
-            flex: 1; background: #222; border: 1px dashed #555; color: #aaa; padding: 8px; cursor: pointer;
-            display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 0.7em; border-radius: 4px; position: relative; overflow: hidden;
+            background: #222; border: 1px dashed #555; color: #aaa; padding: 8px; cursor: pointer; flex: 1;
+            display: flex; align-items: center; justify-content: center; font-size: 0.7em; border-radius: 3px; position: relative;
         }
-        .btn-upload-small:hover { border-color: var(--gold); color: #fff; }
         .btn-upload-small input { position: absolute; left:0; top:0; width:100%; height:100%; opacity:0; cursor: pointer; }
-        
-        .btn-trash { width: 35px; background: #3a0505; border: 1px solid #600; color: #fff; cursor: pointer; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 1.2em; }
-        .btn-trash:hover { background: #f00; }
-
-        .btn-font-extra {
-            background: #222; border: 1px solid #444; color: var(--gold); width: 100%; margin-top: 5px;
-            padding: 6px; font-size: 0.7em; cursor: pointer; text-align: center; border-radius: 4px; position: relative; font-weight: bold;
-        }
+        .btn-trash { width: 30px; background: #3a0505; border: 1px solid #600; color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; border-radius: 3px; }
+        .btn-font-extra { background: #222; border: 1px solid #444; color: var(--gold); width: 100%; margin-top: 5px; padding: 6px; font-size: 0.7em; cursor: pointer; position: relative; text-align: center; }
         .btn-font-extra input { position: absolute; left:0; top:0; width:100%; height:100%; opacity:0; cursor: pointer; }
 
         /* CANVAS */
-        .center-stage { 
-            background: #050505; border: 1px solid #222; border-radius: 8px; 
-            display: flex; flex-direction: column; overflow: hidden;
-            position: sticky; top: 10px; height: calc(100vh - 40px);
-        }
-        .canvas-container {
-            flex: 1; display: flex; align-items: center; justify-content: center; 
-            background-image: radial-gradient(#151515 1px, transparent 1px);
-            background-size: 20px 20px; padding: 20px; overflow: hidden;
-        }
-        canvas { max-width: 100%; max-height: 100%; object-fit: contain; box-shadow: 0 0 40px #000; border: 1px solid #222; }
+        .center-stage { background: #050505; border: 1px solid #222; border-radius: 6px; display: flex; flex-direction: column; overflow: hidden; position: sticky; top: 10px; height: calc(100vh - 40px); }
+        .canvas-container { flex: 1; display: flex; align-items: center; justify-content: center; background-image: radial-gradient(#151515 1px, transparent 1px); background-size: 20px 20px; padding: 20px; overflow: hidden; }
+        canvas { max-width: 100%; max-height: 100%; object-fit: contain; box-shadow: 0 0 30px #000; border: 1px solid #222; }
 
-        .action-dock { padding: 10px; background: #111; border-top: 1px solid #333; display: flex; justify-content: center; gap: 15px; }
-        .btn-action {
-            padding: 10px 20px; font-size: 0.8em; font-weight: 800; text-transform: uppercase; border: none; border-radius: 4px;
-            cursor: pointer; display: flex; align-items: center; gap: 8px; position: relative; color: #000; transition: 0.2s;
-        }
-        .btn-load { background: #ddd; color:#111; }
-        .btn-load:hover { background: #fff; }
-        .btn-load input { position: absolute; left:0; top:0; width:100%; height:100%; opacity:0; cursor: pointer; }
-        .btn-process { background: linear-gradient(135deg, #d4af37, #ffe066); box-shadow: 0 0 15px rgba(212, 175, 55, 0.3); }
-        .btn-process:hover { filter: brightness(1.1); transform: translateY(-2px); box-shadow: 0 0 25px rgba(212, 175, 55, 0.5); }
+        .action-dock { padding: 10px; background: #111; border-top: 1px solid #333; display: flex; justify-content: center; gap: 10px; }
+        .btn-action { padding: 10px 20px; font-size: 0.8em; font-weight: 800; text-transform: uppercase; border: none; border-radius: 4px; cursor: pointer; position: relative; color: #000; }
+        .btn-load { background: #ddd; }
+        .btn-load input { position: absolute; left:0; top:0; width:100%; height:100%; opacity:0; }
+        .btn-process { background: var(--gold); }
+        
+        .status-bar { display: flex; gap: 10px; justify-content: center; font-size: 0.7em; color: #666; padding: 5px; background: #000; }
 
-        .status-bar { display: flex; gap: 15px; align-items: center; justify-content: center; font-size: 0.7em; color: #666; padding: 5px; background:#000; }
-        .status-bar select { width: auto; padding: 3px 6px; border: 1px solid #333; background: #111; color: #888; cursor:pointer; }
-
-        /* FX */
-        .color-picker-compact { width: 30px; height: 30px; border-radius: 50%; border: 2px solid #444; background: conic-gradient(red, yellow, lime, blue, red); position: relative; overflow: hidden; cursor:pointer;}
-        .color-picker-compact input { position: absolute; left:-5px; top:-5px; width: 40px; height: 40px; opacity: 0; cursor: pointer; }
-
-        .fx-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; }
-        .fx-btn { background: #181818; border: 1px solid #333; color: #888; padding: 8px; font-size: 0.6em; cursor: pointer; text-align: center; border-radius: 4px; transition:0.2s; }
-        .fx-btn:hover { color: #fff; background: #222; }
-        .fx-btn.active { background: var(--gold); color: #000; font-weight: bold; border-color:#fff; }
-
-        .check-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-        .check-item { display: flex; align-items: center; gap: 6px; font-size: 0.7em; background: #161616; padding: 8px; border-radius: 4px; cursor: pointer; border: 1px solid transparent; transition:0.2s; }
-        .check-item:hover { border-color: var(--gold); background:#222; }
-        .check-item input { accent-color: var(--gold); width:14px; height:14px; }
+        /* EXTRAS */
+        .color-picker-compact { width: 25px; height: 25px; border-radius: 50%; border: 2px solid #444; background: conic-gradient(red, yellow, lime, blue, red); position: relative; overflow: hidden; }
+        .color-picker-compact input { position: absolute; left:-5px; top:-5px; width: 35px; height: 35px; opacity: 0; cursor: pointer; }
+        .fx-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; }
+        .fx-btn { background: #181818; border: 1px solid #333; color: #888; padding: 6px; font-size: 0.6em; cursor: pointer; text-align: center; border-radius: 3px; }
+        .fx-btn.active { background: var(--gold); color: #000; font-weight: bold; }
+        .check-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
+        .check-item { display: flex; align-items: center; gap: 5px; font-size: 0.7em; background: #161616; padding: 6px; border-radius: 3px; cursor: pointer; border: 1px solid #333; }
+        .check-item input { accent-color: var(--gold); }
 
         /* GALERIA */
-        .gallery-section { padding: 40px; background: #0a0a0a; border-top: 2px solid var(--gold); min-height: 400px; }
-        .gallery-title { text-align: center; color: var(--gold); font-family: 'Cinzel Decorative'; font-size: 2em; margin-bottom: 30px; }
-        #gallery-content { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
-        .res-card { background: #111; border: 1px solid #333; padding: 10px; border-radius: 8px; text-align:center; transition:0.3s; }
-        .res-card:hover { transform:translateY(-5px); border-color:var(--gold); }
-        .res-card img { width: 100%; height: auto; border: 1px solid #222; border-radius:4px; }
-        .dl-btn { display: block; margin-top: 10px; padding: 12px; background: var(--gold); color: #000; text-decoration: none; font-weight: bold; font-size: 0.8em; border-radius: 4px; text-transform: uppercase; transition:0.2s; }
-        .dl-btn:hover { filter: brightness(1.1); }
+        .gallery-section { padding: 30px; background: #0a0a0a; border-top: 2px solid var(--gold); min-height: 300px; }
+        .gallery-title { text-align: center; color: var(--gold); font-family: 'Cinzel Decorative'; font-size: 1.5em; margin-bottom: 20px; }
+        #gallery-content { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; }
+        .res-card { background: #111; border: 1px solid #333; padding: 8px; border-radius: 6px; text-align: center; }
+        .res-card img { width: 100%; height: auto; border: 1px solid #222; }
+        .dl-btn { display: block; margin-top: 5px; padding: 8px; background: var(--gold); color: #000; text-decoration: none; font-weight: bold; font-size: 0.8em; border-radius: 3px; }
 
-        /* LOADER */
-        #loader { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.96); z-index: 9999; justify-content: center; align-items: center; flex-direction: column; }
-        .spinner { width: 60px; height: 60px; border: 5px solid #333; border-top: 5px solid var(--gold); border-radius: 50%; animation: spin 1s linear infinite; }
+        #loader { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 9999; justify-content: center; align-items: center; }
+        .spinner { width: 50px; height: 50px; border: 4px solid #333; border-top: 4px solid var(--gold); border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
 
         @media (max-width: 900px) {
@@ -147,15 +109,11 @@
 </head>
 <body>
 
-    <div id="loader">
-        <div class="spinner"></div>
-        <div id="loader-text" style="color:var(--gold); margin-top:20px; font-family:'Raleway'; font-weight:bold; letter-spacing: 1px;">PROCESSANDO...</div>
-    </div>
+    <div id="loader"><div class="spinner"></div></div>
 
     <header class="app-header">
         <img src="imagens/logo.png" class="header-logo" alt="IMAGINISTA" onerror="this.style.display='none'">
         <div class="header-slogan">Onde a imaginação vira arte</div>
-        
         <div class="header-tools">
             <button class="btn-tool" onclick="document.querySelector('.gallery-section').scrollIntoView({behavior:'smooth'})">⬇ Galeria</button>
             <button class="btn-tool" onclick="location.reload()">↺ Reset</button>
@@ -163,9 +121,8 @@
     </header>
 
     <div class="workspace">
-        
         <aside class="panel">
-            <div class="panel-header"><span class="panel-title">1. Identidade Visual</span></div>
+            <div class="panel-header"><span class="panel-title">1. Identidade</span></div>
             
             <div class="control-group">
                 <label>Logo do Evento</label>
@@ -187,16 +144,21 @@
                         <option value="bc">Base Centro</option>
                         <option value="c">Centro</option>
                     </select>
-                    <input type="number" id="in-logo-sz" value="130" oninput="App.update()" title="Tamanho Px">
+                    <input type="number" id="in-logo-sz" value="130" oninput="App.update()" title="Px">
+                </div>
+                <div class="flex-row">
+                    <span style="font-size:0.7em; color:#888;">Cor:</span>
+                    <div class="color-picker-compact"><input type="color" id="col-logo-tint" value="#ffffff" oninput="App.update()"></div>
+                    <label style="margin:0; font-size:0.7em;"><input type="checkbox" id="chk-logo-tint" onchange="App.update()"> Pintar Logo</label>
                 </div>
                 <div class="grid-2">
-                    <input type="number" id="off-logo-x" value="0" oninput="App.update()" placeholder="Horiz. X">
-                    <input type="number" id="off-logo-y" value="0" oninput="App.update()" placeholder="Vert. Y">
+                    <div class="input-wrap"><span class="xy-tag">X</span><input type="number" id="off-logo-x" value="0" oninput="App.update()"></div>
+                    <div class="input-wrap"><span class="xy-tag">Y</span><input type="number" id="off-logo-y" value="0" oninput="App.update()"></div>
                 </div>
             </div>
 
             <div class="control-group">
-                <label>Título Principal</label>
+                <label>Título</label>
                 <div class="flex-row">
                     <input type="text" id="in-nome" value="Geovana Frigoletto" oninput="App.update()" style="flex:1;">
                     <div class="color-picker-compact"><input type="color" id="col-nome" value="#ffe066" oninput="App.update()"></div>
@@ -217,14 +179,12 @@
                         <option value="bl">Esq. Inf</option>
                         <option value="bc">Base Centro</option>
                         <option value="tc">Topo Centro</option>
-                        <option value="tl">Topo Esq</option>
-                        <option value="tr">Topo Dir</option>
                         <option value="c">Centro</option>
                     </select>
                 </div>
                 <div class="grid-2">
-                    <input type="number" id="off-nome-x" value="0" oninput="App.update()" placeholder="Horiz. X">
-                    <input type="number" id="off-nome-y" value="0" oninput="App.update()" placeholder="Vert. Y">
+                    <div class="input-wrap"><span class="xy-tag">X</span><input type="number" id="off-nome-x" value="0" oninput="App.update()"></div>
+                    <div class="input-wrap"><span class="xy-tag">Y</span><input type="number" id="off-nome-y" value="0" oninput="App.update()"></div>
                 </div>
             </div>
 
@@ -238,30 +198,25 @@
                     <select id="sel-font-sub" onchange="App.update()">
                         <option value="Cinzel Decorative">Cinzel</option>
                         <option value="Montserrat">Montserrat</option>
-                        <option value="Raleway">Raleway</option>
                     </select>
                     <input type="number" id="sz-sub" value="40" oninput="App.update()" title="Tamanho">
                 </div>
-                <button class="btn-font-extra">🔤 Upload Fonte .TTF <input type="file" onchange="App.loadFont(this, 'sel-font-sub')"></button>
+                <button class="btn-font-extra">🔤 Upload Fonte <input type="file" onchange="App.loadFont(this, 'sel-font-sub')"></button>
                 <div class="grid-2">
                     <select id="pos-sub" onchange="App.update()">
                         <option value="br">Dir. Inf</option>
                         <option value="bl">Esq. Inf</option>
                         <option value="bc" selected>Base Centro</option>
-                        <option value="tc">Topo Centro</option>
-                        <option value="tl">Topo Esq</option>
-                        <option value="tr">Topo Dir</option>
-                        <option value="c">Centro</option>
                     </select>
                 </div>
                 <div class="grid-2">
-                    <input type="number" id="off-sub-x" value="0" oninput="App.update()" placeholder="Horiz. X">
-                    <input type="number" id="off-sub-y" value="0" oninput="App.update()" placeholder="Vert. Y">
+                    <div class="input-wrap"><span class="xy-tag">X</span><input type="number" id="off-sub-x" value="0" oninput="App.update()"></div>
+                    <div class="input-wrap"><span class="xy-tag">Y</span><input type="number" id="off-sub-y" value="0" oninput="App.update()"></div>
                 </div>
             </div>
 
             <div class="control-group">
-                <label>Rodapé (Completo)</label>
+                <label>Rodapé</label>
                 <div class="grid-2">
                     <input type="text" id="in-date" placeholder="Data" oninput="App.update()">
                     <input type="text" id="in-local" placeholder="Local" oninput="App.update()">
@@ -270,19 +225,17 @@
                     <input type="number" id="sz-info" value="25" oninput="App.update()" title="Tam. Fonte">
                     <select id="sel-font-info" style="display:none;"><option value="Raleway">Raleway</option></select>
                 </div>
-                <button class="btn-font-extra" style="margin-top:5px;">🔤 Fonte <input type="file" onchange="App.loadFont(this, 'sel-font-info')"></button>
+                <button class="btn-font-extra">🔤 Fonte <input type="file" onchange="App.loadFont(this, 'sel-font-info')"></button>
                 <div class="grid-2">
                     <select id="pos-info" onchange="App.update()">
                         <option value="bc" selected>Base Centro</option>
                         <option value="bl">Base Esq</option>
                         <option value="br">Base Dir</option>
-                        <option value="tc">Topo Centro</option>
-                        <option value="c">Centro</option>
                     </select>
                 </div>
                 <div class="grid-2">
-                    <input type="number" id="off-info-x" value="0" oninput="App.update()" placeholder="Horiz. X">
-                    <input type="number" id="off-info-y" value="0" oninput="App.update()" placeholder="Vert. Y">
+                    <div class="input-wrap"><span class="xy-tag">X</span><input type="number" id="off-info-x" value="0" oninput="App.update()"></div>
+                    <div class="input-wrap"><span class="xy-tag">Y</span><input type="number" id="off-info-y" value="0" oninput="App.update()"></div>
                 </div>
             </div>
         </aside>
@@ -293,19 +246,19 @@
             </div>
             <div class="action-dock">
                 <label class="btn-action btn-load">
-                    📸 Carregar Fotos
+                    📸 Carregar
                     <input type="file" id="file-photos" multiple accept="image/*" onchange="App.handleFiles(this)">
                 </label>
-                <button class="btn-action btn-process" onclick="App.render()">✨ Processar Tudo</button>
+                <button class="btn-action btn-process" onclick="App.render()">✨ Processar</button>
             </div>
             <div class="status-bar">
                 <select id="sel-fmt"><option value="jpeg">JPG</option><option value="png">PNG</option></select>
-                <select id="sel-quality"><option value="1">Full HD</option><option value="2" selected>4K Ultra</option><option value="3">8K Master</option></select>
+                <select id="sel-quality"><option value="1">Full HD</option><option value="2" selected>4K</option><option value="3">8K</option></select>
             </div>
         </main>
 
         <aside class="panel">
-            <div class="panel-header"><span class="panel-title">2. Layout & Efeitos</span></div>
+            <div class="panel-header"><span class="panel-title">2. Imagem & Efeitos</span></div>
             
             <div class="control-group">
                 <label>Orientação</label>
@@ -313,36 +266,47 @@
                     <option value="landscape">Horizontal (1920x1080)</option>
                     <option value="portrait">Vertical (1080x1920)</option>
                     <option value="square">Quadrado (1080x1080)</option>
-                    <option value="custom">🛠️ Personalizado</option>
+                    <option value="custom">Personalizado</option>
                 </select>
                 <div id="box-custom" class="grid-2" style="display:none;">
-                    <input type="number" id="in-w" value="1920">
-                    <input type="number" id="in-h" value="1080">
+                    <input type="number" id="in-w" value="1920"><input type="number" id="in-h" value="1080">
                 </div>
             </div>
 
             <div class="control-group">
-                <label>Grid (Mosaico)</label>
+                <label>Grid</label>
                 <select id="sel-layout" onchange="App.update()">
-                    <option value="single">1. Único (1 Foto)</option>
-                    <option value="dual_vert">2. Duplo (2 Fotos)</option>
-                    <option value="grid_diamond">3. Diamante (3 Fotos)</option>
-                    <option value="collage_dyn">4. Triângulo (3 Fotos)</option>
-                    <option value="grid_quad">5. Quatro (4 Fotos)</option>
-                    <option value="film_strip">6. Tira (4 Fotos)</option>
-                    <option value="grid_quint">7. Cinco (5 Fotos)</option>
-                    <option value="grid_sena">8. Seis (6 Fotos)</option>
-                    <option value="grid_septa">9. Sete (7 Fotos)</option>
-                    <option value="grid_octo">10. Oito (8 Fotos)</option>
-                    <option value="grid_nona">11. Nove (9 Fotos)</option>
+                    <option value="single">1. Único</option>
+                    <option value="dual_vert">2. Duplo</option>
+                    <option value="grid_diamond">3. Diamante</option>
+                    <option value="collage_dyn">3. Triângulo</option>
+                    <option value="grid_quad">4. Quatro</option>
+                    <option value="film_strip">4. Tira</option>
+                    <option value="grid_quint">5. Cinco</option>
+                    <option value="grid_sena">6. Seis</option>
+                    <option value="grid_septa">7. Sete</option>
+                    <option value="grid_octo">8. Oito</option>
+                    <option value="grid_nona">9. Nove</option>
                 </select>
+            </div>
+
+            <div class="control-group">
+                <label>Ajuste Imagem (Pan/Zoom)</label>
+                <div class="grid-2">
+                    <div class="input-wrap"><span class="xy-tag">X</span><input type="number" id="img-pan-x" value="0" oninput="App.update()"></div>
+                    <div class="input-wrap"><span class="xy-tag">Y</span><input type="number" id="img-pan-y" value="0" oninput="App.update()"></div>
+                </div>
+                <div class="flex-row" style="margin-top:5px;">
+                    <span class="xy-tag">Zoom:</span>
+                    <input type="range" id="img-scale" min="10" max="300" value="100" oninput="App.update()">
+                </div>
             </div>
 
             <div class="control-group">
                 <label>Fundo</label>
                 <div class="upload-wrapper">
                     <label class="btn-upload-small">
-                        <img id="pv-bg" class="thumb-preview" style="display:none; width:20px; height:20px;">
+                        <img id="pv-bg" class="thumb-preview" style="display:none; width:20px;">
                         <span id="st-bg">🖼️ Imagem</span>
                         <input type="file" accept="image/*" onchange="App.handleBg(this)">
                     </label>
@@ -356,26 +320,24 @@
                 </div>
             </div>
 
-            <div class="panel-header" style="margin-top:10px;"><span class="panel-title">3. Acabamento</span></div>
-            
             <div class="control-group">
                 <label>Moldura</label>
                 <select id="sel-mockup" onchange="App.update()">
-                    <option value="none">Clássica (Borda Cor)</option>
+                    <option value="none">Borda Clássica</option>
                     <option value="polaroid">Polaroid</option>
-                    <option value="museum">Museu (Dupla)</option>
-                    <option value="minimal">Minimalista (Branca)</option>
-                    <option value="cinema">Cinema (Letterbox)</option>
+                    <option value="museum">Museu</option>
+                    <option value="minimal">Minimalista</option>
+                    <option value="cinema">Cinema</option>
                 </select>
                 <div class="flex-row">
-                    <span style="font-size:0.7em; color:#888;">Cor:</span>
+                    <span style="font-size:0.7em; color:#888;">Cor Moldura:</span>
                     <div class="color-picker-compact"><input type="color" id="col-frame" value="#d4af37" oninput="App.update()"></div>
                 </div>
-                <input type="text" id="in-polaroid" value="Memories" placeholder="Legenda Polaroid" style="display:none; margin-top:8px;" oninput="App.update()">
+                <input type="text" id="in-polaroid" value="Memories" placeholder="Legenda" style="display:none; margin-top:8px;" oninput="App.update()">
             </div>
 
             <div class="control-group">
-                <label>Filtros de Cor</label>
+                <label>Filtros</label>
                 <div class="fx-grid" id="fx-container"></div>
                 <label class="check-item" style="margin-top:8px; border:1px solid var(--gold); color:var(--gold); justify-content:center; font-weight:bold;">
                     <input type="checkbox" id="chk-hdr" checked onchange="App.update()"> 💎 HDR Pro
@@ -383,9 +345,9 @@
             </div>
             
             <div class="control-group">
-                <label>Efeitos Especiais</label>
+                <label>Efeitos</label>
                 <div class="check-grid">
-                    <label class="check-item"><input type="checkbox" id="chk-upscale" onchange="App.update()"> ✨ Super Resolução (HD)</label>
+                    <label class="check-item"><input type="checkbox" id="chk-upscale" onchange="App.update()"> ✨ Super Resolução</label>
                     <label class="check-item"><input type="checkbox" id="chk-blur" checked onchange="App.update()"> Blur Fundo</label>
                     <label class="check-item"><input type="checkbox" id="chk-vignette" checked onchange="App.update()"> Vinheta</label>
                     <label class="check-item"><input type="checkbox" id="chk-grain" checked onchange="App.update()"> Granulado</label>
@@ -399,7 +361,7 @@
     </div>
 
     <section class="gallery-section">
-        <h2 class="gallery-title">Galeria de Resultados</h2>
+        <h2 class="gallery-title">Galeria</h2>
         <div id="gallery-content"></div>
     </section>
 
@@ -432,64 +394,37 @@
             App.update();
         };
 
-        // --- HANDLERS ---
+        // --- HANDLERS SEGUROS ---
         App.handleFiles = async function(input) {
             if(!input.files.length) return;
             App.images = []; 
             try {
                 const files = Array.from(input.files);
-                // Feedback visual simples
                 const btn = document.querySelector('.btn-load');
                 const oldText = btn.innerHTML;
-                btn.innerHTML = '⏳ Carregando...';
+                btn.innerHTML = 'Carregando...';
                 
                 for(let f of files) {
                     App.images.push(await loadImg(f));
                 }
                 btn.innerHTML = oldText;
                 
-                // Força atualização imediata
+                // Força atualização com delays para garantir renderização
                 setTimeout(App.update, 100);
                 setTimeout(App.update, 500); 
-            } catch(e) { 
-                console.error(e); 
-                alert("Erro ao ler imagens.");
-            }
+            } catch(e) { console.error(e); }
         };
 
+        // ... (Handlers de Logo, Bg, Font, Custom mantidos iguais ao V26) ...
         App.handleLogo = async function(input) {
-            if(input.files[0]) {
-                try {
-                    App.userLogo = await loadImg(input.files[0]);
-                    document.getElementById('pv-logo').style.display='block';
-                    document.getElementById('st-logo').innerText='OK';
-                    App.update();
-                } catch(e){}
-            }
+            if(input.files[0]) { try { App.userLogo = await loadImg(input.files[0]); document.getElementById('pv-logo').style.display='block'; document.getElementById('st-logo').innerText='OK'; App.update(); } catch(e){} }
         };
-        App.removeLogo = function() { 
-            App.userLogo=null; 
-            document.getElementById('pv-logo').style.display='none'; 
-            document.getElementById('st-logo').innerText='📂 PNG'; 
-            App.update(); 
-        };
-
+        App.removeLogo = function() { App.userLogo=null; document.getElementById('pv-logo').style.display='none'; document.getElementById('st-logo').innerText='📂 PNG'; App.update(); };
+        
         App.handleBg = async function(input) {
-            if(input.files[0]) {
-                try {
-                    App.userBg = await loadImg(input.files[0]);
-                    document.getElementById('pv-bg').style.display='block';
-                    document.getElementById('st-bg').innerText='OK';
-                    App.update();
-                } catch(e){}
-            }
+            if(input.files[0]) { try { App.userBg = await loadImg(input.files[0]); document.getElementById('pv-bg').style.display='block'; document.getElementById('st-bg').innerText='OK'; App.update(); } catch(e){} }
         };
-        App.removeBg = function() { 
-            App.userBg=null; 
-            document.getElementById('pv-bg').style.display='none'; 
-            document.getElementById('st-bg').innerText='🖼️ IMG'; 
-            App.update(); 
-        };
+        App.removeBg = function() { App.userBg=null; document.getElementById('pv-bg').style.display='none'; document.getElementById('st-bg').innerText='🖼️ IMG'; App.update(); };
 
         App.loadFont = function(input, target) {
             const f = input.files[0]; if(!f) return;
@@ -499,16 +434,11 @@
                 try {
                     const ff = new FontFace(n, e.target.result); await ff.load(); document.fonts.add(ff);
                     const sel = document.getElementById(target);
-                    // Adiciona se não existir
                     let exists = false;
                     for (let i=0; i<sel.options.length; i++){ if(sel.options[i].value == n) exists=true;}
-                    
-                    if(!exists) {
-                        const opt = new Option(n, n); 
-                        sel.add(opt, 0); 
-                    }
+                    if(!exists) { const opt = new Option(n, n); sel.add(opt, 0); }
                     sel.value=n;
-                    if(target === 'sel-font-info') sel.style.display = 'block'; // Mostra select rodapé se oculto
+                    if(target === 'sel-font-info') sel.style.display = 'block'; 
                     alert("Fonte instalada!"); App.update();
                 } catch(e){ alert("Erro na fonte."); }
             };
@@ -522,6 +452,14 @@
             App.update();
         };
 
+        // --- SAFE VAL HELPER ---
+        function getVal(id, def) {
+            const el = document.getElementById(id);
+            if(!el) return def;
+            const v = parseInt(el.value);
+            return isNaN(v) ? def : v;
+        }
+
         // --- UPDATE ---
         App.update = function() {
             const canvas = document.getElementById('main-canvas');
@@ -533,14 +471,10 @@
             if(orient==='portrait'){w=450;h=800;} 
             if(orient==='square'){w=600;h=600;}
             if(orient==='custom') {
-                const rw = parseInt(document.getElementById('in-w').value)||1920;
-                const rh = parseInt(document.getElementById('in-h').value)||1080;
-                const r = rw/rh; if(r>1){w=800;h=800/r;} else {h=600;w=600*r;}
+                w = getVal('in-w', 1920);
+                h = getVal('in-h', 1080);
             }
-            // Proteção contra NaN/Zero
-            if(isNaN(w) || w<10) w=800; 
-            if(isNaN(h) || h<10) h=450;
-            
+            if(w<10) w=800; if(h<10) h=450;
             canvas.width = w; canvas.height = h;
 
             const mk = document.getElementById('sel-mockup').value;
@@ -553,11 +487,12 @@
                 return;
             }
 
-            const layout = document.getElementById('sel-layout').value;
-            const bs = getBatch(layout);
-            const imgs = App.images.slice(0, bs);
-            
-            drawFrame(ctx, imgs, layout, w, h);
+            try {
+                const layout = document.getElementById('sel-layout').value;
+                const bs = getBatch(layout);
+                const imgs = App.images.slice(0, bs);
+                drawFrame(ctx, imgs, layout, w, h);
+            } catch(e) { console.error("Render Error:", e); }
         };
 
         // --- RENDER ---
@@ -566,12 +501,12 @@
             const loader = document.getElementById('loader');
             loader.style.display='flex';
             
-            const q = parseInt(document.getElementById('sel-quality').value) || 2;
+            const q = getVal('sel-quality', 2);
             const orient = document.getElementById('sel-orient').value;
             let bw=1920, bh=1080;
             if(orient==='portrait'){bw=1080;bh=1920;} 
             if(orient==='square'){bw=1080;bh=1080;}
-            if(orient==='custom'){ bw=parseInt(document.getElementById('in-w').value)||1920; bh=parseInt(document.getElementById('in-h').value)||1080; }
+            if(orient==='custom'){ bw=getVal('in-w', 1920); bh=getVal('in-h', 1080); }
             
             const W = bw*q; const H = bh*q;
             const layout = document.getElementById('sel-layout').value;
@@ -591,7 +526,7 @@
                         for(let j=0; j<group.length; j++) {
                              if(group[j]) {
                                 drawFrame(ctx, [group[j]], 'single', W, H);
-                                saveImage(cvs, `${name}_${j+1}`, document.getElementById('sel-fmt').value);
+                                saveImage(cvs, `${name}_extra_${j+1}`, document.getElementById('sel-fmt').value);
                              }
                         }
                     } else {
@@ -604,16 +539,14 @@
             loader.style.display='none';
         };
 
-        // --- CORE DRAWING ---
+        // --- DRAWING ---
         function drawFrame(ctx, imgs, mode, W, H) {
             ctx.filter = "none";
             
             // 1. Fundo
             if(App.userBg) {
                 if(document.getElementById('chk-trans').checked) ctx.clearRect(0,0,W,H);
-                else { 
-                    ctx.fillStyle=document.getElementById('col-bg').value; ctx.fillRect(0,0,W,H); 
-                }
+                else { ctx.fillStyle=document.getElementById('col-bg').value; ctx.fillRect(0,0,W,H); }
                 ctx.save();
                 if(document.getElementById('chk-blur').checked) {
                     ctx.filter = "blur(20px) brightness(0.7)";
@@ -626,17 +559,19 @@
             } else {
                 if(document.getElementById('chk-trans').checked) ctx.clearRect(0,0,W,H);
                 else {
-                    const c = document.getElementById('col-bg').value || '#111';
-                    ctx.fillStyle = c; ctx.fillRect(0,0,W,H);
+                    ctx.fillStyle = document.getElementById('col-bg').value || '#111';
+                    ctx.fillRect(0,0,W,H);
                 }
             }
 
-            // 2. Fotos
-            const slots = getSlots(mode, W, H);
-            slots.forEach((slot, i) => {
-                const isCenter = (mode==='grid_diamond' && i===1);
-                if(imgs[i] && imgs[i].width) drawPhoto(ctx, imgs[i], slot, isCenter, W);
-            });
+            // 2. Grid (Robust)
+            try {
+                const slots = getSlots(mode, W, H);
+                slots.forEach((slot, i) => {
+                    const isCenter = (mode==='grid_diamond' && i===1);
+                    if(imgs[i] && imgs[i].width > 0) drawPhoto(ctx, imgs[i], slot, isCenter, W);
+                });
+            } catch(e) { console.log("Grid err", e); }
 
             // 3. Efeitos
             drawEffects(ctx, W, H);
@@ -646,52 +581,56 @@
         }
 
         function drawPhoto(ctx, img, slot, isCenter, W) {
-            if(!img || img.width === 0) return;
             const Scale = W/2000;
             const mk = document.getElementById('sel-mockup').value;
             let {x, y, w, h} = slot;
 
             if(mk==='polaroid') { h*=0.85; }
 
-            const sc = Math.min(w/img.width, h/img.height);
+            // Global Zoom/Pan
+            const panX = getVal('img-pan-x', 0) * Scale;
+            const panY = getVal('img-pan-y', 0) * Scale;
+            const zoom = getVal('img-scale', 100) / 100;
+
+            const sc = Math.min(w/img.width, h/img.height) * zoom;
             const dw = img.width * sc;
             const dh = img.height * sc;
-            const dx = x + (w - dw)/2;
-            const dy = y + (h - dh)/2;
+            const dx = x + (w - dw)/2 + panX;
+            const dy = y + (h - dh)/2 + panY;
 
             ctx.save();
             
-            // Sombra Externa (DROP SHADOW APENAS)
-            if(mk!=='polaroid') {
-                ctx.shadowColor="rgba(0,0,0,0.6)"; ctx.shadowBlur=25*Scale; ctx.shadowOffsetY=15*Scale;
-                ctx.fillStyle="rgba(0,0,0,1)"; ctx.fillRect(dx,dy,dw,dh);
-                ctx.shadowBlur=0;
-            }
-
-            // Polaroid Fundo
+            // Polaroid Fundo (Desenhado antes)
             if(mk==='polaroid') {
-                const pPad = w*0.04; 
-                const pBot = w*0.2;
+                const pPad = w*0.03; const pBot = w*0.15;
                 ctx.fillStyle="#fff"; 
                 ctx.shadowColor="rgba(0,0,0,0.4)"; ctx.shadowBlur=15*Scale;
-                ctx.fillRect(dx-pPad, dy-pPad, dw+(pPad*2), dh+pPad+pBot);
+                ctx.fillRect(x-pPad, y-pPad, w+(pPad*2), h+pPad+pBot);
                 ctx.shadowBlur=0;
                 
                 const pt = document.getElementById('in-polaroid').value;
                 ctx.fillStyle="#333"; ctx.font=`${pBot*0.35}px 'Great Vibes'`; ctx.textAlign="center";
-                ctx.fillText(pt, dx + dw/2, dy + dh + pBot*0.6);
+                ctx.fillText(pt, x + w/2, y + h + pBot*0.7);
             } 
+            else if(mk!=='none' && mk!=='minimal' && mk!=='cinema') {
+                ctx.shadowColor="rgba(0,0,0,0.6)"; ctx.shadowBlur=25*Scale; ctx.shadowOffsetY=15*Scale;
+                ctx.fillStyle="rgba(0,0,0,1)"; ctx.fillRect(dx+5,dy+5,dw-10,dh-10); 
+                ctx.shadowBlur=0;
+            }
 
-            // Filtros & Upscale Simulado
+            // Filtros & Upscale
             if(document.getElementById('chk-hdr').checked) ctx.filter="contrast(1.1) saturate(1.2)";
-            if(document.getElementById('chk-upscale').checked) ctx.filter+=" contrast(1.1) brightness(1.05) saturate(1.05)";
+            if(document.getElementById('chk-upscale').checked) ctx.filter+=" contrast(1.15) brightness(1.05) saturate(1.05) drop-shadow(0 0 1px rgba(255,255,255,0.3))";
             
             applyFx(ctx);
+            
+            // Draw without clip to avoid black lines, using strict coords
             ctx.drawImage(img, dx, dy, dw, dh);
             ctx.filter = "none"; 
 
-            // Bordas
+            // Bordas (Overlay)
             const c = document.getElementById('col-frame').value;
+            
             if(mk==='none') {
                 const borderW = (isCenter?8:5)*Scale;
                 ctx.lineWidth = borderW; ctx.strokeStyle = c; ctx.strokeRect(dx, dy, dw, dh);
@@ -716,16 +655,13 @@
 
         function getTextPos(W, H, pos, w, h) {
             let x = 0, y = 0;
-            // X Logic
             if(pos.includes('l')) x = W*0.05;
             else if(pos.includes('r')) x = W*0.95 - w;
             else x = (W-w)/2; 
 
-            // Y Logic
             if(pos.includes('t')) y = H*0.05;
             else if(pos.includes('b')) y = H*0.95 - h;
             else y = (H-h)/2; 
-            
             return {x, y};
         }
 
@@ -735,82 +671,70 @@
             // Logo
             const lg = App.userLogo; 
             if(lg && lg.width > 0) {
-                const sz = parseInt(document.getElementById('in-logo-sz').value)||130;
-                const offX = (parseInt(document.getElementById('off-logo-x').value)||0)*Scale;
-                const offY = (parseInt(document.getElementById('off-logo-y').value)||0)*Scale;
-                
+                const sz = getVal('in-logo-sz', 130);
+                const offX = getVal('off-logo-x', 0) * Scale;
+                const offY = getVal('off-logo-y', 0) * Scale;
                 const h = sz * Scale; const w = lg.width * (h/lg.height);
                 const pos = document.getElementById('sel-logo-pos').value;
                 const p = getTextPos(W, H, pos, w, h);
                 
-                ctx.save(); ctx.globalAlpha=0.9; 
-                ctx.drawImage(lg, p.x + offX, p.y + offY, w, h); 
+                ctx.save(); 
+                if(document.getElementById('chk-logo-tint').checked) {
+                    // Safe Tint Logic
+                    const tCan = document.createElement('canvas');
+                    tCan.width = w; tCan.height = h;
+                    const tCtx = tCan.getContext('2d');
+                    tCtx.drawImage(lg, 0, 0, w, h);
+                    tCtx.globalCompositeOperation = 'source-in';
+                    tCtx.fillStyle = document.getElementById('col-logo-tint').value;
+                    tCtx.fillRect(0,0,w,h);
+                    ctx.drawImage(tCan, p.x + offX, p.y + offY);
+                } else {
+                    ctx.globalAlpha=0.9; 
+                    ctx.drawImage(lg, p.x + offX, p.y + offY, w, h); 
+                }
                 ctx.restore();
             }
 
-            // Título
-            const nSize = (parseInt(document.getElementById('sz-nome').value)||100) * Scale;
-            const nOffX = (parseInt(document.getElementById('off-nome-x').value)||0) * Scale;
-            const nOffY = (parseInt(document.getElementById('off-nome-y').value)||0) * Scale;
-            
-            ctx.font = `${nSize}px '${document.getElementById('sel-font-nome').value}'`; 
-            ctx.fillStyle = document.getElementById('col-nome').value;
-            ctx.shadowColor="rgba(0,0,0,0.8)"; ctx.shadowBlur=10*Scale;
-            
-            const txt = document.getElementById('in-nome').value;
-            const nPos = document.getElementById('pos-nome').value;
-            const tw = ctx.measureText(txt).width;
-            const np = getTextPos(W, H, nPos, tw, nSize); 
-            
-            ctx.textAlign = 'left';
-            if(nPos.includes('r')) { ctx.textAlign='right'; np.x += tw; }
-            if(nPos==='c' || nPos==='tc' || nPos==='bc') { ctx.textAlign='center'; np.x += tw/2; }
-
-            ctx.fillText(txt, np.x + nOffX, np.y + nSize + nOffY);
-
-            // Subtítulo
-            const sSize = (parseInt(document.getElementById('sz-sub').value)||40) * Scale;
-            const sOffX = (parseInt(document.getElementById('off-sub-x').value)||0) * Scale;
-            const sOffY = (parseInt(document.getElementById('off-sub-y').value)||0) * Scale;
-
-            ctx.font = `${sSize}px '${document.getElementById('sel-font-sub').value}'`;
-            ctx.fillStyle = document.getElementById('col-sub').value;
-            ctx.shadowBlur=0;
-            
-            const sub = document.getElementById('in-sub').value.toUpperCase();
-            const sPos = document.getElementById('pos-sub').value;
-            const sw = ctx.measureText(sub).width;
-            const sp = getTextPos(W, H, sPos, sw, sSize);
-
-            ctx.textAlign = 'left';
-            if(sPos.includes('r')) { ctx.textAlign='right'; sp.x += sw; }
-            if(sPos==='c' || sPos==='tc' || sPos==='bc') { ctx.textAlign='center'; sp.x += sw/2; }
-            
-            ctx.fillText(sub, sp.x + sOffX, sp.y + sSize + sOffY);
-
-            // Rodapé
-            const dt=document.getElementById('in-date').value;
-            const lc=document.getElementById('in-local').value;
-            if(dt||lc) {
-                const iSize = (parseInt(document.getElementById('sz-info').value)||25) * Scale;
-                const iOffX = (parseInt(document.getElementById('off-info-x').value)||0) * Scale;
-                const iOffY = (parseInt(document.getElementById('off-info-y').value)||0) * Scale;
+            // Generic Text Draw
+            function drawLabel(id, prefix) {
+                const nSize = getVal(`sz-${id}`, 40) * Scale;
+                const nOffX = getVal(`off-${id}-x`, 0) * Scale;
+                const nOffY = getVal(`off-${id}-y`, 0) * Scale;
+                const fName = document.getElementById(`sel-font-${id}`).value || 'Raleway';
+                const col = id === 'info' ? '#ccc' : document.getElementById(`col-${id}`).value;
                 
-                const fName = document.getElementById('sel-font-info').value || 'Raleway';
-                ctx.font = `${iSize}px '${fName}'`; 
-                ctx.fillStyle="#ccc"; ctx.shadowBlur=0;
+                ctx.font = `${nSize}px '${fName}'`; 
+                ctx.fillStyle = col;
+                if(id !== 'info') ctx.shadowColor="rgba(0,0,0,0.8)"; ctx.shadowBlur=10*Scale;
+                
+                const txtInput = document.getElementById(`in-${id}`);
+                const txt = txtInput ? txtInput.value : '';
+                if(!txt && id !== 'info') return; // Skip empty (except footer composite)
 
-                const textInfo = `${dt} ${dt&&lc?'|':''} ${lc}`.toUpperCase();
-                const iw = ctx.measureText(textInfo).width;
-                const iPos = document.getElementById('pos-info').value;
-                const ip = getTextPos(W, H, iPos, iw, iSize);
+                // Footer Logic Special
+                let content = txt;
+                if(id === 'info') {
+                    const dt = document.getElementById('in-date').value;
+                    const lc = document.getElementById('in-local').value;
+                    if(!dt && !lc) return;
+                    content = `${dt} ${dt&&lc?'|':''} ${lc}`.toUpperCase();
+                }
 
+                const pos = document.getElementById(`pos-${id}`).value;
+                const tw = ctx.measureText(content).width;
+                const p = getTextPos(W, H, pos, tw, nSize);
+                
                 ctx.textAlign = 'left';
-                if(iPos.includes('r')) { ctx.textAlign='right'; ip.x += iw; }
-                if(iPos.includes('c') || iPos==='tc' || iPos==='bc') { ctx.textAlign='center'; ip.x += iw/2; }
+                if(pos.includes('r')) { ctx.textAlign='right'; p.x += tw; }
+                if(pos.includes('c') || pos.includes('tc') || pos.includes('bc')) { ctx.textAlign='center'; p.x += tw/2; }
 
-                ctx.fillText(textInfo, ip.x + iOffX, ip.y + iSize + iOffY);
+                ctx.fillText(content, p.x + nOffX, p.y + nSize + nOffY);
             }
+
+            drawLabel('nome');
+            drawLabel('sub');
+            drawLabel('info');
         }
 
         function drawEffects(ctx, W, H) {
@@ -853,7 +777,7 @@
             }
         }
 
-        // --- GRID SYSTEM (CORRIGIDO) ---
+        // --- GRID SYSTEM ROBUSTO ---
         function getSlots(mode, W, H) {
             const pad = W * 0.05; 
             const aH = H * 0.70; 
@@ -866,38 +790,24 @@
                 return [{x:0,y:startY,w:w2,h:aH,pad:pad}, {x:w2+gap,y:startY,w:w2,h:aH,pad:pad}];
             }
             if(mode==='grid_diamond') {
-                const w2=(W-gap)/2; const h2=(aH-gap)/2;
+                const w2=(W-gap)/2;
                 return [{x:0,y:startY,w:w2,h:aH,pad:pad},{x:w2+gap,y:startY,w:w2,h:aH,pad:pad},{x:W/4,y:startY+aH/4,w:W/2,h:aH/2,pad:pad}];
             }
             if(mode==='collage_dyn') {
                 const w2=(W-gap)/2; const h1=aH*0.6; const h2=aH*0.4-gap;
-                return [
-                    {x:0,y:startY,w:W,h:h1,pad:pad},
-                    {x:0,y:startY+h1+gap,w:w2,h:h2,pad:pad},
-                    {x:w2+gap,y:startY+h1+gap,w:w2,h:h2,pad:pad}
-                ];
+                return [{x:0,y:startY,w:W,h:h1},{x:0,y:startY+h1+gap,w:w2,h:h2},{x:w2+gap,y:startY+h1+gap,w:w2,h:h2}];
             }
             if(mode==='grid_quad') {
                 const w2=(W-gap)/2; const h2=(aH-gap)/2;
-                return [
-                    {x:0,y:startY,w:w2,h:h2,pad:pad}, {x:w2+gap,y:startY,w:w2,h:h2,pad:pad},
-                    {x:0,y:startY+h2+gap,w:w2,h:h2,pad:pad}, {x:w2+gap,y:startY+h2+gap,w:w2,h:h2,pad:pad}
-                ];
+                return [{x:0,y:startY,w:w2,h:h2}, {x:w2+gap,y:startY,w:w2,h:h2},{x:0,y:startY+h2+gap,w:w2,h:h2}, {x:w2+gap,y:startY+h2+gap,w:w2,h:h2}];
             }
             if(mode==='film_strip') {
                 const w4=(W-3*gap)/4;
-                return [
-                    {x:0,y:startY,w:w4,h:aH,pad:pad}, {x:w4+gap,y:startY,w:w4,h:aH,pad:pad},
-                    {x:2*(w4+gap),y:startY,w:w4,h:aH,pad:pad}, {x:3*(w4+gap),y:startY,w:w4,h:aH,pad:pad}
-                ];
+                return [{x:0,y:startY,w:w4,h:aH}, {x:w4+gap,y:startY,w:w4,h:aH},{x:2*(w4+gap),y:startY,w:w4,h:aH}, {x:3*(w4+gap),y:startY,w:w4,h:aH}];
             }
             if(mode==='grid_quint') {
                 const w2=(W-gap)/2; const h2=(aH-gap)/2;
-                return [
-                    {x:0,y:startY,w:w2,h:h2,pad:pad}, {x:w2+gap,y:startY,w:w2,h:h2,pad:pad},
-                    {x:0,y:startY+h2+gap,w:w2,h:h2,pad:pad}, {x:w2+gap,y:startY+h2+gap,w:w2,h:h2,pad:pad},
-                    {x:W*0.25,y:startY+aH*0.25,w:W*0.5,h:aH*0.5,pad:pad}
-                ];
+                return [{x:0,y:startY,w:w2,h:h2}, {x:w2+gap,y:startY,w:w2,h:h2},{x:0,y:startY+h2+gap,w:w2,h:h2}, {x:w2+gap,y:startY+h2+gap,w:w2,h:h2},{x:W*0.25,y:startY+aH*0.25,w:W*0.5,h:aH*0.5}];
             }
             if(mode==='grid_sena') {
                 const w3=(W-2*gap)/3; const h2=(aH-gap)/2;
@@ -912,24 +822,21 @@
                     {x:0,y:startY,w:w2,h:aH}, 
                     {x:w2+gap,y:startY,w:w3,h:h2}, {x:w2+gap+w3+gap,y:startY,w:w3,h:h2},
                     {x:w2+gap,y:startY+h2+gap,w:w3,h:h2}, {x:w2+gap+w3+gap,y:startY+h2+gap,w:w3,h:h2},
-                    {x:w2+gap,y:startY,w:w3,h:h2}, {x:w2+gap,y:startY,w:w3,h:h2} 
+                    {x:w2+gap,y:startY,w:w3,h:h2}, {x:w2+gap,y:startY,w:w3,h:h2}
                 ];
             }
             if(mode==='grid_octo') {
                 const w4=(W-3*gap)/4; const h2=(aH-gap)/2;
-                let arr = [];
-                for(let r=0;r<2;r++) for(let c=0;c<4;c++) arr.push({x:c*(w4+gap), y:startY+r*(h2+gap), w:w4, h:h2});
+                let arr = []; for(let r=0;r<2;r++) for(let c=0;c<4;c++) arr.push({x:c*(w4+gap), y:startY+r*(h2+gap), w:w4, h:h2});
                 return arr;
             }
             if(mode==='grid_nona') {
                 const w3=(W-2*gap)/3; const h3=(aH-2*gap)/3;
-                let arr = [];
-                for(let r=0;r<3;r++) for(let c=0;c<3;c++) arr.push({x:c*(w3+gap), y:startY+r*(h3+gap), w:w3, h:h3});
+                let arr = []; for(let r=0;r<3;r++) for(let c=0;c<3;c++) arr.push({x:c*(w3+gap), y:startY+r*(h3+gap), w:w3, h:h3});
                 return arr;
             }
             return [{x:0, y:startY, w:W, h:aH, pad:pad}];
         }
-        
         function getBatch(l) { 
             if(l.includes('dual')) return 2;
             if(l.includes('diamond') || l.includes('collage')) return 3;
