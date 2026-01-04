@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Imaginista V46 - Platinum Masterpiece</title>
+    <title>Imaginista V47 - Diamond Perfect</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cinzel+Decorative:wght@400;700;900&family=Raleway:wght@200;400;600;800&family=Parisienne&family=Montserrat:wght@300;700&family=Playfair+Display:ital@1&family=Oswald&family=Merriweather&family=Lato&family=Poppins&family=Dancing+Script&display=swap" rel="stylesheet">
 
     <style>
-        /* === ESTILO MASTER V46 === */
+        /* === ESTILO MASTER V47 === */
         :root { --gold: #d4af37; --panel-bg: #111; --body-bg: #050505; --text: #ddd; }
         * { box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
         
@@ -18,50 +18,7 @@
             overflow-x: hidden; overflow-y: auto; user-select: none;
         }
 
-        /* HEADER CENTRALIZADO */
-        header {
-            background: #080808; border-bottom: 2px solid var(--gold);
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            padding: 20px 10px; flex-shrink: 0; z-index: 100; box-shadow: 0 5px 20px #000; position: relative;
-        }
-        .header-logo { 
-            height: 60px; object-fit: contain; margin-bottom: 10px; display: block;
-            filter: drop-shadow(0 0 5px var(--gold)); cursor: pointer; transition: transform 0.1s;
-        }
-        .header-logo:active { transform: scale(0.9); }
-        
-        /* Frase com Efeito Shimmer + Centralização */
-        .header-slogan { 
-            font-size: 0.9em; letter-spacing: 2px; text-transform: uppercase; font-weight: 800;
-            background: linear-gradient(90deg, #666 0%, #fff 50%, #666 100%);
-            background-size: 200% auto;
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            animation: shimmer 4s infinite linear; 
-            display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; text-align: center;
-        }
-        @keyframes shimmer { to { background-position: 200% center; } }
-
-        /* PINCEL MÁGICO (Cereja do Bolo) */
-        .magic-brush {
-            display: inline-block; font-size: 1.5em; filter: drop-shadow(0 0 5px var(--gold));
-            animation: brush-dance 2s infinite ease-in-out alternate;
-            -webkit-text-fill-color: initial; /* Garante cor do emoji */
-        }
-        @keyframes brush-dance {
-            0% { transform: rotate(0deg) scale(1); filter: hue-rotate(0deg); }
-            50% { transform: rotate(20deg) scale(1.2); filter: hue-rotate(90deg); }
-            100% { transform: rotate(-10deg) scale(1); filter: hue-rotate(0deg); }
-        }
-
-        .header-tools { margin-top: 15px; display: flex; gap: 15px; justify-content: center; }
-        .btn-tool {
-            background: #222; border: 1px solid #444; color: #aaa; padding: 8px 16px; cursor: pointer;
-            border-radius: 4px; font-size: 0.75em; display: flex; align-items: center; gap: 5px;
-            transition: 0.2s; font-weight: 700; text-transform: uppercase;
-        }
-        .btn-tool:hover { border-color: var(--gold); color: #fff; background: #222; }
-
-        /* INTRO OVERLAY */
+        /* === INTRO COSMIC OVERLAY === */
         #intro-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
@@ -86,7 +43,50 @@
         #btn-open-app:hover { transform: scale(1.05); box-shadow: 0 0 50px rgba(212, 175, 55, 0.7); filter: brightness(1.1); }
         @keyframes introFadeUp { from { opacity:0; transform: translateY(30px); } to { opacity:1; transform: translateY(0); } }
 
-        /* PARTICULAS */
+        /* HEADER CENTRALIZADO */
+        header {
+            background: #080808; border-bottom: 2px solid var(--gold);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            padding: 20px 10px; flex-shrink: 0; z-index: 100; box-shadow: 0 5px 20px #000; position: relative;
+        }
+        .header-logo { 
+            height: 60px; object-fit: contain; margin-bottom: 5px; display: block;
+            filter: drop-shadow(0 0 5px var(--gold)); cursor: pointer; transition: transform 0.1s;
+        }
+        .header-logo:active { transform: scale(0.9); }
+        
+        /* Frase com Efeito Shimmer + Centralização */
+        .header-slogan { 
+            font-size: 0.9em; letter-spacing: 2px; text-transform: uppercase; font-weight: 800;
+            background: linear-gradient(90deg, #666 0%, #fff 50%, #666 100%);
+            background-size: 200% auto;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            animation: shimmer 4s infinite linear; 
+            display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; text-align: center;
+        }
+        @keyframes shimmer { to { background-position: 200% center; } }
+
+        /* PINCEL MÁGICO (Cereja do Bolo) */
+        .magic-brush {
+            display: inline-block; font-size: 1.4em; filter: drop-shadow(0 0 5px var(--gold));
+            animation: brush-dance 2s infinite ease-in-out alternate;
+            -webkit-text-fill-color: initial; /* Garante cor do emoji */
+        }
+        @keyframes brush-dance {
+            0% { transform: rotate(0deg) scale(1); filter: hue-rotate(0deg); }
+            50% { transform: rotate(20deg) scale(1.2); filter: hue-rotate(90deg); }
+            100% { transform: rotate(-10deg) scale(1); filter: hue-rotate(0deg); }
+        }
+
+        .header-tools { margin-top: 15px; display: flex; gap: 15px; justify-content: center; }
+        .btn-tool {
+            background: #222; border: 1px solid #444; color: #aaa; padding: 8px 16px; cursor: pointer;
+            border-radius: 4px; font-size: 0.75em; display: flex; align-items: center; gap: 5px;
+            transition: 0.2s; font-weight: 700; text-transform: uppercase;
+        }
+        .btn-tool:hover { border-color: var(--gold); color: #fff; background: #222; }
+
+        /* PARTICULAS (Fogos) */
         .particle { 
             position: fixed; width: 6px; height: 6px; border-radius: 50%; 
             pointer-events: none; z-index: 9999;
@@ -233,7 +233,7 @@
             Onde a imaginação vira arte <span class="magic-brush">🖌️</span>
         </div>
         <div class="header-tools">
-            <button class="btn-tool" onclick="document.querySelector('.gallery-section').scrollIntoView({behavior:'smooth'})">⬇ Obras-Primas</button>
+            <button class="btn-tool" onclick="document.querySelector('.gallery-section').scrollIntoView({behavior:'smooth'})">⬇ Download</button>
             <button class="btn-tool" onclick="location.reload()">↺ Reset</button>
         </div>
     </header>
@@ -811,9 +811,8 @@
             const layout = document.getElementById('sel-layout').value;
             const bs = getBatch(layout);
             const format = document.getElementById('sel-fmt').value;
-            
             const qLabel = q === 1 ? 'FullHD' : (q === 2 ? '4K' : '8K');
-
+            
             const numCheck = document.getElementById('chk-show-nums');
             const wasChecked = numCheck.checked;
             numCheck.checked = false;
@@ -822,12 +821,10 @@
                 await new Promise(r=>setTimeout(r, 200));
                 for(let i=0; i<App.images.length; i+=bs) {
                     
-                    // LÓGICA CRUCIAL DO GRID
                     let group;
                     if(layout === 'single') {
                          group = App.images.slice(i, i+1);
                     } else {
-                         // Se é GRID, pega o lote inteiro, mesmo que incompleto
                          group = App.images.slice(i, i+bs);
                     }
 
@@ -835,19 +832,17 @@
                     const ctx = cvs.getContext('2d');
                     await new Promise(r => requestAnimationFrame(r));
 
-                    // Lógica unificada: Desenha o Grid com o grupo que temos
                     if(layout !== 'single' && group.length > 0) {
                         drawFrame(ctx, group, layout, W, H, i); 
-                        saveImage(cvs, `arte_${i+1}_${j+1}`, format, qLabel);
+                        saveImage(cvs, `arte_grid_${(i/bs)+1}`, format, qLabel); // FIXED BUG
                     } else if(layout === 'single') {
                          drawFrame(ctx, group, 'single', W, H, i);
-                         saveImage(cvs, `arte_${i+1}`, format, qLabel);
+                         saveImage(cvs, `arte_single_${i+1}`, format, qLabel);
                     }
                 }
                 document.querySelector('.gallery-section').scrollIntoView({behavior:'smooth'});
             } catch(e){ console.error(e); }
             
-            // Restaura checkbox
             numCheck.checked = wasChecked;
             if(wasChecked) App.update();
             document.getElementById('loader').style.display='none';
@@ -855,7 +850,6 @@
 
         function drawFrame(ctx, imgs, mode, W, H, startIndex) {
             ctx.filter = "none";
-            // Fundo
             if(App.userBg) {
                 if(document.getElementById('chk-trans').checked) ctx.clearRect(0,0,W,H);
                 else { ctx.fillStyle=document.getElementById('col-bg').value; ctx.fillRect(0,0,W,H); }
@@ -868,7 +862,6 @@
                 else { ctx.fillStyle = document.getElementById('col-bg').value || '#111'; ctx.fillRect(0,0,W,H); }
             }
 
-            // Grid
             try {
                 const slots = getSlots(mode, W, H);
                 const showNums = document.getElementById('chk-show-nums').checked;
@@ -880,14 +873,14 @@
                     
                     if(imgs[i] && imgs[i].width > 0) {
                         drawPhoto(ctx, imgs[i], slot, isCenter, W, state, filter);
-                        // Overlay de Número (Gigante e Centralizado no Slot)
+                        // Overlay de Número (Dentro da foto)
                         if(showNums) {
                             ctx.save();
-                            const numSize = Math.min(slot.w, slot.h) * 0.4; // 40% do tamanho do slot
-                            ctx.font = `bold ${numSize}px Arial`;
-                            ctx.fillStyle = "rgba(255,255,255,0.8)";
+                            const numSize = Math.min(slot.w, slot.h) * 0.3; 
+                            ctx.font = `900 ${numSize}px Arial`;
+                            ctx.fillStyle = "#fff";
                             ctx.strokeStyle = "#000";
-                            ctx.lineWidth = numSize * 0.1;
+                            ctx.lineWidth = numSize * 0.15;
                             ctx.textAlign = "center";
                             ctx.textBaseline = "middle";
                             ctx.strokeText(i+1, slot.x + slot.w/2, slot.y + slot.h/2);
@@ -919,7 +912,6 @@
             const dx = x + (w - dw)/2 + panX; const dy = y + (h - dh)/2 + panY;
             const c = document.getElementById('col-frame').value;
 
-            // FIX 1: Desenhando fundo do polaroid ANTES da foto
             if(mk==='polaroid') {
                 const pPad=w*0.04; const pBot=w*0.18;
                 ctx.save();
@@ -952,7 +944,6 @@
             
             if(mk==='circle' || mk==='rounded' || mk==='paper') ctx.clip();
 
-            // Aplica filtro individual
             const f = filterId; 
             if(f==='bw') ctx.filter = "grayscale(1) contrast(1.2)"; 
             if(f==='sepia') ctx.filter = "sepia(0.8)"; 
@@ -960,7 +951,6 @@
             if(f==='deep') ctx.filter = "contrast(1.3) saturate(1.2)"; 
             if(f==='sharp') ctx.filter = "contrast(1.4) brightness(1.1)";
 
-            // Adiciona filtros globais
             if(document.getElementById('chk-hdr').checked) ctx.filter += " contrast(1.1) saturate(1.2)";
             if(document.getElementById('chk-upscale').checked) ctx.filter += " contrast(1.15) brightness(1.05) saturate(1.05)";
             
@@ -968,9 +958,7 @@
             ctx.filter = "none";
             ctx.restore(); 
 
-            // Overlays (Molduras por cima)
             ctx.save();
-            // Polaroid Texto apenas (fundo já foi desenhado)
             if(mk==='polaroid') {
                 const pPad=w*0.04; const pBot=w*0.18;
                 const pt = document.getElementById('in-polaroid').value;
@@ -987,7 +975,7 @@
             if(mk==='laptop') { ctx.lineWidth=20*Scale; ctx.strokeStyle="#333"; ctx.strokeRect(dx,dy,dw,dh); ctx.fillStyle="#444"; ctx.fillRect(dx-20*Scale, dy+dh+10*Scale, dw+40*Scale, 15*Scale); }
             if(mk==='monitor') { ctx.lineWidth=15*Scale; ctx.strokeStyle="#222"; ctx.strokeRect(dx,dy,dw,dh); ctx.fillStyle="#222"; ctx.fillRect(dx+dw/2-10*Scale, dy+dh, 20*Scale, 30*Scale); ctx.fillRect(dx+dw/2-40*Scale, dy+dh+30*Scale, 80*Scale, 5*Scale); }
             if(mk==='browser') { ctx.fillStyle="#ddd"; ctx.fillRect(dx, dy-25*Scale, dw, 25*Scale); ctx.fillStyle="#ff5f56"; ctx.beginPath(); ctx.arc(dx+15*Scale, dy-12*Scale, 5*Scale, 0, Math.PI*2); ctx.fill(); ctx.fillStyle="#ffbd2e"; ctx.beginPath(); ctx.arc(dx+30*Scale, dy-12*Scale, 5*Scale, 0, Math.PI*2); ctx.fill(); ctx.fillStyle="#27c93f"; ctx.beginPath(); ctx.arc(dx+45*Scale, dy-12*Scale, 5*Scale, 0, Math.PI*2); ctx.fill(); }
-            if(mk==='insta') { ctx.strokeStyle="#ccc"; ctx.lineWidth=1*Scale; ctx.strokeRect(dx, dy, dw, dh); ctx.fillStyle="#fff"; ctx.font=`${25*Scale}px Arial`; ctx.textAlign="left"; ctx.fillText("♥  💬  ➢", dx+5*Scale, dy+dh+30*Scale); }
+            if(mk==='insta') { ctx.strokeStyle="#ccc"; ctx.lineWidth=1*Scale; ctx.strokeRect(dx, dy, dw, dh); ctx.fillStyle="#fff"; ctx.font=`${25*Scale}px Arial`; ctx.textAlign="left"; ctx.fillText("♥  💬  ➢", dx+5*Scale, dy+dh+30*Scale); }
             if(mk==='gold_border') { const g = ctx.createLinearGradient(dx, dy, dx+dw, dy+dh); g.addColorStop(0, "#d4af37"); g.addColorStop(0.5, "#fff"); g.addColorStop(1, "#d4af37"); ctx.lineWidth=15*Scale; ctx.strokeStyle=g; ctx.strokeRect(dx, dy, dw, dh); }
             if(mk==='neon') { ctx.lineWidth=4*Scale; ctx.strokeStyle="#fff"; ctx.shadowColor=c; ctx.shadowBlur=25*Scale; ctx.strokeRect(dx, dy, dw, dh); }
             if(mk==='rounded') { const rad = 30 * Scale; ctx.lineWidth=10*Scale; ctx.strokeStyle=c; ctx.beginPath(); ctx.roundRect(dx, dy, dw, dh, rad); ctx.stroke(); }
@@ -1079,7 +1067,6 @@
         function getSlots(mode, W, H) {
             const pad = W * 0.05; const aH = H * 0.70; const startY = (H - aH) / 2; 
             
-            // X and Y Gaps independently controlled
             const userGapX = parseInt(document.getElementById('in-gap-x').value) || 10;
             const userGapY = parseInt(document.getElementById('in-gap-y').value) || 10;
             const gapX = W * (userGapX / 1000); 
