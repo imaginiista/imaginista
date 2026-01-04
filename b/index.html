@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Imaginista V41 - Gold Edition</title>
+    <title>Imaginista V42 - Diamond Edition</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cinzel+Decorative:wght@400;700;900&family=Raleway:wght@200;400;600;800&family=Parisienne&family=Montserrat:wght@300;700&family=Playfair+Display:ital@1&family=Oswald&family=Merriweather&family=Lato&family=Poppins&family=Dancing+Script&display=swap" rel="stylesheet">
 
     <style>
-        /* === ESTILO MASTER V41 === */
+        /* === ESTILO MASTER V42 === */
         :root { --gold: #d4af37; --panel-bg: #111; --body-bg: #050505; --text: #ddd; }
         * { box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
         
@@ -25,20 +25,31 @@
             flex-shrink: 0; z-index: 100; box-shadow: 0 5px 20px #000; position: relative;
         }
         .header-logo { 
-            height: 50px; object-fit: contain; margin-bottom: 8px; 
+            height: 55px; object-fit: contain; margin-bottom: 5px; 
             filter: drop-shadow(0 0 5px var(--gold)); cursor: pointer; transition: transform 0.1s;
         }
         .header-logo:active { transform: scale(0.9); }
         
-        /* Efeito Shimmer na Frase */
+        /* Frase com Efeito Shimmer */
         .header-slogan { 
-            font-size: 0.8em; letter-spacing: 2px; text-transform: uppercase; font-weight: 800;
-            background: linear-gradient(90deg, #555 0%, #fff 50%, #555 100%);
+            font-size: 0.85em; letter-spacing: 2px; text-transform: uppercase; font-weight: 800;
+            background: linear-gradient(90deg, #666 0%, #fff 50%, #666 100%);
             background-size: 200% auto;
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            animation: shimmer 4s infinite linear; display: flex; align-items: center; gap: 8px;
+            animation: shimmer 4s infinite linear; display: flex; align-items: center; justify-content: center; gap: 8px;
         }
         @keyframes shimmer { to { background-position: 200% center; } }
+
+        /* PINCEL MÁGICO (Cereja do Bolo) */
+        .magic-brush {
+            display: inline-block; font-size: 1.4em; filter: drop-shadow(0 0 2px gold);
+            animation: brush-life 2s infinite ease-in-out alternate;
+        }
+        @keyframes brush-life {
+            0% { transform: rotate(0deg) scale(1); filter: hue-rotate(0deg) drop-shadow(0 0 2px gold); }
+            50% { transform: rotate(15deg) scale(1.1); filter: hue-rotate(90deg) drop-shadow(0 0 5px red); }
+            100% { transform: rotate(-5deg) scale(1); filter: hue-rotate(0deg) drop-shadow(0 0 2px gold); }
+        }
 
         .header-tools { margin-top: 10px; display: flex; gap: 15px; }
         .btn-tool {
@@ -48,19 +59,7 @@
         }
         .btn-tool:hover { border-color: var(--gold); color: #fff; background: #222; }
 
-        /* PINCEL ANIMADO COM VIDA */
-        .magic-brush {
-            display: inline-block; font-size: 1.3em;
-            filter: drop-shadow(0 0 2px var(--gold));
-            animation: brush-life 2s infinite ease-in-out alternate;
-        }
-        @keyframes brush-life {
-            0% { transform: rotate(0deg) scale(1); filter: hue-rotate(0deg) drop-shadow(0 0 2px gold); }
-            50% { transform: rotate(15deg) scale(1.1); filter: hue-rotate(90deg) drop-shadow(0 0 5px red); }
-            100% { transform: rotate(-5deg) scale(1); filter: hue-rotate(0deg) drop-shadow(0 0 2px gold); }
-        }
-
-        /* PARTICULAS (Fogos) */
+        /* PARTICULAS */
         .particle { 
             position: fixed; width: 6px; height: 6px; border-radius: 50%; 
             pointer-events: none; z-index: 9999;
@@ -523,7 +522,8 @@
 
         App.confetti = function(e) {
             const colors = ['#d4af37', '#ffffff', '#ffe066', '#ff4d4d', '#4dff4d'];
-            // Garante que o confete saia exatamente de onde clicou, independente do scroll
+            const rect = e.target.getBoundingClientRect();
+            // Calcula o centro do clique relativo a viewport
             const originX = e.clientX;
             const originY = e.clientY;
             
@@ -531,6 +531,7 @@
                 const p = document.createElement('div');
                 p.classList.add('particle');
                 p.style.backgroundColor = colors[Math.floor(Math.random()*colors.length)];
+                // Posição inicial fixa no clique
                 p.style.left = originX + 'px';
                 p.style.top = originY + 'px';
                 
@@ -545,14 +546,22 @@
             }
         };
 
+        // Nova Lógica de Filtros Individuais
         App.applyFilter = function(fid) {
             const idx = parseInt(document.getElementById('sel-edit-target').value);
+            // Atualiza UI
             document.querySelectorAll('.fx-btn').forEach(b => {
                 b.classList.remove('active');
                 if(b.innerText === FX.find(x=>x.id===fid).n) b.classList.add('active');
             });
-            if(idx === -1) { for(let i=0; i<App.photoFilters.length; i++) App.photoFilters[i] = fid; } 
-            else { App.photoFilters[idx] = fid; }
+
+            if(idx === -1) {
+                // Aplica em todas
+                for(let i=0; i<App.photoFilters.length; i++) App.photoFilters[i] = fid;
+            } else {
+                // Aplica na selecionada
+                App.photoFilters[idx] = fid;
+            }
             App.update();
         };
 
@@ -602,6 +611,7 @@
         };
         
         App.resetFont = function(id) { document.getElementById(id).selectedIndex = 0; App.update(); };
+
         App.toggleCustom = function() {
             const v = document.getElementById('sel-orient').value;
             document.getElementById('box-custom').style.display = (v==='custom')?'grid':'none';
@@ -625,20 +635,28 @@
             const px = getVal('img-pan-x', 0);
             const py = getVal('img-pan-y', 0);
             const s = getVal('img-scale', 100);
-            if(idx === -1) { App.photoStates.forEach(st => { st.x=px; st.y=py; st.s=s; }); } 
-            else if(App.photoStates[idx]) { App.photoStates[idx] = {x:px, y:py, s:s}; }
+
+            if(idx === -1) {
+                App.photoStates.forEach(st => { st.x=px; st.y=py; st.s=s; });
+            } else if(App.photoStates[idx]) {
+                App.photoStates[idx] = {x:px, y:py, s:s};
+            }
             App.update();
         };
 
         App.syncInputs = function() {
             const idx = parseInt(document.getElementById('sel-edit-target').value);
+            // Reset visual filter selection based on target
             document.querySelectorAll('.fx-btn').forEach(b => b.classList.remove('active'));
+            
             if(idx !== -1 && App.photoStates[idx]) {
                 const st = App.photoStates[idx];
                 document.getElementById('img-pan-x').value = st.x;
                 document.getElementById('img-pan-y').value = st.y;
                 document.getElementById('img-scale').value = st.s;
                 document.getElementById('img-scale-num').value = st.s;
+                
+                // Highlight active filter for this photo
                 const fName = FX.find(x => x.id === App.photoFilters[idx]).n;
                 document.querySelectorAll('.fx-btn').forEach(b => { if(b.innerText === fName) b.classList.add('active'); });
             } else {
@@ -646,6 +664,7 @@
                 document.getElementById('img-pan-y').value = 0;
                 document.getElementById('img-scale').value = 100;
                 document.getElementById('img-scale-num').value = 100;
+                // Highlight Normal for 'All'
                 document.querySelectorAll('.fx-btn')[0].classList.add('active');
             }
         };
@@ -682,8 +701,10 @@
             const layout = document.getElementById('sel-layout').value;
             const bs = getBatch(layout);
             const format = document.getElementById('sel-fmt').value;
-            const qLabel = q === 1 ? 'FullHD' : (q === 2 ? '4K' : '8K');
             
+            const qLabel = q === 1 ? 'FullHD' : (q === 2 ? '4K' : '8K');
+
+            // Desativa números temporariamente ao salvar
             const numCheck = document.getElementById('chk-show-nums');
             const wasChecked = numCheck.checked;
             numCheck.checked = false;
@@ -691,25 +712,27 @@
             try {
                 await new Promise(r=>setTimeout(r, 200));
                 for(let i=0; i<App.images.length; i+=bs) {
-                    let group;
-                    if(layout === 'single') group = App.images.slice(i, i+1);
-                    else group = App.images.slice(i, i+bs);
-
+                    const group = App.images.slice(i, i+bs);
                     const cvs = document.createElement('canvas'); cvs.width=W; cvs.height=H;
                     const ctx = cvs.getContext('2d');
                     await new Promise(r => requestAnimationFrame(r));
 
-                    if(layout !== 'single' && group.length > 0) {
+                    if(group.length < bs && bs > 1) {
+                        for(let j=0; j<group.length; j++) {
+                             if(group[j]) {
+                                drawFrame(ctx, [group[j]], 'single', W, H, i+j); 
+                                saveImage(cvs, `arte_${i+1}_${j+1}`, format, qLabel);
+                             }
+                         }
+                    } else {
                         drawFrame(ctx, group, layout, W, H, i); 
                         saveImage(cvs, `arte_${i+1}`, format, qLabel);
-                    } else if(layout === 'single') {
-                         drawFrame(ctx, group, 'single', W, H, i);
-                         saveImage(cvs, `arte_${i+1}`, format, qLabel);
                     }
                 }
                 document.querySelector('.gallery-section').scrollIntoView({behavior:'smooth'});
             } catch(e){ console.error(e); }
             
+            // Restaura checkbox
             numCheck.checked = wasChecked;
             if(wasChecked) App.update();
             document.getElementById('loader').style.display='none';
@@ -717,6 +740,7 @@
 
         function drawFrame(ctx, imgs, mode, W, H, startIndex) {
             ctx.filter = "none";
+            // Fundo
             if(App.userBg) {
                 if(document.getElementById('chk-trans').checked) ctx.clearRect(0,0,W,H);
                 else { ctx.fillStyle=document.getElementById('col-bg').value; ctx.fillRect(0,0,W,H); }
@@ -729,6 +753,7 @@
                 else { ctx.fillStyle = document.getElementById('col-bg').value || '#111'; ctx.fillRect(0,0,W,H); }
             }
 
+            // Grid
             try {
                 const slots = getSlots(mode, W, H);
                 const showNums = document.getElementById('chk-show-nums').checked;
@@ -773,25 +798,32 @@
             const panX = (state ? state.x : 0) * Scale; 
             const panY = (state ? state.y : 0) * Scale;
             const zoom = (state ? state.s : 100) / 100;
+
             const sc = Math.min(w/img.width, h/img.height) * zoom;
             const dw = img.width * sc; const dh = img.height * sc;
             const dx = x + (w - dw)/2 + panX; const dy = y + (h - dh)/2 + panY;
             const c = document.getElementById('col-frame').value;
 
+            // FIX 1: Desenhando fundo do polaroid ANTES da foto
             if(mk==='polaroid') {
                 const pPad=w*0.04; const pBot=w*0.18;
                 ctx.save();
                 ctx.shadowColor="rgba(0,0,0,0.4)"; ctx.shadowBlur=15*Scale;
-                ctx.fillStyle = c; ctx.beginPath(); 
-                ctx.rect(dx-pPad, dy-pPad, dw+(pPad*2), dh+pPad+pBot); ctx.fill();
+                ctx.fillStyle = c; 
+                ctx.beginPath(); 
+                ctx.rect(dx-pPad, dy-pPad, dw+(pPad*2), dh+pPad+pBot); 
+                ctx.fill();
                 ctx.restore();
             }
+
             if(mk==='shadow_box') {
-                ctx.save(); ctx.shadowColor = "rgba(0,0,0,0.8)"; ctx.shadowBlur = 40 * Scale; ctx.fillStyle = "#000";
+                ctx.save();
+                ctx.shadowColor = "rgba(0,0,0,0.8)"; ctx.shadowBlur = 40 * Scale; ctx.fillStyle = "#000";
                 ctx.fillRect(dx+10, dy+10, dw-20, dh-20); ctx.restore();
             }
 
-            ctx.save(); ctx.beginPath();
+            ctx.save();
+            ctx.beginPath();
             if(mk === 'circle') { ctx.arc(dx + dw/2, dy + dh/2, Math.min(dw, dh)/2, 0, Math.PI * 2); } 
             else if(mk === 'rounded') { const rad = 30 * Scale; ctx.roundRect(dx, dy, dw, dh, rad); } 
             else if(mk === 'paper') {
@@ -802,14 +834,18 @@
                 for(let i=dh; i>=0; i-=10) ctx.lineTo(dx+(Math.random()*3), dy+i);
                 ctx.closePath();
             } else { ctx.rect(dx, dy, dw, dh); }
+            
             if(mk==='circle' || mk==='rounded' || mk==='paper') ctx.clip();
 
+            // Aplica filtro individual
             const f = filterId; 
             if(f==='bw') ctx.filter = "grayscale(1) contrast(1.2)"; 
             if(f==='sepia') ctx.filter = "sepia(0.8)"; 
             if(f==='warm') ctx.filter = "sepia(0.3) saturate(1.4)"; 
             if(f==='deep') ctx.filter = "contrast(1.3) saturate(1.2)"; 
             if(f==='sharp') ctx.filter = "contrast(1.4) brightness(1.1)";
+
+            // Adiciona filtros globais
             if(document.getElementById('chk-hdr').checked) ctx.filter += " contrast(1.1) saturate(1.2)";
             if(document.getElementById('chk-upscale').checked) ctx.filter += " contrast(1.15) brightness(1.05) saturate(1.05)";
             
@@ -817,7 +853,9 @@
             ctx.filter = "none";
             ctx.restore(); 
 
+            // Overlays (Molduras por cima)
             ctx.save();
+            // Polaroid Texto apenas (fundo já foi desenhado)
             if(mk==='polaroid') {
                 const pPad=w*0.04; const pBot=w*0.18;
                 const pt = document.getElementById('in-polaroid').value;
