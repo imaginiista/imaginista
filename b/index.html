@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Imaginista V39 - Titanium Ultra Pro</title>
+    <title>Imaginista V40 - Platinum Final</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cinzel+Decorative:wght@400;700;900&family=Raleway:wght@200;400;600;800&family=Parisienne&family=Montserrat:wght@300;700&family=Playfair+Display:ital@1&family=Oswald&family=Merriweather&family=Lato&family=Poppins&family=Dancing+Script&display=swap" rel="stylesheet">
 
     <style>
-        /* === ESTILO MASTER V39 === */
+        /* === ESTILO MASTER V40 === */
         :root { --gold: #d4af37; --panel-bg: #111; --body-bg: #050505; --text: #ddd; }
         * { box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
         
@@ -26,17 +26,17 @@
         }
         .header-logo { 
             height: 45px; object-fit: contain; margin-bottom: 5px; 
-            filter: drop-shadow(0 0 5px var(--gold)); cursor: pointer; transition: transform 0.2s;
+            filter: drop-shadow(0 0 5px var(--gold)); cursor: pointer; transition: transform 0.1s;
         }
-        .header-logo:active { transform: scale(0.95); }
+        .header-logo:active { transform: scale(0.9); }
         
         /* Efeito Shimmer na Frase */
         .header-slogan { 
-            font-size: 0.7em; letter-spacing: 3px; text-transform: uppercase; color: #555;
-            background: linear-gradient(to right, #555 0%, #fff 50%, #555 100%);
+            font-size: 0.75em; letter-spacing: 2px; text-transform: uppercase; font-weight: 800;
+            background: linear-gradient(90deg, #666 0%, #fff 50%, #666 100%);
             background-size: 200% auto;
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            animation: shimmer 5s infinite linear; font-weight: bold;
+            animation: shimmer 4s infinite linear;
         }
         @keyframes shimmer { to { background-position: 200% center; } }
 
@@ -49,8 +49,15 @@
         .btn-tool:hover { border-color: var(--gold); color: #fff; background: #222; }
 
         /* PARTICULAS (Fogos) */
-        .particle { position: absolute; width: 5px; height: 5px; background: var(--gold); border-radius: 50%; pointer-events: none; animation: pop 1s forwards; }
-        @keyframes pop { 0% { transform: translate(0,0) scale(1); opacity: 1; } 100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; } }
+        .particle { 
+            position: absolute; width: 6px; height: 6px; border-radius: 50%; 
+            pointer-events: none; z-index: 999;
+            animation: pop 0.8s ease-out forwards; 
+        }
+        @keyframes pop { 
+            0% { transform: translate(0,0) scale(1); opacity: 1; } 
+            100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; } 
+        }
 
         /* LAYOUT */
         .workspace { 
@@ -140,7 +147,9 @@
 
         /* GALERIA */
         .gallery-section { padding: 40px; background: #0a0a0a; border-top: 2px solid var(--gold); min-height: 400px; }
-        .gallery-title { text-align: center; color: var(--gold); font-family: 'Cinzel Decorative'; font-size: 2.5em; margin-bottom: 30px; letter-spacing: 2px; text-shadow: 0 0 10px rgba(212, 175, 55, 0.3); }
+        .gallery-title { text-align: center; color: var(--gold); font-family: 'Cinzel Decorative'; font-size: 2.5em; margin-bottom: 10px; letter-spacing: 2px; text-shadow: 0 0 10px rgba(212, 175, 55, 0.3); }
+        .gallery-subtitle { text-align: center; font-family: 'Raleway'; font-size: 0.9em; margin-bottom: 40px; }
+        
         #gallery-content { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
         .res-card { background: #111; border: 1px solid #333; padding: 10px; border-radius: 8px; text-align:center; transition:0.3s; animation: fadeIn 0.5s ease; }
         @keyframes fadeIn { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
@@ -169,7 +178,7 @@
 
     <header class="app-header">
         <img src="imagens/logo.png" class="header-logo" alt="IMAGINISTA" onerror="this.style.display='none'" onclick="App.confetti(event)">
-        <div class="header-slogan">Onde a imaginação vira arte</div>
+        <div class="header-slogan">Onde a imaginação vira arte 🖌️</div>
         <div class="header-tools">
             <button class="btn-tool" onclick="document.querySelector('.gallery-section').scrollIntoView({behavior:'smooth'})">⬇ Obras</button>
             <button class="btn-tool" onclick="location.reload()">↺ Reset</button>
@@ -360,11 +369,13 @@
                     <span class="xy-tag">X:</span>
                     <input type="range" id="in-gap-x" min="0" max="100" value="10" oninput="App.syncGap('x', this.value)">
                     <input type="number" id="num-gap-x" value="10" style="width:50px;" oninput="App.syncGap('x', this.value)">
+                    <span style="font-size:0.7em;">%</span>
                 </div>
                 <div class="flex-row">
                     <span class="xy-tag">Y:</span>
                     <input type="range" id="in-gap-y" min="0" max="100" value="10" oninput="App.syncGap('y', this.value)">
                     <input type="number" id="num-gap-y" value="10" style="width:50px;" oninput="App.syncGap('y', this.value)">
+                    <span style="font-size:0.7em;">%</span>
                 </div>
             </div>
 
@@ -444,10 +455,10 @@
             </div>
 
             <div class="control-group">
-                <label>Filtros</label>
+                <label>Filtros (Individuais)</label>
                 <div class="fx-grid" id="fx-container"></div>
                 <label class="check-item" style="margin-top:8px; border:1px solid var(--gold); color:var(--gold); justify-content:center; width:100%; box-sizing:border-box;">
-                    <input type="checkbox" id="chk-hdr" checked onchange="App.update()"> 💎 HDR Pro
+                    <input type="checkbox" id="chk-hdr" checked onchange="App.update()"> 💎 HDR Pro (Geral)
                 </label>
             </div>
             
@@ -475,43 +486,68 @@
 
     <section class="gallery-section">
         <h2 class="gallery-title">Obras-Primas</h2>
+        <div class="header-slogan" style="margin-bottom:30px;">Onde a imaginação vira arte 🖌️</div>
         <div id="gallery-content"></div>
     </section>
 
     <script>
-        const App = { effect: 'hdr', images: [], files: [], photoStates: [], assets: { logo:null }, userLogo: null, userBg: null };
+        const App = { effect: 'hdr', images: [], photoStates: [], photoFilters: [], assets: { logo:null }, userLogo: null, userBg: null };
         const FX = [ {id:'normal', n:'Original'}, {id:'bw', n:'P&B'}, {id:'sepia', n:'Sépia'}, {id:'warm', n:'Quente'}, {id:'deep', n:'Intenso'}, {id:'sharp', n:'Nítido'} ];
 
         window.onload = () => {
             const box = document.getElementById('fx-container');
             if(box) FX.forEach(f => {
-                const b = document.createElement('div'); b.className = `fx-btn ${f.id==='normal'?'active':''}`; b.innerText = f.n;
-                b.onclick = () => { document.querySelectorAll('.fx-btn').forEach(x=>x.classList.remove('active')); b.classList.add('active'); App.effect = f.id; App.update(); };
+                const b = document.createElement('div'); b.className = 'fx-btn'; b.innerText = f.n;
+                if(f.id === 'normal') b.classList.add('active');
+                b.onclick = () => App.applyFilter(f.id);
                 box.appendChild(b);
             });
             App.update();
         };
 
         App.confetti = function(e) {
-            const colors = ['#d4af37', '#ffffff', '#ffe066'];
+            const colors = ['#d4af37', '#ffffff', '#ffe066', '#ff4d4d', '#4dff4d'];
             const btn = e.target;
             const rect = btn.getBoundingClientRect();
+            // Pega posição exata do clique relativo à viewport
+            const originX = e.clientX;
+            const originY = e.clientY;
             
-            for(let i=0; i<30; i++) {
+            for(let i=0; i<40; i++) {
                 const p = document.createElement('div');
                 p.classList.add('particle');
                 p.style.backgroundColor = colors[Math.floor(Math.random()*colors.length)];
-                p.style.left = (e.clientX) + 'px';
-                p.style.top = (e.clientY) + 'px';
+                p.style.left = originX + 'px';
+                p.style.top = originY + 'px';
                 
                 const angle = Math.random() * Math.PI * 2;
-                const velocity = 50 + Math.random() * 100;
+                const velocity = 30 + Math.random() * 100;
+                
                 p.style.setProperty('--tx', Math.cos(angle) * velocity + 'px');
                 p.style.setProperty('--ty', Math.sin(angle) * velocity + 'px');
                 
                 document.body.appendChild(p);
-                setTimeout(() => p.remove(), 1000);
+                setTimeout(() => p.remove(), 800);
             }
+        };
+
+        // Nova Lógica de Filtros Individuais
+        App.applyFilter = function(fid) {
+            const idx = parseInt(document.getElementById('sel-edit-target').value);
+            // Atualiza UI
+            document.querySelectorAll('.fx-btn').forEach(b => {
+                b.classList.remove('active');
+                if(b.innerText === FX.find(x=>x.id===fid).n) b.classList.add('active');
+            });
+
+            if(idx === -1) {
+                // Aplica em todas
+                for(let i=0; i<App.photoFilters.length; i++) App.photoFilters[i] = fid;
+            } else {
+                // Aplica na selecionada
+                App.photoFilters[idx] = fid;
+            }
+            App.update();
         };
 
         App.handleFiles = async function(input) {
@@ -519,13 +555,14 @@
             try {
                 const files = Array.from(input.files);
                 document.querySelector('.btn-load').innerText = '...';
-                App.images = []; App.photoStates = [];
+                App.images = []; App.photoStates = []; App.photoFilters = [];
                 const sel = document.getElementById('sel-edit-target');
                 sel.innerHTML = '<option value="-1">✨ Aplicar em TODAS</option>';
                 
                 for(let i=0; i<files.length; i++) {
                     App.images.push(await loadImg(files[i]));
                     App.photoStates.push({x:0, y:0, s:100}); 
+                    App.photoFilters.push('normal');
                     sel.add(new Option(`Foto ${i+1}`, i));
                 }
                 
@@ -534,7 +571,7 @@
                 setTimeout(App.update, 200);
             } catch(e) { 
                 console.error(e); 
-                alert("Erro ao ler arquivo. Tente outra imagem."); 
+                alert("Erro ao ler arquivo."); 
                 document.querySelector('.btn-load').innerText = '📸 Carregar';
             }
         };
@@ -594,17 +631,26 @@
 
         App.syncInputs = function() {
             const idx = parseInt(document.getElementById('sel-edit-target').value);
+            // Reset visual filter selection based on target
+            document.querySelectorAll('.fx-btn').forEach(b => b.classList.remove('active'));
+            
             if(idx !== -1 && App.photoStates[idx]) {
                 const st = App.photoStates[idx];
                 document.getElementById('img-pan-x').value = st.x;
                 document.getElementById('img-pan-y').value = st.y;
                 document.getElementById('img-scale').value = st.s;
                 document.getElementById('img-scale-num').value = st.s;
+                
+                // Highlight active filter for this photo
+                const fName = FX.find(x => x.id === App.photoFilters[idx]).n;
+                document.querySelectorAll('.fx-btn').forEach(b => { if(b.innerText === fName) b.classList.add('active'); });
             } else {
                 document.getElementById('img-pan-x').value = 0;
                 document.getElementById('img-pan-y').value = 0;
                 document.getElementById('img-scale').value = 100;
                 document.getElementById('img-scale-num').value = 100;
+                // Highlight Normal for 'All'
+                document.querySelectorAll('.fx-btn')[0].classList.add('active');
             }
         };
 
@@ -641,10 +687,8 @@
             const bs = getBatch(layout);
             const format = document.getElementById('sel-fmt').value;
             
-            // Get quality label for button
             const qLabel = q === 1 ? 'FullHD' : (q === 2 ? '4K' : '8K');
 
-            // Desativa números temporariamente ao salvar
             const numCheck = document.getElementById('chk-show-nums');
             const wasChecked = numCheck.checked;
             numCheck.checked = false;
@@ -672,7 +716,6 @@
                 document.querySelector('.gallery-section').scrollIntoView({behavior:'smooth'});
             } catch(e){ console.error(e); }
             
-            // Restaura checkbox
             numCheck.checked = wasChecked;
             if(wasChecked) App.update();
             document.getElementById('loader').style.display='none';
@@ -701,8 +744,10 @@
                     const isCenter = (mode==='grid_diamond' && i===1);
                     const photoIndex = startIndex + i;
                     const state = App.photoStates[photoIndex] || {x:0, y:0, s:100};
+                    const filter = App.photoFilters[photoIndex] || 'normal'; // Get individual filter
+                    
                     if(imgs[i] && imgs[i].width > 0) {
-                        drawPhoto(ctx, imgs[i], slot, isCenter, W, state);
+                        drawPhoto(ctx, imgs[i], slot, isCenter, W, state, filter);
                         // Overlay de Número
                         if(showNums) {
                             ctx.save();
@@ -723,7 +768,7 @@
             drawText(ctx, W, H);
         }
 
-        function drawPhoto(ctx, img, slot, isCenter, W, state) {
+        function drawPhoto(ctx, img, slot, isCenter, W, state, filterId) {
             const Scale = W/2000;
             const mk = document.getElementById('sel-mockup').value;
             let {x, y, w, h} = slot;
@@ -773,16 +818,24 @@
             
             if(mk==='circle' || mk==='rounded' || mk==='paper') ctx.clip();
 
-            if(document.getElementById('chk-hdr').checked) ctx.filter="contrast(1.1) saturate(1.2)";
-            if(document.getElementById('chk-upscale').checked) ctx.filter+=" contrast(1.15) brightness(1.05) saturate(1.05)";
-            applyFx(ctx);
+            // Aplica filtro individual
+            const f = filterId; 
+            if(f==='bw') ctx.filter = "grayscale(1) contrast(1.2)"; 
+            if(f==='sepia') ctx.filter = "sepia(0.8)"; 
+            if(f==='warm') ctx.filter = "sepia(0.3) saturate(1.4)"; 
+            if(f==='deep') ctx.filter = "contrast(1.3) saturate(1.2)"; 
+            if(f==='sharp') ctx.filter = "contrast(1.4) brightness(1.1)";
+
+            // Adiciona filtros globais
+            if(document.getElementById('chk-hdr').checked) ctx.filter += " contrast(1.1) saturate(1.2)";
+            if(document.getElementById('chk-upscale').checked) ctx.filter += " contrast(1.15) brightness(1.05) saturate(1.05)";
+            
             ctx.drawImage(img, dx, dy, dw, dh);
             ctx.filter = "none";
             ctx.restore(); 
 
             // Overlays (Molduras por cima)
             ctx.save();
-            // Polaroid Texto apenas (fundo já foi desenhado)
             if(mk==='polaroid') {
                 const pPad=w*0.04; const pBot=w*0.18;
                 const pt = document.getElementById('in-polaroid').value;
