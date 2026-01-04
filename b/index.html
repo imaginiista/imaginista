@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Imaginista V43 - Final Fix</title>
+    <title>Imaginista V44 - Cosmic Intro</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cinzel+Decorative:wght@400;700;900&family=Raleway:wght@200;400;600;800&family=Parisienne&family=Montserrat:wght@300;700&family=Playfair+Display:ital@1&family=Oswald&family=Merriweather&family=Lato&family=Poppins&family=Dancing+Script&display=swap" rel="stylesheet">
 
     <style>
-        /* === ESTILO MASTER V43 === */
+        /* === ESTILO MASTER V44 === */
         :root { --gold: #d4af37; --panel-bg: #111; --body-bg: #050505; --text: #ddd; }
         * { box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
         
@@ -17,6 +17,43 @@
             margin: 0; padding: 0; min-height: 100vh; display: flex; flex-direction: column;
             overflow-x: hidden; overflow-y: auto; user-select: none;
         }
+
+        /* === INTRO COSMIC OVERLAY === */
+        #intro-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
+            z-index: 99999; /* Acima de tudo */
+            display: flex; justify-content: center; align-items: center; flex-direction: column;
+            transition: opacity 0.8s ease-out;
+        }
+        #intro-canvas {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+        }
+        .intro-content {
+            z-index: 2; text-align: center; display: flex; flex-direction: column; align-items: center;
+            animation: introFadeUp 1s ease-out; padding: 20px;
+        }
+        .intro-logo {
+            width: 180px; max-width: 80vw; object-fit: contain;
+            filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.8));
+            margin-bottom: 20px;
+        }
+        .intro-phrase {
+            font-family: 'Cinzel Decorative', serif; color: var(--gold); font-size: 1.5em;
+            letter-spacing: 2px; margin-bottom: 40px; text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+            display: flex; align-items: center; gap: 15px;
+        }
+        #btn-open-app {
+            background: linear-gradient(45deg, var(--gold), #ffe066); color: #000;
+            border: none; padding: 15px 40px; font-size: 1em; font-weight: 800;
+            text-transform: uppercase; letter-spacing: 2px; border-radius: 50px;
+            cursor: pointer; box-shadow: 0 0 30px rgba(212, 175, 55, 0.4);
+            transition: 0.3s; position: relative; overflow: hidden;
+        }
+        #btn-open-app:hover { transform: scale(1.05); box-shadow: 0 0 50px rgba(212, 175, 55, 0.7); filter: brightness(1.1); }
+        @keyframes introFadeUp { from { opacity:0; transform: translateY(30px); } to { opacity:1; transform: translateY(0); } }
+        /* ============================ */
 
         /* HEADER CENTRALIZADO */
         header {
@@ -41,7 +78,7 @@
         }
         @keyframes shimmer { to { background-position: 200% center; } }
 
-        /* PINCEL MÁGICO (ANIMAÇÃO) */
+        /* PINCEL MÁGICO (ANIMAÇÃO COMPARTILHADA INTRO/APP) */
         .magic-brush {
             display: inline-block; font-size: 1.4em; filter: drop-shadow(0 0 2px gold);
             animation: brush-life 2s infinite ease-in-out alternate;
@@ -61,7 +98,7 @@
         }
         .btn-tool:hover { border-color: var(--gold); color: #fff; background: #222; }
 
-        /* PARTICULAS */
+        /* PARTICULAS (Confete do App) */
         .particle { 
             position: fixed; width: 6px; height: 6px; border-radius: 50%; 
             pointer-events: none; z-index: 9999;
@@ -186,7 +223,7 @@
         .dl-btn { display: block; margin-top: 10px; padding: 12px; background: var(--gold); color: #000; text-decoration: none; font-weight: bold; font-size: 0.8em; border-radius: 4px; text-transform: uppercase; transition:0.2s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .dl-btn:hover { filter: brightness(1.1); }
 
-        /* LOADER */
+        /* LOADER DO APP */
         #loader { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.96); z-index: 9999; justify-content: center; align-items: center; flex-direction: column; }
         .spinner { width: 60px; height: 60px; border: 5px solid #333; border-top: 5px solid var(--gold); border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
@@ -194,11 +231,22 @@
         @media (max-width: 900px) {
             .workspace { grid-template-columns: 1fr; display: flex; flex-direction: column; }
             .center-stage { order: -1; height: 50vh; position: relative; top: 0; }
+            .intro-phrase { font-size: 1em; flex-direction: column; gap: 5px; }
         }
     </style>
 </head>
 <body>
 
+    <div id="intro-overlay">
+        <canvas id="intro-canvas"></canvas>
+        <div class="intro-content">
+            <img src="imagens/logo.png" alt="IMAGINISTA" class="intro-logo" onerror="this.style.display='none'">
+            <div class="intro-phrase">
+                Onde a imaginação vira arte <span class="magic-brush">🖌️</span>
+            </div>
+            <button id="btn-open-app">ABRIR O PROGRAMA ✨</button>
+        </div>
+    </div>
     <div id="loader">
         <div class="spinner"></div>
         <div id="loader-text" style="color:var(--gold); margin-top:20px; font-family:'Raleway'; font-weight:bold; letter-spacing: 1px;">PROCESSANDO...</div>
@@ -523,10 +571,90 @@
     </section>
 
     <script>
+        // --- SCRIPT DA INTRO COSMICA ---
+        const Intro = {
+            active: true,
+            canvas: null,
+            ctx: null,
+            stars: [],
+            width: 0, height: 0,
+            init: function() {
+                this.canvas = document.getElementById('intro-canvas');
+                this.ctx = this.canvas.getContext('2d');
+                this.resize();
+                window.addEventListener('resize', () => this.resize());
+                document.getElementById('btn-open-app').addEventListener('click', () => this.close());
+                this.createStars();
+                this.animate();
+            },
+            resize: function() {
+                this.width = window.innerWidth;
+                this.height = window.innerHeight;
+                this.canvas.width = this.width;
+                this.canvas.height = this.height;
+            },
+            createStars: function() {
+                const count = Math.floor(this.width * this.height / 6000); // Densidade
+                for(let i = 0; i < count; i++) {
+                    this.stars.push(new Star(this.width, this.height));
+                }
+            },
+            animate: function() {
+                if(!this.active) return;
+                this.ctx.clearRect(0, 0, this.width, this.height);
+                // Efeito de rastro suave
+                this.ctx.fillStyle = 'rgba(15, 20, 30, 0.2)';
+                this.ctx.fillRect(0, 0, this.width, this.height);
+                
+                this.stars.forEach(star => {
+                    star.update();
+                    star.draw(this.ctx);
+                });
+                requestAnimationFrame(() => this.animate());
+            },
+            close: function() {
+                this.active = false;
+                const overlay = document.getElementById('intro-overlay');
+                overlay.style.opacity = '0';
+                setTimeout(() => { overlay.style.display = 'none'; }, 800);
+            }
+        };
+
+        class Star {
+            constructor(w, h) {
+                this.w = w; this.h = h;
+                this.x = Math.random() * w;
+                this.y = Math.random() * h;
+                this.z = Math.random() * 2; // Profundidade
+                this.size = (Math.random() * 1.5 + 0.5) * (this.z/2);
+                this.vel = (Math.random() * 0.2 + 0.05) * (this.z/2);
+                this.alpha = Math.random();
+                this.fade = Math.random() * 0.02 + 0.005;
+                this.fadeDir = Math.random() > 0.5 ? 1 : -1;
+            }
+            update() {
+                this.y -= this.vel;
+                if(this.y < 0) { this.y = this.h; this.x = Math.random() * this.w; }
+                
+                this.alpha += this.fade * this.fadeDir;
+                if(this.alpha > 1 || this.alpha < 0.2) this.fadeDir *= -1;
+            }
+            draw(ctx) {
+                const r = 200 + Math.random()*55;
+                ctx.fillStyle = `rgba(${r},${r},255, ${this.alpha})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+        // ---------------------------------
+
         const App = { effect: 'hdr', images: [], photoStates: [], photoFilters: [], assets: { logo:null }, userLogo: null, userBg: null };
         const FX = [ {id:'normal', n:'Original'}, {id:'bw', n:'P&B'}, {id:'sepia', n:'Sépia'}, {id:'warm', n:'Quente'}, {id:'deep', n:'Intenso'}, {id:'sharp', n:'Nítido'} ];
 
         window.onload = () => {
+            Intro.init(); // Inicia a Intro
+
             const box = document.getElementById('fx-container');
             if(box) FX.forEach(f => {
                 const b = document.createElement('div'); b.className = 'fx-btn'; b.innerText = f.n;
@@ -540,7 +668,6 @@
         App.confetti = function(e) {
             const colors = ['#d4af37', '#ffffff', '#ffe066', '#ff4d4d', '#4dff4d'];
             const rect = e.target.getBoundingClientRect();
-            // Calcula o centro do clique relativo a viewport
             const originX = e.clientX;
             const originY = e.clientY;
             
@@ -548,7 +675,6 @@
                 const p = document.createElement('div');
                 p.classList.add('particle');
                 p.style.backgroundColor = colors[Math.floor(Math.random()*colors.length)];
-                // Posição inicial fixa no clique
                 p.style.left = originX + 'px';
                 p.style.top = originY + 'px';
                 
@@ -566,17 +692,14 @@
         // Nova Lógica de Filtros Individuais
         App.applyFilter = function(fid) {
             const idx = parseInt(document.getElementById('sel-edit-target').value);
-            // Atualiza UI
             document.querySelectorAll('.fx-btn').forEach(b => {
                 b.classList.remove('active');
                 if(b.innerText === FX.find(x=>x.id===fid).n) b.classList.add('active');
             });
 
             if(idx === -1) {
-                // Aplica em todas
                 for(let i=0; i<App.photoFilters.length; i++) App.photoFilters[i] = fid;
             } else {
-                // Aplica na selecionada
                 App.photoFilters[idx] = fid;
             }
             App.update();
@@ -663,7 +786,6 @@
 
         App.syncInputs = function() {
             const idx = parseInt(document.getElementById('sel-edit-target').value);
-            // Reset visual filter selection based on target
             document.querySelectorAll('.fx-btn').forEach(b => b.classList.remove('active'));
             
             if(idx !== -1 && App.photoStates[idx]) {
@@ -673,7 +795,6 @@
                 document.getElementById('img-scale').value = st.s;
                 document.getElementById('img-scale-num').value = st.s;
                 
-                // Highlight active filter for this photo
                 const fName = FX.find(x => x.id === App.photoFilters[idx]).n;
                 document.querySelectorAll('.fx-btn').forEach(b => { if(b.innerText === fName) b.classList.add('active'); });
             } else {
@@ -681,7 +802,6 @@
                 document.getElementById('img-pan-y').value = 0;
                 document.getElementById('img-scale').value = 100;
                 document.getElementById('img-scale-num').value = 100;
-                // Highlight Normal for 'All'
                 document.querySelectorAll('.fx-btn')[0].classList.add('active');
             }
         };
@@ -721,7 +841,6 @@
             
             const qLabel = q === 1 ? 'FullHD' : (q === 2 ? '4K' : '8K');
 
-            // Desativa números temporariamente ao salvar
             const numCheck = document.getElementById('chk-show-nums');
             const wasChecked = numCheck.checked;
             numCheck.checked = false;
@@ -749,7 +868,6 @@
                 document.querySelector('.gallery-section').scrollIntoView({behavior:'smooth'});
             } catch(e){ console.error(e); }
             
-            // Restaura checkbox
             numCheck.checked = wasChecked;
             if(wasChecked) App.update();
             document.getElementById('loader').style.display='none';
@@ -757,7 +875,6 @@
 
         function drawFrame(ctx, imgs, mode, W, H, startIndex) {
             ctx.filter = "none";
-            // Fundo
             if(App.userBg) {
                 if(document.getElementById('chk-trans').checked) ctx.clearRect(0,0,W,H);
                 else { ctx.fillStyle=document.getElementById('col-bg').value; ctx.fillRect(0,0,W,H); }
@@ -770,7 +887,6 @@
                 else { ctx.fillStyle = document.getElementById('col-bg').value || '#111'; ctx.fillRect(0,0,W,H); }
             }
 
-            // Grid
             try {
                 const slots = getSlots(mode, W, H);
                 const showNums = document.getElementById('chk-show-nums').checked;
@@ -782,10 +898,9 @@
                     
                     if(imgs[i] && imgs[i].width > 0) {
                         drawPhoto(ctx, imgs[i], slot, isCenter, W, state, filter);
-                        // Overlay de Número (Gigante e Centralizado no Slot)
                         if(showNums) {
                             ctx.save();
-                            const numSize = Math.min(slot.w, slot.h) * 0.4; // 40% do tamanho do slot
+                            const numSize = Math.min(slot.w, slot.h) * 0.4; 
                             ctx.font = `bold ${numSize}px Arial`;
                             ctx.fillStyle = "rgba(255,255,255,0.8)";
                             ctx.strokeStyle = "#000";
@@ -821,7 +936,6 @@
             const dx = x + (w - dw)/2 + panX; const dy = y + (h - dh)/2 + panY;
             const c = document.getElementById('col-frame').value;
 
-            // FIX 1: Desenhando fundo do polaroid ANTES da foto
             if(mk==='polaroid') {
                 const pPad=w*0.04; const pBot=w*0.18;
                 ctx.save();
@@ -854,7 +968,6 @@
             
             if(mk==='circle' || mk==='rounded' || mk==='paper') ctx.clip();
 
-            // Aplica filtro individual
             const f = filterId; 
             if(f==='bw') ctx.filter = "grayscale(1) contrast(1.2)"; 
             if(f==='sepia') ctx.filter = "sepia(0.8)"; 
@@ -862,7 +975,6 @@
             if(f==='deep') ctx.filter = "contrast(1.3) saturate(1.2)"; 
             if(f==='sharp') ctx.filter = "contrast(1.4) brightness(1.1)";
 
-            // Adiciona filtros globais
             if(document.getElementById('chk-hdr').checked) ctx.filter += " contrast(1.1) saturate(1.2)";
             if(document.getElementById('chk-upscale').checked) ctx.filter += " contrast(1.15) brightness(1.05) saturate(1.05)";
             
@@ -870,9 +982,7 @@
             ctx.filter = "none";
             ctx.restore(); 
 
-            // Overlays (Molduras por cima)
             ctx.save();
-            // Polaroid Texto apenas (fundo já foi desenhado)
             if(mk==='polaroid') {
                 const pPad=w*0.04; const pBot=w*0.18;
                 const pt = document.getElementById('in-polaroid').value;
@@ -981,7 +1091,6 @@
         function getSlots(mode, W, H) {
             const pad = W * 0.05; const aH = H * 0.70; const startY = (H - aH) / 2; 
             
-            // X and Y Gaps independently controlled
             const userGapX = parseInt(document.getElementById('in-gap-x').value) || 10;
             const userGapY = parseInt(document.getElementById('in-gap-y').value) || 10;
             const gapX = W * (userGapX / 1000); 
