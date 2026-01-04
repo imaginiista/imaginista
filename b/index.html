@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Imaginista V33 - Diamond Plus (Corrigido)</title>
+    <title>Imaginista V34 - Final Fix</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cinzel+Decorative:wght@400;700;900&family=Raleway:wght@200;400;600;800&family=Parisienne&family=Montserrat:wght@300;700&family=Playfair+Display:ital@1&family=Oswald&family=Merriweather&family=Lato&family=Poppins&family=Dancing+Script&display=swap" rel="stylesheet">
 
     <style>
-        /* === ESTILO MASTER V33 === */
+        /* === ESTILO MASTER V34 === */
         :root { --gold: #d4af37; --panel-bg: #111; --body-bg: #050505; --text: #ddd; }
         * { box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
         
@@ -100,7 +100,8 @@
         .btn-load { background: #ddd; color:#111; }
         .btn-process { background: linear-gradient(135deg, #d4af37, #ffe066); box-shadow: 0 0 15px rgba(212, 175, 55, 0.3); }
         .btn-process:hover { filter: brightness(1.1); transform: translateY(-2px); box-shadow: 0 0 25px rgba(212, 175, 55, 0.5); }
-        .btn-load input { position: absolute; left:0; top:0; width:100%; height:100%; opacity:0; cursor: pointer; }
+        
+        /* Removed input inside btn-load CSS to avoid confusion */
 
         .status-bar { display: flex; gap: 15px; align-items: center; justify-content: center; font-size: 0.7em; color: #666; padding: 5px; background:#000; }
         .status-bar select { width: auto; padding: 3px 6px; border: 1px solid #333; background: #111; color: #aaa; cursor:pointer; font-size: 0.85em; height: 26px; border-radius: 3px; }
@@ -296,10 +297,11 @@
         <main class="center-stage">
             <div class="canvas-container"><canvas id="main-canvas"></canvas></div>
             <div class="action-dock">
-                <label class="btn-action btn-load">
+                <button class="btn-action btn-load" onclick="document.getElementById('file-photos').click()">
                     📸 Carregar
-                    <input type="file" id="file-photos" multiple accept="image/*" onchange="App.handleFiles(this)">
-                </label>
+                </button>
+                <input type="file" id="file-photos" multiple accept="image/*" style="display:none;" onchange="App.handleFiles(this)">
+                
                 <button class="btn-action btn-process" onclick="App.render()">✨ Processar</button>
             </div>
             <div class="status-bar">
@@ -445,12 +447,10 @@
                 b.onclick = () => { document.querySelectorAll('.fx-btn').forEach(x=>x.classList.remove('active')); b.classList.add('active'); App.effect = f.id; App.update(); };
                 box.appendChild(b);
             });
-            // CORREÇÃO: Removido o bloqueio de onclick aqui que poderia atrapalhar o upload
             App.update();
         };
 
         App.handleFiles = async function(input) {
-            // CORREÇÃO: Verificação mais robusta
             if(!input.files || !input.files.length) return;
             try {
                 const files = Array.from(input.files);
@@ -458,12 +458,11 @@
                 App.images = []; 
                 for(let f of files) App.images.push(await loadImg(f));
                 document.querySelector('.btn-load').innerText = '📸 Carregar';
-                // CORREÇÃO: Limpar o value para permitir carregar o mesmo arquivo novamente se necessário
-                input.value = ''; 
+                input.value = ''; // Reseta para permitir carregar o mesmo arquivo
                 setTimeout(App.update, 200);
             } catch(e) { 
                 console.error(e); 
-                alert("Erro ao carregar imagem. Tente outra foto.");
+                alert("Erro ao ler arquivo. Tente outra imagem."); 
                 document.querySelector('.btn-load').innerText = '📸 Carregar';
             }
         };
@@ -477,10 +476,12 @@
             const f = input.files[0]; if(!f) return;
             const n = f.name.split('.')[0]; const r = new FileReader();
             r.onload = async (e) => {
-                const ff = new FontFace(n, e.target.result); await ff.load(); document.fonts.add(ff);
-                const sel = document.getElementById(target); 
-                const opt = new Option(n, n); sel.add(opt, 0); sel.value=n;
-                if(target==='sel-font-info') sel.style.display='block'; App.update();
+                try {
+                    const ff = new FontFace(n, e.target.result); await ff.load(); document.fonts.add(ff);
+                    const sel = document.getElementById(target); 
+                    const opt = new Option(n, n); sel.add(opt, 0); sel.value=n;
+                    if(target==='sel-font-info') sel.style.display='block'; App.update();
+                } catch(err) { alert("Fonte inválida."); }
             };
             r.readAsArrayBuffer(f);
         };
@@ -607,7 +608,11 @@
                 ctx.fillStyle="#333"; ctx.font=`${pBot*0.35}px 'Great Vibes'`; ctx.textAlign="center";
                 ctx.fillText(pt, dx + dw/2, dy + dh + pBot*0.7);
             } 
-            /* CORREÇÃO: REMOVIDO O BLOCO QUE CAUSAVA O RISCO PRETO DENTRO DA IMAGEM */
+            
+            // CORREÇÃO: Removi completamente o bloco que gerava sombra preta "dura"
+            // E garanto que não há sombra residual ao desenhar a imagem
+            ctx.shadowBlur = 0; 
+            ctx.shadowColor = 'transparent';
 
             if(document.getElementById('chk-hdr').checked) ctx.filter="contrast(1.1) saturate(1.2)";
             if(document.getElementById('chk-upscale').checked) ctx.filter+=" contrast(1.15) brightness(1.05) saturate(1.05)";
