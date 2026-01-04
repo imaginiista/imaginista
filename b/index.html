@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Imaginista V44 - Cosmic Intro</title>
+    <title>Imaginista V44 - Blue Diamond</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cinzel+Decorative:wght@400;700;900&family=Raleway:wght@200;400;600;800&family=Parisienne&family=Montserrat:wght@300;700&family=Playfair+Display:ital@1&family=Oswald&family=Merriweather&family=Lato&family=Poppins&family=Dancing+Script&display=swap" rel="stylesheet">
 
@@ -18,31 +18,60 @@
             overflow-x: hidden; overflow-y: auto; user-select: none;
         }
 
-        /* === INTRO COSMIC OVERLAY === */
+        /* HEADER */
+        header {
+            background: #080808; border-bottom: 2px solid var(--gold);
+            display: flex; flex-direction: column; align-items: center; padding: 15px 10px;
+            flex-shrink: 0; z-index: 100; box-shadow: 0 5px 20px #000; position: relative;
+        }
+        .header-logo { 
+            height: 55px; object-fit: contain; margin-bottom: 5px; 
+            filter: drop-shadow(0 0 5px var(--gold)); cursor: pointer; transition: transform 0.1s;
+        }
+        .header-logo:active { transform: scale(0.9); }
+        
+        .header-slogan { 
+            font-size: 0.85em; letter-spacing: 2px; text-transform: uppercase; font-weight: 800;
+            background: linear-gradient(90deg, #666 0%, #fff 50%, #666 100%);
+            background-size: 200% auto;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            animation: shimmer 4s infinite linear; display: flex; align-items: center; justify-content: center; gap: 8px;
+        }
+        @keyframes shimmer { to { background-position: 200% center; } }
+
+        /* PINCEL MÁGICO */
+        .magic-brush {
+            display: inline-block; font-size: 1.4em; filter: drop-shadow(0 0 2px gold);
+            animation: brush-life 2s infinite ease-in-out alternate;
+        }
+        @keyframes brush-life {
+            0% { transform: rotate(0deg) scale(1); filter: hue-rotate(0deg) drop-shadow(0 0 2px gold); }
+            50% { transform: rotate(15deg) scale(1.1); filter: hue-rotate(90deg) drop-shadow(0 0 5px red); }
+            100% { transform: rotate(-5deg) scale(1); filter: hue-rotate(0deg) drop-shadow(0 0 2px gold); }
+        }
+
+        .header-tools { margin-top: 10px; display: flex; gap: 15px; }
+        .btn-tool {
+            background: #222; border: 1px solid #444; color: #aaa; padding: 6px 12px; cursor: pointer;
+            border-radius: 4px; font-size: 0.7em; display: flex; align-items: center; gap: 5px;
+            transition: 0.2s; font-weight: 700; text-transform: uppercase;
+        }
+        .btn-tool:hover { border-color: var(--gold); color: #fff; background: #222; }
+
+        /* INTRO OVERLAY */
         #intro-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
-            z-index: 99999; /* Acima de tudo */
-            display: flex; justify-content: center; align-items: center; flex-direction: column;
+            z-index: 99999; display: flex; justify-content: center; align-items: center; flex-direction: column;
             transition: opacity 0.8s ease-out;
         }
-        #intro-canvas {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none;
-        }
-        .intro-content {
-            z-index: 2; text-align: center; display: flex; flex-direction: column; align-items: center;
-            animation: introFadeUp 1s ease-out; padding: 20px;
-        }
-        .intro-logo {
-            width: 180px; max-width: 80vw; object-fit: contain;
-            filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.8));
-            margin-bottom: 20px;
-        }
+        #intro-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
+        .intro-content { z-index: 2; text-align: center; display: flex; flex-direction: column; align-items: center; animation: introFadeUp 1s ease-out; padding: 20px; }
+        .intro-logo { width: 180px; max-width: 80vw; object-fit: contain; filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.8)); margin-bottom: 20px; }
         .intro-phrase {
             font-family: 'Cinzel Decorative', serif; color: var(--gold); font-size: 1.5em;
             letter-spacing: 2px; margin-bottom: 40px; text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
-            display: flex; align-items: center; gap: 15px;
+            display: flex; align-items: center; gap: 15px; justify-content: center;
         }
         #btn-open-app {
             background: linear-gradient(45deg, var(--gold), #ffe066); color: #000;
@@ -53,52 +82,8 @@
         }
         #btn-open-app:hover { transform: scale(1.05); box-shadow: 0 0 50px rgba(212, 175, 55, 0.7); filter: brightness(1.1); }
         @keyframes introFadeUp { from { opacity:0; transform: translateY(30px); } to { opacity:1; transform: translateY(0); } }
-        /* ============================ */
 
-        /* HEADER CENTRALIZADO */
-        header {
-            background: #080808; border-bottom: 2px solid var(--gold);
-            display: flex; flex-direction: column; align-items: center; justify-content: center; /* FORÇA CENTRO */
-            padding: 20px 10px; flex-shrink: 0; z-index: 100; box-shadow: 0 5px 20px #000; position: relative;
-        }
-        .header-logo { 
-            height: 55px; object-fit: contain; margin-bottom: 10px; display: block;
-            filter: drop-shadow(0 0 5px var(--gold)); cursor: pointer; transition: transform 0.1s;
-        }
-        .header-logo:active { transform: scale(0.9); }
-        
-        /* Frase com Efeito Shimmer + Centralização */
-        .header-slogan { 
-            font-size: 0.9em; letter-spacing: 2px; text-transform: uppercase; font-weight: 800;
-            background: linear-gradient(90deg, #666 0%, #fff 50%, #666 100%);
-            background-size: 200% auto;
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            animation: shimmer 4s infinite linear; 
-            display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; text-align: center;
-        }
-        @keyframes shimmer { to { background-position: 200% center; } }
-
-        /* PINCEL MÁGICO (ANIMAÇÃO COMPARTILHADA INTRO/APP) */
-        .magic-brush {
-            display: inline-block; font-size: 1.4em; filter: drop-shadow(0 0 2px gold);
-            animation: brush-life 2s infinite ease-in-out alternate;
-            -webkit-text-fill-color: initial; /* Garante que o emoji tenha cor */
-        }
-        @keyframes brush-life {
-            0% { transform: rotate(0deg) scale(1); filter: hue-rotate(0deg) drop-shadow(0 0 2px gold); }
-            50% { transform: rotate(15deg) scale(1.2); filter: hue-rotate(90deg) drop-shadow(0 0 5px red); }
-            100% { transform: rotate(-5deg) scale(1); filter: hue-rotate(0deg) drop-shadow(0 0 2px gold); }
-        }
-
-        .header-tools { margin-top: 15px; display: flex; gap: 15px; justify-content: center; }
-        .btn-tool {
-            background: #222; border: 1px solid #444; color: #aaa; padding: 8px 16px; cursor: pointer;
-            border-radius: 4px; font-size: 0.75em; display: flex; align-items: center; gap: 5px;
-            transition: 0.2s; font-weight: 700; text-transform: uppercase;
-        }
-        .btn-tool:hover { border-color: var(--gold); color: #fff; background: #222; }
-
-        /* PARTICULAS (Confete do App) */
+        /* PARTICULAS */
         .particle { 
             position: fixed; width: 6px; height: 6px; border-radius: 50%; 
             pointer-events: none; z-index: 9999;
@@ -196,26 +181,11 @@
         .section-label { color: var(--gold); font-size: 0.7em; font-weight: bold; margin-top: 10px; margin-bottom: 5px; display: block; border-bottom: 1px solid #333; padding-bottom: 2px; }
 
         /* GALERIA CENTRALIZADA */
-        .gallery-section { 
-            padding: 40px; background: #0a0a0a; border-top: 2px solid var(--gold); 
-            min-height: 400px; display: flex; flex-direction: column; align-items: center; 
-        }
-        .gallery-title { 
-            text-align: center; color: var(--gold); font-family: 'Cinzel Decorative'; 
-            font-size: 2.5em; margin-bottom: 10px; letter-spacing: 2px; 
-            text-shadow: 0 0 10px rgba(212, 175, 55, 0.3); width: 100%;
-        }
+        .gallery-section { padding: 40px; background: #0a0a0a; border-top: 2px solid var(--gold); min-height: 400px; text-align: center; display: flex; flex-direction: column; align-items: center; }
+        .gallery-title { text-align: center; color: var(--gold); font-family: 'Cinzel Decorative'; font-size: 2.5em; margin-bottom: 5px; letter-spacing: 2px; text-shadow: 0 0 10px rgba(212, 175, 55, 0.3); width: 100%; }
+        .gallery-slogan-box { display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 40px; width: 100%; }
         
-        /* Reutiliza o estilo shimmer mas força o centro */
-        .gallery-slogan-box { 
-            display: flex; justify-content: center; align-items: center; gap: 10px;
-            margin-bottom: 40px; width: 100%;
-        }
-        
-        #gallery-content { 
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); 
-            gap: 20px; width: 100%; max-width: 1200px;
-        }
+        #gallery-content { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; width: 100%; max-width: 1200px; text-align: left; }
         .res-card { background: #111; border: 1px solid #333; padding: 10px; border-radius: 8px; text-align:center; transition:0.3s; animation: fadeIn 0.5s ease; }
         @keyframes fadeIn { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
         .res-card:hover { transform:translateY(-5px); border-color:var(--gold); }
@@ -223,7 +193,7 @@
         .dl-btn { display: block; margin-top: 10px; padding: 12px; background: var(--gold); color: #000; text-decoration: none; font-weight: bold; font-size: 0.8em; border-radius: 4px; text-transform: uppercase; transition:0.2s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .dl-btn:hover { filter: brightness(1.1); }
 
-        /* LOADER DO APP */
+        /* LOADER */
         #loader { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.96); z-index: 9999; justify-content: center; align-items: center; flex-direction: column; }
         .spinner { width: 60px; height: 60px; border: 5px solid #333; border-top: 5px solid var(--gold); border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
@@ -441,6 +411,7 @@
                     <option value="grid_octo">8. Oito</option>
                     <option value="grid_nona">9. Nove</option>
                     <option value="grid_fifteen">10. Mosaico (15 Fotos)</option>
+                    <option value="grid_thirtytwo">11. Super (32 Fotos)</option>
                 </select>
                 <label style="margin-top:10px;">Espaçamento (X / Y)</label>
                 <div class="flex-row">
@@ -594,7 +565,7 @@
                 this.canvas.height = this.height;
             },
             createStars: function() {
-                const count = Math.floor(this.width * this.height / 6000); // Densidade
+                const count = Math.floor(this.width * this.height / 6000); 
                 for(let i = 0; i < count; i++) {
                     this.stars.push(new Star(this.width, this.height));
                 }
@@ -602,7 +573,6 @@
             animate: function() {
                 if(!this.active) return;
                 this.ctx.clearRect(0, 0, this.width, this.height);
-                // Efeito de rastro suave
                 this.ctx.fillStyle = 'rgba(15, 20, 30, 0.2)';
                 this.ctx.fillRect(0, 0, this.width, this.height);
                 
@@ -625,7 +595,7 @@
                 this.w = w; this.h = h;
                 this.x = Math.random() * w;
                 this.y = Math.random() * h;
-                this.z = Math.random() * 2; // Profundidade
+                this.z = Math.random() * 2; 
                 this.size = (Math.random() * 1.5 + 0.5) * (this.z/2);
                 this.vel = (Math.random() * 0.2 + 0.05) * (this.z/2);
                 this.alpha = Math.random();
@@ -635,7 +605,6 @@
             update() {
                 this.y -= this.vel;
                 if(this.y < 0) { this.y = this.h; this.x = Math.random() * this.w; }
-                
                 this.alpha += this.fade * this.fadeDir;
                 if(this.alpha > 1 || this.alpha < 0.2) this.fadeDir *= -1;
             }
@@ -653,7 +622,7 @@
         const FX = [ {id:'normal', n:'Original'}, {id:'bw', n:'P&B'}, {id:'sepia', n:'Sépia'}, {id:'warm', n:'Quente'}, {id:'deep', n:'Intenso'}, {id:'sharp', n:'Nítido'} ];
 
         window.onload = () => {
-            Intro.init(); // Inicia a Intro
+            Intro.init(); 
 
             const box = document.getElementById('fx-container');
             if(box) FX.forEach(f => {
@@ -689,7 +658,6 @@
             }
         };
 
-        // Nova Lógica de Filtros Individuais
         App.applyFilter = function(fid) {
             const idx = parseInt(document.getElementById('sel-edit-target').value);
             document.querySelectorAll('.fx-btn').forEach(b => {
@@ -786,6 +754,7 @@
 
         App.syncInputs = function() {
             const idx = parseInt(document.getElementById('sel-edit-target').value);
+            // Reset visual filter selection based on target
             document.querySelectorAll('.fx-btn').forEach(b => b.classList.remove('active'));
             
             if(idx !== -1 && App.photoStates[idx]) {
@@ -795,6 +764,7 @@
                 document.getElementById('img-scale').value = st.s;
                 document.getElementById('img-scale-num').value = st.s;
                 
+                // Highlight active filter for this photo
                 const fName = FX.find(x => x.id === App.photoFilters[idx]).n;
                 document.querySelectorAll('.fx-btn').forEach(b => { if(b.innerText === fName) b.classList.add('active'); });
             } else {
@@ -802,6 +772,7 @@
                 document.getElementById('img-pan-y').value = 0;
                 document.getElementById('img-scale').value = 100;
                 document.getElementById('img-scale-num').value = 100;
+                // Highlight Normal for 'All'
                 document.querySelectorAll('.fx-btn')[0].classList.add('active');
             }
         };
@@ -841,6 +812,7 @@
             
             const qLabel = q === 1 ? 'FullHD' : (q === 2 ? '4K' : '8K');
 
+            // Desativa números temporariamente ao salvar
             const numCheck = document.getElementById('chk-show-nums');
             const wasChecked = numCheck.checked;
             numCheck.checked = false;
@@ -848,26 +820,33 @@
             try {
                 await new Promise(r=>setTimeout(r, 200));
                 for(let i=0; i<App.images.length; i+=bs) {
-                    const group = App.images.slice(i, i+bs);
+                    
+                    // LÓGICA CRUCIAL DO GRID
+                    let group;
+                    if(layout === 'single') {
+                         group = App.images.slice(i, i+1);
+                    } else {
+                         // Se é GRID, pega o lote inteiro, mesmo que incompleto
+                         group = App.images.slice(i, i+bs);
+                    }
+
                     const cvs = document.createElement('canvas'); cvs.width=W; cvs.height=H;
                     const ctx = cvs.getContext('2d');
                     await new Promise(r => requestAnimationFrame(r));
 
-                    if(group.length < bs && bs > 1) {
-                        for(let j=0; j<group.length; j++) {
-                             if(group[j]) {
-                                drawFrame(ctx, [group[j]], 'single', W, H, i+j); 
-                                saveImage(cvs, `arte_${i+1}_${j+1}`, format, qLabel);
-                             }
-                         }
-                    } else {
+                    // Lógica unificada: Desenha o Grid com o grupo que temos
+                    if(layout !== 'single' && group.length > 0) {
                         drawFrame(ctx, group, layout, W, H, i); 
-                        saveImage(cvs, `arte_${i+1}`, format, qLabel);
+                        saveImage(cvs, `arte_${i+1}_${j+1}`, format, qLabel);
+                    } else if(layout === 'single') {
+                         drawFrame(ctx, group, 'single', W, H, i);
+                         saveImage(cvs, `arte_${i+1}`, format, qLabel);
                     }
                 }
                 document.querySelector('.gallery-section').scrollIntoView({behavior:'smooth'});
             } catch(e){ console.error(e); }
             
+            // Restaura checkbox
             numCheck.checked = wasChecked;
             if(wasChecked) App.update();
             document.getElementById('loader').style.display='none';
@@ -875,6 +854,7 @@
 
         function drawFrame(ctx, imgs, mode, W, H, startIndex) {
             ctx.filter = "none";
+            // Fundo
             if(App.userBg) {
                 if(document.getElementById('chk-trans').checked) ctx.clearRect(0,0,W,H);
                 else { ctx.fillStyle=document.getElementById('col-bg').value; ctx.fillRect(0,0,W,H); }
@@ -887,6 +867,7 @@
                 else { ctx.fillStyle = document.getElementById('col-bg').value || '#111'; ctx.fillRect(0,0,W,H); }
             }
 
+            // Grid
             try {
                 const slots = getSlots(mode, W, H);
                 const showNums = document.getElementById('chk-show-nums').checked;
@@ -898,9 +879,10 @@
                     
                     if(imgs[i] && imgs[i].width > 0) {
                         drawPhoto(ctx, imgs[i], slot, isCenter, W, state, filter);
+                        // Overlay de Número (Gigante e Centralizado no Slot)
                         if(showNums) {
                             ctx.save();
-                            const numSize = Math.min(slot.w, slot.h) * 0.4; 
+                            const numSize = Math.min(slot.w, slot.h) * 0.4; // 40% do tamanho do slot
                             ctx.font = `bold ${numSize}px Arial`;
                             ctx.fillStyle = "rgba(255,255,255,0.8)";
                             ctx.strokeStyle = "#000";
@@ -936,6 +918,7 @@
             const dx = x + (w - dw)/2 + panX; const dy = y + (h - dh)/2 + panY;
             const c = document.getElementById('col-frame').value;
 
+            // FIX 1: Desenhando fundo do polaroid ANTES da foto
             if(mk==='polaroid') {
                 const pPad=w*0.04; const pBot=w*0.18;
                 ctx.save();
@@ -968,6 +951,7 @@
             
             if(mk==='circle' || mk==='rounded' || mk==='paper') ctx.clip();
 
+            // Aplica filtro individual
             const f = filterId; 
             if(f==='bw') ctx.filter = "grayscale(1) contrast(1.2)"; 
             if(f==='sepia') ctx.filter = "sepia(0.8)"; 
@@ -975,6 +959,7 @@
             if(f==='deep') ctx.filter = "contrast(1.3) saturate(1.2)"; 
             if(f==='sharp') ctx.filter = "contrast(1.4) brightness(1.1)";
 
+            // Adiciona filtros globais
             if(document.getElementById('chk-hdr').checked) ctx.filter += " contrast(1.1) saturate(1.2)";
             if(document.getElementById('chk-upscale').checked) ctx.filter += " contrast(1.15) brightness(1.05) saturate(1.05)";
             
@@ -982,7 +967,9 @@
             ctx.filter = "none";
             ctx.restore(); 
 
+            // Overlays (Molduras por cima)
             ctx.save();
+            // Polaroid Texto apenas (fundo já foi desenhado)
             if(mk==='polaroid') {
                 const pPad=w*0.04; const pBot=w*0.18;
                 const pt = document.getElementById('in-polaroid').value;
@@ -999,7 +986,7 @@
             if(mk==='laptop') { ctx.lineWidth=20*Scale; ctx.strokeStyle="#333"; ctx.strokeRect(dx,dy,dw,dh); ctx.fillStyle="#444"; ctx.fillRect(dx-20*Scale, dy+dh+10*Scale, dw+40*Scale, 15*Scale); }
             if(mk==='monitor') { ctx.lineWidth=15*Scale; ctx.strokeStyle="#222"; ctx.strokeRect(dx,dy,dw,dh); ctx.fillStyle="#222"; ctx.fillRect(dx+dw/2-10*Scale, dy+dh, 20*Scale, 30*Scale); ctx.fillRect(dx+dw/2-40*Scale, dy+dh+30*Scale, 80*Scale, 5*Scale); }
             if(mk==='browser') { ctx.fillStyle="#ddd"; ctx.fillRect(dx, dy-25*Scale, dw, 25*Scale); ctx.fillStyle="#ff5f56"; ctx.beginPath(); ctx.arc(dx+15*Scale, dy-12*Scale, 5*Scale, 0, Math.PI*2); ctx.fill(); ctx.fillStyle="#ffbd2e"; ctx.beginPath(); ctx.arc(dx+30*Scale, dy-12*Scale, 5*Scale, 0, Math.PI*2); ctx.fill(); ctx.fillStyle="#27c93f"; ctx.beginPath(); ctx.arc(dx+45*Scale, dy-12*Scale, 5*Scale, 0, Math.PI*2); ctx.fill(); }
-            if(mk==='insta') { ctx.strokeStyle="#ccc"; ctx.lineWidth=1*Scale; ctx.strokeRect(dx, dy, dw, dh); ctx.fillStyle="#fff"; ctx.font=`${25*Scale}px Arial`; ctx.textAlign="left"; ctx.fillText("♥  💬  ➢", dx+5*Scale, dy+dh+30*Scale); }
+            if(mk==='insta') { ctx.strokeStyle="#ccc"; ctx.lineWidth=1*Scale; ctx.strokeRect(dx, dy, dw, dh); ctx.fillStyle="#fff"; ctx.font=`${25*Scale}px Arial`; ctx.textAlign="left"; ctx.fillText("♥  💬  ➢", dx+5*Scale, dy+dh+30*Scale); }
             if(mk==='gold_border') { const g = ctx.createLinearGradient(dx, dy, dx+dw, dy+dh); g.addColorStop(0, "#d4af37"); g.addColorStop(0.5, "#fff"); g.addColorStop(1, "#d4af37"); ctx.lineWidth=15*Scale; ctx.strokeStyle=g; ctx.strokeRect(dx, dy, dw, dh); }
             if(mk==='neon') { ctx.lineWidth=4*Scale; ctx.strokeStyle="#fff"; ctx.shadowColor=c; ctx.shadowBlur=25*Scale; ctx.strokeRect(dx, dy, dw, dh); }
             if(mk==='rounded') { const rad = 30 * Scale; ctx.lineWidth=10*Scale; ctx.strokeStyle=c; ctx.beginPath(); ctx.roundRect(dx, dy, dw, dh, rad); ctx.stroke(); }
@@ -1091,6 +1078,7 @@
         function getSlots(mode, W, H) {
             const pad = W * 0.05; const aH = H * 0.70; const startY = (H - aH) / 2; 
             
+            // X and Y Gaps independently controlled
             const userGapX = parseInt(document.getElementById('in-gap-x').value) || 10;
             const userGapY = parseInt(document.getElementById('in-gap-y').value) || 10;
             const gapX = W * (userGapX / 1000); 
@@ -1163,6 +1151,19 @@
                 for(let r=0; r<rows; r++) { for(let c=0; c<cols; c++) { arr.push({x: c*(wCell+gapX), y: startY + r*(hCell+gapY), w: wCell, h: hCell}); } }
                 return arr;
             }
+            // NOVO GRID 32 (Smart Orientation)
+            if(mode==='grid_thirtytwo') {
+                // Se for retrato (H > W), inverte para 4 cols x 8 rows. Se for paisagem, 8 cols x 4 rows
+                const isPortrait = H > W;
+                const cols = isPortrait ? 4 : 8;
+                const rows = isPortrait ? 8 : 4;
+                
+                const wCell = (W - (cols-1)*gapX) / cols;
+                const hCell = (aH - (rows-1)*gapY) / rows;
+                let arr = [];
+                for(let r=0; r<rows; r++) { for(let c=0; c<cols; c++) { arr.push({x: c*(wCell+gapX), y: startY + r*(hCell+gapY), w: wCell, h: hCell}); } }
+                return arr;
+            }
 
             return [{x:0, y:startY, w:W, h:aH, pad:pad}];
         }
@@ -1170,7 +1171,7 @@
         function getBatch(l) { 
             if(l.includes('dual')) return 2; if(l.includes('diamond') || l.includes('collage')) return 3; if(l.includes('quad') || l.includes('film')) return 4;
             if(l.includes('quint')) return 5; if(l.includes('sena')) return 6; if(l.includes('septa')) return 7; if(l.includes('octo')) return 8; if(l.includes('nona')) return 9;
-            if(l.includes('fifteen')) return 15;
+            if(l.includes('fifteen')) return 15; if(l.includes('thirtytwo')) return 32;
             return 1;
         }
         
