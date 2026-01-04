@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Imaginista V29 - Masterpiece</title>
+    <title>Imaginista V30 - Ultimate Final</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cinzel+Decorative:wght@400;700;900&family=Raleway:wght@200;400;600;800&family=Parisienne&family=Montserrat:wght@300;700&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cinzel+Decorative:wght@400;700;900&family=Raleway:wght@200;400;600;800&family=Parisienne&family=Montserrat:wght@300;700&family=Playfair+Display:ital@1&family=Oswald&family=Merriweather&family=Lato&family=Poppins&display=swap" rel="stylesheet">
 
     <style>
-        /* === ESTILO V29 === */
+        /* === ESTILO V30 === */
         :root { --gold: #d4af37; --panel-bg: #111; --body-bg: #050505; --text: #ddd; }
         * { box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
         
@@ -26,7 +26,7 @@
         }
         .header-logo { height: 40px; object-fit: contain; margin-bottom: 5px; filter: drop-shadow(0 0 5px var(--gold)); }
         .header-slogan { font-size: 0.7em; letter-spacing: 3px; text-transform: uppercase; color: #aaa; }
-        .header-tools { margin-top: 5px; display: flex; gap: 10px; }
+        .header-tools { margin-top: 5px; display: flex; gap: 15px; }
         .btn-tool {
             background: #222; border: 1px solid #444; color: #aaa; padding: 5px 10px; cursor: pointer;
             border-radius: 4px; font-size: 0.7em; font-weight: 700; text-transform: uppercase;
@@ -39,103 +39,65 @@
             gap: 15px; padding: 15px; min-height: 800px;
         }
         .panel {
-            background: var(--panel-bg); border: 1px solid #333; border-radius: 6px; padding: 12px;
-            display: flex; flex-direction: column; gap: 12px; height: fit-content; box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            background: var(--panel-bg); border: 1px solid #333; border-radius: 6px; padding: 10px;
+            display: flex; flex-direction: column; gap: 10px; height: fit-content;
         }
         .panel-header { border-bottom: 1px solid #333; padding-bottom: 5px; margin-bottom: 5px; }
         .panel-title { color: var(--gold); font-size: 0.85em; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
 
-        /* CONTROLES */
+        /* INPUTS */
         .control-group { border-bottom: 1px dashed #222; padding-bottom: 10px; }
-        .control-group:last-child { border: none; }
         label { font-size: 0.7em; color: #888; font-weight: 700; display: block; margin-bottom: 3px; text-transform: uppercase; }
-        
         .input-wrap { display: flex; align-items: center; background: #181818; border: 1px solid #444; border-radius: 3px; padding-left: 5px; }
         .xy-tag { color: var(--gold); font-weight: bold; font-size: 0.7em; margin-right: 5px; font-family: monospace; }
-        
-        input[type="text"], input[type="number"], select {
-            width: 100%; padding: 6px; background: #181818; border: 1px solid #444; color: #fff;
-            border-radius: 4px; font-size: 0.8em; font-family: 'Raleway';
-        }
-        input:focus, select:focus { border-color: var(--gold); background: #000; }
-        
+        input, select { width: 100%; padding: 6px; background: transparent; border: none; color: #fff; font-size: 0.8em; font-family: 'Raleway'; }
+        select { background: #181818; border: 1px solid #444; border-radius: 3px; }
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; margin-top: 5px; }
         .flex-row { display: flex; gap: 5px; align-items: center; margin-top: 5px; }
 
         /* BOTOES */
         .btn-upload-small {
-            flex: 1; background: #222; border: 1px dashed #555; color: #aaa; padding: 8px; cursor: pointer;
-            display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 0.7em; border-radius: 4px; position: relative; overflow: hidden;
+            background: #222; border: 1px dashed #555; color: #aaa; padding: 8px; cursor: pointer; flex: 1;
+            display: flex; align-items: center; justify-content: center; font-size: 0.7em; border-radius: 3px; position: relative;
         }
-        .btn-upload-small:hover { border-color: var(--gold); color: #fff; }
         .btn-upload-small input { position: absolute; left:0; top:0; width:100%; height:100%; opacity:0; cursor: pointer; }
-        
         .btn-trash { width: 30px; background: #3a0505; border: 1px solid #600; color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; border-radius: 3px; }
-        .btn-font-extra { background: #222; border: 1px solid #444; color: var(--gold); width: 100%; margin-top: 5px; padding: 6px; font-size: 0.7em; cursor: pointer; text-align: center; border-radius: 4px; position: relative; font-weight: bold; }
+        
+        .font-row { display: flex; gap: 5px; margin-top: 5px; }
+        .btn-font-extra { flex:1; background: #222; border: 1px solid #444; color: var(--gold); padding: 6px; font-size: 0.7em; cursor: pointer; text-align: center; border-radius: 4px; position: relative; }
         .btn-font-extra input { position: absolute; left:0; top:0; width:100%; height:100%; opacity:0; cursor: pointer; }
 
         /* CANVAS */
-        .center-stage { 
-            background: #050505; border: 1px solid #222; border-radius: 8px; 
-            display: flex; flex-direction: column; overflow: hidden;
-            position: sticky; top: 10px; height: calc(100vh - 40px);
-        }
-        .canvas-container {
-            flex: 1; display: flex; align-items: center; justify-content: center; 
-            background-image: radial-gradient(#151515 1px, transparent 1px);
-            background-size: 20px 20px; padding: 20px; overflow: hidden;
-        }
-        canvas { max-width: 100%; max-height: 100%; object-fit: contain; box-shadow: 0 0 40px #000; border: 1px solid #222; }
+        .center-stage { background: #050505; border: 1px solid #222; border-radius: 6px; display: flex; flex-direction: column; overflow: hidden; position: sticky; top: 10px; height: calc(100vh - 40px); }
+        .canvas-container { flex: 1; display: flex; align-items: center; justify-content: center; background-image: radial-gradient(#151515 1px, transparent 1px); background-size: 20px 20px; padding: 20px; overflow: hidden; }
+        canvas { max-width: 100%; max-height: 100%; object-fit: contain; box-shadow: 0 0 30px #000; border: 1px solid #222; }
 
         .action-dock { padding: 10px; background: #111; border-top: 1px solid #333; display: flex; justify-content: center; gap: 10px; }
-        .btn-action {
-            padding: 10px 20px; font-size: 0.8em; font-weight: 800; text-transform: uppercase; border: none; border-radius: 4px;
-            cursor: pointer; display: flex; align-items: center; gap: 8px; position: relative; color: #000; transition: 0.2s;
-        }
-        .btn-load { background: #ddd; color:#111; }
+        .btn-action { padding: 10px 20px; font-size: 0.8em; font-weight: 800; text-transform: uppercase; border: none; border-radius: 4px; cursor: pointer; position: relative; color: #000; }
+        .btn-load { background: #ddd; }
         .btn-process { background: var(--gold); }
         .btn-load input { position: absolute; left:0; top:0; width:100%; height:100%; opacity:0; cursor: pointer; }
 
-        .status-bar { display: flex; gap: 10px; align-items: center; justify-content: center; font-size: 0.7em; color: #666; padding: 5px; background: #000; }
-        /* Seletor Compacto */
-        .status-bar select { 
-            width: auto; padding: 2px 5px; border: 1px solid #333; background: #111; color: #aaa; 
-            cursor:pointer; font-size: 0.85em; height: 24px; border-radius: 3px; 
-        }
-        .status-bar select:hover { border-color: var(--gold); color: #fff; }
-
-        /* CORES */
-        .color-picker-compact { width: 25px; height: 25px; border-radius: 50%; border: 2px solid #444; background: conic-gradient(red, yellow, lime, blue, red); position: relative; overflow: hidden; cursor:pointer;}
+        .status-bar { display: flex; gap: 10px; justify-content: center; font-size: 0.7em; color: #666; padding: 5px; background: #000; }
+        .color-picker-compact { width: 25px; height: 25px; border-radius: 50%; border: 2px solid #444; background: conic-gradient(red, yellow, lime, blue, red); position: relative; overflow: hidden; }
         .color-picker-compact input { position: absolute; left:-5px; top:-5px; width: 35px; height: 35px; opacity: 0; cursor: pointer; }
 
-        /* FX GRID */
         .fx-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; }
         .fx-btn { background: #181818; border: 1px solid #333; color: #888; padding: 6px; font-size: 0.6em; cursor: pointer; text-align: center; border-radius: 3px; }
-        .fx-btn:hover { color: #fff; background: #222; }
-        .fx-btn.active { background: var(--gold); color: #000; font-weight: bold; border-color:#fff; }
-
-        /* CHECKBOXES ORGANIZADOS */
-        .check-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
-        .check-item { 
-            display: flex; align-items: center; gap: 6px; font-size: 0.7em; 
-            background: #161616; padding: 6px; border-radius: 3px; 
-            cursor: pointer; border: 1px solid #333; 
-        }
-        .check-item:hover { border-color: var(--gold); background:#222; }
-        .check-item input { accent-color: var(--gold); width:14px; height:14px; }
+        .fx-btn.active { background: var(--gold); color: #000; font-weight: bold; }
         
-        .section-label { color: var(--gold); font-size: 0.7em; font-weight: bold; margin-top: 8px; margin-bottom: 3px; display: block; border-bottom: 1px solid #333; padding-bottom: 2px; }
+        .check-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
+        .check-item { display: flex; align-items: center; gap: 5px; font-size: 0.7em; background: #161616; padding: 6px; border-radius: 3px; cursor: pointer; border: 1px solid #333; }
+        .check-item input { accent-color: var(--gold); }
 
-        /* GALERIA */
-        .gallery-section { padding: 40px; background: #0a0a0a; border-top: 2px solid var(--gold); min-height: 400px; }
-        .gallery-title { text-align: center; color: var(--gold); font-family: 'Cinzel Decorative'; font-size: 2em; margin-bottom: 30px; }
+        .gallery-section { padding: 30px; background: #0a0a0a; border-top: 2px solid var(--gold); min-height: 300px; }
+        .gallery-title { text-align: center; color: var(--gold); font-family: 'Cinzel Decorative'; font-size: 1.5em; margin-bottom: 20px; }
         #gallery-content { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; }
-        .res-card { background: #111; border: 1px solid #333; padding: 10px; border-radius: 8px; text-align:center; }
+        .res-card { background: #111; border: 1px solid #333; padding: 8px; border-radius: 6px; text-align: center; }
         .res-card img { width: 100%; height: auto; border: 1px solid #222; }
         .dl-btn { display: block; margin-top: 5px; padding: 8px; background: var(--gold); color: #000; text-decoration: none; font-weight: bold; font-size: 0.8em; border-radius: 3px; }
 
-        /* LOADER */
-        #loader { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.96); z-index: 9999; justify-content: center; align-items: center; flex-direction: column; }
+        #loader { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 9999; justify-content: center; align-items: center; }
         .spinner { width: 50px; height: 50px; border: 4px solid #333; border-top: 4px solid var(--gold); border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
 
@@ -147,10 +109,7 @@
 </head>
 <body>
 
-    <div id="loader">
-        <div class="spinner"></div>
-        <div id="loader-text" style="color:var(--gold); margin-top:20px; font-family:'Raleway'; font-weight:bold; letter-spacing: 1px;">PROCESSANDO...</div>
-    </div>
+    <div id="loader"><div class="spinner"></div></div>
 
     <header class="app-header">
         <img src="imagens/logo.png" class="header-logo" alt="IMAGINISTA" onerror="this.style.display='none'">
@@ -179,14 +138,14 @@
                     <select id="sel-logo-pos" onchange="App.update()">
                         <option value="bl">Inf. Esq</option> <option value="br">Inf. Dir</option>
                         <option value="tl">Sup. Esq</option> <option value="tr">Sup. Dir</option>
-                        <option value="tc">Topo</option> <option value="bc">Base</option> <option value="c">Centro</option>
+                        <option value="tc">Topo Centro</option> <option value="bc">Base Centro</option> <option value="c">Centro</option>
                     </select>
                     <input type="number" id="in-logo-sz" value="130" oninput="App.update()" title="Px">
                 </div>
                 <div class="flex-row">
                     <span style="font-size:0.7em; color:#888;">Cor:</span>
                     <div class="color-picker-compact"><input type="color" id="col-logo-tint" value="#ffffff" oninput="App.update()"></div>
-                    <label style="margin:0; font-size:0.7em;"><input type="checkbox" id="chk-logo-tint" onchange="App.update()"> Ativar</label>
+                    <label style="margin:0; font-size:0.7em;"><input type="checkbox" id="chk-logo-tint" onchange="App.update()"> Pintar</label>
                 </div>
                 <div class="grid-2">
                     <div class="input-wrap"><span class="xy-tag">X</span><input type="number" id="off-logo-x" value="0" oninput="App.update()"></div>
@@ -204,13 +163,19 @@
                     <select id="sel-font-nome" onchange="App.update()">
                         <option value="Great Vibes">Great Vibes</option><option value="Parisienne">Parisienne</option>
                         <option value="Cinzel Decorative">Cinzel</option><option value="Playfair Display">Playfair</option>
+                        <option value="Montserrat">Montserrat</option><option value="Raleway">Raleway</option>
+                        <option value="Oswald">Oswald</option><option value="Merriweather">Merriweather</option>
+                        <option value="Lato">Lato</option><option value="Poppins">Poppins</option>
                     </select>
                     <input type="number" id="sz-nome" value="100" oninput="App.update()" title="Tamanho">
                 </div>
-                <button class="btn-font-extra">🔤 Fonte <input type="file" onchange="App.loadFont(this, 'sel-font-nome')"></button>
+                <div class="font-row">
+                    <button class="btn-font-extra">🔤 Upload .TTF <input type="file" onchange="App.loadFont(this, 'sel-font-nome')"></button>
+                    <button class="btn-trash" onclick="App.resetFont('sel-font-nome')" title="Limpar Fonte">🗑️</button>
+                </div>
                 <div class="grid-2">
                     <select id="pos-nome" onchange="App.update()">
-                        <option value="br">Dir. Inf</option><option value="bl">Esq. Inf</option>
+                        <option value="br" selected>Dir. Inf</option><option value="bl">Esq. Inf</option>
                         <option value="bc">Base</option><option value="tc">Topo</option>
                         <option value="tl">Topo Esq</option><option value="tr">Topo Dir</option><option value="c">Centro</option>
                     </select>
@@ -230,15 +195,22 @@
                 <div class="grid-2">
                     <select id="sel-font-sub" onchange="App.update()">
                         <option value="Cinzel Decorative">Cinzel</option><option value="Montserrat">Montserrat</option>
+                        <option value="Great Vibes">Great Vibes</option><option value="Parisienne">Parisienne</option>
+                        <option value="Raleway">Raleway</option><option value="Playfair Display">Playfair</option>
+                        <option value="Oswald">Oswald</option><option value="Merriweather">Merriweather</option>
+                        <option value="Lato">Lato</option><option value="Poppins">Poppins</option>
                     </select>
                     <input type="number" id="sz-sub" value="40" oninput="App.update()" title="Tamanho">
                 </div>
-                <button class="btn-font-extra">🔤 Fonte <input type="file" onchange="App.loadFont(this, 'sel-font-sub')"></button>
+                <div class="font-row">
+                    <button class="btn-font-extra">🔤 Upload .TTF <input type="file" onchange="App.loadFont(this, 'sel-font-sub')"></button>
+                    <button class="btn-trash" onclick="App.resetFont('sel-font-sub')">🗑️</button>
+                </div>
                 <div class="grid-2">
                     <select id="pos-sub" onchange="App.update()">
                         <option value="br">Dir. Inf</option><option value="bl">Esq. Inf</option>
                         <option value="bc" selected>Base</option><option value="tc">Topo</option>
-                        <option value="c">Centro</option>
+                        <option value="tl">Topo Esq</option><option value="tr">Topo Dir</option><option value="c">Centro</option>
                     </select>
                 </div>
                 <div class="grid-2">
@@ -257,11 +229,23 @@
                     <div class="color-picker-compact"><input type="color" id="col-info" value="#cccccc" oninput="App.update()"></div>
                     <input type="number" id="sz-info" value="25" oninput="App.update()" title="Tamanho">
                 </div>
-                <button class="btn-font-extra">🔤 Fonte <input type="file" onchange="App.loadFont(this, 'sel-font-info')"></button>
-                <select id="sel-font-info" style="display:none;"><option value="Raleway">Raleway</option></select>
                 <div class="grid-2">
+                     <select id="sel-font-info" onchange="App.update()">
+                        <option value="Raleway">Raleway</option><option value="Montserrat">Montserrat</option>
+                        <option value="Great Vibes">Great Vibes</option><option value="Parisienne">Parisienne</option>
+                        <option value="Cinzel Decorative">Cinzel</option><option value="Playfair Display">Playfair</option>
+                        <option value="Oswald">Oswald</option><option value="Merriweather">Merriweather</option>
+                        <option value="Lato">Lato</option><option value="Poppins">Poppins</option>
+                    </select>
+                    <div class="font-row" style="margin:0">
+                        <button class="btn-font-extra" style="margin:0; padding:4px;">🔤 <input type="file" onchange="App.loadFont(this, 'sel-font-info')"></button>
+                        <button class="btn-trash" style="width:25px;" onclick="App.resetFont('sel-font-info')">🗑️</button>
+                    </div>
+                </div>
+                <div class="grid-2" style="margin-top:5px;">
                     <select id="pos-info" onchange="App.update()">
-                        <option value="bc" selected>Base</option><option value="bl">Esq</option><option value="br">Dir</option>
+                        <option value="bc" selected>Base Centro</option><option value="bl">Base Esq</option><option value="br">Base Dir</option>
+                        <option value="tc">Topo Centro</option><option value="tl">Topo Esq</option><option value="tr">Topo Dir</option><option value="c">Centro</option>
                     </select>
                 </div>
                 <div class="grid-2">
@@ -276,7 +260,7 @@
             <div class="action-dock">
                 <label class="btn-action btn-load">
                     📸 Carregar
-                    <input type="file" id="file-photos" multiple accept="image/*" onchange="App.handleFiles(this)">
+                    <input type="file" id="file-photos" multiple accept="image/*" onclick="this.value=null" onchange="App.handleFiles(this)">
                 </label>
                 <button class="btn-action btn-process" onclick="App.render()">✨ Processar</button>
             </div>
@@ -292,8 +276,10 @@
             <div class="control-group">
                 <label>Orientação</label>
                 <select id="sel-orient" onchange="App.toggleCustom()">
-                    <option value="landscape">Horizontal</option><option value="portrait">Vertical</option>
-                    <option value="square">Quadrado</option><option value="custom">Personalizado</option>
+                    <option value="landscape">Horizontal (1920x1080)</option>
+                    <option value="portrait">Vertical (1080x1920)</option>
+                    <option value="square">Quadrado (1080x1080)</option>
+                    <option value="custom">Personalizado</option>
                 </select>
                 <div id="box-custom" class="grid-2" style="display:none;">
                     <input type="number" id="in-w" value="1920"><input type="number" id="in-h" value="1080">
@@ -330,7 +316,7 @@
                     <label class="btn-upload-small">
                         <img id="pv-bg" class="thumb-preview" style="display:none; width:20px;">
                         <span id="st-bg">🖼️ Imagem</span>
-                        <input type="file" accept="image/*" onchange="App.handleBg(this)">
+                        <input type="file" accept="image/*" onclick="this.value=null" onchange="App.handleBg(this)">
                     </label>
                     <button class="btn-trash" onclick="App.removeBg()">🗑️</button>
                 </div>
@@ -347,11 +333,10 @@
             <div class="control-group">
                 <label>Moldura</label>
                 <select id="sel-mockup" onchange="App.update()">
-                    <option value="none">Clássica (Borda Cor)</option>
-                    <option value="polaroid">Polaroid</option>
-                    <option value="museum">Museu</option>
-                    <option value="minimal">Minimalista</option>
+                    <option value="none">Clássica</option><option value="polaroid">Polaroid</option>
+                    <option value="museum">Museu</option><option value="minimal">Minimalista</option>
                     <option value="cinema">Cinema</option>
+                    <option value="tv">Monitor TV</option><option value="tablet">Tablet</option><option value="phone">Smartphone</option>
                 </select>
                 <div class="flex-row">
                     <span style="font-size:0.7em; color:#888;">Cor:</span>
@@ -370,17 +355,11 @@
             
             <div class="control-group">
                 <label>Efeitos</label>
-                
-                <span class="section-label">Atmosfera</span>
                 <div class="check-grid">
+                    <label class="check-item"><input type="checkbox" id="chk-upscale" onchange="App.update()"> ✨ Super Resolução</label>
                     <label class="check-item"><input type="checkbox" id="chk-blur" checked onchange="App.update()"> Blur Fundo</label>
                     <label class="check-item"><input type="checkbox" id="chk-vignette" checked onchange="App.update()"> Vinheta</label>
                     <label class="check-item"><input type="checkbox" id="chk-grain" checked onchange="App.update()"> Granulado</label>
-                    <label class="check-item"><input type="checkbox" id="chk-upscale" onchange="App.update()"> ✨ HD+</label>
-                </div>
-                
-                <span class="section-label">Luz & Partículas</span>
-                <div class="check-grid">
                     <label class="check-item"><input type="checkbox" id="chk-gold" onchange="App.update()"> ✨ Ouro</label>
                     <label class="check-item"><input type="checkbox" id="chk-stars" onchange="App.update()"> 🌌 Estrelas</label>
                     <label class="check-item"><input type="checkbox" id="chk-light" onchange="App.update()"> 🔦 Luz</label>
@@ -406,7 +385,6 @@
                 b.onclick = () => { document.querySelectorAll('.fx-btn').forEach(x=>x.classList.remove('active')); b.classList.add('active'); App.effect = f.id; App.update(); };
                 box.appendChild(b);
             });
-            document.getElementById('file-photos').onclick = function(){ this.value = null; };
             App.update();
         };
 
@@ -432,11 +410,14 @@
             const n = f.name.split('.')[0]; const r = new FileReader();
             r.onload = async (e) => {
                 const ff = new FontFace(n, e.target.result); await ff.load(); document.fonts.add(ff);
-                const sel = document.getElementById(target); const opt = new Option(n, n); sel.add(opt, 0); sel.value=n;
-                if(target==='sel-font-info') sel.style.display='block'; App.update();
+                const sel = document.getElementById(target); 
+                const opt = new Option(n, n); sel.add(opt, 0); sel.value=n;
+                App.update();
             };
             r.readAsArrayBuffer(f);
         };
+        
+        App.resetFont = function(id) { document.getElementById(id).selectedIndex = 0; App.update(); };
 
         App.toggleCustom = function() {
             const v = document.getElementById('sel-orient').value;
@@ -540,15 +521,13 @@
             const sc = Math.min(w/img.width, h/img.height) * zoom;
             const dw = img.width * sc; const dh = img.height * sc;
             const dx = x + (w - dw)/2 + panX; const dy = y + (h - dh)/2 + panY;
+            const c = document.getElementById('col-frame').value;
 
             ctx.save();
             if(mk==='polaroid') {
                 const pPad=w*0.03; const pBot=w*0.15;
-                ctx.fillStyle="#fff"; ctx.shadowColor="rgba(0,0,0,0.4)"; ctx.shadowBlur=15*Scale;
-                // Desenha a borda branca (fundo)
-                ctx.fillRect(dx-pPad, dy-pPad, dw+(pPad*2), dh+pPad+pBot); 
-                ctx.shadowBlur=0;
-                // Texto Polaroid
+                ctx.fillStyle=c; ctx.shadowColor="rgba(0,0,0,0.4)"; ctx.shadowBlur=15*Scale;
+                ctx.fillRect(dx-pPad, dy-pPad, dw+(pPad*2), dh+pPad+pBot); ctx.shadowBlur=0;
                 const pt = document.getElementById('in-polaroid').value;
                 ctx.fillStyle="#333"; ctx.font=`${pBot*0.35}px 'Great Vibes'`; ctx.textAlign="center";
                 ctx.fillText(pt, dx + dw/2, dy + dh + pBot*0.7);
@@ -564,16 +543,17 @@
             ctx.drawImage(img, dx, dy, dw, dh);
             ctx.filter = "none";
 
-            const c = document.getElementById('col-frame').value;
             if(mk==='none') { ctx.lineWidth = (isCenter?8:5)*Scale; ctx.strokeStyle = c; ctx.strokeRect(dx, dy, dw, dh); }
-            if(mk==='minimal') { ctx.lineWidth = 15*Scale; ctx.strokeStyle = "#fff"; ctx.strokeRect(dx+7*Scale, dy+7*Scale, dw-15*Scale, dh-15*Scale); }
+            if(mk==='minimal') { ctx.lineWidth = 15*Scale; ctx.strokeStyle = c; ctx.strokeRect(dx+7*Scale, dy+7*Scale, dw-15*Scale, dh-15*Scale); }
             if(mk==='museum') {
                 const b1 = 4*Scale; ctx.lineWidth = b1; ctx.strokeStyle = "#fff"; ctx.strokeRect(dx, dy, dw, dh);
                 ctx.strokeStyle = c; ctx.strokeRect(dx-b1, dy-b1, dw+b1*2, dh+b1*2);
             }
-            if(mk==='cinema') {
-                const barH = dh * 0.12; ctx.fillStyle = "#000"; ctx.fillRect(dx, dy, dw, barH); ctx.fillRect(dx, dy + dh - barH, dw, barH);
-            }
+            if(mk==='cinema') { const barH = dh * 0.12; ctx.fillStyle = "#000"; ctx.fillRect(dx, dy, dw, barH); ctx.fillRect(dx, dy + dh - barH, dw, barH); }
+            if(mk==='tv') { ctx.lineWidth=15*Scale; ctx.strokeStyle="#111"; ctx.strokeRect(dx,dy,dw,dh); }
+            if(mk==='tablet') { ctx.lineWidth=20*Scale; ctx.strokeStyle="#333"; ctx.strokeRect(dx,dy,dw,dh); ctx.fillStyle="#333"; ctx.beginPath(); ctx.arc(dx+dw+10*Scale, dy+dh/2, 8*Scale, 0, Math.PI*2); ctx.fill(); }
+            if(mk==='phone') { ctx.lineWidth=10*Scale; ctx.strokeStyle="#000"; ctx.strokeRect(dx,dy,dw,dh); }
+            
             ctx.restore();
         }
 
