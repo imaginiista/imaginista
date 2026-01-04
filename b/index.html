@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Imaginista V32 - Diamond Plus</title>
+    <title>Imaginista V33 - Diamond Plus (Corrigido)</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cinzel+Decorative:wght@400;700;900&family=Raleway:wght@200;400;600;800&family=Parisienne&family=Montserrat:wght@300;700&family=Playfair+Display:ital@1&family=Oswald&family=Merriweather&family=Lato&family=Poppins&family=Dancing+Script&display=swap" rel="stylesheet">
 
     <style>
-        /* === ESTILO MASTER V32 === */
+        /* === ESTILO MASTER V33 === */
         :root { --gold: #d4af37; --panel-bg: #111; --body-bg: #050505; --text: #ddd; }
         * { box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
         
@@ -210,7 +210,6 @@
                 </div>
                 <div class="font-row">
                     <button class="btn-font-extra">🔤 Upload .TTF <input type="file" onclick="this.value=null" onchange="App.loadFont(this, 'sel-font-nome')"></button>
-                    <button class="btn-trash" onclick="App.resetFont('sel-font-nome')">🗑️</button>
                 </div>
                 <div class="grid-2">
                     <select id="pos-nome" onchange="App.update()">
@@ -244,7 +243,6 @@
                 </div>
                 <div class="font-row">
                     <button class="btn-font-extra">🔤 Upload .TTF <input type="file" onclick="this.value=null" onchange="App.loadFont(this, 'sel-font-sub')"></button>
-                    <button class="btn-trash" onclick="App.resetFont('sel-font-sub')">🗑️</button>
                 </div>
                 <div class="grid-2">
                     <select id="pos-sub" onchange="App.update()">
@@ -280,7 +278,6 @@
                     </select>
                     <div class="font-row" style="margin:0">
                         <button class="btn-font-extra" style="margin:0; padding:4px;">🔤 <input type="file" onclick="this.value=null" onchange="App.loadFont(this, 'sel-font-info')"></button>
-                        <button class="btn-trash" style="width:25px;" onclick="App.resetFont('sel-font-info')">🗑️</button>
                     </div>
                 </div>
                 <div class="grid-2" style="margin-top:5px;">
@@ -301,7 +298,7 @@
             <div class="action-dock">
                 <label class="btn-action btn-load">
                     📸 Carregar
-                    <input type="file" id="file-photos" multiple accept="image/*" onclick="this.value=null" onchange="App.handleFiles(this)">
+                    <input type="file" id="file-photos" multiple accept="image/*" onchange="App.handleFiles(this)">
                 </label>
                 <button class="btn-action btn-process" onclick="App.render()">✨ Processar</button>
             </div>
@@ -448,20 +445,27 @@
                 b.onclick = () => { document.querySelectorAll('.fx-btn').forEach(x=>x.classList.remove('active')); b.classList.add('active'); App.effect = f.id; App.update(); };
                 box.appendChild(b);
             });
-            document.getElementById('file-photos').onclick = function(){ this.value = null; };
+            // CORREÇÃO: Removido o bloqueio de onclick aqui que poderia atrapalhar o upload
             App.update();
         };
 
         App.handleFiles = async function(input) {
-            if(!input.files.length) return;
+            // CORREÇÃO: Verificação mais robusta
+            if(!input.files || !input.files.length) return;
             try {
                 const files = Array.from(input.files);
                 document.querySelector('.btn-load').innerText = '...';
                 App.images = []; 
                 for(let f of files) App.images.push(await loadImg(f));
                 document.querySelector('.btn-load').innerText = '📸 Carregar';
+                // CORREÇÃO: Limpar o value para permitir carregar o mesmo arquivo novamente se necessário
+                input.value = ''; 
                 setTimeout(App.update, 200);
-            } catch(e) { console.error(e); }
+            } catch(e) { 
+                console.error(e); 
+                alert("Erro ao carregar imagem. Tente outra foto.");
+                document.querySelector('.btn-load').innerText = '📸 Carregar';
+            }
         };
 
         App.handleLogo = async function(i) { if(i.files[0]) { App.userLogo = await loadImg(i.files[0]); document.getElementById('pv-logo').style.display='block'; App.update(); } };
@@ -535,7 +539,7 @@
                                 drawFrame(ctx, [group[j]], 'single', W, H);
                                 saveImage(cvs, `arte_${i+1}_${j+1}`, document.getElementById('sel-fmt').value);
                              }
-                        }
+                         }
                     } else {
                         drawFrame(ctx, group, layout, W, H);
                         saveImage(cvs, `arte_${i+1}`, document.getElementById('sel-fmt').value);
@@ -603,10 +607,7 @@
                 ctx.fillStyle="#333"; ctx.font=`${pBot*0.35}px 'Great Vibes'`; ctx.textAlign="center";
                 ctx.fillText(pt, dx + dw/2, dy + dh + pBot*0.7);
             } 
-            else if(mk!=='none' && mk!=='minimal' && mk!=='cinema') {
-                ctx.shadowColor="rgba(0,0,0,0.6)"; ctx.shadowBlur=25*Scale; ctx.shadowOffsetY=15*Scale;
-                ctx.fillStyle="rgba(0,0,0,1)"; ctx.fillRect(dx+5,dy+5,dw-10,dh-10); ctx.shadowBlur=0;
-            }
+            /* CORREÇÃO: REMOVIDO O BLOCO QUE CAUSAVA O RISCO PRETO DENTRO DA IMAGEM */
 
             if(document.getElementById('chk-hdr').checked) ctx.filter="contrast(1.1) saturate(1.2)";
             if(document.getElementById('chk-upscale').checked) ctx.filter+=" contrast(1.15) brightness(1.05) saturate(1.05)";
