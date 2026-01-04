@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Imaginista V40 - Platinum Final</title>
+    <title>Imaginista V41 - Final Release</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cinzel+Decorative:wght@400;700;900&family=Raleway:wght@200;400;600;800&family=Parisienne&family=Montserrat:wght@300;700&family=Playfair+Display:ital@1&family=Oswald&family=Merriweather&family=Lato&family=Poppins&family=Dancing+Script&display=swap" rel="stylesheet">
 
     <style>
-        /* === ESTILO MASTER V40 === */
+        /* === ESTILO MASTER V41 === */
         :root { --gold: #d4af37; --panel-bg: #111; --body-bg: #050505; --text: #ddd; }
         * { box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
         
@@ -30,15 +30,9 @@
         }
         .header-logo:active { transform: scale(0.9); }
         
-        /* Efeito Shimmer na Frase */
         .header-slogan { 
-            font-size: 0.75em; letter-spacing: 2px; text-transform: uppercase; font-weight: 800;
-            background: linear-gradient(90deg, #666 0%, #fff 50%, #666 100%);
-            background-size: 200% auto;
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            animation: shimmer 4s infinite linear;
+            font-size: 0.7em; letter-spacing: 2px; text-transform: uppercase; color: #666; font-weight: 700;
         }
-        @keyframes shimmer { to { background-position: 200% center; } }
 
         .header-tools { margin-top: 8px; display: flex; gap: 15px; }
         .btn-tool {
@@ -48,10 +42,21 @@
         }
         .btn-tool:hover { border-color: var(--gold); color: #fff; background: #222; }
 
+        /* PINCEL ANIMADO */
+        .magic-brush {
+            display: inline-block; font-size: 1.2em;
+            animation: brush-magic 3s infinite alternate ease-in-out;
+        }
+        @keyframes brush-magic {
+            0% { transform: rotate(0deg) scale(1); filter: hue-rotate(0deg); }
+            50% { transform: rotate(15deg) scale(1.1); filter: hue-rotate(180deg); }
+            100% { transform: rotate(0deg) scale(1); filter: hue-rotate(360deg); }
+        }
+
         /* PARTICULAS (Fogos) */
         .particle { 
-            position: absolute; width: 6px; height: 6px; border-radius: 50%; 
-            pointer-events: none; z-index: 999;
+            position: fixed; width: 6px; height: 6px; border-radius: 50%; 
+            pointer-events: none; z-index: 9999;
             animation: pop 0.8s ease-out forwards; 
         }
         @keyframes pop { 
@@ -148,7 +153,10 @@
         /* GALERIA */
         .gallery-section { padding: 40px; background: #0a0a0a; border-top: 2px solid var(--gold); min-height: 400px; }
         .gallery-title { text-align: center; color: var(--gold); font-family: 'Cinzel Decorative'; font-size: 2.5em; margin-bottom: 10px; letter-spacing: 2px; text-shadow: 0 0 10px rgba(212, 175, 55, 0.3); }
-        .gallery-subtitle { text-align: center; font-family: 'Raleway'; font-size: 0.9em; margin-bottom: 40px; }
+        
+        .gallery-slogan { 
+            text-align: center; font-size: 1.1em; letter-spacing: 1px; color: #888; margin-bottom: 40px; font-family: 'Raleway'; text-transform: uppercase;
+        }
         
         #gallery-content { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
         .res-card { background: #111; border: 1px solid #333; padding: 10px; border-radius: 8px; text-align:center; transition:0.3s; animation: fadeIn 0.5s ease; }
@@ -178,7 +186,7 @@
 
     <header class="app-header">
         <img src="imagens/logo.png" class="header-logo" alt="IMAGINISTA" onerror="this.style.display='none'" onclick="App.confetti(event)">
-        <div class="header-slogan">Onde a imaginação vira arte 🖌️</div>
+        <div class="header-slogan">Área de Criação & Download</div>
         <div class="header-tools">
             <button class="btn-tool" onclick="document.querySelector('.gallery-section').scrollIntoView({behavior:'smooth'})">⬇ Obras</button>
             <button class="btn-tool" onclick="location.reload()">↺ Reset</button>
@@ -486,7 +494,10 @@
 
     <section class="gallery-section">
         <h2 class="gallery-title">Obras-Primas</h2>
-        <div class="header-slogan" style="margin-bottom:30px;">Onde a imaginação vira arte 🖌️</div>
+        <div class="gallery-slogan">
+            Onde a imaginação vira arte 
+            <span class="magic-brush">🖌️</span>
+        </div>
         <div id="gallery-content"></div>
     </section>
 
@@ -507,18 +518,18 @@
 
         App.confetti = function(e) {
             const colors = ['#d4af37', '#ffffff', '#ffe066', '#ff4d4d', '#4dff4d'];
-            const btn = e.target;
-            const rect = btn.getBoundingClientRect();
-            // Pega posição exata do clique relativo à viewport
-            const originX = e.clientX;
-            const originY = e.clientY;
+            const rect = e.target.getBoundingClientRect();
+            // Calcula o centro do clique relativo a viewport
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
             
             for(let i=0; i<40; i++) {
                 const p = document.createElement('div');
                 p.classList.add('particle');
                 p.style.backgroundColor = colors[Math.floor(Math.random()*colors.length)];
-                p.style.left = originX + 'px';
-                p.style.top = originY + 'px';
+                // Posição inicial fixa no clique
+                p.style.left = centerX + 'px';
+                p.style.top = centerY + 'px';
                 
                 const angle = Math.random() * Math.PI * 2;
                 const velocity = 30 + Math.random() * 100;
@@ -696,21 +707,31 @@
             try {
                 await new Promise(r=>setTimeout(r, 200));
                 for(let i=0; i<App.images.length; i+=bs) {
-                    const group = App.images.slice(i, i+bs);
+                    // FIX: SE FOR GRID (ex: 15 fotos), desenha mesmo que tenha menos fotos
+                    // Se for Single (1), desenha uma por vez
+                    // Se for Grid mas i+bs exceder, slice pega o resto e desenha
+                    
+                    let group;
+                    if(layout === 'single') {
+                         // Lógica antiga para único
+                         group = App.images.slice(i, i+1);
+                    } else {
+                         // Lógica nova para grids: Pega o bloco (ex: 15)
+                         // Se só tiver 12 restantes, group.length será 12
+                         group = App.images.slice(i, i+bs);
+                    }
+
                     const cvs = document.createElement('canvas'); cvs.width=W; cvs.height=H;
                     const ctx = cvs.getContext('2d');
                     await new Promise(r => requestAnimationFrame(r));
 
-                    if(group.length < bs && bs > 1) {
-                        for(let j=0; j<group.length; j++) {
-                             if(group[j]) {
-                                drawFrame(ctx, [group[j]], 'single', W, H, i+j); 
-                                saveImage(cvs, `arte_${i+1}_${j+1}`, format, qLabel);
-                             }
-                         }
-                    } else {
+                    // Lógica unificada: Desenha o Grid com o grupo que temos
+                    if(layout !== 'single' && group.length > 0) {
                         drawFrame(ctx, group, layout, W, H, i); 
                         saveImage(cvs, `arte_${i+1}`, format, qLabel);
+                    } else if(layout === 'single') {
+                         drawFrame(ctx, group, 'single', W, H, i);
+                         saveImage(cvs, `arte_${i+1}`, format, qLabel);
                     }
                 }
                 document.querySelector('.gallery-section').scrollIntoView({behavior:'smooth'});
@@ -744,7 +765,7 @@
                     const isCenter = (mode==='grid_diamond' && i===1);
                     const photoIndex = startIndex + i;
                     const state = App.photoStates[photoIndex] || {x:0, y:0, s:100};
-                    const filter = App.photoFilters[photoIndex] || 'normal'; // Get individual filter
+                    const filter = App.photoFilters[photoIndex] || 'normal'; 
                     
                     if(imgs[i] && imgs[i].width > 0) {
                         drawPhoto(ctx, imgs[i], slot, isCenter, W, state, filter);
@@ -836,6 +857,7 @@
 
             // Overlays (Molduras por cima)
             ctx.save();
+            // Polaroid Texto apenas (fundo já foi desenhado)
             if(mk==='polaroid') {
                 const pPad=w*0.04; const pBot=w*0.18;
                 const pt = document.getElementById('in-polaroid').value;
