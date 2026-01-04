@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Imaginista V45 - Diamond Final</title>
+    <title>Imaginista V46 - Platinum Masterpiece</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cinzel+Decorative:wght@400;700;900&family=Raleway:wght@200;400;600;800&family=Parisienne&family=Montserrat:wght@300;700&family=Playfair+Display:ital@1&family=Oswald&family=Merriweather&family=Lato&family=Poppins&family=Dancing+Script&display=swap" rel="stylesheet">
 
     <style>
-        /* === ESTILO MASTER V45 === */
+        /* === ESTILO MASTER V46 === */
         :root { --gold: #d4af37; --panel-bg: #111; --body-bg: #050505; --text: #ddd; }
         * { box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
         
@@ -18,31 +18,6 @@
             overflow-x: hidden; overflow-y: auto; user-select: none;
         }
 
-        /* === INTRO COSMIC OVERLAY === */
-        #intro-overlay {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
-            z-index: 99999; display: flex; justify-content: center; align-items: center; flex-direction: column;
-            transition: opacity 0.8s ease-out;
-        }
-        #intro-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
-        .intro-content { z-index: 2; text-align: center; display: flex; flex-direction: column; align-items: center; animation: introFadeUp 1s ease-out; padding: 20px; }
-        .intro-logo { width: 180px; max-width: 80vw; object-fit: contain; filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.8)); margin-bottom: 20px; }
-        .intro-phrase {
-            font-family: 'Cinzel Decorative', serif; color: var(--gold); font-size: 1.5em;
-            letter-spacing: 2px; margin-bottom: 40px; text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
-            display: flex; align-items: center; gap: 10px; justify-content: center;
-        }
-        #btn-open-app {
-            background: linear-gradient(45deg, var(--gold), #ffe066); color: #000;
-            border: none; padding: 15px 40px; font-size: 1em; font-weight: 800;
-            text-transform: uppercase; letter-spacing: 2px; border-radius: 50px;
-            cursor: pointer; box-shadow: 0 0 30px rgba(212, 175, 55, 0.4);
-            transition: 0.3s; position: relative; overflow: hidden;
-        }
-        #btn-open-app:hover { transform: scale(1.05); box-shadow: 0 0 50px rgba(212, 175, 55, 0.7); filter: brightness(1.1); }
-        @keyframes introFadeUp { from { opacity:0; transform: translateY(30px); } to { opacity:1; transform: translateY(0); } }
-
         /* HEADER CENTRALIZADO */
         header {
             background: #080808; border-bottom: 2px solid var(--gold);
@@ -50,7 +25,7 @@
             padding: 20px 10px; flex-shrink: 0; z-index: 100; box-shadow: 0 5px 20px #000; position: relative;
         }
         .header-logo { 
-            height: 60px; object-fit: contain; margin-bottom: 5px; display: block;
+            height: 60px; object-fit: contain; margin-bottom: 10px; display: block;
             filter: drop-shadow(0 0 5px var(--gold)); cursor: pointer; transition: transform 0.1s;
         }
         .header-logo:active { transform: scale(0.9); }
@@ -68,7 +43,7 @@
 
         /* PINCEL MÁGICO (Cereja do Bolo) */
         .magic-brush {
-            display: inline-block; font-size: 1.4em; filter: drop-shadow(0 0 5px var(--gold));
+            display: inline-block; font-size: 1.5em; filter: drop-shadow(0 0 5px var(--gold));
             animation: brush-dance 2s infinite ease-in-out alternate;
             -webkit-text-fill-color: initial; /* Garante cor do emoji */
         }
@@ -86,7 +61,32 @@
         }
         .btn-tool:hover { border-color: var(--gold); color: #fff; background: #222; }
 
-        /* PARTICULAS (Fogos) */
+        /* INTRO OVERLAY */
+        #intro-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
+            z-index: 99999; display: flex; justify-content: center; align-items: center; flex-direction: column;
+            transition: opacity 0.8s ease-out;
+        }
+        #intro-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
+        .intro-content { z-index: 2; text-align: center; display: flex; flex-direction: column; align-items: center; animation: introFadeUp 1s ease-out; padding: 20px; }
+        .intro-logo { width: 200px; max-width: 80vw; object-fit: contain; filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.8)); margin-bottom: 20px; }
+        .intro-phrase {
+            font-family: 'Cinzel Decorative', serif; color: var(--gold); font-size: 1.5em;
+            letter-spacing: 2px; margin-bottom: 40px; text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+            display: flex; align-items: center; gap: 10px; justify-content: center;
+        }
+        #btn-open-app {
+            background: linear-gradient(45deg, var(--gold), #ffe066); color: #000;
+            border: none; padding: 15px 40px; font-size: 1em; font-weight: 800;
+            text-transform: uppercase; letter-spacing: 2px; border-radius: 50px;
+            cursor: pointer; box-shadow: 0 0 30px rgba(212, 175, 55, 0.4);
+            transition: 0.3s; position: relative; overflow: hidden;
+        }
+        #btn-open-app:hover { transform: scale(1.05); box-shadow: 0 0 50px rgba(212, 175, 55, 0.7); filter: brightness(1.1); }
+        @keyframes introFadeUp { from { opacity:0; transform: translateY(30px); } to { opacity:1; transform: translateY(0); } }
+
+        /* PARTICULAS */
         .particle { 
             position: fixed; width: 6px; height: 6px; border-radius: 50%; 
             pointer-events: none; z-index: 9999;
@@ -187,6 +187,8 @@
         .gallery-section { padding: 40px; background: #0a0a0a; border-top: 2px solid var(--gold); min-height: 400px; display: flex; flex-direction: column; align-items: center; }
         .gallery-title { text-align: center; color: var(--gold); font-family: 'Cinzel Decorative'; font-size: 2.5em; margin-bottom: 10px; letter-spacing: 2px; text-shadow: 0 0 10px rgba(212, 175, 55, 0.3); width: 100%; }
         
+        .gallery-slogan-box { display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 40px; width: 100%; }
+        
         #gallery-content { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; width: 100%; max-width: 1200px; text-align: left; }
         .res-card { background: #111; border: 1px solid #333; padding: 10px; border-radius: 8px; text-align:center; transition:0.3s; animation: fadeIn 0.5s ease; }
         @keyframes fadeIn { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
@@ -231,7 +233,7 @@
             Onde a imaginação vira arte <span class="magic-brush">🖌️</span>
         </div>
         <div class="header-tools">
-            <button class="btn-tool" onclick="document.querySelector('.gallery-section').scrollIntoView({behavior:'smooth'})">⬇ Obras</button>
+            <button class="btn-tool" onclick="document.querySelector('.gallery-section').scrollIntoView({behavior:'smooth'})">⬇ Obras-Primas</button>
             <button class="btn-tool" onclick="location.reload()">↺ Reset</button>
         </div>
     </header>
@@ -809,8 +811,9 @@
             const layout = document.getElementById('sel-layout').value;
             const bs = getBatch(layout);
             const format = document.getElementById('sel-fmt').value;
-            const qLabel = q === 1 ? 'FullHD' : (q === 2 ? '4K' : '8K');
             
+            const qLabel = q === 1 ? 'FullHD' : (q === 2 ? '4K' : '8K');
+
             const numCheck = document.getElementById('chk-show-nums');
             const wasChecked = numCheck.checked;
             numCheck.checked = false;
@@ -818,6 +821,8 @@
             try {
                 await new Promise(r=>setTimeout(r, 200));
                 for(let i=0; i<App.images.length; i+=bs) {
+                    
+                    // LÓGICA CRUCIAL DO GRID
                     let group;
                     if(layout === 'single') {
                          group = App.images.slice(i, i+1);
@@ -830,6 +835,7 @@
                     const ctx = cvs.getContext('2d');
                     await new Promise(r => requestAnimationFrame(r));
 
+                    // Lógica unificada: Desenha o Grid com o grupo que temos
                     if(layout !== 'single' && group.length > 0) {
                         drawFrame(ctx, group, layout, W, H, i); 
                         saveImage(cvs, `arte_${i+1}_${j+1}`, format, qLabel);
@@ -841,6 +847,7 @@
                 document.querySelector('.gallery-section').scrollIntoView({behavior:'smooth'});
             } catch(e){ console.error(e); }
             
+            // Restaura checkbox
             numCheck.checked = wasChecked;
             if(wasChecked) App.update();
             document.getElementById('loader').style.display='none';
@@ -848,6 +855,7 @@
 
         function drawFrame(ctx, imgs, mode, W, H, startIndex) {
             ctx.filter = "none";
+            // Fundo
             if(App.userBg) {
                 if(document.getElementById('chk-trans').checked) ctx.clearRect(0,0,W,H);
                 else { ctx.fillStyle=document.getElementById('col-bg').value; ctx.fillRect(0,0,W,H); }
@@ -860,6 +868,7 @@
                 else { ctx.fillStyle = document.getElementById('col-bg').value || '#111'; ctx.fillRect(0,0,W,H); }
             }
 
+            // Grid
             try {
                 const slots = getSlots(mode, W, H);
                 const showNums = document.getElementById('chk-show-nums').checked;
@@ -871,9 +880,10 @@
                     
                     if(imgs[i] && imgs[i].width > 0) {
                         drawPhoto(ctx, imgs[i], slot, isCenter, W, state, filter);
+                        // Overlay de Número (Gigante e Centralizado no Slot)
                         if(showNums) {
                             ctx.save();
-                            const numSize = Math.min(slot.w, slot.h) * 0.4; 
+                            const numSize = Math.min(slot.w, slot.h) * 0.4; // 40% do tamanho do slot
                             ctx.font = `bold ${numSize}px Arial`;
                             ctx.fillStyle = "rgba(255,255,255,0.8)";
                             ctx.strokeStyle = "#000";
@@ -909,6 +919,7 @@
             const dx = x + (w - dw)/2 + panX; const dy = y + (h - dh)/2 + panY;
             const c = document.getElementById('col-frame').value;
 
+            // FIX 1: Desenhando fundo do polaroid ANTES da foto
             if(mk==='polaroid') {
                 const pPad=w*0.04; const pBot=w*0.18;
                 ctx.save();
@@ -941,6 +952,7 @@
             
             if(mk==='circle' || mk==='rounded' || mk==='paper') ctx.clip();
 
+            // Aplica filtro individual
             const f = filterId; 
             if(f==='bw') ctx.filter = "grayscale(1) contrast(1.2)"; 
             if(f==='sepia') ctx.filter = "sepia(0.8)"; 
@@ -948,6 +960,7 @@
             if(f==='deep') ctx.filter = "contrast(1.3) saturate(1.2)"; 
             if(f==='sharp') ctx.filter = "contrast(1.4) brightness(1.1)";
 
+            // Adiciona filtros globais
             if(document.getElementById('chk-hdr').checked) ctx.filter += " contrast(1.1) saturate(1.2)";
             if(document.getElementById('chk-upscale').checked) ctx.filter += " contrast(1.15) brightness(1.05) saturate(1.05)";
             
@@ -955,7 +968,9 @@
             ctx.filter = "none";
             ctx.restore(); 
 
+            // Overlays (Molduras por cima)
             ctx.save();
+            // Polaroid Texto apenas (fundo já foi desenhado)
             if(mk==='polaroid') {
                 const pPad=w*0.04; const pBot=w*0.18;
                 const pt = document.getElementById('in-polaroid').value;
@@ -1064,6 +1079,7 @@
         function getSlots(mode, W, H) {
             const pad = W * 0.05; const aH = H * 0.70; const startY = (H - aH) / 2; 
             
+            // X and Y Gaps independently controlled
             const userGapX = parseInt(document.getElementById('in-gap-x').value) || 10;
             const userGapY = parseInt(document.getElementById('in-gap-y').value) || 10;
             const gapX = W * (userGapX / 1000); 
@@ -1136,6 +1152,7 @@
                 for(let r=0; r<rows; r++) { for(let c=0; c<cols; c++) { arr.push({x: c*(wCell+gapX), y: startY + r*(hCell+gapY), w: wCell, h: hCell}); } }
                 return arr;
             }
+            // NOVO GRID 32 (Smart Orientation)
             if(mode==='grid_thirtytwo') {
                 const isPortrait = H > W;
                 const cols = isPortrait ? 4 : 8;
