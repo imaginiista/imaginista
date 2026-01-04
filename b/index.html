@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Imaginista V37 - Titanium Ultra</title>
+    <title>Imaginista V38 - Titanium Ultra</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cinzel+Decorative:wght@400;700;900&family=Raleway:wght@200;400;600;800&family=Parisienne&family=Montserrat:wght@300;700&family=Playfair+Display:ital@1&family=Oswald&family=Merriweather&family=Lato&family=Poppins&family=Dancing+Script&display=swap" rel="stylesheet">
 
     <style>
-        /* === ESTILO MASTER V37 === */
+        /* === ESTILO MASTER V38 === */
         :root { --gold: #d4af37; --panel-bg: #111; --body-bg: #050505; --text: #ddd; }
         * { box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
         
@@ -331,13 +331,21 @@
                     <option value="grid_diamond">3. Diamante</option><option value="collage_dyn">3. Triângulo</option>
                     <option value="grid_quad">4. Quatro</option><option value="film_strip">4. Tira</option>
                     <option value="grid_quint">5. Cinco</option><option value="grid_sena">6. Seis</option>
-                    <option value="grid_septa">7. Sete</option><option value="grid_octo">8. Oito</option>
+                    <option value="grid_septa">7. Sete (Novo Layout)</option>
+                    <option value="grid_octo">8. Oito</option>
                     <option value="grid_nona">9. Nove</option>
                     <option value="grid_fifteen">10. Mosaico (15 Fotos)</option>
                 </select>
-                <div class="flex-row" style="margin-top:5px;">
-                    <span class="xy-tag">Espaçamento:</span>
-                    <input type="range" id="in-gap" min="0" max="100" value="10" oninput="App.update()">
+                <label style="margin-top:10px;">Espaçamento (X / Y)</label>
+                <div class="flex-row">
+                    <span class="xy-tag">X:</span>
+                    <input type="range" id="in-gap-x" min="0" max="100" value="10" oninput="App.syncGap('x', this.value)">
+                    <input type="number" id="num-gap-x" value="10" style="width:50px;" oninput="App.syncGap('x', this.value)">
+                </div>
+                <div class="flex-row">
+                    <span class="xy-tag">Y:</span>
+                    <input type="range" id="in-gap-y" min="0" max="100" value="10" oninput="App.syncGap('y', this.value)">
+                    <input type="number" id="num-gap-y" value="10" style="width:50px;" oninput="App.syncGap('y', this.value)">
                 </div>
             </div>
 
@@ -348,6 +356,9 @@
                 <select id="sel-edit-target" onchange="App.syncInputs()" style="margin-bottom:8px; border-color:var(--gold);">
                     <option value="-1">✨ Aplicar em TODAS</option>
                 </select>
+                <label class="check-item" style="margin-bottom:8px; justify-content:center; color:#aaa; border:1px dashed #444;">
+                    <input type="checkbox" id="chk-show-nums" onchange="App.update()"> 🔢 Mostrar Números
+                </label>
 
                 <label>Posição (X / Y)</label>
                 <div class="grid-2">
@@ -520,6 +531,12 @@
             App.updateState();
         };
 
+        App.syncGap = function(axis, val) {
+            document.getElementById(`in-gap-${axis}`).value = val;
+            document.getElementById(`num-gap-${axis}`).value = val;
+            App.update();
+        };
+
         App.updateState = function() {
             const idx = parseInt(document.getElementById('sel-edit-target').value);
             const px = getVal('img-pan-x', 0);
@@ -581,8 +598,12 @@
             const W = bw*q; const H = bh*q;
             const layout = document.getElementById('sel-layout').value;
             const bs = getBatch(layout);
-            // Ajuste na função de salvar para garantir que pegue a extensão correta
             const format = document.getElementById('sel-fmt').value;
+
+            // Desativa números temporariamente ao salvar
+            const numCheck = document.getElementById('chk-show-nums');
+            const wasChecked = numCheck.checked;
+            numCheck.checked = false;
 
             try {
                 await new Promise(r=>setTimeout(r, 200));
@@ -606,6 +627,10 @@
                 }
                 document.querySelector('.gallery-section').scrollIntoView({behavior:'smooth'});
             } catch(e){ console.error(e); }
+            
+            // Restaura checkbox
+            numCheck.checked = wasChecked;
+            if(wasChecked) App.update();
             document.getElementById('loader').style.display='none';
         };
 
@@ -627,11 +652,26 @@
             // Grid
             try {
                 const slots = getSlots(mode, W, H);
+                const showNums = document.getElementById('chk-show-nums').checked;
                 slots.forEach((slot, i) => {
                     const isCenter = (mode==='grid_diamond' && i===1);
                     const photoIndex = startIndex + i;
                     const state = App.photoStates[photoIndex] || {x:0, y:0, s:100};
-                    if(imgs[i] && imgs[i].width > 0) drawPhoto(ctx, imgs[i], slot, isCenter, W, state);
+                    if(imgs[i] && imgs[i].width > 0) {
+                        drawPhoto(ctx, imgs[i], slot, isCenter, W, state);
+                        // Overlay de Número
+                        if(showNums) {
+                            ctx.save();
+                            ctx.fillStyle = "rgba(0,0,0,0.5)";
+                            ctx.fillRect(slot.x, slot.y, 60, 60);
+                            ctx.fillStyle = "#fff";
+                            ctx.font = "bold 40px Arial";
+                            ctx.textAlign = "left";
+                            ctx.textBaseline = "top";
+                            ctx.fillText(i+1, slot.x+15, slot.y+10);
+                            ctx.restore();
+                        }
+                    }
                 });
             } catch(e){}
 
@@ -793,72 +833,85 @@
             }
         }
 
-        // CORREÇÃO: Lógica de Grid refeita para Espaçamento Uniforme
         function getSlots(mode, W, H) {
             const pad = W * 0.05; const aH = H * 0.70; const startY = (H - aH) / 2; 
-            const userGap = parseInt(document.getElementById('in-gap').value) || 10;
-            const gap = W * (userGap / 1000); 
+            
+            // X and Y Gaps independently controlled
+            const userGapX = parseInt(document.getElementById('in-gap-x').value) || 10;
+            const userGapY = parseInt(document.getElementById('in-gap-y').value) || 10;
+            const gapX = W * (userGapX / 1000); 
+            const gapY = H * (userGapY / 1000);
 
             if(mode==='single') return [{x:0, y:startY, w:W, h:aH, pad:pad}];
             
             if(mode==='dual_vert') { 
-                const w2 = (W-gap)/2; 
-                return [{x:0,y:startY,w:w2,h:aH}, {x:w2+gap,y:startY,w:w2,h:aH}]; 
+                const w2 = (W-gapX)/2; 
+                return [{x:0,y:startY,w:w2,h:aH}, {x:w2+gapX,y:startY,w:w2,h:aH}]; 
             }
             if(mode==='grid_diamond') { 
-                const w2=(W-gap)/2; 
-                return [{x:0,y:startY,w:w2,h:aH},{x:w2+gap,y:startY,w:w2,h:aH},{x:W/4,y:startY+aH/4,w:W/2,h:aH/2}]; 
+                const w2=(W-gapX)/2; 
+                return [{x:0,y:startY,w:w2,h:aH},{x:w2+gapX,y:startY,w:w2,h:aH},{x:W/4,y:startY+aH/4,w:W/2,h:aH/2}]; 
             }
             if(mode==='collage_dyn') { 
-                const w2=(W-gap)/2; const h1=aH*0.6; const h2=aH*0.4-gap; 
-                return [{x:0,y:startY,w:W,h:h1},{x:0,y:startY+h1+gap,w:w2,h:h2},{x:w2+gap,y:startY+h1+gap,w:w2,h:h2}]; 
+                const w2=(W-gapX)/2; const h1=aH*0.6; const h2=aH*0.4-gapY; 
+                return [{x:0,y:startY,w:W,h:h1},{x:0,y:startY+h1+gapY,w:w2,h:h2},{x:w2+gapX,y:startY+h1+gapY,w:w2,h:h2}]; 
             }
             if(mode==='grid_quad') { 
-                const w2=(W-gap)/2; const h2=(aH-gap)/2; 
-                return [{x:0,y:startY,w:w2,h:h2}, {x:w2+gap,y:startY,w:w2,h:h2},{x:0,y:startY+h2+gap,w:w2,h:h2}, {x:w2+gap,y:startY+h2+gap,w:w2,h:h2}]; 
+                const w2=(W-gapX)/2; const h2=(aH-gapY)/2; 
+                return [{x:0,y:startY,w:w2,h:h2}, {x:w2+gapX,y:startY,w:w2,h:h2},{x:0,y:startY+h2+gapY,w:w2,h:h2}, {x:w2+gapX,y:startY+h2+gapY,w:w2,h:h2}]; 
             }
             if(mode==='film_strip') { 
-                const w4=(W-3*gap)/4; 
-                return [{x:0,y:startY,w:w4,h:aH}, {x:w4+gap,y:startY,w:w4,h:aH},{x:2*(w4+gap),y:startY,w:w4,h:aH}, {x:3*(w4+gap),y:startY,w:w4,h:aH}]; 
+                const w4=(W-3*gapX)/4; 
+                return [{x:0,y:startY,w:w4,h:aH}, {x:w4+gapX,y:startY,w:w4,h:aH},{x:2*(w4+gapX),y:startY,w:w4,h:aH}, {x:3*(w4+gapX),y:startY,w:w4,h:aH}]; 
             }
             if(mode==='grid_quint') { 
-                const w2=(W-gap)/2; const h2=(aH-gap)/2; 
-                return [{x:0,y:startY,w:w2,h:h2}, {x:w2+gap,y:startY,w:w2,h:h2},{x:0,y:startY+h2+gap,w:w2,h:h2}, {x:w2+gap,y:startY+h2+gap,w:w2,h:h2},{x:W*0.25,y:startY+aH*0.25,w:W*0.5,h:aH*0.5}]; 
+                const w2=(W-gapX)/2; const h2=(aH-gapY)/2; 
+                return [{x:0,y:startY,w:w2,h:h2}, {x:w2+gapX,y:startY,w:w2,h:h2},{x:0,y:startY+h2+gapY,w:w2,h:h2},{x:w2+gapX,y:startY+h2+gapY,w:w2,h:h2},{x:W*0.25,y:startY+aH*0.25,w:W*0.5,h:aH*0.5}]; 
             }
             if(mode==='grid_sena') { 
-                const w3=(W-2*gap)/3; const h2=(aH-gap)/2; 
+                const w3=(W-2*gapX)/3; const h2=(aH-gapY)/2; 
                 return [
-                    {x:0,y:startY,w:w3,h:h2}, {x:w3+gap,y:startY,w:w3,h:h2}, {x:2*(w3+gap),y:startY,w:w3,h:h2},
-                    {x:0,y:startY+h2+gap,w:w3,h:h2}, {x:w3+gap,y:startY+h2+gap,w:w3,h:h2}, {x:2*(w3+gap),y:startY+h2+gap,w:w3,h:h2}
+                    {x:0,y:startY,w:w3,h:h2}, {x:w3+gapX,y:startY,w:w3,h:h2}, {x:2*(w3+gapX),y:startY,w:w3,h:h2},
+                    {x:0,y:startY+h2+gapY,w:w3,h:h2}, {x:w3+gapX,y:startY+h2+gapY,w:w3,h:h2}, {x:2*(w3+gapX),y:startY+h2+gapY,w:w3,h:h2}
                 ]; 
             }
+            // NOVO GRID 7 (2-3-2)
             if(mode==='grid_septa') { 
-                const w2=(W-gap)/2; const w3=(W-2*gap)/3; const h2=(aH-gap)/2; 
-                return [{x:0,y:startY,w:w2,h:aH},{x:w2+gap,y:startY,w:w3,h:h2}, {x:w2+gap+w3+gap,y:startY,w:w3,h:h2},{x:w2+gap,y:startY+h2+gap,w:w3,h:h2}, {x:w2+gap+w3+gap,y:startY+h2+gap,w:w3,h:h2},{x:w2+gap,y:startY,w:w3,h:h2}, {x:w2+gap,y:startY,w:w3,h:h2}]; 
+                const h3 = (aH - 2*gapY)/3;
+                const w2 = (W - gapX)/2;
+                const w3 = (W - 2*gapX)/3;
+                
+                return [
+                    // Row 1 (2 pics)
+                    {x:0, y:startY, w:w2, h:h3}, {x:w2+gapX, y:startY, w:w2, h:h3},
+                    // Row 2 (3 pics)
+                    {x:0, y:startY+h3+gapY, w:w3, h:h3}, {x:w3+gapX, y:startY+h3+gapY, w:w3, h:h3}, {x:2*(w3+gapX), y:startY+h3+gapY, w:w3, h:h3},
+                    // Row 3 (2 pics)
+                    {x:0, y:startY+2*(h3+gapY), w:w2, h:h3}, {x:w2+gapX, y:startY+2*(h3+gapY), w:w2, h:h3}
+                ];
             }
             if(mode==='grid_octo') { 
                 const cols = 4; const rows = 2;
-                const wCell = (W - (cols-1)*gap) / cols;
-                const hCell = (aH - (rows-1)*gap) / rows;
+                const wCell = (W - (cols-1)*gapX) / cols;
+                const hCell = (aH - (rows-1)*gapY) / rows;
                 let arr = [];
-                for(let r=0; r<rows; r++) { for(let c=0; c<cols; c++) { arr.push({x: c*(wCell+gap), y: startY + r*(hCell+gap), w: wCell, h: hCell}); } }
+                for(let r=0; r<rows; r++) { for(let c=0; c<cols; c++) { arr.push({x: c*(wCell+gapX), y: startY + r*(hCell+gapY), w: wCell, h: hCell}); } }
                 return arr; 
             }
             if(mode==='grid_nona') { 
                 const cols = 3; const rows = 3;
-                const wCell = (W - (cols-1)*gap) / cols;
-                const hCell = (aH - (rows-1)*gap) / rows;
+                const wCell = (W - (cols-1)*gapX) / cols;
+                const hCell = (aH - (rows-1)*gapY) / rows;
                 let arr = [];
-                for(let r=0; r<rows; r++) { for(let c=0; c<cols; c++) { arr.push({x: c*(wCell+gap), y: startY + r*(hCell+gap), w: wCell, h: hCell}); } }
+                for(let r=0; r<rows; r++) { for(let c=0; c<cols; c++) { arr.push({x: c*(wCell+gapX), y: startY + r*(hCell+gapY), w: wCell, h: hCell}); } }
                 return arr;
             }
-            // NOVO GRID: Mosaico 15 Fotos
             if(mode==='grid_fifteen') {
                 const cols = 5; const rows = 3;
-                const wCell = (W - (cols-1)*gap) / cols;
-                const hCell = (aH - (rows-1)*gap) / rows;
+                const wCell = (W - (cols-1)*gapX) / cols;
+                const hCell = (aH - (rows-1)*gapY) / rows;
                 let arr = [];
-                for(let r=0; r<rows; r++) { for(let c=0; c<cols; c++) { arr.push({x: c*(wCell+gap), y: startY + r*(hCell+gap), w: wCell, h: hCell}); } }
+                for(let r=0; r<rows; r++) { for(let c=0; c<cols; c++) { arr.push({x: c*(wCell+gapX), y: startY + r*(hCell+gapY), w: wCell, h: hCell}); } }
                 return arr;
             }
 
@@ -876,14 +929,14 @@
         function drawCover(ctx, img, x, y, w, h) { if(!img) return; const s = Math.max(w/img.width, h/img.height); const dw=img.width*s; const dh=img.height*s; ctx.drawImage(img, x+(w-dw)/2, y+(h-dh)/2, dw, dh); }
         function adjustColor(hex, amt) { if(!hex || hex[0]!=='#') return '#000'; let num=parseInt(hex.slice(1),16); let r=(num>>16)+amt; let b=((num>>8)&0x00FF)+amt; let g=(num&0x0000FF)+amt; return "#"+(g|(b<<8)|(r<<16)).toString(16); }
         function applyFx(ctx) { const f = App.effect; if(f==='bw') ctx.filter = "grayscale(1) contrast(1.2)"; if(f==='sepia') ctx.filter = "sepia(0.8)"; if(f==='warm') ctx.filter = "sepia(0.3) saturate(1.4)"; if(f==='deep') ctx.filter = "contrast(1.3) saturate(1.2)"; if(f==='sharp') ctx.filter = "contrast(1.4) brightness(1.1)"; }
-        // CORREÇÃO: Força o tipo de imagem correto no salvamento
+        
         function saveImage(cvs, name, fmt) { 
             const container = document.getElementById('gallery-content'); 
             const card = document.createElement('div'); card.className='res-card'; 
             const mime = fmt === 'png' ? 'image/png' : 'image/jpeg';
             
             const imgDisplay = document.createElement('img'); 
-            imgDisplay.src = cvs.toDataURL('image/jpeg', 0.6); // Preview leve em JPG
+            imgDisplay.src = cvs.toDataURL('image/jpeg', 0.6); 
             
             const link = document.createElement('a'); 
             link.href = cvs.toDataURL(mime, 0.95); 
@@ -891,7 +944,10 @@
             link.className = 'dl-btn'; 
             link.innerText = `⬇ Baixar (${fmt.toUpperCase()})`; 
             
-            card.appendChild(imgDisplay); card.appendChild(link); container.appendChild(card); 
+            card.appendChild(imgDisplay); card.appendChild(link); 
+            // Inverte a ordem: adiciona no começo
+            if(container.firstChild) container.insertBefore(card, container.firstChild);
+            else container.appendChild(card);
         }
     </script>
 </body>
