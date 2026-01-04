@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Imaginista V28 - Diamond Edition</title>
+    <title>Imaginista V29 - Masterpiece</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cinzel+Decorative:wght@400;700;900&family=Raleway:wght@200;400;600;800&family=Parisienne&family=Montserrat:wght@300;700&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
 
     <style>
-        /* === ESTILO V28 === */
+        /* === ESTILO V29 === */
         :root { --gold: #d4af37; --panel-bg: #111; --body-bg: #050505; --text: #ddd; }
         * { box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
         
@@ -97,7 +97,12 @@
         .btn-load input { position: absolute; left:0; top:0; width:100%; height:100%; opacity:0; cursor: pointer; }
 
         .status-bar { display: flex; gap: 10px; align-items: center; justify-content: center; font-size: 0.7em; color: #666; padding: 5px; background: #000; }
-        .status-bar select { width: auto; padding: 2px 6px; border: 1px solid #333; background: #111; color: #888; cursor:pointer; font-size: 0.9em; height: 25px; }
+        /* Seletor Compacto */
+        .status-bar select { 
+            width: auto; padding: 2px 5px; border: 1px solid #333; background: #111; color: #aaa; 
+            cursor:pointer; font-size: 0.85em; height: 24px; border-radius: 3px; 
+        }
+        .status-bar select:hover { border-color: var(--gold); color: #fff; }
 
         /* CORES */
         .color-picker-compact { width: 25px; height: 25px; border-radius: 50%; border: 2px solid #444; background: conic-gradient(red, yellow, lime, blue, red); position: relative; overflow: hidden; cursor:pointer;}
@@ -118,6 +123,8 @@
         }
         .check-item:hover { border-color: var(--gold); background:#222; }
         .check-item input { accent-color: var(--gold); width:14px; height:14px; }
+        
+        .section-label { color: var(--gold); font-size: 0.7em; font-weight: bold; margin-top: 8px; margin-bottom: 3px; display: block; border-bottom: 1px solid #333; padding-bottom: 2px; }
 
         /* GALERIA */
         .gallery-section { padding: 40px; background: #0a0a0a; border-top: 2px solid var(--gold); min-height: 400px; }
@@ -198,7 +205,7 @@
                         <option value="Great Vibes">Great Vibes</option><option value="Parisienne">Parisienne</option>
                         <option value="Cinzel Decorative">Cinzel</option><option value="Playfair Display">Playfair</option>
                     </select>
-                    <input type="number" id="sz-nome" value="100" oninput="App.update()">
+                    <input type="number" id="sz-nome" value="100" oninput="App.update()" title="Tamanho">
                 </div>
                 <button class="btn-font-extra">🔤 Fonte <input type="file" onchange="App.loadFont(this, 'sel-font-nome')"></button>
                 <div class="grid-2">
@@ -224,7 +231,7 @@
                     <select id="sel-font-sub" onchange="App.update()">
                         <option value="Cinzel Decorative">Cinzel</option><option value="Montserrat">Montserrat</option>
                     </select>
-                    <input type="number" id="sz-sub" value="40" oninput="App.update()">
+                    <input type="number" id="sz-sub" value="40" oninput="App.update()" title="Tamanho">
                 </div>
                 <button class="btn-font-extra">🔤 Fonte <input type="file" onchange="App.loadFont(this, 'sel-font-sub')"></button>
                 <div class="grid-2">
@@ -250,9 +257,9 @@
                     <div class="color-picker-compact"><input type="color" id="col-info" value="#cccccc" oninput="App.update()"></div>
                     <input type="number" id="sz-info" value="25" oninput="App.update()" title="Tamanho">
                 </div>
+                <button class="btn-font-extra">🔤 Fonte <input type="file" onchange="App.loadFont(this, 'sel-font-info')"></button>
+                <select id="sel-font-info" style="display:none;"><option value="Raleway">Raleway</option></select>
                 <div class="grid-2">
-                    <button class="btn-font-extra" style="margin:0;">🔤 Fonte <input type="file" onchange="App.loadFont(this, 'sel-font-info')"></button>
-                    <select id="sel-font-info" style="display:none;"><option value="Raleway">Raleway</option></select>
                     <select id="pos-info" onchange="App.update()">
                         <option value="bc" selected>Base</option><option value="bl">Esq</option><option value="br">Dir</option>
                     </select>
@@ -340,8 +347,10 @@
             <div class="control-group">
                 <label>Moldura</label>
                 <select id="sel-mockup" onchange="App.update()">
-                    <option value="none">Clássica</option><option value="polaroid">Polaroid</option>
-                    <option value="museum">Museu</option><option value="minimal">Minimalista</option>
+                    <option value="none">Clássica (Borda Cor)</option>
+                    <option value="polaroid">Polaroid</option>
+                    <option value="museum">Museu</option>
+                    <option value="minimal">Minimalista</option>
                     <option value="cinema">Cinema</option>
                 </select>
                 <div class="flex-row">
@@ -361,11 +370,17 @@
             
             <div class="control-group">
                 <label>Efeitos</label>
+                
+                <span class="section-label">Atmosfera</span>
                 <div class="check-grid">
-                    <label class="check-item"><input type="checkbox" id="chk-upscale" onchange="App.update()"> ✨ Super Resolução</label>
                     <label class="check-item"><input type="checkbox" id="chk-blur" checked onchange="App.update()"> Blur Fundo</label>
                     <label class="check-item"><input type="checkbox" id="chk-vignette" checked onchange="App.update()"> Vinheta</label>
                     <label class="check-item"><input type="checkbox" id="chk-grain" checked onchange="App.update()"> Granulado</label>
+                    <label class="check-item"><input type="checkbox" id="chk-upscale" onchange="App.update()"> ✨ HD+</label>
+                </div>
+                
+                <span class="section-label">Luz & Partículas</span>
+                <div class="check-grid">
                     <label class="check-item"><input type="checkbox" id="chk-gold" onchange="App.update()"> ✨ Ouro</label>
                     <label class="check-item"><input type="checkbox" id="chk-stars" onchange="App.update()"> 🌌 Estrelas</label>
                     <label class="check-item"><input type="checkbox" id="chk-light" onchange="App.update()"> 🔦 Luz</label>
@@ -530,11 +545,15 @@
             if(mk==='polaroid') {
                 const pPad=w*0.03; const pBot=w*0.15;
                 ctx.fillStyle="#fff"; ctx.shadowColor="rgba(0,0,0,0.4)"; ctx.shadowBlur=15*Scale;
-                ctx.fillRect(x-pPad, y-pPad, w+(pPad*2), h+pPad+pBot); ctx.shadowBlur=0;
+                // Desenha a borda branca (fundo)
+                ctx.fillRect(dx-pPad, dy-pPad, dw+(pPad*2), dh+pPad+pBot); 
+                ctx.shadowBlur=0;
+                // Texto Polaroid
                 const pt = document.getElementById('in-polaroid').value;
                 ctx.fillStyle="#333"; ctx.font=`${pBot*0.35}px 'Great Vibes'`; ctx.textAlign="center";
-                ctx.fillText(pt, x+w/2, y+h+pBot*0.7);
-            } else if(mk!=='none' && mk!=='minimal' && mk!=='cinema') {
+                ctx.fillText(pt, dx + dw/2, dy + dh + pBot*0.7);
+            } 
+            else if(mk!=='none' && mk!=='minimal' && mk!=='cinema') {
                 ctx.shadowColor="rgba(0,0,0,0.6)"; ctx.shadowBlur=25*Scale; ctx.shadowOffsetY=15*Scale;
                 ctx.fillStyle="rgba(0,0,0,1)"; ctx.fillRect(dx+5,dy+5,dw-10,dh-10); ctx.shadowBlur=0;
             }
