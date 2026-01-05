@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Imaginista V47 - Diamond Perfect</title>
+    <title>Imaginista V47 - Diamond Final</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cinzel+Decorative:wght@400;700;900&family=Raleway:wght@200;400;600;800&family=Parisienne&family=Montserrat:wght@300;700&family=Playfair+Display:ital@1&family=Oswald&family=Merriweather&family=Lato&family=Poppins&family=Dancing+Script&display=swap" rel="stylesheet">
 
@@ -68,9 +68,10 @@
 
         /* PINCEL MÁGICO (Cereja do Bolo) */
         .magic-brush {
-            display: inline-block; font-size: 1.4em; filter: drop-shadow(0 0 5px var(--gold));
+            display: inline-block; font-size: 1.5em; filter: drop-shadow(0 0 5px var(--gold));
             animation: brush-dance 2s infinite ease-in-out alternate;
-            -webkit-text-fill-color: initial; /* Garante cor do emoji */
+            -webkit-text-fill-color: initial !important; /* Força a cor do emoji */
+            font-family: 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif; /* Garante fonte de emoji */
         }
         @keyframes brush-dance {
             0% { transform: rotate(0deg) scale(1); filter: hue-rotate(0deg); }
@@ -183,13 +184,15 @@
         .check-item input { accent-color: var(--gold); width:14px; height:14px; }
         .section-label { color: var(--gold); font-size: 0.7em; font-weight: bold; margin-top: 10px; margin-bottom: 5px; display: block; border-bottom: 1px solid #333; padding-bottom: 2px; }
 
-        /* GALERIA CENTRALIZADA */
+        /* GALERIA - Centraliza Título, deixa fotos em Grid */
         .gallery-section { padding: 40px; background: #0a0a0a; border-top: 2px solid var(--gold); min-height: 400px; display: flex; flex-direction: column; align-items: center; }
         .gallery-title { text-align: center; color: var(--gold); font-family: 'Cinzel Decorative'; font-size: 2.5em; margin-bottom: 10px; letter-spacing: 2px; text-shadow: 0 0 10px rgba(212, 175, 55, 0.3); width: 100%; }
         
         .gallery-slogan-box { display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 40px; width: 100%; }
         
-        #gallery-content { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; width: 100%; max-width: 1200px; text-align: left; }
+        /* Grid de fotos: uma ao lado da outra */
+        #gallery-content { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; width: 100%; max-width: 1200px; justify-content: center; }
+        
         .res-card { background: #111; border: 1px solid #333; padding: 10px; border-radius: 8px; text-align:center; transition:0.3s; animation: fadeIn 0.5s ease; }
         @keyframes fadeIn { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
         .res-card:hover { transform:translateY(-5px); border-color:var(--gold); }
@@ -233,7 +236,7 @@
             Onde a imaginação vira arte <span class="magic-brush">🖌️</span>
         </div>
         <div class="header-tools">
-            <button class="btn-tool" onclick="document.querySelector('.gallery-section').scrollIntoView({behavior:'smooth'})">⬇ Download</button>
+            <button class="btn-tool" onclick="document.querySelector('.gallery-section').scrollIntoView({behavior:'smooth'})">⬇ Obras-Primas</button>
             <button class="btn-tool" onclick="location.reload()">↺ Reset</button>
         </div>
     </header>
@@ -811,8 +814,10 @@
             const layout = document.getElementById('sel-layout').value;
             const bs = getBatch(layout);
             const format = document.getElementById('sel-fmt').value;
-            const qLabel = q === 1 ? 'FullHD' : (q === 2 ? '4K' : '8K');
             
+            const qLabel = q === 1 ? 'FullHD' : (q === 2 ? '4K' : '8K');
+
+            // Desativa números temporariamente ao salvar
             const numCheck = document.getElementById('chk-show-nums');
             const wasChecked = numCheck.checked;
             numCheck.checked = false;
@@ -821,10 +826,12 @@
                 await new Promise(r=>setTimeout(r, 200));
                 for(let i=0; i<App.images.length; i+=bs) {
                     
+                    // LÓGICA CRUCIAL DO GRID
                     let group;
                     if(layout === 'single') {
                          group = App.images.slice(i, i+1);
                     } else {
+                         // Se é GRID, pega o lote inteiro, mesmo que incompleto
                          group = App.images.slice(i, i+bs);
                     }
 
@@ -832,17 +839,19 @@
                     const ctx = cvs.getContext('2d');
                     await new Promise(r => requestAnimationFrame(r));
 
+                    // Lógica unificada: Desenha o Grid com o grupo que temos
                     if(layout !== 'single' && group.length > 0) {
                         drawFrame(ctx, group, layout, W, H, i); 
-                        saveImage(cvs, `arte_grid_${(i/bs)+1}`, format, qLabel); // FIXED BUG
+                        saveImage(cvs, `arte_${i+1}_${j+1}`, format, qLabel); // FIXED BUG
                     } else if(layout === 'single') {
                          drawFrame(ctx, group, 'single', W, H, i);
-                         saveImage(cvs, `arte_single_${i+1}`, format, qLabel);
+                         saveImage(cvs, `arte_${i+1}`, format, qLabel);
                     }
                 }
                 document.querySelector('.gallery-section').scrollIntoView({behavior:'smooth'});
             } catch(e){ console.error(e); }
             
+            // Restaura checkbox
             numCheck.checked = wasChecked;
             if(wasChecked) App.update();
             document.getElementById('loader').style.display='none';
@@ -850,6 +859,7 @@
 
         function drawFrame(ctx, imgs, mode, W, H, startIndex) {
             ctx.filter = "none";
+            // Fundo
             if(App.userBg) {
                 if(document.getElementById('chk-trans').checked) ctx.clearRect(0,0,W,H);
                 else { ctx.fillStyle=document.getElementById('col-bg').value; ctx.fillRect(0,0,W,H); }
@@ -862,6 +872,7 @@
                 else { ctx.fillStyle = document.getElementById('col-bg').value || '#111'; ctx.fillRect(0,0,W,H); }
             }
 
+            // Grid
             try {
                 const slots = getSlots(mode, W, H);
                 const showNums = document.getElementById('chk-show-nums').checked;
@@ -873,14 +884,14 @@
                     
                     if(imgs[i] && imgs[i].width > 0) {
                         drawPhoto(ctx, imgs[i], slot, isCenter, W, state, filter);
-                        // Overlay de Número (Dentro da foto)
+                        // Overlay de Número (Gigante e Centralizado no Slot)
                         if(showNums) {
                             ctx.save();
-                            const numSize = Math.min(slot.w, slot.h) * 0.3; 
-                            ctx.font = `900 ${numSize}px Arial`;
-                            ctx.fillStyle = "#fff";
+                            const numSize = Math.min(slot.w, slot.h) * 0.4; // 40% do tamanho do slot
+                            ctx.font = `bold ${numSize}px Arial`;
+                            ctx.fillStyle = "rgba(255,255,255,0.8)";
                             ctx.strokeStyle = "#000";
-                            ctx.lineWidth = numSize * 0.15;
+                            ctx.lineWidth = numSize * 0.1;
                             ctx.textAlign = "center";
                             ctx.textBaseline = "middle";
                             ctx.strokeText(i+1, slot.x + slot.w/2, slot.y + slot.h/2);
@@ -912,6 +923,7 @@
             const dx = x + (w - dw)/2 + panX; const dy = y + (h - dh)/2 + panY;
             const c = document.getElementById('col-frame').value;
 
+            // FIX 1: Desenhando fundo do polaroid ANTES da foto
             if(mk==='polaroid') {
                 const pPad=w*0.04; const pBot=w*0.18;
                 ctx.save();
@@ -944,6 +956,7 @@
             
             if(mk==='circle' || mk==='rounded' || mk==='paper') ctx.clip();
 
+            // Aplica filtro individual
             const f = filterId; 
             if(f==='bw') ctx.filter = "grayscale(1) contrast(1.2)"; 
             if(f==='sepia') ctx.filter = "sepia(0.8)"; 
@@ -951,6 +964,7 @@
             if(f==='deep') ctx.filter = "contrast(1.3) saturate(1.2)"; 
             if(f==='sharp') ctx.filter = "contrast(1.4) brightness(1.1)";
 
+            // Adiciona filtros globais
             if(document.getElementById('chk-hdr').checked) ctx.filter += " contrast(1.1) saturate(1.2)";
             if(document.getElementById('chk-upscale').checked) ctx.filter += " contrast(1.15) brightness(1.05) saturate(1.05)";
             
@@ -958,7 +972,9 @@
             ctx.filter = "none";
             ctx.restore(); 
 
+            // Overlays (Molduras por cima)
             ctx.save();
+            // Polaroid Texto apenas (fundo já foi desenhado)
             if(mk==='polaroid') {
                 const pPad=w*0.04; const pBot=w*0.18;
                 const pt = document.getElementById('in-polaroid').value;
