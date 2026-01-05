@@ -18,7 +18,7 @@
             overflow-x: hidden; overflow-y: auto; user-select: none;
         }
 
-        /* HEADER CENTRALIZADO */
+        /* HEADER */
         header {
             background: #080808; border-bottom: 2px solid var(--gold);
             display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -30,7 +30,6 @@
         }
         .header-logo:active { transform: scale(0.9); }
         
-        /* Frase com Efeito Shimmer */
         .header-slogan { 
             font-size: 0.9em; letter-spacing: 2px; text-transform: uppercase; font-weight: 800;
             background: linear-gradient(90deg, #666 0%, #fff 50%, #666 100%);
@@ -43,10 +42,8 @@
 
         /* PINCEL MÁGICO */
         .magic-brush {
-            display: inline-block; font-size: 1.5em; 
-            filter: drop-shadow(0 0 5px var(--gold));
+            display: inline-block; font-size: 1.5em; filter: drop-shadow(0 0 5px var(--gold));
             animation: brush-dance 2s infinite ease-in-out alternate;
-            background: none !important;
             -webkit-text-fill-color: initial !important; 
             font-family: 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;
         }
@@ -186,19 +183,54 @@
         .check-item input { accent-color: var(--gold); width:14px; height:14px; }
         .section-label { color: var(--gold); font-size: 0.7em; font-weight: bold; margin-top: 10px; margin-bottom: 5px; display: block; border-bottom: 1px solid #333; padding-bottom: 2px; }
 
-        /* GALERIA CENTRALIZADA */
-        .gallery-section { padding: 40px; background: #0a0a0a; border-top: 2px solid var(--gold); min-height: 400px; display: flex; flex-direction: column; align-items: center; }
-        .gallery-title { text-align: center; color: var(--gold); font-family: 'Cinzel Decorative'; font-size: 2.5em; margin-bottom: 10px; letter-spacing: 2px; text-shadow: 0 0 10px rgba(212, 175, 55, 0.3); width: 100%; }
+        /* GALERIA AJUSTADA */
+        .gallery-section { 
+            padding: 40px; background: #0a0a0a; border-top: 2px solid var(--gold); 
+            min-height: 400px; display: flex; flex-direction: column; align-items: center; 
+        }
+        .gallery-title { 
+            text-align: center; color: var(--gold); font-family: 'Cinzel Decorative'; 
+            font-size: 2.5em; margin-bottom: 10px; letter-spacing: 2px; 
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.3); width: 100%;
+        }
+        .gallery-slogan-box { 
+            display: flex; justify-content: center; align-items: center; gap: 10px; 
+            margin-bottom: 40px; width: 100%; 
+        }
         
-        .gallery-slogan-box { display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 40px; width: 100%; }
+        /* Grid alinhado */
+        #gallery-content { 
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); 
+            gap: 20px; width: 100%; max-width: 1200px; 
+            /* Se quiser alinhar à esquerda, use 'start'. Se quiser centralizado, 'center' */
+            justify-content: center; 
+        }
         
-        #gallery-content { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; width: 100%; max-width: 1200px; text-align: left; }
-        .res-card { background: #111; border: 1px solid #333; padding: 10px; border-radius: 8px; text-align:center; transition:0.3s; animation: fadeIn 0.5s ease; }
+        .res-card { 
+            background: #111; border: 1px solid #333; padding: 10px; 
+            border-radius: 8px; text-align:center; transition:0.3s; 
+            animation: fadeIn 0.5s ease; position: relative;
+        }
         @keyframes fadeIn { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
         .res-card:hover { transform:translateY(-5px); border-color:var(--gold); }
         .res-card img { width: 100%; height: auto; border: 1px solid #222; border-radius:4px; }
-        .dl-btn { display: block; margin-top: 10px; padding: 12px; background: var(--gold); color: #000; text-decoration: none; font-weight: bold; font-size: 0.8em; border-radius: 4px; text-transform: uppercase; transition:0.2s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        
+        /* Botões do Card */
+        .card-actions { display: flex; gap: 5px; margin-top: 10px; }
+        .dl-btn { 
+            flex: 1; padding: 10px; background: var(--gold); color: #000; 
+            text-decoration: none; font-weight: bold; font-size: 0.8em; 
+            border-radius: 4px; text-transform: uppercase; transition:0.2s; 
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block;
+        }
         .dl-btn:hover { filter: brightness(1.1); }
+        
+        .btn-trash-card {
+            background: #3a0505; border: 1px solid #600; color: #fff;
+            width: 40px; cursor: pointer; border-radius: 4px; font-size: 1.2em;
+            display: flex; align-items: center; justify-content: center; transition: 0.2s;
+        }
+        .btn-trash-card:hover { background: #f00; }
 
         /* LOADER */
         #loader { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.96); z-index: 9999; justify-content: center; align-items: center; flex-direction: column; }
@@ -550,88 +582,10 @@
     </section>
 
     <script>
-        // --- SCRIPT DA INTRO COSMICA ---
-        const Intro = {
-            active: true,
-            canvas: null,
-            ctx: null,
-            stars: [],
-            width: 0, height: 0,
-            init: function() {
-                this.canvas = document.getElementById('intro-canvas');
-                this.ctx = this.canvas.getContext('2d');
-                this.resize();
-                window.addEventListener('resize', () => this.resize());
-                document.getElementById('btn-open-app').addEventListener('click', () => this.close());
-                this.createStars();
-                this.animate();
-            },
-            resize: function() {
-                this.width = window.innerWidth;
-                this.height = window.innerHeight;
-                this.canvas.width = this.width;
-                this.canvas.height = this.height;
-            },
-            createStars: function() {
-                const count = Math.floor(this.width * this.height / 6000); 
-                for(let i = 0; i < count; i++) {
-                    this.stars.push(new Star(this.width, this.height));
-                }
-            },
-            animate: function() {
-                if(!this.active) return;
-                this.ctx.clearRect(0, 0, this.width, this.height);
-                this.ctx.fillStyle = 'rgba(15, 20, 30, 0.2)';
-                this.ctx.fillRect(0, 0, this.width, this.height);
-                
-                this.stars.forEach(star => {
-                    star.update();
-                    star.draw(this.ctx);
-                });
-                requestAnimationFrame(() => this.animate());
-            },
-            close: function() {
-                this.active = false;
-                const overlay = document.getElementById('intro-overlay');
-                overlay.style.opacity = '0';
-                setTimeout(() => { overlay.style.display = 'none'; }, 800);
-            }
-        };
-
-        class Star {
-            constructor(w, h) {
-                this.w = w; this.h = h;
-                this.x = Math.random() * w;
-                this.y = Math.random() * h;
-                this.z = Math.random() * 2; 
-                this.size = (Math.random() * 1.5 + 0.5) * (this.z/2);
-                this.vel = (Math.random() * 0.2 + 0.05) * (this.z/2);
-                this.alpha = Math.random();
-                this.fade = Math.random() * 0.02 + 0.005;
-                this.fadeDir = Math.random() > 0.5 ? 1 : -1;
-            }
-            update() {
-                this.y -= this.vel;
-                if(this.y < 0) { this.y = this.h; this.x = Math.random() * this.w; }
-                this.alpha += this.fade * this.fadeDir;
-                if(this.alpha > 1 || this.alpha < 0.2) this.fadeDir *= -1;
-            }
-            draw(ctx) {
-                const r = 200 + Math.random()*55;
-                ctx.fillStyle = `rgba(${r},${r},255, ${this.alpha})`;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
-            }
-        }
-        // ---------------------------------
-
         const App = { effect: 'hdr', images: [], photoStates: [], photoFilters: [], assets: { logo:null }, userLogo: null, userBg: null };
         const FX = [ {id:'normal', n:'Original'}, {id:'bw', n:'P&B'}, {id:'sepia', n:'Sépia'}, {id:'warm', n:'Quente'}, {id:'deep', n:'Intenso'}, {id:'sharp', n:'Nítido'} ];
 
         window.onload = () => {
-            Intro.init(); 
-
             const box = document.getElementById('fx-container');
             if(box) FX.forEach(f => {
                 const b = document.createElement('div'); b.className = 'fx-btn'; b.innerText = f.n;
@@ -639,32 +593,72 @@
                 b.onclick = () => App.applyFilter(f.id);
                 box.appendChild(b);
             });
+            
+            // INTRO SCRIPT EMBEDDED
+            const intro = {
+                active: true,
+                canvas: document.getElementById('intro-canvas'),
+                ctx: document.getElementById('intro-canvas').getContext('2d'),
+                stars: [],
+                init: function() {
+                    this.resize();
+                    window.addEventListener('resize', () => this.resize());
+                    document.getElementById('btn-open-app').addEventListener('click', () => this.close());
+                    this.createStars();
+                    this.animate();
+                },
+                resize: function() {
+                    this.canvas.width = window.innerWidth;
+                    this.canvas.height = window.innerHeight;
+                },
+                createStars: function() {
+                    const count = Math.floor(window.innerWidth * window.innerHeight / 6000);
+                    for(let i=0; i<count; i++) this.stars.push({
+                        x: Math.random()*this.canvas.width, y: Math.random()*this.canvas.height,
+                        z: Math.random()*2, alpha: Math.random(), fade: 0.01+Math.random()*0.02
+                    });
+                },
+                animate: function() {
+                    if(!this.active) return;
+                    this.ctx.fillStyle = 'rgba(15, 20, 30, 0.2)';
+                    this.ctx.fillRect(0,0,this.canvas.width, this.canvas.height);
+                    this.stars.forEach(s => {
+                        s.y -= (0.2 * s.z); if(s.y<0) s.y = this.canvas.height;
+                        s.alpha += s.fade; if(s.alpha>1||s.alpha<0.2) s.fade *= -1;
+                        this.ctx.fillStyle = `rgba(255,255,255,${s.alpha})`;
+                        this.ctx.beginPath(); this.ctx.arc(s.x, s.y, s.z, 0, Math.PI*2); this.ctx.fill();
+                    });
+                    requestAnimationFrame(() => this.animate());
+                },
+                close: function() {
+                    this.active = false;
+                    document.getElementById('intro-overlay').style.opacity = '0';
+                    setTimeout(() => document.getElementById('intro-overlay').style.display='none', 800);
+                }
+            };
+            intro.init();
+            
             App.update();
         };
 
         App.confetti = function(e) {
             const colors = ['#d4af37', '#ffffff', '#ffe066', '#ff4d4d', '#4dff4d'];
-            const rect = e.target.getBoundingClientRect();
-            const originX = e.clientX;
-            const originY = e.clientY;
-            
+            const x = e.clientX; const y = e.clientY;
             for(let i=0; i<40; i++) {
                 const p = document.createElement('div');
                 p.classList.add('particle');
                 p.style.backgroundColor = colors[Math.floor(Math.random()*colors.length)];
-                p.style.left = originX + 'px';
-                p.style.top = originY + 'px';
-                
-                const angle = Math.random() * Math.PI * 2;
-                const velocity = 30 + Math.random() * 100;
-                
-                p.style.setProperty('--tx', Math.cos(angle) * velocity + 'px');
-                p.style.setProperty('--ty', Math.sin(angle) * velocity + 'px');
-                
+                p.style.left = x + 'px'; p.style.top = y + 'px';
+                const angle = Math.random() * Math.PI * 2; const vel = 30 + Math.random() * 100;
+                p.style.setProperty('--tx', Math.cos(angle)*vel + 'px');
+                p.style.setProperty('--ty', Math.sin(angle)*vel + 'px');
                 document.body.appendChild(p);
                 setTimeout(() => p.remove(), 800);
             }
         };
+
+        // ... [RESTO DAS FUNÇÕES DO APP, MANTIDAS IGUAIS À V49] ...
+        // Vou reincluir apenas a função Render com a correção matemática exata
 
         App.applyFilter = function(fid) {
             const idx = parseInt(document.getElementById('sel-edit-target').value);
@@ -672,12 +666,8 @@
                 b.classList.remove('active');
                 if(b.innerText === FX.find(x=>x.id===fid).n) b.classList.add('active');
             });
-
-            if(idx === -1) {
-                for(let i=0; i<App.photoFilters.length; i++) App.photoFilters[i] = fid;
-            } else {
-                App.photoFilters[idx] = fid;
-            }
+            if(idx === -1) { for(let i=0; i<App.photoFilters.length; i++) App.photoFilters[i] = fid; } 
+            else { App.photoFilters[idx] = fid; }
             App.update();
         };
 
@@ -689,22 +679,15 @@
                 App.images = []; App.photoStates = []; App.photoFilters = [];
                 const sel = document.getElementById('sel-edit-target');
                 sel.innerHTML = '<option value="-1">✨ Aplicar em TODAS</option>';
-                
                 for(let i=0; i<files.length; i++) {
                     App.images.push(await loadImg(files[i]));
                     App.photoStates.push({x:0, y:0, s:100}); 
                     App.photoFilters.push('normal');
                     sel.add(new Option(`Foto ${i+1}`, i));
                 }
-                
                 document.querySelector('.btn-load').innerText = '📸 Carregar';
-                input.value = ''; 
-                setTimeout(App.update, 200);
-            } catch(e) { 
-                console.error(e); 
-                alert("Erro ao ler arquivo."); 
-                document.querySelector('.btn-load').innerText = '📸 Carregar';
-            }
+                input.value = ''; setTimeout(App.update, 200);
+            } catch(e) { console.error(e); alert("Erro ao ler arquivo."); document.querySelector('.btn-load').innerText = '📸 Carregar'; }
         };
 
         App.handleLogo = async function(i) { if(i.files[0]) { App.userLogo = await loadImg(i.files[0]); document.getElementById('pv-logo').style.display='block'; App.update(); } };
@@ -727,50 +710,39 @@
         };
         
         App.resetFont = function(id) { document.getElementById(id).selectedIndex = 0; App.update(); };
-
         App.toggleCustom = function() {
             const v = document.getElementById('sel-orient').value;
             document.getElementById('box-custom').style.display = (v==='custom')?'grid':'none';
             App.update();
         };
-
         App.syncZoom = function(val) {
             document.getElementById('img-scale').value = val;
             document.getElementById('img-scale-num').value = val;
             App.updateState();
         };
-
         App.syncGap = function(axis, val) {
             document.getElementById(`in-gap-${axis}`).value = val;
             document.getElementById(`num-gap-${axis}`).value = val;
             App.update();
         };
-
         App.updateState = function() {
             const idx = parseInt(document.getElementById('sel-edit-target').value);
             const px = getVal('img-pan-x', 0);
             const py = getVal('img-pan-y', 0);
             const s = getVal('img-scale', 100);
-
-            if(idx === -1) {
-                App.photoStates.forEach(st => { st.x=px; st.y=py; st.s=s; });
-            } else if(App.photoStates[idx]) {
-                App.photoStates[idx] = {x:px, y:py, s:s};
-            }
+            if(idx === -1) { App.photoStates.forEach(st => { st.x=px; st.y=py; st.s=s; }); } 
+            else if(App.photoStates[idx]) { App.photoStates[idx] = {x:px, y:py, s:s}; }
             App.update();
         };
-
         App.syncInputs = function() {
             const idx = parseInt(document.getElementById('sel-edit-target').value);
             document.querySelectorAll('.fx-btn').forEach(b => b.classList.remove('active'));
-            
             if(idx !== -1 && App.photoStates[idx]) {
                 const st = App.photoStates[idx];
                 document.getElementById('img-pan-x').value = st.x;
                 document.getElementById('img-pan-y').value = st.y;
                 document.getElementById('img-scale').value = st.s;
                 document.getElementById('img-scale-num').value = st.s;
-                
                 const fName = FX.find(x => x.id === App.photoFilters[idx]).n;
                 document.querySelectorAll('.fx-btn').forEach(b => { if(b.innerText === fName) b.classList.add('active'); });
             } else {
@@ -791,17 +763,15 @@
             if(orient==='portrait'){w=1080;h=1920;} if(orient==='square'){w=1080;h=1080;}
             if(orient==='custom'){ w=getVal('in-w', 1920); h=getVal('in-h', 1080); }
             canvas.width = w; canvas.height = h;
-
             const mk = document.getElementById('sel-mockup').value;
             document.getElementById('in-polaroid').style.display = (mk==='polaroid')?'block':'none';
-
             if(!App.images.length) { ctx.fillStyle="#111"; ctx.fillRect(0,0,w,h); ctx.font="30px Raleway"; ctx.fillStyle="#444"; ctx.textAlign="center"; ctx.fillText("Carregue as fotos...", w/2, h/2); return; }
-
             const layout = document.getElementById('sel-layout').value;
             const bs = getBatch(layout);
             drawFrame(ctx, App.images.slice(0, bs), layout, w, h, 0); 
         };
 
+        // --- CORREÇÃO MATEMÁTICA CRÍTICA DO PROCESSAMENTO ---
         App.render = async function() {
             if(!App.images.length) { alert("Sem fotos!"); return; }
             document.getElementById('loader').style.display='flex';
@@ -814,52 +784,55 @@
             const layout = document.getElementById('sel-layout').value;
             const bs = getBatch(layout);
             const format = document.getElementById('sel-fmt').value;
-            
             const qLabel = q === 1 ? 'FullHD' : (q === 2 ? '4K' : '8K');
-
-            // Desativa números temporariamente ao salvar
+            
             const numCheck = document.getElementById('chk-show-nums');
             const wasChecked = numCheck.checked;
             numCheck.checked = false;
 
             try {
                 await new Promise(r=>setTimeout(r, 200));
-                for(let i=0; i<App.images.length; i+=bs) {
-                    
-                    // LÓGICA CRUCIAL DO GRID
-                    let group;
-                    if(layout === 'single') {
-                         group = App.images.slice(i, i+1);
-                    } else {
-                         // Se é GRID, pega o lote inteiro, mesmo que incompleto
-                         group = App.images.slice(i, i+bs);
+                
+                // LÓGICA REVISADA:
+                // Se for SINGLE: Loop normal.
+                // Se for GRID: O loop deve pular de 'bs' em 'bs'.
+                
+                if (layout === 'single') {
+                    for(let i=0; i<App.images.length; i++) {
+                        const group = [App.images[i]];
+                        const cvs = document.createElement('canvas'); cvs.width=W; cvs.height=H;
+                        const ctx = cvs.getContext('2d');
+                        await new Promise(r => requestAnimationFrame(r));
+                        
+                        drawFrame(ctx, group, 'single', W, H, i);
+                        saveImage(cvs, `arte_foto_${i+1}`, format, qLabel);
                     }
-
-                    const cvs = document.createElement('canvas'); cvs.width=W; cvs.height=H;
-                    const ctx = cvs.getContext('2d');
-                    await new Promise(r => requestAnimationFrame(r));
-
-                    // Lógica unificada: Desenha o Grid com o grupo que temos
-                    if(layout !== 'single' && group.length > 0) {
-                        drawFrame(ctx, group, layout, W, H, i); 
-                        saveImage(cvs, `arte_${i+1}_${j+1}`, format, qLabel); // FIXED BUG
-                    } else if(layout === 'single') {
-                         drawFrame(ctx, group, 'single', W, H, i);
-                         saveImage(cvs, `arte_${i+1}`, format, qLabel);
+                } else {
+                    // MODO GRID: Cria lotes
+                    let batchCount = 0;
+                    for(let i=0; i<App.images.length; i+=bs) {
+                        batchCount++;
+                        const group = App.images.slice(i, i+bs);
+                        // Mesmo que group.length < bs, o drawFrame desenha o que tem
+                        const cvs = document.createElement('canvas'); cvs.width=W; cvs.height=H;
+                        const ctx = cvs.getContext('2d');
+                        await new Promise(r => requestAnimationFrame(r));
+                        
+                        drawFrame(ctx, group, layout, W, H, i);
+                        saveImage(cvs, `arte_mosaico_${batchCount}`, format, qLabel);
                     }
                 }
                 document.querySelector('.gallery-section').scrollIntoView({behavior:'smooth'});
-            } catch(e){ console.error(e); }
+            } catch(e){ console.error(e); alert("Erro no processamento: " + e.message); }
             
-            // Restaura checkbox
             numCheck.checked = wasChecked;
             if(wasChecked) App.update();
             document.getElementById('loader').style.display='none';
         };
+        // ----------------------------------------------------
 
         function drawFrame(ctx, imgs, mode, W, H, startIndex) {
             ctx.filter = "none";
-            // Fundo
             if(App.userBg) {
                 if(document.getElementById('chk-trans').checked) ctx.clearRect(0,0,W,H);
                 else { ctx.fillStyle=document.getElementById('col-bg').value; ctx.fillRect(0,0,W,H); }
@@ -872,11 +845,13 @@
                 else { ctx.fillStyle = document.getElementById('col-bg').value || '#111'; ctx.fillRect(0,0,W,H); }
             }
 
-            // Grid
             try {
                 const slots = getSlots(mode, W, H);
                 const showNums = document.getElementById('chk-show-nums').checked;
                 slots.forEach((slot, i) => {
+                    // Correção para não estourar array
+                    if(i >= imgs.length) return; 
+
                     const isCenter = (mode==='grid_diamond' && i===1);
                     const photoIndex = startIndex + i;
                     const state = App.photoStates[photoIndex] || {x:0, y:0, s:100};
@@ -884,14 +859,13 @@
                     
                     if(imgs[i] && imgs[i].width > 0) {
                         drawPhoto(ctx, imgs[i], slot, isCenter, W, state, filter);
-                        // Overlay de Número (Gigante e Centralizado no Slot)
                         if(showNums) {
                             ctx.save();
-                            const numSize = Math.min(slot.w, slot.h) * 0.4; // 40% do tamanho do slot
-                            ctx.font = `bold ${numSize}px Arial`;
-                            ctx.fillStyle = "rgba(255,255,255,0.8)";
+                            const numSize = Math.min(slot.w, slot.h) * 0.3; 
+                            ctx.font = `900 ${numSize}px Arial`;
+                            ctx.fillStyle = "#fff";
                             ctx.strokeStyle = "#000";
-                            ctx.lineWidth = numSize * 0.1;
+                            ctx.lineWidth = numSize * 0.15;
                             ctx.textAlign = "center";
                             ctx.textBaseline = "middle";
                             ctx.strokeText(i+1, slot.x + slot.w/2, slot.y + slot.h/2);
@@ -923,26 +897,20 @@
             const dx = x + (w - dw)/2 + panX; const dy = y + (h - dh)/2 + panY;
             const c = document.getElementById('col-frame').value;
 
-            // FIX 1: Desenhando fundo do polaroid ANTES da foto
             if(mk==='polaroid') {
                 const pPad=w*0.04; const pBot=w*0.18;
                 ctx.save();
                 ctx.shadowColor="rgba(0,0,0,0.4)"; ctx.shadowBlur=15*Scale;
-                ctx.fillStyle = c; 
-                ctx.beginPath(); 
-                ctx.rect(dx-pPad, dy-pPad, dw+(pPad*2), dh+pPad+pBot); 
-                ctx.fill();
+                ctx.fillStyle = c; ctx.beginPath(); 
+                ctx.rect(dx-pPad, dy-pPad, dw+(pPad*2), dh+pPad+pBot); ctx.fill();
                 ctx.restore();
             }
-
             if(mk==='shadow_box') {
-                ctx.save();
-                ctx.shadowColor = "rgba(0,0,0,0.8)"; ctx.shadowBlur = 40 * Scale; ctx.fillStyle = "#000";
+                ctx.save(); ctx.shadowColor = "rgba(0,0,0,0.8)"; ctx.shadowBlur = 40 * Scale; ctx.fillStyle = "#000";
                 ctx.fillRect(dx+10, dy+10, dw-20, dh-20); ctx.restore();
             }
 
-            ctx.save();
-            ctx.beginPath();
+            ctx.save(); ctx.beginPath();
             if(mk === 'circle') { ctx.arc(dx + dw/2, dy + dh/2, Math.min(dw, dh)/2, 0, Math.PI * 2); } 
             else if(mk === 'rounded') { const rad = 30 * Scale; ctx.roundRect(dx, dy, dw, dh, rad); } 
             else if(mk === 'paper') {
@@ -953,18 +921,14 @@
                 for(let i=dh; i>=0; i-=10) ctx.lineTo(dx+(Math.random()*3), dy+i);
                 ctx.closePath();
             } else { ctx.rect(dx, dy, dw, dh); }
-            
             if(mk==='circle' || mk==='rounded' || mk==='paper') ctx.clip();
 
-            // Aplica filtro individual
             const f = filterId; 
             if(f==='bw') ctx.filter = "grayscale(1) contrast(1.2)"; 
             if(f==='sepia') ctx.filter = "sepia(0.8)"; 
             if(f==='warm') ctx.filter = "sepia(0.3) saturate(1.4)"; 
             if(f==='deep') ctx.filter = "contrast(1.3) saturate(1.2)"; 
             if(f==='sharp') ctx.filter = "contrast(1.4) brightness(1.1)";
-
-            // Adiciona filtros globais
             if(document.getElementById('chk-hdr').checked) ctx.filter += " contrast(1.1) saturate(1.2)";
             if(document.getElementById('chk-upscale').checked) ctx.filter += " contrast(1.15) brightness(1.05) saturate(1.05)";
             
@@ -972,9 +936,7 @@
             ctx.filter = "none";
             ctx.restore(); 
 
-            // Overlays (Molduras por cima)
             ctx.save();
-            // Polaroid Texto apenas (fundo já foi desenhado)
             if(mk==='polaroid') {
                 const pPad=w*0.04; const pBot=w*0.18;
                 const pt = document.getElementById('in-polaroid').value;
@@ -1197,7 +1159,24 @@
             link.className = 'dl-btn'; 
             link.innerText = `⬇ Baixar (${fmt.toUpperCase()} - ${qLabel})`; 
             
-            card.appendChild(imgDisplay); card.appendChild(link); 
+            // Botão Lixeira
+            const delBtn = document.createElement('div');
+            delBtn.innerText = '🗑️';
+            delBtn.className = 'btn-trash-card';
+            delBtn.onclick = function() {
+                card.style.opacity = '0';
+                card.style.transform = 'scale(0.8)';
+                setTimeout(() => card.remove(), 300);
+            };
+
+            const actions = document.createElement('div');
+            actions.className = 'card-actions';
+            actions.appendChild(link);
+            actions.appendChild(delBtn);
+
+            card.appendChild(imgDisplay); 
+            card.appendChild(actions); 
+            
             if(container.firstChild) container.insertBefore(card, container.firstChild);
             else container.appendChild(card);
         }
