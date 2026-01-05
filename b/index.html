@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Imaginista V47 - Diamond Final</title>
+    <title>Imaginista V48 - Master Final</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cinzel+Decorative:wght@400;700;900&family=Raleway:wght@200;400;600;800&family=Parisienne&family=Montserrat:wght@300;700&family=Playfair+Display:ital@1&family=Oswald&family=Merriweather&family=Lato&family=Poppins&family=Dancing+Script&display=swap" rel="stylesheet">
 
     <style>
-        /* === ESTILO MASTER V47 === */
+        /* === ESTILO MASTER V48 === */
         :root { --gold: #d4af37; --panel-bg: #111; --body-bg: #050505; --text: #ddd; }
         * { box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
         
@@ -17,31 +17,6 @@
             margin: 0; padding: 0; min-height: 100vh; display: flex; flex-direction: column;
             overflow-x: hidden; overflow-y: auto; user-select: none;
         }
-
-        /* === INTRO COSMIC OVERLAY === */
-        #intro-overlay {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
-            z-index: 99999; display: flex; justify-content: center; align-items: center; flex-direction: column;
-            transition: opacity 0.8s ease-out;
-        }
-        #intro-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
-        .intro-content { z-index: 2; text-align: center; display: flex; flex-direction: column; align-items: center; animation: introFadeUp 1s ease-out; padding: 20px; }
-        .intro-logo { width: 200px; max-width: 80vw; object-fit: contain; filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.8)); margin-bottom: 20px; }
-        .intro-phrase {
-            font-family: 'Cinzel Decorative', serif; color: var(--gold); font-size: 1.5em;
-            letter-spacing: 2px; margin-bottom: 40px; text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
-            display: flex; align-items: center; gap: 10px; justify-content: center;
-        }
-        #btn-open-app {
-            background: linear-gradient(45deg, var(--gold), #ffe066); color: #000;
-            border: none; padding: 15px 40px; font-size: 1em; font-weight: 800;
-            text-transform: uppercase; letter-spacing: 2px; border-radius: 50px;
-            cursor: pointer; box-shadow: 0 0 30px rgba(212, 175, 55, 0.4);
-            transition: 0.3s; position: relative; overflow: hidden;
-        }
-        #btn-open-app:hover { transform: scale(1.05); box-shadow: 0 0 50px rgba(212, 175, 55, 0.7); filter: brightness(1.1); }
-        @keyframes introFadeUp { from { opacity:0; transform: translateY(30px); } to { opacity:1; transform: translateY(0); } }
 
         /* HEADER CENTRALIZADO */
         header {
@@ -66,12 +41,12 @@
         }
         @keyframes shimmer { to { background-position: 200% center; } }
 
-        /* PINCEL MÁGICO (Cereja do Bolo) */
+        /* PINCEL MÁGICO */
         .magic-brush {
             display: inline-block; font-size: 1.5em; filter: drop-shadow(0 0 5px var(--gold));
             animation: brush-dance 2s infinite ease-in-out alternate;
-            -webkit-text-fill-color: initial !important; /* Força a cor do emoji */
-            font-family: 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif; /* Garante fonte de emoji */
+            -webkit-text-fill-color: initial !important; 
+            font-family: 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;
         }
         @keyframes brush-dance {
             0% { transform: rotate(0deg) scale(1); filter: hue-rotate(0deg); }
@@ -87,7 +62,32 @@
         }
         .btn-tool:hover { border-color: var(--gold); color: #fff; background: #222; }
 
-        /* PARTICULAS (Fogos) */
+        /* INTRO OVERLAY */
+        #intro-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
+            z-index: 99999; display: flex; justify-content: center; align-items: center; flex-direction: column;
+            transition: opacity 0.8s ease-out;
+        }
+        #intro-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
+        .intro-content { z-index: 2; text-align: center; display: flex; flex-direction: column; align-items: center; animation: introFadeUp 1s ease-out; padding: 20px; }
+        .intro-logo { width: 200px; max-width: 80vw; object-fit: contain; filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.8)); margin-bottom: 20px; }
+        .intro-phrase {
+            font-family: 'Cinzel Decorative', serif; color: var(--gold); font-size: 1.5em;
+            letter-spacing: 2px; margin-bottom: 40px; text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+            display: flex; align-items: center; gap: 10px; justify-content: center;
+        }
+        #btn-open-app {
+            background: linear-gradient(45deg, var(--gold), #ffe066); color: #000;
+            border: none; padding: 15px 40px; font-size: 1em; font-weight: 800;
+            text-transform: uppercase; letter-spacing: 2px; border-radius: 50px;
+            cursor: pointer; box-shadow: 0 0 30px rgba(212, 175, 55, 0.4);
+            transition: 0.3s; position: relative; overflow: hidden;
+        }
+        #btn-open-app:hover { transform: scale(1.05); box-shadow: 0 0 50px rgba(212, 175, 55, 0.7); filter: brightness(1.1); }
+        @keyframes introFadeUp { from { opacity:0; transform: translateY(30px); } to { opacity:1; transform: translateY(0); } }
+
+        /* PARTICULAS */
         .particle { 
             position: fixed; width: 6px; height: 6px; border-radius: 50%; 
             pointer-events: none; z-index: 9999;
@@ -184,15 +184,13 @@
         .check-item input { accent-color: var(--gold); width:14px; height:14px; }
         .section-label { color: var(--gold); font-size: 0.7em; font-weight: bold; margin-top: 10px; margin-bottom: 5px; display: block; border-bottom: 1px solid #333; padding-bottom: 2px; }
 
-        /* GALERIA - Centraliza Título, deixa fotos em Grid */
+        /* GALERIA CENTRALIZADA */
         .gallery-section { padding: 40px; background: #0a0a0a; border-top: 2px solid var(--gold); min-height: 400px; display: flex; flex-direction: column; align-items: center; }
         .gallery-title { text-align: center; color: var(--gold); font-family: 'Cinzel Decorative'; font-size: 2.5em; margin-bottom: 10px; letter-spacing: 2px; text-shadow: 0 0 10px rgba(212, 175, 55, 0.3); width: 100%; }
         
         .gallery-slogan-box { display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 40px; width: 100%; }
         
-        /* Grid de fotos: uma ao lado da outra */
-        #gallery-content { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; width: 100%; max-width: 1200px; justify-content: center; }
-        
+        #gallery-content { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; width: 100%; max-width: 1200px; text-align: left; }
         .res-card { background: #111; border: 1px solid #333; padding: 10px; border-radius: 8px; text-align:center; transition:0.3s; animation: fadeIn 0.5s ease; }
         @keyframes fadeIn { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
         .res-card:hover { transform:translateY(-5px); border-color:var(--gold); }
@@ -236,7 +234,7 @@
             Onde a imaginação vira arte <span class="magic-brush">🖌️</span>
         </div>
         <div class="header-tools">
-            <button class="btn-tool" onclick="document.querySelector('.gallery-section').scrollIntoView({behavior:'smooth'})">⬇ Obras-Primas</button>
+            <button class="btn-tool" onclick="document.querySelector('.gallery-section').scrollIntoView({behavior:'smooth'})">⬇ Download</button>
             <button class="btn-tool" onclick="location.reload()">↺ Reset</button>
         </div>
     </header>
@@ -991,7 +989,7 @@
             if(mk==='laptop') { ctx.lineWidth=20*Scale; ctx.strokeStyle="#333"; ctx.strokeRect(dx,dy,dw,dh); ctx.fillStyle="#444"; ctx.fillRect(dx-20*Scale, dy+dh+10*Scale, dw+40*Scale, 15*Scale); }
             if(mk==='monitor') { ctx.lineWidth=15*Scale; ctx.strokeStyle="#222"; ctx.strokeRect(dx,dy,dw,dh); ctx.fillStyle="#222"; ctx.fillRect(dx+dw/2-10*Scale, dy+dh, 20*Scale, 30*Scale); ctx.fillRect(dx+dw/2-40*Scale, dy+dh+30*Scale, 80*Scale, 5*Scale); }
             if(mk==='browser') { ctx.fillStyle="#ddd"; ctx.fillRect(dx, dy-25*Scale, dw, 25*Scale); ctx.fillStyle="#ff5f56"; ctx.beginPath(); ctx.arc(dx+15*Scale, dy-12*Scale, 5*Scale, 0, Math.PI*2); ctx.fill(); ctx.fillStyle="#ffbd2e"; ctx.beginPath(); ctx.arc(dx+30*Scale, dy-12*Scale, 5*Scale, 0, Math.PI*2); ctx.fill(); ctx.fillStyle="#27c93f"; ctx.beginPath(); ctx.arc(dx+45*Scale, dy-12*Scale, 5*Scale, 0, Math.PI*2); ctx.fill(); }
-            if(mk==='insta') { ctx.strokeStyle="#ccc"; ctx.lineWidth=1*Scale; ctx.strokeRect(dx, dy, dw, dh); ctx.fillStyle="#fff"; ctx.font=`${25*Scale}px Arial`; ctx.textAlign="left"; ctx.fillText("♥  💬  ➢", dx+5*Scale, dy+dh+30*Scale); }
+            if(mk==='insta') { ctx.strokeStyle="#ccc"; ctx.lineWidth=1*Scale; ctx.strokeRect(dx, dy, dw, dh); ctx.fillStyle="#fff"; ctx.font=`${25*Scale}px Arial`; ctx.textAlign="left"; ctx.fillText("♥  💬  ➢", dx+5*Scale, dy+dh+30*Scale); }
             if(mk==='gold_border') { const g = ctx.createLinearGradient(dx, dy, dx+dw, dy+dh); g.addColorStop(0, "#d4af37"); g.addColorStop(0.5, "#fff"); g.addColorStop(1, "#d4af37"); ctx.lineWidth=15*Scale; ctx.strokeStyle=g; ctx.strokeRect(dx, dy, dw, dh); }
             if(mk==='neon') { ctx.lineWidth=4*Scale; ctx.strokeStyle="#fff"; ctx.shadowColor=c; ctx.shadowBlur=25*Scale; ctx.strokeRect(dx, dy, dw, dh); }
             if(mk==='rounded') { const rad = 30 * Scale; ctx.lineWidth=10*Scale; ctx.strokeStyle=c; ctx.beginPath(); ctx.roundRect(dx, dy, dw, dh, rad); ctx.stroke(); }
@@ -1010,7 +1008,7 @@
 
         function drawText(ctx, W, H) {
             const Scale = W/1920 * (document.getElementById('sel-orient').value==='portrait'?1.8:1);
-            const lg = App.userLogo; 
+            const lg = App.userLogo; 
             if(lg && lg.width > 0) {
                 const sz = getVal('in-logo-sz', 130);
                 const offX = getVal('off-logo-x', 0)*Scale; const offY = getVal('off-logo-y', 0)*Scale;
