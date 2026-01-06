@@ -15,8 +15,8 @@
     <link rel="manifest" href="../favicon/site.webmanifest">
     <meta name="theme-color" content="#ffffff">
 
-    <style>
-    /* === ESTILO IMAGINISTA === */
+<style>
+    /* === VARIÁVEIS & RESET === */
     :root {
         --gold: #d4af37;
         --panel-bg: #111;
@@ -44,7 +44,38 @@
         user-select: none;
     }
 
-    /* === INTRO COSMICA === */
+    /* === ANIMAÇÕES DE ÍCONE === */
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    /* O ícone precisa estar dentro de um span com essa classe */
+    .icon-spin {
+        display: inline-block;
+        transform-origin: center;
+    }
+
+    /* 1. Gira ao passar o mouse (Suave) */
+    button:hover .icon-spin,
+    .btn-upload-small:hover .icon-spin,
+    .btn-font-extra:hover .icon-spin {
+        animation: spin 1s linear infinite;
+    }
+
+    /* 2. Gira RÁPIDO quando tem a classe .working (Processando) */
+    .working .icon-spin {
+        animation: spin 0.5s linear infinite !important;
+    }
+
+    /* Quando está trabalhando, o cursor muda */
+    .working {
+        cursor: wait !important;
+        opacity: 0.8;
+        pointer-events: none; /* Bloqueia cliques duplos */
+    }
+
+    /* === INTRODUÇÃO === */
     #intro-overlay {
         position: fixed;
         top: 0;
@@ -124,17 +155,11 @@
     }
 
     @keyframes introFadeUp {
-        from {
-            opacity: 0;
-            transform: translateY(40px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        from { opacity: 0; transform: translateY(40px); }
+        to { opacity: 1; transform: translateY(0); }
     }
 
-    /* HEADER */
+    /* === HEADER === */
     header {
         background: #080808;
         border-bottom: 2px solid var(--gold);
@@ -182,12 +207,9 @@
     }
 
     @keyframes shimmer {
-        to {
-            background-position: 200% center;
-        }
+        to { background-position: 200% center; }
     }
 
-    /* PINCEL MÁGICO */
     .magic-brush {
         display: inline-block;
         font-size: 1.5em;
@@ -198,18 +220,9 @@
     }
 
     @keyframes brush-dance {
-        0% {
-            transform: rotate(0deg) scale(1);
-            filter: hue-rotate(0deg);
-        }
-        50% {
-            transform: rotate(20deg) scale(1.2);
-            filter: hue-rotate(90deg);
-        }
-        100% {
-            transform: rotate(-10deg) scale(1);
-            filter: hue-rotate(0deg);
-        }
+        0% { transform: rotate(0deg) scale(1); filter: hue-rotate(0deg); }
+        50% { transform: rotate(20deg) scale(1.2); filter: hue-rotate(90deg); }
+        100% { transform: rotate(-10deg) scale(1); filter: hue-rotate(0deg); }
     }
 
     .header-tools {
@@ -217,6 +230,7 @@
         display: flex;
         gap: 15px;
         justify-content: center;
+        flex-wrap: wrap;
     }
 
     .btn-tool {
@@ -241,7 +255,12 @@
         background: #222;
     }
 
-    /* PARTICULAS (CONFETE) */
+    /* Botão Cache (Avermelhado para diferenciar) */
+    .btn-tool.danger:hover {
+        border-color: #ff4d4d;
+        color: #ff4d4d;
+    }
+
     .particle {
         position: fixed;
         width: 6px;
@@ -253,17 +272,11 @@
     }
 
     @keyframes pop {
-        0% {
-            transform: translate(0, 0) scale(1);
-            opacity: 1;
-        }
-        100% {
-            transform: translate(var(--tx), var(--ty)) scale(0);
-            opacity: 0;
-        }
+        0% { transform: translate(0, 0) scale(1); opacity: 1; }
+        100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; }
     }
 
-    /* LAYOUT */
+    /* === LAYOUT === */
     .workspace {
         display: grid;
         grid-template-columns: 300px 1fr 300px;
@@ -298,7 +311,7 @@
         letter-spacing: 1px;
     }
 
-    /* CONTROLES */
+    /* === CONTROLES === */
     .control-group {
         border-bottom: 1px dashed #222;
         padding-bottom: 10px;
@@ -367,7 +380,7 @@
         margin-top: 5px;
     }
 
-    /* BOTOES & UPLOAD */
+    /* === BOTOES === */
     .btn-upload-small {
         flex: 1;
         background: #222;
@@ -420,6 +433,7 @@
         display: flex;
         gap: 5px;
         margin-top: 5px;
+        flex-direction: column;
     }
 
     .btn-font-extra {
@@ -434,6 +448,10 @@
         border-radius: 4px;
         position: relative;
         font-weight: bold;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
     }
 
     .btn-font-extra input {
@@ -446,7 +464,42 @@
         cursor: pointer;
     }
 
-    /* CANVAS */
+    /* Botão Atualizar Premium */
+    .btn-refresh {
+        background: linear-gradient(135deg, #2c3e50 0%, #000000 100%);
+        color: #fff;
+        border: 1px solid #444;
+        padding: 8px 15px;
+        border-radius: 6px;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        margin-top: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        width: 100%;
+    }
+
+    .btn-refresh:hover {
+        background: linear-gradient(135deg, #d4af37 0%, #f1c40f 100%);
+        color: #111;
+        border-color: #fff;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
+    }
+
+    .btn-refresh:active {
+        transform: translateY(0);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    }
+
+    /* === CANVAS & ACTIONS === */
     .center-stage {
         background: #050505;
         border: 1px solid #222;
@@ -547,7 +600,7 @@
         color: #fff;
     }
 
-    /* FX */
+    /* === OUTROS COMPONENTES === */
     .color-picker-compact {
         width: 30px;
         height: 30px;
@@ -640,7 +693,7 @@
         padding-bottom: 2px;
     }
 
-    /* GALERIA - ALINHADA A ESQUERDA */
+    /* Galeria */
     .gallery-section {
         padding: 40px;
         background: #0a0a0a;
@@ -671,13 +724,14 @@
         width: 100%;
     }
 
+    /* AQUI ESTAVA O PROBLEMA DO GRID - AGORA ESTÁ CORRETO */
     #gallery-content {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
         gap: 20px;
         width: 100%;
         max-width: 1200px;
-        justify-content: start; /* Alinha à esquerda como pedido */
+        justify-content: start;
     }
 
     .res-card {
@@ -692,14 +746,8 @@
     }
 
     @keyframes fadeIn {
-        from {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
     }
 
     .res-card:hover {
@@ -714,7 +762,6 @@
         border-radius: 4px;
     }
 
-    /* Botões do Card */
     .card-actions {
         display: flex;
         gap: 5px;
@@ -760,7 +807,6 @@
         background: #f00;
     }
 
-    /* LOADER */
     #loader {
         display: none;
         position: fixed;
@@ -784,26 +830,18 @@
         animation: spin 1s linear infinite;
     }
 
-    @keyframes spin {
-        100% {
-            transform: rotate(360deg);
-        }
-    }
-
     @media (max-width: 900px) {
         .workspace {
             grid-template-columns: 1fr;
             display: flex;
             flex-direction: column;
         }
-
         .center-stage {
             order: -1;
             height: 50vh;
             position: relative;
             top: 0;
         }
-
         .intro-phrase {
             font-size: 1em;
             flex-direction: column;
@@ -813,6 +851,7 @@
 </style>
 </head>
 <body>
+
     <div id="intro-overlay">
         <canvas id="intro-canvas"></canvas>
         <div class="intro-content">
@@ -837,15 +876,21 @@
             Onde a imaginação vira arte <span class="magic-brush">🖌️</span>
         </div>
         <div class="header-tools">
-            <button class="btn-tool" onclick="document.querySelector('.gallery-section').scrollIntoView({behavior:'smooth'})">⬇ Galeria</button>
-            <button class="btn-tool" onclick="location.reload()">↺ Reset</button>
+            <button class="btn-tool" onclick="document.querySelector('.gallery-section').scrollIntoView({behavior:'smooth'})">
+                ⬇ Galeria
+            </button>
+            <button class="btn-tool" onclick="location.reload()">
+                ↺ Reset
+            </button>
         </div>
     </header>
 
     <div class="workspace">
         
         <aside class="panel">
-            <div class="panel-header"><span class="panel-title">1. Identidade & Posição</span></div>
+            <div class="panel-header">
+                <span class="panel-title">1. Identidade & Posição</span>
+            </div>
 
             <div class="control-group">
                 <label>Logo</label>
@@ -879,8 +924,14 @@
                     </label>
                 </div>
                 <div class="grid-2">
-                    <div class="input-wrap"><span class="xy-tag">X</span><input type="number" id="off-logo-x" value="-56" oninput="App.update()"></div>
-                    <div class="input-wrap"><span class="xy-tag">Y</span><input type="number" id="off-logo-y" value="31" oninput="App.update()"></div>
+                    <div class="input-wrap">
+                        <span class="xy-tag">X</span>
+                        <input type="number" id="off-logo-x" value="-56" oninput="App.update()">
+                    </div>
+                    <div class="input-wrap">
+                        <span class="xy-tag">Y</span>
+                        <input type="number" id="off-logo-y" value="31" oninput="App.update()">
+                    </div>
                 </div>
             </div>
 
@@ -888,7 +939,9 @@
                 <label>Título</label>
                 <div class="flex-row">
                     <input type="text" id="in-nome" value="Imaginista Premium" oninput="App.update()">
-                    <div class="color-picker-compact"><input type="color" id="col-nome" value="#ffe066" oninput="App.update()"></div>
+                    <div class="color-picker-compact">
+                        <input type="color" id="col-nome" value="#ffe066" oninput="App.update()">
+                    </div>
                 </div>
                 <div class="grid-2">
                     <select id="sel-font-nome" onchange="App.update()">
@@ -909,26 +962,34 @@
                     <input type="number" id="sz-nome" value="74" oninput="App.update()" title="Tamanho">
                 </div>
                 <div class="font-row">
-                    <button class="btn-font-extra">🔤 Upload .TTF<input type="file" onclick="this.value=null" onchange="App.loadFont(this, 'sel-font-nome')"></button>
-					
-					<button onclick="App.forceRefresh()" style="margin-top:5px; background:#444; color:#fff; border:none; padding:5px 10px; cursor:pointer; border-radius:4px;">
-    🔄 Atualizar .TTF
-</button>
+                    <button class="btn-font-extra">
+                        <span class="icon-spin">🔤</span> Upload .TTF
+                        <input type="file" onclick="this.value=null" onchange="App.loadFont(this, 'sel-font-nome')">
+                    </button>
+                    <button onclick="App.forceRefresh()" class="btn-refresh">
+                        <span class="icon-spin">🔄</span> Atualizar Fonte
+                    </button>
                 </div>
                 <div class="grid-2">
                     <select id="pos-nome" onchange="App.update()">
-					    <option value="bl">Inferior Esquerda</option>
+                        <option value="bl">Inferior Esquerda</option>
                         <option value="br" selected>Inferior Direita</option>
-						<option value="tl">Superior Esquerda</option>
-						<option value="tr">Superior Direita</option>
-						<option value="tc">Centro Topo</option>
+                        <option value="tl">Superior Esquerda</option>
+                        <option value="tr">Superior Direita</option>
+                        <option value="tc">Centro Topo</option>
                         <option value="bc">Centro Base</option>        
                         <option value="c">Centro</option>
                     </select>
                 </div>
                 <div class="grid-2">
-                    <div class="input-wrap"><span class="xy-tag">X</span><input type="number" id="off-nome-x" value="40" oninput="App.update()"></div>
-                    <div class="input-wrap"><span class="xy-tag">Y</span><input type="number" id="off-nome-y" value="11" oninput="App.update()"></div>
+                    <div class="input-wrap">
+                        <span class="xy-tag">X</span>
+                        <input type="number" id="off-nome-x" value="40" oninput="App.update()">
+                    </div>
+                    <div class="input-wrap">
+                        <span class="xy-tag">Y</span>
+                        <input type="number" id="off-nome-y" value="11" oninput="App.update()">
+                    </div>
                 </div>
             </div>
 
@@ -936,7 +997,9 @@
                 <label>Subtítulo</label>
                 <div class="flex-row">
                     <input type="text" id="in-sub" value="XV ANOS" oninput="App.update()">
-                    <div class="color-picker-compact"><input type="color" id="col-sub" value="#d4af37" oninput="App.update()"></div>
+                    <div class="color-picker-compact">
+                        <input type="color" id="col-sub" value="#d4af37" oninput="App.update()">
+                    </div>
                 </div>
                 <div class="grid-2">
                     <select id="sel-font-sub" onchange="App.update()">
@@ -957,22 +1020,34 @@
                     <input type="number" id="sz-sub" value="40" oninput="App.update()" title="Tamanho">
                 </div>
                 <div class="font-row">
-                    <button class="btn-font-extra">🔤 Upload .TTF<input type="file" onclick="this.value=null" onchange="App.loadFont(this, 'sel-font-sub')"></button>
+                    <button class="btn-font-extra">
+                        <span class="icon-spin">🔤</span> Upload .TTF
+                        <input type="file" onclick="this.value=null" onchange="App.loadFont(this, 'sel-font-sub')">
+                    </button>
+                    <button onclick="App.forceRefresh()" class="btn-refresh">
+                        <span class="icon-spin">🔄</span> Atualizar Fonte
+                    </button>
                 </div>
                 <div class="grid-2">
                     <select id="pos-sub" onchange="App.update()">
-					    <option value="bl">Inferior Esquerda</option>
+                        <option value="bl">Inferior Esquerda</option>
                         <option value="br" selected>Inferior Direita</option>
-						<option value="tl">Superior Esquerda</option>
+                        <option value="tl">Superior Esquerda</option>
                         <option value="tr">Superior Direita</option>
-						<option value="tc">Centro Topo</option>
+                        <option value="tc">Centro Topo</option>
                         <option value="bc">Centro Base</option> 
                         <option value="c">Centro</option>
                     </select>
                 </div>
                 <div class="grid-2">
-                    <div class="input-wrap"><span class="xy-tag">X</span><input type="number" id="off-sub-x" value="67" oninput="App.update()"></div>
-                    <div class="input-wrap"><span class="xy-tag">Y</span><input type="number" id="off-sub-y" value="-56" oninput="App.update()"></div>
+                    <div class="input-wrap">
+                        <span class="xy-tag">X</span>
+                        <input type="number" id="off-sub-x" value="67" oninput="App.update()">
+                    </div>
+                    <div class="input-wrap">
+                        <span class="xy-tag">Y</span>
+                        <input type="number" id="off-sub-y" value="-56" oninput="App.update()">
+                    </div>
                 </div>
             </div>
 
@@ -983,7 +1058,9 @@
                     <input type="text" id="in-local" placeholder="Local" oninput="App.update()">
                 </div>
                 <div class="flex-row">
-                    <div class="color-picker-compact"><input type="color" id="col-info" value="#ffffff" oninput="App.update()"></div>
+                    <div class="color-picker-compact">
+                        <input type="color" id="col-info" value="#ffffff" oninput="App.update()">
+                    </div>
                     <input type="number" id="sz-info" value="36" oninput="App.update()" title="Tamanho">
                 </div>
                 <div class="grid-2">
@@ -1002,24 +1079,36 @@
                         <option value="Arial">Arial</option>
                         <option value="Comic Sans MS">Comic Sans</option>
                     </select>
-                    <div class="font-row" style="margin:0">
-                        <button class="btn-font-extra" style="margin:0; padding:4px;">🔤 Upload .TTF<input type="file" onclick="this.value=null" onchange="App.loadFont(this, 'sel-font-info')"></button>
-                    </div>
+                </div>
+                <div class="font-row">
+                    <button class="btn-font-extra">
+                        <span class="icon-spin">🔤</span> Upload .TTF
+                        <input type="file" onclick="this.value=null" onchange="App.loadFont(this, 'sel-font-info')">
+                    </button>
+                    <button onclick="App.forceRefresh()" class="btn-refresh">
+                        <span class="icon-spin">🔄</span> Atualizar Fonte
+                    </button>
                 </div>
                 <div class="grid-2" style="margin-top:5px;">
                     <select id="pos-info" onchange="App.update()">
-					    <option value="bl">Inferior Esquerda</option>
-						<option value="br">Inferior Direita</option>
-						<option value="tl">Superior Esquerda</option>
-						<option value="tr">Superior Direita</option>
-						<option value="tc">Centro Topo</option>
+                        <option value="bl">Inferior Esquerda</option>
+                        <option value="br">Inferior Direita</option>
+                        <option value="tl">Superior Esquerda</option>
+                        <option value="tr">Superior Direita</option>
+                        <option value="tc">Centro Topo</option>
                         <option value="bc" selected>Centro Base</option>
                         <option value="c">Centro</option>
                     </select>
                 </div>
                 <div class="grid-2">
-                    <div class="input-wrap"><span class="xy-tag">X</span><input type="number" id="off-info-x" value="0" oninput="App.update()"></div>
-                    <div class="input-wrap"><span class="xy-tag">Y</span><input type="number" id="off-info-y" value="20" oninput="App.update()"></div>
+                    <div class="input-wrap">
+                        <span class="xy-tag">X</span>
+                        <input type="number" id="off-info-x" value="0" oninput="App.update()">
+                    </div>
+                    <div class="input-wrap">
+                        <span class="xy-tag">Y</span>
+                        <input type="number" id="off-info-y" value="20" oninput="App.update()">
+                    </div>
                 </div>
             </div>
         </aside>
@@ -1028,14 +1117,18 @@
             <div class="canvas-container">
                 <canvas id="main-canvas"></canvas>
             </div>
+            
             <div class="action-dock">
                 <button class="btn-action btn-load" onclick="document.getElementById('file-photos').click()">
-                    📸 Carregar
+                    <span class="icon-spin">📸</span> Carregar
                 </button>
                 <input type="file" id="file-photos" multiple accept="image/*" style="display:none;" onchange="App.handleFiles(this)">
 
-                <button class="btn-action btn-process" onclick="App.render()">⚙️ Processar</button>
+                <button class="btn-action btn-process" onclick="App.render()">
+                    <span class="icon-spin">⚙️</span> Processar
+                </button>
             </div>
+            
             <div class="status-bar">
                 <select id="sel-fmt">
                     <option value="png" selected>PNG</option>
@@ -1050,7 +1143,9 @@
         </main>
 
         <aside class="panel">
-            <div class="panel-header"><span class="panel-title">2. Imagem & Efeitos</span></div>
+            <div class="panel-header">
+                <span class="panel-title">2. Imagem & Efeitos</span>
+            </div>
 
             <div class="control-group">
                 <label>Orientação</label>
@@ -1083,6 +1178,7 @@
                     <option value="grid_fifteen">12. Moldura Galeria (15 Fotos)</option>
                     <option value="grid_thirtytwo">13. Pavimento Mosaico (32 Fotos)</option>
                 </select>
+                
                 <label style="margin-top:10px;">Espaçamento (X/Y)</label>
                 <div class="flex-row">
                     <span class="xy-tag">X:</span>
@@ -1111,8 +1207,14 @@
 
                 <label>Posição (X/Y)</label>
                 <div class="grid-2">
-                    <div class="input-wrap"><span class="xy-tag">X</span><input type="number" id="img-pan-x" value="0" oninput="App.updateState()"></div>
-                    <div class="input-wrap"><span class="xy-tag">Y</span><input type="number" id="img-pan-y" value="0" oninput="App.updateState()"></div>
+                    <div class="input-wrap">
+                        <span class="xy-tag">X</span>
+                        <input type="number" id="img-pan-x" value="0" oninput="App.updateState()">
+                    </div>
+                    <div class="input-wrap">
+                        <span class="xy-tag">Y</span>
+                        <input type="number" id="img-pan-y" value="0" oninput="App.updateState()">
+                    </div>
                 </div>
                 <label style="margin-top:5px;">Zoom</label>
                 <div class="flex-row">
@@ -1133,14 +1235,19 @@
                     <button class="btn-trash" onclick="App.removeBg()">🗑️</button>
                 </div>
                 <div class="flex-row">
-                    <div class="color-picker-compact"><input type="color" id="col-bg" value="#111111" oninput="App.update()"></div>
+                    <div class="color-picker-compact">
+                        <input type="color" id="col-bg" value="#111111" oninput="App.update()">
+                    </div>
                     <label style="cursor:pointer; display:flex; align-items:center; gap:5px; font-size:0.7em;">
                         <input type="checkbox" id="chk-trans" onchange="App.update()"> Transparente
                     </label>
                 </div>
             </div>
 
-            <div class="panel-header" style="margin-top:10px;"><span class="panel-title">3. Acabamento</span></div>
+            <div class="panel-header" style="margin-top:10px;">
+                <span class="panel-title">3. Acabamento</span>
+            </div>
+
             <div class="control-group">
                 <label>Molduras</label>
                 <select id="sel-mockup" onchange="App.update()">
@@ -1167,13 +1274,13 @@
                 </select>
                 <div class="flex-row">
                     <span style="font-size:0.7em; color:#888;">Cor:</span>
-                    <div class="color-picker-compact"><input type="color" id="col-frame" value="#d4af37" oninput="App.update()"></div>
+                    <div class="color-picker-compact">
+                        <input type="color" id="col-frame" value="#d4af37" oninput="App.update()">
+                    </div>
                 </div>
                 <input type="text" id="in-polaroid" value="Moments" placeholder="Legenda Polaroid" style="display:none; margin-top:8px;" oninput="App.update()">
             </div>
-			
-			
-			<!-- TESTE DE BORDA -->
+            
             <div class="control-group">
                 <label>Estilo dos Cantos (Moldura)</label>
                 <select id="sel-radius" onchange="App.update()">
@@ -1181,7 +1288,7 @@
                     <option value="20">Levemente Arredondado (Moderno)</option>
                     <option value="50">Arredondado (Suave)</option>
                 </select>
-            </div>	
+            </div>  
       
             <div class="control-group">
                 <label>Filtros (Individuais)</label>
@@ -1218,10 +1325,11 @@
         </div>
         <div id="gallery-content"></div>
     </section>
+
 </body>
 <script>
     // ==========================================
-    // 1. INTRODUÇÃO CÓSMICA (CANVAS DE FUNDO)
+    // 1. INTRODUÇÃO CÓSMICA (Fundo Estrelado)
     // ==========================================
     const Intro = {
         active: true,
@@ -1230,17 +1338,15 @@
         stars: [],
         width: 0,
         height: 0,
-        
+
         init: function() {
             this.canvas = document.getElementById('intro-canvas');
             if (!this.canvas) return;
             this.ctx = this.canvas.getContext('2d');
             this.resize();
             window.addEventListener('resize', () => this.resize());
-            
-            const btnOpen = document.getElementById('btn-open-app');
-            if (btnOpen) btnOpen.addEventListener('click', () => this.close());
-            
+            const btn = document.getElementById('btn-open-app');
+            if (btn) btn.addEventListener('click', () => this.close());
             this.createStars();
             this.animate();
         },
@@ -1255,9 +1361,7 @@
         createStars: function() {
             this.stars = [];
             const count = Math.floor(this.width * this.height / 6000);
-            for (let i = 0; i < count; i++) {
-                this.stars.push(new Star(this.width, this.height));
-            }
+            for (let i = 0; i < count; i++) this.stars.push(new Star(this.width, this.height));
         },
 
         animate: function() {
@@ -1265,7 +1369,6 @@
             this.ctx.clearRect(0, 0, this.width, this.height);
             this.ctx.fillStyle = 'rgba(15, 20, 30, 0.2)';
             this.ctx.fillRect(0, 0, this.width, this.height);
-
             this.stars.forEach(star => {
                 star.update();
                 star.draw(this.ctx);
@@ -1278,9 +1381,7 @@
             const overlay = document.getElementById('intro-overlay');
             if (overlay) {
                 overlay.style.opacity = '0';
-                setTimeout(() => {
-                    overlay.style.display = 'none';
-                }, 800);
+                setTimeout(() => overlay.style.display = 'none', 800);
             }
         }
     };
@@ -1298,7 +1399,6 @@
             this.size = (Math.random() * 1.5 + 0.5) * (this.z / 2);
             this.vel = (Math.random() * 0.2 + 0.05) * (this.z / 2);
             this.alpha = Math.random();
-            this.fade = Math.random() * 0.02 + 0.005;
             this.fadeDir = Math.random() > 0.5 ? 1 : -1;
         }
         update() {
@@ -1307,7 +1407,7 @@
                 this.y = this.h;
                 this.x = Math.random() * this.w;
             }
-            this.alpha += this.fade * this.fadeDir;
+            this.alpha += (Math.random() * 0.02 + 0.005) * this.fadeDir;
             if (this.alpha > 1 || this.alpha < 0.2) this.fadeDir *= -1;
         }
         draw(ctx) {
@@ -1320,15 +1420,13 @@
     }
 
     // ==========================================
-    // 2. APLICAÇÃO PRINCIPAL
+    // 2. APLICAÇÃO PRINCIPAL (Lógica)
     // ==========================================
 
     const App = {
-        effect: 'hdr',
         images: [],
-        photoStates: [],
+        photoStates: [], // Guarda Zoom (s), Pan X, Pan Y de cada foto
         photoFilters: [],
-        assets: { logo: null },
         userLogo: null,
         userBg: null
     };
@@ -1345,27 +1443,216 @@
     window.onload = () => {
         Intro.init();
         const box = document.getElementById('fx-container');
-        if (box) {
-            FX.forEach(f => {
-                const b = document.createElement('div');
-                b.className = 'fx-btn';
-                b.innerText = f.n;
-                if (f.id === 'normal') b.classList.add('active');
-                b.onclick = () => App.applyFilter(f.id);
-                box.appendChild(b);
+        if (box) FX.forEach(f => {
+            const b = document.createElement('div');
+            b.className = 'fx-btn';
+            b.innerText = f.n;
+            if (f.id === 'normal') b.classList.add('active');
+            b.onclick = () => App.applyFilter(f.id);
+            box.appendChild(b);
+        });
+        App.update();
+    };
+
+    // --- CARREGAMENTO DE ARQUIVOS ---
+    App.handleFiles = async function(input) {
+        if (!input.files || !input.files.length) return;
+
+        const btn = document.querySelector('.btn-load');
+        if (btn) btn.classList.add('working');
+
+        setTimeout(async () => {
+            try {
+                const files = Array.from(input.files);
+                App.images = [];
+                App.photoStates = [];
+                App.photoFilters = [];
+
+                const sel = document.getElementById('sel-edit-target');
+                sel.innerHTML = '<option value="-1">✨ Aplicar em TODAS</option>';
+
+                for (let i = 0; i < files.length; i++) {
+                    App.images.push(await loadImg(files[i]));
+                    // Inicializa estado padrão (Zoom 100%, X 0, Y 0)
+                    App.photoStates.push({ x: 0, y: 0, s: 100 });
+                    App.photoFilters.push('normal');
+                    sel.add(new Option(`Foto ${i+1}`, i));
+                }
+
+                input.value = '';
+                App.update();
+            } catch (e) {
+                console.error(e);
+                alert("Erro ao ler arquivo.");
+            } finally {
+                if (btn) btn.classList.remove('working');
+            }
+        }, 50);
+    };
+
+    App.handleLogo = async (i) => {
+        if (i.files[0]) {
+            App.userLogo = await loadImg(i.files[0]);
+            document.getElementById('pv-logo').style.display = 'block';
+            App.update();
+        }
+    };
+    App.removeLogo = () => {
+        App.userLogo = null;
+        document.getElementById('pv-logo').style.display = 'none';
+        App.update();
+    };
+    App.handleBg = async (i) => {
+        if (i.files[0]) {
+            App.userBg = await loadImg(i.files[0]);
+            document.getElementById('pv-bg').style.display = 'block';
+            App.update();
+        }
+    };
+    App.removeBg = () => {
+        App.userBg = null;
+        document.getElementById('pv-bg').style.display = 'none';
+        App.update();
+    };
+
+    // --- FONTES ---
+    App.loadFont = function(input, target) {
+        const f = input.files[0];
+        if (!f) return;
+        const parentBtn = input.parentElement;
+        if (parentBtn) parentBtn.classList.add('working');
+
+        const originalName = f.name.split('.')[0];
+        const fontInternalName = "UserFont_" + Date.now();
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+            const fontData = e.target.result;
+            const style = document.createElement('style');
+            style.textContent = `@font-face { font-family: "${fontInternalName}"; src: url("${fontData}"); }`;
+            document.head.appendChild(style);
+
+            const hiddenDiv = document.createElement('div');
+            hiddenDiv.style.fontFamily = `"${fontInternalName}"`;
+            hiddenDiv.innerText = "Fonte";
+            hiddenDiv.style.opacity = '0';
+            document.body.appendChild(hiddenDiv);
+
+            const sel = document.getElementById(target);
+            const opt = new Option(`🔤 ${originalName}`, fontInternalName);
+            sel.add(opt, 0);
+            sel.value = fontInternalName;
+            if (target === 'sel-font-info') sel.style.display = 'block';
+
+            let attempts = 0;
+            const refreshInterval = setInterval(() => {
+                App.update();
+                attempts++;
+                if (attempts > 10) {
+                    clearInterval(refreshInterval);
+                    if (parentBtn) parentBtn.classList.remove('working');
+                }
+            }, 100);
+            input.value = "";
+        };
+        reader.readAsDataURL(f);
+    };
+
+    App.forceRefresh = function(btnElement) {
+        const btn = btnElement || document.activeElement;
+        if (btn) btn.classList.add('working');
+        setTimeout(() => {
+            document.fonts.ready.then(() => {
+                App.update();
+                setTimeout(() => { if (btn) btn.classList.remove('working'); }, 500);
             });
+        }, 300);
+    };
+
+    App.clearCache = function() {
+        if (confirm("Resetar tudo?")) {
+            window.location.reload(true);
+        }
+    };
+
+    // ==========================================
+    // 3. CONTROLES DE ESTADO (ZOOM, PAN, GAP)
+    // ==========================================
+
+    // Atualiza os inputs de Zoom e chama a atualização do estado
+    App.syncZoom = (val) => {
+        document.getElementById('img-scale').value = val;
+        document.getElementById('img-scale-num').value = val;
+        App.updateState(); // Importante: Salva o novo valor no array de estados
+    };
+
+    // Atualiza os inputs de Espaçamento e força o redesenho
+    App.syncGap = (axis, val) => {
+        document.getElementById(`in-gap-${axis}`).value = val;
+        document.getElementById(`num-gap-${axis}`).value = val;
+        App.update(); // Redesenha com o novo espaçamento
+    };
+
+    // Pega os valores dos inputs (Pan/Zoom) e salva no array App.photoStates
+    App.updateState = () => {
+        const idx = parseInt(document.getElementById('sel-edit-target').value);
+        const px = getVal('img-pan-x', 0);
+        const py = getVal('img-pan-y', 0);
+        const s = getVal('img-scale', 100);
+
+        if (idx === -1) {
+            // Aplica em TODAS as fotos
+            App.photoStates.forEach(st => {
+                st.x = px;
+                st.y = py;
+                st.s = s;
+            });
+        } else if (App.photoStates[idx]) {
+            // Aplica só na foto selecionada
+            App.photoStates[idx] = { x: px, y: py, s: s };
         }
         App.update();
     };
 
-    // --- MANIPULADORES BÁSICOS ---
-    
-    App.applyFilter = function(fid) {
+    // Sincroniza os inputs visuais quando trocamos a foto selecionada no dropdown
+    App.syncInputs = () => {
+        const idx = parseInt(document.getElementById('sel-edit-target').value);
+        document.querySelectorAll('.fx-btn').forEach(b => b.classList.remove('active'));
+
+        if (idx !== -1 && App.photoStates[idx]) {
+            const st = App.photoStates[idx];
+            document.getElementById('img-pan-x').value = st.x;
+            document.getElementById('img-pan-y').value = st.y;
+            document.getElementById('img-scale').value = st.s;
+            document.getElementById('img-scale-num').value = st.s;
+
+            // Filtro ativo
+            const currentFilter = App.photoFilters[idx];
+            const filterObj = FX.find(x => x.id === currentFilter);
+            if (filterObj) {
+                const fName = filterObj.n;
+                document.querySelectorAll('.fx-btn').forEach(b => {
+                    if (b.innerText === fName) b.classList.add('active');
+                });
+            }
+        } else {
+            // Reset visual para "Aplicar em Todas"
+            document.getElementById('img-pan-x').value = 0;
+            document.getElementById('img-pan-y').value = 0;
+            document.getElementById('img-scale').value = 100;
+            document.getElementById('img-scale-num').value = 100;
+            if (document.querySelectorAll('.fx-btn')[0])
+                document.querySelectorAll('.fx-btn')[0].classList.add('active');
+        }
+    };
+
+    App.applyFilter = (fid) => {
         const idx = parseInt(document.getElementById('sel-edit-target').value);
         document.querySelectorAll('.fx-btn').forEach(b => {
             b.classList.remove('active');
             if (b.innerText === FX.find(x => x.id === fid).n) b.classList.add('active');
         });
+
         if (idx === -1) {
             for (let i = 0; i < App.photoFilters.length; i++) App.photoFilters[i] = fid;
         } else {
@@ -1374,188 +1661,12 @@
         App.update();
     };
 
-    App.handleFiles = async function(input) {
-        if (!input.files || !input.files.length) return;
-        try {
-            const files = Array.from(input.files);
-            const btn = document.querySelector('.btn-load');
-            if(btn) btn.innerText = '...';
-            App.images = [];
-            App.photoStates = [];
-            App.photoFilters = [];
-            const sel = document.getElementById('sel-edit-target');
-            sel.innerHTML = '<option value="-1">✨ Aplicar em TODAS</option>';
-
-            for (let i = 0; i < files.length; i++) {
-                App.images.push(await loadImg(files[i]));
-                App.photoStates.push({ x: 0, y: 0, s: 100 });
-                App.photoFilters.push('normal');
-                sel.add(new Option(`Foto ${i+1}`, i));
-            }
-            if(btn) btn.innerText = '📸 Carregar';
-            input.value = '';
-            setTimeout(App.update, 200);
-        } catch (e) {
-            console.error(e);
-            const btn = document.querySelector('.btn-load');
-            if(btn) btn.innerText = '📸 Carregar';
-        }
-    };
-
-    App.handleLogo = async function(i) {
-        if (i.files[0]) {
-            App.userLogo = await loadImg(i.files[0]);
-            document.getElementById('pv-logo').style.display = 'block';
-            App.update();
-        }
-    };
-    App.removeLogo = function() {
-        App.userLogo = null;
-        document.getElementById('pv-logo').style.display = 'none';
-        App.update();
-    };
-    App.handleBg = async function(i) {
-        if (i.files[0]) {
-            App.userBg = await loadImg(i.files[0]);
-            document.getElementById('pv-bg').style.display = 'block';
-            App.update();
-        }
-    };
-    App.removeBg = function() {
-        App.userBg = null;
-        document.getElementById('pv-bg').style.display = 'none';
-        App.update();
-    };
-
-    // ==========================================
-    //  SOLUÇÃO DEFINITIVA DE FONTES (Offline/Online)
-    // ==========================================
-    App.loadFont = function(input, target) {
-        const f = input.files[0];
-        if (!f) return;
-        
-        const originalInput = input;
-        const originalName = f.name.split('.')[0];
-        // Remove espaços e caracteres especiais do nome da fonte para evitar erros de CSS
-        const safeName = "Font_" + Date.now(); 
-
-        const reader = new FileReader();
-
-        reader.onload = function(e) {
-            const fontData = e.target.result; // Base64 Data
-            
-            // 1. Injeta a regra CSS no <head>
-            // Isso funciona 100% offline porque não faz requisição de rede
-            const newStyle = document.createElement('style');
-            newStyle.appendChild(document.createTextNode(`
-                @font-face {
-                    font-family: "${safeName}";
-                    src: url("${fontData}");
-                }
-            `));
-            document.head.appendChild(newStyle);
-
-            // 2. Cria elemento "fantasma" para obrigar o browser a carregar a fonte
-            const dummy = document.createElement('span');
-            dummy.style.fontFamily = `"${safeName}"`;
-            dummy.style.opacity = '0'; // Invisível, mas presente
-            dummy.style.position = 'fixed'; // Tira do fluxo
-            dummy.innerText = 'Carregando...';
-            document.body.appendChild(dummy);
-
-            // 3. Atualiza o Select do HTML
-            const sel = document.getElementById(target);
-            const opt = new Option(`🔤 ${originalName}`, safeName);
-            sel.add(opt, 0); // Adiciona no topo
-            sel.value = safeName; // Seleciona automaticamente
-            if (target === 'sel-font-info') sel.style.display = 'block';
-
-            // 4. Aguarda um "tick" do navegador e atualiza
-            // O setTimeout dá tempo para a fonte ser renderizada no elemento fantasma
-            setTimeout(() => {
-                App.update();
-                console.log("Fonte carregada:", safeName);
-            }, 500); // 500ms é um tempo seguro
-            
-            originalInput.value = "";
-        };
-
-        reader.onerror = function() {
-            alert("Erro ao ler o arquivo de fonte.");
-        };
-
-        reader.readAsDataURL(f); // Lê como DataURL para funcionar Offline
-    };
-
-    App.resetFont = function(id) {
-        const el = document.getElementById(id);
-        if(el) { el.selectedIndex = 0; App.update(); }
-    };
-
-    // --- REFRESH MANUAL SIMPLES E FUNCIONAL ---
-    App.forceRefresh = function() {
-        // Apenas chama o update. Como o App.loadFont já criou o elemento fantasma,
-        // a fonte já deve estar disponível no cache do navegador.
-        App.update();
-        
-        // Feedback visual no botão
-        const loader = document.querySelector('.btn-load');
-        if(loader && loader.innerText === '📸 Carregar') {
-            loader.innerText = "Atualizado!";
-            setTimeout(() => loader.innerText = "📸 Carregar", 800);
-        }
-    };
-
-    // --- Inputs e Estado ---
-    App.toggleCustom = function() {
+    App.toggleCustom = () => {
         const v = document.getElementById('sel-orient').value;
-        const box = document.getElementById('box-custom');
-        if(box) box.style.display = (v === 'custom') ? 'grid' : 'none';
+        document.getElementById('box-custom').style.display = (v === 'custom') ? 'grid' : 'none';
         App.update();
     };
-    App.syncZoom = function(val) {
-        document.getElementById('img-scale').value = val;
-        document.getElementById('img-scale-num').value = val;
-        App.updateState();
-    };
-    App.syncGap = function(axis, val) {
-        document.getElementById(`in-gap-${axis}`).value = val;
-        document.getElementById(`num-gap-${axis}`).value = val;
-        App.update();
-    };
-    App.updateState = function() {
-        const idx = parseInt(document.getElementById('sel-edit-target').value);
-        const px = getVal('img-pan-x', 0);
-        const py = getVal('img-pan-y', 0);
-        const s = getVal('img-scale', 100);
-        if (idx === -1) {
-            App.photoStates.forEach(st => { st.x = px; st.y = py; st.s = s; });
-        } else if (App.photoStates[idx]) {
-            App.photoStates[idx] = { x: px, y: py, s: s };
-        }
-        App.update();
-    };
-    App.syncInputs = function() {
-        const idx = parseInt(document.getElementById('sel-edit-target').value);
-        document.querySelectorAll('.fx-btn').forEach(b => b.classList.remove('active'));
-        if (idx !== -1 && App.photoStates[idx]) {
-            const st = App.photoStates[idx];
-            document.getElementById('img-pan-x').value = st.x;
-            document.getElementById('img-pan-y').value = st.y;
-            document.getElementById('img-scale').value = st.s;
-            document.getElementById('img-scale-num').value = st.s;
-            const fName = FX.find(x => x.id === App.photoFilters[idx]).n;
-            document.querySelectorAll('.fx-btn').forEach(b => {
-                if (b.innerText === fName) b.classList.add('active');
-            });
-        } else {
-            document.getElementById('img-pan-x').value = 0;
-            document.getElementById('img-pan-y').value = 0;
-            document.getElementById('img-scale').value = 100;
-            document.getElementById('img-scale-num').value = 100;
-            document.querySelectorAll('.fx-btn')[0].classList.add('active');
-        }
-    };
+
     function getVal(id, def) {
         const el = document.getElementById(id);
         if (!el) return def;
@@ -1564,24 +1675,26 @@
     }
 
     // ==========================================
-    // 3. CORE DE RENDERIZAÇÃO
+    // 4. RENDERIZAÇÃO E MATH
     // ==========================================
 
     App.update = function() {
         const canvas = document.getElementById('main-canvas');
         if (!canvas) return;
         const ctx = canvas.getContext('2d');
+
         const orient = document.getElementById('sel-orient').value;
         let w = 1920, h = 1080;
         if (orient === 'portrait') { w = 1080; h = 1920; }
         if (orient === 'square') { w = 1080; h = 1080; }
         if (orient === 'custom') { w = getVal('in-w', 1920); h = getVal('in-h', 1080); }
+
         canvas.width = w;
         canvas.height = h;
 
         const mk = document.getElementById('sel-mockup').value;
         const polaroidInput = document.getElementById('in-polaroid');
-        if(polaroidInput) polaroidInput.style.display = (mk === 'polaroid') ? 'block' : 'none';
+        if (polaroidInput) polaroidInput.style.display = (mk === 'polaroid') ? 'block' : 'none';
 
         if (!App.images.length) {
             ctx.fillStyle = "#111";
@@ -1600,70 +1713,71 @@
 
     App.render = async function() {
         if (!App.images.length) { alert("Sem fotos!"); return; }
+
         const loader = document.getElementById('loader');
-        if(loader) loader.style.display = 'flex';
-        
+        if (loader) loader.style.display = 'flex';
+        const btnProcess = document.querySelector('.btn-process');
+        if (btnProcess) btnProcess.classList.add('working');
+
         const q = getVal('sel-quality', 2);
         const orient = document.getElementById('sel-orient').value;
         let bw = 1920, bh = 1080;
         if (orient === 'portrait') { bw = 1080; bh = 1920; }
         if (orient === 'square') { bw = 1080; bh = 1080; }
         if (orient === 'custom') { bw = getVal('in-w', 1920); bh = getVal('in-h', 1080); }
-        
+
         const W = bw * q;
         const H = bh * q;
         const layout = document.getElementById('sel-layout').value;
         const bs = getBatch(layout);
         const format = document.getElementById('sel-fmt').value;
         const qLabel = q === 1 ? 'FullHD' : (q === 2 ? '4K' : '8K');
-
         const numCheck = document.getElementById('chk-show-nums');
         const wasChecked = numCheck.checked;
         numCheck.checked = false;
 
-        try {
-            await new Promise(r => setTimeout(r, 200));
-            if (layout === 'single') {
-                for (let i = 0; i < App.images.length; i++) {
-                    const group = [App.images[i]];
-                    const cvs = document.createElement('canvas');
-                    cvs.width = W; cvs.height = H;
-                    const ctx = cvs.getContext('2d');
-                    await new Promise(r => requestAnimationFrame(r));
-                    drawFrame(ctx, group, 'single', W, H, i);
-                    saveImage(cvs, `arte_foto_${i+1}`, format, qLabel);
+        setTimeout(async () => {
+            try {
+                if (layout === 'single') {
+                    for (let i = 0; i < App.images.length; i++) {
+                        const group = [App.images[i]];
+                        const cvs = document.createElement('canvas');
+                        cvs.width = W; cvs.height = H;
+                        const ctx = cvs.getContext('2d');
+                        await new Promise(r => requestAnimationFrame(r));
+                        drawFrame(ctx, group, 'single', W, H, i);
+                        saveImage(cvs, `arte_foto_${i+1}`, format, qLabel);
+                    }
+                } else {
+                    let batchCount = 0;
+                    for (let i = 0; i < App.images.length; i += bs) {
+                        batchCount++;
+                        const group = App.images.slice(i, i + bs);
+                        const cvs = document.createElement('canvas');
+                        cvs.width = W; cvs.height = H;
+                        const ctx = cvs.getContext('2d');
+                        await new Promise(r => requestAnimationFrame(r));
+                        drawFrame(ctx, group, layout, W, H, i);
+                        saveImage(cvs, `arte_mosaico_${batchCount}`, format, qLabel);
+                    }
                 }
-            } else {
-                let batchCount = 0;
-                for (let i = 0; i < App.images.length; i += bs) {
-                    batchCount++;
-                    const group = App.images.slice(i, i + bs);
-                    const cvs = document.createElement('canvas');
-                    cvs.width = W; cvs.height = H;
-                    const ctx = cvs.getContext('2d');
-                    await new Promise(r => requestAnimationFrame(r));
-                    drawFrame(ctx, group, layout, W, H, i);
-                    saveImage(cvs, `arte_mosaico_${batchCount}`, format, qLabel);
-                }
+                const gal = document.querySelector('.gallery-section');
+                if (gal) gal.scrollIntoView({ behavior: 'smooth' });
+            } catch (e) {
+                console.error(e);
+                alert("Erro: " + e.message);
+            } finally {
+                numCheck.checked = wasChecked;
+                if (wasChecked) App.update();
+                if (loader) loader.style.display = 'none';
+                if (btnProcess) btnProcess.classList.remove('working');
             }
-            const gal = document.querySelector('.gallery-section');
-            if(gal) gal.scrollIntoView({ behavior: 'smooth' });
-        } catch (e) {
-            console.error(e);
-            alert("Erro no processamento: " + e.message);
-        }
-        numCheck.checked = wasChecked;
-        if (wasChecked) App.update();
-        if(loader) loader.style.display = 'none';
+        }, 100);
     };
 
-    // ==========================================
-    // 4. DRAW FRAME E FUNÇÕES DE DESENHO
-    // ==========================================
+    // --- FUNÇÕES DE DESENHO ---
     function drawFrame(ctx, imgs, mode, W, H, startIndex) {
         ctx.filter = "none";
-        
-        // Fundo
         const userBg = App.userBg;
         const useTrans = document.getElementById('chk-trans').checked;
         const useBlur = document.getElementById('chk-blur').checked;
@@ -1672,20 +1786,23 @@
         if (userBg) {
             if (useTrans) ctx.clearRect(0, 0, W, H);
             else { ctx.fillStyle = bgColor; ctx.fillRect(0, 0, W, H); }
+
             ctx.save();
             if (useBlur) {
                 ctx.filter = "blur(20px) brightness(0.7)";
                 drawCover(ctx, userBg, -20, -20, W + 40, H + 40);
-            } else { drawCover(ctx, userBg, 0, 0, W, H); }
+            } else {
+                drawCover(ctx, userBg, 0, 0, W, H);
+            }
             ctx.restore();
         } else {
             if (useTrans) ctx.clearRect(0, 0, W, H);
             else { ctx.fillStyle = bgColor; ctx.fillRect(0, 0, W, H); }
         }
 
-        // Fotos
         const slots = getSlots(mode, W, H);
         const showNums = document.getElementById('chk-show-nums').checked;
+
         slots.forEach((slot, i) => {
             if (i >= imgs.length) return;
             const isCenter = (mode === 'grid_diamond' && i === 1);
@@ -1710,8 +1827,6 @@
                 }
             }
         });
-
-        // Efeitos e Texto
         drawEffects(ctx, W, H);
         drawText(ctx, W, H);
     }
@@ -1724,6 +1839,10 @@
         const radius = rawRadius * Scale;
 
         let { x, y, w, h } = slot;
+
+        // Segurança para não desenhar negativo
+        if (w < 1 || h < 1) return;
+
         if (mk === 'polaroid') { h *= 0.85; }
         if (mk === 'minimal') { x += 7 * Scale; y += 7 * Scale; w -= 14 * Scale; h -= 14 * Scale; }
 
@@ -1738,6 +1857,7 @@
         const dy = y + (h - dh) / 2 + panY;
         const c = document.getElementById('col-frame').value;
 
+        // Fundo do Mockup
         if (mk === 'polaroid') {
             const pPad = w * 0.04;
             const pBot = w * 0.18;
@@ -1750,7 +1870,6 @@
             ctx.fill();
             ctx.restore();
         }
-
         if (mk === 'shadow_box') {
             ctx.save();
             ctx.shadowColor = "rgba(0,0,0,0.8)";
@@ -1763,6 +1882,7 @@
             ctx.restore();
         }
 
+        // Desenhar a Imagem (Clip)
         ctx.save();
         ctx.beginPath();
         if (mk === 'circle') {
@@ -1778,8 +1898,9 @@
             if (ctx.roundRect) ctx.roundRect(dx, dy, dw, dh, radius);
             else ctx.rect(dx, dy, dw, dh);
         }
-        ctx.clip(); 
+        ctx.clip();
 
+        // Filtros
         const f = filterId;
         if (f === 'bw') ctx.filter = "grayscale(1) contrast(1.2)";
         if (f === 'sepia') ctx.filter = "sepia(0.8)";
@@ -1793,6 +1914,7 @@
         ctx.filter = "none";
         ctx.restore();
 
+        // Bordas
         ctx.save();
         if (['none', 'minimal', 'neon', 'gold_border', 'double_line'].includes(mk)) {
             if (mk === 'none') { ctx.lineWidth = (x === 0 ? 5 : 3) * Scale; ctx.strokeStyle = c; }
@@ -1805,19 +1927,16 @@
                 ctx.lineWidth = 15 * Scale; ctx.strokeStyle = g;
             }
             ctx.beginPath();
-            if (ctx.roundRect) ctx.roundRect(dx, dy, dw, dh, radius);
-            else ctx.rect(dx, dy, dw, dh);
+            if (ctx.roundRect) ctx.roundRect(dx, dy, dw, dh, radius); else ctx.rect(dx, dy, dw, dh);
             ctx.stroke();
-            if (mk === 'double_line') {
-                ctx.strokeRect(dx - 5 * Scale, dy - 5 * Scale, dw + 10 * Scale, dh + 10 * Scale);
-            }
+            if (mk === 'double_line') ctx.strokeRect(dx - 5 * Scale, dy - 5 * Scale, dw + 10 * Scale, dh + 10 * Scale);
         }
 
         if (mk === 'polaroid') {
             const pBot = w * 0.18;
             const pt = document.getElementById('in-polaroid').value;
             ctx.fillStyle = "#222";
-            ctx.font = `${pBot*0.35}px 'Great Vibes'`;
+            ctx.font = `${pBot * 0.35}px 'Great Vibes'`;
             ctx.textAlign = "center";
             ctx.fillText(pt, dx + dw / 2, dy + dh + pBot * 0.65);
         }
@@ -1827,8 +1946,8 @@
             ctx.strokeStyle = c; ctx.lineWidth = 15 * Scale; ctx.strokeRect(dx - b1, dy - b1, dw + b1 * 2, dh + b1 * 2);
         }
         if (mk === 'cinema') {
-            const barH = dh * 0.12; ctx.fillStyle = "#000";
-            ctx.fillRect(dx, dy, dw, barH); ctx.fillRect(dx, dy + dh - barH, dw, barH);
+            const barH = dh * 0.12;
+            ctx.fillStyle = "#000"; ctx.fillRect(dx, dy, dw, barH); ctx.fillRect(dx, dy + dh - barH, dw, barH);
         }
         if (mk === 'tv') { ctx.lineWidth = 20 * Scale; ctx.strokeStyle = "#222"; ctx.strokeRect(dx, dy, dw, dh); }
         if (mk === 'tablet') { ctx.lineWidth = 25 * Scale; ctx.strokeStyle = "#111"; ctx.lineJoin = "round"; ctx.strokeRect(dx, dy, dw, dh); }
@@ -1854,7 +1973,7 @@
         }
         if (mk === 'insta') {
             ctx.strokeStyle = "#ccc"; ctx.lineWidth = 1 * Scale; ctx.strokeRect(dx, dy, dw, dh);
-            ctx.fillStyle = "#fff"; ctx.font = `${25*Scale}px Arial`; ctx.textAlign = "left";
+            ctx.fillStyle = "#fff"; ctx.font = `${25 * Scale}px Arial`; ctx.textAlign = "left";
             ctx.fillText("♥  💬  ➢", dx + 5 * Scale, dy + dh + 30 * Scale);
         }
         if (mk === 'vignette_border') {
@@ -1869,17 +1988,21 @@
         ctx.restore();
     }
 
+    // --- POSIÇÕES E TEXTO ---
     function getTextPos(W, H, pos, w, h) {
         let x = 0, y = 0;
-        if (pos.includes('l')) x = W * 0.05; else if (pos.includes('r')) x = W * 0.95 - w; else x = (W - w) / 2;
-        if (pos.includes('t')) y = H * 0.05; else if (pos.includes('b')) y = H * 0.95 - h; else y = (H - h) / 2;
+        if (pos.includes('l')) x = W * 0.05;
+        else if (pos.includes('r')) x = W * 0.95 - w;
+        else x = (W - w) / 2;
+
+        if (pos.includes('t')) y = H * 0.05;
+        else if (pos.includes('b')) y = H * 0.95 - h;
+        else y = (H - h) / 2;
         return { x, y };
     }
 
-    // --- FUNÇÃO DE TEXTO REVERTIDA E SIMPLIFICADA ---
     function drawText(ctx, W, H) {
         const Scale = W / 1920 * (document.getElementById('sel-orient').value === 'portrait' ? 1.8 : 1);
-        
         const lg = App.userLogo;
         if (lg && lg.width > 0) {
             const sz = getVal('in-logo-sz', 130);
@@ -1889,10 +2012,10 @@
             const w = lg.width * (h / lg.height);
             const pos = document.getElementById('sel-logo-pos').value;
             const p = getTextPos(W, H, pos, w, h);
+
             ctx.save();
             if (document.getElementById('chk-logo-tint').checked) {
-                const tCan = document.createElement('canvas');
-                tCan.width = w; tCan.height = h;
+                const tCan = document.createElement('canvas'); tCan.width = w; tCan.height = h;
                 const tCtx = tCan.getContext('2d');
                 tCtx.drawImage(lg, 0, 0, w, h);
                 tCtx.globalCompositeOperation = 'source-in';
@@ -1913,25 +2036,26 @@
                 const dt = document.getElementById('in-date').value;
                 const lc = document.getElementById('in-local').value;
                 if (!dt && !lc) return;
-                content = `${dt} ${dt&&lc?'|':''} ${lc}`;
-            } else { content = contentInput.value; }
+                content = `${dt} ${dt && lc ? '|' : ''} ${lc}`;
+            } else {
+                content = contentInput.value;
+            }
             if (!content) return;
 
             const nSize = getVal(`sz-${id}`, 40) * Scale;
             const nOffX = getVal(`off-${id}-x`, 0) * Scale;
             const nOffY = getVal(`off-${id}-y`, 0) * Scale;
-            const fName = document.getElementById(`sel-font-${id}`).value || 'Raleway';
+            const fontSel = document.getElementById(`sel-font-${id}`);
+            const fName = fontSel ? fontSel.value : 'Raleway';
             const col = document.getElementById(`col-${id}`).value;
-            
-            // Define fonte explicitamente sem verificações complexas
-            // O App.loadFont já cuidou de disponibilizar a fonte no documento
+
             ctx.font = `${nSize}px "${fName}"`;
             ctx.fillStyle = col;
-            
             if (id !== 'info') {
-                ctx.shadowColor = "rgba(0,0,0,0.8)";
-                ctx.shadowBlur = 10 * Scale;
-            } else { ctx.shadowBlur = 0; }
+                ctx.shadowColor = "rgba(0,0,0,0.8)"; ctx.shadowBlur = 10 * Scale;
+            } else {
+                ctx.shadowBlur = 0;
+            }
 
             const pos = document.getElementById(`pos-${id}`).value;
             const tw = ctx.measureText(content).width;
@@ -1942,7 +2066,6 @@
             if (pos.includes('c') || pos.includes('tc') || pos.includes('bc')) { ctx.textAlign = 'center'; p.x += tw / 2; }
             ctx.fillText(content, p.x + nOffX, p.y + nSize + nOffY);
         }
-
         drawLabel('nome');
         drawLabel('sub');
         drawLabel('info');
@@ -1952,45 +2075,70 @@
         const Scale = W / 2000;
         if (document.getElementById('chk-vignette').checked) {
             const g = ctx.createRadialGradient(W / 2, H / 2, H / 3, W / 2, H / 2, Math.max(W, H) * 0.9);
-            g.addColorStop(0, "transparent"); g.addColorStop(1, "rgba(0,0,0,0.85)");
-            ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+            g.addColorStop(0, "transparent");
+            g.addColorStop(1, "rgba(0,0,0,0.85)");
+            ctx.fillStyle = g;
+            ctx.fillRect(0, 0, W, H);
         }
         if (document.getElementById('chk-grain').checked) {
-            ctx.save(); ctx.globalCompositeOperation = "overlay"; ctx.fillStyle = "#888"; ctx.globalAlpha = 0.12;
-            ctx.fillRect(0, 0, W, H); ctx.restore();
+            ctx.save();
+            ctx.globalCompositeOperation = "overlay";
+            ctx.fillStyle = "#888";
+            ctx.globalAlpha = 0.12;
+            ctx.fillRect(0, 0, W, H);
+            ctx.restore();
         }
         if (document.getElementById('chk-water').checked) {
-            ctx.save(); ctx.globalCompositeOperation = "soft-light"; ctx.strokeStyle = "rgba(255,255,255,0.3)"; ctx.lineWidth = 3 * Scale;
-            for (let i = 0; i < 8; i++) { ctx.beginPath(); ctx.arc(W / 2, H / 2, (i * 100 + 50) * Scale, 0, Math.PI * 2); ctx.stroke(); }
+            ctx.save();
+            ctx.globalCompositeOperation = "soft-light";
+            ctx.strokeStyle = "rgba(255,255,255,0.3)";
+            ctx.lineWidth = 3 * Scale;
+            for (let i = 0; i < 8; i++) {
+                ctx.beginPath();
+                ctx.arc(W / 2, H / 2, (i * 100 + 50) * Scale, 0, Math.PI * 2);
+                ctx.stroke();
+            }
             ctx.restore();
         }
         if (document.getElementById('chk-gold').checked) {
-            ctx.save(); ctx.globalCompositeOperation = "screen"; ctx.fillStyle = "#ffd700";
+            ctx.save();
+            ctx.globalCompositeOperation = "screen";
+            ctx.fillStyle = "#ffd700";
             for (let i = 0; i < 80; i++) {
-                const x = (i * 97 * 13) % W; const y = (i * 67 * 17) % H;
-                ctx.beginPath(); ctx.arc(x, y, (2 + (i % 3)) * Scale, 0, Math.PI * 2); ctx.fill();
+                const x = (i * 97 * 13) % W;
+                const y = (i * 67 * 17) % H;
+                ctx.beginPath();
+                ctx.arc(x, y, (2 + (i % 3)) * Scale, 0, Math.PI * 2);
+                ctx.fill();
             }
             ctx.restore();
         }
         if (document.getElementById('chk-stars').checked) {
-            ctx.save(); ctx.fillStyle = "#fff";
+            ctx.save();
+            ctx.fillStyle = "#fff";
             for (let i = 0; i < 150; i++) {
-                const x = (i * 1337) % W; const y = (i * 599) % H; ctx.globalAlpha = 0.5 + (i % 5) / 10;
-                ctx.beginPath(); ctx.arc(x, y, (1 + (i % 2)) * Scale, 0, Math.PI * 2); ctx.fill();
+                const x = (i * 1337) % W;
+                const y = (i * 599) % H;
+                ctx.globalAlpha = 0.5 + (i % 5) / 10;
+                ctx.beginPath();
+                ctx.arc(x, y, (1 + (i % 2)) * Scale, 0, Math.PI * 2);
+                ctx.fill();
             }
             ctx.restore();
         }
         if (document.getElementById('chk-light').checked) {
-            ctx.save(); ctx.globalCompositeOperation = "screen";
+            ctx.save();
+            ctx.globalCompositeOperation = "screen";
             const g = ctx.createLinearGradient(0, 0, W * 0.4, H);
-            g.addColorStop(0, "rgba(255,220,150,0.3)"); g.addColorStop(1, "transparent");
-            ctx.fillStyle = g; ctx.fillRect(0, 0, W, H); ctx.restore();
+            g.addColorStop(0, "rgba(255,220,150,0.3)");
+            g.addColorStop(1, "transparent");
+            ctx.fillStyle = g;
+            ctx.fillRect(0, 0, W, H);
+            ctx.restore();
         }
     }
 
-    // ==========================================
-    // 5. CÁLCULO DE GRIDS
-    // ==========================================
+    // --- CORREÇÃO DO CÁLCULO DE SLOTS (Grid) ---
     function getSlots(mode, W, H) {
         const pad = W * 0.05;
         const aH = H * 0.70;
@@ -2001,64 +2149,130 @@
         const gapY = H * (userGapY / 1000);
 
         if (mode === 'single') return [{ x: 0, y: startY, w: W, h: aH, pad: pad }];
-        if (mode === 'dual_vert') { const w2 = (W - gapX) / 2; return [{ x: 0, y: startY, w: w2, h: aH }, { x: w2 + gapX, y: startY, w: w2, h: aH }]; }
-        if (mode === 'grid_diamond') { const w2 = (W - gapX) / 2; return [{ x: 0, y: startY, w: w2, h: aH }, { x: w2 + gapX, y: startY, w: w2, h: aH }, { x: W / 4, y: startY + aH / 4, w: W / 2, h: aH / 2 }]; }
-        if (mode === 'collage_dyn') { const w2 = (W - gapX) / 2; const h1 = aH * 0.6; const h2 = aH * 0.4 - gapY; return [{ x: 0, y: startY, w: W, h: h1 }, { x: 0, y: startY + h1 + gapY, w: w2, h: h2 }, { x: w2 + gapX, y: startY + h1 + gapY, w: w2, h: h2 }]; }
-        if (mode === 'grid_quad') { const w2 = (W - gapX) / 2; const h2 = (aH - gapY) / 2; return [{ x: 0, y: startY, w: w2, h: h2 }, { x: w2 + gapX, y: startY, w: w2, h: h2 }, { x: 0, y: startY + h2 + gapY, w: w2, h: h2 }, { x: w2 + gapX, y: startY + h2 + gapY, w: w2, h: h2 }]; }
-        if (mode === 'film_strip') { const w4 = (W - 3 * gapX) / 4; return [{ x: 0, y: startY, w: w4, h: aH }, { x: w4 + gapX, y: startY, w: w4, h: aH }, { x: 2 * (w4 + gapX), y: startY, w: w4, h: aH }, { x: 3 * (w4 + gapX), y: startY, w: w4, h: aH }]; }
-        if (mode === 'grid_quint') { const w2 = (W - gapX) / 2; const h2 = (aH - gapY) / 2; return [{ x: 0, y: startY, w: w2, h: h2 }, { x: w2 + gapX, y: startY, w: w2, h: h2 }, { x: 0, y: startY + h2 + gapY, w: w2, h: h2 }, { x: w2 + gapX, y: startY + h2 + gapY, w: w2, h: h2 }, { x: W * 0.25, y: startY + aH * 0.25, w: W * 0.5, h: aH * 0.5 }]; }
-        if (mode === 'grid_sena') { const w3 = (W - 2 * gapX) / 3; const h2 = (aH - gapY) / 2; return [{ x: 0, y: startY, w: w3, h: h2 }, { x: w3 + gapX, y: startY, w: w3, h: h2 }, { x: 2 * (w3 + gapX), y: startY, w: w3, h: h2 }, { x: 0, y: startY + h2 + gapY, w: w3, h: h2 }, { x: w3 + gapX, y: startY + h2 + gapY, w: w3, h: h2 }, { x: 2 * (w3 + gapX), y: startY + h2 + gapY, w: w3, h: h2 }]; }
-        if (mode === 'grid_septa') { const h3 = (aH - 2 * gapY) / 3; const w2 = (W - gapX) / 2; const w3 = (W - 2 * gapX) / 3; return [{ x: 0, y: startY, w: w2, h: h3 }, { x: w2 + gapX, y: startY, w: w2, h: h3 }, { x: 0, y: startY + h3 + gapY, w: w3, h: h3 }, { x: w3 + gapX, y: startY + h3 + gapY, w: w3, h: h3 }, { x: 2 * (w3 + gapX), y: startY + h3 + gapY, w: w3, h: h3 }, { x: 0, y: startY + 2 * (h3 + gapY), w: w2, h: h3 }, { x: w2 + gapX, y: startY + 2 * (h3 + gapY), w: w2, h: h3 }]; }
+
+        if (mode === 'dual_vert') {
+            const w2 = Math.max(1, (W - gapX) / 2); // Proteção contra valor negativo
+            return [
+                { x: 0, y: startY, w: w2, h: aH },
+                { x: w2 + gapX, y: startY, w: w2, h: aH }
+            ];
+        }
 
         const configs = {
+            'grid_quad': { cols: 2, rows: 2 },
+            'film_strip': { cols: 4, rows: 1 },
+            'grid_quint': { cols: 5, rows: 1 },
+            'grid_sena': { cols: 3, rows: 2 },
+            'grid_septa': { cols: 4, rows: 2 },
             'grid_octo': { cols: 4, rows: 2 },
             'grid_nona': { cols: 3, rows: 3 },
             'grid_fifteen': { cols: 5, rows: 3 },
             'grid_thirtytwo': { cols: (H > W ? 4 : 8), rows: (H > W ? 8 : 4) }
         };
+
         if (configs[mode]) {
             const { cols, rows } = configs[mode];
-            const wCell = (W - (cols - 1) * gapX) / cols;
-            const hCell = (aH - (rows - 1) * gapY) / rows;
+            // PROTEÇÃO: Math.max(1, ...) impede que largura/altura sejam negativas
+            const wCell = Math.max(1, (W - (cols - 1) * gapX) / cols);
+            const hCell = Math.max(1, (aH - (rows - 1) * gapY) / rows);
             let arr = [];
             for (let r = 0; r < rows; r++) {
                 for (let c = 0; c < cols; c++) {
-                    arr.push({ x: c * (wCell + gapX), y: startY + r * (hCell + gapY), w: wCell, h: hCell });
+                    arr.push({
+                        x: c * (wCell + gapX),
+                        y: startY + r * (hCell + gapY),
+                        w: wCell,
+                        h: hCell
+                    });
                 }
             }
             return arr;
         }
+
+        // Layouts Especiais
+        if (mode === 'grid_diamond' || mode === 'collage_dyn') {
+            const w2 = Math.max(1, (W - gapX) / 2);
+            const h2 = Math.max(1, (aH - gapY) / 2);
+            return [
+                { x: 0, y: startY, w: w2, h: h2 },
+                { x: w2 + gapX, y: startY, w: w2, h: h2 },
+                { x: 0, y: startY + h2 + gapY, w: w2, h: h2 },
+                { x: w2 + gapX, y: startY + h2 + gapY, w: w2, h: h2 }
+            ];
+        }
+
         return [{ x: 0, y: startY, w: W, h: aH, pad: pad }];
     }
-    function getBatch(l) {
-        if (l.includes('dual')) return 2;
-        if (l.includes('diamond') || l.includes('collage')) return 3;
-        if (l.includes('quad') || l.includes('film')) return 4;
-        if (l.includes('quint')) return 5;
-        if (l.includes('sena')) return 6;
-        if (l.includes('septa')) return 7;
-        if (l.includes('octo')) return 8;
-        if (l.includes('nona')) return 9;
-        if (l.includes('fifteen')) return 15;
-        if (l.includes('thirtytwo')) return 32;
-        return 1;
+
+    function getBatch(mode) {
+        const map = {
+            'single': 1,
+            'dual_vert': 2,
+            'grid_diamond': 3,
+            'collage_dyn': 3,
+            'grid_quad': 4,
+            'film_strip': 4,
+            'grid_quint': 5,
+            'grid_sena': 6,
+            'grid_septa': 7,
+            'grid_octo': 8,
+            'grid_nona': 9,
+            'grid_fifteen': 15,
+            'grid_thirtytwo': 32
+        };
+        return map[mode] || 1;
     }
-    // ==========================================
-    // 6. UTILITÁRIOS FINAIS
-    // ==========================================
-    function loadImg(f) { return new Promise((r, j) => { const rd = new FileReader(); rd.onload = e => { const i = new Image(); i.onload = () => r(i); i.onerror = () => j("Falha"); i.src = e.target.result; }; rd.readAsDataURL(f); }); }
-    function drawCover(ctx, img, x, y, w, h) { if (!img) return; const s = Math.max(w / img.width, h / img.height); const dw = img.width * s; const dh = img.height * s; ctx.drawImage(img, x + (w - dw) / 2, y + (h - dh) / 2, dw, dh); }
+
+    function loadImg(f) {
+        return new Promise((r, j) => {
+            const rd = new FileReader();
+            rd.onload = e => {
+                const i = new Image();
+                i.onload = () => r(i);
+                i.onerror = () => j("Falha");
+                i.src = e.target.result;
+            };
+            rd.readAsDataURL(f);
+        });
+    }
+
+    function drawCover(ctx, img, x, y, w, h) {
+        if (!img) return;
+        const s = Math.max(w / img.width, h / img.height);
+        const dw = img.width * s;
+        const dh = img.height * s;
+        ctx.drawImage(img, x + (w - dw) / 2, y + (h - dh) / 2, dw, dh);
+    }
+
     function saveImage(cvs, name, fmt, qLabel) {
         const container = document.getElementById('gallery-content');
-        if(!container) return;
-        const card = document.createElement('div'); card.className = 'res-card';
+        if (!container) return;
+        const card = document.createElement('div');
+        card.className = 'res-card';
         const mime = fmt === 'png' ? 'image/png' : 'image/jpeg';
-        const imgDisplay = document.createElement('img'); imgDisplay.src = cvs.toDataURL('image/jpeg', 0.6);
-        const link = document.createElement('a'); link.href = cvs.toDataURL(mime, 0.95); link.download = `${name}.${fmt}`; link.className = 'dl-btn'; link.innerText = `⬇ Baixar (${fmt.toUpperCase()} - ${qLabel})`;
-        const delBtn = document.createElement('div'); delBtn.innerText = '🗑️'; delBtn.className = 'btn-trash-card'; delBtn.onclick = function() { card.style.opacity = '0'; card.style.transform = 'scale(0.8)'; setTimeout(() => card.remove(), 300); };
-        const actions = document.createElement('div'); actions.className = 'card-actions'; actions.appendChild(link); actions.appendChild(delBtn);
-        card.appendChild(imgDisplay); card.appendChild(actions);
-        if (container.firstChild) container.insertBefore(card, container.firstChild); else container.appendChild(card);
+        const imgDisplay = document.createElement('img');
+        imgDisplay.src = cvs.toDataURL('image/jpeg', 0.6);
+        const link = document.createElement('a');
+        link.href = cvs.toDataURL(mime, 0.95);
+        link.download = `${name}.${fmt}`;
+        link.className = 'dl-btn';
+        link.innerText = `⬇ Baixar (${fmt.toUpperCase()} - ${qLabel})`;
+        const delBtn = document.createElement('div');
+        delBtn.innerText = '🗑️';
+        delBtn.className = 'btn-trash-card';
+        delBtn.onclick = function() {
+            card.style.opacity = '0';
+            card.style.transform = 'scale(0.8)';
+            setTimeout(() => card.remove(), 300);
+        };
+        const actions = document.createElement('div');
+        actions.className = 'card-actions';
+        actions.appendChild(link);
+        actions.appendChild(delBtn);
+        card.appendChild(imgDisplay);
+        card.appendChild(actions);
+        if (container.firstChild) container.insertBefore(card, container.firstChild);
+        else container.appendChild(card);
     }
 </script>
 </body>
