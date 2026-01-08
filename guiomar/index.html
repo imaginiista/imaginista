@@ -27,7 +27,7 @@
         --bg-dark: #020617;
         --bg-light: #3d2c35;
         --text: #f1f5f9;
-		--imaginista: #9f102c;
+        --imaginista: #9f102c;
     }
 
     * {
@@ -178,7 +178,8 @@
 
     .click-instruction {
         color: rgba(255, 255, 255, 0.9);
-        font-size: 1.3em;
+        /* Alterado para clamp para não quebrar linha no mobile */
+        font-size: clamp(0.9rem, 4.5vw, 1.3em);
         margin-bottom: 20px;
         font-family: 'Playfair Display', serif;
         font-style: italic;
@@ -187,6 +188,7 @@
         align-items: center;
         gap: 10px;
         text-align: center;
+        white-space: nowrap; /* Garante que não quebre linha */
     }
 
     .arrow-down {
@@ -378,7 +380,7 @@
         letter-spacing: 1px;
     }
 
-    /* Mobile Fix: Mesma Linha */
+    /* Mobile Fix e Breakpoints */
     @media (max-width: 480px) {
         #countdown {
             gap: 8px;
@@ -398,6 +400,12 @@
         .time-label {
             font-size: 0.55em;
             letter-spacing: 0;
+        }
+
+        /* Quebra de linha do Rodapé no mobile */
+        .mobile-break {
+            display: block;
+            margin-top: 5px;
         }
     }
 
@@ -890,7 +898,7 @@
             <div class="logo-area" onclick="App.animateLogo(this)">
                 <img src="imagens/logo.png" alt="O Imaginista" class="footer-logo">
             </div>
-            <p class="copyright">© 2025 IMAGINISTA ∴ Todos os direitos reservados.</p>
+            <p class="copyright">© 2025 IMAGINISTA ∴ <span class="mobile-break">Todos os direitos reservados.</span></p>
         </footer>
     </div>
 
@@ -900,7 +908,7 @@
             <button class="ctrl-btn" onclick="App.adjVol(0.1)">+</button>
         </div>
         <div class="player-display">
-            <div class="scrolling-text">🎵 Guiomar Santana - 80 Anos - Celebration Theme 🎵</div>
+            <div class="scrolling-text">🎵 Guiomar Santana - 80 Anos 🎵</div>
         </div>
         <button class="ctrl-btn play-btn" id="btn-play-pause" onclick="App.toggleMusic()">❚❚</button>
         <audio id="bg-music" loop><source src="song/play.mp3" type="audio/mp3"></audio>
