@@ -932,13 +932,14 @@
         font-weight: bold;
         font-size: 24px;
         transition: 0.3s;
-        background: rgba(0, 0, 0, 0.1);
+        background: transparente /* rgba(0, 0, 0, 0.1); SOMBRA <> */
         display: flex;
         align-items: center;
         justify-content: center;
         user-select: none;
         z-index: 10;
         -webkit-tap-highlight-color: transparent;
+		text-shadow: 0 0 5px rgba(0,0,0,0.5);
     }
 
     .prev { left: 0; }
@@ -2051,7 +2052,7 @@
         /* =========================================
            7. CRONÔMETRO REVERSO
            ========================================= */
-        const eventDate = new Date("Jan 31, 2025 19:00:00").getTime();
+        const eventDate = new Date("Jan 31, 2026 19:00:00").getTime();
 
         const countdownInterval = setInterval(() => {
             const now = new Date().getTime();
@@ -2098,14 +2099,14 @@
 		                                                                             setInterval(() => {
 		                                                                          //
 		
-		                                                                          // OP2 CRIAR "3 ESTRELAS"
-	                                                                                 for(let i = 0; i < 3; i++) {
+		                                                                          // OP2 CRIAR "2 ESTRELAS"
+	                                                                                 for(let i = 0; i < 2; i++) {
 		                                                                          //
 		        const randomX = Math.random() * window.innerWidth;
                 const randomY = Math.random() * window.innerHeight;
                 createStars(randomX, randomY);
                 
-				                                                                  // OP2 CRIAR "3 ESTRELAS"
+				                                                                  // OP2 CRIAR "2 ESTRELAS"
 			                                                                        }
 				                                                                  //
 //                count++;
@@ -2113,7 +2114,7 @@
 //            }, 300);
 
                                                                                   // INFINITO STAR
-		                                                                            }, 2000);  //500ms "REMOVER TRÊS ESTRELAS E MANTER APENAS UMA "OP2"
+		                                                                            }, 2000);  //500ms "REMOVER 2 ESTRELAS E MANTER APENAS 1 ESTRELA "OP2"
                                                                                   }
 
         /* =========================================
