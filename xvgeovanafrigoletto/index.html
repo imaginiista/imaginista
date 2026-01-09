@@ -82,16 +82,21 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background-image: radial-gradient(white 1px, transparent 1px),
-                          radial-gradient(#d4af37 1px, transparent 1px);
+        background-image: 
+            radial-gradient(white 1px, transparent 1px),
+            radial-gradient(#d4af37 1px, transparent 1px);
         background-size: 50px 50px;
         opacity: 0.3;
         animation: sparkleMove 60s linear infinite;
     }
 
     @keyframes sparkleMove {
-        from { background-position: 0 0; }
-        to { background-position: 100px 100px; }
+        from {
+            background-position: 0 0;
+        }
+        to {
+            background-position: 100px 100px;
+        }
     }
 
     .intro-content {
@@ -131,8 +136,12 @@
     }
 
     @keyframes floatChar {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-5px); }
+        0%, 100% {
+            transform: translateY(0);
+        }
+        50% {
+            transform: translateY(-5px);
+        }
     }
 
     .intro-text {
@@ -152,8 +161,12 @@
     }
 
     @keyframes bouncePointer {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(10px); }
+        0%, 100% {
+            transform: translateY(0);
+        }
+        50% {
+            transform: translateY(10px);
+        }
     }
 
     .enter-button {
@@ -274,8 +287,12 @@
     }
 
     @keyframes scrollText {
-        from { left: 100%; }
-        to { left: -180%; }
+        from {
+            left: 100%;
+        }
+        to {
+            left: -180%;
+        }
     }
 
     /* =========================================
@@ -307,8 +324,12 @@
     }
 
     @keyframes fogAnim {
-        0% { background-position: 0 bottom; }
-        100% { background-position: 200% bottom; }
+        0% {
+            background-position: 0 bottom;
+        }
+        100% {
+            background-position: 200% bottom;
+        }
     }
 
     .firefly-container {
@@ -332,10 +353,20 @@
     }
 
     @keyframes fly {
-        0% { opacity: 0; transform: translate(0, 0); }
-        10% { opacity: 1; }
-        90% { opacity: 1; }
-        100% { opacity: 0; transform: translate(30vw, -40vh); }
+        0% {
+            opacity: 0;
+            transform: translate(0, 0);
+        }
+        10% {
+            opacity: 1;
+        }
+        90% {
+            opacity: 1;
+        }
+        100% {
+            opacity: 0;
+            transform: translate(30vw, -40vh);
+        }
     }
 
     /* =========================================
@@ -388,8 +419,12 @@
     }
 
     @keyframes shine {
-        0%, 50% { left: -100%; }
-        100% { left: 200%; }
+        0%, 50% {
+            left: -100%;
+        }
+        100% {
+            left: 200%;
+        }
     }
 
     .hero-ticker {
@@ -431,8 +466,12 @@
     }
 
     @keyframes scrollHero {
-        0% { transform: translateX(0); }
-        100% { transform: translateX(-50%); }
+        0% {
+            transform: translateX(0);
+        }
+        100% {
+            transform: translateX(-50%);
+        }
     }
 
     /* =========================================
@@ -608,8 +647,12 @@
     }
 
     @keyframes floatCrown {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-5px); }
+        0%, 100% {
+            transform: translateY(0);
+        }
+        50% {
+            transform: translateY(-5px);
+        }
     }
 
     .quote {
@@ -697,15 +740,31 @@
     }
 
     @keyframes pulseOrb {
-        0% { transform: scale(1); }
-        50% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(212, 175, 55, 0); }
-        100% { transform: scale(1); box-shadow: 0 0 0 5px rgba(212, 175, 55, 0.2); }
+        0% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.05);
+            box-shadow: 0 0 0 10px rgba(212, 175, 55, 0);
+        }
+        100% {
+            transform: scale(1);
+            box-shadow: 0 0 0 5px rgba(212, 175, 55, 0.2);
+        }
     }
 
-    .delay-1 { animation-delay: 0.2s; }
-    .delay-2 { animation-delay: 0.4s; }
-    .delay-3 { animation-delay: 0.6s; }
-    .delay-4 { animation-delay: 0.8s; }
+    .delay-1 {
+        animation-delay: 0.2s;
+    }
+    .delay-2 {
+        animation-delay: 0.4s;
+    }
+    .delay-3 {
+        animation-delay: 0.6s;
+    }
+    .delay-4 {
+        animation-delay: 0.8s;
+    }
 
     .info {
         text-align: left;
@@ -862,9 +921,15 @@
     }
 
     @keyframes scanMagic {
-        0% { top: 0; }
-        50% { top: 100%; }
-        100% { top: 0; }
+        0% {
+            top: 0;
+        }
+        50% {
+            top: 100%;
+        }
+        100% {
+            top: 0;
+        }
     }
 
     .confirm-btn {
@@ -942,8 +1007,13 @@
         text-shadow: 0 0 5px rgba(0,0,0,0.5);
     }
 
-    .prev { left: 0; }
-    .next { right: 0; }
+    .prev {
+        left: 0;
+    }
+
+    .next {
+        right: 0;
+    }
 
     /* Hover apenas Desktop */
     @media (hover: hover) {
@@ -1161,9 +1231,15 @@
     }
 
     @keyframes pulseBtn {
-        0% { transform: scale(1); }
-        50% { transform: scale(1.05); }
-        100% { transform: scale(1); }
+        0% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.05);
+        }
+        100% {
+            transform: scale(1);
+        }
     }
 
     .ticket-scissors {
@@ -1184,8 +1260,14 @@
     }
 
     @keyframes ticketFall {
-        0% { transform: rotate(0); opacity: 1; }
-        100% { transform: rotate(20deg) translateY(100vh); opacity: 0; }
+        0% {
+            transform: rotate(0);
+            opacity: 1;
+        }
+        100% {
+            transform: rotate(20deg) translateY(100vh);
+            opacity: 0;
+        }
     }
 
     /* =========================================
@@ -1264,8 +1346,14 @@
     }
 
     @keyframes starExplode {
-        0% { transform: translate(-50%, -50%) scale(0.5) rotate(0deg); opacity: 1; }
-        100% { transform: translate(var(--tx), var(--ty)) scale(0) rotate(180deg); opacity: 0; }
+        0% {
+            transform: translate(-50%, -50%) scale(0.5) rotate(0deg);
+            opacity: 1;
+        }
+        100% {
+            transform: translate(var(--tx), var(--ty)) scale(0) rotate(180deg);
+            opacity: 0;
+        }
     }
 
     /* =========================================
@@ -1293,7 +1381,9 @@
     }
 
     @keyframes shineFlow {
-        to { background-position: 200% center; }
+        to {
+            background-position: 200% center;
+        }
     }
 
     .celebration-sub {
@@ -1306,104 +1396,320 @@
     }
 
     @keyframes fadeInUp {
-        from { opacity: 0; transform: translateY(20px); }
-        to { opacity: 1; transform: translateY(0); }
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 
     /* =========================================
        16. RESPONSIVIDADE (MOBILE - 768px)
        ========================================= */
     @media (max-width: 768px) {
-        body { font-size: 16px; }
+        body {
+            font-size: 16px;
+        }
 
         /* --- REMOVE AS SETAS NO MOBILE --- */
-        .prev, .next { 
-            display: none !important; 
+        .prev,
+        .next {
+            display: none !important;
         }
-        
-        .container { margin: 0; padding: 0 0 40px 0; width: 100%; border-radius: 0; max-width: 100%; }
-        .banner-area { border-radius: 0; border-bottom: 2px solid var(--gold); } 
-        .banner-wrapper { border-radius: 0; }
-        .hero-ticker { margin-top: 15px; border-top: 2px solid var(--gold); }
 
-        #timer { gap: 5px; flex-wrap: nowrap; justify-content: center; width: 100%; padding: 0 5px; }
-        .timer-box { min-width: 70px; padding: 10px 5px; }
-        .timer-box span:first-child { font-size: 1.8rem; }
-        .timer-box .label { font-size: 0.6rem; color: #ddd; }
-        
-        .celebration-title { font-size: 3.5rem; margin-bottom: 15px; padding-bottom: 10px; }
-        .celebration-sub { font-size: 1rem; }
-
-        .player-container { 
-            right: auto; left: 50%; transform: translateX(-50%) translateY(50px); 
-            bottom: 40px; width: 95%; max-width: 400px;
+        .container {
+            margin: 0;
+            padding: 0 0 40px 0;
+            width: 100%;
+            border-radius: 0;
+            max-width: 100%;
         }
-        .player-container.visible { transform: translateX(-50%) translateY(0); }
-        .player-glass { width: 100%; justify-content: space-between; }
 
-        header h1 { font-size: 3.5rem; } header h2 { font-size: 3rem; }
-        .intro-title { font-size: 3.5rem; } .intro-name { font-size: 3.5rem; }
-        
-        .details-grid { grid-template-columns: 1fr; padding: 0 20px; }
-        .card-detail { flex-direction: column; text-align: center; padding: 25px; }
-        
-        .info { text-align: center; width: 100%; } 
-        .info span { font-size: 1.1rem; }
-        
-        .event-details h4 { white-space: nowrap; font-size: 2.5rem; }
-        
-        .mobile-break { display: block; } 
-        .desktop-sep { display: none; }
+        .banner-area {
+            border-radius: 0;
+            border-bottom: 2px solid var(--gold);
+        }
 
-        .slideshow-box { aspect-ratio: 4/5; border-radius: 0; max-height: 500px; } 
-        .mySlides img { height: 100%; object-fit: cover; }
+        .banner-wrapper {
+            border-radius: 0;
+        }
 
-        .gift-list-elegant { grid-template-columns: 1fr; gap: 10px; padding: 0 20px; }
+        .hero-ticker {
+            margin-top: 15px;
+            border-top: 2px solid var(--gold);
+        }
+
+        #timer {
+            gap: 5px;
+            flex-wrap: nowrap;
+            justify-content: center;
+            width: 100%;
+            padding: 0 5px;
+        }
+
+        .timer-box {
+            min-width: 70px;
+            padding: 10px 5px;
+        }
+
+        .timer-box span:first-child {
+            font-size: 1.8rem;
+        }
+
+        .timer-box .label {
+            font-size: 0.6rem;
+            color: #ddd;
+        }
+
+        .celebration-title {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+        }
+
+        .celebration-sub {
+            font-size: 1rem;
+        }
+
+        .player-container {
+            right: auto;
+            left: 50%;
+            transform: translateX(-50%) translateY(50px);
+            bottom: 40px;
+            width: 95%;
+            max-width: 400px;
+        }
+
+        .player-container.visible {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .player-glass {
+            width: 100%;
+            justify-content: space-between;
+        }
+
+        header h1 {
+            font-size: 3.5rem;
+        }
+
+        header h2 {
+            font-size: 3rem;
+        }
+
+        .intro-title {
+            font-size: 3.5rem;
+        }
+
+        .intro-name {
+            font-size: 3.5rem;
+        }
+
+        .details-grid {
+            grid-template-columns: 1fr;
+            padding: 0 20px;
+        }
+
+        .card-detail {
+            flex-direction: column;
+            text-align: center;
+            padding: 25px;
+        }
+
+        .info {
+            text-align: center;
+            width: 100%;
+        }
+
+        .info span {
+            font-size: 1.1rem;
+        }
+
+        .event-details h4 {
+            white-space: nowrap;
+            font-size: 2.5rem;
+        }
+
+        .mobile-break {
+            display: block;
+        }
+
+        .desktop-sep {
+            display: none;
+        }
+
+        .slideshow-box {
+            aspect-ratio: 4/5;
+            border-radius: 0;
+            max-height: 500px;
+        }
+
+        .mySlides img {
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .gift-list-elegant {
+            grid-template-columns: 1fr;
+            gap: 10px;
+            padding: 0 20px;
+        }
 
         /* Ticket Mobile */
-        .premium-ticket { 
-            flex-direction: column; margin: 0 15px;
+        .premium-ticket {
+            flex-direction: column;
+            margin: 0 15px;
             -webkit-mask: radial-gradient(circle 20px at 0 38%, transparent 99%, black 100%) left,
-                        radial-gradient(circle 20px at 100% 38%, transparent 99%, black 100%) right;
+                          radial-gradient(circle 20px at 100% 38%, transparent 99%, black 100%) right;
             -webkit-mask-size: 51% 100%;
             mask: radial-gradient(circle 20px at 0 38%, transparent 99%, black 100%) left,
-                radial-gradient(circle 20px at 100% 38%, transparent 99%, black 100%) right;
+                  radial-gradient(circle 20px at 100% 38%, transparent 99%, black 100%) right;
             mask-size: 51% 100%;
         }
-        .ticket-left-side { border-right: none; border-bottom: 2px dashed rgba(0,0,0,0.3); width: 100%; padding: 25px; }
-        .ticket-scissors { top: auto; bottom: -18px; right: 50%; transform: translateX(50%) rotate(90deg); }
 
-        .rsvp-area { margin: 40px 20px; padding: 30px 20px; text-align: center; }
-        .rsvp-area h5 { white-space: nowrap; font-size: 1.5rem; margin-top: 0; width: 100%; display: block; text-align: center; }
-        .confirm-btn { padding: 12px 30px; font-size: 1rem; width: 100%; max-width: 250px; display: block; margin: 0 auto; }
+        .ticket-left-side {
+            border-right: none;
+            border-bottom: 2px dashed rgba(0, 0, 0, 0.3);
+            width: 100%;
+            padding: 25px;
+        }
+
+        .ticket-scissors {
+            top: auto;
+            bottom: -18px;
+            right: 50%;
+            transform: translateX(50%) rotate(90deg);
+        }
+
+        .rsvp-area {
+            margin: 40px 20px;
+            padding: 30px 20px;
+            text-align: center;
+        }
+
+        .rsvp-area h5 {
+            white-space: nowrap;
+            font-size: 1.5rem;
+            margin-top: 0;
+            width: 100%;
+            display: block;
+            text-align: center;
+        }
+
+        .confirm-btn {
+            padding: 12px 30px;
+            font-size: 1rem;
+            width: 100%;
+            max-width: 250px;
+            display: block;
+            margin: 0 auto;
+        }
 
         /* GPS Mobile - Lado a Lado (Correção) */
-        .btn-group { flex-wrap: nowrap; gap: 10px; width: 100%; padding: 0 10px; }
-        .gps-btn { flex: 1; justify-content: center; padding: 12px 5px; font-size: 0.9rem; white-space: nowrap; }
+        .btn-group {
+            flex-wrap: nowrap;
+            gap: 10px;
+            width: 100%;
+            padding: 0 10px;
+        }
 
-        .size-wrapper { flex-direction: column; padding: 0 20px; }
-        .size-img { flex: none; width: 100%; margin: 0 auto; max-width: 250px; }
-        .size-info { width: 100%; text-align: center; }
-        .measurements { border-left: none; border-top: 5px solid var(--gold); border-radius: 0 0 15px 15px; }
+        .gps-btn {
+            flex: 1;
+            justify-content: center;
+            padding: 12px 5px;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
 
-        .quote, .sub-quote { font-size: 1.5rem !important; } 
-        .quote-area { padding-top: 30px; margin-top: 60px; }
-        .crown-icon { font-size: 3rem; top: -25px; }
-        
-        .final-quote, .final-invite-styled { font-size: 2rem; }
-        
-        .imaginista-footer { padding-bottom: 140px; }
-        .btn-shine-gold { white-space: nowrap; padding: 12px 15px; font-size: 1rem; width: auto; display: inline-block; }
-        
+        .size-wrapper {
+            flex-direction: column;
+            padding: 0 20px;
+        }
+
+        .size-img {
+            flex: none;
+            width: 100%;
+            margin: 0 auto;
+            max-width: 250px;
+        }
+
+        .size-info {
+            width: 100%;
+            text-align: center;
+        }
+
+        .measurements {
+            border-left: none;
+            border-top: 5px solid var(--gold);
+            border-radius: 0 0 15px 15px;
+        }
+
+        .quote,
+        .sub-quote {
+            font-size: 1.5rem !important;
+        }
+
+        .quote-area {
+            padding-top: 30px;
+            margin-top: 60px;
+        }
+
+        .crown-icon {
+            font-size: 3rem;
+            top: -25px;
+        }
+
+        .final-quote,
+        .final-invite-styled {
+            font-size: 2rem;
+        }
+
+        .imaginista-footer {
+            padding-bottom: 140px;
+        }
+
+        .btn-shine-gold {
+            white-space: nowrap;
+            padding: 12px 15px;
+            font-size: 1rem;
+            width: auto;
+            display: inline-block;
+        }
+
         /* Rodapé Mobile Ajustado (Quebra e Tamanho) */
-        .copyright { font-size: 1.2rem; width: 100%; } 
-        .footer-break { display: block; margin-top: 5px; } 
-        .footer-dot { display: none; }
+        .copyright {
+            font-size: 0.95rem;
+            width: 100%;
+        }
 
-        .gallery h3 { font-family: 'Dancing Script', cursive; font-size: 2.5rem; color: var(--green-main); margin-bottom: 25px; line-height: 1.2; }
-        
-        .sep { display: none; }
-        .name-break { display: block; margin-top: 5px; }
+        .footer-break {
+            display: block;
+            margin-top: 5px;
+        }
+
+        .footer-dot {
+            display: none;
+        }
+
+        .gallery h3 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.5rem;
+            color: var(--green-main);
+            margin-bottom: 25px;
+            line-height: 1.2;
+        }
+
+        .sep {
+            display: none;
+        }
+
+        .name-break {
+            display: block;
+            margin-top: 5px;
+        }
     }
 </style>
 </head>
@@ -1569,8 +1875,8 @@
             
             <div class="gps-buttons">
                 <div class="btn-group">
-                    <a href="https://share.google/BJn47MFlDXP3VM6YW" target="_blank" class="gps-btn google">🗺️ Google Maps</a>
-                    <a href="https://maps.app.goo.gl/Mo9wY7udAeGP72Hn7" target="_blank" class="gps-btn waze">🚙 Waze</a>
+                    <a href="https://maps.app.goo.gl/Mo9wY7udAeGP72Hn7" target="_blank" class="gps-btn google">🗺️ Google Maps</a>
+                    <a href="https://www.waze.com/ul?q=Espaço%205.6%20-%20Casa%20de%20Festas%2C%20Rua%20Vitor%20Brecheret%2C%2080%20-%20Santíssimo%2C%20RJ&navigate=yes" target="_blank" class="gps-btn waze">🚙 Waze</a>
                 </div>
             </div>
 
