@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Imaginista | Design & Tecnologia</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --navy: #14213D;
+            --navy-dark: #0a1120;
+            --gold: #D4AF37;
+            --gold-gradient: linear-gradient(135deg, #A67C00 0%, #D4AF37 50%, #F4D06F 100%);
+            --white: #FFFFFF;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--navy);
+            color: var(--white);
+            font-family: 'Montserrat', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* --- CANVA DE PARTÍCULAS --- */
+        #particles-canvas {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+            padding: 50px 20px 100px; /* Mais espaço embaixo por causa do NPC */
+            flex: 1;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* --- LOGO PRINCIPAL (Glitch Effect) --- */
+        .main-logo-container {
+            margin-bottom: 20px;
+            animation: fadeInDown 1.5s ease-out;
+            position: relative;
+            cursor: pointer; /* Indica que é clicável */
+        }
+
+        .main-logo {
+            width: 100%;
+            max-width: 260px;
+            height: auto;
+            filter: drop-shadow(0 0 20px rgba(212, 175, 55, 0.3));
+            position: relative;
+        }
+
+        /* Classes para o efeito de Desconstrução */
+        .glitch-active {
+            animation: glitch-anim 0.3s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitch-anim {
+            0% { clip-path: inset(10% 0 80% 0); transform: translate(-2px, 2px); filter: hue-rotate(90deg); }
+            20% { clip-path: inset(80% 0 10% 0); transform: translate(2px, -2px); filter: hue-rotate(180deg); }
+            40% { clip-path: inset(40% 0 50% 0); transform: translate(-2px, 2px); filter: blur(2px); }
+            60% { clip-path: inset(10% 0 60% 0); transform: translate(2px, -2px); opacity: 0.5; }
+            80% { clip-path: inset(70% 0 20% 0); transform: translate(-2px, 2px); opacity: 0.8; }
+            100% { clip-path: inset(20% 0 50% 0); transform: translate(2px, -2px); filter: hue-rotate(0deg); }
+        }
+
+        h2 {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 6px;
+            margin-bottom: 30px;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 300;
+        }
+
+        /* --- SLOGAN TECH --- */
+        .slogan-wrapper {
+            display: inline-block;
+            margin-bottom: 45px;
+            height: 30px;
+        }
+
+        .slogan-tech {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 16px;
+            color: var(--gold);
+            letter-spacing: 1px;
+            font-weight: 400;
+            border-right: 2px solid var(--gold);
+            white-space: nowrap;
+            overflow: hidden;
+            width: 0;
+            animation: typing 3.5s steps(30, end) forwards, blink-caret 0.75s step-end infinite;
+        }
+
+        /* --- BOTÕES --- */
+        .links-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            padding: 18px 20px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            font-size: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-gold {
+            background: var(--gold-gradient);
+            color: var(--navy-dark);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .btn-outline {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(212, 175, 55, 0.5);
+            color: var(--white);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.25);
+            letter-spacing: 2px;
+        }
+
+        .btn-save { background: #fff; color: var(--navy); font-weight: 800; }
+        .btn i { margin-right: 12px; font-size: 18px; }
+
+        /* --- NPC MESTRE (Modo História) --- */
+        .npc-container {
+            position: fixed;
+            bottom: 20px;
+            left: -100px; /* Começa escondido */
+            z-index: 100;
+            display: flex;
+            align-items: flex-end;
+            transition: left 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+        }
+
+        .npc-container.active { left: 10px; }
+
+        .npc-img {
+            width: 90px;
+            height: auto;
+            filter: drop-shadow(5px 5px 10px rgba(0,0,0,0.5));
+            transition: transform 0.2s;
+        }
+        
+        .npc-img:active { transform: scale(0.9); }
+
+        .speech-bubble {
+            background: var(--white);
+            color: var(--navy);
+            padding: 10px 15px;
+            border-radius: 15px 15px 15px 0;
+            font-size: 12px;
+            font-weight: 600;
+            max-width: 150px;
+            margin-bottom: 60px; /* Altura do personagem */
+            margin-left: -20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            opacity: 0;
+            transform: scale(0);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .speech-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -8px; left: 0;
+            border-width: 8px 8px 0;
+            border-style: solid;
+            border-color: #fff transparent;
+        }
+
+        .speech-bubble.show { opacity: 1; transform: scale(1); }
+
+        /* --- BOTÃO FLUTUANTE DE COMPARTILHAR --- */
+        .share-btn-float {
+            position: fixed;
+            bottom: 30px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: var(--navy-dark);
+            border: 2px solid var(--gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gold);
+            font-size: 20px;
+            z-index: 99;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .share-btn-float:active { transform: scale(0.9); }
+
+        /* --- RODAPÉ INTERATIVO --- */
+        .imaginista-footer {
+            width: 100%;
+            padding: 40px 0;
+            text-align: center;
+            background: linear-gradient(to top, #0a1120 0%, transparent 100%);
+            margin-top: auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .logo-area {
+            width: 160px; /* AUMENTADO GIGANTE */
+            margin: 0 auto 15px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        
+        .logo-area:active { transform: scale(0.95); }
+
+        .footer-logo {
+            width: 100%;
+            height: auto;
+            transition: filter 0.3s;
+        }
+
+        .spin-active { animation: spinAndGlow 0.8s ease-in-out; }
+
+        .copyright {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.4);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            line-height: 1.8;
+        }
+        
+        .footer-dot { color: var(--gold); }
+        .footer-break { display: none; }
+
+        @media (max-width: 768px) {
+            .footer-break { display: block; }
+            .slogan-tech { font-size: 14px; }
+        }
+
+        /* --- Keyframes --- */
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes typing { from { width: 0 } to { width: 100% } }
+        @keyframes blink-caret { from, to { border-color: transparent } 50% { border-color: var(--gold) } }
+        @keyframes spinAndGlow {
+            0% { transform: rotate(0deg); filter: drop-shadow(0 0 0 rgba(212,175,55,0)); }
+            50% { transform: rotate(180deg); filter: drop-shadow(0 0 30px rgba(212,175,55,1)); }
+            100% { transform: rotate(360deg); filter: drop-shadow(0 0 0 rgba(212,175,55,0)); }
+        }
+
+    </style>
+</head>
+<body>
+
+    <canvas id="particles-canvas"></canvas>
+
+    <div class="npc-container" id="npcMaster" onclick="interagirNPC()">
+        <img src="imagens/mestre.png" alt="O Mestre" class="npc-img">
+        <div class="speech-bubble" id="npcBubble">
+            Bem-vindo ao nosso Templo Digital, Irmão.
+        </div>
+    </div>
+
+    <div class="share-btn-float" onclick="compartilharPagina()">
+        <i class="fas fa-share-alt"></i>
+    </div>
+
+    <div class="container">
+        
+        <div class="main-logo-container" onclick="desconstruirLogo()">
+            <img src="imagens/logo.png" alt="IMAGINISTA" class="main-logo" id="mainLogo">
+        </div>
+
+        <h2>Design & Tecnologia</h2>
+        
+        <div class="slogan-wrapper">
+            <div class="slogan-tech">Onde a imaginação vira arte...</div>
+        </div>
+
+        <div class="links-list">
+            <a href="#" onclick="baixarVCard()" class="btn btn-save"><i class="fas fa-address-card"></i> Salvar na Agenda</a>
+            <a href="https://wa.me/5521999999999" target="_blank" class="btn btn-gold"><i class="fab fa-whatsapp"></i> Chamar no WhatsApp</a>
+            <a href="https://www.oimaginista.com" target="_blank" class="btn btn-outline"><i class="fas fa-globe"></i> Visitar Site Oficial</a>
+            <a href="mailto:contato@oimaginista.com" class="btn btn-outline"><i class="far fa-envelope"></i> Enviar E-mail</a>
+        </div>
+    </div>
+
+    <footer class="imaginista-footer">
+        <div class="logo-area" onclick="animarRodape()">
+            <img src="imagens/logo.png" alt="O Imaginista" class="footer-logo" id="footerLogoImg">
+        </div>
+        <p class="copyright">
+            © 2026 IMAGINISTA<span class="footer-dot">∴</span>
+            <span class="footer-break"></span>
+            Todos os direitos reservados.
+        </p>
+    </footer>
+
+    <script>
+        // --- 1. EFEITO DE DESCONSTRUÇÃO (LOGO TOPO) ---
+        function desconstruirLogo() {
+            const logo = document.getElementById('mainLogo');
+            
+            // Toca som de glitch (opcional se quiser)
+            if(navigator.vibrate) navigator.vibrate([50, 50, 50]);
+
+            // Adiciona a classe do glitch
+            logo.classList.add('glitch-active');
+            
+            // Remove a classe após o tempo da animação
+            setTimeout(() => {
+                logo.classList.remove('glitch-active');
+            }, 1000); // 1 segundo de glitch
+        }
+
+        // --- 2. NPC MESTRE (Entrada e Fala) ---
+        window.addEventListener('load', () => {
+            const npc = document.getElementById('npcMaster');
+            const bubble = document.getElementById('npcBubble');
+            
+            // Mestre entra depois de 1 segundo
+            setTimeout(() => {
+                npc.classList.add('active');
+            }, 1000);
+
+            // Fala aparece depois de 2 segundos
+            setTimeout(() => {
+                bubble.classList.add('show');
+            }, 2500);
+            
+            // Fala some depois de 6 segundos
+            setTimeout(() => {
+                bubble.classList.remove('show');
+            }, 8000);
+        });
+
+        const falas = [
+            "A tecnologia é a pedra bruta que polimos.",
+            "Precisa de um arquiteto digital?",
+            "Construímos ideias do zero.",
+            "Onde a imaginação vira arte..."
+        ];
+
+        function interagirNPC() {
+            const bubble = document.getElementById('npcBubble');
+            // Escolhe uma fala aleatória
+            const falaAleatoria = falas[Math.floor(Math.random() * falas.length)];
+            
+            bubble.innerText = falaAleatoria;
+            bubble.classList.add('show');
+            
+            // Some depois de 4s
+            setTimeout(() => {
+                bubble.classList.remove('show');
+            }, 4000);
+        }
+
+        // --- 3. BOTÃO COMPARTILHAR ---
+        function compartilharPagina() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Imaginista | Design & Tecnologia',
+                    text: 'Confira o cartão digital do Imaginista: Onde a imaginação vira arte.',
+                    url: window.location.href,
+                })
+                .then(() => console.log('Compartilhado com sucesso'))
+                .catch((error) => console.log('Erro ao compartilhar', error));
+            } else {
+                alert('Copie o link para compartilhar: ' + window.location.href);
+            }
+        }
+
+        // --- 4. RODAPÉ E OUTROS ---
+        function animarRodape() {
+            const logo = document.getElementById('footerLogoImg');
+            logo.classList.remove('spin-active');
+            void logo.offsetWidth;
+            logo.classList.add('spin-active');
+        }
+
+        // --- PARTÍCULAS (Mantido) ---
+        const canvas = document.getElementById('particles-canvas');
+        const ctx = canvas.getContext('2d');
+        let particlesArray;
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            initParticles();
+        });
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2;
+                this.speedX = (Math.random() * 0.5) - 0.25;
+                this.speedY = (Math.random() * 0.5) - 0.25;
+                this.color = '#D4AF37';
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x < 0) this.x = canvas.width;
+                if (this.x > canvas.width) this.x = 0;
+                if (this.y < 0) this.y = canvas.height;
+                if (this.y > canvas.height) this.y = 0;
+            }
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.globalAlpha = 0.6;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+        function initParticles() {
+            particlesArray = [];
+            const numberOfParticles = (canvas.width < 768) ? 60 : 120;
+            for (let i = 0; i < numberOfParticles; i++) {
+                particlesArray.push(new Particle());
+            }
+        }
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update();
+                particlesArray[i].draw();
+                for (let j = i; j < particlesArray.length; j++) {
+                    const dx = particlesArray[i].x - particlesArray[j].x;
+                    const dy = particlesArray[i].y - particlesArray[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    if (distance < 80) {
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(212, 175, 55, ${0.15 - distance/600})`;
+                        ctx.lineWidth = 0.3;
+                        ctx.moveTo(particlesArray[i].x, particlesArray[i].y);
+                        ctx.lineTo(particlesArray[j].x, particlesArray[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animateParticles);
+        }
+        initParticles();
+        animateParticles();
+
+        function baixarVCard() {
+            const nome = "IMAGINISTA";
+            const sobrenome = "Design & Tecnologia";
+            const telefone = "+5521999999999"; 
+            const email = "contato@oimaginista.com";
+            const site = "https://www.oimaginista.com";
+            const vcard = `BEGIN:VCARD\nVERSION:3.0\nFN:${nome}\nN:${sobrenome};${nome};;;\nTEL;TYPE=CELL:${telefone}\nEMAIL:${email}\nURL:${site}\nNOTE:Onde a imaginação vira arte.\nEND:VCARD`;
+            const blob = new Blob([vcard], { type: "text/vcard" });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.href = url;
+            link.download = "Imaginista.vcf";
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
+</body>
+</html>
