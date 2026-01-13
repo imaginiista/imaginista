@@ -8,47 +8,32 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&family=Playfair+Display:ital,wght@1,400;1,600&family=Share+Tech+Mono&display=swap" rel="stylesheet">
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
         :root {
-            --bg-color: #14213D;
-            --text-color: #FFFFFF;
-            --accent-color: #D4AF37;
+            --bg-color: #14213D; --text-color: #FFFFFF; --accent-color: #D4AF37;
             --btn-bg: linear-gradient(135deg, #A67C00 0%, #D4AF37 50%, #F4D06F 100%);
-            --btn-text: #0a1120;
-            --dock-bg: rgba(10, 17, 32, 0.98);
+            --btn-text: #0a1120; --dock-bg: rgba(10, 17, 32, 0.98);
         }
-
         body.blueprint-mode {
-            --bg-color: #003366;
-            --text-color: #E0E0E0;
-            --accent-color: #FFFFFF;
-            --bg-image: linear-gradient(rgba(255,255,255,.1) 1px, transparent 1px),
-                        linear-gradient(90deg, rgba(255,255,255,.1) 1px, transparent 1px);
+            --bg-color: #003366; --text-color: #E0E0E0; --accent-color: #FFFFFF;
+            --bg-image: linear-gradient(rgba(255,255,255,.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.1) 1px, transparent 1px);
             background-size: 20px 20px;
         }
-
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            background-color: var(--bg-color);
-            background-image: var(--bg-image);
-            color: var(--text-color);
-            font-family: 'Montserrat', sans-serif;
-            display: flex; flex-direction: column; align-items: center;
-            min-height: 100vh; overflow-x: hidden; position: relative;
-            transition: background 0.5s ease;
+            background-color: var(--bg-color); background-image: var(--bg-image); color: var(--text-color);
+            font-family: 'Montserrat', sans-serif; display: flex; flex-direction: column; align-items: center;
+            min-height: 100vh; overflow-x: hidden; position: relative; transition: background 0.5s ease;
         }
 
-        /* --- INTRO PREMIUM (ARQUITETURA 3D) --- */
+        /* --- 1. INTRO 3D (RECUPERADA) --- */
         #intro-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: radial-gradient(circle at center, #1e2f52 0%, #050a14 100%);
-            z-index: 9999; overflow: hidden;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            transition: transform 1s cubic-bezier(0.77, 0, 0.175, 1);
-            perspective: 1000px;
+            z-index: 9999; overflow: hidden; display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transition: transform 1s cubic-bezier(0.77, 0, 0.175, 1); perspective: 1000px;
         }
         #intro-overlay.hidden { transform: translateY(-100%); }
 
@@ -82,7 +67,7 @@
         .intro-btn:hover { background: var(--accent-color); color: #0a1120; box-shadow: 0 0 30px rgba(212, 175, 55, 0.6); }
         .tap-hint { margin-top: 20px; color: rgba(255,255,255,0.5); font-size: 24px; animation: tapAnim 1.5s infinite; }
 
-        /* CANVAS */
+        /* --- LAYOUT --- */
         #particles-canvas, #matrix-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
         #particles-canvas { z-index: 0; }
         #matrix-canvas { z-index: 1; display: none; }
@@ -99,11 +84,7 @@
         input:checked + .slider { background-color: var(--bg-color); }
         input:checked + .slider:before { transform: translateX(24px); }
 
-        /* Status Dot */
-        .status-badge {
-            position: absolute; top: 25px; left: 20px; font-size: 10px; color: var(--accent-color);
-            display: flex; align-items: center; gap: 5px; font-family: 'Share Tech Mono'; letter-spacing: 1px;
-        }
+        .status-badge { position: absolute; top: 25px; left: 20px; font-size: 10px; color: var(--accent-color); display: flex; align-items: center; gap: 5px; font-family: 'Share Tech Mono'; letter-spacing: 1px; }
         .status-dot { width: 8px; height: 8px; background: #0F0; border-radius: 50%; animation: pulse 2s infinite; }
 
         .main-logo-container { margin-bottom: 5px; animation: fadeInDown 1.5s ease-out; cursor: pointer; }
@@ -125,13 +106,13 @@
         .btn:hover { transform: translateY(-3px); letter-spacing: 2px; }
         .btn i { margin-right: 12px; font-size: 18px; }
 
-        /* --- MODALS (GERAL) --- */
+        /* --- MODALS --- */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 2000; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s; backdrop-filter: blur(8px); }
         .modal-overlay.active { display: flex; opacity: 1; }
         .holo-content { width: 95%; max-width: 1400px; height: auto; max-height: 90vh; background: rgba(20, 33, 61, 0.98); border: 1px solid var(--accent-color); padding: 30px; border-radius: 10px; text-align: center; position: relative; display: flex; flex-direction: column; box-shadow: 0 0 50px rgba(212, 175, 55, 0.15); overflow-y: auto; }
         .close-modal { position: absolute; top: 15px; right: 20px; color: #fff; font-size: 30px; cursor: pointer; z-index: 20; }
 
-        /* MODAL PORTFOLIO */
+        /* PORTFOLIO GRID */
         .holo-grid { display: grid; gap: 15px; margin-top: 20px; flex: 1; overflow-x: hidden; overflow-y: auto; }
         @media (max-width: 767px) { .holo-grid { grid-template-columns: 1fr; } }
         @media (min-width: 768px) { .holo-grid { grid-template-columns: repeat(2, 1fr); } }
@@ -146,31 +127,35 @@
         .project-card:hover .system-logo { opacity: 1; filter: grayscale(0%) drop-shadow(0 0 10px var(--accent-color)); }
         .help-text { margin-top: 10px; font-size: 12px; color: #aaa; letter-spacing: 1px; animation: pulse 2s infinite; }
 
-        /* MODAL FORMULARIO (ORÇAMENTO) */
+        /* FORMULARIO */
         .form-option { display: flex; align-items: center; gap: 15px; background: rgba(255,255,255,0.05); padding: 15px; border-radius: 8px; margin-bottom: 10px; cursor: pointer; transition: 0.3s; border: 1px solid transparent; }
         .form-option:hover { background: rgba(255,255,255,0.1); border-color: var(--accent-color); }
         .form-option input { accent-color: var(--accent-color); transform: scale(1.5); }
         .form-option span { font-size: 14px; text-align: left; }
 
-        /* MODAL LOGIN (ÁREA DO CLIENTE) */
+        /* LOGIN */
         .login-box { display: flex; flex-direction: column; gap: 15px; width: 100%; max-width: 300px; margin: 0 auto; }
         .login-input { background: transparent; border: 1px solid var(--accent-color); color: #fff; padding: 15px; text-align: center; font-family: 'Share Tech Mono'; letter-spacing: 3px; font-size: 18px; outline: none; text-transform: uppercase; }
 
-        /* --- NPC --- */
+        /* --- 2. NPC MESTRE (CORRIGIDO PARA DESKTOP E MOBILE) --- */
+        
+        /* Desktop Padrão: Fica no canto esquerdo, PISANDO NO CHÃO (bottom: 0) */
         .npc-container { 
-            position: fixed; bottom: 170px; left: -200px; 
+            position: fixed; 
+            bottom: 0; /* Colado no chão */
+            left: -250px; 
             z-index: 150; 
             display: flex; align-items: flex-end; transition: left 0.8s; 
             cursor: pointer; 
-            pointer-events: none; /* TRUQUE: O container não bloqueia clique */
+            pointer-events: none; 
         }
-        .npc-container.active { left: -10px; }
+        .npc-container.active { left: 20px; /* Afastado da borda, mas longe dos botões */ }
         
         .npc-img { 
             width: 180px; height: auto; 
             filter: drop-shadow(5px 5px 10px rgba(0,0,0,0.5)); 
             transition: transform 0.1s; 
-            pointer-events: auto; /* TRUQUE: Só a imagem aceita clique */
+            pointer-events: auto; 
         }
         .npc-img:active { transform: scale(0.95); }
         
@@ -186,12 +171,25 @@
         .speech-bubble::after { content: ''; position: absolute; bottom: -8px; left: 0; border-width: 8px 8px 0; border-style: solid; border-color: #FFFFFF transparent; }
         .speech-bubble.show { opacity: 1; transform: scale(1); }
 
+        /* SHARE BUTTON */
         .share-btn-float { position: fixed; bottom: 200px; right: 20px; width: 50px; height: 50px; background: var(--bg-color); border: 2px solid var(--accent-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--accent-color); font-size: 20px; z-index: 1000; box-shadow: 0 5px 20px rgba(0,0,0,0.5); cursor: pointer; transition: transform 0.3s; }
         .share-btn-float:active { transform: scale(0.9); }
 
+        /* --- 3. MOBILE: NPC VAI PRO FINAL DA LISTA --- */
         @media (max-width: 768px) {
-            .npc-container { bottom: 130px; } .npc-img { width: 130px; } 
-            .speech-bubble { margin-left: 10px; white-space: normal; min-width: 150px; max-width: 200px; margin-bottom: 90px; font-size: 12px; } .speech-bubble::after { left: 10px; }
+            .npc-container { 
+                position: relative; /* Sai do Fixed */
+                bottom: auto; left: auto !important; 
+                flex-direction: column-reverse; align-items: center;
+                margin-top: 40px; margin-bottom: 120px; /* Margem GRANDE embaixo para não encostar no rodapé */
+                opacity: 0; animation: fadeInNPC 1s forwards 1s; 
+            }
+            .npc-img { width: 140px; pointer-events: auto; }
+            .speech-bubble { 
+                margin: 0 0 10px 0; 
+                white-space: normal; text-align: center; min-width: 200px;
+            }
+            .speech-bubble::after { left: 50%; transform: translateX(-50%); border-width: 8px 8px 0; border-color: #FFFFFF transparent; }
             .share-btn-float { bottom: 140px; } 
         }
 
@@ -221,6 +219,7 @@
         @keyframes moveBrush { 0% { left: 0; opacity: 1; } 95% { opacity: 1; } 100% { left: 100%; opacity: 0; } }
         @keyframes spaceShatter { 0% { transform: scale(1); filter: blur(0); } 30% { transform: scale(1.5) rotate(5deg); opacity: 0; filter: blur(15px); } 100% { transform: scale(1); opacity: 1; filter: blur(0); } }
         @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
+        @keyframes fadeInNPC { to { opacity: 1; } }
         @keyframes moveGrid { 0% { transform: rotateX(60deg) translateY(0); } 100% { transform: rotateX(60deg) translateY(50px); } }
         @keyframes rotateCube { 0% { transform: rotateX(0) rotateY(0); } 100% { transform: rotateX(360deg) rotateY(360deg); } }
         @keyframes rotateCubeReverse { 0% { transform: rotateX(0) rotateY(0); } 100% { transform: rotateX(-360deg) rotateY(-360deg); } }
@@ -246,11 +245,6 @@
 
     <div class="share-btn-float" onclick="compartilharPagina()"><i class="fas fa-share-alt"></i></div>
 
-    <div class="npc-container" id="npcMaster" onclick="interagirNPC()">
-        <img src="imagens/mestre.png" alt="O Mestre" class="npc-img" id="npcImg">
-        <div class="speech-bubble" id="npcBubble"></div>
-    </div>
-
     <div class="status-badge"><div class="status-dot"></div> OPEN TO WORK</div>
 
     <div class="theme-switch-wrapper">
@@ -275,12 +269,16 @@
         <div class="links-list">
             <a href="#" onclick="baixarVCard()" class="btn btn-save"><i class="fas fa-address-card"></i> Salvar Contato</a>
             <a href="#" onclick="abrirPortfolio()" class="btn btn-outline"><i class="fas fa-hologram"></i> Ver Projetos</a>
-            
             <a href="#" onclick="abrirOrcamento()" class="btn btn-outline"><i class="fas fa-calculator"></i> Solicitar Orçamento</a>
             <a href="#" onclick="abrirLoginCliente()" class="btn btn-outline"><i class="fas fa-user-lock"></i> Acompanhar Projeto</a>
-
             <a href="https://wa.me/5521999999999" target="_blank" class="btn btn-gold"><i class="fab fa-whatsapp"></i> WhatsApp</a>
-            <a href="https://www.oimaginista.com" target="_blank" class="btn btn-outline"><i class="fas fa-globe"></i> Site Oficial</a>
+            
+            <a href="https://www.oimaginista.com" target="_blank" class="btn btn-outline" style="border-width: 2px; box-shadow: 0 0 10px rgba(212,175,55,0.1);"><i class="fas fa-globe"></i> Site Oficial</a>
+        </div>
+
+        <div class="npc-container" id="npcMaster" onclick="interagirNPC()">
+            <img src="imagens/mestre.png" alt="O Mestre" class="npc-img" id="npcImg">
+            <div class="speech-bubble" id="npcBubble"></div>
         </div>
     </div>
 
@@ -301,7 +299,6 @@
                     <div class="iframe-container"><iframe src="https://oimaginista.com/guiomar" scrolling="no"></iframe></div>
                     <div class="project-label">80 Anos Guiomar <i class="fas fa-external-link-alt"></i></div>
                 </a>
-                
                 <a href="https://www.oimaginista.com" target="_blank" class="project-card"><div class="system-placeholder"><img src="imagens/logo.png" class="system-logo"></div><div class="project-label">Novo Projeto #04</div></a>
                 <a href="https://www.oimaginista.com" target="_blank" class="project-card"><div class="system-placeholder"><img src="imagens/logo.png" class="system-logo"></div><div class="project-label">Novo Projeto #05</div></a>
                 <a href="https://www.oimaginista.com" target="_blank" class="project-card"><div class="system-placeholder"><img src="imagens/logo.png" class="system-logo"></div><div class="project-label">Novo Projeto #06</div></a>
@@ -333,13 +330,15 @@
     <div class="modal-overlay" id="loginModal">
         <div class="holo-content" style="max-width: 400px; height: auto; min-height: 300px; justify-content: center;">
             <span class="close-modal" onclick="fecharAll()">&times;</span>
-            
             <div id="loginScreen" class="login-box">
                 <i class="fas fa-shield-alt" style="font-size: 40px; color: var(--accent-color);"></i>
                 <h3 style="color: #fff; font-family: 'Cinzel'; margin-bottom: 10px;">Área Restrita</h3>
                 <input type="password" id="clientPass" class="login-input" placeholder="CÓDIGO DE ACESSO">
-                <button onclick="checkLogin()" class="btn btn-outline" style="width: 100%;">ACESSAR</button>
-                <p id="loginError" style="color: #f00; font-size: 12px; display: none;">ACESSO NEGADO</p>
+                <button onclick="checkLogin()" class="btn btn-outline" style="width: 100%; margin-top: 10px;" id="btnLogin">
+                    <span id="btnText">ACESSAR</span>
+                    <i class="fas fa-circle-notch fa-spin" id="btnLoad" style="display:none;"></i>
+                </button>
+                <p id="loginError" style="color: #FF4444; font-size: 12px; display: none; margin-top: 10px; font-weight: bold; animation: pulse 0.5s;">CÓDIGO NÃO ENCONTRADO</p>
             </div>
         </div>
     </div>
@@ -360,118 +359,46 @@
     </div>
 
     <script>
-        // --- 1. GERAL ---
-        function iniciarExperiencia() { 
-            document.getElementById('intro-overlay').classList.add('hidden'); 
-            const a=document.getElementById('bgMusic'); a.volume=0.5; 
-            a.play().then(()=>{
-                document.getElementById('playIcon').className='fas fa-pause';
-                document.getElementById('visualizer').classList.add('playing');
-            }).catch(e=>console.log(e)); 
-        }
-
-        function baixarVCard() { 
-            const n="IMAGINISTA"; const sn="Design & Tecnologia"; 
-            const t="+5521999999999"; const e="contato@oimaginista.com"; const s="https://www.oimaginista.com"; 
-            const v=`BEGIN:VCARD\nVERSION:3.0\nFN:${n}\nN:${sn};${n};;;\nTEL;TYPE=CELL:${t}\nEMAIL:${e}\nURL:${s}\nNOTE:Onde a imaginação vira arte.\nEND:VCARD`; 
-            const b=new Blob([v],{type:"text/vcard"}); const u=URL.createObjectURL(b); 
-            const l=document.createElement("a"); l.href=u; l.download="Imaginista.vcf"; 
-            document.body.appendChild(l); l.click(); document.body.removeChild(l); 
-        }
-
-        function compartilharPagina() { 
-            if(navigator.share){navigator.share({title:'Imaginista',url:window.location.href}).catch(console.error);}
-            else{alert("Link copiado!");} 
-        }
-        
-        // --- 2. AUDIO ---
-        function toggleMusic() { 
-            const a=document.getElementById('bgMusic'); const i=document.getElementById('playIcon'); const v=document.getElementById('visualizer'); 
-            if(a.paused){a.play();i.className='fas fa-pause';v.classList.add('playing');}
-            else{a.pause();i.className='fas fa-play';v.classList.remove('playing');} 
-        }
+        function iniciarExperiencia() { document.getElementById('intro-overlay').classList.add('hidden'); const a=document.getElementById('bgMusic'); a.volume=0.5; a.play().then(()=>{document.getElementById('playIcon').className='fas fa-pause';document.getElementById('visualizer').classList.add('playing');}).catch(e=>console.log(e)); }
+        function baixarVCard() { const n="IMAGINISTA"; const sn="Design & Tecnologia"; const t="+5521999999999"; const e="contato@oimaginista.com"; const s="https://www.oimaginista.com"; const v=`BEGIN:VCARD\nVERSION:3.0\nFN:${n}\nN:${sn};${n};;;\nTEL;TYPE=CELL:${t}\nEMAIL:${e}\nURL:${s}\nNOTE:Onde a imaginação vira arte.\nEND:VCARD`; const b=new Blob([v],{type:"text/vcard"}); const u=URL.createObjectURL(b); const l=document.createElement("a"); l.href=u; l.download="Imaginista.vcf"; document.body.appendChild(l); l.click(); document.body.removeChild(l); }
+        function compartilharPagina() { if(navigator.share){navigator.share({title:'Imaginista',url:window.location.href}).catch(console.error);}else{alert("Link copiado!");} }
+        function toggleMusic() { const a=document.getElementById('bgMusic'); const i=document.getElementById('playIcon'); const v=document.getElementById('visualizer'); if(a.paused){a.play();i.className='fas fa-pause';v.classList.add('playing');}else{a.pause();i.className='fas fa-play';v.classList.remove('playing');} }
         function adjustVolume(v) { const a=document.getElementById('bgMusic'); let n=a.volume+v; if(n>1)n=1;if(n<0)n=0;a.volume=n; }
-
-        // --- 3. MODALS ---
-        function fecharAll() { 
-            document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('active')); 
-            const loginInput = document.getElementById('clientPass');
-            if(loginInput) loginInput.value = '';
-            const loginError = document.getElementById('loginError');
-            if(loginError) loginError.style.display = 'none';
-        }
+        function fecharAll() { document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('active')); const loginInput = document.getElementById('clientPass'); if(loginInput) loginInput.value = ''; const loginError = document.getElementById('loginError'); if(loginError) loginError.style.display = 'none'; }
         function abrirPortfolio() { fecharAll(); document.getElementById('portfolioModal').classList.add('active'); }
         function abrirOrcamento() { fecharAll(); document.getElementById('orcamentoModal').classList.add('active'); }
         function abrirLoginCliente() { fecharAll(); document.getElementById('loginModal').classList.add('active'); }
-
-        // --- 4. ORÇAMENTO (WHATSAPP) ---
-        function enviarOrcamentoZap() {
-            let texto = "Olá Mestre! Gostaria de um orçamento para:%0A";
-            if(document.getElementById('checkConvite').checked) texto += "- Convite Interativo%0A";
-            if(document.getElementById('checkSite').checked) texto += "- Site/Landing Page%0A";
-            if(document.getElementById('checkManutencao').checked) texto += "- Manutenção PC%0A";
-            if(document.getElementById('checkOutros').checked) texto += "- Projeto Personalizado%0A";
-            texto += "%0AAguardo retorno.";
-            window.open(`https://wa.me/5521999999999?text=${texto}`, '_blank');
-        }
-
-        // --- 5. LOGIN REAL (REDIRECIONAMENTO) ---
-        function checkLogin() {
-            let code = document.getElementById('clientPass').value.trim();
-            if(code.length > 0) {
-                code = code.toLowerCase();
-                // Redireciona para o arquivo na pasta status
-                window.location.href = `status/${code}.html`;
-            } else {
-                const err = document.getElementById('loginError');
-                err.innerText = "DIGITE UM CÓDIGO";
-                err.style.display = 'block';
+        function enviarOrcamentoZap() { let texto = "Olá Mestre! Gostaria de um orçamento para:%0A"; if(document.getElementById('checkConvite').checked) texto += "- Convite Interativo%0A"; if(document.getElementById('checkSite').checked) texto += "- Site/Landing Page%0A"; if(document.getElementById('checkManutencao').checked) texto += "- Manutenção PC%0A"; if(document.getElementById('checkOutros').checked) texto += "- Projeto Personalizado%0A"; texto += "%0AAguardo retorno."; window.open(`https://wa.me/5521999999999?text=${texto}`, '_blank'); }
+        
+        // --- LOGIN SEGURO (USANDO GET) ---
+        async function checkLogin() {
+            const passInput = document.getElementById('clientPass');
+            const err = document.getElementById('loginError');
+            const btnText = document.getElementById('btnText');
+            const btnLoad = document.getElementById('btnLoad');
+            let code = passInput.value.trim().toLowerCase();
+            if(code.length === 0) { err.innerText = "DIGITE UM CÓDIGO"; err.style.display = 'block'; return; }
+            btnText.style.display = 'none'; btnLoad.style.display = 'inline-block'; err.style.display = 'none';
+            try {
+                // USA GET PARA GARANTIR QUE SERVIDORES SIMPLES ACEITEM
+                const response = await fetch(`status/${code}.html`, { method: 'GET' });
+                if (response.ok) { window.location.href = `status/${code}.html`; } else { throw new Error('Não encontrado'); }
+            } catch (error) {
+                btnText.style.display = 'inline'; btnLoad.style.display = 'none';
+                err.innerText = "CÓDIGO INVÁLIDO / NÃO ENCONTRADO"; err.style.display = 'block';
+                passInput.value = ''; passInput.focus();
             }
         }
-        
-        // Permite apertar ENTER para entrar
-        const passInput = document.getElementById('clientPass');
-        if(passInput) {
-            passInput.addEventListener('keypress', function (e) {
-                if (e.key === 'Enter') { checkLogin(); }
-            });
-        }
+        const passInput = document.getElementById('clientPass'); if(passInput) { passInput.addEventListener('keypress', function (e) { if (e.key === 'Enter') { checkLogin(); } }); }
 
-        // --- 6. NPC INTELIGENTE ---
-        let npcClicks = 0; let npcTimer; 
-        const falas = ["Olá! Precisa de ajuda com seu convite?", "Design Premium para momentos únicos.", "Clique nos projetos para ver a mágica.", "Acesse o WhatsApp para suporte imediato."];
-        
-        window.onload = () => { setTimeout(() => document.getElementById('npcMaster').classList.add('active'), 1000); }
-        
-        window.addEventListener('click', function(e) { 
-            const n=document.getElementById('npcMaster'); const b=document.getElementById('npcBubble'); 
-            if(!n.contains(e.target)){b.classList.remove('show');} 
-        });
-
-        function interagirNPC() { 
-            const b=document.getElementById('npcBubble'); b.classList.remove('show'); clearTimeout(npcTimer); 
-            setTimeout(() => { 
-                npcClicks++; 
-                if(npcClicks>=5){ b.innerText="⚠️ ACESSO AO SISTEMA ⚠️"; b.style.color="red"; ativarModoMatrix(); npcClicks=0; }
-                else{ b.style.color="#000"; b.innerText=falas[Math.floor(Math.random()*falas.length)]; npcTimer=setTimeout(()=>{npcClicks=0;},2000); } 
-                b.classList.add('show'); 
-                setTimeout(()=>b.classList.remove('show'),8000); 
-            },100); 
-        }
-
-        // --- 7. EXTRAS VISUAIS ---
-        function toggleBlueprintMode(){document.body.classList.toggle('blueprint-mode');} 
-        function explodirLogo(){const l=document.getElementById('mainLogo');l.classList.remove('shatter-active');void l.offsetWidth;l.classList.add('shatter-active');}
-        function animarLogoRodape(){const l=document.getElementById('footerLogo');l.classList.remove('pop');void l.offsetWidth;l.classList.add('pop');}
-
-        // MATRIX & PARTICLES
+        let npcClicks = 0; let npcTimer; const falas = ["Olá! Precisa de ajuda com seu convite?", "Design Premium para momentos únicos.", "Clique nos projetos para ver a mágica.", "Acesse o WhatsApp para suporte imediato."];
+        window.onload = () => { const delay = window.innerWidth < 768 ? 2000 : 1000; setTimeout(() => document.getElementById('npcMaster').classList.add('active'), delay); }
+        window.addEventListener('click', function(e) { const n=document.getElementById('npcMaster'); const b=document.getElementById('npcBubble'); if(!n.contains(e.target)){b.classList.remove('show');} });
+        function interagirNPC() { const b=document.getElementById('npcBubble'); b.classList.remove('show'); clearTimeout(npcTimer); setTimeout(() => { npcClicks++; if(npcClicks>=5){ b.innerText="⚠️ ACESSO AO SISTEMA ⚠️"; b.style.color="red"; ativarModoMatrix(); npcClicks=0; } else{ b.style.color="#000"; b.innerText=falas[Math.floor(Math.random()*falas.length)]; npcTimer=setTimeout(()=>{npcClicks=0;},2000); } b.classList.add('show'); setTimeout(()=>b.classList.remove('show'),8000); },100); }
+        function toggleBlueprintMode(){document.body.classList.toggle('blueprint-mode');} function explodirLogo(){const l=document.getElementById('mainLogo');l.classList.remove('shatter-active');void l.offsetWidth;l.classList.add('shatter-active');} function animarLogoRodape(){const l=document.getElementById('footerLogo');l.classList.remove('pop');void l.offsetWidth;l.classList.add('pop');}
         function ativarModoMatrix(){document.body.classList.add('matrix-active');initMatrix();setTimeout(()=>document.body.classList.remove('matrix-active'),6000);}
-        const mCanvas=document.getElementById('matrix-canvas');const mCtx=mCanvas.getContext('2d');let mInterval;
-        function initMatrix(){mCanvas.width=window.innerWidth;mCanvas.height=window.innerHeight;const c='01ABCDEF';const fs=14;const cols=mCanvas.width/fs;const d=[];for(let x=0;x<cols;x++)d[x]=1;clearInterval(mInterval);mInterval=setInterval(()=>{mCtx.fillStyle='rgba(0,0,0,0.05)';mCtx.fillRect(0,0,mCanvas.width,mCanvas.height);mCtx.fillStyle='#0F0';mCtx.font=fs+'px monospace';for(let i=0;i<d.length;i++){const t=c.charAt(Math.floor(Math.random()*c.length));mCtx.fillText(t,i*fs,d[i]*fs);if(d[i]*fs>mCanvas.height&&Math.random()>0.975)d[i]=0;d[i]++;}},30);}
-        
-        const pCanvas=document.getElementById('particles-canvas');const pCtx=pCanvas.getContext('2d');let pArr;pCanvas.width=window.innerWidth;pCanvas.height=window.innerHeight;
-        class Particle{constructor(){this.x=Math.random()*pCanvas.width;this.y=Math.random()*pCanvas.height;this.size=Math.random()*2;this.sx=Math.random()-.5;this.sy=Math.random()-.5;}up(){this.x+=this.sx;this.y+=this.sy;if(this.x<0)this.x=pCanvas.width;if(this.x>pCanvas.width)this.x=0;if(this.y<0)this.y=pCanvas.height;if(this.y>pCanvas.height)this.y=0;}dr(){pCtx.fillStyle='#D4AF37';pCtx.beginPath();pCtx.arc(this.x,this.y,this.size,0,Math.PI*2);pCtx.fill();}}
-        function initP(){pArr=[];for(let i=0;i<60;i++)pArr.push(new Particle());}function animP(){pCtx.clearRect(0,0,pCanvas.width,pCanvas.height);for(let i=0;i<pArr.length;i++){pArr[i].up();pArr[i].dr();}requestAnimationFrame(animP);}initP();animP();
+        const mCanvas=document.getElementById('matrix-canvas');const mCtx=mCanvas.getContext('2d');let mInterval; function initMatrix(){mCanvas.width=window.innerWidth;mCanvas.height=window.innerHeight;const c='01ABCDEF';const fs=14;const cols=mCanvas.width/fs;const d=[];for(let x=0;x<cols;x++)d[x]=1;clearInterval(mInterval);mInterval=setInterval(()=>{mCtx.fillStyle='rgba(0,0,0,0.05)';mCtx.fillRect(0,0,mCanvas.width,mCanvas.height);mCtx.fillStyle='#0F0';mCtx.font=fs+'px monospace';for(let i=0;i<d.length;i++){const t=c.charAt(Math.floor(Math.random()*c.length));mCtx.fillText(t,i*fs,d[i]*fs);if(d[i]*fs>mCanvas.height&&Math.random()>0.975)d[i]=0;d[i]++;}},30);}
+        const pCanvas=document.getElementById('particles-canvas');const pCtx=pCanvas.getContext('2d');let pArr;pCanvas.width=window.innerWidth;pCanvas.height=window.innerHeight; class Particle{constructor(){this.x=Math.random()*pCanvas.width;this.y=Math.random()*pCanvas.height;this.size=Math.random()*2;this.sx=Math.random()-.5;this.sy=Math.random()-.5;}up(){this.x+=this.sx;this.y+=this.sy;if(this.x<0)this.x=pCanvas.width;if(this.x>pCanvas.width)this.x=0;if(this.y<0)this.y=pCanvas.height;if(this.y>pCanvas.height)this.y=0;}dr(){pCtx.fillStyle='#D4AF37';pCtx.beginPath();pCtx.arc(this.x,this.y,this.size,0,Math.PI*2);pCtx.fill();}} function initP(){pArr=[];for(let i=0;i<60;i++)pArr.push(new Particle());}function animP(){pCtx.clearRect(0,0,pCanvas.width,pCanvas.height);for(let i=0;i<pArr.length;i++){pArr[i].up();pArr[i].dr();}requestAnimationFrame(animP);}initP();animP();
     </script>
 </body>
 </html>
