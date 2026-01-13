@@ -7,79 +7,68 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&family=Playfair+Display:ital,wght@1,400;1,600&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        /* --- VARIÁVEIS DE CORES (TEMAS) --- */
         :root {
-            /* TEMA PADRÃO (Navy/Gold) */
             --bg-color: #14213D;
             --text-color: #FFFFFF;
-            --accent-color: #D4AF37; /* Dourado */
+            --accent-color: #D4AF37;
             --btn-bg: linear-gradient(135deg, #A67C00 0%, #D4AF37 50%, #F4D06F 100%);
             --btn-text: #0a1120;
-            --outline-border: rgba(212, 175, 55, 0.5);
-            --particle-color: #D4AF37;
-            --footer-bg: linear-gradient(to top, #0a1120 0%, transparent 100%);
-            --bg-image: none;
+            --dock-bg: rgba(10, 17, 32, 0.98);
         }
 
-        /* TEMA BLUEPRINT (Planta Baixa) ativado via JS */
         body.blueprint-mode {
-            --bg-color: #003366; /* Azul planta */
+            --bg-color: #003366;
             --text-color: #E0E0E0;
-            --accent-color: #FFFFFF; /* Branco técnico */
-            --btn-bg: #FFFFFF;
-            --btn-text: #003366;
-            --outline-border: #FFFFFF;
-            --particle-color: #FFFFFF;
-            --footer-bg: transparent;
-            /* Fundo quadriculado técnico */
+            --accent-color: #FFFFFF;
             --bg-image: linear-gradient(rgba(255,255,255,.1) 1px, transparent 1px),
                         linear-gradient(90deg, rgba(255,255,255,.1) 1px, transparent 1px);
             background-size: 20px 20px;
-            filter: contrast(1.1);
         }
 
-        /* Ajustes específicos do Blueprint */
-        body.blueprint-mode .main-logo,
-        body.blueprint-mode .footer-logo,
-        body.blueprint-mode .npc-img {
-            filter: grayscale(100%) brightness(1.5) contrast(1.2) drop-shadow(0 0 5px var(--accent-color)) !important;
-        }
-        body.blueprint-mode .slogan-tech { border-color: var(--accent-color); }
-        body.blueprint-mode .speech-bubble { background: var(--accent-color); color: var(--bg-color); }
-        body.blueprint-mode .speech-bubble::after { border-color: var(--accent-color) transparent; }
-
-
-        /* --- ESTILOS GERAIS --- */
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
         body {
             background-color: var(--bg-color);
             background-image: var(--bg-image);
             color: var(--text-color);
             font-family: 'Montserrat', sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            overflow-x: hidden;
-            position: relative;
-            transition: background 0.5s ease, color 0.5s ease;
+            display: flex; flex-direction: column; align-items: center;
+            min-height: 100vh; overflow-x: hidden; position: relative;
+            transition: background 0.5s ease;
         }
 
-        #particles-canvas {
+        /* --- INTRO --- */
+        #intro-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 0; pointer-events: none;
-            transition: opacity 0.5s;
+            background: #0a1120; z-index: 9999;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transition: transform 0.8s ease-in-out;
         }
-        body.blueprint-mode #particles-canvas { opacity: 0.4; }
+        #intro-overlay.hidden { transform: translateY(-100%); }
+        .intro-logo { width: 160px; margin-bottom: 30px; animation: pulse 2s infinite; }
+        .intro-btn {
+            background: transparent; border: 2px solid var(--accent-color);
+            color: var(--accent-color); padding: 15px 40px; font-size: 16px;
+            text-transform: uppercase; letter-spacing: 3px; cursor: pointer;
+            transition: 0.3s; font-family: 'Cinzel', serif;
+        }
+        .intro-btn:hover { background: var(--accent-color); color: #000; box-shadow: 0 0 20px var(--accent-color); }
+
+        /* --- BACKGROUNDS --- */
+        #particles-canvas, #matrix-canvas {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none;
+        }
+        #particles-canvas { z-index: 0; }
+        #matrix-canvas { z-index: 1; display: none; }
+        body.matrix-active #matrix-canvas { display: block; }
+        body.matrix-active .container { opacity: 0.1; filter: blur(3px); transition: 0.5s; }
 
         .container {
-            width: 100%; max-width: 500px; padding: 70px 20px 100px;
+            width: 100%; max-width: 500px; padding: 40px 20px 160px;
             flex: 1; text-align: center; position: relative; z-index: 2;
         }
 
@@ -88,57 +77,60 @@
             position: absolute; top: 20px; right: 20px;
             display: flex; align-items: center; z-index: 10;
         }
-        .theme-switch {
-            display: inline-block; height: 26px; position: relative; width: 50px;
-        }
+        .theme-switch { display: inline-block; height: 26px; position: relative; width: 50px; }
         .theme-switch input { display:none; }
         .slider {
             background-color: rgba(255,255,255,0.1); border: 1px solid var(--accent-color);
-            bottom: 0; cursor: pointer; left: 0; position: absolute;
-            right: 0; top: 0; transition: .4s; border-radius: 34px;
+            bottom: 0; cursor: pointer; left: 0; position: absolute; right: 0; top: 0;
+            transition: .4s; border-radius: 34px;
         }
         .slider:before {
             background-color: var(--accent-color); bottom: 3px; content: "";
-            height: 18px; left: 4px; position: absolute; transition: .4s;
-            width: 18px; border-radius: 50%;
+            height: 18px; left: 4px; position: absolute; transition: .4s; width: 18px; border-radius: 50%;
         }
         input:checked + .slider { background-color: var(--bg-color); }
         input:checked + .slider:before { transform: translateX(24px); }
-        .switch-icon { margin-left: 10px; color: var(--accent-color); font-size: 14px;}
 
-        /* --- LOGO TOPO (Explosão Espacial) --- */
-        .main-logo-container {
-            margin-bottom: 20px; animation: fadeInDown 1.5s ease-out;
-            position: relative; cursor: pointer;
-        }
+        /* --- LOGO TOPO --- */
+        .main-logo-container { margin-bottom: 5px; animation: fadeInDown 1.5s ease-out; cursor: pointer; }
         .main-logo {
-            width: 100%; max-width: 260px; height: auto;
-            filter: drop-shadow(0 0 20px rgba(212, 175, 55, 0.3));
-            transition: all 0.3s;
+            width: 100%; max-width: 280px; height: auto;
+            filter: drop-shadow(0 0 25px rgba(212, 175, 55, 0.2));
         }
-        /* Animação da Explosão */
-        .shatter-active { animation: spaceShatter 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; }
+        .shatter-active { animation: spaceShatter 0.8s forwards; }
         @keyframes spaceShatter {
-            0% { transform: scale(1); opacity: 1; filter: blur(0); }
-            30% { transform: scale(1.8) rotate(5deg); opacity: 0; filter: blur(20px); } /* Explodiu */
-            31% { transform: scale(0.5); opacity: 0; filter: blur(0); } /* Preparando volta */
-            100% { transform: scale(1) rotate(0deg); opacity: 1; filter: blur(0); } /* Remontado */
+            0% { transform: scale(1); filter: blur(0); }
+            30% { transform: scale(1.5) rotate(5deg); opacity: 0; filter: blur(15px); }
+            100% { transform: scale(1); opacity: 1; filter: blur(0); }
         }
 
-        h2 {
-            font-size: 14px; text-transform: uppercase; letter-spacing: 6px;
-            margin-bottom: 30px; color: var(--text-color); opacity: 0.7; font-weight: 300;
+        h2 { font-size: 14px; text-transform: uppercase; letter-spacing: 6px; margin-bottom: 20px; opacity: 0.7; }
+
+        /* --- SLOGAN --- */
+        .slogan-container {
+            position: relative; display: inline-block; margin-bottom: 35px;
+            height: 40px;
+        }
+        .slogan-text {
+            font-family: 'Playfair Display', serif; font-style: italic; font-weight: 600;
+            font-size: 24px; color: var(--accent-color);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            position: relative; overflow: hidden; white-space: nowrap;
+            width: 0; animation: revealText 3s cubic-bezier(0.5, 0, 0.5, 1) forwards 0.5s;
+        }
+        .brush-follower {
+            position: absolute; top: 0; left: 0; height: 100%;
+            pointer-events: none;
+            animation: moveBrush 3s cubic-bezier(0.5, 0, 0.5, 1) forwards 0.5s;
+        }
+        .brush-follower i {
+            font-size: 20px; color: var(--accent-color); 
+            transform: rotate(-45deg) translateY(25px);
+            filter: drop-shadow(0 0 5px var(--accent-color));
         }
 
-        /* --- SLOGAN TECH --- */
-        .slogan-wrapper { display: inline-block; margin-bottom: 45px; height: 30px; }
-        .slogan-tech {
-            font-family: 'Montserrat', sans-serif; font-size: 16px;
-            color: var(--accent-color); letter-spacing: 1px; font-weight: 400;
-            border-right: 2px solid var(--accent-color); white-space: nowrap;
-            overflow: hidden; width: 0;
-            animation: typing 3.5s steps(30, end) forwards, blink-caret 0.75s step-end infinite;
-        }
+        @keyframes revealText { to { width: 100%; } }
+        @keyframes moveBrush { 0% { left: 0; opacity: 1; } 95% { opacity: 1; } 100% { left: 100%; opacity: 0; } }
 
         /* --- BOTÕES --- */
         .links-list { display: flex; flex-direction: column; gap: 16px; }
@@ -150,269 +142,292 @@
             overflow: hidden; backdrop-filter: blur(10px); color: var(--text-color);
         }
         .btn-gold { background: var(--btn-bg); color: var(--btn-text); box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
-        .btn-outline {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--outline-border);
-        }
-        .btn:hover { transform: translateY(-3px); letter-spacing: 2px; }
+        .btn-outline { background: rgba(255, 255, 255, 0.03); border: 1px solid var(--accent-color); }
         .btn-save { background: var(--accent-color); color: var(--bg-color); font-weight: 800; }
+        .btn:hover { transform: translateY(-3px); letter-spacing: 2px; }
         .btn i { margin-right: 12px; font-size: 18px; }
 
-        /* --- NPC MESTRE AUMENTADO --- */
-        .npc-container {
-            position: fixed; bottom: 20px; left: -150px; z-index: 100;
-            display: flex; align-items: flex-end; transition: left 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            cursor: pointer;
+        /* --- PORTFÓLIO MODAL (Aumentado para sem rolagem) --- */
+        .modal-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.95); z-index: 2000; justify-content: center; align-items: center;
+            opacity: 0; transition: opacity 0.3s; backdrop-filter: blur(8px);
         }
-        .npc-container.active { left: 10px; }
-        .npc-img {
-            width: 130px; /* AUMENTADO */
-            height: auto; filter: drop-shadow(5px 5px 10px rgba(0,0,0,0.5));
-            transition: transform 0.1s;
+        .modal-overlay.active { display: flex; opacity: 1; }
+        
+        .holo-content {
+            width: 98%; max-width: 1400px; /* BEM LARGO */
+            height: 90vh;
+            background: rgba(20, 33, 61, 0.98); border: 1px solid var(--accent-color); 
+            padding: 30px; border-radius: 10px; text-align: center; position: relative; 
+            display: flex; flex-direction: column;
+            box-shadow: 0 0 50px rgba(212, 175, 55, 0.15);
         }
-        .npc-img:active { transform: scale(0.95); }
-        /* Efeito visual do Easter Egg */
-        .npc-secret-active { animation: secretPulse 0.5s ease-in-out 5; }
-        @keyframes secretPulse { 0%, 100% { filter: brightness(1); } 50% { filter: brightness(1.5) hue-rotate(45deg); } }
 
+        .holo-grid { 
+            display: grid; gap: 15px; margin-top: 20px; flex: 1;
+            overflow-x: hidden; /* Remove rolagem lateral */
+            overflow-y: auto;
+        }
+
+        /* GRID RESPONSIVO */
+        @media (max-width: 767px) { .holo-grid { grid-template-columns: 1fr; } }
+        @media (min-width: 768px) { .holo-grid { grid-template-columns: repeat(2, 1fr); } }
+        /* DESKTOP 5 colunas */
+        @media (min-width: 1100px) {
+            .holo-grid { 
+                grid-template-columns: repeat(5, 1fr); 
+                overflow-y: hidden; /* Sem rolagem vertical no desktop se couber */
+            }
+            .project-card { height: 100%; }
+        }
+
+        .project-card {
+            background: #050a14; border-radius: 8px; overflow: hidden; border: 1px solid #333;
+            display: flex; flex-direction: column; transition: 0.3s; position: relative;
+            text-decoration: none; height: 220px;
+        }
+        .project-card:hover { border-color: var(--accent-color); transform: scale(1.05); z-index: 10; box-shadow: 0 0 20px rgba(212,175,55,0.3); }
+
+        .iframe-container {
+            flex: 1; width: 100%; border: none; overflow: hidden; position: relative; pointer-events: none; background: #fff;
+        }
+        .iframe-container iframe { width: 200%; height: 200%; transform: scale(0.5); transform-origin: 0 0; border: none; }
+        
+        .system-placeholder {
+            flex: 1; display: flex; align-items: center; justify-content: center;
+            background: radial-gradient(circle, #1e2f52 0%, #050a14 100%);
+            flex-direction: column; gap: 5px;
+        }
+        .system-logo { width: 60px; opacity: 0.4; filter: grayscale(100%); transition: 0.3s; }
+        .project-card:hover .system-logo { opacity: 1; filter: grayscale(0%) drop-shadow(0 0 10px var(--accent-color)); }
+
+        .project-label {
+            position: absolute; bottom: 0; width: 100%; background: rgba(0,0,0,0.9);
+            color: var(--accent-color); padding: 8px; font-size: 11px; font-weight: bold;
+            text-transform: uppercase; border-top: 1px solid var(--accent-color);
+        }
+        
+        .close-modal { position: absolute; top: 15px; right: 20px; color: #fff; font-size: 30px; cursor: pointer; z-index: 20; }
+        .help-text { margin-top: 10px; font-size: 12px; color: #aaa; letter-spacing: 1px; animation: pulse 2s infinite; }
+
+        /* --- NPC MESTRE --- */
+        .npc-container {
+            position: fixed; bottom: 170px; left: -200px; z-index: 150;
+            display: flex; align-items: flex-end; transition: left 0.8s; cursor: pointer;
+        }
+        .npc-container.active { left: -10px; }
+        
+        .npc-img { width: 180px; height: auto; filter: drop-shadow(5px 5px 10px rgba(0,0,0,0.5)); transition: transform 0.1s; }
+        .npc-img:active { transform: scale(0.95); }
+        
         .speech-bubble {
-            background: var(--white); color: #14213D; padding: 12px 18px;
-            border-radius: 15px 15px 15px 0; font-size: 13px; font-weight: 600;
-            max-width: 180px; margin-bottom: 90px; margin-left: -30px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2); opacity: 0; transform: scale(0);
-            transition: all 0.3s ease; position: relative; z-index: 101;
+            background: #FFFFFF !important; color: #000000 !important;
+            padding: 15px; border-radius: 15px 15px 15px 0; font-size: 13px; font-weight: 700;
+            min-width: 220px; width: auto; 
+            margin-bottom: 130px; margin-left: -50px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3); opacity: 0; transform: scale(0);
+            transition: 0.3s; position: relative; z-index: 151; pointer-events: none;
+            white-space: nowrap; /* Correção do emoji quebrado */
         }
         .speech-bubble::after {
             content: ''; position: absolute; bottom: -8px; left: 0;
-            border-width: 8px 8px 0; border-style: solid;
-            border-color: var(--white) transparent;
+            border-width: 8px 8px 0; border-style: solid; border-color: #FFFFFF transparent;
         }
         .speech-bubble.show { opacity: 1; transform: scale(1); }
 
-        /* --- BOTÃO COMPARTILHAR --- */
+        /* --- SHARE BUTTON (SUBIDO) --- */
         .share-btn-float {
-            position: fixed; bottom: 30px; right: 20px; width: 50px; height: 50px;
+            position: fixed; bottom: 200px; /* Bem alto agora */
+            right: 20px; width: 50px; height: 50px;
             background: var(--bg-color); border: 2px solid var(--accent-color);
             border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            color: var(--accent-color); font-size: 20px; z-index: 99;
+            color: var(--accent-color); font-size: 20px; z-index: 1000;
             box-shadow: 0 5px 20px rgba(0,0,0,0.5); cursor: pointer; transition: transform 0.3s;
         }
         .share-btn-float:active { transform: scale(0.9); }
 
-        /* --- RODAPÉ --- */
-        .imaginista-footer {
-            width: 100%; padding: 40px 0; text-align: center;
-            background: var(--footer-bg); margin-top: auto; position: relative; z-index: 2;
-            transition: background 0.5s ease;
+        /* --- RODAPÉ DOCK --- */
+        .footer-dock {
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            background: var(--dock-bg); border-top: 1px solid var(--accent-color);
+            z-index: 500; display: flex; flex-direction: column; align-items: center;
+            backdrop-filter: blur(10px);
         }
-        .logo-area { width: 160px; margin: 0 auto 15px; cursor: pointer; transition: transform 0.3s ease; }
-        .logo-area:active { transform: scale(0.95); }
-        .footer-logo { width: 100%; height: auto; transition: filter 0.3s; }
-        .spin-active { animation: spinAndGlow 0.8s ease-in-out; }
-        .copyright { font-size: 11px; color: var(--text-color); opacity: 0.6; letter-spacing: 2px; text-transform: uppercase; line-height: 1.8; }
-        .footer-dot { color: var(--accent-color); }
-        .footer-break { display: none; }
-        @media (max-width: 768px) { .footer-break { display: block; } .slogan-tech { font-size: 14px; } }
 
-        /* --- Keyframes --- */
-        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes typing { from { width: 0 } to { width: 100% } }
-        @keyframes blink-caret { from, to { border-color: transparent } 50% { border-color: var(--accent-color) } }
-        @keyframes spinAndGlow {
-            0% { transform: rotate(0deg); filter: drop-shadow(0 0 0 var(--accent-color)); }
-            50% { transform: rotate(180deg); filter: drop-shadow(0 0 30px var(--accent-color)); }
-            100% { transform: rotate(360deg); filter: drop-shadow(0 0 0 var(--accent-color)); }
+        .footer-top-row {
+            width: 100%; padding: 15px 20px; border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: flex; flex-direction: column; 
+            justify-content: center; align-items: center; gap: 8px;
+            text-align: center;
         }
+        
+        .footer-logo-small { 
+            width: 90px; /* AUMENTADO */
+            cursor: pointer; transition: transform 0.3s;
+        }
+        .footer-logo-small.pop { animation: popLogo 0.3s ease; }
+
+        .copyright-text {
+            font-size: 11px; color: rgba(255,255,255,0.6); letter-spacing: 1px;
+        }
+        .break-mobile { display: none; }
+        @media (max-width: 600px) { .break-mobile { display: block; } }
+
+        .footer-player-row {
+            width: 100%; max-width: 500px; padding: 10px 20px 15px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+
+        .player-controls { display: flex; align-items: center; gap: 20px; }
+        .ctrl-btn { background: none; border: none; color: var(--accent-color); font-size: 18px; cursor: pointer; }
+        .play-btn-large { font-size: 24px; width: 35px; height: 35px; display: flex; justify-content: center; align-items: center; border: 1px solid var(--accent-color); border-radius: 50%; }
+
+        .visualizer { display: flex; align-items: flex-end; gap: 3px; height: 15px; }
+        .bar { width: 3px; background: var(--accent-color); border-radius: 2px; height: 3px; }
+        .playing .bar { animation: equalizer 1s infinite ease-in-out; }
+        .bar:nth-child(1) { animation-delay: 0.1s; } .bar:nth-child(2) { animation-delay: 0.2s; }
+        .bar:nth-child(3) { animation-delay: 0.3s; } .bar:nth-child(4) { animation-delay: 0.1s; } .bar:nth-child(5) { animation-delay: 0.4s; }
+
+        .visit-display { font-family: 'Share Tech Mono'; font-size: 12px; color: #888; }
+        .visit-num { color: #f00; }
+
+        @keyframes popLogo { 50% { transform: scale(1.2); } }
+        @keyframes equalizer { 0% { height: 3px; } 50% { height: 15px; } 100% { height: 3px; } }
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+
     </style>
 </head>
 <body>
 
+    <div id="intro-overlay">
+        <img src="imagens/logo.png" alt="Imaginista" class="intro-logo">
+        <button class="intro-btn" onclick="iniciarExperiencia()">Iniciar Sistema</button>
+    </div>
+
     <canvas id="particles-canvas"></canvas>
-
-    <div class="theme-switch-wrapper">
-        <label class="theme-switch" for="checkbox">
-            <input type="checkbox" id="checkbox" onchange="toggleBlueprintMode()">
-            <div class="slider"></div>
-        </label>
-        <i class="fas fa-ruler-combined switch-icon"></i>
-    </div>
-
-    <div class="npc-container" id="npcMaster" onclick="interagirNPC()">
-        <img src="imagens/mestre.png" alt="O Mestre" class="npc-img" id="npcImgEfect">
-        <div class="speech-bubble" id="npcBubble">
-            Nossos construtores estão trabalhando duro para transformar sua ideia em realidade.
-        </div>
-    </div>
+    <canvas id="matrix-canvas"></canvas>
+    <audio id="bgMusic" loop><source src="song/imaginista.mp3" type="audio/mpeg"></audio>
 
     <div class="share-btn-float" onclick="compartilharPagina()"><i class="fas fa-share-alt"></i></div>
 
+    <div class="npc-container" id="npcMaster" onclick="interagirNPC()">
+        <img src="imagens/mestre.png" alt="O Mestre" class="npc-img" id="npcImg">
+        <div class="speech-bubble" id="npcBubble"></div>
+    </div>
+
+    <div class="theme-switch-wrapper">
+        <label class="theme-switch">
+            <input type="checkbox" onchange="toggleBlueprintMode()">
+            <div class="slider"></div>
+        </label>
+        <i class="fas fa-ruler-combined" style="margin-left:10px;color:var(--accent-color);font-size:12px;"></i>
+    </div>
+
     <div class="container">
-        
         <div class="main-logo-container" onclick="explodirLogo()">
             <img src="imagens/logo.png" alt="IMAGINISTA" class="main-logo" id="mainLogo">
         </div>
-
         <h2>Design & Tecnologia</h2>
         
-        <div class="slogan-wrapper">
-            <div class="slogan-tech">Onde a imaginação vira arte...</div>
+        <div class="slogan-container">
+            <div class="slogan-text">Onde a imaginação vira arte...</div>
+            <div class="brush-follower"><i class="fas fa-paint-brush"></i></div>
         </div>
 
         <div class="links-list">
-            <a href="#" onclick="baixarVCard()" class="btn btn-save"><i class="fas fa-address-card"></i> Salvar na Agenda</a>
-            <a href="https://wa.me/5521999999999" target="_blank" class="btn btn-gold"><i class="fab fa-whatsapp"></i> Chamar no WhatsApp</a>
-            <a href="https://www.oimaginista.com" target="_blank" class="btn btn-outline"><i class="fas fa-globe"></i> Visitar Site Oficial</a>
-            <a href="mailto:contato@oimaginista.com" class="btn btn-outline"><i class="far fa-envelope"></i> Enviar E-mail</a>
+            <a href="#" onclick="baixarVCard()" class="btn btn-save"><i class="fas fa-address-card"></i> Salvar Contato</a>
+            <a href="#" onclick="abrirPortfolio()" class="btn btn-outline"><i class="fas fa-hologram"></i> Ver Projetos</a>
+            <a href="https://wa.me/5521999999999" target="_blank" class="btn btn-gold"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+            <a href="https://www.oimaginista.com" target="_blank" class="btn btn-outline"><i class="fas fa-globe"></i> Site Oficial</a>
         </div>
     </div>
 
-    <footer class="imaginista-footer">
-        <div class="logo-area" onclick="animarRodape()">
-            <img src="imagens/logo.png" alt="O Imaginista" class="footer-logo" id="footerLogoImg">
+    <div class="modal-overlay" id="portfolioModal">
+        <div class="holo-content">
+            <span class="close-modal" onclick="fecharPortfolio()">&times;</span>
+            <h3 style="color:var(--accent-color); font-family:'Cinzel';">Projetos & Cases</h3>
+            
+            <div class="holo-grid">
+                <a href="https://oimaginista.com/taty/" target="_blank" class="project-card">
+                    <div class="iframe-container"><iframe src="https://oimaginista.com/taty/" scrolling="no"></iframe></div>
+                    <div class="project-label">Convite Taty <i class="fas fa-external-link-alt"></i></div>
+                </a>
+                <a href="https://oimaginista.com/xvgeovanafrigoletto/" target="_blank" class="project-card">
+                    <div class="iframe-container"><iframe src="https://oimaginista.com/xvgeovanafrigoletto/" scrolling="no"></iframe></div>
+                    <div class="project-label">XV Geovana <i class="fas fa-external-link-alt"></i></div>
+                </a>
+                <a href="https://oimaginista.com/guiomar" target="_blank" class="project-card">
+                    <div class="iframe-container"><iframe src="https://oimaginista.com/guiomar" scrolling="no"></iframe></div>
+                    <div class="project-label">80 Anos Guiomar <i class="fas fa-external-link-alt"></i></div>
+                </a>
+                <a href="https://www.oimaginista.com" target="_blank" class="project-card">
+                    <div class="system-placeholder"><img src="imagens/logo.png" class="system-logo"></div>
+                    <div class="project-label">Novo Projeto #04</div>
+                </a>
+                <a href="https://www.oimaginista.com" target="_blank" class="project-card">
+                    <div class="system-placeholder"><img src="imagens/logo.png" class="system-logo"></div>
+                    <div class="project-label">Novo Projeto #05</div>
+                </a>
+                <a href="https://www.oimaginista.com" target="_blank" class="project-card">
+                    <div class="system-placeholder"><img src="imagens/logo.png" class="system-logo"></div>
+                    <div class="project-label">Novo Projeto #06</div>
+                </a>
+                <a href="https://www.oimaginista.com" target="_blank" class="project-card">
+                    <div class="system-placeholder"><img src="imagens/logo.png" class="system-logo"></div>
+                    <div class="project-label">Novo Projeto #07</div>
+                </a>
+                <a href="https://www.oimaginista.com" target="_blank" class="project-card">
+                    <div class="system-placeholder"><img src="imagens/logo.png" class="system-logo"></div>
+                    <div class="project-label">Novo Projeto #08</div>
+                </a>
+                <a href="https://www.oimaginista.com" target="_blank" class="project-card">
+                    <div class="system-placeholder"><img src="imagens/logo.png" class="system-logo"></div>
+                    <div class="project-label">Novo Projeto #09</div>
+                </a>
+                <a href="https://www.oimaginista.com" target="_blank" class="project-card">
+                    <div class="system-placeholder"><img src="imagens/logo.png" class="system-logo"></div>
+                    <div class="project-label">Novo Projeto #10</div>
+                </a>
+            </div>
+            <p class="help-text">TOQUE NO CARD PARA VISITAR</p>
         </div>
-        <p class="copyright">
-            © 2026 IMAGINISTA<span class="footer-dot">∴</span>
-            <span class="footer-break"></span>
-            Todos os direitos reservados.
-        </p>
-    </footer>
+    </div>
+
+    <div class="footer-dock">
+        <div class="footer-top-row">
+            <img src="imagens/logo.png" class="footer-logo-small" id="footerLogo" onclick="animarLogoRodape()">
+            <span class="copyright-text">
+                © 2026 IMAGINISTA ∴ <br class="break-mobile">Todos os direitos reservados.
+            </span>
+        </div>
+        <div class="footer-player-row">
+            <div class="visualizer" id="visualizer">
+                <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+            </div>
+            <div class="player-controls">
+                <button class="ctrl-btn" onclick="adjustVolume(-0.1)"><i class="fas fa-minus"></i></button>
+                <button class="ctrl-btn play-btn-large" onclick="toggleMusic()">
+                    <i class="fas fa-play" id="playIcon"></i>
+                </button>
+                <button class="ctrl-btn" onclick="adjustVolume(0.1)"><i class="fas fa-plus"></i></button>
+            </div>
+            <div class="visit-display">
+                VIS: <span class="visit-num" id="visitCounter">0000</span>
+            </div>
+        </div>
+    </div>
 
     <script>
-        // --- 1. MODO BLUEPRINT (Planta Baixa) ---
-        function toggleBlueprintMode() {
-            document.body.classList.toggle('blueprint-mode');
-            // Atualiza a cor das partículas se mudar o modo
-            initParticles();
+        // --- 1. GERAL ---
+        function iniciarExperiencia() {
+            document.getElementById('intro-overlay').classList.add('hidden');
+            const audio = document.getElementById('bgMusic'); audio.volume = 0.5;
+            audio.play().then(() => { document.getElementById('playIcon').className = 'fas fa-pause'; document.getElementById('visualizer').classList.add('playing'); }).catch(e => console.log(e));
         }
-
-        // --- 2. NOVA ANIMAÇÃO LOGO TOPO (Explosão/Remontagem) ---
-        function explodirLogo() {
-            const logo = document.getElementById('mainLogo');
-            if(navigator.vibrate) navigator.vibrate(100); // Vibração mais forte
-            
-            // Remove a classe se já existir para reiniciar
-            logo.classList.remove('shatter-active');
-            void logo.offsetWidth; // Força reflow
-            logo.classList.add('shatter-active');
-        }
-
-        // --- 3. NPC MESTRE (Falas e Easter Egg) ---
-        let npcClicks = 0;
-        let easterEggFound = false;
-
-        window.addEventListener('load', () => {
-            const npc = document.getElementById('npcMaster');
-            const bubble = document.getElementById('npcBubble');
-            setTimeout(() => { npc.classList.add('active'); }, 1000);
-            setTimeout(() => { bubble.classList.add('show'); }, 2500);
-            setTimeout(() => { bubble.classList.remove('show'); }, 8000);
-        });
-
-        // Novas falas baseadas no seu texto
-        const falas = [
-            "Cada detalhe aqui é pensado para emocionar.",
-            "Design, animações e histórias únicas... Nós criamos.",
-            "Do clássico ao moderno. Qual é o seu estilo?",
-            "A imaginação é nossa matéria-prima.",
-            "Seu projeto está em boas mãos."
-        ];
-        const falaSecreta = "∴ O segredo da construção é a harmonia entre a mente e a ferramenta. ∴";
-
-        function interagirNPC() {
-            const bubble = document.getElementById('npcBubble');
-            const npcImg = document.getElementById('npcImgEfect');
-            npcClicks++;
-
-            if (npcClicks >= 5 && !easterEggFound) {
-                // ATIVA EASTER EGG
-                easterEggFound = true;
-                bubble.innerText = falaSecreta;
-                bubble.style.background = "var(--accent-color)"; // Muda cor do balão
-                bubble.style.color = "var(--bg-color)";
-                npcImg.classList.add('npc-secret-active'); // Efeito visual no mestre
-                if(navigator.vibrate) navigator.vibrate([100, 50, 100, 50, 200]);
-            } else if (!easterEggFound) {
-                // Falas normais
-                const falaAleatoria = falas[Math.floor(Math.random() * falas.length)];
-                bubble.innerText = falaAleatoria;
-            }
-            
-            bubble.classList.add('show');
-            setTimeout(() => { bubble.classList.remove('show'); }, 4000);
-        }
-
-        // --- 4. OUTROS SCRIPTS (Compartilhar, Rodapé, Partículas, VCard) ---
-        function compartilharPagina() {
-            if (navigator.share) {
-                navigator.share({
-                    title: 'Imaginista | Design & Tecnologia',
-                    text: 'Onde a imaginação vira arte. Confira meu cartão digital.',
-                    url: window.location.href,
-                }).catch((error) => console.log('Erro ao compartilhar', error));
-            } else { alert('Link copiado!'); }
-        }
-
-        function animarRodape() {
-            const logo = document.getElementById('footerLogoImg');
-            logo.classList.remove('spin-active');
-            void logo.offsetWidth;
-            logo.classList.add('spin-active');
-        }
-
-        // PARTÍCULAS ADAPTÁVEIS AO TEMA
-        const canvas = document.getElementById('particles-canvas');
-        const ctx = canvas.getContext('2d');
-        let particlesArray;
-        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-        window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; initParticles(); });
-
-        class Particle {
-            constructor() {
-                this.x = Math.random() * canvas.width; this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 2;
-                this.speedX = (Math.random() * 0.5) - 0.25; this.speedY = (Math.random() * 0.5) - 0.25;
-            }
-            update() {
-                this.x += this.speedX; this.y += this.speedY;
-                if (this.x < 0) this.x = canvas.width; if (this.x > canvas.width) this.x = 0;
-                if (this.y < 0) this.y = canvas.height; if (this.y > canvas.height) this.y = 0;
-            }
-            draw() {
-                // Pega a cor atual do tema (Dourado ou Branco)
-                const particleColor = getComputedStyle(document.body).getPropertyValue('--particle-color').trim();
-                ctx.fillStyle = particleColor; ctx.globalAlpha = 0.6;
-                ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill();
-            }
-        }
-        function initParticles() {
-            particlesArray = [];
-            const numberOfParticles = (canvas.width < 768) ? 60 : 120;
-            for (let i = 0; i < numberOfParticles; i++) { particlesArray.push(new Particle()); }
-        }
-        function animateParticles() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            const particleColor = getComputedStyle(document.body).getPropertyValue('--particle-color').trim();
-            for (let i = 0; i < particlesArray.length; i++) {
-                particlesArray[i].update(); particlesArray[i].draw();
-                for (let j = i; j < particlesArray.length; j++) {
-                    const dx = particlesArray[i].x - particlesArray[j].x;
-                    const dy = particlesArray[i].y - particlesArray[j].y;
-                    const distance = Math.sqrt(dx * dx + dy * dy);
-                    if (distance < 80) {
-                        ctx.beginPath(); ctx.strokeStyle = particleColor;
-                        ctx.globalAlpha = 0.15 - distance/600; ctx.lineWidth = 0.3;
-                        ctx.moveTo(particlesArray[i].x, particlesArray[i].y);
-                        ctx.lineTo(particlesArray[j].x, particlesArray[j].y);
-                        ctx.stroke();
-                    }
-                }
-            }
-            requestAnimationFrame(animateParticles);
-        }
-        initParticles(); animateParticles();
-
         function baixarVCard() {
-            const nome = "IMAGINISTA"; const sobrenome = "Design & Tecnologia";
+             const nome = "IMAGINISTA"; const sobrenome = "Design & Tecnologia";
             const telefone = "+5521999999999"; const email = "contato@oimaginista.com";
             const site = "https://www.oimaginista.com";
             const vcard = `BEGIN:VCARD\nVERSION:3.0\nFN:${nome}\nN:${sobrenome};${nome};;;\nTEL;TYPE=CELL:${telefone}\nEMAIL:${email}\nURL:${site}\nNOTE:Onde a imaginação vira arte.\nEND:VCARD`;
@@ -421,6 +436,82 @@
             const link = document.createElement("a"); link.href = url; link.download = "Imaginista.vcf";
             document.body.appendChild(link); link.click(); document.body.removeChild(link);
         }
+        function compartilharPagina() { if (navigator.share) { navigator.share({ title: 'Imaginista', url: window.location.href }).catch(console.error); } else { alert("Link copiado!"); } }
+        
+        // --- 2. AUDIO ---
+        function toggleMusic() { const a=document.getElementById('bgMusic'); const i=document.getElementById('playIcon'); const v=document.getElementById('visualizer'); if(a.paused){a.play();i.className='fas fa-pause';v.classList.add('playing');}else{a.pause();i.className='fas fa-play';v.classList.remove('playing');}}
+        function adjustVolume(v) { const a=document.getElementById('bgMusic'); let n=a.volume+v; if(n>1)n=1;if(n<0)n=0;a.volume=n; }
+
+        // --- 3. NPC INTELIGENTE (COM TIMER RESET) ---
+        let npcClicks = 0;
+        let npcTimer;
+        const falas = ["Olá! Precisa de ajuda com seu convite?", "Design Premium para momentos únicos.", "Clique nos projetos para ver a mágica.", "Acesse o WhatsApp para suporte imediato."];
+        
+        window.onload = () => { setTimeout(() => document.getElementById('npcMaster').classList.add('active'), 1000); }
+
+        // Fechar ao clicar fora
+        window.addEventListener('click', function(e) {
+            const npc = document.getElementById('npcMaster');
+            const bubble = document.getElementById('npcBubble');
+            if (!npc.contains(e.target)) { bubble.classList.remove('show'); }
+        });
+
+        function interagirNPC() {
+            const bubble = document.getElementById('npcBubble');
+            bubble.classList.remove('show');
+            
+            // Cancela o reset se clicar rápido
+            clearTimeout(npcTimer); 
+
+            setTimeout(() => {
+                npcClicks++;
+                if (npcClicks >= 5) {
+                    bubble.innerText = "⚠️ ACESSO AO SISTEMA ⚠️";
+                    bubble.style.color = "red";
+                    ativarModoMatrix();
+                    npcClicks = 0; 
+                } else {
+                    bubble.style.color = "#000";
+                    bubble.innerText = falas[Math.floor(Math.random() * falas.length)];
+                    // Reseta combo se parar de clicar por 2s
+                    npcTimer = setTimeout(() => { npcClicks = 0; }, 2000); 
+                }
+                bubble.classList.add('show');
+                setTimeout(() => bubble.classList.remove('show'), 8000);
+            }, 100);
+        }
+
+        // --- 4. CONTADOR COM MEMÓRIA (LOCALSTORAGE) ---
+        const ctr = document.getElementById('visitCounter');
+        let currentVisits = localStorage.getItem('imaginistaVisits');
+        if(!currentVisits) currentVisits = 1420;
+        
+        // Salva novo valor
+        let targetVisits = parseInt(currentVisits) + 1;
+        localStorage.setItem('imaginistaVisits', targetVisits);
+        
+        let count = parseInt(currentVisits); 
+        const intv = setInterval(() => { 
+            count += 1; 
+            if(count >= targetVisits) { count = targetVisits; clearInterval(intv); } 
+            ctr.innerText = count.toString().padStart(4,'0'); 
+        }, 50);
+
+        // --- 5. VISUAIS ---
+        function abrirPortfolio() { document.getElementById('portfolioModal').classList.add('active'); }
+        function fecharPortfolio() { document.getElementById('portfolioModal').classList.remove('active'); }
+        function toggleBlueprintMode() { document.body.classList.toggle('blueprint-mode'); }
+        function explodirLogo() { const l=document.getElementById('mainLogo'); l.classList.remove('shatter-active'); void l.offsetWidth; l.classList.add('shatter-active'); }
+        function animarLogoRodape() { const l=document.getElementById('footerLogo'); l.classList.remove('pop'); void l.offsetWidth; l.classList.add('pop'); }
+
+        // --- 6. CANVAS ---
+        function ativarModoMatrix(){document.body.classList.add('matrix-active');initMatrix();setTimeout(()=>document.body.classList.remove('matrix-active'),6000);}
+        const mCanvas=document.getElementById('matrix-canvas');const mCtx=mCanvas.getContext('2d');let mInterval;
+        function initMatrix(){mCanvas.width=window.innerWidth;mCanvas.height=window.innerHeight;const c='01ABCDEF';const fs=14;const cols=mCanvas.width/fs;const d=[];for(let x=0;x<cols;x++)d[x]=1;clearInterval(mInterval);mInterval=setInterval(()=>{mCtx.fillStyle='rgba(0,0,0,0.05)';mCtx.fillRect(0,0,mCanvas.width,mCanvas.height);mCtx.fillStyle='#0F0';mCtx.font=fs+'px monospace';for(let i=0;i<d.length;i++){const t=c.charAt(Math.floor(Math.random()*c.length));mCtx.fillText(t,i*fs,d[i]*fs);if(d[i]*fs>mCanvas.height&&Math.random()>0.975)d[i]=0;d[i]++;}},30);}
+        
+        const pCanvas=document.getElementById('particles-canvas');const pCtx=pCanvas.getContext('2d');let pArr;pCanvas.width=window.innerWidth;pCanvas.height=window.innerHeight;
+        class Particle{constructor(){this.x=Math.random()*pCanvas.width;this.y=Math.random()*pCanvas.height;this.size=Math.random()*2;this.sx=Math.random()-.5;this.sy=Math.random()-.5;}up(){this.x+=this.sx;this.y+=this.sy;if(this.x<0)this.x=pCanvas.width;if(this.x>pCanvas.width)this.x=0;if(this.y<0)this.y=pCanvas.height;if(this.y>pCanvas.height)this.y=0;}dr(){pCtx.fillStyle='#D4AF37';pCtx.beginPath();pCtx.arc(this.x,this.y,this.size,0,Math.PI*2);pCtx.fill();}}
+        function initP(){pArr=[];for(let i=0;i<60;i++)pArr.push(new Particle());}function animP(){pCtx.clearRect(0,0,pCanvas.width,pCanvas.height);for(let i=0;i<pArr.length;i++){pArr[i].up();pArr[i].dr();}requestAnimationFrame(animP);}initP();animP();
     </script>
 </body>
 </html>
