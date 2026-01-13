@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Status do Projeto | Imaginista</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Montserrat:wght@400;600&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            background-color: #14213D; color: #FFF; font-family: 'Montserrat', sans-serif;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            min-height: 100vh; margin: 0; padding: 15px; overflow-x: hidden;
+        }
+
+        /* --- BACKGROUND ARQUITETÔNICO --- */
+        .blueprint-bg {
+            position: fixed; top: 0; left: 0; width: 200%; height: 200%; z-index: -1;
+            background-image: 
+                linear-gradient(rgba(212, 175, 55, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(212, 175, 55, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+            transform: rotate(15deg);
+            animation: moveGrid 20s linear infinite;
+        }
+        .vignette {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+            background: radial-gradient(circle, transparent 0%, #14213D 90%);
+        }
+
+        .container {
+            width: 100%; max-width: 450px; /* Largura ideal mobile */
+            background: rgba(10, 17, 32, 0.95);
+            border: 1px solid #D4AF37; border-radius: 15px; padding: 25px;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.5); text-align: center;
+            backdrop-filter: blur(10px); position: relative; z-index: 2;
+        }
+        .logo { width: 70px; margin-bottom: 15px; filter: drop-shadow(0 0 10px rgba(212,175,55,0.3)); }
+        h2 { font-family: 'Cinzel'; color: #D4AF37; margin-bottom: 5px; font-size: 20px; }
+        .client-info { color: #aaa; font-size: 12px; margin-bottom: 25px; border-bottom: 1px solid #333; padding-bottom: 15px;}
+        
+        /* BARRA DE PROGRESSO */
+        .progress-wrapper { text-align: left; margin-bottom: 25px; }
+        .progress-bg { background: #000; height: 15px; border-radius: 10px; border: 1px solid #333; overflow: hidden; margin-bottom: 5px; }
+        .progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #A67C00, #D4AF37); transition: width 1.5s; box-shadow: 0 0 10px #D4AF37; }
+        .progress-text { font-family: 'Share Tech Mono'; color: #D4AF37; font-size: 12px; text-align: right; }
+
+        /* LISTA DE LOGS */
+        .logs { text-align: left; background: rgba(0,0,0,0.3); padding: 15px; border-radius: 8px; font-size: 13px; border: 1px solid rgba(255,255,255,0.05); }
+        .log-item { margin-bottom: 12px; display: flex; align-items: center; gap: 10px; border-bottom: 1px dashed rgba(255,255,255,0.05); padding-bottom: 5px; line-height: 1.4; }
+        
+        /* --- ESTILOS DOS ÍCONES --- */
+        .check { color: #0F0; text-shadow: 0 0 5px #0F0; font-size: 14px; } 
+        .loading { color: #D4AF37; animation: spin 2s infinite linear; font-size: 14px; }
+        .pending { color: #555; opacity: 0.5; font-size: 14px; }
+        .alert { color: #FF4444; animation: pulse 1s infinite; text-shadow: 0 0 5px #F00; font-size: 14px; }
+
+        /* BOTÃO SUPORTE (TAMANHO PADRÃO & RESPONSIVO) */
+        .btn-support { 
+            display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+            margin-top: 25px; padding: 12px 25px; /* Tamanho controlado */
+            color: #0a1120; text-decoration: none; font-weight: bold;
+            background: linear-gradient(135deg, #A67C00, #D4AF37, #F4D06F);
+            border-radius: 30px; transition: 0.3s; 
+            text-transform: uppercase; letter-spacing: 1px; font-size: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+        .btn-support:hover { transform: translateY(-2px); box-shadow: 0 0 20px rgba(212,175,55,0.5); }
+
+        /* BOTÃO FECHAR (X) */
+        .btn-close-bio {
+            position: absolute; top: 15px; right: 15px;
+            display: inline-flex; justify-content: center; align-items: center;
+            width: 30px; height: 30px; border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.2); color: #888;
+            text-decoration: none; font-size: 14px; transition: 0.3s;
+        }
+        .btn-close-bio:hover { background: #FF4444; color: #FFF; border-color: #FF4444; }
+
+        /* ÁREA DE COLA (ADMIN) - OCULTA NO MOBILE SE QUISER, MAS ÚTIL PARA EDITAR */
+        .admin-cheat-sheet {
+            margin-top: 50px; padding: 20px; border: 2px dashed #555; background: #000; width: 100%; max-width: 450px;
+            text-align: left; font-family: monospace; font-size: 10px; color: #aaa; z-index: 2;
+        }
+        .code-row { display: flex; align-items: center; justify-content: space-between; gap: 5px; margin-bottom: 8px; border-bottom: 1px solid #222; padding-bottom: 5px;}
+        .code-text { color: #fff; background: #333; padding: 2px 5px; border-radius: 3px; user-select: all; cursor: pointer; }
+
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+        @keyframes moveGrid { 0% { transform: rotate(15deg) translateY(0); } 100% { transform: rotate(15deg) translateY(40px); } }
+    </style>
+</head>
+<body>
+    </div>
+
+    <div class="admin-cheat-sheet">
+        <strong style="color:#D4AF37">NOVOS ÍCONES (CÍRCULO):</strong>
+        <br><br>
+        
+        <div class="code-row">
+            <span><i class="far fa-circle loading"></i> GIRANDO</span>
+            <span class="code-text">&lt;i class="far fa-circle loading"&gt;&lt;/i&gt;</span>
+        </div>
+
+        <div class="code-row">
+            <span><i class="far fa-circle check"></i> VERDE</span>
+            <span class="code-text">&lt;i class="far fa-circle check"&gt;&lt;/i&gt;</span>
+        </div>
+
+        <div class="code-row">
+            <span><i class="far fa-circle alert"></i> ALERTA</span>
+            <span class="code-text">&lt;i class="far fa-circle alert"&gt;&lt;/i&gt;</span>
+        </div>
+
+        <hr style="border-color:#333; margin: 10px 0;">
+        <strong style="color:#D4AF37">ÍCONES CLÁSSICOS:</strong>
+        <br><br>
+
+        <div class="code-row">
+            <span><i class="fas fa-check-circle check"></i> CHECK</span>
+            <span class="code-text">&lt;i class="fas fa-check-circle check"&gt;&lt;/i&gt;</span>
+        </div>
+
+        <div class="code-row">
+            <span><i class="fas fa-cog loading"></i> ENGRENAGEM</span>
+            <span class="code-text">&lt;i class="fas fa-cog loading"&gt;&lt;/i&gt;</span>
+        </div>
+
+        <div class="code-row">
+            <span><i class="fas fa-exclamation-circle alert"></i> ALERTA ⚠️</span>
+            <span class="code-text">&lt;i class="fas fa-exclamation-circle alert"&gt;&lt;/i&gt;</span>
+        </div>
+    </div>
+
+</body>
+</html>
