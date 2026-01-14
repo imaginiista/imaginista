@@ -9,25 +9,42 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&family=Playfair+Display:ital,wght@1,400;1,600&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
         /* --- 1. VARIÁVEIS E BASE --- */
         :root {
-            --bg-color: #14213D; --text-color: #FFFFFF; --accent-color: #D4AF37;
+            --bg-color: #14213D;
+            --text-color: #FFFFFF;
+            --accent-color: #D4AF37;
             --btn-bg: linear-gradient(135deg, #A67C00 0%, #D4AF37 50%, #F4D06F 100%);
             --glass: rgba(10, 17, 32, 0.95);
         }
+
+        /* TEMA BLUEPRINT (ATIVADO PELO BOTÃO 3D) */
+        body.blueprint-mode {
+            --bg-color: #003366; --text-color: #E0E0E0; --accent-color: #FFFFFF;
+            --bg-image: linear-gradient(rgba(255,255,255,.1) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(255,255,255,.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        /* RESET GERAL */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
+        html, body {
+            width: 100%; max-width: 100%;
+            overflow-x: hidden; /* REMOVE ROLAGEM LATERAL */
+        }
+
         body {
             background-color: var(--bg-color); color: var(--text-color);
             font-family: 'Montserrat', sans-serif;
-            min-height: 100vh; overflow-x: hidden;
-            display: flex; flex-direction: column;
+            min-height: 100vh; 
+            display: flex; flex-direction: column; align-items: center;
             background-image: radial-gradient(circle at 50% 30%, #1e2f52 0%, #0a1120 100%);
-            /* Espaço para o player não cobrir o conteúdo final */
-            padding-bottom: 90px; 
+            padding-bottom: 90px; /* Espaço para o player */
         }
 
         /* --- 2. EFEITOS VISUAIS --- */
@@ -79,17 +96,32 @@
         .app-container {
             width: 100%; max-width: 500px; margin: 0 auto;
             display: flex; flex-direction: column; align-items: center;
-            padding: 40px 20px 0 20px; 
+            padding: 30px 20px 0 20px; /* Reduzi padding-top para subir o conteúdo */
             position: relative; z-index: 10;
-            min-height: 100vh;
+            flex: 1; /* Ocupa espaço para empurrar rodapé */
         }
 
-        /* LOGO AUMENTADO */
-        .main-logo { width: 100%; max-width: 350px; /* AUMENTADO PARA 350PX */ filter: drop-shadow(0 0 20px rgba(212,175,55,0.2)); margin-bottom: 5px; cursor: pointer; }
-        
-        h2 { font-size: 14px; text-transform: uppercase; letter-spacing: 6px; margin-bottom: 20px; opacity: 0.8; text-align: center; }
-        .slogan { font-family: 'Playfair Display', serif; font-style: italic; font-size: 22px; color: var(--accent-color); margin-bottom: 35px; text-align: center; }
+        /* BOTÃO 3D (RESTAURADO) */
+        .theme-switch-wrapper { position: absolute; top: 20px; right: 20px; display: flex; align-items: center; z-index: 2000; }
+        .theme-switch { display: inline-block; height: 26px; position: relative; width: 50px; }
+        .theme-switch input { display:none; }
+        .slider { background-color: rgba(255,255,255,0.1); border: 1px solid var(--accent-color); bottom: 0; cursor: pointer; left: 0; position: absolute; right: 0; top: 0; transition: .4s; border-radius: 34px; }
+        .slider:before { background-color: var(--accent-color); bottom: 3px; content: ""; height: 18px; left: 4px; position: absolute; transition: .4s; width: 18px; border-radius: 50%; }
+        input:checked + .slider { background-color: var(--bg-color); }
+        input:checked + .slider:before { transform: translateX(24px); }
 
+        /* STATUS BADGE */
+        .status-badge { position: absolute; top: 25px; left: 20px; font-size: 10px; color: var(--accent-color); display: flex; align-items: center; gap: 5px; font-family: 'Share Tech Mono'; letter-spacing: 1px; z-index: 2000; }
+        .status-dot { width: 8px; height: 8px; background: #0F0; border-radius: 50%; animation: pulse 2s infinite; }
+
+        /* LOGO PRINCIPAL (COM ANIMAÇÃO) */
+        .main-logo { width: 100%; max-width: 350px; filter: drop-shadow(0 0 20px rgba(212,175,55,0.2)); margin-bottom: 5px; cursor: pointer; transition: transform 0.1s; }
+        .shatter-active { animation: spaceShatter 0.8s forwards; }
+
+        h2 { font-size: 14px; text-transform: uppercase; letter-spacing: 6px; margin-bottom: 15px; opacity: 0.8; text-align: center; }
+        .slogan { font-family: 'Playfair Display', serif; font-style: italic; font-size: 22px; color: var(--accent-color); margin-bottom: 30px; text-align: center; }
+
+        /* BOTÕES */
         .links-list { width: 100%; display: flex; flex-direction: column; gap: 15px; position: relative; z-index: 20; }
         .btn { 
             display: flex; align-items: center; justify-content: center; 
@@ -103,58 +135,71 @@
         .btn-outline { background: rgba(255, 255, 255, 0.05); border: 1px solid var(--accent-color); }
         .btn-save { background: var(--accent-color); color: var(--bg-color); font-weight: 800; }
 
-        /* --- 5. NPC MESTRE (Híbrido) --- */
+        /* --- 5. NPC MESTRE (CONFIGURAÇÃO PERFEITA) --- */
         
-        /* Mobile: Fluxo Normal (Entre botões e rodapé) */
-        .npc-wrapper {
-            margin-top: 30px; margin-bottom: 10px;
-            display: flex; flex-direction: column-reverse; align-items: center;
-            position: relative; z-index: 5;
+        /* Desktop: Fixo Esquerda Absoluta (TRAVADO) */
+        @media (min-width: 1024px) {
+            .npc-wrapper {
+                position: fixed !important; 
+                bottom: 75px !important; left: 20px !important; right: auto !important;
+                z-index: 5 !important; width: auto !important; margin: 0 !important;
+            }
+            .npc-img { width: 250px; }
+            /* Balão Desktop */
+            .speech-bubble { 
+                position: absolute; bottom: 100%; left: 20px; 
+                width: 220px; text-align: left; margin-bottom: 10px;
+            }
+            .speech-bubble::after { top: 100%; left: 30px; margin: 0; border-color: #fff transparent transparent transparent; }
         }
-        .npc-img { width: 220px; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.5)); pointer-events: auto; cursor: pointer; transition: transform 0.1s; }
+
+        /* Mobile: Fluxo Normal (Abaixo dos Botões) */
+        .npc-wrapper {
+            margin-top: 30px; margin-bottom: 20px;
+            display: flex; flex-direction: column-reverse; align-items: center;
+            position: relative; z-index: 5; opacity: 0; animation: fadeInNPC 1s forwards 1s;
+        }
+        .npc-img { width: 250px; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.5)); pointer-events: auto; cursor: pointer; transition: transform 0.1s; }
         .npc-img:active { transform: scale(0.95); }
         
+        /* Balão Mobile (ACIMA DO NPC) */
         .speech-bubble {
             background: #fff; color: #000; padding: 12px 20px; border-radius: 20px;
             font-size: 13px; font-weight: 700; text-align: center; 
             opacity: 0; transform: scale(0.8); transition: 0.3s; pointer-events: none;
             box-shadow: 0 5px 15px rgba(0,0,0,0.2); 
-            margin-bottom: 10px; 
+            /* Importante: Posição relativa no mobile, mas com margem bottom para afastar */
+            margin-bottom: 15px; min-width: 220px;
         }
         .speech-bubble.show { opacity: 1; transform: scale(1); }
         .speech-bubble::after { content: ''; position: absolute; top: 100%; left: 50%; margin-left: -8px; border-width: 8px; border-style: solid; border-color: #fff transparent transparent transparent; }
 
-        /* Desktop: Fixo Esquerda */
-        @media (min-width: 1024px) {
-            .npc-wrapper {
-                position: fixed; 
-                bottom: 80px; left: 20px; /* Canto inferior esquerdo */
-                margin: 0; align-items: flex-start; /* Alinha balão a esquerda */
-                width: auto; z-index: 50;
-            }
-            .npc-img { width: 200px; }
-            .speech-bubble { 
-                position: absolute; bottom: 100%; left: 10px; 
-                width: 200px; text-align: left; margin-bottom: 10px;
-            }
-            .speech-bubble::after { top: 100%; left: 30px; margin: 0; }
-        }
-
-        /* --- 6. RODAPÉ PADRÃO --- */
+        /* --- 6. RODAPÉ PREMIUM (MAIOR E ELEGANTE) --- */
         .footer-static {
             margin-top: auto; /* Empurra para o fim */
             text-align: center; 
-            padding: 20px 20px; /* Espaçamento interno padrão */
+            padding: 40px 20px; /* Mais espaço interno (Maior) */
             width: 100%;
-            display: flex; flex-direction: column; align-items: center; gap: 10px;
+            display: flex; flex-direction: column; align-items: center; gap: 15px;
+            
+            /* Visual Premium */
+            background: linear-gradient(to top, rgba(0,0,0,0.4), transparent);
+            border-top: 1px solid rgba(212, 175, 55, 0.1);
+            position: relative; z-index: 1;
         }
-        .footer-logo { width: 120px; opacity: 0.9; cursor: pointer; transition: transform 0.3s; }
-        .footer-logo:hover { transform: scale(1.1); }
-        .copyright { font-size: 11px; color: rgba(255,255,255,0.6); line-height: 1.6; letter-spacing: 1px; }
+        
+        .footer-logo { width: 150px; opacity: 0.9; cursor: pointer; transition: transform 0.3s; }
+        .footer-logo:hover { transform: scale(1.1); filter: drop-shadow(0 0 10px var(--accent-color)); }
+        
+        .copyright { 
+            font-size: 12px; color: rgba(255,255,255,0.7); 
+            letter-spacing: 2px; text-transform: uppercase; font-family: 'Cinzel';
+        }
 
-        /* Ajuste Mobile para não encostar no Player */
+        /* Ajuste Mobile Rodapé */
         @media (max-width: 768px) {
-            .footer-static { padding-bottom: 30px; }
+            .footer-static { padding-bottom: 40px; } /* Respiro */
+            .copyright { font-size: 10px; }
         }
 
         /* --- 7. PLAYER & SHARE --- */
@@ -196,6 +241,13 @@
         @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
         @keyframes pulseLogo { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
         @keyframes fadeInNPC { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        /* Efeito de Explosão/Glitch */
+        @keyframes spaceShatter { 
+            0% { transform: scale(1); filter: hue-rotate(0deg); } 
+            20% { transform: scale(1.1) rotate(5deg); filter: hue-rotate(90deg) blur(2px); } 
+            40% { transform: scale(0.9) rotate(-5deg); filter: hue-rotate(180deg); }
+            100% { transform: scale(1); filter: hue-rotate(0deg); } 
+        }
     </style>
 </head>
 <body>
@@ -220,8 +272,17 @@
 
     <div class="share-float" onclick="shareLink()"><i class="fas fa-share-alt"></i></div>
 
+    <div class="status-badge"><div class="status-dot"></div> OPEN TO WORK</div>
+    <div class="theme-switch-wrapper">
+        <label class="theme-switch">
+            <input type="checkbox" onchange="toggleBlueprintMode()">
+            <div class="slider"></div>
+        </label>
+        <i class="fas fa-ruler-combined" style="margin-left:10px;color:var(--accent-color);font-size:12px;"></i>
+    </div>
+
     <div class="app-container">
-        <img src="imagens/logo.png" class="main-logo" onclick="animLogo()">
+        <img src="imagens/logo.png" class="main-logo" id="mainLogo" onclick="animLogo()">
         <h2>Design & Tecnologia</h2>
         <p class="slogan">Onde a imaginação vira arte...</p>
 
@@ -235,7 +296,7 @@
         </div>
 
         <div class="npc-wrapper" id="npcMaster" onclick="falarNPC()">
-            <div class="speech-bubble" id="npcBubble">Olá! Precisa de ajuda com seu convite?</div>
+            <div class="speech-bubble" id="npcBubble">Olá! Como posso ajudar?</div>
             <img src="imagens/mestre.png" class="npc-img">
         </div>
 
@@ -295,13 +356,8 @@
         const audio = document.getElementById('bgMusic');
         let npcCount = 0;
         
-        // Frases originais solicitadas
-        const falas = [
-            "Olá! Precisa de ajuda com seu convite?",
-            "Design Premium para momentos únicos.",
-            "Clique nos projetos para ver a mágica.",
-            "Acesse o WhatsApp para suporte imediato."
-        ];
+        // FRASES ORIGINAIS RESTAURADAS
+        const falas = ["Olá! Precisa de ajuda com seu convite?", "Design Premium para momentos únicos.", "Clique nos projetos para ver a mágica.", "Acesse o WhatsApp para suporte imediato."];
 
         function iniciarSite() {
             document.getElementById('intro-overlay').classList.add('hidden');
@@ -357,7 +413,7 @@
             if (!code) return;
 
             try {
-                const res = await fetch(`status/${code}.html`, { method: 'HEAD' });
+                const res = await fetch(`status/${code}.html`, { method: 'HEAD' }); 
                 if (res.ok) window.location.href = `status/${code}.html`;
                 else throw new Error('404');
             } catch (e) {
@@ -388,6 +444,16 @@
         }
         
         setTimeout(() => falarNPC(), 2000);
+
+        // EXTRAS VISUAIS (BLUEPRINT & ANIM LOGO)
+        function toggleBlueprintMode(){ document.body.classList.toggle('blueprint-mode'); }
+        
+        function animLogo() {
+            const l = document.getElementById('mainLogo');
+            l.classList.remove('shatter-active');
+            void l.offsetWidth; // Restart anim
+            l.classList.add('shatter-active');
+        }
 
         // PARTÍCULAS
         const pCanvas = document.getElementById('particles-canvas');
