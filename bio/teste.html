@@ -14,7 +14,7 @@
         :root {
             --bg-color: #14213D; --text-color: #FFFFFF; --accent-color: #D4AF37;
             --btn-bg: linear-gradient(135deg, #A67C00 0%, #D4AF37 50%, #F4D06F 100%);
-            --btn-text: #0a1120; --dock-bg: rgba(10, 17, 32, 0.98);
+            --btn-text: #0a1120;
         }
         body.blueprint-mode {
             --bg-color: #003366; --text-color: #E0E0E0; --accent-color: #FFFFFF;
@@ -26,10 +26,10 @@
             background-color: var(--bg-color); background-image: var(--bg-image); color: var(--text-color);
             font-family: 'Montserrat', sans-serif; display: flex; flex-direction: column; align-items: center;
             min-height: 100vh; overflow-x: hidden; position: relative; transition: background 0.5s ease;
-            padding-bottom: 120px; /* Espaço para o player não cobrir conteúdo */
+            padding-bottom: 80px; /* Espaço reduzido para o player */
         }
 
-        /* --- 1. INTRODUÇÃO --- */
+        /* --- 1. INTRODUÇÃO 3D (GARANTIDA) --- */
         #intro-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: radial-gradient(circle at center, #1e2f52 0%, #050a14 100%);
@@ -45,8 +45,10 @@
             background-image: 
                 linear-gradient(rgba(212, 175, 55, 0.1) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(212, 175, 55, 0.1) 1px, transparent 1px);
-            background-size: 50px 50px; transform: rotateX(60deg);
-            animation: moveGrid 10s linear infinite; z-index: -1;
+            background-size: 50px 50px;
+            transform: rotateX(60deg);
+            animation: moveGrid 10s linear infinite;
+            z-index: -1;
             mask-image: linear-gradient(to top, rgba(0,0,0,1) 0%, transparent 60%);
         }
 
@@ -71,14 +73,19 @@
         .intro-btn:hover { background: var(--accent-color); color: #0a1120; box-shadow: 0 0 30px rgba(212, 175, 55, 0.6); }
         .tap-hint { margin-top: 20px; color: rgba(255,255,255,0.5); font-size: 24px; animation: tapAnim 1.5s infinite; }
 
-        /* --- 2. LAYOUT --- */
+        /* --- 2. ESTRUTURA GERAL --- */
         #particles-canvas, #matrix-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
         #particles-canvas { z-index: 0; }
         #matrix-canvas { z-index: 1; display: none; }
         body.matrix-active #matrix-canvas { display: block; }
         body.matrix-active .container { opacity: 0.1; filter: blur(3px); transition: 0.5s; }
 
-        .container { width: 100%; max-width: 500px; padding: 40px 20px 0 20px; flex: 1; text-align: center; position: relative; z-index: 2; perspective: 1000px; }
+        .container { 
+            width: 100%; max-width: 500px; padding: 40px 20px 0px 20px; 
+            flex: 1; text-align: center; position: relative; 
+            z-index: 10; /* MAIOR QUE O NPC PARA BOTÕES FICAREM POR CIMA */
+            perspective: 1000px; 
+        }
 
         .theme-switch-wrapper { position: absolute; top: 20px; right: 20px; display: flex; align-items: center; z-index: 10; }
         .theme-switch { display: inline-block; height: 26px; position: relative; width: 50px; }
@@ -102,7 +109,7 @@
         .brush-follower { position: absolute; top: 0; left: 0; height: 100%; pointer-events: none; animation: moveBrush 3s cubic-bezier(0.5, 0, 0.5, 1) forwards 0.5s; }
         .brush-follower i { font-size: 20px; color: var(--accent-color); transform: rotate(-45deg) translateY(25px); filter: drop-shadow(0 0 5px var(--accent-color)); }
 
-        .links-list { display: flex; flex-direction: column; gap: 16px; }
+        .links-list { display: flex; flex-direction: column; gap: 16px; position: relative; z-index: 20; /* BOTÕES COM ALTA PRIORIDADE DE CLIQUE */ }
         .btn { display: flex; align-items: center; justify-content: center; text-decoration: none; padding: 18px 20px; border-radius: 8px; transition: all 0.3s ease; font-weight: 600; font-size: 15px; text-transform: uppercase; letter-spacing: 1px; position: relative; overflow: hidden; backdrop-filter: blur(10px); color: var(--text-color); }
         .btn-gold { background: var(--btn-bg); color: var(--btn-text); box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
         .btn-outline { background: rgba(255, 255, 255, 0.03); border: 1px solid var(--accent-color); }
@@ -138,20 +145,21 @@
         .login-box { display: flex; flex-direction: column; gap: 15px; width: 100%; max-width: 300px; margin: 0 auto; }
         .login-input { background: transparent; border: 1px solid var(--accent-color); color: #fff; padding: 15px; text-align: center; font-family: 'Share Tech Mono'; letter-spacing: 3px; font-size: 18px; outline: none; text-transform: uppercase; }
 
-        /* --- 4. NPC MESTRE (CONFIGURAÇÃO FINAL) --- */
+        /* --- 4. NPC MESTRE (POSICIONAMENTO ESTRATÉGICO) --- */
         
-        /* DESKTOP: Fixo à esquerda, grande, como um guardião */
+        /* DESKTOP: Fixo à esquerda, CAMADA BAIXA (Z-INDEX 1) */
         .npc-container { 
             position: fixed; 
-            bottom: 0; left: 5%; /* Alinhamento lateral elegante */
-            z-index: 200; /* Atrás do player, na frente do fundo */
+            bottom: 0; 
+            left: -300px; /* Começa fora */
+            z-index: 1; /* ATRÁS DOS BOTÕES (que estão no container z-index 10) */
             display: flex; align-items: flex-end; transition: left 0.8s; 
             cursor: pointer; pointer-events: none; 
         }
-        .npc-container.active { left: 5%; } 
+        .npc-container.active { left: 0; /* Cola no canto esquerdo */ } 
         
         .npc-img { 
-            width: 280px; /* BEM MAIOR NO DESKTOP */
+            width: 250px; /* Tamanho bom no Desktop */
             height: auto; 
             filter: drop-shadow(5px 5px 10px rgba(0,0,0,0.5)); 
             transition: transform 0.1s; pointer-events: auto; 
@@ -163,7 +171,7 @@
             background: #FFFFFF !important; color: #000000 !important; 
             padding: 15px; border-radius: 15px 15px 15px 0; font-size: 13px; font-weight: 700; 
             min-width: 220px; width: auto; 
-            margin-bottom: 250px; /* Alto por causa do tamanho do NPC */
+            margin-bottom: 220px; /* Ajustado para a altura do NPC */
             margin-left: 20px; 
             box-shadow: 0 5px 15px rgba(0,0,0,0.3); opacity: 0; transform: scale(0); 
             transition: 0.3s; position: relative; z-index: 151; pointer-events: none; white-space: nowrap; 
@@ -176,18 +184,22 @@
         .share-btn-float:active { transform: scale(0.9); }
         .share-btn-mobile { display: none; }
 
-        /* --- 5. MOBILE QUERY (CELULAR) --- */
+        /* --- 5. MOBILE QUERY (REFINAMENTO DE ESPAÇOS) --- */
         @media (max-width: 768px) {
+            
             /* NPC: Sai do fixo, vai pro fluxo normal */
             .npc-container { 
-                position: relative; bottom: auto; left: auto !important; 
+                position: relative; 
+                bottom: auto; left: auto !important; 
                 flex-direction: column-reverse; align-items: center;
-                margin-top: 30px; margin-bottom: 40px; /* Margem reduzida */
-                opacity: 0; animation: fadeInNPC 1s forwards 1s; z-index: 1;
+                margin-top: 25px; /* Espaço pequeno acima */
+                margin-bottom: 10px; /* Espaço pequeno abaixo */
+                opacity: 0; animation: fadeInNPC 1s forwards 1s; 
+                z-index: 1;
             }
-            .npc-img { width: 220px; pointer-events: auto; }
+            .npc-img { width: 250px; /* Grande no mobile também */ pointer-events: auto; }
             
-            /* Balão Mobile: Centralizado */
+            /* Balão Mobile */
             .speech-bubble { 
                 margin: 0 0 10px 0; white-space: normal; text-align: center; min-width: 200px;
             }
@@ -199,23 +211,23 @@
 
         /* --- 6. RODAPÉ DIVIDIDO --- */
         
-        /* Texto e Logo (Estáticos, rolam com a página) */
+        /* Texto e Logo (SOLTO NO FLUXO) */
         .static-footer {
-            width: 100%; padding: 20px 20px; /* Padding reduzido */
+            width: 100%; padding: 10px 20px; /* Padding mínimo */
             display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 8px; text-align: center;
-            margin-top: 10px; z-index: 1;
+            margin-top: 0px; z-index: 1;
         }
         .footer-logo-small { width: 140px; cursor: pointer; transition: transform 0.3s; } /* Logo Grande Desktop */
         .footer-logo-small.pop { animation: popLogo 0.3s ease; }
         
-        /* Texto Copyright (Quebra inteligente) */
+        /* Texto Copyright */
         .copyright-text { font-size: 11px; color: rgba(255,255,255,0.6); letter-spacing: 1px; line-height: 1.5; }
-        .break-mobile { display: none; } /* Esconde quebra no Desktop */
+        .break-mobile { display: none; } 
 
-        /* Ajustes específicos Mobile para o Rodapé */
+        /* Ajustes Mobile Rodapé */
         @media (max-width: 768px) {
-            .footer-logo-small { width: 90px; } /* Logo menor no mobile */
-            .break-mobile { display: block; } /* Quebra linha no mobile */
+            .footer-logo-small { width: 100px; } 
+            .break-mobile { display: block; } 
         }
 
         /* Player Fixo (Só a barra) */
@@ -368,10 +380,7 @@
                 <i class="fas fa-shield-alt" style="font-size: 40px; color: var(--accent-color);"></i>
                 <h3 style="color: #fff; font-family: 'Cinzel'; margin-bottom: 10px;">Área Restrita</h3>
                 <input type="password" id="clientPass" class="login-input" placeholder="CÓDIGO DE ACESSO">
-                <button onclick="checkLogin()" class="btn btn-outline" style="width: 100%; margin-top: 10px;" id="btnLogin">
-                    <span id="btnText">ACESSAR</span>
-                    <i class="fas fa-circle-notch fa-spin" id="btnLoad" style="display:none;"></i>
-                </button>
+                <button onclick="checkLogin()" class="btn btn-outline" style="width: 100%; margin-top: 10px;" id="btnLogin"><span id="btnText">ACESSAR</span><i class="fas fa-circle-notch fa-spin" id="btnLoad" style="display:none;"></i></button>
                 <p id="loginError" style="color: #FF4444; font-size: 12px; display: none; margin-top: 10px; font-weight: bold; animation: pulse 0.5s;">CÓDIGO NÃO ENCONTRADO</p>
             </div>
         </div>
