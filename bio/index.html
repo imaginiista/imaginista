@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="Imaginista - Design Premium e Tecnologia.">
+    <meta name="theme-color" content="#0a2a24">
+    
+    <link rel="manifest" href="manifest.json">
+
+    <meta property="og:site_name" content="IMAGINISTA">
+    <meta property="og:title" content="IMAGINISTA | Design & Tecnologia"> 
+    <meta property="og:description" content="Transformando imaginação em arte digital. Design Premium e Projetos Exclusivos.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://oimaginista.com/bio">
+    <meta property="og:image" content="https://oimaginista.com/favicon/web-app-manifest-512x512.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="512">
+    <meta property="og:image:height" content="512">
+
+    <link rel="icon" type="image/png" href="../favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/svg+xml" href="../favicon/favicon.svg">
+    <link rel="shortcut icon" href="../favicon/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="../favicon/apple-touch-icon.png">
+    
+    <title>Imaginista | Design & Tecnologia</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&family=Playfair+Display:ital,wght@1,400;1,600&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- 1. BASE & SEGURANÇA --- */
+        :root {
+            --bg-color: #14213D; --text-color: #FFFFFF; --accent-color: #D4AF37;
+            --btn-bg: linear-gradient(135deg, #A67C00 0%, #D4AF37 50%, #F4D06F 100%);
+            --glass: rgba(10, 17, 32, 0.98);
+        }
+
+        body {
+            -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;
+            -webkit-user-drag: none;
+        }
+        img { -webkit-user-drag: none; pointer-events: auto; }
+
+        body.blueprint-mode {
+            --bg-color: #003366; 
+            --text-color: #E0E0E0; 
+            --accent-color: #FFFFFF;
+            background-color: #003366 !important;
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px) !important;
+            background-size: 30px 30px !important;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        html, body { width: 100%; overflow-x: hidden; }
+        body.intro-active { overflow: hidden !important; height: 100vh; position: fixed; width: 100%; }
+
+        body {
+            background-color: var(--bg-color); color: var(--text-color);
+            font-family: 'Montserrat', sans-serif;
+            min-height: 100vh;
+            display: flex; flex-direction: column; align-items: center;
+            background-image: radial-gradient(circle at 50% 30%, #1e2f52 0%, #0a1120 100%);
+            padding-bottom: 90px;
+        }
+
+        /* --- 2. INTRODUÇÃO --- */
+        #intro-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at center, #1e2f52 0%, #050a14 100%);
+            z-index: 9999; overflow: hidden;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1);
+        }
+        #intro-overlay.hidden { transform: translateY(-100%); }
+
+        .intro-grid {
+            position: absolute; bottom: -20%; left: -50%; width: 200%; height: 100%;
+            background-image: linear-gradient(rgba(212, 175, 55, 0.1) 1px, transparent 1px), 
+                              linear-gradient(90deg, rgba(212, 175, 55, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px; transform: rotateX(60deg); 
+            animation: moveGrid 10s linear infinite; z-index: -1;
+            mask-image: linear-gradient(to top, rgba(0,0,0,1) 0%, transparent 60%);
+        }
+
+        .cube-wrapper { position: absolute; width: 100%; height: 100%; pointer-events: none; display: flex; justify-content: center; align-items: center; }
+        .wireframe-cube { position: absolute; width: 300px; height: 300px; transform-style: preserve-3d; animation: rotateCube 20s infinite linear; border: 1px solid rgba(212, 175, 55, 0.1); border-radius: 50%; }
+        .wireframe-cube::before, .wireframe-cube::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 1px solid rgba(212, 175, 55, 0.1); border-radius: 50%; }
+        .wireframe-cube::before { transform: rotateX(60deg); } .wireframe-cube::after { transform: rotateY(60deg); }
+
+        .intro-logo-wrapper { position: relative; margin-bottom: 40px; }
+        .intro-logo-big { width: 350px; filter: drop-shadow(0 0 30px rgba(212,175,55,0.4)); animation: pulseLogo 3s infinite; z-index: 2; }
+        
+        .intro-btn { 
+            padding: 15px 40px; border: 1px solid var(--accent-color); 
+            background: rgba(10, 17, 32, 0.8); color: var(--accent-color); 
+            font-family: 'Cinzel'; cursor: pointer; transition: 0.3s; letter-spacing: 2px;
+            backdrop-filter: blur(5px); z-index: 2; position: relative; overflow: hidden;
+        }
+        .intro-btn:hover { background: var(--accent-color); color: #000; box-shadow: 0 0 20px rgba(212,175,55,0.6); }
+
+        /* --- 3. LAYOUT PRINCIPAL --- */
+        .app-container {
+            width: 100%; max-width: 500px; margin: 0 auto;
+            display: flex; flex-direction: column; align-items: center;
+            padding: 30px 20px 0 20px; 
+            position: relative; z-index: 10;
+            flex: 1; 
+        }
+
+        #particles-canvas, #matrix-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+        #matrix-canvas { display: none; z-index: 1; }
+        body.matrix-active #matrix-canvas { display: block; }
+
+        .theme-switch-wrapper { position: absolute; top: 20px; right: 20px; display: flex; align-items: center; z-index: 2000; }
+        .theme-switch { display: inline-block; height: 26px; position: relative; width: 50px; }
+        .theme-switch input { display:none; }
+        .slider { background-color: rgba(255,255,255,0.1); border: 1px solid var(--accent-color); bottom: 0; cursor: pointer; left: 0; position: absolute; right: 0; top: 0; transition: .4s; border-radius: 34px; }
+        .slider:before { background-color: var(--accent-color); bottom: 3px; content: ""; height: 18px; left: 4px; position: absolute; transition: .4s; width: 18px; border-radius: 50%; }
+        input:checked + .slider { background-color: var(--bg-color); }
+        input:checked + .slider:before { transform: translateX(24px); }
+
+        /* LOGO SUPERIOR */
+        .main-logo { width: 100%; max-width: 300px; filter: drop-shadow(0 0 20px rgba(212,175,55,0.2)); margin-bottom: 5px; cursor: pointer; transition: transform 0.1s; }
+        .shatter-active { animation: sandStorm 3s ease-out both; }
+
+        h2 { font-size: 14px; text-transform: uppercase; letter-spacing: 6px; margin-bottom: 15px; opacity: 0.8; text-align: center; }
+        
+        /* SLOGAN & PINCEL */
+        .slogan-container { 
+            position: relative; display: flex; justify-content: center;
+            margin-bottom: 35px; height: 35px; width: 320px; overflow: visible; 
+        }
+        .slogan-text { 
+            font-family: 'Playfair Display', serif; font-style: italic; font-weight: 600; font-size: 22px; 
+            color: var(--accent-color); text-shadow: 0 2px 4px rgba(0,0,0,0.5); 
+            position: absolute; left: 0; top: 0;
+            white-space: nowrap; overflow: hidden; width: 0;
+            animation: textReveal 3.5s cubic-bezier(0.5, 0, 0.5, 1) forwards 0.5s; 
+        }
+        .brush-follower { 
+            position: absolute; top: 0; left: 0; height: 100%; pointer-events: none; 
+            z-index: 5;
+            animation: brushMove 3.5s cubic-bezier(0.5, 0, 0.5, 1) forwards 0.5s; 
+        }
+        .brush-follower i { font-size: 24px; color: var(--accent-color); transform: rotate(-45deg) translate(0, 20px); filter: drop-shadow(0 0 8px var(--accent-color)); }
+
+        /* LINKS */
+        .links-list { width: 100%; display: flex; flex-direction: column; gap: 16px; position: relative; z-index: 20; }
+        .btn { 
+            display: flex; align-items: center; justify-content: center; 
+            padding: 18px; border-radius: 8px; text-decoration: none; 
+            font-weight: 600; font-size: 15px; text-transform: uppercase; letter-spacing: 1px;
+            color: #fff; transition: all 0.3s ease; position: relative; overflow: hidden;
+        }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 0 20px rgba(212, 175, 55, 0.3); letter-spacing: 2px; }
+        .btn i { margin-right: 10px; font-size: 18px; }
+        .btn-gold { background: var(--btn-bg); color: #0a1120; }
+        .btn-outline { background: rgba(255, 255, 255, 0.05); border: 1px solid var(--accent-color); }
+        .btn-save { background: var(--accent-color); color: var(--bg-color); font-weight: 800; }
+
+        /* --- 4. NPC MESTRE --- */
+        .npc-wrapper {
+            margin-top: 40px; margin-bottom: 20px;
+            position: relative; z-index: 5; opacity: 0; animation: fadeInNPC 1s forwards 1s;
+            width: 100%; display: flex; justify-content: center;
+        }
+        .npc-container-inner { position: relative; width: 220px; height: auto; display: flex; justify-content: center; }
+        .npc-img { width: 100%; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.5)); cursor: pointer; transition: 0.2s; }
+        .npc-img:active { transform: scale(0.95); }
+        
+        .speech-bubble {
+            position: absolute; 
+            bottom: 85%; 
+            left: 50%; transform: translateX(-50%) scale(0.8);
+            background: #fff; color: #000; padding: 12px 20px; border-radius: 20px;
+            font-size: 13px; font-weight: 700; text-align: center; 
+            opacity: 0; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); pointer-events: none;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3); 
+            min-width: 220px; z-index: 10;
+        }
+        .speech-bubble.show { opacity: 1; transform: translateX(-50%) scale(1); }
+        .speech-bubble::after { content: ''; position: absolute; top: 100%; left: 50%; margin-left: -8px; border-width: 8px; border-style: solid; border-color: #fff transparent transparent transparent; }
+
+        @media (min-width: 1024px) {
+            .npc-wrapper { position: fixed !important; bottom: 80px !important; left: 30px !important; width: auto; margin: 0; pointer-events: none; }
+            .npc-container-inner { width: 260px; pointer-events: auto; }
+            .speech-bubble { bottom: 100%; left: 10px; transform: translateX(0) scale(0.8); margin-bottom: 10px; }
+            .speech-bubble.show { transform: translateX(0) scale(1); }
+            .speech-bubble::after { left: 40px; }
+        }
+
+        /* --- 5. RODAPÉ --- */
+        .footer-static {
+            margin-top: auto; 
+            text-align: center; padding: 20px; width: 100%;
+            display: flex; flex-direction: column; align-items: center; gap: 10px;
+            background: transparent; position: relative; z-index: 1;
+        }
+        .footer-logo { width: 120px; opacity: 0.9; cursor: pointer; transition: transform 0.1s; margin-bottom: 5px; position: relative; z-index: 2; }
+        .footer-logo:hover { transform: scale(1.05); }
+        .footer-logo:active { transform: scale(0.9); }
+
+        .copyright { font-size: 13px; color: rgba(255,255,255,0.7); letter-spacing: 2px; text-transform: uppercase; font-family: 'Cinzel'; font-weight: 600; }
+        
+        .break-mobile { display: block; } 
+        @media (min-width: 768px) { 
+            .break-mobile { display: none; } 
+            .copyright { white-space: nowrap; } 
+        }
+        
+        .star-particle { 
+            position: absolute; 
+            color: #FFD700; font-size: 16px; pointer-events: none; 
+            text-shadow: 0 0 10px #FFD700; z-index: 1;
+            transition: transform 1s ease-out, opacity 1s ease-out;
+            opacity: 1;
+        }
+
+        /* --- 6. PLAYER FIXO --- */
+        .player-dock {
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            background: var(--glass); border-top: 1px solid var(--accent-color);
+            padding: 15px; display: none; justify-content: center; align-items: center;
+            backdrop-filter: blur(10px); z-index: 1000;
+        }
+        .player-dock.visible { display: flex; animation: slideUp 0.5s ease-out; }
+        .player-controls { display: flex; align-items: center; gap: 20px; }
+        .ctrl-btn { background: none; border: none; color: var(--accent-color); font-size: 20px; cursor: pointer; transition: 0.2s; }
+        .visualizer { display: flex; gap: 4px; height: 20px; align-items: flex-end; }
+        .bar { width: 4px; background: var(--accent-color); border-radius: 2px; height: 5px; }
+        .visualizer.playing .bar { animation: eq 1s infinite ease-in-out; }
+        .bar:nth-child(1) { animation-delay: 0s; } .bar:nth-child(2) { animation-delay: 0.2s; } .bar:nth-child(3) { animation-delay: 0.4s; }
+
+        .share-float { position: fixed; bottom: 100px; right: 30px; width: 50px; height: 50px; background: #14213D; border: 1px solid var(--accent-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 50; box-shadow: 0 5px 20px rgba(0,0,0,0.5); transition: 0.3s; color: var(--accent-color); }
+        @media (max-width: 1023px) { .share-float { display: none; } }
+        .share-mobile { display: none; margin-left: 20px; border-left: 1px solid #333; padding-left: 20px; }
+        @media (max-width: 1023px) { .share-mobile { display: block; } }
+
+        /* --- MODAL PROJETOS & SKELETON --- */
+        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 3000; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
+        .modal-overlay.active { display: flex; }
+        
+        .modal-box { 
+            background: #0a1120; border: 1px solid var(--accent-color); 
+            padding: 30px; border-radius: 10px; 
+            max-width: 95%; width: 500px; 
+            text-align: center; position: relative; box-shadow: 0 0 30px rgba(0,0,0,0.8); 
+            transition: width 0.3s;
+        }
+        @media (min-width: 1024px) { 
+            .modal-box.large-modal { width: 1200px; } 
+        }
+
+        /* --- NOVO BOTÃO X MINIMALISTA (Elegante) --- */
+        .close-modal { 
+            position: absolute; top: 15px; right: 15px; 
+            width: 30px; height: 30px; 
+            background: transparent;
+            color: rgba(255, 255, 255, 0.5); 
+            display: flex; align-items: center; justify-content: center; 
+            font-size: 24px; font-weight: 300; font-family: 'Montserrat', sans-serif;
+            cursor: pointer; z-index: 50; transition: all 0.3s ease;
+        }
+        /* Efeito Hover: Fica Vermelho e Gira */
+        .close-modal:hover { 
+            color: #ff4444; 
+            transform: rotate(90deg) scale(1.2);
+            text-shadow: 0 0 10px rgba(255, 68, 68, 0.6);
+        }
+        
+        .input-gold { width: 100%; padding: 15px; background: rgba(255,255,255,0.05); border: 1px solid rgba(212, 175, 55, 0.3); color: #fff; text-align: center; margin-bottom: 10px; outline: none; font-family: 'Share Tech Mono'; letter-spacing: 2px; font-size: 16px; border-radius: 5px; transition: 0.3s; }
+        .input-gold:focus { border-color: var(--accent-color); box-shadow: 0 0 15px rgba(212, 175, 55, 0.2); }
+
+        .form-option { display: flex; align-items: center; gap: 15px; background: rgba(255,255,255,0.05); padding: 15px; border-radius: 8px; margin-bottom: 10px; cursor: pointer; transition: 0.3s; border: 1px solid transparent; }
+        .form-option:hover { background: rgba(255,255,255,0.1); border-color: var(--accent-color); }
+        .form-option input { accent-color: var(--accent-color); transform: scale(1.5); }
+        .form-option span { font-size: 14px; text-align: left; color: #fff; }
+
+        /* GRID 5 COLUNAS (JSON GENERATED) */
+        .holo-grid { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; /* Mobile: 2 colunas */
+            gap: 15px; margin-top: 20px; 
+            max-height: 60vh; overflow-y: auto; 
+            padding-right: 5px; padding-bottom: 20px; 
+            scrollbar-width: none; -ms-overflow-style: none; 
+        }
+        .holo-grid::-webkit-scrollbar { display: none; }
+        
+        @media (min-width: 1024px) { 
+            .holo-grid { grid-template-columns: repeat(5, 1fr); } /* Desktop: 5 colunas */
+        }
+        
+        .project-card { 
+            background: #050a14; border-radius: 8px; overflow: hidden; 
+            border: 1px solid #333; display: flex; flex-direction: column; 
+            transition: 0.3s; position: relative; text-decoration: none; 
+            aspect-ratio: 1 / 1; min-height: 0; 
+        }
+        .project-card:hover { border-color: var(--accent-color); transform: scale(1.03); z-index: 10; box-shadow: 0 0 20px rgba(212,175,55,0.3); }
+        
+        .iframe-container { flex: 1; width: 100%; border: none; overflow: hidden; position: relative; background: #000; }
+        .iframe-container iframe { width: 200%; height: 200%; transform: scale(0.5); transform-origin: 0 0; border: none; opacity: 0; transition: opacity 0.5s; }
+        .iframe-container iframe.loaded { opacity: 1; }
+
+        /* SKELETON LOADING (SHIMMER) */
+        .skeleton-loader {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(90deg, #0a1120 25%, #1e2f52 50%, #0a1120 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            z-index: 5; pointer-events: none;
+        }
+        @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+        
+        .project-label { 
+            position: absolute; bottom: 0; left: 0; width: 100%; 
+            background: rgba(0,0,0,0.9); color: var(--accent-color); 
+            padding: 8px 5px; font-size: 10px; font-weight: bold; 
+            text-transform: uppercase; border-top: 1px solid var(--accent-color); text-align: center;
+            z-index: 6;
+        }
+        
+        .system-placeholder { flex: 1; display: flex; align-items: center; justify-content: center; background: radial-gradient(circle, #1e2f52 0%, #050a14 100%); flex-direction: column; gap: 5px; }
+        .system-logo { width: 50px; opacity: 0.4; filter: grayscale(100%); transition: 0.3s; }
+
+        .help-badge {
+            display: inline-block; margin-top: 15px;
+            background: rgba(212, 175, 55, 0.1); border: 1px solid var(--accent-color);
+            color: var(--accent-color); padding: 8px 16px; border-radius: 20px;
+            font-size: 10px; font-weight: bold; letter-spacing: 1px;
+            animation: pulseBadge 2s infinite;
+        }
+
+        /* ANIMAÇÕES */
+        @keyframes moveGrid { 0% { transform: rotateX(60deg) translateY(0); } 100% { transform: rotateX(60deg) translateY(50px); } }
+        @keyframes rotateCube { 0% { transform: rotateX(0) rotateY(0); } 100% { transform: rotateX(360deg) rotateY(360deg); } }
+        @keyframes eq { 0%, 100% { height: 5px; } 50% { height: 20px; } }
+        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+        @keyframes pulseLogo { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+        @keyframes fadeInNPC { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes textReveal { 0% { width: 0; } 100% { width: 100%; } }
+        @keyframes brushMove { 0% { left: 0; opacity: 1; } 99% { opacity: 1; } 100% { left: 100%; opacity: 0; } }
+        @keyframes pulseBadge { 0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(212, 175, 55, 0); } 100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); } }
+        
+        @keyframes sandStorm {
+            0% { transform: scale(1); filter: blur(0px); opacity: 1; }
+            50% { transform: scale(1.1) translateX(15px); filter: blur(5px) grayscale(100%); opacity: 0.4; }
+            100% { transform: scale(1); filter: blur(0px); opacity: 1; }
+        }
+
+        /* Animação de Erro (Shake) */
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-5px); border-color: #ff4444; }
+            50% { transform: translateX(5px); }
+            75% { transform: translateX(-5px); }
+            100% { transform: translateX(0); border-color: var(--accent-color); }
+        }
+        .shake-anim { animation: shake 0.4s ease-in-out; }
+    </style>
+</head>
+<body class="intro-active">
+
+    <div id="intro-overlay">
+        <div class="intro-grid"></div>
+        <div class="cube-wrapper">
+            <div class="wireframe-cube"></div>
+            <div class="cube-small"></div>
+        </div>
+        <div class="intro-logo-wrapper">
+            <img src="imagens/logo.png" class="intro-logo-big">
+        </div>
+        <button class="intro-btn" onclick="iniciarSite()">INICIAR EXPERIÊNCIA</button>
+    </div>
+
+    <canvas id="particles-canvas"></canvas>
+    <canvas id="matrix-canvas"></canvas>
+    
+    <audio id="bgMusic" loop><source src="song/imaginista.mp3" type="audio/mpeg"></audio>
+
+    <div class="share-float" onclick="shareLink()"><i class="fas fa-share-alt"></i></div>
+
+    <div class="theme-switch-wrapper">
+        <label class="theme-switch">
+            <input type="checkbox" onchange="toggleBlueprintMode()">
+            <div class="slider"></div>
+        </label>
+        <i class="fas fa-ruler-combined" style="margin-left:10px;color:var(--accent-color);font-size:12px;"></i>
+    </div>
+
+    <div class="app-container">
+        <div class="main-logo-container">
+            <img src="imagens/logo.png" class="main-logo" id="mainLogo" onclick="animLogo()">
+        </div>
+        <h2>Design & Tecnologia</h2>
+        
+        <div class="slogan-container">
+            <div class="slogan-text">Onde a imaginação vira arte...</div>
+            <div class="brush-follower"><i class="fas fa-paint-brush"></i></div>
+        </div>
+
+        <div class="links-list">
+            <a href="#" onclick="baixarVCard()" class="btn btn-save"><i class="fas fa-address-card"></i> Salvar Contato</a>
+            <a href="#" onclick="abrirModal('portfolioModal')" class="btn btn-outline"><i class="fas fa-hologram"></i> Ver Projetos</a>
+            <a href="#" onclick="abrirModal('orcamentoModal')" class="btn btn-outline"><i class="fas fa-calculator"></i> Solicitar Orçamento</a>
+            <a href="#" onclick="abrirModal('loginModal')" class="btn btn-outline"><i class="fas fa-user-lock"></i> Acompanhar Projeto</a>
+            <a href="https://wa.me/5521999999999" class="btn btn-gold"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+            <a href="https://www.oimaginista.com" class="btn btn-outline" style="border-width: 2px;"><i class="fas fa-globe"></i> Site Oficial</a>
+        </div>
+
+        <div class="npc-wrapper" id="npcMaster" onclick="falarNPC()">
+            <div class="npc-container-inner">
+                <div class="speech-bubble" id="npcBubble">Olá! Precisa de ajuda com seu convite?</div>
+                <img src="imagens/mestre.png" class="npc-img">
+            </div>
+        </div>
+
+        <div class="footer-static" id="footerContainer">
+            <img src="imagens/logo.png" class="footer-logo" id="footerLogoImg" onclick="criarEstrelas(event)">
+            <p class="copyright">© 2026 IMAGINISTA ∴ <br class="break-mobile">Todos os direitos reservados.</p>
+        </div>
+    </div>
+
+    <div class="player-dock" id="playerDock">
+        <div class="player-controls">
+            <button class="ctrl-btn" onclick="vol(-0.1)"><i class="fas fa-minus"></i></button>
+            <button class="ctrl-btn" onclick="toggleMusic()"><i class="fas fa-play" id="playIcon"></i></button>
+            <button class="ctrl-btn" onclick="vol(0.1)"><i class="fas fa-plus"></i></button>
+            
+            <div class="visualizer" id="visualizer">
+                <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+            </div>
+
+            <button class="ctrl-btn share-mobile" onclick="shareLink()"><i class="fas fa-share-alt"></i></button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="loginModal">
+        <div class="modal-box">
+            <span class="close-modal" onclick="fecharModais()"><i class="fas fa-times"></i></span>
+            <h3 style="color:var(--accent-color); font-family:'Cinzel'; margin-bottom:15px;"><i class="fas fa-user-shield"></i> Área do Cliente</h3>
+            <input type="password" id="passInput" class="input-gold" placeholder="DIGITE SEU CÓDIGO">
+            <button class="btn btn-outline" style="width:100%" onclick="checkLogin()">ACESSAR PROJETO</button>
+            <p id="loginMsg" style="color:#ff4444; font-size:12px; margin-top:15px; font-weight:bold; display:none; animation: fadeInNPC 0.5s;">⛔ ACESSO NEGADO</p>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="orcamentoModal">
+        <div class="modal-box">
+            <span class="close-modal" onclick="fecharModais()"><i class="fas fa-times"></i></span>
+            <h3 style="color:var(--accent-color); font-family:'Cinzel';">Orçamento</h3>
+            <div style="width: 100%; margin-top: 15px; text-align: left;">
+                <label class="form-option"><input type="checkbox" id="checkConvite"><span>Convite Interativo Digital</span></label>
+                <label class="form-option"><input type="checkbox" id="checkSite"><span>Site / Landing Page</span></label>
+                <label class="form-option"><input type="checkbox" id="checkManutencao"><span>Manutenção / Hardware</span></label>
+                <label class="form-option"><input type="checkbox" id="checkOutros"><span>Projeto Personalizado</span></label>
+            </div>
+            <button class="btn btn-gold" style="width:100%; margin-top: 20px;" onclick="enviarOrcamentoZap()">FALAR NO WHATSAPP</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="portfolioModal">
+        <div class="modal-box large-modal">
+            <span class="close-modal" onclick="fecharModais()"><i class="fas fa-times"></i></span>
+            <h3 style="color:var(--accent-color); font-family:'Cinzel';">Projetos Recentes</h3>
+            
+            <div class="holo-grid" id="projectsGrid"></div>
+            
+            <div class="help-badge"><i class="fas fa-hand-pointer"></i> TOQUE PARA VISITAR</div>
+        </div>
+    </div>
+
+    <script>
+        // --- 1. SEGURANÇA ---
+        document.addEventListener('contextmenu', event => {
+            event.preventDefault();
+            alert('⚠️ IMAGINISTA SECURITY: Acesso negado.');
+        });
+        document.onkeydown = function(e) {
+            if(e.keyCode == 123) { return false; } 
+            if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) { return false; } 
+            if(e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) { return false; } 
+            if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) { return false; } 
+            if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) { return false; } 
+        }
+
+        // --- 2. CONFIGURAÇÃO DE PROJETOS ---
+        const projetosData = [
+            { title: "Convite Taty", url: "https://oimaginista.com/taty/", type: "site" },
+            { title: "XV Geovana", url: "https://oimaginista.com/xvgeovanafrigoletto/", type: "site" },
+            { title: "80 Anos Guiomar", url: "https://oimaginista.com/guiomar", type: "site" },
+            { title: "Projeto #04", url: "https://www.oimaginista.com", type: "placeholder" },
+            { title: "Projeto #05", url: "https://www.oimaginista.com", type: "placeholder" },
+            { title: "Projeto #06", url: "https://www.oimaginista.com", type: "placeholder" },
+            { title: "Projeto #07", url: "https://www.oimaginista.com", type: "placeholder" },
+            { title: "Projeto #08", url: "https://www.oimaginista.com", type: "placeholder" },
+            { title: "Projeto #09", url: "https://www.oimaginista.com", type: "placeholder" },
+            { title: "Projeto #10", url: "https://www.oimaginista.com", type: "placeholder" }
+        ];
+
+        // --- 3. LÓGICA GERAL & PLAYER ---
+        const audio = document.getElementById('bgMusic');
+        let npcCount = 0;
+        let falaIndex = 0;
+        const falas = ["Olá! Precisa de ajuda com seu convite?", "Design Premium para momentos únicos.", "Clique nos projetos para ver a mágica.", "Acesse o WhatsApp para suporte imediato."];
+
+        function iniciarSite() {
+            document.getElementById('intro-overlay').classList.add('hidden');
+            document.body.classList.remove('intro-active'); 
+            document.getElementById('playerDock').classList.add('visible');
+            if(navigator.vibrate) navigator.vibrate(20);
+            audio.volume = 0.4;
+            audio.play().catch(e => console.log("Audio bloqueado"));
+            document.getElementById('visualizer').classList.add('playing'); 
+            document.getElementById('playIcon').className = 'fas fa-pause';
+            setTimeout(() => falarNPC(), 1000); 
+            renderProjects();
+        }
+
+        // --- 4. FUNÇÕES DE LOGIN (CORRIGIDO) ---
+        async function checkLogin() {
+            const code = document.getElementById('passInput').value.trim();
+            const msg = document.getElementById('loginMsg');
+            const box = document.querySelector('#loginModal .modal-box');
+            
+            if (!code) return;
+
+            // Simula verificação tentando acessar o arquivo
+            try {
+                // Tenta buscar o arquivo (HEAD request para ser rápido)
+                const res = await fetch(`status/${code}.html`, { method: 'HEAD' }); 
+                
+                if (res.ok) {
+                    // SUCESSO: Redireciona
+                    msg.style.display = 'none';
+                    window.location.href = `status/${code}.html`;
+                } else {
+                    throw new Error('404');
+                }
+            } catch (e) {
+                // ERRO: Senha incorreta ou arquivo não existe
+                msg.style.display = 'block';
+                msg.innerText = '⛔ ACESSO NEGADO: CÓDIGO INVÁLIDO';
+                
+                // Efeito Shake
+                box.classList.remove('shake-anim');
+                void box.offsetWidth; // Força reflow
+                box.classList.add('shake-anim');
+                if(navigator.vibrate) navigator.vibrate([50, 50, 50]);
+            }
+        }
+
+        // Renderiza projetos
+        function renderProjects() {
+            const grid = document.getElementById('projectsGrid');
+            grid.innerHTML = ''; 
+
+            projetosData.forEach(proj => {
+                const card = document.createElement('a');
+                card.href = proj.url;
+                card.target = "_blank";
+                card.className = 'project-card';
+
+                let contentHtml = '';
+                if(proj.type === 'site') {
+                    contentHtml = `
+                        <div class="iframe-container">
+                            <div class="skeleton-loader"></div>
+                            <iframe loading="lazy" src="${proj.url}" scrolling="no" onload="this.classList.add('loaded'); this.previousElementSibling.style.display='none';"></iframe>
+                        </div>
+                    `;
+                } else {
+                    contentHtml = `
+                        <div class="system-placeholder">
+                            <img src="imagens/logo.png" class="system-logo">
+                        </div>
+                    `;
+                }
+                card.innerHTML = `${contentHtml}<div class="project-label">${proj.title}</div>`;
+                grid.appendChild(card);
+            });
+        }
+
+        function toggleMusic() {
+            if (audio.paused) {
+                audio.play();
+                document.getElementById('playIcon').className = 'fas fa-pause';
+                document.getElementById('visualizer').classList.add('playing');
+            } else {
+                audio.pause();
+                document.getElementById('playIcon').className = 'fas fa-play';
+                document.getElementById('visualizer').classList.remove('playing');
+            }
+        }
+        function vol(change) {
+            let n = audio.volume + change;
+            if (n > 1) n = 1; if (n < 0) n = 0;
+            audio.volume = n;
+        }
+
+        function animLogo() {
+            const l = document.getElementById('mainLogo'); 
+            l.classList.remove('shatter-active');
+            void l.offsetWidth; 
+            l.classList.add('shatter-active');
+            if(navigator.vibrate) navigator.vibrate(10);
+        }
+
+        function criarEstrelas(e) {
+            const container = document.getElementById('footerContainer');
+            const logo = document.getElementById('footerLogoImg');
+            logo.style.transform = "scale(0.9)";
+            setTimeout(() => logo.style.transform = "scale(1.05)", 150);
+            setTimeout(() => logo.style.transform = "scale(1)", 300);
+            if(navigator.vibrate) navigator.vibrate(15);
+
+            const rectLogo = logo.getBoundingClientRect();
+            const rectContainer = container.getBoundingClientRect();
+            const centerX = (rectLogo.left - rectContainer.left) + (rectLogo.width / 2);
+            const centerY = (rectLogo.top - rectContainer.top) + (rectLogo.height / 2);
+            const angles = [-60, -30, -10, 10, 30, 60]; 
+
+            angles.forEach(angle => {
+                const star = document.createElement('i');
+                star.className = 'fas fa-star star-particle';
+                star.style.left = centerX + 'px';
+                star.style.top = centerY + 'px';
+                const rad = angle * (Math.PI / 180);
+                const distance = 80 + Math.random() * 40; 
+                const moveX = Math.sin(rad) * distance;
+                const moveY = -Math.cos(rad) * distance; 
+                star.style.transform = `translate(${moveX}px, ${moveY}px) scale(0)`;
+                container.appendChild(star);
+                requestAnimationFrame(() => {
+                    star.style.transform = `translate(${moveX}px, ${moveY}px) scale(1) rotate(${Math.random()*360}deg)`;
+                    star.style.opacity = '0';
+                });
+                setTimeout(() => star.remove(), 1000);
+            });
+        }
+
+        function falarNPC() {
+            const balao = document.getElementById('npcBubble');
+            balao.classList.remove('show');
+            if(navigator.vibrate) navigator.vibrate(10);
+            setTimeout(() => {
+                npcCount++;
+                if (npcCount > 5) {
+                    balao.innerText = "⚠️ 404 SYSTEM ERROR ⚠️";
+                    balao.style.color = "red";
+                    document.body.classList.add('matrix-active');
+                    setTimeout(() => document.body.classList.remove('matrix-active'), 5000);
+                    npcCount = 0;
+                } else {
+                    balao.innerText = falas[falaIndex];
+                    balao.style.color = "black";
+                    falaIndex = (falaIndex + 1) % falas.length;
+                }
+                balao.classList.add('show');
+                setTimeout(() => balao.classList.remove('show'), 4000);
+            }, 100);
+        }
+
+        function shareLink() { if (navigator.share) navigator.share({ title: 'Imaginista', url: window.location.href }); else alert('Link copiado!'); }
+        function baixarVCard() { 
+            const blob = new Blob([`BEGIN:VCARD\nVERSION:3.0\nFN:Imaginista\nTEL;TYPE=CELL:+5521999999999\nEMAIL:contato@oimaginista.com\nURL:https://www.oimaginista.com\nEND:VCARD`], { type: "text/vcard" });
+            const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = "Imaginista.vcf"; a.click();
+        }
+        function abrirModal(id) { fecharModais(); document.getElementById(id).classList.add('active'); }
+        function fecharModais() { document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('active')); }
+        function toggleBlueprintMode(){ document.body.classList.toggle('blueprint-mode'); }
+        function enviarOrcamentoZap() { 
+             let texto = "Olá Mestre! Gostaria de um orçamento para:%0A";
+            if(document.getElementById('checkConvite').checked) texto += "- Convite Interativo%0A";
+            if(document.getElementById('checkSite').checked) texto += "- Site/Landing Page%0A";
+            if(document.getElementById('checkManutencao').checked) texto += "- Manutenção PC%0A";
+            if(document.getElementById('checkOutros').checked) texto += "- Projeto Personalizado%0A";
+            texto += "%0AAguardo retorno.";
+            window.open(`https://wa.me/5521999999999?text=${texto}`, '_blank');
+        }
+
+        const pCanvas = document.getElementById('particles-canvas');
+        const pCtx = pCanvas.getContext('2d');
+        pCanvas.width = window.innerWidth; pCanvas.height = window.innerHeight;
+        let particles = [];
+        class Particle {
+            constructor() { this.x = Math.random() * pCanvas.width; this.y = Math.random() * pCanvas.height; this.size = Math.random() * 2; this.speedX = Math.random() * 0.5 - 0.25; this.speedY = Math.random() * 0.5 - 0.25; }
+            update() { this.x += this.speedX; this.y += this.speedY; if (this.x > pCanvas.width) this.x = 0; if (this.y > pCanvas.height) this.y = 0; }
+            draw() { pCtx.fillStyle = 'rgba(212, 175, 55, 0.5)'; pCtx.beginPath(); pCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2); pCtx.fill(); }
+        }
+        function initParticles() { for (let i = 0; i < 50; i++) particles.push(new Particle()); }
+        function animateParticles() { pCtx.clearRect(0, 0, pCanvas.width, pCanvas.height); particles.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(animateParticles); }
+        initParticles(); animateParticles();
+
+        const mCanvas = document.getElementById('matrix-canvas'); const mCtx = mCanvas.getContext('2d'); mCanvas.width = window.innerWidth; mCanvas.height = window.innerHeight;
+        const letters = "01ABCDEF"; const fontSize = 14; const columns = mCanvas.width / fontSize; const drops = Array(Math.floor(columns)).fill(1);
+        setInterval(() => {
+            if (!document.body.classList.contains('matrix-active')) return;
+            mCtx.fillStyle = "rgba(0, 0, 0, 0.05)"; mCtx.fillRect(0, 0, mCanvas.width, mCanvas.height); mCtx.fillStyle = "#0F0"; mCtx.font = fontSize + "px monospace";
+            for (let i = 0; i < drops.length; i++) { const text = letters.charAt(Math.floor(Math.random() * letters.length)); mCtx.fillText(text, i * fontSize, drops[i] * fontSize); if (drops[i] * fontSize > mCanvas.height && Math.random() > 0.975) drops[i] = 0; drops[i]++; }
+        }, 33);
+    </script>
+</body>
+</html>
