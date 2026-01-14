@@ -14,7 +14,7 @@
         :root {
             --bg-color: #14213D; --text-color: #FFFFFF; --accent-color: #D4AF37;
             --btn-bg: linear-gradient(135deg, #A67C00 0%, #D4AF37 50%, #F4D06F 100%);
-            --btn-text: #0a1120; --dock-bg: rgba(10, 17, 32, 0.98);
+            --btn-text: #0a1120;
         }
         body.blueprint-mode {
             --bg-color: #003366; --text-color: #E0E0E0; --accent-color: #FFFFFF;
@@ -26,35 +26,62 @@
             background-color: var(--bg-color); background-image: var(--bg-image); color: var(--text-color);
             font-family: 'Montserrat', sans-serif; display: flex; flex-direction: column; align-items: center;
             min-height: 100vh; overflow-x: hidden; position: relative; transition: background 0.5s ease;
+            padding-bottom: 100px; /* Espaço para o player fixo */
         }
 
-        /* --- INTRO (FIXA SEM ROLAGEM) --- */
+        /* --- 1. INTRODUÇÃO 3D (RESTAURADA) --- */
         #intro-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: radial-gradient(circle at center, #1e2f52 0%, #050a14 100%);
-            z-index: 9999; overflow: hidden; /* Garante sem rolagem */
+            z-index: 9999; overflow: hidden;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
-            transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1); perspective: 1000px;
+            transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1);
+            perspective: 1000px;
         }
         #intro-overlay.hidden { transform: translateY(-100%); }
-        .intro-logo { width: 160px; margin-bottom: 40px; animation: breatheLogo 3s infinite ease-in-out; filter: drop-shadow(0 0 20px rgba(212,175,55,0.3)); }
-        
+
+        .intro-grid {
+            position: absolute; bottom: -20%; left: -50%; width: 200%; height: 100%;
+            background-image: 
+                linear-gradient(rgba(212, 175, 55, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(212, 175, 55, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            transform: rotateX(60deg);
+            animation: moveGrid 10s linear infinite;
+            z-index: -1;
+            mask-image: linear-gradient(to top, rgba(0,0,0,1) 0%, transparent 60%);
+        }
+
+        .cube-wrapper { position: absolute; width: 100%; height: 100%; pointer-events: none; display: flex; justify-content: center; align-items: center; }
+        .wireframe-cube { position: absolute; width: 300px; height: 300px; transform-style: preserve-3d; animation: rotateCube 20s infinite linear; border: 1px solid rgba(212, 175, 55, 0.1); border-radius: 50%; }
+        .wireframe-cube::before, .wireframe-cube::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 1px solid rgba(212, 175, 55, 0.1); border-radius: 50%; }
+        .wireframe-cube::before { transform: rotateX(60deg); } .wireframe-cube::after { transform: rotateY(60deg); }
+        .cube-small { width: 150px; height: 150px; border: 1px dashed rgba(212, 175, 55, 0.2); border-radius: 0; animation: rotateCubeReverse 15s infinite linear; }
+
+        .intro-logo-wrapper { position: relative; margin-bottom: 40px; }
+        .intro-logo { width: 160px; filter: drop-shadow(0 0 20px rgba(212,175,55,0.3)); }
+        .scanner-line { position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: var(--accent-color); box-shadow: 0 0 10px var(--accent-color); animation: scanLogo 3s infinite ease-in-out; opacity: 0.7; }
+
         .intro-btn {
-            background: rgba(212, 175, 55, 0.1); border: 1px solid var(--accent-color); color: var(--accent-color);
+            background: rgba(10, 17, 32, 0.8); border: 1px solid var(--accent-color); color: var(--accent-color);
             padding: 18px 50px; font-size: 14px; text-transform: uppercase; letter-spacing: 4px; cursor: pointer;
             transition: 0.3s; font-family: 'Cinzel', serif; font-weight: 700; position: relative; overflow: hidden;
+            backdrop-filter: blur(5px); box-shadow: 0 0 15px rgba(212, 175, 55, 0.1);
         }
         .intro-btn:hover { background: var(--accent-color); color: #0a1120; box-shadow: 0 0 30px rgba(212, 175, 55, 0.6); }
         .tap-hint { margin-top: 20px; color: rgba(255,255,255,0.5); font-size: 24px; animation: tapAnim 1.5s infinite; }
 
-        /* --- LAYOUT --- */
+        /* --- 2. ESTRUTURA GERAL --- */
         #particles-canvas, #matrix-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
         #particles-canvas { z-index: 0; }
         #matrix-canvas { z-index: 1; display: none; }
         body.matrix-active #matrix-canvas { display: block; }
         body.matrix-active .container { opacity: 0.1; filter: blur(3px); transition: 0.5s; }
 
-        .container { width: 100%; max-width: 500px; padding: 40px 20px 160px; flex: 1; text-align: center; position: relative; z-index: 2; perspective: 1000px; }
+        .container { 
+            width: 100%; max-width: 500px; padding: 40px 20px 0px 20px; /* Padding bottom 0 */
+            flex: 1; text-align: center; position: relative; z-index: 2; perspective: 1000px; 
+        }
 
         .theme-switch-wrapper { position: absolute; top: 20px; right: 20px; display: flex; align-items: center; z-index: 10; }
         .theme-switch { display: inline-block; height: 26px; position: relative; width: 50px; }
@@ -86,13 +113,12 @@
         .btn:hover { transform: translateY(-3px); letter-spacing: 2px; }
         .btn i { margin-right: 12px; font-size: 18px; }
 
-        /* --- MODALS --- */
+        /* --- 3. MODALS --- */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 2000; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s; backdrop-filter: blur(8px); }
         .modal-overlay.active { display: flex; opacity: 1; }
         .holo-content { width: 95%; max-width: 1400px; height: auto; max-height: 90vh; background: rgba(20, 33, 61, 0.98); border: 1px solid var(--accent-color); padding: 30px; border-radius: 10px; text-align: center; position: relative; display: flex; flex-direction: column; box-shadow: 0 0 50px rgba(212, 175, 55, 0.15); overflow-y: auto; }
         .close-modal { position: absolute; top: 15px; right: 20px; color: #fff; font-size: 30px; cursor: pointer; z-index: 20; }
 
-        /* GRID PORTFOLIO */
         .holo-grid { display: grid; gap: 15px; margin-top: 20px; flex: 1; overflow-x: hidden; overflow-y: auto; }
         @media (max-width: 767px) { .holo-grid { grid-template-columns: 1fr; } }
         @media (min-width: 768px) { .holo-grid { grid-template-columns: repeat(2, 1fr); } }
@@ -107,101 +133,90 @@
         .project-card:hover .system-logo { opacity: 1; filter: grayscale(0%) drop-shadow(0 0 10px var(--accent-color)); }
         .help-text { margin-top: 10px; font-size: 12px; color: #aaa; letter-spacing: 1px; animation: pulse 2s infinite; }
 
-        /* FORM */
         .form-option { display: flex; align-items: center; gap: 15px; background: rgba(255,255,255,0.05); padding: 15px; border-radius: 8px; margin-bottom: 10px; cursor: pointer; transition: 0.3s; border: 1px solid transparent; }
         .form-option:hover { background: rgba(255,255,255,0.1); border-color: var(--accent-color); }
         .form-option input { accent-color: var(--accent-color); transform: scale(1.5); }
         .form-option span { font-size: 14px; text-align: left; }
 
-        /* LOGIN */
         .login-box { display: flex; flex-direction: column; gap: 15px; width: 100%; max-width: 300px; margin: 0 auto; }
         .login-input { background: transparent; border: 1px solid var(--accent-color); color: #fff; padding: 15px; text-align: center; font-family: 'Share Tech Mono'; letter-spacing: 3px; font-size: 18px; outline: none; text-transform: uppercase; }
 
-        /* --- NPC MESTRE (CONFIGURAÇÃO FINAL) --- */
+        /* --- 4. NPC MESTRE (CORRIGIDO) --- */
         
-        /* Desktop: Fixo, esquerda, em cima da linha do footer */
+        /* DESKTOP (PC): Fixo no canto inferior esquerdo */
         .npc-container { 
             position: fixed; 
-            bottom: 90px; /* Acima do rodapé */
-            left: -250px; 
-            z-index: 600; /* Fica acima do footer */
+            bottom: 0; left: 0; /* Colado no canto */
+            z-index: 200; /* Acima do fundo, mas atrás do player fixo */
             display: flex; align-items: flex-end; transition: left 0.8s; 
             cursor: pointer; pointer-events: none; 
         }
-        .npc-container.active { left: 20px; } /* Encostado na esquerda */
-        
-        .npc-img { 
-            width: 150px; /* Tamanho proporcional Desktop */
-            height: auto; 
-            filter: drop-shadow(5px 5px 10px rgba(0,0,0,0.5)); 
-            transition: transform 0.1s; pointer-events: auto; 
-        }
+        .npc-container.active { left: 20px; }
+        .npc-img { width: 150px; height: auto; filter: drop-shadow(5px 5px 10px rgba(0,0,0,0.5)); transition: transform 0.1s; pointer-events: auto; }
         .npc-img:active { transform: scale(0.95); }
         
         .speech-bubble { 
             background: #FFFFFF !important; color: #000000 !important; 
             padding: 15px; border-radius: 15px 15px 15px 0; font-size: 13px; font-weight: 700; 
             min-width: 220px; width: auto; 
-            margin-bottom: 110px; margin-left: -40px; 
+            margin-bottom: 110px; margin-left: -20px; 
             box-shadow: 0 5px 15px rgba(0,0,0,0.3); opacity: 0; transform: scale(0); 
-            transition: 0.3s; position: relative; z-index: 151; pointer-events: none; 
-            white-space: nowrap; 
+            transition: 0.3s; position: relative; z-index: 151; pointer-events: none; white-space: nowrap; 
         }
         .speech-bubble::after { content: ''; position: absolute; bottom: -8px; left: 0; border-width: 8px 8px 0; border-style: solid; border-color: #FFFFFF transparent; }
         .speech-bubble.show { opacity: 1; transform: scale(1); }
 
-        /* SHARE BUTTON (DESKTOP) */
-        .share-btn-float { position: fixed; bottom: 200px; right: 20px; width: 50px; height: 50px; background: var(--bg-color); border: 2px solid var(--accent-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--accent-color); font-size: 20px; z-index: 1000; box-shadow: 0 5px 20px rgba(0,0,0,0.5); cursor: pointer; transition: transform 0.3s; }
-        .share-btn-float:active { transform: scale(0.9); }
-        
-        /* SHARE BUTTON (MOBILE - INVISÍVEL NO FLUTUANTE) */
-        .share-btn-mobile { display: none; }
-
-        /* --- MEDIA QUERY MOBILE (AJUSTES FINAIS) --- */
+        /* --- 5. MOBILE QUERY (CELULAR) --- */
         @media (max-width: 768px) {
-            
-            /* NPC: Sai do fixed, vai pro fluxo normal, tamanho maior */
             .npc-container { 
-                position: relative; 
+                position: relative; /* Sai do Fixed */
                 bottom: auto; left: auto !important; 
                 flex-direction: column-reverse; align-items: center;
-                margin-top: 40px; margin-bottom: 120px; 
+                margin-top: 30px; margin-bottom: 30px; /* Espaço pequeno */
                 opacity: 0; animation: fadeInNPC 1s forwards 1s; 
                 z-index: 1;
             }
-            .npc-img { width: 200px; pointer-events: auto; } /* AUMENTADO PARA 200PX */
-            
-            /* Balão centralizado */
-            .speech-bubble { 
-                margin: 0 0 15px 0; white-space: normal; text-align: center; min-width: 220px;
-            }
+            .npc-img { width: 250px; /* BEM MAIOR NO MOBILE */ pointer-events: auto; }
+            .speech-bubble { margin: 0 0 5px 0; white-space: normal; text-align: center; min-width: 220px; }
             .speech-bubble::after { left: 50%; transform: translateX(-50%); border-width: 8px 8px 0; border-color: #FFFFFF transparent; }
-
-            /* Esconde botão Share Flutuante no Mobile */
-            .share-btn-float { display: none; }
-            
-            /* Exibe botão Share no Footer */
-            .share-btn-mobile { display: inline-block; background: none; border: none; color: var(--accent-color); font-size: 18px; cursor: pointer; }
+            .share-btn-float { display: none; } /* Esconde share flutuante no mobile */
+            .share-btn-mobile { display: inline-block !important; } /* Mostra share no player */
         }
 
-        /* --- FOOTER --- */
-        .footer-dock { position: fixed; bottom: 0; left: 0; width: 100%; background: var(--dock-bg); border-top: 1px solid var(--accent-color); z-index: 500; display: flex; flex-direction: column; align-items: center; backdrop-filter: blur(10px); }
-        .footer-top-row { width: 100%; padding: 15px 20px; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 8px; text-align: center; }
+        /* --- 6. DIVISÃO DE RODAPÉ (FIXO VS SOLTO) --- */
+        
+        /* Footer Estático (Logo e Texto) - Fica no final do conteúdo */
+        .static-footer {
+            width: 100%; padding: 30px 20px;
+            display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 8px; text-align: center;
+            margin-top: 20px; z-index: 1;
+        }
         .footer-logo-small { width: 90px; cursor: pointer; transition: transform 0.3s; }
         .footer-logo-small.pop { animation: popLogo 0.3s ease; }
         .copyright-text { font-size: 11px; color: rgba(255,255,255,0.6); letter-spacing: 1px; }
-        .break-mobile { display: none; }
-        @media (max-width: 600px) { .break-mobile { display: block; } }
-        
-        /* PLAYER + SHARE (NO MOBILE) */
-        .footer-player-row { width: 100%; max-width: 400px; padding: 15px 20px; display: flex; justify-content: center; align-items: center; gap: 20px; }
-        .player-controls { display: flex; align-items: center; gap: 20px; }
+
+        /* Player Fixo (Só a barra de música) */
+        .fixed-player-dock { 
+            position: fixed; bottom: 0; left: 0; width: 100%; 
+            background: rgba(10, 17, 32, 0.98); 
+            border-top: 1px solid var(--accent-color); 
+            z-index: 500; 
+            display: none; /* COMEÇA ESCONDIDO */
+            justify-content: center; align-items: center; 
+            padding: 15px 20px; backdrop-filter: blur(10px);
+        }
+        .fixed-player-dock.visible { display: flex; animation: slideUp 0.5s ease forwards; }
+
+        .player-controls { display: flex; align-items: center; gap: 20px; width: 100%; max-width: 400px; justify-content: center; }
         .ctrl-btn { background: none; border: none; color: var(--accent-color); font-size: 18px; cursor: pointer; }
         .play-btn-large { font-size: 24px; width: 35px; height: 35px; display: flex; justify-content: center; align-items: center; border: 1px solid var(--accent-color); border-radius: 50%; }
         .visualizer { display: flex; align-items: flex-end; gap: 3px; height: 15px; }
         .bar { width: 3px; background: var(--accent-color); border-radius: 2px; height: 3px; }
         .playing .bar { animation: equalizer 1s infinite ease-in-out; }
         .bar:nth-child(1) { animation-delay: 0.1s; } .bar:nth-child(2) { animation-delay: 0.2s; } .bar:nth-child(3) { animation-delay: 0.3s; } .bar:nth-child(4) { animation-delay: 0.1s; } .bar:nth-child(5) { animation-delay: 0.4s; }
+        
+        .share-btn-float { position: fixed; bottom: 100px; right: 20px; width: 50px; height: 50px; background: var(--bg-color); border: 2px solid var(--accent-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--accent-color); font-size: 20px; z-index: 1000; box-shadow: 0 5px 20px rgba(0,0,0,0.5); cursor: pointer; transition: transform 0.3s; }
+        .share-btn-mobile { display: none; background: none; border: none; color: var(--accent-color); font-size: 18px; cursor: pointer; margin-left: 20px; }
 
         @keyframes popLogo { 50% { transform: scale(1.2); } }
         @keyframes equalizer { 0% { height: 3px; } 50% { height: 15px; } 100% { height: 3px; } }
@@ -217,6 +232,7 @@
         @keyframes rotateCube { 0% { transform: rotateX(0) rotateY(0); } 100% { transform: rotateX(360deg) rotateY(360deg); } }
         @keyframes rotateCubeReverse { 0% { transform: rotateX(0) rotateY(0); } 100% { transform: rotateX(-360deg) rotateY(-360deg); } }
         @keyframes scanLogo { 0% { top: 0; opacity: 0; } 50% { opacity: 1; } 100% { top: 100%; opacity: 0; } }
+        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
     </style>
 </head>
 <body>
@@ -265,13 +281,27 @@
             <a href="#" onclick="abrirOrcamento()" class="btn btn-outline"><i class="fas fa-calculator"></i> Solicitar Orçamento</a>
             <a href="#" onclick="abrirLoginCliente()" class="btn btn-outline"><i class="fas fa-user-lock"></i> Acompanhar Projeto</a>
             <a href="https://wa.me/5521999999999" target="_blank" class="btn btn-gold"><i class="fab fa-whatsapp"></i> WhatsApp</a>
-            
             <a href="https://www.oimaginista.com" target="_blank" class="btn btn-outline" style="border-width: 2px; box-shadow: 0 0 10px rgba(212,175,55,0.1);"><i class="fas fa-globe"></i> Site Oficial</a>
         </div>
 
         <div class="npc-container" id="npcMaster" onclick="interagirNPC()">
             <img src="imagens/mestre.png" alt="O Mestre" class="npc-img" id="npcImg">
             <div class="speech-bubble" id="npcBubble"></div>
+        </div>
+        
+        <div class="static-footer">
+            <img src="imagens/logo.png" class="footer-logo-small" id="footerLogo" onclick="animarLogoRodape()">
+            <span class="copyright-text">© 2026 IMAGINISTA ∴ <br class="break-mobile">Todos os direitos reservados.</span>
+        </div>
+    </div>
+
+    <div class="fixed-player-dock" id="playerDock">
+        <div class="player-controls">
+            <button class="ctrl-btn" onclick="adjustVolume(-0.1)"><i class="fas fa-minus"></i></button>
+            <button class="ctrl-btn play-btn-large" onclick="toggleMusic()"><i class="fas fa-play" id="playIcon"></i></button>
+            <button class="ctrl-btn" onclick="adjustVolume(0.1)"><i class="fas fa-plus"></i></button>
+            <div class="visualizer" id="visualizer"><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>
+            <button class="share-btn-mobile" onclick="compartilharPagina()"><i class="fas fa-share-alt"></i></button>
         </div>
     </div>
 
@@ -280,18 +310,9 @@
             <span class="close-modal" onclick="fecharAll()">&times;</span>
             <h3 style="color:var(--accent-color); font-family:'Cinzel';">Projetos & Cases</h3>
             <div class="holo-grid">
-                <a href="https://oimaginista.com/taty/" target="_blank" class="project-card">
-                    <div class="iframe-container"><iframe src="https://oimaginista.com/taty/" scrolling="no"></iframe></div>
-                    <div class="project-label">Convite Taty <i class="fas fa-external-link-alt"></i></div>
-                </a>
-                <a href="https://oimaginista.com/xvgeovanafrigoletto/" target="_blank" class="project-card">
-                    <div class="iframe-container"><iframe src="https://oimaginista.com/xvgeovanafrigoletto/" scrolling="no"></iframe></div>
-                    <div class="project-label">XV Geovana <i class="fas fa-external-link-alt"></i></div>
-                </a>
-                <a href="https://oimaginista.com/guiomar" target="_blank" class="project-card">
-                    <div class="iframe-container"><iframe src="https://oimaginista.com/guiomar" scrolling="no"></iframe></div>
-                    <div class="project-label">80 Anos Guiomar <i class="fas fa-external-link-alt"></i></div>
-                </a>
+                <a href="https://oimaginista.com/taty/" target="_blank" class="project-card"><div class="iframe-container"><iframe src="https://oimaginista.com/taty/" scrolling="no"></iframe></div><div class="project-label">Convite Taty <i class="fas fa-external-link-alt"></i></div></a>
+                <a href="https://oimaginista.com/xvgeovanafrigoletto/" target="_blank" class="project-card"><div class="iframe-container"><iframe src="https://oimaginista.com/xvgeovanafrigoletto/" scrolling="no"></iframe></div><div class="project-label">XV Geovana <i class="fas fa-external-link-alt"></i></div></a>
+                <a href="https://oimaginista.com/guiomar" target="_blank" class="project-card"><div class="iframe-container"><iframe src="https://oimaginista.com/guiomar" scrolling="no"></iframe></div><div class="project-label">80 Anos Guiomar <i class="fas fa-external-link-alt"></i></div></a>
                 <a href="https://www.oimaginista.com" target="_blank" class="project-card"><div class="system-placeholder"><img src="imagens/logo.png" class="system-logo"></div><div class="project-label">Novo Projeto #04</div></a>
                 <a href="https://www.oimaginista.com" target="_blank" class="project-card"><div class="system-placeholder"><img src="imagens/logo.png" class="system-logo"></div><div class="project-label">Novo Projeto #05</div></a>
                 <a href="https://www.oimaginista.com" target="_blank" class="project-card"><div class="system-placeholder"><img src="imagens/logo.png" class="system-logo"></div><div class="project-label">Novo Projeto #06</div></a>
@@ -333,35 +354,32 @@
         </div>
     </div>
 
-    <div class="footer-dock">
-        <div class="footer-top-row">
-            <img src="imagens/logo.png" class="footer-logo-small" id="footerLogo" onclick="animarLogoRodape()">
-            <span class="copyright-text">© 2026 IMAGINISTA ∴ <br class="break-mobile">Todos os direitos reservados.</span>
-        </div>
-        <div class="footer-player-row">
-            <div class="visualizer" id="visualizer"><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>
-            <div class="player-controls">
-                <button class="ctrl-btn" onclick="adjustVolume(-0.1)"><i class="fas fa-minus"></i></button>
-                <button class="ctrl-btn play-btn-large" onclick="toggleMusic()"><i class="fas fa-play" id="playIcon"></i></button>
-                <button class="ctrl-btn" onclick="adjustVolume(0.1)"><i class="fas fa-plus"></i></button>
-                
-                <button class="share-btn-mobile" onclick="compartilharPagina()" style="margin-left:15px;"><i class="fas fa-share-alt"></i></button>
-            </div>
-        </div>
-    </div>
-
     <script>
-        function iniciarExperiencia() { document.getElementById('intro-overlay').classList.add('hidden'); const a=document.getElementById('bgMusic'); a.volume=0.5; a.play().then(()=>{document.getElementById('playIcon').className='fas fa-pause';document.getElementById('visualizer').classList.add('playing');}).catch(e=>console.log(e)); }
+        // INICIO
+        function iniciarExperiencia() { 
+            document.getElementById('intro-overlay').classList.add('hidden'); 
+            // TOCA MÚSICA E MOSTRA O PLAYER
+            const a=document.getElementById('bgMusic'); a.volume=0.5; 
+            a.play().then(()=>{
+                document.getElementById('playIcon').className='fas fa-pause';
+                document.getElementById('visualizer').classList.add('playing');
+                document.getElementById('playerDock').classList.add('visible'); // Player aparece aqui
+            }).catch(e=>console.log(e)); 
+        }
+
+        // FUNÇÕES PADRÃO
         function baixarVCard() { const n="IMAGINISTA"; const sn="Design & Tecnologia"; const t="+5521999999999"; const e="contato@oimaginista.com"; const s="https://www.oimaginista.com"; const v=`BEGIN:VCARD\nVERSION:3.0\nFN:${n}\nN:${sn};${n};;;\nTEL;TYPE=CELL:${t}\nEMAIL:${e}\nURL:${s}\nNOTE:Onde a imaginação vira arte.\nEND:VCARD`; const b=new Blob([v],{type:"text/vcard"}); const u=URL.createObjectURL(b); const l=document.createElement("a"); l.href=u; l.download="Imaginista.vcf"; document.body.appendChild(l); l.click(); document.body.removeChild(l); }
         function compartilharPagina() { if(navigator.share){navigator.share({title:'Imaginista',url:window.location.href}).catch(console.error);}else{alert("Link copiado!");} }
         function toggleMusic() { const a=document.getElementById('bgMusic'); const i=document.getElementById('playIcon'); const v=document.getElementById('visualizer'); if(a.paused){a.play();i.className='fas fa-pause';v.classList.add('playing');}else{a.pause();i.className='fas fa-play';v.classList.remove('playing');} }
         function adjustVolume(v) { const a=document.getElementById('bgMusic'); let n=a.volume+v; if(n>1)n=1;if(n<0)n=0;a.volume=n; }
+        
+        // MODAIS
         function fecharAll() { document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('active')); const loginInput = document.getElementById('clientPass'); if(loginInput) loginInput.value = ''; const loginError = document.getElementById('loginError'); if(loginError) loginError.style.display = 'none'; }
         function abrirPortfolio() { fecharAll(); document.getElementById('portfolioModal').classList.add('active'); }
         function abrirOrcamento() { fecharAll(); document.getElementById('orcamentoModal').classList.add('active'); }
         function abrirLoginCliente() { fecharAll(); document.getElementById('loginModal').classList.add('active'); }
-        function enviarOrcamentoZap() { let texto = "Olá Mestre! Gostaria de um orçamento para:%0A"; if(document.getElementById('checkConvite').checked) texto += "- Convite Interativo%0A"; if(document.getElementById('checkSite').checked) texto += "- Site/Landing Page%0A"; if(document.getElementById('checkManutencao').checked) texto += "- Manutenção PC%0A"; if(document.getElementById('checkOutros').checked) texto += "- Projeto Personalizado%0A"; texto += "%0AAguardo retorno."; window.open(`https://wa.me/5521999999999?text=${texto}`, '_blank'); }
         
+        // LOGIN (COM FETCH HEAD)
         async function checkLogin() {
             const passInput = document.getElementById('clientPass');
             const err = document.getElementById('loginError');
@@ -372,19 +390,23 @@
             btnText.style.display = 'none'; btnLoad.style.display = 'inline-block'; err.style.display = 'none';
             try {
                 const response = await fetch(`status/${code}.html`, { method: 'GET' });
-                if (response.ok) { window.location.href = `status/${code}.html`; } else { throw new Error('Não encontrado'); }
+                if (response.ok) { window.location.href = `status/${code}.html`; } else { throw new Error('404'); }
             } catch (error) {
                 btnText.style.display = 'inline'; btnLoad.style.display = 'none';
-                err.innerText = "CÓDIGO INVÁLIDO / NÃO ENCONTRADO"; err.style.display = 'block';
+                err.innerText = "CÓDIGO INVÁLIDO"; err.style.display = 'block';
                 passInput.value = ''; passInput.focus();
             }
         }
         const passInput = document.getElementById('clientPass'); if(passInput) { passInput.addEventListener('keypress', function (e) { if (e.key === 'Enter') { checkLogin(); } }); }
+        function enviarOrcamentoZap() { let texto = "Olá Mestre! Gostaria de um orçamento para:%0A"; if(document.getElementById('checkConvite').checked) texto += "- Convite Interativo%0A"; if(document.getElementById('checkSite').checked) texto += "- Site/Landing Page%0A"; if(document.getElementById('checkManutencao').checked) texto += "- Manutenção PC%0A"; if(document.getElementById('checkOutros').checked) texto += "- Projeto Personalizado%0A"; texto += "%0AAguardo retorno."; window.open(`https://wa.me/5521999999999?text=${texto}`, '_blank'); }
 
+        // NPC
         let npcClicks = 0; let npcTimer; const falas = ["Olá! Precisa de ajuda com seu convite?", "Design Premium para momentos únicos.", "Clique nos projetos para ver a mágica.", "Acesse o WhatsApp para suporte imediato."];
         window.onload = () => { const delay = window.innerWidth < 768 ? 2000 : 1000; setTimeout(() => document.getElementById('npcMaster').classList.add('active'), delay); }
         window.addEventListener('click', function(e) { const n=document.getElementById('npcMaster'); const b=document.getElementById('npcBubble'); if(!n.contains(e.target)){b.classList.remove('show');} });
         function interagirNPC() { const b=document.getElementById('npcBubble'); b.classList.remove('show'); clearTimeout(npcTimer); setTimeout(() => { npcClicks++; if(npcClicks>=5){ b.innerText="⚠️ ACESSO AO SISTEMA ⚠️"; b.style.color="red"; ativarModoMatrix(); npcClicks=0; } else{ b.style.color="#000"; b.innerText=falas[Math.floor(Math.random()*falas.length)]; npcTimer=setTimeout(()=>{npcClicks=0;},2000); } b.classList.add('show'); setTimeout(()=>b.classList.remove('show'),8000); },100); }
+        
+        // VISUAL EXTRAS
         function toggleBlueprintMode(){document.body.classList.toggle('blueprint-mode');} function explodirLogo(){const l=document.getElementById('mainLogo');l.classList.remove('shatter-active');void l.offsetWidth;l.classList.add('shatter-active');} function animarLogoRodape(){const l=document.getElementById('footerLogo');l.classList.remove('pop');void l.offsetWidth;l.classList.add('pop');}
         function ativarModoMatrix(){document.body.classList.add('matrix-active');initMatrix();setTimeout(()=>document.body.classList.remove('matrix-active'),6000);}
         const mCanvas=document.getElementById('matrix-canvas');const mCtx=mCanvas.getContext('2d');let mInterval; function initMatrix(){mCanvas.width=window.innerWidth;mCanvas.height=window.innerHeight;const c='01ABCDEF';const fs=14;const cols=mCanvas.width/fs;const d=[];for(let x=0;x<cols;x++)d[x]=1;clearInterval(mInterval);mInterval=setInterval(()=>{mCtx.fillStyle='rgba(0,0,0,0.05)';mCtx.fillRect(0,0,mCanvas.width,mCanvas.height);mCtx.fillStyle='#0F0';mCtx.font=fs+'px monospace';for(let i=0;i<d.length;i++){const t=c.charAt(Math.floor(Math.random()*c.length));mCtx.fillText(t,i*fs,d[i]*fs);if(d[i]*fs>mCanvas.height&&Math.random()>0.975)d[i]=0;d[i]++;}},30);}
