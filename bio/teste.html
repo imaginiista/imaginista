@@ -3,17 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="description" content="Imaginista - Design Premium e Tecnologia para eventos e negócios.">
+    <meta name="description" content="Imaginista - Design Premium e Tecnologia.">
     <meta name="theme-color" content="#0a2a24">
 
     <meta property="og:title" content="IMAGINISTA"> 
-    <meta property="og:description" content="Design Premium e Tecnologia para momentos únicos. Convites, Sites e Experiências Digitais.">
+    <meta property="og:description" content="Design Premium e Tecnologia para momentos únicos.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://oimaginista.com/bio">
     <meta property="og:image" content="https://oimaginista.com/favicon/web-app-manifest-512x512.png">
-    <meta property="og:image:type" content="image/png">
-    <meta property="og:image:width" content="512">
-    <meta property="og:image:height" content="512">
 
     <link rel="icon" type="image/png" href="../favicon/favicon-96x96.png" sizes="96x96">
     <link rel="icon" type="image/svg+xml" href="../favicon/favicon.svg">
@@ -28,17 +25,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        /* --- 1. VARIÁVEIS E BASE --- */
+        /* --- BASE --- */
         :root {
-            --bg-color: #14213D;
-            --text-color: #FFFFFF;
-            --accent-color: #D4AF37;
+            --bg-color: #14213D; --text-color: #FFFFFF; --accent-color: #D4AF37;
             --btn-bg: linear-gradient(135deg, #A67C00 0%, #D4AF37 50%, #F4D06F 100%);
-            --btn-text: #0a1120;
-            --glass: rgba(10, 17, 32, 0.98);
+            --glass: rgba(10, 17, 32, 0.95);
         }
 
-        /* TEMA BLUEPRINT */
+        /* BLUEPRINT ORIGINAL RESTAURADO */
         body.blueprint-mode {
             --bg-color: #003366; --text-color: #E0E0E0; --accent-color: #FFFFFF;
             --bg-image: linear-gradient(rgba(255,255,255,.1) 1px, transparent 1px),
@@ -46,27 +40,24 @@
             background-size: 20px 20px;
         }
 
-        /* RESET */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
-        html, body {
-            width: 100%; max-width: 100%;
-            overflow-x: hidden; /* SEM ROLAGEM LATERAL */
-        }
-
         body {
-            background-color: var(--bg-color); color: var(--text-color);
+            background-color: var(--bg-color); 
+            background-image: var(--bg-image); /* Aplica Blueprint se ativo */
+            color: var(--text-color);
             font-family: 'Montserrat', sans-serif;
-            min-height: 100vh;
+            min-height: 100vh; overflow-x: hidden;
             display: flex; flex-direction: column; align-items: center;
-            background-image: radial-gradient(circle at 50% 30%, #1e2f52 0%, #0a1120 100%);
-            padding-bottom: 90px; /* Espaço para o player */
+            /* Fundo padrão (se não for blueprint) */
+            background: radial-gradient(circle at 50% 30%, #1e2f52 0%, #0a1120 100%);
+            padding-bottom: 90px;
         }
 
-        /* TRAVA ROLAGEM NA INTRO */
+        /* Trava rolagem na intro */
         body.intro-active { overflow: hidden; height: 100vh; }
 
-        /* --- 2. EFEITOS VISUAIS (FIXED) --- */
+        /* --- EFEITOS DE FUNDO --- */
         #particles-canvas, #matrix-canvas {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none; z-index: 0;
@@ -75,7 +66,7 @@
         body.matrix-active #matrix-canvas { display: block; }
         body.matrix-active .app-container { opacity: 0.1; filter: blur(2px); transition: 0.5s; }
 
-        /* --- 3. INTRODUÇÃO 3D (RESTAURADA E PREMIUM) --- */
+        /* --- INTRODUÇÃO 3D (PREMIUM) --- */
         #intro-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: radial-gradient(circle at center, #1e2f52 0%, #050a14 100%);
@@ -101,9 +92,7 @@
         .wireframe-cube::before { transform: rotateX(60deg); } .wireframe-cube::after { transform: rotateY(60deg); }
         .cube-small { width: 150px; height: 150px; border: 1px dashed rgba(212, 175, 55, 0.2); border-radius: 0; animation: rotateCubeReverse 15s infinite linear; position: absolute; }
 
-        .intro-logo-wrapper { position: relative; margin-bottom: 40px; }
-        /* LOGO INTRO GRANDE */
-        .intro-logo-big { width: 280px; filter: drop-shadow(0 0 30px rgba(212,175,55,0.4)); animation: pulseLogo 3s infinite; z-index: 2; }
+        .intro-logo-big { width: 280px; margin-bottom: 40px; filter: drop-shadow(0 0 30px rgba(212,175,55,0.4)); animation: pulseLogo 3s infinite; z-index: 2; }
         
         .intro-btn { 
             padding: 15px 40px; border: 1px solid var(--accent-color); 
@@ -111,22 +100,18 @@
             font-family: 'Cinzel'; cursor: pointer; transition: 0.3s; letter-spacing: 2px;
             backdrop-filter: blur(5px); z-index: 2; position: relative; overflow: hidden;
         }
-        .intro-btn::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(212,175,55,0.4), transparent); transition: 0.5s; }
-        .intro-btn:hover::before { left: 100%; }
         .intro-btn:hover { background: var(--accent-color); color: #000; box-shadow: 0 0 20px rgba(212,175,55,0.6); }
-        .tap-hint { margin-top: 20px; color: rgba(255,255,255,0.5); font-size: 24px; animation: tapAnim 1.5s infinite; }
 
-        /* --- 4. LAYOUT PRINCIPAL --- */
+        /* --- LAYOUT PRINCIPAL --- */
         .app-container {
             width: 100%; max-width: 500px; margin: 0 auto;
             display: flex; flex-direction: column; align-items: center;
-            /* Padding ajustado para o conteúdo subir e tirar espaço morto */
             padding: 40px 20px 0 20px; 
             position: relative; z-index: 10;
-            flex: 1; /* Empurra rodapé para o final */
+            flex: 1; 
         }
 
-        /* BOTÃO 3D (CORRIGIDO Z-INDEX E POSIÇÃO) */
+        /* BOTÃO 3D TOPO (FUNCIONAL) */
         .theme-switch-wrapper { position: absolute; top: 20px; right: 20px; display: flex; align-items: center; z-index: 2000; }
         .theme-switch { display: inline-block; height: 26px; position: relative; width: 50px; }
         .theme-switch input { display:none; }
@@ -138,109 +123,92 @@
         .status-badge { position: absolute; top: 25px; left: 20px; font-size: 10px; color: var(--accent-color); display: flex; align-items: center; gap: 5px; font-family: 'Share Tech Mono'; letter-spacing: 1px; z-index: 2000; }
         .status-dot { width: 8px; height: 8px; background: #0F0; border-radius: 50%; animation: pulse 2s infinite; }
 
-        /* LOGO TOPO (COM EFEITO GLITCH/SHATTER RESTAURADO) */
-        .main-logo { width: 100%; max-width: 280px; filter: drop-shadow(0 0 20px rgba(212,175,55,0.2)); margin-bottom: 5px; cursor: pointer; transition: transform 0.1s; }
+        /* LOGO & TEXTOS */
+        .main-logo { width: 100%; max-width: 350px; filter: drop-shadow(0 0 20px rgba(212,175,55,0.2)); margin-bottom: 5px; cursor: pointer; transition: transform 0.1s; }
         .shatter-active { animation: spaceShatter 0.8s forwards; }
 
         h2 { font-size: 14px; text-transform: uppercase; letter-spacing: 6px; margin-bottom: 15px; opacity: 0.8; text-align: center; }
         
-        /* SLOGAN COM PINCEL */
         .slogan-container { position: relative; display: inline-block; margin-bottom: 35px; height: 40px; }
         .slogan-text { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 600; font-size: 24px; color: var(--accent-color); text-shadow: 0 2px 4px rgba(0,0,0,0.5); position: relative; overflow: hidden; white-space: nowrap; width: 0; animation: revealText 3s cubic-bezier(0.5, 0, 0.5, 1) forwards 0.5s; }
         .brush-follower { position: absolute; top: 0; left: 0; height: 100%; pointer-events: none; animation: moveBrush 3s cubic-bezier(0.5, 0, 0.5, 1) forwards 0.5s; }
         .brush-follower i { font-size: 20px; color: var(--accent-color); transform: rotate(-45deg) translateY(25px); filter: drop-shadow(0 0 5px var(--accent-color)); }
 
+        /* BOTÕES (COM VIDA) */
         .links-list { width: 100%; display: flex; flex-direction: column; gap: 16px; position: relative; z-index: 20; }
         .btn { 
             display: flex; align-items: center; justify-content: center; 
             padding: 18px; border-radius: 8px; text-decoration: none; 
             font-weight: 600; font-size: 15px; text-transform: uppercase; letter-spacing: 1px;
-            color: #fff; transition: transform 0.2s; position: relative; overflow: hidden;
+            color: #fff; transition: transform 0.2s, box-shadow 0.2s; position: relative; overflow: hidden;
         }
-        .btn:hover { transform: translateY(-3px); }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(212, 175, 55, 0.2); }
         .btn i { margin-right: 10px; font-size: 18px; }
+        
         .btn-gold { background: var(--btn-bg); color: #0a1120; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
         .btn-outline { background: rgba(255, 255, 255, 0.05); border: 1px solid var(--accent-color); }
         .btn-save { background: var(--accent-color); color: var(--bg-color); font-weight: 800; }
 
-        /* --- 5. NPC MESTRE (POSICIONAMENTO DEFINITIVO) --- */
+        /* --- NPC MESTRE (ESTRUTURA INTELIGENTE) --- */
         
-        /* DESKTOP: FIXO À ESQUERDA (TRAVADO COM !IMPORTANT) */
+        /* DESKTOP: FIXO ESQUERDA (CAMADA SEGURA) */
         @media (min-width: 1024px) {
             .npc-wrapper {
                 position: fixed !important; 
                 bottom: 75px !important; 
                 left: 20px !important; 
-                right: auto !important;
-                z-index: 5 !important; /* Camada baixa para não bloquear */
-                width: auto !important;
-                margin: 0 !important;
-                pointer-events: none; /* Container invisível ao clique */
+                width: auto !important; margin: 0 !important;
+                z-index: 5 !important; /* Atrás dos botões */
+                pointer-events: none; /* Clica através dele */
             }
-            .npc-img { width: 250px; pointer-events: auto; /* Imagem clicável */ }
+            .npc-img { width: 250px; pointer-events: auto; /* Imagem clica */ }
             
-            /* Balão Desktop (Acima da cabeça, levemente a direita) */
             .speech-bubble { 
                 position: absolute; bottom: 100%; left: 20px; 
                 width: 220px; text-align: left; margin-bottom: 10px;
-                pointer-events: none;
             }
             .speech-bubble::after { top: 100%; left: 30px; margin: 0; border-color: #fff transparent transparent transparent; }
         }
 
-        /* MOBILE: FLUXO NORMAL (Entre botões e rodapé) */
+        /* MOBILE: FLUXO NORMAL (NA LISTA) */
         .npc-wrapper {
             margin-top: 30px; margin-bottom: 10px;
             display: flex; flex-direction: column-reverse; align-items: center;
             position: relative; z-index: 5; opacity: 0; animation: fadeInNPC 1s forwards 1s;
         }
-        .npc-img { width: 250px; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.5)); cursor: pointer; transition: transform 0.1s; }
+        .npc-img { width: 250px; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.5)); cursor: pointer; transition: transform 0.1s; pointer-events: auto; }
         .npc-img:active { transform: scale(0.95); }
         
-        /* Balão Mobile (CORREÇÃO: Acima da cabeça) */
         .speech-bubble {
             background: #fff; color: #000; padding: 12px 20px; border-radius: 20px;
             font-size: 13px; font-weight: 700; text-align: center; 
             opacity: 0; transform: scale(0.8); transition: 0.3s; pointer-events: none;
             box-shadow: 0 5px 15px rgba(0,0,0,0.2); 
-            /* Posição relativa, mas forçada para cima */
-            margin-bottom: 10px; min-width: 220px;
+            margin-bottom: 15px; min-width: 220px;
         }
         .speech-bubble.show { opacity: 1; transform: scale(1); }
         .speech-bubble::after { content: ''; position: absolute; top: 100%; left: 50%; margin-left: -8px; border-width: 8px; border-style: solid; border-color: #fff transparent transparent transparent; }
 
-        /* --- 6. RODAPÉ PREMIUM (COM VIDA E TAMANHO) --- */
+        /* --- RODAPÉ PREMIUM --- */
         .footer-static {
-            margin-top: auto; /* Empurra para o fim */
-            text-align: center; 
-            /* Padding maior para dar "corpo" */
-            padding: 40px 20px 20px 20px; 
-            width: 100%;
+            margin-top: auto; 
+            text-align: center; padding: 30px 20px; width: 100%;
             display: flex; flex-direction: column; align-items: center; gap: 15px;
-            
-            /* Visual Premium: Fundo sutil e borda dourada */
             background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
             border-top: 1px solid rgba(212, 175, 55, 0.1);
             position: relative; z-index: 1;
         }
-        
         .footer-logo { width: 160px; opacity: 0.9; cursor: pointer; transition: transform 0.3s; }
         .footer-logo:hover { transform: scale(1.1); filter: drop-shadow(0 0 10px var(--accent-color)); }
-        
-        .copyright { 
-            font-size: 12px; color: rgba(255,255,255,0.7); 
-            letter-spacing: 2px; text-transform: uppercase; font-family: 'Cinzel';
-        }
+        .copyright { font-size: 12px; color: rgba(255,255,255,0.7); letter-spacing: 2px; text-transform: uppercase; font-family: 'Cinzel'; }
 
-        /* Ajuste Mobile Rodapé */
         @media (max-width: 768px) {
-            .footer-static { padding-bottom: 40px; } /* Respiro extra */
+            .footer-static { padding-bottom: 40px; }
             .copyright { font-size: 10px; }
             .break-mobile { display: block; }
         }
-        @media (min-width: 769px) { .break-mobile { display: none; } }
 
-        /* --- 7. PLAYER & SHARE --- */
+        /* --- PLAYER FIXO --- */
         .player-dock {
             position: fixed; bottom: 0; left: 0; width: 100%;
             background: var(--glass); border-top: 1px solid var(--accent-color);
@@ -250,29 +218,43 @@
         .player-dock.visible { display: flex; animation: slideUp 0.5s ease-out; }
         .player-controls { display: flex; align-items: center; gap: 20px; }
         .ctrl-btn { background: none; border: none; color: var(--accent-color); font-size: 20px; cursor: pointer; transition: 0.2s; }
-        
         .visualizer { display: flex; gap: 4px; height: 20px; align-items: flex-end; }
         .bar { width: 4px; background: var(--accent-color); border-radius: 2px; height: 5px; }
         .playing .bar { animation: eq 1s infinite ease-in-out; }
         .bar:nth-child(1) { animation-delay: 0s; } .bar:nth-child(2) { animation-delay: 0.2s; } .bar:nth-child(3) { animation-delay: 0.4s; } .bar:nth-child(4) { animation-delay: 0.1s; } .bar:nth-child(5) { animation-delay: 0.3s; }
 
-        /* Share Desktop */
+        /* SHARE BUTTONS */
         .share-float { position: fixed; bottom: 100px; right: 30px; width: 50px; height: 50px; background: #14213D; border: 1px solid var(--accent-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 50; box-shadow: 0 5px 20px rgba(0,0,0,0.5); transition: 0.3s; color: var(--accent-color); }
         .share-float:hover { transform: scale(1.1); background: var(--accent-color); color: #000; }
         @media (max-width: 1023px) { .share-float { display: none; } }
         
-        /* Share Mobile (No Player) */
         .share-mobile { display: none; margin-left: 20px; border-left: 1px solid #333; padding-left: 20px; }
         @media (max-width: 1023px) { .share-mobile { display: block; } }
 
-        /* MODAIS */
+        /* MODAIS & FORMULÁRIOS */
         .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 3000; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
         .modal-overlay.active { display: flex; }
         .modal-box { background: #0a1120; border: 1px solid var(--accent-color); padding: 30px; border-radius: 10px; max-width: 90%; width: 400px; text-align: center; position: relative; }
         .close-modal { position: absolute; top: 10px; right: 15px; color: #fff; font-size: 24px; cursor: pointer; }
         .input-gold { width: 100%; padding: 12px; background: rgba(255,255,255,0.05); border: 1px solid #333; color: #fff; text-align: center; margin-bottom: 10px; outline: none; font-family: 'Share Tech Mono'; }
+        
+        .form-option { display: flex; align-items: center; gap: 15px; background: rgba(255,255,255,0.05); padding: 15px; border-radius: 8px; margin-bottom: 10px; cursor: pointer; transition: 0.3s; border: 1px solid transparent; }
+        .form-option:hover { background: rgba(255,255,255,0.1); border-color: var(--accent-color); }
+        .form-option input { accent-color: var(--accent-color); transform: scale(1.5); }
+        .form-option span { font-size: 14px; text-align: left; }
 
-        /* ANIMAÇÕES GERAIS */
+        /* PORTFOLIO GRID */
+        .holo-grid { display: grid; gap: 15px; margin-top: 20px; max-height: 60vh; overflow-y: auto; padding-right: 5px; }
+        @media (min-width: 768px) { .holo-grid { grid-template-columns: 1fr 1fr; } }
+        .project-card { background: #050a14; border-radius: 8px; overflow: hidden; border: 1px solid #333; display: flex; flex-direction: column; transition: 0.3s; position: relative; text-decoration: none; height: 180px; }
+        .project-card:hover { border-color: var(--accent-color); transform: scale(1.05); z-index: 10; box-shadow: 0 0 20px rgba(212,175,55,0.3); }
+        .iframe-container { flex: 1; width: 100%; border: none; overflow: hidden; position: relative; pointer-events: none; background: #fff; }
+        .iframe-container iframe { width: 200%; height: 200%; transform: scale(0.5); transform-origin: 0 0; border: none; }
+        .project-label { position: absolute; bottom: 0; width: 100%; background: rgba(0,0,0,0.9); color: var(--accent-color); padding: 8px; font-size: 11px; font-weight: bold; text-transform: uppercase; border-top: 1px solid var(--accent-color); }
+        .system-placeholder { flex: 1; display: flex; align-items: center; justify-content: center; background: radial-gradient(circle, #1e2f52 0%, #050a14 100%); flex-direction: column; gap: 5px; }
+        .system-logo { width: 50px; opacity: 0.4; filter: grayscale(100%); transition: 0.3s; }
+
+        /* ANIMAÇÕES */
         @keyframes moveGrid { 0% { transform: rotateX(60deg) translateY(0); } 100% { transform: rotateX(60deg) translateY(50px); } }
         @keyframes rotateCube { 0% { transform: rotateX(0) rotateY(0); } 100% { transform: rotateX(360deg) rotateY(360deg); } }
         @keyframes rotateCubeReverse { 0% { transform: rotateX(0) rotateY(0); } 100% { transform: rotateX(-360deg) rotateY(-360deg); } }
@@ -283,13 +265,7 @@
         @keyframes fadeInNPC { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes revealText { to { width: 100%; } }
         @keyframes moveBrush { 0% { left: 0; opacity: 1; } 95% { opacity: 1; } 100% { left: 100%; opacity: 0; } }
-        /* Efeito Explosão Logo */
-        @keyframes spaceShatter { 
-            0% { transform: scale(1); filter: hue-rotate(0deg); } 
-            20% { transform: scale(1.1) rotate(5deg); filter: hue-rotate(90deg) blur(2px); } 
-            40% { transform: scale(0.9) rotate(-5deg); filter: hue-rotate(180deg); }
-            100% { transform: scale(1); filter: hue-rotate(0deg); } 
-        }
+        @keyframes spaceShatter { 0% { transform: scale(1); filter: hue-rotate(0deg); } 20% { transform: scale(1.1) rotate(5deg); filter: hue-rotate(90deg) blur(2px); } 40% { transform: scale(0.9) rotate(-5deg); filter: hue-rotate(180deg); } 100% { transform: scale(1); filter: hue-rotate(0deg); } }
     </style>
 </head>
 <body class="intro-active">
@@ -305,7 +281,6 @@
             <div class="scanner-line"></div>
         </div>
         <button class="intro-btn" onclick="iniciarSite()">INICIAR EXPERIÊNCIA</button>
-        <div class="tap-hint"><i class="fas fa-hand-pointer"></i></div>
     </div>
 
     <canvas id="particles-canvas"></canvas>
@@ -325,9 +300,10 @@
     </div>
 
     <div class="app-container">
-        <img src="imagens/logo.png" class="main-logo" id="mainLogo" onclick="animLogo()">
+        <div class="main-logo-container">
+            <img src="imagens/logo.png" class="main-logo" id="mainLogo" onclick="animLogo()">
+        </div>
         <h2>Design & Tecnologia</h2>
-        
         <div class="slogan-container">
             <div class="slogan-text">Onde a imaginação vira arte...</div>
             <div class="brush-follower"><i class="fas fa-paint-brush"></i></div>
@@ -343,12 +319,12 @@
         </div>
 
         <div class="npc-wrapper" id="npcMaster" onclick="falarNPC()">
-            <div class="speech-bubble" id="npcBubble">Olá! Como posso ajudar?</div>
+            <div class="speech-bubble" id="npcBubble">Olá! Precisa de ajuda com seu convite?</div>
             <img src="imagens/mestre.png" class="npc-img">
         </div>
 
         <div class="footer-static">
-            <img src="imagens/logo.png" class="footer-logo">
+            <img src="imagens/logo.png" class="footer-logo" onclick="animarLogoRodape()">
             <p class="copyright">© 2026 IMAGINISTA ∴ <br class="break-mobile">Todos os direitos reservados.</p>
         </div>
     </div>
@@ -358,11 +334,7 @@
             <button class="ctrl-btn" onclick="vol(-0.1)"><i class="fas fa-minus"></i></button>
             <button class="ctrl-btn" onclick="toggleMusic()"><i class="fas fa-play" id="playIcon"></i></button>
             <button class="ctrl-btn" onclick="vol(0.1)"><i class="fas fa-plus"></i></button>
-            
-            <div class="visualizer" id="visualizer">
-                <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
-            </div>
-
+            <div class="visualizer" id="visualizer"><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>
             <button class="ctrl-btn share-mobile" onclick="shareLink()"><i class="fas fa-share-alt"></i></button>
         </div>
     </div>
@@ -392,24 +364,25 @@
     </div>
 
     <div class="modal-overlay" id="portfolioModal">
-        <div class="modal-box" style="width: 600px; max-width: 95%;">
+        <div class="modal-box" style="width: 800px; max-width: 95%;">
             <span class="close-modal" onclick="fecharModais()">&times;</span>
             <h3 style="color:var(--accent-color); font-family:'Cinzel';">Projetos</h3>
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:20px; max-height:60vh; overflow-y:auto;">
+            <div class="holo-grid">
                 <a href="https://oimaginista.com/taty/" target="_blank" class="project-card"><div class="iframe-container"><iframe src="https://oimaginista.com/taty/" scrolling="no"></iframe></div><div class="project-label">Convite Taty</div></a>
                 <a href="https://oimaginista.com/xvgeovanafrigoletto/" target="_blank" class="project-card"><div class="iframe-container"><iframe src="https://oimaginista.com/xvgeovanafrigoletto/" scrolling="no"></iframe></div><div class="project-label">XV Geovana</div></a>
                 <a href="https://oimaginista.com/guiomar" target="_blank" class="project-card"><div class="iframe-container"><iframe src="https://oimaginista.com/guiomar" scrolling="no"></iframe></div><div class="project-label">80 Anos Guiomar</div></a>
                 <a href="https://www.oimaginista.com" target="_blank" class="project-card"><div class="system-placeholder"><img src="imagens/logo.png" class="system-logo"></div><div class="project-label">Novo Projeto #04</div></a>
+                <a href="https://www.oimaginista.com" target="_blank" class="project-card"><div class="system-placeholder"><img src="imagens/logo.png" class="system-logo"></div><div class="project-label">Novo Projeto #05</div></a>
+                <a href="https://www.oimaginista.com" target="_blank" class="project-card"><div class="system-placeholder"><img src="imagens/logo.png" class="system-logo"></div><div class="project-label">Novo Projeto #06</div></a>
             </div>
+            <p class="help-text" style="margin-top:10px;">TOQUE PARA VISITAR</p>
         </div>
     </div>
 
     <script>
-        // LÓGICA PRINCIPAL
+        // --- 1. LÓGICA GERAL ---
         const audio = document.getElementById('bgMusic');
         let npcCount = 0;
-        
-        // FRASES ORIGINAIS
         const falas = ["Olá! Precisa de ajuda com seu convite?", "Design Premium para momentos únicos.", "Clique nos projetos para ver a mágica.", "Acesse o WhatsApp para suporte imediato."];
 
         function iniciarSite() {
@@ -417,12 +390,10 @@
             document.body.classList.remove('intro-active'); // Libera rolagem
             document.getElementById('playerDock').classList.add('visible');
             audio.volume = 0.4;
-            audio.play().then(() => {
-                document.getElementById('playIcon').className = 'fas fa-pause';
-                document.getElementById('visualizer').classList.add('playing');
-            }).catch(e => console.log("Audio bloqueado pelo navegador"));
+            audio.play().catch(e => console.log("Audio bloqueado"));
         }
 
+        // --- 2. ÁUDIO ---
         function toggleMusic() {
             if (audio.paused) {
                 audio.play();
@@ -434,43 +405,26 @@
                 document.getElementById('visualizer').classList.remove('playing');
             }
         }
-
         function vol(change) {
             let n = audio.volume + change;
             if (n > 1) n = 1; if (n < 0) n = 0;
             audio.volume = n;
         }
 
+        // --- 3. AÇÕES ---
         function shareLink() {
-            if (navigator.share) {
-                navigator.share({ title: 'Imaginista', url: window.location.href });
-            } else {
-                alert('Link copiado!');
-            }
+            if (navigator.share) navigator.share({ title: 'Imaginista', url: window.location.href });
+            else alert('Link copiado!');
         }
+        function baixarVCard() { alert("Baixando contato..."); }
+        function abrirModal(id) { fecharModais(); document.getElementById(id).classList.add('active'); }
+        function fecharModais() { document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('active')); }
 
-        function baixarVCard() {
-            // Lógica vCard
-            const vCardData = `BEGIN:VCARD\nVERSION:3.0\nFN:Imaginista\nTEL;TYPE=CELL:+5521999999999\nEMAIL:contato@oimaginista.com\nURL:https://www.oimaginista.com\nEND:VCARD`;
-            const blob = new Blob([vCardData], { type: "text/vcard" });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url; a.download = "Imaginista.vcf"; a.click();
-        }
-
-        function abrirModal(id) {
-            fecharModais();
-            document.getElementById(id).classList.add('active');
-        }
-        function fecharModais() {
-            document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('active'));
-        }
-
+        // --- 4. LOGIN ---
         async function checkLogin() {
             const code = document.getElementById('passInput').value.trim().toLowerCase();
             const msg = document.getElementById('loginMsg');
             if (!code) return;
-
             try {
                 const res = await fetch(`status/${code}.html`, { method: 'HEAD' }); 
                 if (res.ok) window.location.href = `status/${code}.html`;
@@ -483,6 +437,7 @@
             }
         }
 
+        // --- 5. ORÇAMENTO ---
         function enviarOrcamentoZap() {
             let texto = "Olá Mestre! Gostaria de um orçamento para:%0A";
             if(document.getElementById('checkConvite').checked) texto += "- Convite Interativo%0A";
@@ -493,10 +448,10 @@
             window.open(`https://wa.me/5521999999999?text=${texto}`, '_blank');
         }
 
+        // --- 6. NPC & EFEITOS ---
         function falarNPC() {
             const balao = document.getElementById('npcBubble');
             npcCount++;
-            
             if (npcCount > 4) {
                 balao.innerText = "⚠️ SISTEMA: MATRIX ATIVADA ⚠️";
                 balao.style.color = "red";
@@ -507,29 +462,26 @@
                 balao.innerText = falas[Math.floor(Math.random() * falas.length)];
                 balao.style.color = "black";
             }
-            
             balao.classList.add('show');
             setTimeout(() => balao.classList.remove('show'), 3000);
         }
-        
         setTimeout(() => falarNPC(), 2000);
 
-        // EXTRAS VISUAIS
         function toggleBlueprintMode(){ document.body.classList.toggle('blueprint-mode'); }
-        
         function animLogo() {
-            const l = document.getElementById('mainLogo');
-            l.classList.remove('shatter-active');
-            void l.offsetWidth; // Restart anim
-            l.classList.add('shatter-active');
+            const l = document.getElementById('mainLogo'); l.classList.remove('shatter-active');
+            void l.offsetWidth; l.classList.add('shatter-active');
+        }
+        function animarLogoRodape(){
+            const l = document.querySelector('.footer-logo'); 
+            l.style.transform = "scale(1.2)"; setTimeout(() => l.style.transform = "scale(1)", 200);
         }
 
-        // PARTÍCULAS
+        // --- 7. PARTÍCULAS ---
         const pCanvas = document.getElementById('particles-canvas');
         const pCtx = pCanvas.getContext('2d');
         pCanvas.width = window.innerWidth; pCanvas.height = window.innerHeight;
         let particles = [];
-        
         class Particle {
             constructor() {
                 this.x = Math.random() * pCanvas.width;
@@ -540,14 +492,11 @@
             }
             update() {
                 this.x += this.speedX; this.y += this.speedY;
-                if (this.x > pCanvas.width) this.x = 0;
-                if (this.y > pCanvas.height) this.y = 0;
+                if (this.x > pCanvas.width) this.x = 0; if (this.y > pCanvas.height) this.y = 0;
             }
             draw() {
                 pCtx.fillStyle = 'rgba(212, 175, 55, 0.5)';
-                pCtx.beginPath();
-                pCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                pCtx.fill();
+                pCtx.beginPath(); pCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2); pCtx.fill();
             }
         }
         function initParticles() { for (let i = 0; i < 50; i++) particles.push(new Particle()); }
@@ -558,7 +507,7 @@
         }
         initParticles(); animateParticles();
 
-        // MATRIX
+        // --- 8. MATRIX ---
         const mCanvas = document.getElementById('matrix-canvas');
         const mCtx = mCanvas.getContext('2d');
         mCanvas.width = window.innerWidth; mCanvas.height = window.innerHeight;
@@ -566,13 +515,10 @@
         const fontSize = 14;
         const columns = mCanvas.width / fontSize;
         const drops = Array(Math.floor(columns)).fill(1);
-
         setInterval(() => {
             if (!document.body.classList.contains('matrix-active')) return;
-            mCtx.fillStyle = "rgba(0, 0, 0, 0.05)";
-            mCtx.fillRect(0, 0, mCanvas.width, mCanvas.height);
-            mCtx.fillStyle = "#0F0";
-            mCtx.font = fontSize + "px monospace";
+            mCtx.fillStyle = "rgba(0, 0, 0, 0.05)"; mCtx.fillRect(0, 0, mCanvas.width, mCanvas.height);
+            mCtx.fillStyle = "#0F0"; mCtx.font = fontSize + "px monospace";
             for (let i = 0; i < drops.length; i++) {
                 const text = letters.charAt(Math.floor(Math.random() * letters.length));
                 mCtx.fillText(text, i * fontSize, drops[i] * fontSize);
