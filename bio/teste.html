@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="Imaginista - Design Premium e Tecnologia.">
+    <title>Imaginista | Design & Tecnologia</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&family=Playfair+Display:ital,wght@1,400;1,600&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- 1. VARIÁVEIS E BASE --- */
+        :root {
+            --bg-color: #14213D; --text-color: #FFFFFF; --accent-color: #D4AF37;
+            --btn-bg: linear-gradient(135deg, #A67C00 0%, #D4AF37 50%, #F4D06F 100%);
+            --glass: rgba(10, 17, 32, 0.95);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            background-color: var(--bg-color); color: var(--text-color);
+            font-family: 'Montserrat', sans-serif;
+            min-height: 100vh; overflow-x: hidden;
+            display: flex; flex-direction: column;
+            background-image: radial-gradient(circle at 50% 30%, #1e2f52 0%, #0a1120 100%);
+            /* Espaço para o player não cobrir o conteúdo final */
+            padding-bottom: 90px; 
+        }
+
+        /* --- 2. EFEITOS VISUAIS --- */
+        #particles-canvas, #matrix-canvas {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 0;
+        }
+        #matrix-canvas { display: none; z-index: 1; }
+        body.matrix-active #matrix-canvas { display: block; }
+        body.matrix-active .app-container { opacity: 0.1; filter: blur(2px); transition: 0.5s; }
+
+        /* --- 3. INTRODUÇÃO 3D --- */
+        #intro-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at center, #1e2f52 0%, #050a14 100%);
+            z-index: 9999; overflow: hidden;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1);
+            perspective: 1000px;
+        }
+        #intro-overlay.hidden { transform: translateY(-100%); }
+
+        .intro-grid {
+            position: absolute; bottom: -20%; left: -50%; width: 200%; height: 100%;
+            background-image: linear-gradient(rgba(212, 175, 55, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(212, 175, 55, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px; transform: rotateX(60deg); 
+            animation: moveGrid 10s linear infinite; z-index: -1;
+            mask-image: linear-gradient(to top, rgba(0,0,0,1) 0%, transparent 60%);
+        }
+
+        .cube-wrapper { position: absolute; width: 100%; height: 100%; pointer-events: none; display: flex; justify-content: center; align-items: center; }
+        .wireframe-cube { position: absolute; width: 300px; height: 300px; transform-style: preserve-3d; animation: rotateCube 20s infinite linear; border: 1px solid rgba(212, 175, 55, 0.1); border-radius: 50%; }
+        .wireframe-cube::before, .wireframe-cube::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 1px solid rgba(212, 175, 55, 0.1); border-radius: 50%; }
+        .wireframe-cube::before { transform: rotateX(60deg); } .wireframe-cube::after { transform: rotateY(60deg); }
+        .cube-small { width: 150px; height: 150px; border: 1px dashed rgba(212, 175, 55, 0.2); border-radius: 0; animation: rotateCubeReverse 15s infinite linear; position: absolute; }
+
+        .intro-logo-wrapper { position: relative; margin-bottom: 40px; }
+        .intro-logo-big { width: 280px; filter: drop-shadow(0 0 30px rgba(212,175,55,0.4)); animation: pulseLogo 3s infinite; z-index: 2; }
+        
+        .intro-btn { 
+            padding: 15px 40px; border: 1px solid var(--accent-color); 
+            background: rgba(10, 17, 32, 0.8); color: var(--accent-color); 
+            font-family: 'Cinzel'; cursor: pointer; transition: 0.3s; letter-spacing: 2px;
+            backdrop-filter: blur(5px); z-index: 2; position: relative; overflow: hidden;
+        }
+        .intro-btn:hover { background: var(--accent-color); color: #000; box-shadow: 0 0 20px rgba(212,175,55,0.6); }
+
+        /* --- 4. LAYOUT PRINCIPAL --- */
+        .app-container {
+            width: 100%; max-width: 500px; margin: 0 auto;
+            display: flex; flex-direction: column; align-items: center;
+            padding: 40px 20px 0 20px; 
+            position: relative; z-index: 10;
+            min-height: 100vh;
+        }
+
+        /* LOGO AUMENTADO */
+        .main-logo { width: 100%; max-width: 350px; /* AUMENTADO PARA 350PX */ filter: drop-shadow(0 0 20px rgba(212,175,55,0.2)); margin-bottom: 5px; cursor: pointer; }
+        
+        h2 { font-size: 14px; text-transform: uppercase; letter-spacing: 6px; margin-bottom: 20px; opacity: 0.8; text-align: center; }
+        .slogan { font-family: 'Playfair Display', serif; font-style: italic; font-size: 22px; color: var(--accent-color); margin-bottom: 35px; text-align: center; }
+
+        .links-list { width: 100%; display: flex; flex-direction: column; gap: 15px; position: relative; z-index: 20; }
+        .btn { 
+            display: flex; align-items: center; justify-content: center; 
+            padding: 18px; border-radius: 8px; text-decoration: none; 
+            font-weight: 600; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;
+            color: #fff; transition: transform 0.2s; position: relative; overflow: hidden;
+        }
+        .btn:hover { transform: translateY(-3px); }
+        .btn i { margin-right: 10px; font-size: 18px; }
+        .btn-gold { background: var(--btn-bg); color: #0a1120; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        .btn-outline { background: rgba(255, 255, 255, 0.05); border: 1px solid var(--accent-color); }
+        .btn-save { background: var(--accent-color); color: var(--bg-color); font-weight: 800; }
+
+        /* --- 5. NPC MESTRE (Híbrido) --- */
+        
+        /* Mobile: Fluxo Normal (Entre botões e rodapé) */
+        .npc-wrapper {
+            margin-top: 30px; margin-bottom: 10px;
+            display: flex; flex-direction: column-reverse; align-items: center;
+            position: relative; z-index: 5;
+        }
+        .npc-img { width: 220px; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.5)); pointer-events: auto; cursor: pointer; transition: transform 0.1s; }
+        .npc-img:active { transform: scale(0.95); }
+        
+        .speech-bubble {
+            background: #fff; color: #000; padding: 12px 20px; border-radius: 20px;
+            font-size: 13px; font-weight: 700; text-align: center; 
+            opacity: 0; transform: scale(0.8); transition: 0.3s; pointer-events: none;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2); 
+            margin-bottom: 10px; 
+        }
+        .speech-bubble.show { opacity: 1; transform: scale(1); }
+        .speech-bubble::after { content: ''; position: absolute; top: 100%; left: 50%; margin-left: -8px; border-width: 8px; border-style: solid; border-color: #fff transparent transparent transparent; }
+
+        /* Desktop: Fixo Esquerda */
+        @media (min-width: 1024px) {
+            .npc-wrapper {
+                position: fixed; 
+                bottom: 80px; left: 20px; /* Canto inferior esquerdo */
+                margin: 0; align-items: flex-start; /* Alinha balão a esquerda */
+                width: auto; z-index: 50;
+            }
+            .npc-img { width: 200px; }
+            .speech-bubble { 
+                position: absolute; bottom: 100%; left: 10px; 
+                width: 200px; text-align: left; margin-bottom: 10px;
+            }
+            .speech-bubble::after { top: 100%; left: 30px; margin: 0; }
+        }
+
+        /* --- 6. RODAPÉ PADRÃO --- */
+        .footer-static {
+            margin-top: auto; /* Empurra para o fim */
+            text-align: center; 
+            padding: 20px 20px; /* Espaçamento interno padrão */
+            width: 100%;
+            display: flex; flex-direction: column; align-items: center; gap: 10px;
+        }
+        .footer-logo { width: 120px; opacity: 0.9; cursor: pointer; transition: transform 0.3s; }
+        .footer-logo:hover { transform: scale(1.1); }
+        .copyright { font-size: 11px; color: rgba(255,255,255,0.6); line-height: 1.6; letter-spacing: 1px; }
+
+        /* Ajuste Mobile para não encostar no Player */
+        @media (max-width: 768px) {
+            .footer-static { padding-bottom: 30px; }
+        }
+
+        /* --- 7. PLAYER & SHARE --- */
+        .player-dock {
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            background: var(--glass); border-top: 1px solid var(--accent-color);
+            padding: 15px; display: none; justify-content: center; align-items: center;
+            backdrop-filter: blur(10px); z-index: 1000;
+        }
+        .player-dock.visible { display: flex; animation: slideUp 0.5s ease-out; }
+        .player-controls { display: flex; align-items: center; gap: 20px; }
+        .ctrl-btn { background: none; border: none; color: var(--accent-color); font-size: 20px; cursor: pointer; transition: 0.2s; }
+        
+        .visualizer { display: flex; gap: 4px; height: 20px; align-items: flex-end; }
+        .bar { width: 4px; background: var(--accent-color); border-radius: 2px; height: 5px; }
+        .playing .bar { animation: eq 1s infinite ease-in-out; }
+        .bar:nth-child(1) { animation-delay: 0s; } .bar:nth-child(2) { animation-delay: 0.2s; } .bar:nth-child(3) { animation-delay: 0.4s; } .bar:nth-child(4) { animation-delay: 0.1s; } .bar:nth-child(5) { animation-delay: 0.3s; }
+
+        .share-float { position: fixed; bottom: 100px; right: 30px; width: 50px; height: 50px; background: #14213D; border: 1px solid var(--accent-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 50; box-shadow: 0 5px 20px rgba(0,0,0,0.5); transition: 0.3s; color: var(--accent-color); }
+        .share-float:hover { transform: scale(1.1); background: var(--accent-color); color: #000; }
+        @media (max-width: 1023px) { .share-float { display: none; } }
+        
+        .share-mobile { display: none; margin-left: 20px; border-left: 1px solid #333; padding-left: 20px; }
+        @media (max-width: 1023px) { .share-mobile { display: block; } }
+
+        /* MODAIS */
+        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 3000; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
+        .modal-overlay.active { display: flex; }
+        .modal-box { background: #0a1120; border: 1px solid var(--accent-color); padding: 30px; border-radius: 10px; max-width: 90%; width: 400px; text-align: center; position: relative; }
+        .close-modal { position: absolute; top: 10px; right: 15px; color: #fff; font-size: 24px; cursor: pointer; }
+        .input-gold { width: 100%; padding: 12px; background: rgba(255,255,255,0.05); border: 1px solid #333; color: #fff; text-align: center; margin-bottom: 10px; outline: none; font-family: 'Share Tech Mono'; }
+
+        /* ANIMAÇÕES */
+        @keyframes moveGrid { 0% { transform: rotateX(60deg) translateY(0); } 100% { transform: rotateX(60deg) translateY(50px); } }
+        @keyframes rotateCube { 0% { transform: rotateX(0) rotateY(0); } 100% { transform: rotateX(360deg) rotateY(360deg); } }
+        @keyframes rotateCubeReverse { 0% { transform: rotateX(0) rotateY(0); } 100% { transform: rotateX(-360deg) rotateY(-360deg); } }
+        @keyframes scanLogo { 0% { top: 0; opacity: 0; } 50% { opacity: 1; } 100% { top: 100%; opacity: 0; } }
+        @keyframes eq { 0%, 100% { height: 5px; } 50% { height: 20px; } }
+        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+        @keyframes pulseLogo { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+        @keyframes fadeInNPC { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <div id="intro-overlay">
+        <div class="intro-grid"></div>
+        <div class="cube-wrapper">
+            <div class="wireframe-cube"></div>
+            <div class="cube-small"></div>
+        </div>
+        <div class="intro-logo-wrapper">
+            <img src="imagens/logo.png" class="intro-logo-big">
+            <div class="scanner-line"></div>
+        </div>
+        <button class="intro-btn" onclick="iniciarSite()">INICIAR EXPERIÊNCIA</button>
+    </div>
+
+    <canvas id="particles-canvas"></canvas>
+    <canvas id="matrix-canvas"></canvas>
+    
+    <audio id="bgMusic" loop><source src="song/imaginista.mp3" type="audio/mpeg"></audio>
+
+    <div class="share-float" onclick="shareLink()"><i class="fas fa-share-alt"></i></div>
+
+    <div class="app-container">
+        <img src="imagens/logo.png" class="main-logo" onclick="animLogo()">
+        <h2>Design & Tecnologia</h2>
+        <p class="slogan">Onde a imaginação vira arte...</p>
+
+        <div class="links-list">
+            <a href="#" onclick="baixarVCard()" class="btn btn-save"><i class="fas fa-address-card"></i> Salvar Contato</a>
+            <a href="#" onclick="abrirModal('portfolioModal')" class="btn btn-outline"><i class="fas fa-hologram"></i> Ver Projetos</a>
+            <a href="#" onclick="abrirModal('orcamentoModal')" class="btn btn-outline"><i class="fas fa-calculator"></i> Solicitar Orçamento</a>
+            <a href="#" onclick="abrirModal('loginModal')" class="btn btn-outline"><i class="fas fa-user-lock"></i> Acompanhar Projeto</a>
+            <a href="https://wa.me/5521999999999" class="btn btn-gold"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+            <a href="https://www.oimaginista.com" class="btn btn-outline" style="border-width: 2px;"><i class="fas fa-globe"></i> Site Oficial</a>
+        </div>
+
+        <div class="npc-wrapper" id="npcMaster" onclick="falarNPC()">
+            <div class="speech-bubble" id="npcBubble">Olá! Precisa de ajuda com seu convite?</div>
+            <img src="imagens/mestre.png" class="npc-img">
+        </div>
+
+        <div class="footer-static">
+            <img src="imagens/logo.png" class="footer-logo">
+            <p class="copyright">© 2026 IMAGINISTA ∴ <br>Todos os direitos reservados.</p>
+        </div>
+    </div>
+
+    <div class="player-dock" id="playerDock">
+        <div class="player-controls">
+            <button class="ctrl-btn" onclick="vol(-0.1)"><i class="fas fa-minus"></i></button>
+            <button class="ctrl-btn" onclick="toggleMusic()"><i class="fas fa-play" id="playIcon"></i></button>
+            <button class="ctrl-btn" onclick="vol(0.1)"><i class="fas fa-plus"></i></button>
+            
+            <div class="visualizer" id="visualizer">
+                <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+            </div>
+
+            <button class="ctrl-btn share-mobile" onclick="shareLink()"><i class="fas fa-share-alt"></i></button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="loginModal">
+        <div class="modal-box">
+            <span class="close-modal" onclick="fecharModais()">&times;</span>
+            <h3 style="color:var(--accent-color); font-family:'Cinzel'; margin-bottom:15px;">Área do Cliente</h3>
+            <input type="password" id="passInput" class="input-gold" placeholder="CÓDIGO DE ACESSO">
+            <button class="btn btn-outline" style="width:100%" onclick="checkLogin()">ACESSAR</button>
+            <p id="loginMsg" style="color:#ff4444; font-size:12px; margin-top:10px; display:none;">CÓDIGO INVÁLIDO</p>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="orcamentoModal">
+        <div class="modal-box">
+            <span class="close-modal" onclick="fecharModais()">&times;</span>
+            <h3 style="color:var(--accent-color); font-family:'Cinzel';">Orçamento</h3>
+            <p style="font-size:12px; margin-bottom:20px; color:#aaa;">Selecione o serviço:</p>
+            <button class="btn btn-gold" style="width:100%" onclick="window.open('https://wa.me/5521999999999','_blank')">FALAR NO WHATSAPP</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="portfolioModal">
+        <div class="modal-box" style="width: 600px; max-width: 95%;">
+            <span class="close-modal" onclick="fecharModais()">&times;</span>
+            <h3 style="color:var(--accent-color); font-family:'Cinzel';">Projetos</h3>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:20px; max-height:60vh; overflow-y:auto;">
+                <a href="https://oimaginista.com/taty/" target="_blank" class="btn btn-outline" style="font-size:10px;">Convite Taty</a>
+                <a href="https://oimaginista.com/xvgeovanafrigoletto/" target="_blank" class="btn btn-outline" style="font-size:10px;">XV Geovana</a>
+                <a href="https://oimaginista.com/guiomar" target="_blank" class="btn btn-outline" style="font-size:10px;">80 Anos Guiomar</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // LÓGICA PRINCIPAL
+        const audio = document.getElementById('bgMusic');
+        let npcCount = 0;
+        
+        // Frases originais solicitadas
+        const falas = [
+            "Olá! Precisa de ajuda com seu convite?",
+            "Design Premium para momentos únicos.",
+            "Clique nos projetos para ver a mágica.",
+            "Acesse o WhatsApp para suporte imediato."
+        ];
+
+        function iniciarSite() {
+            document.getElementById('intro-overlay').classList.add('hidden');
+            document.getElementById('playerDock').classList.add('visible');
+            audio.volume = 0.4;
+            audio.play().then(() => {
+                document.getElementById('playIcon').className = 'fas fa-pause';
+                document.getElementById('visualizer').classList.add('playing');
+            }).catch(e => console.log("Audio bloqueado pelo navegador"));
+        }
+
+        function toggleMusic() {
+            if (audio.paused) {
+                audio.play();
+                document.getElementById('playIcon').className = 'fas fa-pause';
+                document.getElementById('visualizer').classList.add('playing');
+            } else {
+                audio.pause();
+                document.getElementById('playIcon').className = 'fas fa-play';
+                document.getElementById('visualizer').classList.remove('playing');
+            }
+        }
+
+        function vol(change) {
+            let n = audio.volume + change;
+            if (n > 1) n = 1; if (n < 0) n = 0;
+            audio.volume = n;
+        }
+
+        function shareLink() {
+            if (navigator.share) {
+                navigator.share({ title: 'Imaginista', url: window.location.href });
+            } else {
+                alert('Link copiado!');
+            }
+        }
+
+        function baixarVCard() {
+            alert("Baixando contato...");
+        }
+
+        function abrirModal(id) {
+            fecharModais();
+            document.getElementById(id).classList.add('active');
+        }
+        function fecharModais() {
+            document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('active'));
+        }
+
+        async function checkLogin() {
+            const code = document.getElementById('passInput').value.trim().toLowerCase();
+            const msg = document.getElementById('loginMsg');
+            if (!code) return;
+
+            try {
+                const res = await fetch(`status/${code}.html`, { method: 'HEAD' });
+                if (res.ok) window.location.href = `status/${code}.html`;
+                else throw new Error('404');
+            } catch (e) {
+                fetch(`status/${code}.html`).then(r => {
+                    if (r.ok) window.location.href = `status/${code}.html`;
+                    else { msg.style.display = 'block'; msg.innerText = 'CÓDIGO NÃO ENCONTRADO'; }
+                }).catch(() => { msg.style.display = 'block'; });
+            }
+        }
+
+        function falarNPC() {
+            const balao = document.getElementById('npcBubble');
+            npcCount++;
+            
+            if (npcCount > 4) {
+                balao.innerText = "⚠️ SISTEMA: MATRIX ATIVADA ⚠️";
+                balao.style.color = "red";
+                document.body.classList.add('matrix-active');
+                setTimeout(() => document.body.classList.remove('matrix-active'), 5000);
+                npcCount = 0;
+            } else {
+                balao.innerText = falas[Math.floor(Math.random() * falas.length)];
+                balao.style.color = "black";
+            }
+            
+            balao.classList.add('show');
+            setTimeout(() => balao.classList.remove('show'), 3000);
+        }
+        
+        setTimeout(() => falarNPC(), 2000);
+
+        // PARTÍCULAS
+        const pCanvas = document.getElementById('particles-canvas');
+        const pCtx = pCanvas.getContext('2d');
+        pCanvas.width = window.innerWidth; pCanvas.height = window.innerHeight;
+        let particles = [];
+        
+        class Particle {
+            constructor() {
+                this.x = Math.random() * pCanvas.width;
+                this.y = Math.random() * pCanvas.height;
+                this.size = Math.random() * 2;
+                this.speedX = Math.random() * 0.5 - 0.25;
+                this.speedY = Math.random() * 0.5 - 0.25;
+            }
+            update() {
+                this.x += this.speedX; this.y += this.speedY;
+                if (this.x > pCanvas.width) this.x = 0;
+                if (this.y > pCanvas.height) this.y = 0;
+            }
+            draw() {
+                pCtx.fillStyle = 'rgba(212, 175, 55, 0.5)';
+                pCtx.beginPath();
+                pCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                pCtx.fill();
+            }
+        }
+        function initParticles() { for (let i = 0; i < 50; i++) particles.push(new Particle()); }
+        function animateParticles() {
+            pCtx.clearRect(0, 0, pCanvas.width, pCanvas.height);
+            particles.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(animateParticles);
+        }
+        initParticles(); animateParticles();
+
+        // MATRIX
+        const mCanvas = document.getElementById('matrix-canvas');
+        const mCtx = mCanvas.getContext('2d');
+        mCanvas.width = window.innerWidth; mCanvas.height = window.innerHeight;
+        const letters = "01ABCDEF";
+        const fontSize = 14;
+        const columns = mCanvas.width / fontSize;
+        const drops = Array(Math.floor(columns)).fill(1);
+
+        setInterval(() => {
+            if (!document.body.classList.contains('matrix-active')) return;
+            mCtx.fillStyle = "rgba(0, 0, 0, 0.05)";
+            mCtx.fillRect(0, 0, mCanvas.width, mCanvas.height);
+            mCtx.fillStyle = "#0F0";
+            mCtx.font = fontSize + "px monospace";
+            for (let i = 0; i < drops.length; i++) {
+                const text = letters.charAt(Math.floor(Math.random() * letters.length));
+                mCtx.fillText(text, i * fontSize, drops[i] * fontSize);
+                if (drops[i] * fontSize > mCanvas.height && Math.random() > 0.975) drops[i] = 0;
+                drops[i]++;
+            }
+        }, 33);
+    </script>
+</body>
+</html>
