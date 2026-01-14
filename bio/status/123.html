@@ -36,108 +36,103 @@
             animation: moveFloor 30s linear infinite;
         }
 
-        /* --- CONTAINER --- */
+        /* --- CONTAINER (Móvel por Padrão) --- */
         .container {
-            width: 100%; max-width: 500px;
+            width: 100%; 
+            max-width: 500px;
             background: rgba(10, 17, 32, 0.95);
             border: 1px solid #D4AF37; border-radius: 15px; 
-            padding: 40px 25px;
-            box-shadow: 0 0 60px rgba(0, 0, 0, 0.9); 
+            /* Padding menor no mobile para ganhar espaço */
+            padding: 30px 20px; 
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.9); 
             text-align: center;
             backdrop-filter: blur(10px); 
             position: relative; z-index: 2;
             animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        /* RESPONSIVIDADE DESKTOP */
-        @media (min-width: 768px) {
-            .container { max-width: 800px; padding: 60px; }
-            .logs { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-            
-            /* Ajuste Lado a Lado no Desktop */
-            .client-details-row {
-                display: flex; justify-content: space-between; align-items: center;
-                gap: 20px; text-align: left;
-            }
-            .client-details-row div { flex: 1; }
-            .client-details-row div:last-child { text-align: right; }
-        }
-
-        /* LOGO AUMENTADA */
+        /* LOGO (Ajustada para Mobile) */
         .logo { 
-            width: 200px; /* Aumentado para dar destaque */
-            margin-bottom: 20px; 
+            width: 150px; /* Tamanho ideal mobile */
+            margin-bottom: 15px; 
             filter: drop-shadow(0 0 20px rgba(212,175,55,0.3)); 
             transition: transform 0.3s;
         }
-        .logo:hover { transform: scale(1.05); }
         
         h2 { 
             font-family: 'Cinzel'; color: #D4AF37; margin: 0 0 20px 0; 
-            font-size: 24px; letter-spacing: 3px; text-transform: uppercase;
+            font-size: 20px; letter-spacing: 2px; text-transform: uppercase;
         }
-        
-        /* INFO DO CLIENTE (ESTILIZADA) */
+
+        /* --- INFO BOX --- */
         .client-info-box { 
             background: rgba(255,255,255,0.03);
             border: 1px solid rgba(255,255,255,0.1);
             border-radius: 8px;
             padding: 15px;
-            color: #aaa; font-size: 12px; margin-bottom: 30px; 
-            line-height: 1.8; text-align: left;
+            color: #aaa; font-size: 11px; margin-bottom: 25px; 
+            line-height: 1.6; text-align: left;
         }
         
-        .label-gold { color: #D4AF37; font-weight: 700; letter-spacing: 1px; }
-        .value-white { color: #FFF; font-weight: 400; font-size: 13px; }
-        .project-title { font-size: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px; margin-bottom: 8px; display: block; }
+        .label-gold { color: #D4AF37; font-weight: 700; letter-spacing: 1px; display: block; margin-bottom: 2px; }
+        .value-white { color: #FFF; font-weight: 600; font-size: 13px; display: block; margin-bottom: 10px; }
+        .project-title { border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 5px; margin-bottom: 10px; display: block; }
 
-        /* BARRA DE PROGRESSO */
-        .progress-wrapper { text-align: left; margin-bottom: 35px; position: relative; }
-        .progress-bg { background: rgba(255,255,255,0.05); height: 24px; border-radius: 12px; border: 1px solid #333; overflow: hidden; margin-bottom: 8px; }
+        /* No mobile, os itens ficam um abaixo do outro por padrão */
+        .client-details-row div { margin-bottom: 5px; }
+
+        /* --- PROGRESS BAR --- */
+        .progress-wrapper { text-align: left; margin-bottom: 25px; position: relative; }
+        .progress-bg { background: rgba(255,255,255,0.05); height: 18px; border-radius: 10px; border: 1px solid #333; overflow: hidden; margin-bottom: 5px; }
         .progress-fill { 
-            height: 100%; 
-            width: 0%; /* Edite inline no HTML */
+            height: 100%; width: 0%; 
             background: linear-gradient(90deg, #A67C00, #D4AF37, #F4D06F); 
             transition: width 1.5s ease-out; 
-            box-shadow: 0 0 20px rgba(212,175,55,0.4); 
+            box-shadow: 0 0 15px rgba(212,175,55,0.4); 
             position: relative; 
         }
         .progress-fill::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent); animation: shineBar 2s infinite; }
-        .progress-text { font-family: 'Share Tech Mono'; color: #D4AF37; font-size: 16px; text-align: right; font-weight: bold; }
+        .progress-text { font-family: 'Share Tech Mono'; color: #D4AF37; font-size: 14px; text-align: right; font-weight: bold; }
 
-        /* LOGS */
+        /* --- LOGS --- */
         .logs { 
-            background: rgba(0,0,0,0.3); padding: 15px; border-radius: 10px; 
-            font-size: 13px; text-align: left; border: 1px solid rgba(255,255,255,0.05); 
+            background: rgba(0,0,0,0.3); padding: 10px; border-radius: 10px; 
+            font-size: 12px; text-align: left; border: 1px solid rgba(255,255,255,0.05); 
         }
         .log-item { 
-            display: flex; align-items: center; gap: 15px; 
-            padding: 12px; border-radius: 6px; 
+            display: flex; align-items: center; gap: 12px; 
+            padding: 10px; border-radius: 6px; 
             border-bottom: 1px solid rgba(255,255,255,0.03); 
             opacity: 0; animation: fadeInUp 0.5s ease forwards;
         }
         .log-item:last-child { border-bottom: none; }
         
-        .log-item:nth-child(1) { animation-delay: 0.1s; } .log-item:nth-child(2) { animation-delay: 0.2s; } 
-        .log-item:nth-child(3) { animation-delay: 0.3s; } .log-item:nth-child(4) { animation-delay: 0.4s; } 
-        .log-item:nth-child(5) { animation-delay: 0.5s; } .log-item:nth-child(6) { animation-delay: 0.6s; }
+        /* Animação em cascata */
+        .log-item:nth-child(1) { animation-delay: 0.1s; } 
+        .log-item:nth-child(2) { animation-delay: 0.2s; } 
+        .log-item:nth-child(3) { animation-delay: 0.3s; } 
+        .log-item:nth-child(4) { animation-delay: 0.4s; } 
+        .log-item:nth-child(5) { animation-delay: 0.5s; } 
+        .log-item:nth-child(6) { animation-delay: 0.6s; }
 
-        .check { color: #2ecc71; text-shadow: 0 0 10px rgba(46, 204, 113, 0.4); font-size: 16px; width: 20px; text-align: center; } 
-        .loading { color: #D4AF37; animation: spin 2s infinite linear; font-size: 16px; width: 20px; text-align: center; }
-        .pending { color: #555; font-size: 16px; width: 20px; text-align: center; }
-        
-        /* BOTÃO SUPORTE (DIMINUÍDO) */
+        /* Ícones */
+        .check { color: #2ecc71; font-size: 14px; width: 18px; text-align: center; } 
+        .loading { color: #D4AF37; animation: spin 2s infinite linear; font-size: 14px; width: 18px; text-align: center; }
+        .pending { color: #555; font-size: 14px; width: 18px; text-align: center; }
+
+        /* BOTÃO SUPORTE */
         .btn-support { 
             display: inline-flex; align-items: center; justify-content: center; gap: 8px; 
-            margin-top: 35px; padding: 12px 25px; /* Menor */
+            margin-top: 25px; width: 100%; padding: 14px; 
             color: #0a1120; text-decoration: none; font-weight: 700; 
             background: linear-gradient(135deg, #A67C00, #D4AF37, #F4D06F); 
-            border-radius: 50px; transition: 0.3s; 
-            text-transform: uppercase; letter-spacing: 1px; font-size: 11px; /* Fonte menor */
+            border-radius: 8px; transition: 0.3s; 
+            text-transform: uppercase; letter-spacing: 1px; font-size: 12px; 
             box-shadow: 0 5px 20px rgba(0,0,0,0.5); 
         }
         .btn-support:hover { transform: translateY(-2px); box-shadow: 0 0 25px rgba(212,175,55,0.4); }
 
+        /* FECHAR */
         .btn-close-bio { 
             position: absolute; top: 15px; right: 15px; 
             display: inline-flex; justify-content: center; align-items: center; 
@@ -146,6 +141,33 @@
         }
         .btn-close-bio:hover { color: #FF4444; transform: rotate(90deg) scale(1.1); }
 
+        /* --- MEDIA QUERY: DESKTOP (768px+) --- */
+        @media (min-width: 768px) {
+            .container { max-width: 800px; padding: 60px; }
+            .logo { width: 200px; margin-bottom: 30px; } /* Logo maior no PC */
+            h2 { font-size: 28px; margin-bottom: 30px; }
+            
+            .client-info-box { font-size: 13px; padding: 20px; }
+            
+            /* Lado a lado no PC */
+            .client-details-row {
+                display: flex; justify-content: space-between; align-items: flex-start;
+                gap: 20px;
+            }
+            .client-details-row div { flex: 1; margin-bottom: 0; }
+            .client-details-row div:last-child { text-align: right; }
+            
+            /* Alinha os labels no PC */
+            .client-details-row div:last-child .label-gold, 
+            .client-details-row div:last-child .value-white { display: inline-block; margin-left: 10px; }
+
+            .logs { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 20px; font-size: 14px; }
+            .btn-support { width: auto; padding: 12px 30px; border-radius: 50px; }
+            
+            .check, .loading, .pending { font-size: 16px; }
+        }
+
+        /* ANIMAÇÕES */
         @keyframes spin { 100% { transform: rotate(360deg); } } 
         @keyframes moveFloor { 0% { transform: rotateX(60deg) translateY(0); } 100% { transform: rotateX(60deg) translateY(50px); } }
         @keyframes shineBar { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
@@ -168,26 +190,26 @@
         <div class="client-info-box">
             <span class="project-title">
                 <span class="label-gold">PROJETO:</span> 
-                <strong class="value-white">SITE INSTITUCIONAL PREMIUM</strong>
+                <strong class="value-white" style="font-size: 14px;">SITE INSTITUCIONAL PREMIUM</strong>
             </span>
             
             <div class="client-details-row">
                 <div>
                     <span class="label-gold">CLIENTE:</span> 
-                    <span class="value-white">NATHALIA MARIANE BATISTA</span>
+                    <span class="value-white">ALFREDO JOAQUIM TEMISTOCLES BARBOSA</span>
                 </div>
                 <div>
-                    <span class="label-gold">ID:</span> 
-                    <span style="font-family:'Share Tech Mono'; color:#FFF">#2026-01</span>
+                    <span class="label-gold">ID DO PROJETO:</span> 
+                    <span style="font-family:'Share Tech Mono'; color:#FFF; font-size:14px;">#2026-01</span>
                 </div>
             </div>
         </div>
 
         <div class="progress-wrapper">
             <div class="progress-bg">
-                <div class="progress-fill" style="width: 100%"></div> 
+                <div class="progress-fill" style="width: 99%"></div> 
             </div>
-            <div class="progress-text">STATUS: 100%</div>
+            <div class="progress-text">STATUS: 99%</div>
         </div>
 
         <div class="logs">
