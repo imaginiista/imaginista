@@ -8,29 +8,43 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&family=Playfair+Display:ital,wght@1,400;1,600&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
+        /* --- VARIÁVEIS E BASE --- */
         :root {
-            --bg-color: #14213D; --text-color: #FFFFFF; --accent-color: #D4AF37;
+            --bg-color: #14213D;
+            --text-color: #FFFFFF;
+            --accent-color: #D4AF37;
             --btn-bg: linear-gradient(135deg, #A67C00 0%, #D4AF37 50%, #F4D06F 100%);
             --btn-text: #0a1120;
         }
+
         body.blueprint-mode {
-            --bg-color: #003366; --text-color: #E0E0E0; --accent-color: #FFFFFF;
-            --bg-image: linear-gradient(rgba(255,255,255,.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.1) 1px, transparent 1px);
+            --bg-color: #003366;
+            --text-color: #E0E0E0;
+            --accent-color: #FFFFFF;
+            --bg-image: linear-gradient(rgba(255,255,255,.1) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(255,255,255,.1) 1px, transparent 1px);
             background-size: 20px 20px;
         }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         body {
-            background-color: var(--bg-color); background-image: var(--bg-image); color: var(--text-color);
-            font-family: 'Montserrat', sans-serif; display: flex; flex-direction: column; align-items: center;
-            min-height: 100vh; overflow-x: hidden; position: relative; transition: background 0.5s ease;
-            /* Removemos o padding-bottom exagerado para matar o espaço do X verde */
-            padding-bottom: 90px; 
+            background-color: var(--bg-color);
+            background-image: var(--bg-image);
+            color: var(--text-color);
+            font-family: 'Montserrat', sans-serif;
+            display: flex; flex-direction: column; align-items: center;
+            min-height: 100vh; overflow-x: hidden; position: relative;
+            transition: background 0.5s ease;
+            /* Espaço exato para o player não cobrir o rodapé */
+            padding-bottom: 70px; 
         }
 
-        /* --- 1. INTRO 3D (CODE BLINDADO) --- */
+        /* --- 1. INTRODUÇÃO (LOGO MAIOR) --- */
         #intro-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: radial-gradient(circle at center, #1e2f52 0%, #050a14 100%);
@@ -43,13 +57,10 @@
 
         .intro-grid {
             position: absolute; bottom: -20%; left: -50%; width: 200%; height: 100%;
-            background-image: 
-                linear-gradient(rgba(212, 175, 55, 0.1) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(212, 175, 55, 0.1) 1px, transparent 1px);
-            background-size: 50px 50px;
-            transform: rotateX(60deg);
-            animation: moveGrid 10s linear infinite;
-            z-index: -1;
+            background-image: linear-gradient(rgba(212, 175, 55, 0.1) 1px, transparent 1px), 
+                              linear-gradient(90deg, rgba(212, 175, 55, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px; transform: rotateX(60deg); 
+            animation: moveGrid 10s linear infinite; z-index: -1;
             mask-image: linear-gradient(to top, rgba(0,0,0,1) 0%, transparent 60%);
         }
 
@@ -60,7 +71,8 @@
         .cube-small { width: 150px; height: 150px; border: 1px dashed rgba(212, 175, 55, 0.2); border-radius: 0; animation: rotateCubeReverse 15s infinite linear; }
 
         .intro-logo-wrapper { position: relative; margin-bottom: 40px; }
-        .intro-logo { width: 160px; filter: drop-shadow(0 0 20px rgba(212,175,55,0.3)); }
+        /* AUMENTADO O LOGO DA INTRO */
+        .intro-logo { width: 280px; filter: drop-shadow(0 0 20px rgba(212,175,55,0.3)); }
         .scanner-line { position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: var(--accent-color); box-shadow: 0 0 10px var(--accent-color); animation: scanLogo 3s infinite ease-in-out; opacity: 0.7; }
 
         .intro-btn {
@@ -74,7 +86,7 @@
         .intro-btn:hover { background: var(--accent-color); color: #0a1120; box-shadow: 0 0 30px rgba(212, 175, 55, 0.6); }
         .tap-hint { margin-top: 20px; color: rgba(255,255,255,0.5); font-size: 24px; animation: tapAnim 1.5s infinite; }
 
-        /* --- 2. LAYOUT --- */
+        /* --- 2. LAYOUT PRINCIPAL --- */
         #particles-canvas, #matrix-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
         #particles-canvas { z-index: 0; }
         #matrix-canvas { z-index: 1; display: none; }
@@ -83,9 +95,12 @@
 
         .container { 
             width: 100%; max-width: 500px; 
-            /* Padding ajustado para matar espaço do X verde */
             padding: 40px 20px 0 20px; 
-            flex: 1; text-align: center; position: relative; z-index: 10; perspective: 1000px; 
+            flex: 1; /* Ocupa altura disponível */
+            display: flex; flex-direction: column; align-items: center; /* Centraliza tudo */
+            position: relative; 
+            z-index: 10; /* Garante que botões fiquem acima do NPC se cruzarem */
+            perspective: 1000px; 
         }
 
         .theme-switch-wrapper { position: absolute; top: 20px; right: 20px; display: flex; align-items: center; z-index: 10; }
@@ -110,7 +125,7 @@
         .brush-follower { position: absolute; top: 0; left: 0; height: 100%; pointer-events: none; animation: moveBrush 3s cubic-bezier(0.5, 0, 0.5, 1) forwards 0.5s; }
         .brush-follower i { font-size: 20px; color: var(--accent-color); transform: rotate(-45deg) translateY(25px); filter: drop-shadow(0 0 5px var(--accent-color)); }
 
-        .links-list { display: flex; flex-direction: column; gap: 16px; position: relative; z-index: 20; }
+        .links-list { display: flex; flex-direction: column; gap: 16px; width: 100%; position: relative; z-index: 20; }
         .btn { display: flex; align-items: center; justify-content: center; text-decoration: none; padding: 18px 20px; border-radius: 8px; transition: all 0.3s ease; font-weight: 600; font-size: 15px; text-transform: uppercase; letter-spacing: 1px; position: relative; overflow: hidden; backdrop-filter: blur(10px); color: var(--text-color); }
         .btn-gold { background: var(--btn-bg); color: var(--btn-text); box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
         .btn-outline { background: rgba(255, 255, 255, 0.03); border: 1px solid var(--accent-color); }
@@ -118,24 +133,23 @@
         .btn:hover { transform: translateY(-3px); letter-spacing: 2px; }
         .btn i { margin-right: 12px; font-size: 18px; }
 
-        /* --- 3. NPC MESTRE (X VERMELHO RESOLVIDO) --- */
+        /* --- 3. NPC MESTRE (CORREÇÃO DE SOBREPOSIÇÃO) --- */
         
-        /* DESKTOP: FIXO À ESQUERDA - FORA DO FLUXO DO SITE */
+        /* DESKTOP: Fixo no canto extremo esquerdo */
         .npc-container { 
             position: fixed; 
             bottom: 75px; /* Acima do player */
-            left: 2%; /* Onde você marcou o X Vermelho */
-            z-index: 100; /* Acima de tudo, mas não bloqueia clique dos botões pois está longe */
+            left: 20px; /* Colado na esquerda */
+            z-index: 5; /* Menor que o container dos botões (10), então fica atrás se encostar */
             display: flex; align-items: flex-end; 
-            /* SEM ANIMAÇÃO DE ENTRADA PARA FICAR PARADO */
             cursor: pointer; pointer-events: none; 
         }
         
         .npc-img { 
-            width: 250px; /* Tamanho bom no Desktop */
+            width: 250px; 
             height: auto; 
             filter: drop-shadow(5px 5px 10px rgba(0,0,0,0.5)); 
-            pointer-events: auto; /* Só a imagem clica */
+            pointer-events: auto; 
         }
         .npc-img:active { transform: scale(0.95); }
         
@@ -144,32 +158,32 @@
             background: #FFFFFF !important; color: #000000 !important; 
             padding: 15px; border-radius: 15px 15px 15px 0; font-size: 13px; font-weight: 700; 
             min-width: 200px; width: auto; 
-            margin-bottom: 230px; /* Balão acima da cabeça */
-            margin-left: 10px; 
+            margin-bottom: 230px; margin-left: 10px; 
             box-shadow: 0 5px 15px rgba(0,0,0,0.3); opacity: 0; transform: scale(0); 
             transition: 0.3s; position: relative; z-index: 151; pointer-events: none; white-space: nowrap; 
         }
         .speech-bubble::after { content: ''; position: absolute; bottom: -8px; left: 0; border-width: 8px 8px 0; border-style: solid; border-color: #FFFFFF transparent; }
         .speech-bubble.show { opacity: 1; transform: scale(1); }
 
-        /* SHARE BUTTON (DESKTOP) */
+        /* SHARE (DESKTOP) */
         .share-btn-float { position: fixed; bottom: 100px; right: 20px; width: 50px; height: 50px; background: var(--bg-color); border: 2px solid var(--accent-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--accent-color); font-size: 20px; z-index: 1000; box-shadow: 0 5px 20px rgba(0,0,0,0.5); cursor: pointer; transition: transform 0.3s; }
         .share-btn-float:active { transform: scale(0.9); }
         .share-btn-mobile { display: none; }
 
-        /* --- 4. MOBILE QUERY (NPC ABAIXO DOS BOTÕES) --- */
+        /* --- 4. MOBILE QUERY (NPC PROPORCIONAL E RODAPÉ COMPACTO) --- */
         @media (max-width: 768px) {
             .npc-container { 
                 position: relative; /* Sai do Fixed */
                 bottom: auto; left: auto !important; 
                 flex-direction: column-reverse; align-items: center;
-                margin-top: 15px; /* Espaço pequeno acima */
-                margin-bottom: 0px; /* ZERO ESPAÇO ABAIXO */
+                margin-top: 20px; 
+                margin-bottom: 0px; /* Zero espaço abaixo do NPC */
                 z-index: 1;
+                opacity: 0; animation: fadeInNPC 1s forwards 1s; 
             }
-            .npc-img { width: 250px; pointer-events: auto; }
+            .npc-img { width: 220px; pointer-events: auto; }
             .speech-bubble { 
-                margin: 0 0 5px 0; white-space: normal; text-align: center; min-width: 220px;
+                margin: 0 0 5px 0; white-space: normal; text-align: center; min-width: 200px;
                 margin-bottom: 0; margin-left: 0; 
             }
             .speech-bubble::after { left: 50%; transform: translateX(-50%); border-width: 8px 8px 0; border-color: #FFFFFF transparent; }
@@ -178,17 +192,19 @@
             .share-btn-mobile { display: inline-block !important; margin-left: 20px; background: none; border: none; color: var(--accent-color); font-size: 18px; cursor: pointer; }
         }
 
-        /* --- 5. RODAPÉ ESTÁTICO (X VERDE RESOLVIDO) --- */
+        /* --- 5. RODAPÉ ESTÁTICO (CORREÇÃO DO X VERDE) --- */
         .static-footer {
             width: 100%; 
-            /* ZERO MARGEM, PADDING MÍNIMO */
-            padding: 5px 20px 20px 20px; 
+            /* Padding Bottom 0 para colar na barra */
+            padding: 0 20px 0 20px; 
             display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 5px; text-align: center;
-            margin-top: 0; z-index: 1;
+            /* Empurra para o final */
+            margin-top: auto; 
+            z-index: 1;
         }
         .footer-logo-small { width: 140px; cursor: pointer; transition: transform 0.3s; }
         .footer-logo-small.pop { animation: popLogo 0.3s ease; }
-        .copyright-text { font-size: 11px; color: rgba(255,255,255,0.6); letter-spacing: 1px; line-height: 1.5; }
+        .copyright-text { font-size: 11px; color: rgba(255,255,255,0.6); letter-spacing: 1px; line-height: 1.5; margin-bottom: 10px; } /* Pequena margem no texto */
         .break-mobile { display: none; }
 
         @media (max-width: 768px) {
@@ -301,21 +317,20 @@
             <a href="#" onclick="abrirOrcamento()" class="btn btn-outline"><i class="fas fa-calculator"></i> Solicitar Orçamento</a>
             <a href="#" onclick="abrirLoginCliente()" class="btn btn-outline"><i class="fas fa-user-lock"></i> Acompanhar Projeto</a>
             <a href="https://wa.me/5521999999999" target="_blank" class="btn btn-gold"><i class="fab fa-whatsapp"></i> WhatsApp</a>
-            
             <a href="https://www.oimaginista.com" target="_blank" class="btn btn-outline" style="border-width: 2px; box-shadow: 0 0 10px rgba(212,175,55,0.1);"><i class="fas fa-globe"></i> Site Oficial</a>
         </div>
 
+        <div class="npc-container" id="npcMaster" onclick="interagirNPC()">
+            <img src="imagens/mestre.png" alt="O Mestre" class="npc-img" id="npcImg">
+            <div class="speech-bubble" id="npcBubble"></div>
+        </div>
+        
         <div class="static-footer">
             <img src="imagens/logo.png" class="footer-logo-small" id="footerLogo" onclick="animarLogoRodape()">
             <span class="copyright-text">
                 © 2026 IMAGINISTA ∴ <br class="break-mobile">Todos os direitos reservados.
             </span>
         </div>
-    </div>
-
-    <div class="npc-container" id="npcMaster" onclick="interagirNPC()">
-        <img src="imagens/mestre.png" alt="O Mestre" class="npc-img" id="npcImg">
-        <div class="speech-bubble" id="npcBubble"></div>
     </div>
 
     <div class="fixed-player-dock" id="playerDock">
