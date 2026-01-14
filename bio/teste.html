@@ -3,45 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="Imaginista - Design Premium e Tecnologia para eventos e negócios.">
     <title>Imaginista | Design & Tecnologia</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&family=Playfair+Display:ital,wght@1,400;1,600&family=Share+Tech+Mono&display=swap" rel="stylesheet">
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        /* --- VARIÁVEIS E BASE --- */
+        /* --- BASE --- */
         :root {
-            --bg-color: #14213D;
-            --text-color: #FFFFFF;
-            --accent-color: #D4AF37;
+            --bg-color: #14213D; --text-color: #FFFFFF; --accent-color: #D4AF37;
             --btn-bg: linear-gradient(135deg, #A67C00 0%, #D4AF37 50%, #F4D06F 100%);
             --btn-text: #0a1120;
         }
-
         body.blueprint-mode {
-            --bg-color: #003366;
-            --text-color: #E0E0E0;
-            --accent-color: #FFFFFF;
-            --bg-image: linear-gradient(rgba(255,255,255,.1) 1px, transparent 1px),
-                        linear-gradient(90deg, rgba(255,255,255,.1) 1px, transparent 1px);
+            --bg-color: #003366; --text-color: #E0E0E0; --accent-color: #FFFFFF;
+            --bg-image: linear-gradient(rgba(255,255,255,.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.1) 1px, transparent 1px);
             background-size: 20px 20px;
         }
-
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
         body {
-            background-color: var(--bg-color);
-            background-image: var(--bg-image);
-            color: var(--text-color);
-            font-family: 'Montserrat', sans-serif;
-            display: flex; flex-direction: column; align-items: center;
-            min-height: 100vh; overflow-x: hidden; position: relative;
-            transition: background 0.5s ease;
-            /* Espaço exato para o player não cobrir o rodapé (X Verde resolvido) */
-            padding-bottom: 70px; 
+            background-color: var(--bg-color); background-image: var(--bg-image); color: var(--text-color);
+            font-family: 'Montserrat', sans-serif; display: flex; flex-direction: column; align-items: center;
+            min-height: 100vh; overflow-x: hidden; position: relative; transition: background 0.5s ease;
+            padding-bottom: 90px; 
         }
 
         /* --- 1. INTRODUÇÃO --- */
@@ -50,18 +37,15 @@
             background: radial-gradient(circle at center, #1e2f52 0%, #050a14 100%);
             z-index: 9999; overflow: hidden;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
-            transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1);
-            perspective: 1000px;
+            transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1); perspective: 1000px;
         }
         #intro-overlay.hidden { transform: translateY(-100%); }
 
         .intro-grid {
             position: absolute; bottom: -20%; left: -50%; width: 200%; height: 100%;
-            background-image: linear-gradient(rgba(212, 175, 55, 0.1) 1px, transparent 1px), 
-                              linear-gradient(90deg, rgba(212, 175, 55, 0.1) 1px, transparent 1px);
-            background-size: 50px 50px; transform: rotateX(60deg); 
-            animation: moveGrid 10s linear infinite; z-index: -1;
-            mask-image: linear-gradient(to top, rgba(0,0,0,1) 0%, transparent 60%);
+            background-image: linear-gradient(rgba(212, 175, 55, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(212, 175, 55, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px; transform: rotateX(60deg);
+            animation: moveGrid 10s linear infinite; z-index: -1; mask-image: linear-gradient(to top, rgba(0,0,0,1) 0%, transparent 60%);
         }
 
         .cube-wrapper { position: absolute; width: 100%; height: 100%; pointer-events: none; display: flex; justify-content: center; align-items: center; }
@@ -85,24 +69,27 @@
         .intro-btn:hover { background: var(--accent-color); color: #0a1120; box-shadow: 0 0 30px rgba(212, 175, 55, 0.6); }
         .tap-hint { margin-top: 20px; color: rgba(255,255,255,0.5); font-size: 24px; animation: tapAnim 1.5s infinite; }
 
-        /* --- 2. LAYOUT PRINCIPAL --- */
+        /* --- 2. LAYOUT & BOTÃO TOPO DIREITO --- */
         #particles-canvas, #matrix-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
         #particles-canvas { z-index: 0; }
         #matrix-canvas { z-index: 1; display: none; }
         body.matrix-active #matrix-canvas { display: block; }
         body.matrix-active .container { opacity: 0.1; filter: blur(3px); transition: 0.5s; }
 
+        /* CONTAINER PRINCIPAL */
         .container { 
             width: 100%; max-width: 500px; 
             padding: 40px 20px 0 20px; 
-            flex: 1; /* Ocupa altura disponível */
-            display: flex; flex-direction: column; align-items: center; /* Centraliza tudo */
-            position: relative; 
-            z-index: 10; /* Garante que botões fiquem acima do NPC se cruzarem */
-            perspective: 1000px; 
+            flex: 1; display: flex; flex-direction: column; align-items: center; 
+            position: relative; z-index: 10; perspective: 1000px; 
         }
 
-        .theme-switch-wrapper { position: absolute; top: 20px; right: 20px; display: flex; align-items: center; z-index: 10; }
+        /* BOTÃO DE TEMA (CORRIGIDO PARA FICAR POR CIMA DE TUDO) */
+        .theme-switch-wrapper { 
+            position: absolute; top: 20px; right: 20px; 
+            display: flex; align-items: center; 
+            z-index: 2000; /* Z-INDEX ALTO PARA NÃO SER BLOQUEADO */
+        }
         .theme-switch { display: inline-block; height: 26px; position: relative; width: 50px; }
         .theme-switch input { display:none; }
         .slider { background-color: rgba(255,255,255,0.1); border: 1px solid var(--accent-color); bottom: 0; cursor: pointer; left: 0; position: absolute; right: 0; top: 0; transition: .4s; border-radius: 34px; }
@@ -132,33 +119,29 @@
         .btn:hover { transform: translateY(-3px); letter-spacing: 2px; }
         .btn i { margin-right: 12px; font-size: 18px; }
 
-        /* --- 3. NPC MESTRE (SOLUÇÃO DEFINITIVA) --- */
+        /* --- 3. NPC MESTRE (BALÃO APROXIMADO) --- */
         
-        /* DESKTOP: Fixo no canto inferior esquerdo (FORA DO CONTAINER) */
+        /* DESKTOP: Fixo à esquerda */
         .npc-container { 
             position: fixed; 
-            bottom: 75px; /* Acima do player */
-            left: 10px; /* Bem no canto */
-            z-index: 5; /* Atrás dos botões */
+            bottom: 75px; 
+            left: 2%; 
+            z-index: 100; 
             display: flex; align-items: flex-end; 
             cursor: pointer; pointer-events: none; 
         }
-        /* Removemos animação de left/active para ele não "andar" */
         
-        .npc-img { 
-            width: 250px; 
-            height: auto; 
-            filter: drop-shadow(5px 5px 10px rgba(0,0,0,0.5)); 
-            pointer-events: auto; 
-        }
+        .npc-img { width: 250px; height: auto; filter: drop-shadow(5px 5px 10px rgba(0,0,0,0.5)); pointer-events: auto; }
         .npc-img:active { transform: scale(0.95); }
         
-        /* Balão Desktop */
+        /* BALÃO DE FALA (Ajustado) */
         .speech-bubble { 
             background: #FFFFFF !important; color: #000000 !important; 
             padding: 15px; border-radius: 15px 15px 15px 0; font-size: 13px; font-weight: 700; 
             min-width: 200px; width: auto; 
-            margin-bottom: 230px; margin-left: 10px; 
+            /* MARGEM REDUZIDA PARA DESCER O BALÃO */
+            margin-bottom: 190px; 
+            margin-left: 10px; 
             box-shadow: 0 5px 15px rgba(0,0,0,0.3); opacity: 0; transform: scale(0); 
             transition: 0.3s; position: relative; z-index: 151; pointer-events: none; white-space: nowrap; 
         }
@@ -170,22 +153,27 @@
         .share-btn-float:active { transform: scale(0.9); }
         .share-btn-mobile { display: none; }
 
-        /* --- 4. MOBILE QUERY (NPC ABAIXO DOS BOTÕES) --- */
+        /* --- 4. MOBILE QUERY (BALÃO APROXIMADO + ESPAÇO TOPO) --- */
         @media (max-width: 768px) {
+            
+            /* Ajuste de Topo para o logo não encostar no botão */
+            .container { padding-top: 60px; } 
+
             .npc-container { 
-                /* No mobile, ele deixa de ser fixed e entra no fluxo */
-                position: relative; 
-                bottom: auto; left: auto;
+                position: relative; bottom: auto; left: auto !important; 
                 flex-direction: column-reverse; align-items: center;
-                margin-top: 15px; 
-                margin-bottom: 0px; 
+                margin-top: 15px; margin-bottom: 0px; 
                 z-index: 1;
-                width: 100%; /* Ocupa largura para centralizar */
             }
             .npc-img { width: 250px; pointer-events: auto; }
+            
+            /* Balão Mobile */
             .speech-bubble { 
-                margin: 0 0 5px 0; white-space: normal; text-align: center; min-width: 220px;
-                margin-bottom: 0; margin-left: 0; 
+                /* Margem bem pequena para colar na cabeça */
+                margin: 0 0 5px 0; 
+                white-space: normal; text-align: center; min-width: 220px;
+                margin-bottom: -10px; /* Puxa um pouco pra baixo se necessário */
+                margin-left: 0; 
             }
             .speech-bubble::after { left: 50%; transform: translateX(-50%); border-width: 8px 8px 0; border-color: #FFFFFF transparent; }
 
@@ -193,15 +181,11 @@
             .share-btn-mobile { display: inline-block !important; margin-left: 20px; background: none; border: none; color: var(--accent-color); font-size: 18px; cursor: pointer; }
         }
 
-        /* --- 5. RODAPÉ ESTÁTICO (X VERDE RESOLVIDO) --- */
+        /* --- 5. RODAPÉ ESTÁTICO --- */
         .static-footer {
-            width: 100%; 
-            /* Padding mínimo para colar na barra amarela */
-            padding: 0 20px 10px 20px; 
+            width: 100%; padding: 0 20px 20px 20px; 
             display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 5px; text-align: center;
-            /* Empurra para o final */
-            margin-top: auto; 
-            z-index: 1;
+            margin-top: auto; z-index: 1;
         }
         .footer-logo-small { width: 140px; cursor: pointer; transition: transform 0.3s; }
         .footer-logo-small.pop { animation: popLogo 0.3s ease; }
@@ -230,7 +214,7 @@
         .playing .bar { animation: equalizer 1s infinite ease-in-out; }
         .bar:nth-child(1) { animation-delay: 0.1s; } .bar:nth-child(2) { animation-delay: 0.2s; } .bar:nth-child(3) { animation-delay: 0.3s; } .bar:nth-child(4) { animation-delay: 0.1s; } .bar:nth-child(5) { animation-delay: 0.4s; }
 
-        /* MODAIS, FORMS, LOGIN */
+        /* MODAIS */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 2000; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s; backdrop-filter: blur(8px); }
         .modal-overlay.active { display: flex; opacity: 1; }
         .holo-content { width: 95%; max-width: 1400px; height: auto; max-height: 90vh; background: rgba(20, 33, 61, 0.98); border: 1px solid var(--accent-color); padding: 30px; border-radius: 10px; text-align: center; position: relative; display: flex; flex-direction: column; box-shadow: 0 0 50px rgba(212, 175, 55, 0.15); overflow-y: auto; }
@@ -322,17 +306,17 @@
             <a href="https://www.oimaginista.com" target="_blank" class="btn btn-outline" style="border-width: 2px; box-shadow: 0 0 10px rgba(212,175,55,0.1);"><i class="fas fa-globe"></i> Site Oficial</a>
         </div>
 
+        <div class="npc-container" id="npcMaster" onclick="interagirNPC()">
+            <img src="imagens/mestre.png" alt="O Mestre" class="npc-img" id="npcImg">
+            <div class="speech-bubble" id="npcBubble"></div>
+        </div>
+        
         <div class="static-footer">
             <img src="imagens/logo.png" class="footer-logo-small" id="footerLogo" onclick="animarLogoRodape()">
             <span class="copyright-text">
                 © 2026 IMAGINISTA ∴ <br class="break-mobile">Todos os direitos reservados.
             </span>
         </div>
-    </div>
-
-    <div class="npc-container" id="npcMaster" onclick="interagirNPC()">
-        <img src="imagens/mestre.png" alt="O Mestre" class="npc-img" id="npcImg">
-        <div class="speech-bubble" id="npcBubble"></div>
     </div>
 
     <div class="fixed-player-dock" id="playerDock">
