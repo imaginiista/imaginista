@@ -195,7 +195,7 @@
             .speech-bubble::after { left: 40px; }
         }
 
-        /* --- 5. RODAPÉ --- */
+        /* --- 5. RODAPÉ (AJUSTADO 2 LINHAS) --- */
         .footer-static {
             margin-top: auto; 
             text-align: center; padding: 20px; width: 100%;
@@ -206,8 +206,9 @@
         .footer-logo:hover { transform: scale(1.05); }
         .footer-logo:active { transform: scale(0.9); }
 
-        .copyright { font-size: 13px; color: rgba(255,255,255,0.7); letter-spacing: 2px; text-transform: uppercase; font-family: 'Cinzel'; font-weight: 600; }
+        .copyright { font-size: 13px; color: rgba(255,255,255,0.7); letter-spacing: 2px; text-transform: uppercase; font-family: 'Cinzel'; font-weight: 600; line-height: 1.6; }
         
+        /* Quebra de linha forçada no mobile para ficar em 2 linhas exatas */
         .break-mobile { display: block; } 
         @media (min-width: 768px) { 
             .break-mobile { display: none; } 
@@ -242,7 +243,7 @@
         .share-mobile { display: none; margin-left: 20px; border-left: 1px solid #333; padding-left: 20px; }
         @media (max-width: 1023px) { .share-mobile { display: block; } }
 
-        /* --- MODAL PROJETOS & SKELETON --- */
+        /* --- MODAL PROJETOS --- */
         .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 3000; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
         .modal-overlay.active { display: flex; }
         
@@ -257,7 +258,7 @@
             .modal-box.large-modal { width: 1200px; } 
         }
 
-        /* --- NOVO BOTÃO X MINIMALISTA (Elegante) --- */
+        /* --- BOTÃO X MINIMALISTA --- */
         .close-modal { 
             position: absolute; top: 15px; right: 15px; 
             width: 30px; height: 30px; 
@@ -267,7 +268,6 @@
             font-size: 24px; font-weight: 300; font-family: 'Montserrat', sans-serif;
             cursor: pointer; z-index: 50; transition: all 0.3s ease;
         }
-        /* Efeito Hover: Fica Vermelho e Gira */
         .close-modal:hover { 
             color: #ff4444; 
             transform: rotate(90deg) scale(1.2);
@@ -282,10 +282,10 @@
         .form-option input { accent-color: var(--accent-color); transform: scale(1.5); }
         .form-option span { font-size: 14px; text-align: left; color: #fff; }
 
-        /* GRID 5 COLUNAS (JSON GENERATED) */
+        /* GRID 5 COLUNAS (DESKTOP) / 2 COLUNAS (MOBILE) */
         .holo-grid { 
             display: grid; 
-            grid-template-columns: 1fr 1fr; /* Mobile: 2 colunas */
+            grid-template-columns: 1fr 1fr; /* Mobile: 2 colunas lado a lado */
             gap: 15px; margin-top: 20px; 
             max-height: 60vh; overflow-y: auto; 
             padding-right: 5px; padding-bottom: 20px; 
@@ -309,7 +309,7 @@
         .iframe-container iframe { width: 200%; height: 200%; transform: scale(0.5); transform-origin: 0 0; border: none; opacity: 0; transition: opacity 0.5s; }
         .iframe-container iframe.loaded { opacity: 1; }
 
-        /* SKELETON LOADING (SHIMMER) */
+        /* SKELETON LOADING */
         .skeleton-loader {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background: linear-gradient(90deg, #0a1120 25%, #1e2f52 50%, #0a1120 75%);
@@ -411,7 +411,7 @@
             <a href="#" onclick="abrirModal('portfolioModal')" class="btn btn-outline"><i class="fas fa-hologram"></i> Ver Projetos</a>
             <a href="#" onclick="abrirModal('orcamentoModal')" class="btn btn-outline"><i class="fas fa-calculator"></i> Solicitar Orçamento</a>
             <a href="#" onclick="abrirModal('loginModal')" class="btn btn-outline"><i class="fas fa-user-lock"></i> Acompanhar Projeto</a>
-            <a href="https://wa.me/5521999999999" class="btn btn-gold"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+            <a href="https://wa.me/5521983340089" class="btn btn-gold"><i class="fab fa-whatsapp"></i> WhatsApp</a>
             <a href="https://www.oimaginista.com" class="btn btn-outline" style="border-width: 2px;"><i class="fas fa-globe"></i> Site Oficial</a>
         </div>
 
@@ -424,7 +424,7 @@
 
         <div class="footer-static" id="footerContainer">
             <img src="imagens/logo.png" class="footer-logo" id="footerLogoImg" onclick="criarEstrelas(event)">
-            <p class="copyright">© 2026 IMAGINISTA ∴ <br class="break-mobile">Todos os direitos reservados.</p>
+            <p class="copyright">© 2025 IMAGINISTA ∴ <br class="break-mobile">Todos os direitos reservados.</p>
         </div>
     </div>
 
@@ -481,7 +481,7 @@
         // --- 1. SEGURANÇA ---
         document.addEventListener('contextmenu', event => {
             event.preventDefault();
-            alert('⚠️ IMAGINISTA SECURITY: Acesso negado.');
+            alert('⚠️ IMAGINISTA SECURITY: Acesso ao código fonte bloqueado.');
         });
         document.onkeydown = function(e) {
             if(e.keyCode == 123) { return false; } 
@@ -524,7 +524,7 @@
             renderProjects();
         }
 
-        // --- 4. FUNÇÕES DE LOGIN (CORRIGIDO) ---
+        // --- 4. FUNÇÕES DE LOGIN ---
         async function checkLogin() {
             const code = document.getElementById('passInput').value.trim();
             const msg = document.getElementById('loginMsg');
@@ -532,32 +532,27 @@
             
             if (!code) return;
 
-            // Simula verificação tentando acessar o arquivo
             try {
-                // Tenta buscar o arquivo (HEAD request para ser rápido)
                 const res = await fetch(`status/${code}.html`, { method: 'HEAD' }); 
                 
                 if (res.ok) {
-                    // SUCESSO: Redireciona
                     msg.style.display = 'none';
                     window.location.href = `status/${code}.html`;
                 } else {
                     throw new Error('404');
                 }
             } catch (e) {
-                // ERRO: Senha incorreta ou arquivo não existe
                 msg.style.display = 'block';
                 msg.innerText = '⛔ ACESSO NEGADO: CÓDIGO INVÁLIDO';
                 
-                // Efeito Shake
                 box.classList.remove('shake-anim');
-                void box.offsetWidth; // Força reflow
+                void box.offsetWidth; 
                 box.classList.add('shake-anim');
                 if(navigator.vibrate) navigator.vibrate([50, 50, 50]);
             }
         }
 
-        // Renderiza projetos
+        // Renderiza projetos com CORREÇÃO DE LOADING
         function renderProjects() {
             const grid = document.getElementById('projectsGrid');
             grid.innerHTML = ''; 
@@ -570,12 +565,24 @@
 
                 let contentHtml = '';
                 if(proj.type === 'site') {
+                    // ID único para controle
+                    const frameId = 'frame-' + Math.random().toString(36).substr(2, 9);
+                    
                     contentHtml = `
                         <div class="iframe-container">
-                            <div class="skeleton-loader"></div>
-                            <iframe loading="lazy" src="${proj.url}" scrolling="no" onload="this.classList.add('loaded'); this.previousElementSibling.style.display='none';"></iframe>
+                            <div class="skeleton-loader" id="skel-${frameId}"></div>
+                            <iframe id="${frameId}" src="${proj.url}" scrolling="no" onload="document.getElementById('skel-${frameId}').style.display='none'; this.classList.add('loaded');"></iframe>
                         </div>
                     `;
+                    
+                    // Fallback de segurança: remove o skeleton após 3s mesmo se não carregar
+                    setTimeout(() => {
+                        const skel = document.getElementById(`skel-${frameId}`);
+                        const frame = document.getElementById(frameId);
+                        if(skel) skel.style.display = 'none';
+                        if(frame) frame.classList.add('loaded');
+                    }, 3000);
+
                 } else {
                     contentHtml = `
                         <div class="system-placeholder">
@@ -670,20 +677,20 @@
 
         function shareLink() { if (navigator.share) navigator.share({ title: 'Imaginista', url: window.location.href }); else alert('Link copiado!'); }
         function baixarVCard() { 
-            const blob = new Blob([`BEGIN:VCARD\nVERSION:3.0\nFN:Imaginista\nTEL;TYPE=CELL:+5521999999999\nEMAIL:contato@oimaginista.com\nURL:https://www.oimaginista.com\nEND:VCARD`], { type: "text/vcard" });
+            const blob = new Blob([`BEGIN:VCARD\nVERSION:3.0\nFN:Imaginista\nTEL;TYPE=CELL:+5521983340089\nEMAIL:imaginiista@gmail.com\nURL:https://www.oimaginista.com\nEND:VCARD`], { type: "text/vcard" });
             const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = "Imaginista.vcf"; a.click();
         }
         function abrirModal(id) { fecharModais(); document.getElementById(id).classList.add('active'); }
         function fecharModais() { document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('active')); }
         function toggleBlueprintMode(){ document.body.classList.toggle('blueprint-mode'); }
         function enviarOrcamentoZap() { 
-             let texto = "Olá Mestre! Gostaria de um orçamento para:%0A";
+             let texto = "Olá Imaginista! Gostaria de um orçamento para:%0A";
             if(document.getElementById('checkConvite').checked) texto += "- Convite Interativo%0A";
             if(document.getElementById('checkSite').checked) texto += "- Site/Landing Page%0A";
             if(document.getElementById('checkManutencao').checked) texto += "- Manutenção PC%0A";
             if(document.getElementById('checkOutros').checked) texto += "- Projeto Personalizado%0A";
             texto += "%0AAguardo retorno.";
-            window.open(`https://wa.me/5521999999999?text=${texto}`, '_blank');
+            window.open(`https://wa.me/5521983340089?text=${texto}`, '_blank');
         }
 
         const pCanvas = document.getElementById('particles-canvas');
