@@ -17,7 +17,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
     
     <style>
-        /* --- CSS PREMIUM --- */
+        /* --- CSS GERAL --- */
         :root {
             --bg-deep: #0a2a24;
             --gold: #d4af37;
@@ -59,13 +59,12 @@
         
         .format-btn {
             background: rgba(255,255,255,0.05); border: 2px solid var(--gold); border-radius: 15px;
-            padding: 15px; cursor: pointer; transition: 0.3s; width: 105px; /* Menor para caber 3 */
+            padding: 15px; cursor: pointer; transition: 0.3s; width: 105px;
             display: flex; flex-direction: column; align-items: center; backdrop-filter: blur(5px);
         }
         .format-btn:hover { background: rgba(212, 175, 55, 0.2); transform: scale(1.05); }
         .format-btn span { font-size: 0.8rem; margin-top: 8px; font-weight: bold; }
 
-        /* Ícones dos formatos */
         .icon-screen { border: 2px solid #fff; background: rgba(255,255,255,0.1); border-radius: 4px; }
         .vertical .icon-screen { width: 35px; height: 60px; }
         .horizontal .icon-screen { width: 60px; height: 35px; }
@@ -252,7 +251,6 @@
             document.getElementById('step-format').style.display = 'none';
             document.getElementById('step-editor').style.display = 'flex';
             
-            // Definição das Resoluções HD
             if (format === 'vertical') { 
                 canvas.width = 1080; canvas.height = 1920; 
             } else if (format === 'square') {
@@ -299,7 +297,7 @@
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             if (uploadedImage) {
-                // 1. Desfoque de Fundo
+                // 1. Desfoque
                 ctx.save();
                 ctx.filter = 'blur(90px) brightness(0.3) saturate(1.5)';
                 ctx.drawImage(uploadedImage, -100, -100, canvas.width + 200, canvas.height + 200);
@@ -319,22 +317,22 @@
                 }
                 
                 ctx.save();
-                ctx.filter = 'contrast(1.15) saturate(1.25)'; // HDR
+                ctx.filter = 'contrast(1.15) saturate(1.25)';
                 ctx.drawImage(uploadedImage, renderX, renderY, renderW, renderH);
                 ctx.restore();
             }
 
-            // 3. Vignette
+            // 3. Vignette Suave
             const vignette = ctx.createRadialGradient(canvas.width/2, canvas.height/2, canvas.width/5, canvas.width/2, canvas.height/2, canvas.width * 0.9);
             vignette.addColorStop(0, "transparent");
             vignette.addColorStop(1, "rgba(0, 20, 10, 0.6)");
             ctx.fillStyle = vignette;
             ctx.fillRect(0,0,canvas.width, canvas.height);
 
-            // 4. Gradiente Inferior (Ajustado para cada formato)
+            // 4. Gradiente Inferior (Ajustado para quadrado)
             let gradHeight;
             if (currentFormat === 'vertical') gradHeight = 900;
-            else if (currentFormat === 'square') gradHeight = 600;
+            else if (currentFormat === 'square') gradHeight = 550; // Reduzido para quadrado
             else gradHeight = 550;
 
             const gradient = ctx.createLinearGradient(0, canvas.height - gradHeight, 0, canvas.height);
@@ -344,7 +342,7 @@
             ctx.fillStyle = gradient;
             ctx.fillRect(0, canvas.height - gradHeight, canvas.width, gradHeight);
 
-            // 5. Moldura Dourada (Apenas em Vertical e Quadrado)
+            // 5. Moldura Dourada
             if (currentFormat === 'vertical' || currentFormat === 'square') {
                 const borderW = 45; 
                 const strokeW = 4;
@@ -356,21 +354,22 @@
                 ctx.shadowBlur = 0; 
             }
 
-            // 6. LAYOUT (Responsivo para 3 formatos)
+            // 6. LAYOUT (AJUSTADO PARA QUADRADO "RESPIRAR")
             let marginH = 100;
             let marginV = 120;
             
-            // Ajustes específicos por formato
-            if (currentFormat === 'square') { marginH = 80; marginV = 80; }
+            // AJUSTE CRÍTICO PARA O QUADRADO: Aumentei as margens para dar respiro
+            if (currentFormat === 'square') { marginH = 100; marginV = 110; }
             if (currentFormat === 'horizontal') { marginH = 130; marginV = 100; }
             if (currentFormat === 'vertical') { marginH = 100; marginV = 140; }
 
-            // --- LOGO (Tamanho Adaptável) ---
+            // --- LOGO ---
             if(logoImage.complete && logoImage.naturalHeight > 0) {
                 let logoSize;
                 if (currentFormat === 'vertical') logoSize = 130;
-                else if (currentFormat === 'square') logoSize = 120; // Médio
-                else logoSize = 110; // Horizontal
+                // Reduzi a logo no quadrado
+                else if (currentFormat === 'square') logoSize = 105; 
+                else logoSize = 110;
 
                 const logoAspectRatio = logoImage.width / logoImage.height;
                 const logoY = canvas.height - marginV - logoSize + 20;
@@ -388,7 +387,8 @@
             if(currentFormat === 'vertical') {
                 nameSize = 85; subSize = 55; dateSize = 38;
             } else if (currentFormat === 'square') {
-                nameSize = 80; subSize = 50; dateSize = 34; // Levemente menor para caber
+                // Reduzi os textos no quadrado
+                nameSize = 72; subSize = 44; dateSize = 30;
             } else {
                 nameSize = 75; subSize = 48; dateSize = 34;
             }
@@ -418,7 +418,8 @@
             // --- FRASE ---
             ctx.save();
             ctx.textAlign = 'center';
-            const phraseSize = currentFormat === 'square' ? 34 : (currentFormat === 'vertical' ? 38 : 36);
+            // Reduzi a frase no quadrado
+            const phraseSize = currentFormat === 'square' ? 30 : (currentFormat === 'vertical' ? 38 : 36);
             ctx.font = `italic 400 ${phraseSize}px "Montserrat"`;
             ctx.fillStyle = 'rgba(255,255,255,0.95)';
             ctx.shadowColor = "rgba(0,0,0,0.9)"; ctx.shadowBlur = 20;
@@ -426,12 +427,11 @@
             if (currentFormat === 'vertical') {
                 ctx.fillText("Uma noite mágica em Nova Orleans", canvas.width / 2, canvas.height - 80);
             } else {
-                // Horizontal e Quadrado no rodapé
                 ctx.fillText("Uma noite mágica em Nova Orleans", canvas.width / 2, canvas.height - 50);
             }
             ctx.restore();
 
-            // 7. BRILHOS (Adaptado para todos formatos)
+            // 7. BRILHOS
             const sparkleCount = 45;
             const edgeThickness = canvas.width * 0.15;
             const topThickness = canvas.height * 0.2;
@@ -461,7 +461,7 @@
         }
 
         function finishPreview() {
-            const dataUrl = canvas.toDataURL('image/jpeg', 0.95); // Qualidade HD
+            const dataUrl = canvas.toDataURL('image/jpeg', 0.95);
             const preview = document.getElementById('preview-img');
             preview.src = dataUrl;
             preview.style.display = 'block';
@@ -495,7 +495,7 @@
         function downloadImage() {
             const link = document.createElement('a');
             link.download = 'Geovana-XV-Imersao-Magica-HD.jpg';
-            link.href = canvas.toDataURL('image/jpeg', 0.95); // Força qualidade alta
+            link.href = canvas.toDataURL('image/jpeg', 0.95);
             link.click();
         }
 
