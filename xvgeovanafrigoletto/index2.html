@@ -179,12 +179,12 @@
         }
     }
 
-    /* Estilo dos Botões da Intro */
-    .intro-buttons-wrapper {
+    /* Container de Botões da Intro */
+    .intro-btn-container {
         display: flex;
         gap: 15px;
-        flex-wrap: wrap;
         justify-content: center;
+        flex-wrap: wrap;
     }
 
     .enter-button, .filter-button {
@@ -203,7 +203,7 @@
         display: inline-block;
     }
 
-    /* Efeito de Brilho Sugerido */
+    /* Brilho Sugerido */
     .enter-button::after, .filter-button::after {
         content: '';
         position: absolute;
@@ -213,10 +213,10 @@
         height: 200%;
         background: rgba(255, 255, 255, 0.4);
         transform: rotate(30deg);
-        animation: lightShine 4s infinite;
+        animation: buttonShine 4s infinite;
     }
 
-    @keyframes lightShine {
+    @keyframes buttonShine {
         0% { left: -60%; }
         20% { left: 120%; }
         100% { left: 120%; }
@@ -226,41 +226,6 @@
         background: var(--gold);
         color: var(--bg-dark);
         box-shadow: 0 0 30px var(--gold);
-    }
-
-    /* Botão Compartilhar Lateral */
-    .side-share-btn {
-        position: fixed;
-        right: 20px;
-        top: 50%;
-        transform: translateY(-50%);
-        z-index: 8000;
-        background: rgba(10, 42, 36, 0.9);
-        border: 1px solid var(--gold);
-        color: var(--gold);
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        box-shadow: 0 0 15px rgba(0,0,0,0.5);
-        transition: 0.4s;
-        opacity: 0;
-        pointer-events: none;
-        font-size: 1.5rem;
-    }
-
-    .side-share-btn.visible {
-        opacity: 1;
-        pointer-events: auto;
-    }
-
-    .side-share-btn:hover {
-        background: var(--gold);
-        color: var(--bg-dark);
-        transform: translateY(-50%) scale(1.1);
     }
 
     .fade-out {
@@ -296,14 +261,14 @@
         padding: 10px 20px;
         display: flex;
         align-items: center;
-        gap: 15px;
+        gap: 12px;
         box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
-        width: 360px;
+        width: 410px; /* Aumentado para caber o novo botão */
     }
 
     .controls-left {
         display: flex;
-        gap: 10px;
+        gap: 8px;
         align-items: center;
     }
 
@@ -336,6 +301,14 @@
         height: 32px;
         font-size: 16px;
         border-color: rgba(212, 175, 55, 0.5);
+    }
+
+    /* Estilo Especial Botão Share no Player */
+    .ctrl-btn.share-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 14px;
+        background: rgba(212, 175, 55, 0.1);
     }
 
     .display-marquee {
@@ -1558,7 +1531,7 @@
             transform: translateX(-50%) translateY(50px);
             bottom: 40px;
             width: 95%;
-            max-width: 400px;
+            max-width: 410px;
         }
 
         .player-container.visible {
@@ -1789,10 +1762,6 @@
 </head>
 <body>
 
-    <div id="btn-share" class="side-share-btn" onclick="shareInvite()">
-        📤
-    </div>
-
     <div id="intro-overlay">
         <div class="intro-bg-particles"></div>
         <div class="intro-content">
@@ -1806,7 +1775,7 @@
             
             <div class="magic-pointer">👇</div>
             
-            <div class="intro-buttons-wrapper">
+            <div class="intro-btn-container">
                 <button id="enter-btn" class="enter-button">Aonde a magia acontece</button>
                 <a href="https://oimaginista.com/xvgeovanafrigoletto/xp/" class="filter-button">FILTRO</a>
             </div>
@@ -1823,6 +1792,7 @@
                 <button id="vol-down" class="ctrl-btn sm">－</button>
                 <button id="play-pause" class="ctrl-btn play">▶</button>
                 <button id="vol-up" class="ctrl-btn sm">＋</button>
+                <button id="share-player" class="ctrl-btn sm share-btn" title="Compartilhar">📤</button>
             </div>
             <div class="display-marquee">
                 <div class="scrolling-text">🎵 XV Geovana Frigoletto • Uma Noite em Nova Orleans • A Magia Está no Ar 🎵</div>
@@ -2099,23 +2069,24 @@
         document.addEventListener('paste', e => e.preventDefault());
 
         /* =========================================
-           2. FUNÇÃO DE COMPARTILHAR
+           2. FUNÇÃO DE COMPARTILHAMENTO
            ========================================= */
-        function shareInvite() {
+        function sharePage() {
             if (navigator.share) {
                 navigator.share({
                     title: 'XV Geovana Frigoletto',
                     text: 'Uma Noite Mágica em Nova Orleans. Venha celebrar comigo!',
                     url: window.location.href
-                }).catch(err => console.log(err));
+                }).catch(err => console.log('Erro ao compartilhar:', err));
             } else {
-                const el = document.createElement('textarea');
-                el.value = window.location.href;
-                document.body.appendChild(el);
-                el.select();
+                // Fallback para computadores
+                const tempInput = document.createElement('input');
+                tempInput.value = window.location.href;
+                document.body.appendChild(tempInput);
+                tempInput.select();
                 document.execCommand('copy');
-                document.body.removeChild(el);
-                alert('Link copiado para compartilhar!');
+                document.body.removeChild(tempInput);
+                alert('Link do convite copiado com sucesso!');
             }
         }
 
@@ -2126,8 +2097,8 @@
         const playBtn = document.getElementById("play-pause");
         const volUp = document.getElementById("vol-up");
         const volDown = document.getElementById("vol-down");
+        const shareBtn = document.getElementById("share-player");
         const playerContainer = document.getElementById("music-player");
-        const sideShare = document.getElementById("btn-share");
         
         // Volume inicial
         audio.volume = 0.5;
@@ -2157,6 +2128,9 @@
             }
         });
 
+        // Evento do botão de compartilhar no player
+        shareBtn.addEventListener('click', sharePage);
+
         /* =========================================
            4. INTRODUÇÃO (ENTRADA)
            ========================================= */
@@ -2170,16 +2144,14 @@
             // Mostra conteúdo principal
             document.querySelector('.container').classList.add('show-content');
             
-            // Tenta tocar o áudio e mostra o player + botão lateral
+            // Tenta tocar o áudio e mostra o player
             audio.play()
                 .then(() => {
                     updateIcon();
                     playerContainer.classList.add('visible');
-                    sideShare.classList.add('visible');
                 })
                 .catch(() => {
                     playerContainer.classList.add('visible');
-                    sideShare.classList.add('visible');
                 });
 
             // Remove o overlay do DOM após a animação
@@ -2356,5 +2328,4 @@
             document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
         });
     </script>
-</body>
 </html>
