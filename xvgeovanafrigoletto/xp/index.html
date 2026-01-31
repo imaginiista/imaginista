@@ -12,15 +12,11 @@
     <meta name="theme-color" content="#0a2a24">
     
     <meta property="og:title" content="Imersão Tecnológica - XV Geovana"> 
-    <meta property="og:description" content="Uma noite mágica em Nova Orleans! Criei minha foto exclusiva. 🐸✨">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://oimaginista.com/xvgeovanafrigoletto/xp/">
-    <meta property="og:image" content="https://oimaginista.com/favicon/web-app-manifest-512x512.png">
+    <meta property="og:description" content="Crie sua foto mágica para celebrar os 15 Anos da Geovana em Nova Orleans! 🐸✨">
     
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
     
     <style>
-        /* --- CSS REFINADO PARA UMA EXPERIÊNCIA PREMIUM --- */
         :root {
             --bg-deep: #0a2a24;
             --gold: #d4af37;
@@ -34,13 +30,11 @@
             background: radial-gradient(circle at center, #0e3029 0%, #010a08 100%);
             color: #fff;
             font-family: 'Montserrat', sans-serif;
-            /* Garante altura total e previne rolagem lateral indesejada */
             min-height: 100vh; min-height: 100dvh; 
             overflow-x: hidden;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
         }
 
-        /* Efeito de Vaga-lumes no Fundo do Site */
         .firefly-container { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
         .firefly {
             position: absolute; width: 4px; height: 4px; background: var(--gold-glow);
@@ -54,7 +48,7 @@
             100% { transform: translate(300px, -300px) scale(0.2); opacity: 0; }
         }
 
-        /* --- TELA 1: SELEÇÃO --- */
+        /* --- TELA 1 --- */
         #step-format { z-index: 10; text-align: center; width: 90%; max-width: 600px; animation: fadeIn 1s ease; }
 
         h1 { font-family: 'Dancing Script', cursive; color: var(--gold); font-size: 3.8rem; margin-bottom: 5px; text-shadow: 0 0 20px rgba(212, 175, 55, 0.6); }
@@ -73,7 +67,6 @@
         .horizontal .icon-screen { width: 80px; height: 45px; }
         .format-btn span { font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 0.9rem; }
 
-        /* Botão Voltar e Rodapé */
         .btn-home {
             color: var(--gold); text-decoration: none; font-size: 0.9rem;
             border: 1px solid rgba(212, 175, 55, 0.5); padding: 12px 25px; border-radius: 30px;
@@ -88,12 +81,10 @@
             display: flex; flex-direction: column; align-items: center; gap: 15px;
         }
         .logo-click { cursor: pointer; transition: transform 0.3s; position: relative; }
-        .logo-click::after { content: ''; position: absolute; inset: -10px; background: radial-gradient(circle, var(--gold-glow) 0%, transparent 70%); opacity: 0; transition: 0.3s; z-index: -1; }
         .logo-click:hover { transform: scale(1.05); }
-        .logo-click:hover::after { opacity: 0.3; }
         .footer-logo { height: 35px; opacity: 0.9; filter: drop-shadow(0 0 5px rgba(0,0,0,0.5)); }
 
-        /* --- TELA 2: EDITOR --- */
+        /* --- TELA 2 --- */
         #step-editor {
             display: none; flex-direction: column; align-items: center;
             width: 100%; min-height: 100dvh; z-index: 20; padding: 20px 15px;
@@ -121,7 +112,6 @@
         #preview-img { display: block; max-height: 55vh; max-width: 100%; object-fit: contain; }
         #placeholder-text { padding: 50px 20px; border: 3px dashed rgba(212, 175, 55, 0.3); color: rgba(255,255,255,0.6); border-radius: 12px; text-align: center; width: 100%; max-width: 300px; font-family: 'Cinzel'; }
 
-        /* Controles e Botões */
         .controls { display: flex; flex-direction: column; gap: 15px; width: 100%; max-width: 400px; align-items: center; padding-bottom: 50px; }
         
         .btn-main-style {
@@ -152,7 +142,6 @@
 
         #file-input { display: none; }
         
-        /* Loading Mágico */
         #loading { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 100; display: none; align-items: center; justify-content: center; flex-direction: column; backdrop-filter: blur(10px); }
         .spinner-container { position: relative; width: 80px; height: 80px; }
         .spinner {
@@ -163,10 +152,7 @@
         @keyframes spin { to { transform: rotate(360deg); } }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* Canvas Invisível */
         #render-canvas { display: none; }
-        
-        /* Efeito de Fogos (Classe JS) */
         .firework { position: fixed; width: 6px; height: 6px; border-radius: 50%; pointer-events: none; z-index: 9999; box-shadow: 0 0 10px var(--gold); }
     </style>
 </head>
@@ -176,7 +162,7 @@
 
     <div id="step-format">
         <h1>Imersão Tecnológica</h1>
-        <p class="desc">Escolha o formato da sua magia:</p>
+        <p class="desc">Escolha como eternizar esse momento:</p>
         
         <div class="format-grid">
             <div class="format-btn vertical" onclick="selectFormat('vertical')">
@@ -202,13 +188,13 @@
     <div id="step-editor">
         <div class="header-editor">
             <button class="btn-back" onclick="resetFormat()">❮ Trocar Formato</button>
-            <span style="font-family:'Dancing Script'; color:var(--gold); font-size:1.2rem;">Geovana XV</span>
+            <span style="font-family:'Dancing Script'; color:var(--gold); font-size:1.4rem;">Geovana XV</span>
         </div>
         
         <div class="preview-container">
             <img id="preview-img" src="" alt="Sua Foto Mágica" style="display:none;">
             <div id="placeholder-text">
-                <div style="font-size: 3rem; margin-bottom: 15px; filter: drop-shadow(0 0 10px var(--gold));">✨📸✨</div>
+                <div style="font-size: 3rem; margin-bottom: 15px; filter: drop-shadow(0 0 10px var(--gold));">📸</div>
                 Sua foto aparecerá aqui com a magia do Imaginista
             </div>
         </div>
@@ -249,41 +235,37 @@
 
     <script>
         // === CONFIGURAÇÕES DIAGNÓSTICO ===
-        // Caminhos relativos (assumindo que este arquivo está em /xp/ e as imagens na raiz do evento)
-        const LOGO_PNG = '../logo.png';
-        const LOGO_WEBP = '../logo.webp';
-        const PHONE_TEST = "5521983340089"; // Número da Geovana
+        // Caminhos corrigidos para PASTA ATUAL
+        const LOGO_PNG = 'logo.png';
+        const LOGO_WEBP = 'logo.webp';
+        const PHONE_TEST = "5521983340089"; 
         
-        // Variáveis Globais
         let currentFormat = null;
         let canvas = document.getElementById('render-canvas');
-        let ctx = canvas.getContext('2d', { willReadFrequently: true }); // Otimização para filtros
+        let ctx = canvas.getContext('2d', { willReadFrequently: true });
         let uploadedImage = null;
         let logoImage = new Image();
         
-        // === INICIALIZAÇÃO ===
-        // Tenta carregar a logo PNG primeiro, com fallback para WEBP
-        logoImage.crossOrigin = "Anonymous"; // Crucial para não travar o canvas
+        // Inicialização robusta da Logo
+        logoImage.crossOrigin = "Anonymous";
         logoImage.onerror = function() {
-            console.warn("Logo PNG falhou, tentando WEBP...");
-            this.src = LOGO_WEBP; // Tenta o backup
-            // Se o backup também falhar, ele não desenhará nada, mas não travará.
+            console.warn("Falha no PNG, tentando WEBP...");
+            this.src = LOGO_WEBP;
             this.onerror = null; 
         };
-        // Inicia o carregamento imediatamente
         logoImage.src = LOGO_PNG;
 
-        // Fallback visual para a logo do rodapé se o PNG falhar
-        document.getElementById('footer-logo-img').onerror = function() { this.src = LOGO_WEBP; };
+        // Fallback logo rodapé
+        const footerLogo = document.getElementById('footer-logo-img');
+        if(footerLogo) footerLogo.onerror = function() { this.src = LOGO_WEBP; };
 
-        // Gera os Vaga-lumes do Fundo (CSS)
+        // Vaga-lumes
         const fireflies = document.getElementById('fireflies');
         for(let i=0; i<35; i++){
             let f = document.createElement('div');
             f.className = 'firefly';
             f.style.left = Math.random()*100 + '%';
             f.style.top = Math.random()*100 + '%';
-            // Varia o tamanho e a cor para mais realismo
             const size = Math.random() * 3 + 2;
             f.style.width = size + 'px'; f.style.height = size + 'px';
             if(i % 3 === 0) f.style.background = 'var(--magic-green)';
@@ -292,14 +274,11 @@
             fireflies.appendChild(f);
         }
 
-        // === FUNÇÕES DO FLUXO ===
-
-        // 1. Seleção de Formato
+        // Funções Fluxo
         function selectFormat(format) {
             currentFormat = format;
             document.getElementById('step-format').style.display = 'none';
             document.getElementById('step-editor').style.display = 'flex';
-            // Define resolução alta (2K)
             if (format === 'vertical') { canvas.width = 1080; canvas.height = 1920; }
             else { canvas.width = 1920; canvas.height = 1080; }
         }
@@ -310,7 +289,6 @@
             document.getElementById('step-format').style.display = 'block';
         }
 
-        // 2. Upload da Imagem
         function handleImage(input) {
             if (input.files && input.files[0]) {
                 document.getElementById('loading').style.display = 'flex';
@@ -319,10 +297,8 @@
                     const img = new Image();
                     img.onload = function() {
                         uploadedImage = img;
-                        // GARANTIA ABSOLUTA: Espera as fontes carregarem antes de desenhar
                         document.fonts.ready.then(() => { 
-                            // Pequeno delay para garantir que o navegador processou o filtro CSS
-                            setTimeout(renderCanvas, 300); 
+                            setTimeout(renderCanvas, 500); // Delay maior p/ carregar filtros
                         });
                     }
                     img.src = e.target.result;
@@ -331,22 +307,18 @@
             }
         }
 
-        // === O CORAÇÃO DA MAGIA: RENDERIZAÇÃO ===
         function renderCanvas() {
-            // Limpa o canvas
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             if (uploadedImage) {
-                // --- CAMADA 1: FUNDO DESFOCADO (Preenchimento Premium) ---
-                ctx.save(); // Salva o estado limpo
-                // Aplica filtro de desfoque pesado e escurece
-                ctx.filter = 'blur(50px) brightness(0.4) saturate(1.2)';
-                // Desenha a imagem esticada para preencher tudo
-                ctx.drawImage(uploadedImage, -50, -50, canvas.width + 100, canvas.height + 100);
-                ctx.restore(); // Restaura para remover o filtro de desfoque
+                // 1. FUNDO DESFOCADO (PREENCHIMENTO)
+                ctx.save();
+                ctx.filter = 'blur(60px) brightness(0.4)';
+                // Desenha bem maior que o canvas para evitar bordas brancas no blur
+                ctx.drawImage(uploadedImage, -100, -100, canvas.width + 200, canvas.height + 200);
+                ctx.restore();
 
-                // --- CAMADA 2: FOTO PRINCIPAL COM HDR ---
-                // Calcula a proporção para "encaixar" (contain) a imagem sem cortar
+                // 2. FOTO PRINCIPAL
                 const imgRatio = uploadedImage.width / uploadedImage.height;
                 const canvasRatio = canvas.width / canvas.height;
                 let renderW, renderH, renderX, renderY;
@@ -359,151 +331,115 @@
                     renderX = 0; renderY = (canvas.height - renderH) / 2;
                 }
                 
-                ctx.save(); // Salva antes do filtro HDR
-                // APLICA O FILTRO HDR: Aumenta contraste e saturação para "saltar" a imagem
-                ctx.filter = 'contrast(1.15) saturate(1.2)';
-                // Desenha a imagem principal centralizada
+                ctx.save();
+                // Filtro HDR Leve na Foto Principal
+                ctx.filter = 'contrast(1.1) saturate(1.15)';
                 ctx.drawImage(uploadedImage, renderX, renderY, renderW, renderH);
-                ctx.restore(); // Restaura para não aplicar HDR nos textos
+                ctx.restore();
             }
 
-            // --- CAMADA 3: VIGNETTE CINEMATOGRÁFICA (Bordas Escuras) ---
-            const vignette = ctx.createRadialGradient(canvas.width/2, canvas.height/2, canvas.width/5, canvas.width/2, canvas.height/2, canvas.width * 0.8);
+            // 3. VIGNETTE ESCURA
+            const vignette = ctx.createRadialGradient(canvas.width/2, canvas.height/2, canvas.width/4, canvas.width/2, canvas.height/2, canvas.width * 0.9);
             vignette.addColorStop(0, "transparent");
-            vignette.addColorStop(1, "rgba(0,10,5,0.7)"); // Tom esverdeado escuro
-            // Mistura a vignette com a foto (multiply para escurecer de forma natural)
+            vignette.addColorStop(1, "rgba(0,10,5,0.7)");
+            ctx.save();
             ctx.globalCompositeOperation = 'multiply';
             ctx.fillStyle = vignette;
             ctx.fillRect(0,0,canvas.width, canvas.height);
-            ctx.globalCompositeOperation = 'source-over'; // Volta ao normal
+            ctx.restore();
 
-            // --- CAMADA 4: GRADIENTE INFERIOR MÁGICO ---
-            // Altura maior para o gradiente subir mais
-            const gradHeight = currentFormat === 'vertical' ? 900 : 600;
+            // 4. GRADIENTE VERDE MÁGICO (BASE)
+            const gradHeight = currentFormat === 'vertical' ? 850 : 550;
             const gradient = ctx.createLinearGradient(0, canvas.height - gradHeight, 0, canvas.height);
             gradient.addColorStop(0, "transparent");
-            // Gradiente mais rico com toque de dourado e verde
-            gradient.addColorStop(0.5, "rgba(10, 42, 36, 0.9)");
+            gradient.addColorStop(0.6, "rgba(10, 42, 36, 0.9)");
             gradient.addColorStop(1, "#010a08");
             ctx.fillStyle = gradient;
             ctx.fillRect(0, canvas.height - gradHeight, canvas.width, gradHeight);
 
-            // --- CAMADA 5: MOLDURA DOURADA (Correção de Corte) ---
-            const borderW = 40; // Margem da borda
-            const strokeW = 4;  // Espessura da linha
+            // 5. MOLDURA DOURADA INTERNA
+            const borderW = 40; 
+            const strokeW = 3;
+            const offset = borderW + (strokeW / 2);
+            
             ctx.strokeStyle = "#d4af37";
             ctx.lineWidth = strokeW;
-            // Desenha o retângulo deslocado pela metade da espessura para não cortar
-            const offset = borderW + (strokeW / 2);
-            ctx.strokeRect(offset, offset, canvas.width - (offset*2), canvas.height - (offset*2));
-            
-            // Adiciona um brilho extra na borda
             ctx.shadowColor = "#fdd835";
-            ctx.shadowBlur = 15;
+            ctx.shadowBlur = 10;
             ctx.strokeRect(offset, offset, canvas.width - (offset*2), canvas.height - (offset*2));
-            ctx.shadowBlur = 0; // Reseta sombra
+            ctx.shadowBlur = 0; // Reset sombra
 
-            // --- CAMADA 6: ELEMENTOS (Logo e Texto) ---
-            // Margens aumentadas drasticamente para evitar sobreposição
+            // 6. ELEMENTOS
             const margin = currentFormat === 'vertical' ? 100 : 120;
             const logoSize = currentFormat === 'vertical' ? 240 : 200; 
-            // Calcula posição Y da logo
             const logoY = canvas.height - logoSize - margin - 20;
 
-            // Desenha a Logo (com verificação se carregou)
+            // Logo
             if(logoImage.complete && logoImage.naturalHeight > 0) {
                 ctx.save();
-                ctx.globalAlpha = 0.95; // Leve transparência
-                // Sombra dourada na logo para destacar do fundo escuro
-                ctx.shadowColor = "rgba(212, 175, 55, 0.5)"; ctx.shadowBlur = 20;
+                ctx.globalAlpha = 0.95;
+                ctx.shadowColor = "rgba(0,0,0,0.8)"; ctx.shadowBlur = 15;
                 const logoAspectRatio = logoImage.width / logoImage.height;
-                // Desenha alinhado à direita
-                ctx.drawImage(logoImage, canvas.width - margin - (logoSize * logoAspectRatio), logoY, logoSize * logoAspectRatio, logoSize);
+                // Esquerda
+                ctx.drawImage(logoImage, margin - 40, logoY + 50, logoSize * logoAspectRatio, logoSize);
                 ctx.restore();
             }
 
-            // Textos (Alinhados à direita)
+            // Textos (Direita)
             ctx.textAlign = 'right';
-            // Tamanhos de fonte ajustados para a resolução 2K
-            const nameSize = currentFormat === 'vertical' ? 110 : 90;
-            const subSize = currentFormat === 'vertical' ? 60 : 50;
+            const nameSize = currentFormat === 'vertical' ? 100 : 85;
+            const subSize = currentFormat === 'vertical' ? 55 : 45;
             const dateSize = currentFormat === 'vertical' ? 40 : 35;
 
-            // Geovana Frigoletto (Dancing Script)
+            // Geovana Frigoletto
             ctx.font = `bold ${nameSize}px "Dancing Script"`; 
             ctx.fillStyle = '#fdd835'; 
-            // Sombra de texto forte para leitura
-            ctx.shadowColor = "rgba(0,0,0,1)"; ctx.shadowBlur = 25; ctx.shadowOffsetX = 5; ctx.shadowOffsetY = 5;
-            // Posição Y calculada para ficar BEM acima da data
-            ctx.fillText("Geovana Frigoletto", canvas.width - margin, canvas.height - margin - 180);
+            ctx.shadowColor = "rgba(0,0,0,1)"; ctx.shadowBlur = 20;
+            ctx.fillText("Geovana Frigoletto", canvas.width - margin + 20, canvas.height - margin - 160);
             
-            // XV ANOS (Cinzel - Afastado do nome)
+            // XV ANOS (Bem separado)
             ctx.font = `bold ${subSize}px "Cinzel"`;
             ctx.fillStyle = '#ffffff';
-            ctx.shadowBlur = 15; // Sombra um pouco menor
-            ctx.fillText("XV ANOS", canvas.width - margin, canvas.height - margin - 280);
+            ctx.shadowBlur = 10;
+            ctx.fillText("XV ANOS", canvas.width - margin + 20, canvas.height - margin - 270);
 
-            // Data (Cinzel - Perto da margem inferior)
+            // Data
             ctx.font = `bold ${dateSize}px "Cinzel"`;
             ctx.fillStyle = '#fff59d';
-            ctx.shadowColor = "rgba(0,0,0,0.8)"; ctx.shadowBlur = 10; ctx.shadowOffsetX = 2; ctx.shadowOffsetY = 2;
-            ctx.fillText("31.01.2026", canvas.width - margin, canvas.height - margin);
+            ctx.shadowBlur = 5;
+            ctx.fillText("31.01.2026", canvas.width - margin + 20, canvas.height - margin + 10);
 
-            // Frase Mágica Centralizada (Opcional - Se quiser ativar, descomente)
-            /*
-            ctx.save();
-            ctx.textAlign = 'center';
-            ctx.font = `italic 30px "Montserrat"`;
-            ctx.fillStyle = 'rgba(255,255,255,0.7)';
-            ctx.shadowColor = "transparent";
-            ctx.fillText("Uma noite mágica em Nova Orleans", canvas.width/2, canvas.height - 40);
-            ctx.restore();
-            */
-
-            // --- CAMADA 7: PARTÍCULAS MÁGICAS NA FOTO (Vaga-lumes estáticos) ---
-            // Isso desenha os pontos de luz NA imagem final
-            for (let i = 0; i < 25; i++) {
+            // 7. PARTÍCULAS MÁGICAS (FINAL)
+            for (let i = 0; i < 30; i++) {
                 const x = Math.random() * canvas.width;
-                // Concentra mais partículas na parte inferior
-                const y = Math.random() * (canvas.height * 0.6) + (canvas.height * 0.4);
-                const size = Math.random() * 6 + 2; // Tamanho variado
-                
+                const y = Math.random() * canvas.height;
+                const size = Math.random() * 5 + 1;
                 ctx.beginPath();
                 ctx.arc(x, y, size, 0, Math.PI * 2);
-                // Cor dourada/verde mágica
-                ctx.fillStyle = i % 2 === 0 ? "rgba(255, 215, 0, 0.7)" : "rgba(0, 255, 136, 0.6)";
-                // Brilho intenso
+                ctx.fillStyle = i % 2 === 0 ? "rgba(255, 215, 0, 0.6)" : "rgba(0, 255, 136, 0.5)";
                 ctx.shadowColor = i % 2 === 0 ? "#fdd835" : "#00ff88";
-                ctx.shadowBlur = 20;
+                ctx.shadowBlur = 15;
                 ctx.fill();
-                ctx.shadowBlur = 0; // Reseta sombra para a próxima iteração
+                ctx.shadowBlur = 0;
             }
 
-            // Finaliza e mostra o resultado
             finishPreview();
         }
 
-        // Finaliza a renderização e mostra os botões
         function finishPreview() {
-            // Gera o JPEG com qualidade máxima (0.95)
             const dataUrl = canvas.toDataURL('image/jpeg', 0.95);
             const preview = document.getElementById('preview-img');
             preview.src = dataUrl;
             preview.style.display = 'block';
-            
-            // Esconde elementos de upload e mostra ações finais
             document.getElementById('placeholder-text').style.display = 'none';
             document.getElementById('upload-label').style.display = 'none';
             document.getElementById('trash-btn').style.display = 'flex';
             document.getElementById('actions').style.display = 'flex';
-            
-            // Esconde o loading
             document.getElementById('loading').style.display = 'none';
         }
 
-        // Reseta para escolher outra foto
         function resetImage() {
-            if(confirm("Deseja trocar a foto e remover a magia atual?")) {
+            if(confirm("Deseja trocar a foto?")) {
                 uploadedImage = null;
                 document.getElementById('file-input').value = "";
                 document.getElementById('preview-img').style.display = 'none';
@@ -515,8 +451,6 @@
             }
         }
 
-        // --- FUNÇÕES DE COMPARTILHAMENTO ---
-        // Converte DataURL para Blob (necessário para compartilhamento nativo)
         function dataURLtoBlob(dataurl) {
             var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
                 bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
@@ -524,7 +458,6 @@
             return new Blob([u8arr], {type:mime});
         }
 
-        // Download Direto
         function downloadImage() {
             const link = document.createElement('a');
             link.download = 'Geovana-XV-Imersao-Magica.jpg';
@@ -532,73 +465,42 @@
             link.click();
         }
 
-        // WhatsApp (Força download antes)
         function shareWhatsapp() {
             downloadImage(); 
-            // Delay para garantir que o download iniciou
             setTimeout(() => {
                 const text = encodeURIComponent("✨ Olha a foto mágica que fiz na Imersão do XV da Geovana! 🐸 #XVGeovana #NovaOrleans");
                 window.open(`https://wa.me/${PHONE_TEST}?text=${text}`, '_blank');
             }, 1000);
         }
 
-        // Compartilhamento Nativo (Android/iOS)
         async function shareNative() {
-            // Verifica se o navegador suporta
+            const dataUrl = canvas.toDataURL('image/jpeg', 0.95);
+            const blob = dataURLtoBlob(dataUrl);
+            const file = new File([blob], "Geovana-XV.jpg", { type: "image/jpeg" });
+
             if (navigator.share) {
-                document.getElementById('loading').style.display = 'flex'; // Mostra loading durante o processo
-                try {
-                    const dataUrl = canvas.toDataURL('image/jpeg', 0.95);
-                    const blob = dataURLtoBlob(dataUrl);
-                    // Cria um arquivo virtual para compartilhar
-                    const file = new File([blob], "Geovana-XV-Magia.jpg", { type: "image/jpeg" });
-                    
-                    await navigator.share({
-                        title: 'XV Geovana Frigoletto',
-                        text: 'Minha foto na Imersão Tecnológica! ✨🐸',
-                        files: [file]
-                    });
-                } catch (err) {
-                    console.log('Compartilhamento cancelado ou falhou:', err);
-                } finally {
-                    document.getElementById('loading').style.display = 'none'; // Esconde loading
-                }
+                try { await navigator.share({ title: 'XV Geovana', text: 'Minha foto mágica! ✨', files: [file] }); } 
+                catch (err) { console.log('Cancelado'); }
             } else {
-                // Fallback para navegadores sem suporte
-                alert("Seu navegador não suporta o compartilhamento direto.\n\nA imagem será baixada para sua galeria! ✨");
+                alert("Seu navegador não suporta compartilhamento direto.\n\nClique em 'Baixar' e poste manualmente! ✨");
                 downloadImage();
             }
         }
 
-        // --- EFEITO VISUAL DE CLIQUE (FOGOS) ---
         function magicEffect(e) {
-            // Cores do tema
             const colors = ['#fdd835', '#00ff88', '#ffffff', '#d4af37'];
-            // Cria 24 partículas
-            for(let i=0; i<24; i++) {
+            for(let i=0; i<20; i++) {
                 const p = document.createElement('div');
                 p.className = 'firework';
-                // Cor aleatória
                 p.style.background = colors[Math.floor(Math.random()*colors.length)];
-                // Posição inicial no clique
                 p.style.left = e.clientX + 'px';
                 p.style.top = e.clientY + 'px';
                 document.body.appendChild(p);
-                
-                // Cálculo de explosão
-                const angle = Math.random() * Math.PI * 2; // Ângulo aleatório
-                const dist = Math.random() * 120 + 50; // Distância aleatória
+                const angle = Math.random() * Math.PI * 2;
+                const dist = Math.random() * 120 + 50;
                 const xDir = Math.cos(angle) * dist;
                 const yDir = Math.sin(angle) * dist;
-                
-                // Animação de explosão e desaparecimento
-                p.animate([
-                    { transform: 'translate(0,0) scale(1)', opacity: 1 },
-                    { transform: `translate(${xDir}px, ${yDir}px) scale(0.1)`, opacity: 0 }
-                ], { 
-                    duration: 800 + Math.random()*400, // Duração variável
-                    easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)' // Easing de explosão
-                }).onfinish = () => p.remove(); // Remove do DOM ao terminar
+                p.animate([{ transform: 'translate(0,0) scale(1)', opacity: 1 }, { transform: `translate(${xDir}px, ${yDir}px) scale(0.1)`, opacity: 0 }], { duration: 800 + Math.random()*400, easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)' }).onfinish = () => p.remove();
             }
         }
     </script>
