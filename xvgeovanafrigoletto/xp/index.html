@@ -5,6 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Imersão - Geovana Frigoletto</title>
     
+    <link rel="icon" type="image/png" href="../favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/svg+xml" href="../favicon/favicon.svg">
+    <link rel="shortcut icon" href="../favicon/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="../favicon/apple-touch-icon.png">
+    <meta name="theme-color" content="#0a2a24">
+    
+    <meta property="og:title" content="Imersão Tecnológica - XV Geovana"> 
+    <meta property="og:description" content="Crie sua foto mágica para celebrar os 15 Anos da Geovana em Nova Orleans! 🐸✨">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://oimaginista.com/xvgeovanafrigoletto/xp/">
+    <meta property="og:image" content="https://oimaginista.com/favicon/web-app-manifest-512x512.png">
+    
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Cinzel:wght@400;700&family=Montserrat:wght@300;700&display=swap" rel="stylesheet">
     
     <style>
@@ -21,17 +33,11 @@
             background: radial-gradient(circle at center, #0e3029 0%, #000 100%);
             color: #fff;
             font-family: 'Montserrat', sans-serif;
-            /* dvh garante altura correta no iPhone com barra de endereço */
-            min-height: 100vh;
-            min-height: 100dvh; 
+            min-height: 100vh; min-height: 100dvh; 
             overflow-x: hidden;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
         }
 
-        /* --- BACKGROUND --- */
         .firefly-container { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
         .firefly {
             position: absolute; width: 4px; height: 4px; background: var(--gold);
@@ -44,148 +50,85 @@
             100% { transform: translate(100px, -100px); }
         }
 
-        /* --- TELA 1: FORMATO --- */
-        #step-format {
-            z-index: 10; text-align: center; width: 90%; max-width: 600px;
-            animation: fadeIn 1s ease;
-        }
+        /* --- TELA 1 --- */
+        #step-format { z-index: 10; text-align: center; width: 90%; max-width: 600px; animation: fadeIn 1s ease; }
 
-        h1 {
-            font-family: 'Dancing Script', cursive; color: var(--gold);
-            font-size: 3.5rem; margin-bottom: 10px; text-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
-        }
-        
+        h1 { font-family: 'Dancing Script', cursive; color: var(--gold); font-size: 3.5rem; margin-bottom: 10px; text-shadow: 0 0 15px rgba(212, 175, 55, 0.5); }
         p.desc { font-family: 'Cinzel', serif; font-size: 1.1rem; color: #ccc; margin-bottom: 30px; }
 
         .format-grid { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
-
         .format-btn {
-            background: rgba(255,255,255,0.05);
-            border: 2px solid var(--gold);
-            border-radius: 15px;
-            padding: 20px;
-            cursor: pointer;
-            transition: 0.3s;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 140px;
-            position: relative;
-            overflow: hidden;
+            background: rgba(255,255,255,0.05); border: 2px solid var(--gold); border-radius: 15px;
+            padding: 20px; cursor: pointer; transition: 0.3s; width: 140px;
+            display: flex; flex-direction: column; align-items: center;
         }
-
-        .format-btn:hover, .format-btn:active { 
-            background: rgba(212, 175, 55, 0.2); 
-            transform: scale(1.05); 
-            box-shadow: 0 0 20px rgba(212, 175, 55, 0.3); 
-        }
+        .format-btn:hover { background: rgba(212, 175, 55, 0.2); transform: scale(1.05); }
         
-        .icon-screen {
-            border: 2px solid #fff; margin-bottom: 10px; background: rgba(255,255,255,0.1);
-            border-radius: 4px;
-        }
+        .icon-screen { border: 2px solid #fff; margin-bottom: 10px; background: rgba(255,255,255,0.1); border-radius: 4px; }
         .vertical .icon-screen { width: 40px; height: 70px; }
         .horizontal .icon-screen { width: 70px; height: 40px; }
 
-        /* Propaganda */
-        .powered-by {
-            margin-top: 40px; font-size: 0.8rem; opacity: 0.7;
-            display: flex; align-items: center; justify-content: center; gap: 10px;
-        }
+        .powered-by { margin-top: 40px; font-size: 0.8rem; opacity: 0.7; display: flex; align-items: center; justify-content: center; gap: 10px; }
         .powered-by img { height: 30px; filter: drop-shadow(0 0 5px rgba(255,255,255,0.5)); }
 
-        /* --- TELA 2: EDITOR --- */
+        .btn-home {
+            margin-top: 20px; color: #aaa; text-decoration: none; font-size: 0.9rem;
+            border-bottom: 1px solid transparent; transition: 0.3s;
+        }
+        .btn-home:hover { color: #fff; border-color: #fff; }
+
+        /* --- TELA 2 --- */
         #step-editor {
             display: none; flex-direction: column; align-items: center;
             width: 100%; min-height: 100dvh; z-index: 20; padding: 20px;
             position: absolute; top: 0; left: 0; background: rgba(10, 42, 36, 0.98);
         }
 
-        .header-editor {
-            width: 100%; max-width: 600px; display: flex; justify-content: space-between; align-items: center;
-            margin-bottom: 15px;
-        }
-
+        .header-editor { width: 100%; max-width: 600px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
         .btn-back {
             background: rgba(255,255,255,0.1); border: 1px solid var(--gold); color: var(--gold);
             padding: 8px 15px; border-radius: 20px; cursor: pointer; font-size: 0.9rem;
-            display: flex; align-items: center; gap: 5px; transition: 0.3s; font-family: 'Cinzel', serif;
+            display: flex; align-items: center; gap: 5px; font-family: 'Cinzel', serif;
         }
 
-        /* Preview */
         .preview-container {
-            position: relative;
-            box-shadow: 0 0 30px rgba(212, 175, 55, 0.2);
-            border: 2px solid var(--gold);
-            margin-bottom: 20px;
-            max-height: 50vh; /* Altura segura p/ mobile */
-            max-width: 100%;
-            overflow: hidden;
-            border-radius: 8px;
-            background: #000;
+            position: relative; box-shadow: 0 0 30px rgba(212, 175, 55, 0.2);
+            border: 2px solid var(--gold); margin-bottom: 20px;
+            max-height: 50vh; max-width: 100%; overflow: hidden;
+            border-radius: 8px; background: #000;
             display: flex; justify-content: center; align-items: center;
         }
+        #preview-img { display: block; max-height: 50vh; max-width: 100%; object-fit: contain; }
+        #placeholder-text { padding: 40px 20px; border: 2px dashed #444; color: #888; border-radius: 10px; text-align: center; width: 100%; max-width: 300px; }
 
-        #preview-img {
-            display: block; max-height: 50vh; max-width: 100%; object-fit: contain;
-        }
-
-        #placeholder-text {
-            padding: 40px 20px; border: 2px dashed #444; color: #888;
-            border-radius: 10px; text-align: center; width: 100%; max-width: 300px;
-        }
-
-        /* Controles */
-        .controls {
-            display: flex; flex-direction: column; gap: 12px; width: 100%; max-width: 400px; align-items: center;
-            padding-bottom: 40px; /* Espaço extra p/ iOS */
-        }
-
+        .controls { display: flex; flex-direction: column; gap: 12px; width: 100%; max-width: 400px; align-items: center; padding-bottom: 40px; }
         .btn-upload {
-            background: var(--gold); color: #0a2a24;
-            padding: 15px 40px; border-radius: 50px;
+            background: var(--gold); color: #0a2a24; padding: 15px 40px; border-radius: 50px;
             font-family: 'Cinzel', serif; font-weight: bold; text-transform: uppercase;
             cursor: pointer; box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
-            display: flex; align-items: center; justify-content: center; gap: 10px; transition: 0.3s;
-            width: 100%; text-align: center;
+            display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%;
         }
-
         .trash-btn {
             background: rgba(255, 68, 68, 0.2); color: #ff4444; border: 1px solid #ff4444;
-            width: 45px; height: 45px; border-radius: 50%;
-            font-size: 1.2rem; cursor: pointer; display: none;
-            align-items: center; justify-content: center; margin-bottom: 15px;
+            width: 45px; height: 45px; border-radius: 50%; font-size: 1.2rem;
+            cursor: pointer; display: none; align-items: center; justify-content: center; margin-bottom: 15px;
         }
-
         .final-actions { display: none; flex-direction: column; gap: 10px; width: 100%; }
         .action-row { display: flex; gap: 10px; width: 100%; }
-
         .btn-action {
-            flex: 1; border: none; padding: 12px; border-radius: 10px;
-            font-weight: bold; cursor: pointer; font-size: 0.9rem;
-            display: flex; align-items: center; justify-content: center; gap: 8px;
+            flex: 1; border: none; padding: 12px; border-radius: 10px; font-weight: bold;
+            cursor: pointer; font-size: 0.9rem; display: flex; align-items: center; justify-content: center; gap: 8px;
             font-family: 'Montserrat', sans-serif;
         }
-
         .btn-whatsapp { background: #25D366; color: #fff; }
         .btn-share-native { background: #007bff; color: #fff; }
         .btn-download { background: rgba(255,255,255,0.1); color: #fff; border: 1px solid #fff; }
 
         #file-input { display: none; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        
-        /* LOADING */
-        #loading {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 100;
-            display: none; align-items: center; justify-content: center; flex-direction: column;
-        }
-        .spinner {
-            width: 50px; height: 50px; border: 5px solid rgba(255,255,255,0.1);
-            border-top: 5px solid var(--gold); border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
+        #loading { position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 100; display: none; align-items: center; justify-content: center; flex-direction: column; }
+        .spinner { width: 50px; height: 50px; border: 5px solid rgba(255,255,255,0.1); border-top: 5px solid var(--gold); border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
-
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         #render-canvas { display: none; }
     </style>
 </head>
@@ -210,8 +153,10 @@
 
         <div class="powered-by">
             <span>Powered by:</span>
-            <img src="logo.png" alt="O Imaginista">
+            <img src="../logo.png" alt="O Imaginista">
         </div>
+
+        <a href="https://oimaginista.com/xvgeovanafrigoletto/" class="btn-home">❮ Voltar ao Convite</a>
     </div>
 
     <div id="step-editor">
@@ -259,8 +204,7 @@
     <canvas id="render-canvas"></canvas>
 
     <script>
-        // === CONFIGURAÇÕES ===
-        const LOGO_SRC = 'logo.png'; 
+        const LOGO_SRC = '../logo.png'; 
         const PHONE_TEST = "5521983340089"; 
         
         let currentFormat = null;
@@ -268,11 +212,9 @@
         let ctx = canvas.getContext('2d');
         let uploadedImage = null;
         let logoImage = new Image();
-        
-        // PRÉ-CARREGAR LOGO (Evita delay)
+        logoImage.crossOrigin = "Anonymous"; 
         logoImage.src = LOGO_SRC;
 
-        // Vaga-lumes
         const fireflies = document.getElementById('fireflies');
         for(let i=0; i<30; i++){
             let f = document.createElement('div');
@@ -283,20 +225,12 @@
             fireflies.appendChild(f);
         }
 
-        // 1. ESCOLHA DE FORMATO
         function selectFormat(format) {
             currentFormat = format;
             document.getElementById('step-format').style.display = 'none';
             document.getElementById('step-editor').style.display = 'flex';
-            
-            // Define tamanho do canvas em alta resolução
-            if (format === 'vertical') {
-                canvas.width = 1080;
-                canvas.height = 1920;
-            } else {
-                canvas.width = 1920;
-                canvas.height = 1080;
-            }
+            if (format === 'vertical') { canvas.width = 1080; canvas.height = 1920; }
+            else { canvas.width = 1920; canvas.height = 1080; }
         }
 
         function resetFormat() {
@@ -305,22 +239,15 @@
             document.getElementById('step-format').style.display = 'block';
         }
 
-        // 2. PROCESSAR IMAGEM
         function handleImage(input) {
             if (input.files && input.files[0]) {
                 document.getElementById('loading').style.display = 'flex';
-                
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     const img = new Image();
                     img.onload = function() {
                         uploadedImage = img;
-                        // Aguarda um pequeno delay para garantir que DOM está pronto no iOS
-                        setTimeout(renderCanvas, 200); 
-                    }
-                    img.onerror = function() {
-                        alert("Erro ao ler a imagem. Tente outra foto.");
-                        document.getElementById('loading').style.display = 'none';
+                        document.fonts.ready.then(() => { setTimeout(renderCanvas, 200); });
                     }
                     img.src = e.target.result;
                 }
@@ -328,90 +255,96 @@
             }
         }
 
-        // 3. RENDERIZAR (MAGIA)
         function renderCanvas() {
-            try {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-                // --- FOTO ---
-                if (uploadedImage) {
-                    // Algoritmo de "Cover" (Preencher tudo sem distorcer)
-                    const imgRatio = uploadedImage.width / uploadedImage.height;
-                    const canvasRatio = canvas.width / canvas.height;
-                    let renderW, renderH, renderX, renderY;
-
-                    if (imgRatio > canvasRatio) {
-                        renderH = canvas.height;
-                        renderW = uploadedImage.width * (canvas.height / uploadedImage.height);
-                        renderX = (canvas.width - renderW) / 2;
-                        renderY = 0;
-                    } else {
-                        renderW = canvas.width;
-                        renderH = uploadedImage.height * (canvas.width / uploadedImage.width);
-                        renderX = 0;
-                        renderY = (canvas.height - renderH) / 2;
-                    }
-                    ctx.drawImage(uploadedImage, renderX, renderY, renderW, renderH);
+            // 1. FOTO (COVER)
+            if (uploadedImage) {
+                const imgRatio = uploadedImage.width / uploadedImage.height;
+                const canvasRatio = canvas.width / canvas.height;
+                let renderW, renderH, renderX, renderY;
+                if (imgRatio > canvasRatio) {
+                    renderH = canvas.height; renderW = uploadedImage.width * (canvas.height / uploadedImage.height);
+                    renderX = (canvas.width - renderW) / 2; renderY = 0;
+                } else {
+                    renderW = canvas.width; renderH = uploadedImage.height * (canvas.width / uploadedImage.width);
+                    renderX = 0; renderY = (canvas.height - renderH) / 2;
                 }
-
-                // --- OVERLAY GRADIENTE ---
-                const gradHeight = currentFormat === 'vertical' ? 700 : 450;
-                const gradient = ctx.createLinearGradient(0, canvas.height - gradHeight, 0, canvas.height);
-                gradient.addColorStop(0, "transparent");
-                gradient.addColorStop(0.4, "rgba(10, 42, 36, 0.6)");
-                gradient.addColorStop(1, "#0a2a24");
-                
-                ctx.fillStyle = gradient;
-                ctx.fillRect(0, canvas.height - gradHeight, canvas.width, gradHeight);
-
-                // --- ELEMENTOS ---
-                const margin = 60;
-                const logoSize = currentFormat === 'vertical' ? 250 : 200;
-                const logoY = canvas.height - logoSize - margin;
-
-                // 3.1 Logo (Se carregou, desenha. Se não, ignora para não travar)
-                if(logoImage.complete && logoImage.naturalHeight !== 0) {
-                    ctx.shadowColor = "rgba(0,0,0,0.8)";
-                    ctx.shadowBlur = 15;
-                    // Mantém proporção da logo
-                    const logoAspectRatio = logoImage.width / logoImage.height;
-                    ctx.drawImage(logoImage, margin, logoY, logoSize * logoAspectRatio, logoSize);
-                }
-
-                // 3.2 Textos
-                ctx.textAlign = 'right';
-                
-                // Tamanhos Responsivos
-                const nameSize = currentFormat === 'vertical' ? 90 : 75;
-                const subSize = currentFormat === 'vertical' ? 55 : 45;
-                const dateSize = currentFormat === 'vertical' ? 35 : 30;
-
-                // Geovana Frigoletto
-                ctx.font = `bold ${nameSize}px "Dancing Script"`; 
-                ctx.fillStyle = '#fdd835'; 
-                ctx.fillText("Geovana Frigoletto", canvas.width - margin, canvas.height - margin - 100);
-                
-                // XV ANOS
-                ctx.font = `bold ${subSize}px "Cinzel"`;
-                ctx.fillStyle = '#ffffff';
-                ctx.fillText("XV ANOS", canvas.width - margin, canvas.height - margin - 180);
-
-                // Data
-                ctx.font = `${dateSize}px "Cinzel"`;
-                ctx.fillStyle = '#fff59d';
-                ctx.fillText("31.01.2026", canvas.width - margin, canvas.height - margin);
-
-                finishPreview();
-
-            } catch (err) {
-                console.error(err);
-                alert("Ocorreu um erro ao gerar a imagem. Tente novamente.");
-                document.getElementById('loading').style.display = 'none';
+                ctx.drawImage(uploadedImage, renderX, renderY, renderW, renderH);
             }
+
+            // 2. EFEITO CINEMATOGRÁFICO (VIGNETTE + GRADIENTE)
+            // Sombra nas bordas
+            const vignette = ctx.createRadialGradient(canvas.width/2, canvas.height/2, canvas.width/3, canvas.width/2, canvas.height/2, canvas.width);
+            vignette.addColorStop(0, "transparent");
+            vignette.addColorStop(1, "rgba(0,0,0,0.6)");
+            ctx.fillStyle = vignette;
+            ctx.fillRect(0,0,canvas.width, canvas.height);
+
+            // Gradiente Inferior (Verde Mágico)
+            const gradHeight = currentFormat === 'vertical' ? 750 : 500;
+            const gradient = ctx.createLinearGradient(0, canvas.height - gradHeight, 0, canvas.height);
+            gradient.addColorStop(0, "transparent");
+            gradient.addColorStop(0.4, "rgba(10, 42, 36, 0.8)");
+            gradient.addColorStop(1, "#0a2a24");
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, canvas.height - gradHeight, canvas.width, gradHeight);
+
+            // 3. MOLDURA DOURADA (Borda Interna)
+            const borderW = 30;
+            ctx.strokeStyle = "#d4af37";
+            ctx.lineWidth = 4;
+            ctx.strokeRect(borderW, borderW, canvas.width - (borderW*2), canvas.height - (borderW*2));
+
+            // 4. ELEMENTOS
+            const margin = 80;
+            const logoSize = currentFormat === 'vertical' ? 220 : 180; // Logo menor e mais elegante
+            const logoY = canvas.height - logoSize - margin;
+
+            // Logo Imaginista (Discreta e Elegante)
+            if(logoImage.complete && logoImage.naturalHeight !== 0) {
+                ctx.save();
+                ctx.globalAlpha = 0.9; // Leve transparência
+                ctx.shadowColor = "rgba(0,0,0,0.8)"; ctx.shadowBlur = 10;
+                const logoAspectRatio = logoImage.width / logoImage.height;
+                ctx.drawImage(logoImage, margin, logoY, logoSize * logoAspectRatio, logoSize);
+                ctx.restore();
+            }
+
+            // Textos
+            ctx.textAlign = 'right';
+            const nameSize = currentFormat === 'vertical' ? 95 : 80;
+            const subSize = currentFormat === 'vertical' ? 50 : 45;
+            const dateSize = currentFormat === 'vertical' ? 35 : 30;
+
+            // Geovana Frigoletto
+            ctx.font = `bold ${nameSize}px "Dancing Script"`; 
+            ctx.fillStyle = '#fdd835'; 
+            ctx.shadowColor = "rgba(0,0,0,0.9)"; ctx.shadowBlur = 20;
+            ctx.fillText("Geovana Frigoletto", canvas.width - margin, canvas.height - margin - 110);
+            
+            // XV ANOS (Com espaçamento)
+            ctx.font = `bold ${subSize}px "Cinzel"`;
+            ctx.fillStyle = '#ffffff';
+            // Simula letter-spacing desenhando caractere por caractere (simples) ou apenas ajustando posição
+            ctx.fillText("XV ANOS", canvas.width - margin, canvas.height - margin - 200);
+
+            // Data
+            ctx.font = `${dateSize}px "Cinzel"`;
+            ctx.fillStyle = '#fff59d';
+            ctx.fillText("31.01.2026", canvas.width - margin, canvas.height - margin);
+
+            // Frase Mágica (Opcional)
+            ctx.textAlign = 'center';
+            ctx.font = `italic ${dateSize}px "Montserrat"`;
+            ctx.fillStyle = 'rgba(255,255,255,0.7)';
+            // ctx.fillText("Uma noite mágica em Nova Orleans", canvas.width/2, canvas.height - margin/2);
+
+            finishPreview();
         }
 
         function finishPreview() {
-            const dataUrl = canvas.toDataURL('image/jpeg', 0.92);
+            const dataUrl = canvas.toDataURL('image/jpeg', 0.95);
             const preview = document.getElementById('preview-img');
             preview.src = dataUrl;
             preview.style.display = 'block';
@@ -428,7 +361,6 @@
                 uploadedImage = null;
                 document.getElementById('file-input').value = "";
                 document.getElementById('preview-img').style.display = 'none';
-                document.getElementById('preview-img').src = "";
                 document.getElementById('placeholder-text').style.display = 'block';
                 document.getElementById('upload-label').style.display = 'flex';
                 document.getElementById('trash-btn').style.display = 'none';
@@ -436,8 +368,6 @@
             }
         }
 
-        // --- FUNÇÕES DE COMPARTILHAMENTO ---
-        
         function dataURLtoBlob(dataurl) {
             var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
                 bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
@@ -453,7 +383,7 @@
         }
 
         function shareWhatsapp() {
-            downloadImage(); // Garante o download primeiro
+            downloadImage(); 
             setTimeout(() => {
                 const text = encodeURIComponent("Oii! Olha a foto incrível que fiz na Imersão Tecnológica do XV da Geovana! ✨🐸 #XVGeovana");
                 window.open(`https://wa.me/${PHONE_TEST}?text=${text}`, '_blank');
@@ -466,13 +396,8 @@
             const file = new File([blob], "Geovana-XV.jpg", { type: "image/jpeg" });
 
             if (navigator.share) {
-                try {
-                    await navigator.share({
-                        title: 'XV Geovana Frigoletto',
-                        text: 'Minha foto na Imersão Tecnológica! ✨',
-                        files: [file]
-                    });
-                } catch (err) { console.log('Compartilhamento cancelado'); }
+                try { await navigator.share({ title: 'XV Geovana', text: 'Minha foto mágica! ✨', files: [file] }); } 
+                catch (err) { console.log('Cancelado'); }
             } else {
                 alert("Seu navegador não suporta compartilhamento direto.\n\nClique em 'Baixar' e poste manualmente! ✨");
                 downloadImage();
