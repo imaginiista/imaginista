@@ -24,7 +24,7 @@
             --magic-green: #00ff88;
         }
 
-        /* PROTEÇÃO CONTRA CÓPIA */
+        /* PROTEÇÃO */
         * { 
             margin: 0; padding: 0; box-sizing: border-box; 
             -webkit-tap-highlight-color: transparent; 
@@ -81,7 +81,6 @@
         }
         .format-btn:hover { background: rgba(212, 175, 55, 0.2); transform: scale(1.05); }
         .format-btn span { font-size: 0.75rem; margin-top: 8px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
-        
         .icon-screen { border: 2px solid #fff; margin-bottom: 5px; background: rgba(255,255,255,0.1); border-radius: 3px; }
         .vertical .icon-screen { width: 30px; height: 50px; }
         .horizontal .icon-screen { width: 50px; height: 30px; }
@@ -110,6 +109,8 @@
             width: 100%; min-height: 100dvh; z-index: 20; padding: 20px 15px;
             position: absolute; top: 0; left: 0; background: rgba(10, 42, 36, 0.98);
         }
+        
+        /* HEADER AJUSTADO (2 LINHAS) */
         .header-editor { width: 100%; max-width: 600px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
         
         .btn-back {
@@ -119,13 +120,12 @@
             flex-shrink: 0; 
         }
         
-        .header-title {
-            font-family:'Dancing Script'; color:var(--gold); font-size:1.4rem; 
-            text-align: right; margin-left: 15px; 
-            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        .header-text-group {
+            display: flex; flex-direction: column; align-items: flex-end; margin-left: 10px;
         }
+        .header-line-1 { font-family: 'Cinzel', serif; font-size: 0.8rem; color: #eee; letter-spacing: 2px; }
+        .header-line-2 { font-family: 'Dancing Script', cursive; font-size: 1.3rem; color: var(--gold); }
 
-        /* PREVIEW COM SCANNER */
         .preview-container {
             position: relative; box-shadow: 0 0 40px rgba(212, 175, 55, 0.3);
             border: 3px solid var(--gold); margin-bottom: 15px;
@@ -134,9 +134,7 @@
             display: flex; justify-content: center; align-items: center;
             transition: 0.3s;
         }
-        .preview-container.empty {
-            background: radial-gradient(circle, #0e3029 0%, #000 100%);
-        }
+        .preview-container.empty { background: radial-gradient(circle, #0e3029 0%, #000 100%); }
         .preview-container.empty::after {
             content: ''; position: absolute; width: 100%; height: 3px; background: var(--gold);
             box-shadow: 0 0 15px var(--gold-glow); top: 0; left: 0; animation: scanTech 2.5s infinite linear;
@@ -157,7 +155,12 @@
             display: none; flex-direction: column; width: 100%; max-width: 400px; gap: 10px; margin-bottom: 10px;
         }
         
-        .label-tools { font-size: 0.7rem; color: #888; text-transform: uppercase; margin-bottom: 2px; margin-left: 5px; font-family: 'Montserrat'; }
+        /* Títulos com Estilo */
+        .label-tools { 
+            font-size: 0.75rem; color: var(--gold); text-transform: uppercase; 
+            margin-bottom: 4px; margin-left: 5px; font-family: 'Cinzel', serif; letter-spacing: 1px;
+            text-shadow: 0 0 5px rgba(212, 175, 55, 0.3); font-weight: bold;
+        }
 
         .tool-scroll {
             display: flex; width: 100%; gap: 8px; overflow-x: auto;
@@ -203,9 +206,16 @@
         .action-row { display: flex; gap: 10px; width: 100%; }
         .btn-action {
             flex: 1; border: none; padding: 14px; border-radius: 30px; font-weight: bold; transition: 0.3s;
-            cursor: pointer; font-size: 0.9rem; display: flex; align-items: center; justify-content: center; gap: 8px;
-            font-family: 'Montserrat', sans-serif; text-transform: uppercase;
+            cursor: pointer; font-size: 0.85rem; display: flex; align-items: center; justify-content: center; gap: 8px;
+            font-family: 'Montserrat', sans-serif; text-transform: uppercase; position: relative; overflow: hidden; z-index: 1;
         }
+        .btn-action::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: 0.5s; z-index: -1; animation: shimmer 3s infinite;
+        }
+        @keyframes shimmer { 0% { left: -100%; } 20% { left: 100%; } 100% { left: 100%; } }
+
         .btn-share-native { background: rgba(255,255,255,0.15); color: #fff; border: 1px solid rgba(255,255,255,0.3); }
         .btn-download { background: rgba(0,0,0,0.4); color: var(--gold); border: 2px solid var(--gold); }
         .btn-action:hover { transform: translateY(-2px); }
@@ -259,8 +269,11 @@
 
     <div id="step-editor">
         <div class="header-editor">
-            <button class="btn-back" onclick="resetFormat()">❮ Trocar Formato</button>
-            <span class="header-title">XV Geovana Frigoletto</span>
+            <button class="btn-back" onclick="resetFormat()">❮ Trocar</button>
+            <div class="header-text-group">
+                <span class="header-line-1">XV ANOS</span>
+                <span class="header-line-2">Geovana Frigoletto</span>
+            </div>
         </div>
         
         <div class="preview-container empty" id="preview-box">
@@ -275,7 +288,7 @@
             <span class="label-tools">Efeitos</span>
             <div class="tool-scroll" id="filters-list"></div>
             
-            <span class="label-tools" style="margin-top:5px;">Moldura</span>
+            <span class="label-tools" style="margin-top:8px;">Molduras</span>
             <div class="tool-scroll" id="borders-list"></div>
 
             <div class="tool-row-2" style="margin-top:8px;">
@@ -296,10 +309,10 @@
             <div class="final-actions" id="actions">
                 <div class="action-row">
                     <button class="btn-action btn-share-native" onclick="shareNative()">
-                        🔗 Compartilhar
+                        COMPARTILHAR
                     </button>
                     <button class="btn-action btn-download" onclick="downloadImage()">
-                        ⬇ Baixar (HD)
+                        DOWNLOAD
                     </button>
                 </div>
             </div>
@@ -314,7 +327,7 @@
     <canvas id="render-canvas"></canvas>
 
     <script>
-        // === PROTEÇÃO CONTRA CÓPIA ===
+        // === PROTEÇÃO ===
         document.onkeydown = function(e) {
             if (e.keyCode == 123) return false;
             if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) return false;
@@ -345,9 +358,13 @@
         };
 
         const borders = {
+            'none':   { label: 'Clean' },
             'simple': { label: 'Simples' },
-            'deco':   { label: 'Art Déco' },
-            'none':   { label: 'Clean' }
+            'double': { label: 'Dupla' },
+            'deco':   { label: 'Déco' },
+            'neon':   { label: 'Neon' },
+            'dash':   { label: 'Pontilhada' },
+            'corner': { label: 'Cantos' }
         };
         
         logoImage.crossOrigin = "Anonymous";
@@ -464,11 +481,11 @@
                         currentFilter = 'normal';
                         isBlurEnabled = true;
                         // Regra de borda inicial
-                        currentBorder = (currentFormat === 'horizontal') ? 'none' : 'simple';
+                        if(currentFormat === 'vertical') currentBorder = 'simple';
+                        else currentBorder = 'none';
                         
                         document.getElementById('blur-btn').classList.add('active');
                         document.getElementById('blur-btn').innerHTML = '💧 Fundo Blur';
-                        // Remove efeito "scanner"
                         document.getElementById('preview-box').classList.remove('empty');
                         
                         generateUI();
@@ -491,27 +508,61 @@
             ctx.restore();
         }
 
+        // --- MOLDURAS (7 ESTILOS) ---
         function drawFancyBorder(ctx, w, h) {
             const margin = 45;
-            const lw = 4;
-            ctx.lineWidth = lw;
-            ctx.strokeStyle = "#d4af37";
-            ctx.shadowColor = "#fdd835"; ctx.shadowBlur = 15;
+            const color = "#d4af37";
+            const shadow = "#fdd835";
+            ctx.strokeStyle = color;
+            ctx.shadowColor = shadow;
+            ctx.shadowBlur = 15;
+            ctx.lineWidth = 4;
 
             if (currentBorder === 'simple') {
                 ctx.strokeRect(margin, margin, w - margin*2, h - margin*2);
             } 
+            else if (currentBorder === 'double') {
+                ctx.strokeRect(margin, margin, w - margin*2, h - margin*2);
+                ctx.lineWidth = 1.5;
+                ctx.strokeRect(margin + 15, margin + 15, w - (margin*2 + 30), h - (margin*2 + 30));
+            }
             else if (currentBorder === 'deco') {
                 ctx.strokeRect(margin, margin, w - margin*2, h - margin*2);
                 ctx.lineWidth = 1;
                 ctx.strokeRect(margin + 12, margin + 12, w - (margin*2 + 24), h - (margin*2 + 24));
                 const cornerSize = 25;
-                ctx.fillStyle = "#d4af37";
+                ctx.fillStyle = color;
                 ctx.fillRect(margin - 6, margin - 6, cornerSize, cornerSize);
                 ctx.fillRect(w - margin - cornerSize + 6, margin - 6, cornerSize, cornerSize);
                 ctx.fillRect(margin - 6, h - margin - cornerSize + 6, cornerSize, cornerSize);
                 ctx.fillRect(w - margin - cornerSize + 6, h - margin - cornerSize + 6, cornerSize, cornerSize);
             }
+            else if (currentBorder === 'neon') {
+                ctx.strokeStyle = "#fff";
+                ctx.shadowColor = "#00ff88"; // Verde tech
+                ctx.shadowBlur = 30;
+                ctx.lineWidth = 5;
+                ctx.strokeRect(margin, margin, w - margin*2, h - margin*2);
+            }
+            else if (currentBorder === 'dash') {
+                ctx.setLineDash([20, 15]); // Tracejado
+                ctx.strokeRect(margin, margin, w - margin*2, h - margin*2);
+                ctx.setLineDash([]); // Reset
+            }
+            else if (currentBorder === 'corner') {
+                const cSize = 100;
+                ctx.beginPath();
+                // Top Left
+                ctx.moveTo(margin, margin + cSize); ctx.lineTo(margin, margin); ctx.lineTo(margin + cSize, margin);
+                // Top Right
+                ctx.moveTo(w - margin - cSize, margin); ctx.lineTo(w - margin, margin); ctx.lineTo(w - margin, margin + cSize);
+                // Bottom Left
+                ctx.moveTo(margin, h - margin - cSize); ctx.lineTo(margin, h - margin); ctx.lineTo(margin + cSize, h - margin);
+                // Bottom Right
+                ctx.moveTo(w - margin - cSize, h - margin); ctx.lineTo(w - margin, h - margin); ctx.lineTo(w - margin, h - margin - cSize);
+                ctx.stroke();
+            }
+            // 'none' não faz nada
             ctx.shadowBlur = 0;
         }
 
@@ -580,7 +631,7 @@
             ctx.fillStyle = gradient;
             ctx.fillRect(0, canvas.height - gradHeight, canvas.width, gradHeight);
 
-            // 5. MOLDURA
+            // 5. Borda
             drawFancyBorder(ctx, canvas.width, canvas.height);
 
             // 6. LAYOUT
