@@ -139,11 +139,7 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         #render-canvas { display: none; }
         
-        /* Efeito de Fogos (Classe JS) */
-        .firework {
-            position: fixed; width: 5px; height: 5px; border-radius: 50%;
-            pointer-events: none; z-index: 9999;
-        }
+        .firework { position: fixed; width: 5px; height: 5px; border-radius: 50%; pointer-events: none; z-index: 9999; }
     </style>
 </head>
 <body>
@@ -274,11 +270,18 @@
         function renderCanvas() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // 1. FOTO (COVER)
+            // 1. FUNDO DESFOCADO (Efeito Premium se a foto não preencher)
             if (uploadedImage) {
+                // Desenha a imagem esticada e desfocada no fundo
+                ctx.filter = 'blur(40px) brightness(0.7)';
+                ctx.drawImage(uploadedImage, 0, 0, canvas.width, canvas.height);
+                ctx.filter = 'none'; // Reseta filtro
+
+                // Desenha a imagem principal (Cover mas mantendo proporção segura)
                 const imgRatio = uploadedImage.width / uploadedImage.height;
                 const canvasRatio = canvas.width / canvas.height;
                 let renderW, renderH, renderX, renderY;
+
                 if (imgRatio > canvasRatio) {
                     renderH = canvas.height; renderW = uploadedImage.width * (canvas.height / uploadedImage.height);
                     renderX = (canvas.width - renderW) / 2; renderY = 0;
@@ -286,16 +289,21 @@
                     renderW = canvas.width; renderH = uploadedImage.height * (canvas.width / uploadedImage.width);
                     renderX = 0; renderY = (canvas.height - renderH) / 2;
                 }
+                
+                // Aplica HDR leve (Contraste + Saturação)
+                ctx.filter = 'contrast(1.1) saturate(1.15)';
                 ctx.drawImage(uploadedImage, renderX, renderY, renderW, renderH);
+                ctx.filter = 'none';
             }
 
-            // 2. EFEITO CINEMATOGRÁFICO (VIGNETTE + GRADIENTE)
-            const vignette = ctx.createRadialGradient(canvas.width/2, canvas.height/2, canvas.width/3, canvas.width/2, canvas.height/2, canvas.width);
+            // 2. VIGNETTE CINEMATOGRÁFICA
+            const vignette = ctx.createRadialGradient(canvas.width/2, canvas.height/2, canvas.width/4, canvas.width/2, canvas.height/2, canvas.width);
             vignette.addColorStop(0, "transparent");
             vignette.addColorStop(1, "rgba(0,0,0,0.6)");
             ctx.fillStyle = vignette;
             ctx.fillRect(0,0,canvas.width, canvas.height);
 
+            // 3. GRADIENTE INFERIOR
             const gradHeight = currentFormat === 'vertical' ? 750 : 500;
             const gradient = ctx.createLinearGradient(0, canvas.height - gradHeight, 0, canvas.height);
             gradient.addColorStop(0, "transparent");
@@ -304,18 +312,19 @@
             ctx.fillStyle = gradient;
             ctx.fillRect(0, canvas.height - gradHeight, canvas.width, gradHeight);
 
-            // 3. MOLDURA DOURADA (Borda Interna)
-            const borderW = 30;
+            // 4. MOLDURA DOURADA (Correção de corte)
+            const borderW = 35;
             ctx.strokeStyle = "#d4af37";
-            ctx.lineWidth = 4;
+            ctx.lineWidth = 3;
+            // Desenha com margem segura para não cortar
             ctx.strokeRect(borderW, borderW, canvas.width - (borderW*2), canvas.height - (borderW*2));
 
-            // 4. ELEMENTOS
+            // 5. ELEMENTOS
             const margin = 80;
             const logoSize = currentFormat === 'vertical' ? 220 : 180; 
             const logoY = canvas.height - logoSize - margin;
 
-            // Logo Imaginista (Discreta)
+            // Logo Imaginista
             if(logoImage.complete && logoImage.naturalHeight !== 0) {
                 ctx.save();
                 ctx.globalAlpha = 0.9; 
@@ -335,17 +344,24 @@
             ctx.font = `bold ${nameSize}px "Dancing Script"`; 
             ctx.fillStyle = '#fdd835'; 
             ctx.shadowColor = "rgba(0,0,0,0.9)"; ctx.shadowBlur = 20;
-            ctx.fillText("Geovana Frigoletto", canvas.width - margin, canvas.height - margin - 110);
+            ctx.fillText("Geovana Frigoletto", canvas.width - margin, canvas.height - margin - 120);
             
             // XV ANOS
             ctx.font = `bold ${subSize}px "Cinzel"`;
             ctx.fillStyle = '#ffffff';
-            ctx.fillText("XV ANOS", canvas.width - margin, canvas.height - margin - 200);
+            ctx.fillText("XV ANOS", canvas.width - margin, canvas.height - margin - 220);
 
             // Data
             ctx.font = `${dateSize}px "Cinzel"`;
             ctx.fillStyle = '#fff59d';
             ctx.fillText("31.01.2026", canvas.width - margin, canvas.height - margin);
+
+            // Frase Mágica
+            ctx.textAlign = 'center';
+            ctx.font = `italic ${dateSize}px "Montserrat"`;
+            ctx.fillStyle = 'rgba(255,255,255,0.8)';
+            ctx.shadowBlur = 5;
+            ctx.fillText("Uma noite mágica em Nova Orleans", canvas.width/2, canvas.height - margin/1.5);
 
             finishPreview();
         }
@@ -355,7 +371,6 @@
             const preview = document.getElementById('preview-img');
             preview.src = dataUrl;
             preview.style.display = 'block';
-            
             document.getElementById('placeholder-text').style.display = 'none';
             document.getElementById('upload-label').style.display = 'none';
             document.getElementById('trash-btn').style.display = 'flex';
@@ -412,7 +427,6 @@
             }
         }
 
-        // --- EFEITO MÁGICO AO CLICAR NA LOGO ---
         function magicEffect(e) {
             const colors = ['#fdd835', '#00ff88', '#ffffff'];
             for(let i=0; i<20; i++) {
@@ -422,14 +436,9 @@
                 p.style.left = e.clientX + 'px';
                 p.style.top = e.clientY + 'px';
                 document.body.appendChild(p);
-                
                 const angle = Math.random() * Math.PI * 2;
                 const dist = Math.random() * 100;
-                
-                p.animate([
-                    { transform: 'translate(0,0) scale(1)', opacity: 1 },
-                    { transform: `translate(${Math.cos(angle)*dist}px, ${Math.sin(angle)*dist}px) scale(0)`, opacity: 0 }
-                ], { duration: 800, easing: 'ease-out' }).onfinish = () => p.remove();
+                p.animate([{ transform: 'translate(0,0) scale(1)', opacity: 1 }, { transform: `translate(${Math.cos(angle)*dist}px, ${Math.sin(angle)*dist}px) scale(0)`, opacity: 0 }], { duration: 800, easing: 'ease-out' }).onfinish = () => p.remove();
             }
         }
     </script>
