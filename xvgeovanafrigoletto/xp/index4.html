@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Imersão - Geovana Frigoletto</title>
+    
+    <link rel="icon" type="image/png" href="../favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/svg+xml" href="../favicon/favicon.svg">
+    <link rel="shortcut icon" href="../favicon/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="../favicon/apple-touch-icon.png">
+    <meta name="theme-color" content="#0a2a24">
+    
+    <meta property="og:title" content="Imersão Tecnológica - XV Geovana"> 
+    <meta property="og:description" content="Crie sua foto mágica para celebrar os 15 Anos da Geovana em Nova Orleans! 🐸✨">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-deep: #0a2a24;
+            --gold: #d4af37;
+            --gold-glow: #fdd835;
+            --magic-green: #00ff88;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
+        body {
+            background: radial-gradient(circle at center, #0e3029 0%, #010a08 100%);
+            color: #fff;
+            font-family: 'Montserrat', sans-serif;
+            min-height: 100vh; min-height: 100dvh; 
+            overflow-x: hidden;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+        }
+
+        .firefly-container { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+        .firefly {
+            position: absolute; width: 4px; height: 4px; background: var(--gold);
+            border-radius: 50%; box-shadow: 0 0 10px var(--gold);
+            animation: fly 12s infinite ease-in-out;
+        }
+        @keyframes fly {
+            0% { opacity: 0; transform: translate(0,0) scale(0.5); }
+            20% { opacity: 1; }
+            50% { opacity: 0.5; transform: translate(150px, -150px) scale(1.2); }
+            100% { opacity: 0; transform: translate(300px, -300px) scale(0.2); }
+        }
+
+        /* TELA 1 */
+        #step-format { z-index: 10; text-align: center; width: 90%; max-width: 600px; animation: fadeIn 1s ease; }
+        h1 { font-family: 'Dancing Script', cursive; color: var(--gold); font-size: 3.5rem; margin-bottom: 10px; text-shadow: 0 0 20px rgba(212, 175, 55, 0.6); }
+        p.desc { font-family: 'Cinzel', serif; font-size: 1.1rem; color: #ccc; margin-bottom: 30px; }
+        .format-grid { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-bottom: 40px; }
+        .format-btn {
+            background: rgba(255,255,255,0.05); border: 2px solid var(--gold); border-radius: 15px;
+            padding: 20px; cursor: pointer; transition: 0.3s; width: 140px;
+            display: flex; flex-direction: column; align-items: center; backdrop-filter: blur(5px);
+        }
+        .format-btn:hover { background: rgba(212, 175, 55, 0.2); transform: scale(1.05); }
+        .icon-screen { border: 2px solid #fff; margin-bottom: 10px; background: rgba(255,255,255,0.1); border-radius: 4px; }
+        .vertical .icon-screen { width: 40px; height: 70px; }
+        .horizontal .icon-screen { width: 70px; height: 40px; }
+        
+        .btn-home {
+            color: var(--gold); text-decoration: none; font-size: 0.9rem;
+            border: 1px solid rgba(212, 175, 55, 0.5); padding: 12px 25px; border-radius: 30px;
+            transition: 0.3s; font-family: 'Cinzel', serif; display: inline-flex; align-items: center; gap: 8px; background: rgba(0,0,0,0.3);
+        }
+        .imaginista-footer {
+            margin-top: 50px; font-size: 0.75rem; color: #aaa; text-align: center;
+            font-family: 'Montserrat', sans-serif; letter-spacing: 1px;
+            display: flex; flex-direction: column; align-items: center; gap: 10px;
+        }
+        .logo-click img { height: 40px; opacity: 0.8; transition: 0.3s; cursor: pointer; }
+        .logo-click:hover img { transform: scale(1.1); opacity: 1; filter: drop-shadow(0 0 8px var(--magic-green)); }
+
+        /* TELA 2 */
+        #step-editor {
+            display: none; flex-direction: column; align-items: center;
+            width: 100%; min-height: 100dvh; z-index: 20; padding: 20px 15px;
+            position: absolute; top: 0; left: 0; background: rgba(10, 42, 36, 0.98);
+        }
+        .header-editor { width: 100%; max-width: 600px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .btn-back {
+            background: rgba(255,255,255,0.1); border: 1px solid var(--gold); color: var(--gold);
+            padding: 8px 15px; border-radius: 20px; cursor: pointer; font-size: 0.9rem;
+            display: flex; align-items: center; gap: 5px; font-family: 'Cinzel', serif;
+        }
+
+        .preview-container {
+            position: relative; box-shadow: 0 0 40px rgba(212, 175, 55, 0.3);
+            border: 3px solid var(--gold); margin-bottom: 20px;
+            max-height: 50vh; max-width: 100%; overflow: hidden;
+            border-radius: 12px; background: #000;
+            display: flex; justify-content: center; align-items: center;
+            animation: pulseBorder 3s infinite alternate;
+        }
+        @keyframes pulseBorder { from { border-color: var(--gold); } to { border-color: var(--gold-glow); } }
+        #preview-img { display: block; max-height: 50vh; max-width: 100%; object-fit: contain; }
+        #placeholder-text { padding: 40px 20px; border: 3px dashed rgba(212, 175, 55, 0.5); color: #888; border-radius: 10px; text-align: center; width: 100%; max-width: 300px; font-family: 'Cinzel'; }
+
+        .controls { display: flex; flex-direction: column; gap: 12px; width: 100%; max-width: 400px; align-items: center; padding-bottom: 40px; }
+        .btn-upload {
+            background: linear-gradient(135deg, var(--gold), var(--gold-glow)); color: #0a2a24; padding: 15px 40px; border-radius: 50px;
+            font-family: 'Cinzel', serif; font-weight: bold; text-transform: uppercase; border: none;
+            cursor: pointer; box-shadow: 0 5px 20px rgba(212, 175, 55, 0.4); transition: 0.3s;
+            display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%;
+        }
+        .btn-upload:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(212, 175, 55, 0.6); }
+
+        .trash-btn {
+            background: rgba(255, 68, 68, 0.2); color: #ff4444; border: 2px solid #ff4444;
+            width: 50px; height: 50px; border-radius: 50%; font-size: 1.4rem;
+            cursor: pointer; display: none; align-items: center; justify-content: center; margin-bottom: 15px; transition: 0.3s;
+        }
+        .trash-btn:hover { transform: rotate(90deg); background: rgba(255, 68, 68, 0.4); }
+
+        .final-actions { display: none; flex-direction: column; gap: 10px; width: 100%; animation: fadeIn 0.5s ease; }
+        .action-row { display: flex; gap: 10px; width: 100%; }
+        .btn-action {
+            flex: 1; border: none; padding: 14px; border-radius: 30px; font-weight: bold; transition: 0.3s;
+            cursor: pointer; font-size: 0.9rem; display: flex; align-items: center; justify-content: center; gap: 8px;
+            font-family: 'Montserrat', sans-serif; text-transform: uppercase;
+        }
+        .btn-whatsapp { background: linear-gradient(135deg, #25D366, #128C7E); color: #fff; }
+        .btn-share-native { background: rgba(255,255,255,0.15); color: #fff; border: 1px solid rgba(255,255,255,0.3); }
+        .btn-download { background: rgba(0,0,0,0.4); color: var(--gold); border: 2px solid var(--gold); }
+        .btn-action:hover { transform: translateY(-2px); }
+
+        #file-input { display: none; }
+        #loading { position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 100; display: none; align-items: center; justify-content: center; flex-direction: column; backdrop-filter: blur(5px); }
+        .spinner { width: 50px; height: 50px; border: 5px solid rgba(255,255,255,0.1); border-top: 5px solid var(--gold); border-radius: 50%; animation: spin 1s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        
+        #render-canvas { display: none; }
+        .firework { position: fixed; width: 6px; height: 6px; border-radius: 50%; pointer-events: none; z-index: 9999; }
+    </style>
+</head>
+<body>
+
+    <div class="firefly-container" id="fireflies"></div>
+
+    <div id="step-format">
+        <h1>Imersão Tecnológica</h1>
+        <p class="desc">Escolha como eternizar esse momento:</p>
+        
+        <div class="format-grid">
+            <div class="format-btn vertical" onclick="selectFormat('vertical')">
+                <div class="icon-screen"></div>
+                <span>Stories (Vertical)</span>
+            </div>
+            <div class="format-btn horizontal" onclick="selectFormat('horizontal')">
+                <div class="icon-screen"></div>
+                <span>Feed (Horizontal)</span>
+            </div>
+        </div>
+
+        <a href="https://oimaginista.com/xvgeovanafrigoletto/" class="btn-home">❮ Voltar ao Convite</a>
+
+        <div class="imaginista-footer">
+            <div class="logo-click" onclick="magicEffect(event)">
+                <img src="logo.png" alt="O Imaginista" class="footer-logo" id="footer-logo-img">
+            </div>
+            <span>© 2025 IMAGINISTA ∴ Todos os direitos reservados.</span>
+        </div>
+    </div>
+
+    <div id="step-editor">
+        <div class="header-editor">
+            <button class="btn-back" onclick="resetFormat()">❮ Trocar Formato</button>
+            <span style="font-family:'Dancing Script'; color:var(--gold); font-size:1.4rem;">Geovana XV</span>
+        </div>
+        
+        <div class="preview-container">
+            <img id="preview-img" src="" alt="Sua Foto" style="display:none;">
+            <div id="placeholder-text">
+                <div style="font-size: 3rem; margin-bottom: 10px;">📸</div>
+                Sua foto aparecerá aqui com a magia do Imaginista
+            </div>
+        </div>
+
+        <button class="trash-btn" id="trash-btn" onclick="resetImage()">🗑️</button>
+
+        <div class="controls">
+            <label for="file-input" class="btn-upload" id="upload-label">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+                Escolher Foto
+            </label>
+            <input type="file" id="file-input" accept="image/*" onchange="handleImage(this)">
+
+            <div class="final-actions" id="actions">
+                <div class="action-row">
+                    <button class="btn-action btn-whatsapp" onclick="shareWhatsapp()">
+                        Enviar Geovana
+                    </button>
+                    <button class="btn-action btn-share-native" onclick="shareNative()">
+                        🔗 Compartilhar
+                    </button>
+                </div>
+                <button class="btn-action btn-download" onclick="downloadImage()">⬇ Salvar na Galeria</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="loading">
+        <div class="spinner"></div>
+        <p style="margin-top:20px; color:var(--gold); font-family:'Cinzel'; letter-spacing:2px;">Aplicando Magia...</p>
+    </div>
+
+    <canvas id="render-canvas"></canvas>
+
+    <script>
+        const LOGO_SRC = 'logo.png'; 
+        const PHONE_TEST = "5521983340089"; 
+        
+        let currentFormat = null;
+        let canvas = document.getElementById('render-canvas');
+        let ctx = canvas.getContext('2d', { willReadFrequently: true });
+        let uploadedImage = null;
+        let logoImage = new Image();
+        
+        // Pré-carregamento logo
+        logoImage.crossOrigin = "Anonymous";
+        logoImage.onerror = function() { this.src = 'logo.webp'; this.onerror = null; };
+        logoImage.src = LOGO_SRC;
+        document.getElementById('footer-logo-img').onerror = function() { this.src = 'logo.webp'; };
+
+        // Vaga-lumes CSS
+        const fireflies = document.getElementById('fireflies');
+        for(let i=0; i<35; i++){
+            let f = document.createElement('div');
+            f.className = 'firefly';
+            f.style.left = Math.random()*100 + '%';
+            f.style.top = Math.random()*100 + '%';
+            f.style.animationDelay = Math.random()*10 + 's';
+            f.style.animationDuration = (Math.random()*12 + 8) + 's';
+            fireflies.appendChild(f);
+        }
+
+        function selectFormat(format) {
+            currentFormat = format;
+            document.getElementById('step-format').style.display = 'none';
+            document.getElementById('step-editor').style.display = 'flex';
+            if (format === 'vertical') { canvas.width = 1080; canvas.height = 1920; }
+            else { canvas.width = 1920; canvas.height = 1080; }
+        }
+
+        function resetFormat() {
+            resetImage();
+            document.getElementById('step-editor').style.display = 'none';
+            document.getElementById('step-format').style.display = 'block';
+        }
+
+        function handleImage(input) {
+            if (input.files && input.files[0]) {
+                document.getElementById('loading').style.display = 'flex';
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = new Image();
+                    img.onload = function() {
+                        uploadedImage = img;
+                        document.fonts.ready.then(() => { setTimeout(renderCanvas, 500); });
+                    }
+                    img.src = e.target.result;
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function renderCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            if (uploadedImage) {
+                // 1. Desfoque de Fundo
+                ctx.save();
+                ctx.filter = 'blur(60px) brightness(0.3) saturate(1.5)';
+                ctx.drawImage(uploadedImage, -100, -100, canvas.width + 200, canvas.height + 200);
+                ctx.restore();
+
+                // 2. Foto Principal
+                const imgRatio = uploadedImage.width / uploadedImage.height;
+                const canvasRatio = canvas.width / canvas.height;
+                let renderW, renderH, renderX, renderY;
+
+                if (imgRatio > canvasRatio) {
+                    renderH = canvas.height; renderW = uploadedImage.width * (canvas.height / uploadedImage.height);
+                    renderX = (canvas.width - renderW) / 2; renderY = 0;
+                } else {
+                    renderW = canvas.width; renderH = uploadedImage.height * (canvas.width / uploadedImage.width);
+                    renderX = 0; renderY = (canvas.height - renderH) / 2;
+                }
+                
+                ctx.save();
+                ctx.filter = 'contrast(1.15) saturate(1.25)'; // HDR
+                ctx.drawImage(uploadedImage, renderX, renderY, renderW, renderH);
+                ctx.restore();
+            }
+
+            // 3. Vignette
+            const vignette = ctx.createRadialGradient(canvas.width/2, canvas.height/2, canvas.width/5, canvas.width/2, canvas.height/2, canvas.width * 0.9);
+            vignette.addColorStop(0, "transparent");
+            vignette.addColorStop(1, "rgba(0,10,5,0.85)");
+            ctx.fillStyle = vignette;
+            ctx.fillRect(0,0,canvas.width, canvas.height);
+
+            // 4. Gradiente Inferior
+            const gradHeight = currentFormat === 'vertical' ? 900 : 550;
+            const gradient = ctx.createLinearGradient(0, canvas.height - gradHeight, 0, canvas.height);
+            gradient.addColorStop(0, "transparent");
+            gradient.addColorStop(0.6, "rgba(10, 42, 36, 0.95)");
+            gradient.addColorStop(1, "#010a08");
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, canvas.height - gradHeight, canvas.width, gradHeight);
+
+            // 5. Moldura Dourada (SÓ VERTICAL)
+            if (currentFormat === 'vertical') {
+                const borderW = 45; 
+                const strokeW = 4;
+                const offset = borderW + (strokeW / 2);
+                ctx.strokeStyle = "#d4af37";
+                ctx.lineWidth = strokeW;
+                ctx.shadowColor = "#fdd835"; ctx.shadowBlur = 20;
+                ctx.strokeRect(offset, offset, canvas.width - (offset*2), canvas.height - (offset*2));
+                ctx.shadowBlur = 0; 
+            }
+
+            // 6. LAYOUT
+            const marginH = currentFormat === 'vertical' ? 100 : 130;
+            const marginV = currentFormat === 'vertical' ? 120 : 100;
+            
+            // LOGO (Esquerda Inferior)
+            if(logoImage.complete && logoImage.naturalHeight > 0) {
+                const logoSize = currentFormat === 'vertical' ? 250 : 220; 
+                const logoAspectRatio = logoImage.width / logoImage.height;
+                const logoY = canvas.height - marginV - logoSize + 20;
+                ctx.save();
+                ctx.globalAlpha = 0.95;
+                ctx.shadowColor = "rgba(0,0,0,0.8)"; ctx.shadowBlur = 25;
+                ctx.drawImage(logoImage, marginH - 50, logoY, logoSize * logoAspectRatio, logoSize);
+                ctx.restore();
+            }
+
+            // TEXTOS (Direita Inferior - Empilhados na ordem pedida)
+            // Ordem: Data (Topo do bloco) -> XV Anos (Meio) -> Geovana (Baixo)
+            ctx.textAlign = 'right';
+            
+            let nameSize, subSize, dateSize;
+            if(currentFormat === 'vertical') {
+                nameSize = 100; subSize = 55; dateSize = 38;
+            } else {
+                nameSize = 90; subSize = 48; dateSize = 34;
+            }
+
+            // Começamos de baixo (Nome) e subimos
+            let currentY = canvas.height - marginV;
+
+            // 1. Geovana Frigoletto (Baixo)
+            ctx.font = `bold ${nameSize}px "Dancing Script"`; 
+            ctx.fillStyle = '#fdd835'; 
+            ctx.shadowColor = "rgba(0,0,0,1)"; ctx.shadowBlur = 30;
+            ctx.fillText("Geovana Frigoletto", canvas.width - marginH + 20, currentY);
+
+            // 2. XV ANOS (Meio)
+            currentY -= (nameSize * 0.8);
+            ctx.font = `bold ${subSize}px "Cinzel"`;
+            ctx.fillStyle = '#ffffff';
+            ctx.shadowBlur = 20;
+            ctx.fillText("XV ANOS", canvas.width - marginH + 20, currentY);
+
+            // 3. Data (Topo do bloco)
+            currentY -= (subSize * 1.2);
+            ctx.font = `bold ${dateSize}px "Cinzel"`;
+            ctx.fillStyle = '#fff59d';
+            ctx.shadowBlur = 15;
+            ctx.fillText("31.01.2026", canvas.width - marginH + 20, currentY);
+
+            // FRASE (Lógica Vertical vs Horizontal)
+            ctx.save();
+            ctx.textAlign = 'center';
+            const phraseSize = currentFormat === 'vertical' ? 42 : 36;
+            ctx.font = `italic 400 ${phraseSize}px "Montserrat"`;
+            ctx.fillStyle = 'rgba(255,255,255,0.95)';
+            ctx.shadowColor = "rgba(0,0,0,0.9)"; ctx.shadowBlur = 20;
+
+            if (currentFormat === 'vertical') {
+                // TOPO
+                ctx.fillText("Uma noite mágica em Nova Orleans", canvas.width / 2, 140);
+            } else {
+                // MEIO BAIXO (Rodapé centralizado, alinhado com a logo visualmente)
+                ctx.fillText("Uma noite mágica em Nova Orleans", canvas.width / 2, canvas.height - 50);
+            }
+            ctx.restore();
+
+            // 7. Partículas
+            for (let i = 0; i < 40; i++) {
+                const x = Math.random() * canvas.width;
+                const y = Math.random() * canvas.height * 0.7 + canvas.height * 0.3;
+                const size = Math.random() * 6 + 2;
+                ctx.beginPath();
+                ctx.arc(x, y, size, 0, Math.PI * 2);
+                ctx.fillStyle = i % 2 === 0 ? "rgba(255, 215, 0, 0.7)" : "rgba(0, 255, 136, 0.6)";
+                ctx.shadowColor = i % 2 === 0 ? "#fdd835" : "#00ff88";
+                ctx.shadowBlur = 20;
+                ctx.fill();
+                ctx.shadowBlur = 0;
+            }
+
+            finishPreview();
+        }
+
+        function finishPreview() {
+            const dataUrl = canvas.toDataURL('image/jpeg', 0.95);
+            const preview = document.getElementById('preview-img');
+            preview.src = dataUrl;
+            preview.style.display = 'block';
+            document.getElementById('placeholder-text').style.display = 'none';
+            document.getElementById('upload-label').style.display = 'none';
+            document.getElementById('trash-btn').style.display = 'flex';
+            document.getElementById('actions').style.display = 'flex';
+            document.getElementById('loading').style.display = 'none';
+        }
+
+        function resetImage() {
+            if(confirm("Deseja trocar a foto?")) {
+                uploadedImage = null;
+                document.getElementById('file-input').value = "";
+                document.getElementById('preview-img').style.display = 'none';
+                document.getElementById('preview-img').src = "";
+                document.getElementById('placeholder-text').style.display = 'block';
+                document.getElementById('upload-label').style.display = 'flex';
+                document.getElementById('trash-btn').style.display = 'none';
+                document.getElementById('actions').style.display = 'none';
+            }
+        }
+
+        function dataURLtoBlob(dataurl) {
+            var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+                bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+            while(n--){ u8arr[n] = bstr.charCodeAt(n); }
+            return new Blob([u8arr], {type:mime});
+        }
+
+        function downloadImage() {
+            const link = document.createElement('a');
+            link.download = 'Geovana-XV-Imersao-Magica.jpg';
+            link.href = canvas.toDataURL('image/jpeg', 0.95);
+            link.click();
+        }
+
+        function shareWhatsapp() {
+            downloadImage(); 
+            setTimeout(() => {
+                const text = encodeURIComponent("✨ Olha a foto mágica que fiz na Imersão do XV da Geovana! 🐸 #XVGeovana #NovaOrleans");
+                window.open(`https://wa.me/${PHONE_TEST}?text=${text}`, '_blank');
+            }, 1000);
+        }
+
+        async function shareNative() {
+            const dataUrl = canvas.toDataURL('image/jpeg', 0.95);
+            const blob = dataURLtoBlob(dataUrl);
+            const file = new File([blob], "Geovana-XV.jpg", { type: "image/jpeg" });
+            if (navigator.share) {
+                try { await navigator.share({ title: 'XV Geovana', text: 'Minha foto mágica! ✨', files: [file] }); } 
+                catch (err) { console.log('Cancelado'); }
+            } else {
+                alert("Clique em 'Baixar' para salvar! ✨");
+                downloadImage();
+            }
+        }
+
+        function magicEffect(e) {
+            const colors = ['#fdd835', '#00ff88', '#ffffff', '#d4af37'];
+            for(let i=0; i<20; i++) {
+                const p = document.createElement('div');
+                p.className = 'firework';
+                p.style.background = colors[Math.floor(Math.random()*colors.length)];
+                p.style.left = e.clientX + 'px';
+                p.style.top = e.clientY + 'px';
+                document.body.appendChild(p);
+                const angle = Math.random() * Math.PI * 2;
+                const dist = Math.random() * 120 + 50;
+                p.animate([{ transform: 'translate(0,0) scale(1)', opacity: 1 }, { transform: `translate(${Math.cos(angle)*dist}px, ${Math.sin(angle)*dist}px) scale(0.1)`, opacity: 0 }], { duration: 800 + Math.random()*400, easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)' }).onfinish = () => p.remove();
+            }
+        }
+    </script>
+</body>
+</html>
