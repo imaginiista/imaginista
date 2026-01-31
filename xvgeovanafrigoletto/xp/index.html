@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Imersão - Geovana Frigoletto</title>
+    <title>XV Geovana Frigoletto</title>
     
     <link rel="icon" type="image/png" href="../favicon/favicon-96x96.png" sizes="96x96">
     <link rel="icon" type="image/svg+xml" href="../favicon/favicon.svg">
@@ -24,12 +24,12 @@
             --magic-green: #00ff88;
         }
 
-        /* BLOQUEIO DE SELEÇÃO (Proteção Visual) */
+        /* PROTEÇÃO CONTRA CÓPIA */
         * { 
             margin: 0; padding: 0; box-sizing: border-box; 
             -webkit-tap-highlight-color: transparent; 
-            -webkit-touch-callout: none; /* Impede menu de toque longo no iOS */
-            user-select: none; /* Impede seleção de texto */
+            -webkit-touch-callout: none;
+            user-select: none;
         }
         
         body {
@@ -41,7 +41,6 @@
             display: flex; flex-direction: column; align-items: center; justify-content: center;
         }
 
-        /* Vaga-lumes */
         .firefly-container { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
         .firefly {
             position: absolute; width: 4px; height: 4px; background: var(--gold);
@@ -82,6 +81,7 @@
         }
         .format-btn:hover { background: rgba(212, 175, 55, 0.2); transform: scale(1.05); }
         .format-btn span { font-size: 0.75rem; margin-top: 8px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
+        
         .icon-screen { border: 2px solid #fff; margin-bottom: 5px; background: rgba(255,255,255,0.1); border-radius: 3px; }
         .vertical .icon-screen { width: 30px; height: 50px; }
         .horizontal .icon-screen { width: 50px; height: 30px; }
@@ -111,13 +111,21 @@
             position: absolute; top: 0; left: 0; background: rgba(10, 42, 36, 0.98);
         }
         .header-editor { width: 100%; max-width: 600px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        
         .btn-back {
             background: rgba(255,255,255,0.1); border: 1px solid var(--gold); color: var(--gold);
-            padding: 8px 15px; border-radius: 20px; cursor: pointer; font-size: 0.9rem;
+            padding: 8px 15px; border-radius: 20px; cursor: pointer; font-size: 0.8rem;
             display: flex; align-items: center; gap: 5px; font-family: 'Cinzel', serif;
+            flex-shrink: 0; 
+        }
+        
+        .header-title {
+            font-family:'Dancing Script'; color:var(--gold); font-size:1.4rem; 
+            text-align: right; margin-left: 15px; 
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
         }
 
-        /* --- PREVIEW COM EFEITO TECH MÁGICO --- */
+        /* PREVIEW COM SCANNER */
         .preview-container {
             position: relative; box-shadow: 0 0 40px rgba(212, 175, 55, 0.3);
             border: 3px solid var(--gold); margin-bottom: 15px;
@@ -126,14 +134,12 @@
             display: flex; justify-content: center; align-items: center;
             transition: 0.3s;
         }
-        /* Estado vazio (Scanner) */
         .preview-container.empty {
             background: radial-gradient(circle, #0e3029 0%, #000 100%);
         }
         .preview-container.empty::after {
             content: ''; position: absolute; width: 100%; height: 3px; background: var(--gold);
-            box-shadow: 0 0 15px var(--gold-glow);
-            top: 0; left: 0; animation: scanTech 2.5s infinite linear;
+            box-shadow: 0 0 15px var(--gold-glow); top: 0; left: 0; animation: scanTech 2.5s infinite linear;
         }
         .preview-container.empty::before {
             content: ''; position: absolute; width: 200%; height: 200%; 
@@ -144,33 +150,31 @@
         @keyframes rotateTech { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
         #preview-img { display: block; max-height: 45vh; max-width: 100%; object-fit: contain; z-index: 2; }
-        #placeholder-text { 
-            padding: 40px 20px; border: 2px dashed rgba(212, 175, 55, 0.5); color: #888; 
-            border-radius: 10px; text-align: center; width: 80%; max-width: 300px; 
-            font-family: 'Cinzel'; z-index: 2; position: relative; background: rgba(0,0,0,0.6);
-        }
+        #placeholder-text { padding: 40px 20px; border: 3px dashed rgba(212, 175, 55, 0.5); color: #888; border-radius: 10px; text-align: center; width: 80%; max-width: 300px; font-family: 'Cinzel'; z-index: 2; background: rgba(0,0,0,0.6); }
 
         /* FERRAMENTAS */
         .editor-tools {
             display: none; flex-direction: column; width: 100%; max-width: 400px; gap: 10px; margin-bottom: 10px;
         }
         
-        .tool-row-1 {
-            display: flex; width: 100%; gap: 10px; overflow-x: auto;
+        .label-tools { font-size: 0.7rem; color: #888; text-transform: uppercase; margin-bottom: 2px; margin-left: 5px; font-family: 'Montserrat'; }
+
+        .tool-scroll {
+            display: flex; width: 100%; gap: 8px; overflow-x: auto;
             -webkit-overflow-scrolling: touch; scrollbar-width: none; padding-bottom: 5px;
         }
-        .tool-row-1::-webkit-scrollbar { display: none; }
+        .tool-scroll::-webkit-scrollbar { display: none; }
 
         .filter-chip, .border-chip {
             display: inline-flex; align-items: center; justify-content: center;
             background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3);
-            color: #ccc; padding: 8px 16px; border-radius: 20px;
-            cursor: pointer; font-size: 0.8rem; font-family: 'Montserrat';
+            color: #ccc; padding: 6px 14px; border-radius: 20px;
+            cursor: pointer; font-size: 0.75rem; font-family: 'Montserrat';
             transition: 0.3s; white-space: nowrap;
         }
         .filter-chip.active, .border-chip.active { background: var(--gold); color: #0a2a24; border-color: var(--gold); font-weight: bold; }
 
-        .tool-row-2 { display: flex; justify-content: space-between; align-items: center; width: 100%; }
+        .tool-row-2 { display: flex; justify-content: space-between; align-items: center; width: 100%; margin-top: 5px; }
         
         .toggle-btn {
             background: rgba(255,255,255,0.1); border: 1px solid #fff; color: #fff;
@@ -222,8 +226,8 @@
     <div class="firefly-container" id="fireflies"></div>
 
     <div id="step-format">
-        <h1>Imersão Tecnológica</h1>
-        <p class="desc">Escolha como eternizar<br>esse momento:</p>
+        <h1>Geovana Frigoletto</h1>
+        <p class="desc">Transforme sua lembrança<br>em pura magia 🌟</p>
         
         <div class="format-grid">
             <div class="format-btn vertical" onclick="selectFormat('vertical')">
@@ -256,7 +260,7 @@
     <div id="step-editor">
         <div class="header-editor">
             <button class="btn-back" onclick="resetFormat()">❮ Trocar Formato</button>
-            <span style="font-family:'Dancing Script'; color:var(--gold); font-size:1.4rem;">XV Geovana Frigoletto</span>
+            <span class="header-title">XV Geovana Frigoletto</span>
         </div>
         
         <div class="preview-container empty" id="preview-box">
@@ -268,8 +272,11 @@
         </div>
 
         <div class="editor-tools" id="editor-tools">
-            <div class="tool-row-1" id="filters-list"></div>
-            <div class="tool-row-1" id="borders-list" style="margin-top:5px;"></div>
+            <span class="label-tools">Efeitos</span>
+            <div class="tool-scroll" id="filters-list"></div>
+            
+            <span class="label-tools" style="margin-top:5px;">Moldura</span>
+            <div class="tool-scroll" id="borders-list"></div>
 
             <div class="tool-row-2" style="margin-top:8px;">
                 <button class="toggle-btn active" id="blur-btn" onclick="toggleBlur()">
@@ -307,9 +314,9 @@
     <canvas id="render-canvas"></canvas>
 
     <script>
-        // === PROTEÇÃO CONTRA CLONES ===
+        // === PROTEÇÃO CONTRA CÓPIA ===
         document.onkeydown = function(e) {
-            if (e.keyCode == 123) return false; // F12
+            if (e.keyCode == 123) return false;
             if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) return false;
             if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) return false;
             if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) return false;
@@ -338,9 +345,9 @@
         };
 
         const borders = {
-            'simple': { label: 'Borda Simples' },
+            'simple': { label: 'Simples' },
             'deco':   { label: 'Art Déco' },
-            'none':   { label: 'Sem Borda' }
+            'none':   { label: 'Clean' }
         };
         
         logoImage.crossOrigin = "Anonymous";
@@ -359,7 +366,6 @@
             fireflies.appendChild(f);
         }
 
-        // --- UI GERAÇÃO ---
         function generateUI() {
             const fContainer = document.getElementById('filters-list');
             fContainer.innerHTML = ''; 
@@ -385,7 +391,7 @@
         function applyFilter(key) {
             if(!uploadedImage || key === currentFilter) return;
             currentFilter = key;
-            generateUI(); 
+            generateUI();
             document.getElementById('loading').style.display = 'flex';
             setTimeout(renderCanvas, 100);
         }
@@ -457,13 +463,12 @@
                         uploadedImage = img;
                         currentFilter = 'normal';
                         isBlurEnabled = true;
-                        // Define borda padrão com base no formato (Sem borda p/ Horizontal e Quadrado)
-                        if(currentFormat === 'vertical') currentBorder = 'simple';
-                        else currentBorder = 'none';
+                        // Regra de borda inicial
+                        currentBorder = (currentFormat === 'horizontal') ? 'none' : 'simple';
                         
                         document.getElementById('blur-btn').classList.add('active');
                         document.getElementById('blur-btn').innerHTML = '💧 Fundo Blur';
-                        // Remove efeito "Empty"
+                        // Remove efeito "scanner"
                         document.getElementById('preview-box').classList.remove('empty');
                         
                         generateUI();
@@ -575,7 +580,7 @@
             ctx.fillStyle = gradient;
             ctx.fillRect(0, canvas.height - gradHeight, canvas.width, gradHeight);
 
-            // 5. MOLDURA SELECIONÁVEL
+            // 5. MOLDURA
             drawFancyBorder(ctx, canvas.width, canvas.height);
 
             // 6. LAYOUT
