@@ -24,7 +24,13 @@
             --magic-green: #00ff88;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        /* BLOQUEIO DE SELEÇÃO (Proteção Visual) */
+        * { 
+            margin: 0; padding: 0; box-sizing: border-box; 
+            -webkit-tap-highlight-color: transparent; 
+            -webkit-touch-callout: none; /* Impede menu de toque longo no iOS */
+            user-select: none; /* Impede seleção de texto */
+        }
         
         body {
             background: radial-gradient(circle at center, #0e3029 0%, #010a08 100%);
@@ -35,6 +41,7 @@
             display: flex; flex-direction: column; align-items: center; justify-content: center;
         }
 
+        /* Vaga-lumes */
         .firefly-container { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
         .firefly {
             position: absolute; width: 4px; height: 4px; background: var(--gold);
@@ -104,55 +111,66 @@
             position: absolute; top: 0; left: 0; background: rgba(10, 42, 36, 0.98);
         }
         .header-editor { width: 100%; max-width: 600px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        
         .btn-back {
             background: rgba(255,255,255,0.1); border: 1px solid var(--gold); color: var(--gold);
-            padding: 8px 15px; border-radius: 20px; cursor: pointer; font-size: 0.8rem;
+            padding: 8px 15px; border-radius: 20px; cursor: pointer; font-size: 0.9rem;
             display: flex; align-items: center; gap: 5px; font-family: 'Cinzel', serif;
-            flex-shrink: 0; /* Impede encolhimento */
-        }
-        
-        .header-title {
-            font-family:'Dancing Script'; color:var(--gold); font-size:1.4rem; 
-            text-align: right; margin-left: 15px; /* Garante separação do botão voltar */
-            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
         }
 
+        /* --- PREVIEW COM EFEITO TECH MÁGICO --- */
         .preview-container {
             position: relative; box-shadow: 0 0 40px rgba(212, 175, 55, 0.3);
             border: 3px solid var(--gold); margin-bottom: 15px;
             max-height: 45vh; max-width: 100%; overflow: hidden;
             border-radius: 12px; background: #000;
             display: flex; justify-content: center; align-items: center;
-            animation: pulseBorder 3s infinite alternate;
+            transition: 0.3s;
         }
-        @keyframes pulseBorder { from { border-color: var(--gold); } to { border-color: var(--gold-glow); } }
-        #preview-img { display: block; max-height: 45vh; max-width: 100%; object-fit: contain; }
-        #placeholder-text { padding: 40px 20px; border: 3px dashed rgba(212, 175, 55, 0.5); color: #888; border-radius: 10px; text-align: center; width: 100%; max-width: 300px; font-family: 'Cinzel'; }
+        /* Estado vazio (Scanner) */
+        .preview-container.empty {
+            background: radial-gradient(circle, #0e3029 0%, #000 100%);
+        }
+        .preview-container.empty::after {
+            content: ''; position: absolute; width: 100%; height: 3px; background: var(--gold);
+            box-shadow: 0 0 15px var(--gold-glow);
+            top: 0; left: 0; animation: scanTech 2.5s infinite linear;
+        }
+        .preview-container.empty::before {
+            content: ''; position: absolute; width: 200%; height: 200%; 
+            background: conic-gradient(from 0deg, transparent 0%, rgba(212,175,55,0.1) 50%, transparent 100%);
+            animation: rotateTech 4s infinite linear;
+        }
+        @keyframes scanTech { 0% { top: 0; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { top: 100%; opacity: 0; } }
+        @keyframes rotateTech { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        #preview-img { display: block; max-height: 45vh; max-width: 100%; object-fit: contain; z-index: 2; }
+        #placeholder-text { 
+            padding: 40px 20px; border: 2px dashed rgba(212, 175, 55, 0.5); color: #888; 
+            border-radius: 10px; text-align: center; width: 80%; max-width: 300px; 
+            font-family: 'Cinzel'; z-index: 2; position: relative; background: rgba(0,0,0,0.6);
+        }
 
         /* FERRAMENTAS */
         .editor-tools {
             display: none; flex-direction: column; width: 100%; max-width: 400px; gap: 10px; margin-bottom: 10px;
         }
         
-        .label-tools { font-size: 0.7rem; color: #888; text-transform: uppercase; margin-bottom: 2px; margin-left: 5px; font-family: 'Montserrat'; }
-
-        .tool-scroll {
-            display: flex; width: 100%; gap: 8px; overflow-x: auto;
+        .tool-row-1 {
+            display: flex; width: 100%; gap: 10px; overflow-x: auto;
             -webkit-overflow-scrolling: touch; scrollbar-width: none; padding-bottom: 5px;
         }
-        .tool-scroll::-webkit-scrollbar { display: none; }
+        .tool-row-1::-webkit-scrollbar { display: none; }
 
         .filter-chip, .border-chip {
             display: inline-flex; align-items: center; justify-content: center;
             background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3);
-            color: #ccc; padding: 6px 14px; border-radius: 20px;
-            cursor: pointer; font-size: 0.75rem; font-family: 'Montserrat';
+            color: #ccc; padding: 8px 16px; border-radius: 20px;
+            cursor: pointer; font-size: 0.8rem; font-family: 'Montserrat';
             transition: 0.3s; white-space: nowrap;
         }
         .filter-chip.active, .border-chip.active { background: var(--gold); color: #0a2a24; border-color: var(--gold); font-weight: bold; }
 
-        .tool-row-2 { display: flex; justify-content: space-between; align-items: center; width: 100%; margin-top: 5px; }
+        .tool-row-2 { display: flex; justify-content: space-between; align-items: center; width: 100%; }
         
         .toggle-btn {
             background: rgba(255,255,255,0.1); border: 1px solid #fff; color: #fff;
@@ -173,7 +191,7 @@
             background: linear-gradient(135deg, var(--gold), var(--gold-glow)); color: #0a2a24; padding: 15px 40px; border-radius: 50px;
             font-family: 'Cinzel', serif; font-weight: bold; text-transform: uppercase; border: none;
             cursor: pointer; box-shadow: 0 5px 20px rgba(212, 175, 55, 0.4); transition: 0.3s;
-            display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%;
+            display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; z-index: 5;
         }
         .btn-upload:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(212, 175, 55, 0.6); }
 
@@ -198,7 +216,7 @@
         .firework { position: fixed; width: 6px; height: 6px; border-radius: 50%; pointer-events: none; z-index: 9999; }
     </style>
 </head>
-<body>
+<body oncontextmenu="return false;">
 
     <div id="toast-container"></div>
     <div class="firefly-container" id="fireflies"></div>
@@ -237,11 +255,11 @@
 
     <div id="step-editor">
         <div class="header-editor">
-            <button class="btn-back" onclick="resetFormat()">❮ Formato</button>
-            <span class="header-title">XV Geovana Frigoletto</span>
+            <button class="btn-back" onclick="resetFormat()">❮ Trocar Formato</button>
+            <span style="font-family:'Dancing Script'; color:var(--gold); font-size:1.4rem;">XV Geovana Frigoletto</span>
         </div>
         
-        <div class="preview-container">
+        <div class="preview-container empty" id="preview-box">
             <img id="preview-img" src="" alt="Sua Foto" style="display:none;">
             <div id="placeholder-text">
                 <div style="font-size: 3rem; margin-bottom: 10px;">📸</div>
@@ -250,15 +268,10 @@
         </div>
 
         <div class="editor-tools" id="editor-tools">
-            <span class="label-tools">Efeitos</span>
-            <div class="tool-scroll" id="filters-list">
-                </div>
-            
-            <span class="label-tools" style="margin-top:5px;">Moldura</span>
-            <div class="tool-scroll" id="borders-list">
-                </div>
+            <div class="tool-row-1" id="filters-list"></div>
+            <div class="tool-row-1" id="borders-list" style="margin-top:5px;"></div>
 
-            <div class="tool-row-2">
+            <div class="tool-row-2" style="margin-top:8px;">
                 <button class="toggle-btn active" id="blur-btn" onclick="toggleBlur()">
                     💧 Fundo Blur
                 </button>
@@ -294,6 +307,15 @@
     <canvas id="render-canvas"></canvas>
 
     <script>
+        // === PROTEÇÃO CONTRA CLONES ===
+        document.onkeydown = function(e) {
+            if (e.keyCode == 123) return false; // F12
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) return false;
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) return false;
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) return false;
+            if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false;
+        };
+
         const LOGO_SRC = 'logo.png'; 
         
         let currentFormat = null;
@@ -303,7 +325,7 @@
         let logoImage = new Image();
         
         let currentFilter = 'normal';
-        let currentBorder = 'simple'; // simple, deco, none
+        let currentBorder = 'simple';
         let isBlurEnabled = true;
 
         const filters = {
@@ -316,9 +338,9 @@
         };
 
         const borders = {
-            'simple': { label: 'Simples' },
+            'simple': { label: 'Borda Simples' },
             'deco':   { label: 'Art Déco' },
-            'none':   { label: 'Clean' }
+            'none':   { label: 'Sem Borda' }
         };
         
         logoImage.crossOrigin = "Anonymous";
@@ -339,7 +361,6 @@
 
         // --- UI GERAÇÃO ---
         function generateUI() {
-            // Filtros
             const fContainer = document.getElementById('filters-list');
             fContainer.innerHTML = ''; 
             Object.keys(filters).forEach(key => {
@@ -350,7 +371,6 @@
                 fContainer.appendChild(btn);
             });
 
-            // Bordas
             const bContainer = document.getElementById('borders-list');
             bContainer.innerHTML = '';
             Object.keys(borders).forEach(key => {
@@ -365,7 +385,7 @@
         function applyFilter(key) {
             if(!uploadedImage || key === currentFilter) return;
             currentFilter = key;
-            generateUI(); // Re-renderiza botões
+            generateUI(); 
             document.getElementById('loading').style.display = 'flex';
             setTimeout(renderCanvas, 100);
         }
@@ -437,11 +457,15 @@
                         uploadedImage = img;
                         currentFilter = 'normal';
                         isBlurEnabled = true;
-                        // Define borda padrão com base no formato
-                        currentBorder = (currentFormat === 'horizontal') ? 'none' : 'simple';
+                        // Define borda padrão com base no formato (Sem borda p/ Horizontal e Quadrado)
+                        if(currentFormat === 'vertical') currentBorder = 'simple';
+                        else currentBorder = 'none';
                         
                         document.getElementById('blur-btn').classList.add('active');
                         document.getElementById('blur-btn').innerHTML = '💧 Fundo Blur';
+                        // Remove efeito "Empty"
+                        document.getElementById('preview-box').classList.remove('empty');
+                        
                         generateUI();
                         document.fonts.ready.then(() => { setTimeout(renderCanvas, 500); });
                     }
@@ -463,8 +487,8 @@
         }
 
         function drawFancyBorder(ctx, w, h) {
-            const margin = 40;
-            const lw = 3;
+            const margin = 45;
+            const lw = 4;
             ctx.lineWidth = lw;
             ctx.strokeStyle = "#d4af37";
             ctx.shadowColor = "#fdd835"; ctx.shadowBlur = 15;
@@ -473,25 +497,16 @@
                 ctx.strokeRect(margin, margin, w - margin*2, h - margin*2);
             } 
             else if (currentBorder === 'deco') {
-                // Linha externa
                 ctx.strokeRect(margin, margin, w - margin*2, h - margin*2);
-                // Linha interna fina
                 ctx.lineWidth = 1;
-                ctx.strokeRect(margin + 10, margin + 10, w - (margin*2 + 20), h - (margin*2 + 20));
-                
-                // Cantos Art Déco
-                const cornerSize = 20;
+                ctx.strokeRect(margin + 12, margin + 12, w - (margin*2 + 24), h - (margin*2 + 24));
+                const cornerSize = 25;
                 ctx.fillStyle = "#d4af37";
-                // Top Left
-                ctx.fillRect(margin - 5, margin - 5, cornerSize, cornerSize);
-                // Top Right
-                ctx.fillRect(w - margin - cornerSize + 5, margin - 5, cornerSize, cornerSize);
-                // Bottom Left
-                ctx.fillRect(margin - 5, h - margin - cornerSize + 5, cornerSize, cornerSize);
-                // Bottom Right
-                ctx.fillRect(w - margin - cornerSize + 5, h - margin - cornerSize + 5, cornerSize, cornerSize);
+                ctx.fillRect(margin - 6, margin - 6, cornerSize, cornerSize);
+                ctx.fillRect(w - margin - cornerSize + 6, margin - 6, cornerSize, cornerSize);
+                ctx.fillRect(margin - 6, h - margin - cornerSize + 6, cornerSize, cornerSize);
+                ctx.fillRect(w - margin - cornerSize + 6, h - margin - cornerSize + 6, cornerSize, cornerSize);
             }
-            // 'none' não desenha nada
             ctx.shadowBlur = 0;
         }
 
@@ -560,7 +575,7 @@
             ctx.fillStyle = gradient;
             ctx.fillRect(0, canvas.height - gradHeight, canvas.width, gradHeight);
 
-            // 5. MOLDURA DINÂMICA
+            // 5. MOLDURA SELECIONÁVEL
             drawFancyBorder(ctx, canvas.width, canvas.height);
 
             // 6. LAYOUT
@@ -686,6 +701,7 @@
                 document.getElementById('upload-label').style.display = 'flex';
                 document.getElementById('editor-tools').style.display = 'none';
                 document.getElementById('actions').style.display = 'none';
+                document.getElementById('preview-box').classList.add('empty');
                 currentFilter = 'normal';
                 isBlurEnabled = true;
             }
