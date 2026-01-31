@@ -36,7 +36,7 @@
             display: flex; flex-direction: column; align-items: center; justify-content: center;
         }
 
-        /* Vaga-lumes de fundo do site */
+        /* Vaga-lumes */
         .firefly-container { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
         .firefly {
             position: absolute; width: 4px; height: 4px; background: var(--gold);
@@ -50,35 +50,58 @@
             100% { opacity: 0; transform: translate(300px, -300px) scale(0.2); }
         }
 
-        /* TELA 1: Formato */
-        #step-format { z-index: 10; text-align: center; width: 90%; max-width: 600px; animation: fadeIn 1s ease; }
-        h1 { font-family: 'Dancing Script', cursive; color: var(--gold); font-size: 3.5rem; margin-bottom: 10px; text-shadow: 0 0 15px rgba(212, 175, 55, 0.6); }
-        p.desc { font-family: 'Cinzel', serif; font-size: 1.1rem; color: #ccc; margin-bottom: 30px; }
-        .format-grid { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-bottom: 40px; }
+        /* TELA 1: SELEÇÃO */
+        #step-format { z-index: 10; text-align: center; width: 95%; max-width: 600px; animation: fadeIn 1s ease; }
+        h1 { font-family: 'Dancing Script', cursive; color: var(--gold); font-size: 3.5rem; margin-bottom: 5px; text-shadow: 0 0 20px rgba(212, 175, 55, 0.6); }
+        
+        p.desc { 
+            font-family: 'Cinzel', serif; font-size: 1.1rem; color: #ccc; margin-bottom: 30px; 
+            line-height: 1.5; /* Espaçamento para as duas linhas */
+        }
+        
+        /* Grid lado a lado forçado */
+        .format-grid { 
+            display: flex; gap: 10px; justify-content: center; flex-wrap: nowrap; /* Não quebra linha */
+            margin-bottom: 40px; width: 100%;
+        }
+        
         .format-btn {
-            background: rgba(255,255,255,0.05); border: 2px solid var(--gold); border-radius: 15px;
-            padding: 20px; cursor: pointer; transition: 0.3s; width: 140px;
+            background: rgba(255,255,255,0.05); border: 2px solid var(--gold); border-radius: 12px;
+            padding: 15px 5px; cursor: pointer; transition: 0.3s; 
+            flex: 1; /* Ocupa espaço igual */
             display: flex; flex-direction: column; align-items: center; backdrop-filter: blur(5px);
+            min-width: 80px; /* Tamanho mínimo para não esmagar */
         }
         .format-btn:hover { background: rgba(212, 175, 55, 0.2); transform: scale(1.05); }
-        .icon-screen { border: 2px solid #fff; margin-bottom: 10px; background: rgba(255,255,255,0.1); border-radius: 4px; }
-        .vertical .icon-screen { width: 40px; height: 70px; }
-        .horizontal .icon-screen { width: 70px; height: 40px; }
-        
-        .btn-home {
-            color: var(--gold); text-decoration: none; font-size: 0.9rem;
-            border: 1px solid rgba(212, 175, 55, 0.5); padding: 12px 25px; border-radius: 30px;
-            transition: 0.3s; font-family: 'Cinzel', serif; display: inline-flex; align-items: center; gap: 5px; background: rgba(0,0,0,0.3);
-        }
-        .imaginista-footer {
-            margin-top: 50px; font-size: 0.75rem; color: #aaa; text-align: center;
-            font-family: 'Montserrat', sans-serif; letter-spacing: 1px;
-            display: flex; flex-direction: column; align-items: center; gap: 10px;
-        }
-        .logo-click img { height: 40px; opacity: 0.8; transition: 0.3s; cursor: pointer; }
-        .logo-click:hover img { transform: scale(1.1); opacity: 1; filter: drop-shadow(0 0 8px var(--magic-green)); }
+        .format-btn span { font-size: 0.75rem; margin-top: 8px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
 
-        /* TELA 2: Editor */
+        .icon-screen { border: 2px solid #fff; margin-bottom: 5px; background: rgba(255,255,255,0.1); border-radius: 3px; }
+        .vertical .icon-screen { width: 30px; height: 50px; }
+        .horizontal .icon-screen { width: 50px; height: 30px; }
+        .square .icon-screen { width: 40px; height: 40px; }
+        
+        /* Navegação Inferior (Convite | Imaginista) */
+        .nav-buttons {
+            display: flex; gap: 15px; justify-content: center; width: 100%; margin-bottom: 40px;
+        }
+        .btn-nav {
+            color: var(--gold); text-decoration: none; font-size: 0.85rem; text-transform: uppercase;
+            border: 1px solid rgba(212, 175, 55, 0.5); padding: 12px 20px; border-radius: 30px;
+            transition: 0.3s; font-family: 'Cinzel', serif; display: flex; align-items: center; gap: 8px; 
+            background: rgba(0,0,0,0.3); min-width: 130px; justify-content: center;
+        }
+        .btn-nav:hover { background: var(--gold); color: #0a2a24; border-color: var(--gold); box-shadow: 0 0 15px rgba(212,175,55,0.4); }
+
+        .imaginista-footer {
+            margin-top: 20px; font-size: 0.65rem; color: #888; text-align: center;
+            font-family: 'Montserrat', sans-serif; letter-spacing: 2px; text-transform: uppercase;
+            display: flex; flex-direction: column; align-items: center; gap: 12px; line-height: 1.6;
+        }
+        /* Logo aumentada */
+        .logo-click img { height: 50px; opacity: 0.9; transition: 0.3s; cursor: pointer; filter: drop-shadow(0 0 5px rgba(0,0,0,0.5)); }
+        .logo-click:hover img { transform: scale(1.1); filter: drop-shadow(0 0 10px var(--magic-green)); }
+
+        /* TELA 2: EDITOR */
         #step-editor {
             display: none; flex-direction: column; align-items: center;
             width: 100%; min-height: 100dvh; z-index: 20; padding: 20px 15px;
@@ -126,7 +149,6 @@
             cursor: pointer; font-size: 0.9rem; display: flex; align-items: center; justify-content: center; gap: 8px;
             font-family: 'Montserrat', sans-serif; text-transform: uppercase;
         }
-        /* Botão WhatsApp Removido */
         .btn-share-native { background: rgba(255,255,255,0.15); color: #fff; border: 1px solid rgba(255,255,255,0.3); }
         .btn-download { background: rgba(0,0,0,0.4); color: var(--gold); border: 2px solid var(--gold); }
         .btn-action:hover { transform: translateY(-2px); }
@@ -138,7 +160,6 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         
         #render-canvas { display: none; }
-        /* Efeito do clique na logo do rodapé */
         .firework { position: fixed; width: 6px; height: 6px; border-radius: 50%; pointer-events: none; z-index: 9999; }
     </style>
 </head>
@@ -148,26 +169,33 @@
 
     <div id="step-format">
         <h1>Imersão Tecnológica</h1>
-        <p class="desc">Escolha como eternizar esse momento:</p>
+        <p class="desc">Escolha como eternizar<br>esse momento:</p>
         
         <div class="format-grid">
             <div class="format-btn vertical" onclick="selectFormat('vertical')">
                 <div class="icon-screen"></div>
-                <span>Stories (Vertical)</span>
+                <span>Stories</span>
+            </div>
+            <div class="format-btn square" onclick="selectFormat('square')">
+                <div class="icon-screen"></div>
+                <span>Feed</span>
             </div>
             <div class="format-btn horizontal" onclick="selectFormat('horizontal')">
                 <div class="icon-screen"></div>
-                <span>Feed (Horizontal)</span>
+                <span>TV/PC</span>
             </div>
         </div>
 
-        <a href="https://oimaginista.com/xvgeovanafrigoletto/" class="btn-home">❮ Voltar ao Convite</a>
+        <div class="nav-buttons">
+            <a href="https://oimaginista.com/xvgeovanafrigoletto/" class="btn-nav">Convite</a>
+            <a href="https://oimaginista.com/bio/" class="btn-nav">Imaginista</a>
+        </div>
 
         <div class="imaginista-footer">
             <div class="logo-click" onclick="magicEffect(event)">
                 <img src="logo.png" alt="O Imaginista" class="footer-logo" id="footer-logo-img">
             </div>
-            <span>© 2025 IMAGINISTA ∴ Todos os direitos reservados.</span>
+            <span>© 2025 IMAGINISTA ∴<br>Todos os direitos reservados.</span>
         </div>
     </div>
 
@@ -200,7 +228,7 @@
                         🔗 Compartilhar
                     </button>
                     <button class="btn-action btn-download" onclick="downloadImage()">
-                        ⬇ Baixar
+                        ⬇ Baixar (HD)
                     </button>
                 </div>
             </div>
@@ -216,7 +244,6 @@
 
     <script>
         const LOGO_SRC = 'logo.png'; 
-        // const PHONE_TEST = "5521983340089"; // Removido pois o botão WhatsApp foi retirado
         
         let currentFormat = null;
         let canvas = document.getElementById('render-canvas');
@@ -244,8 +271,14 @@
             currentFormat = format;
             document.getElementById('step-format').style.display = 'none';
             document.getElementById('step-editor').style.display = 'flex';
-            if (format === 'vertical') { canvas.width = 1080; canvas.height = 1920; }
-            else { canvas.width = 1920; canvas.height = 1080; }
+            
+            if (format === 'vertical') { 
+                canvas.width = 1080; canvas.height = 1920; 
+            } else if (format === 'square') {
+                canvas.width = 1080; canvas.height = 1080; 
+            } else { 
+                canvas.width = 1920; canvas.height = 1080; 
+            }
         }
 
         function resetFormat() {
@@ -285,12 +318,13 @@
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             if (uploadedImage) {
+                // 1. Desfoque de Fundo
                 ctx.save();
-                // Desfoque e saturação do fundo
                 ctx.filter = 'blur(90px) brightness(0.3) saturate(1.5)';
                 ctx.drawImage(uploadedImage, -100, -100, canvas.width + 200, canvas.height + 200);
                 ctx.restore();
 
+                // 2. Foto Principal
                 const imgRatio = uploadedImage.width / uploadedImage.height;
                 const canvasRatio = canvas.width / canvas.height;
                 let renderW, renderH, renderX, renderY;
@@ -304,30 +338,33 @@
                 }
                 
                 ctx.save();
-                ctx.filter = 'contrast(1.15) saturate(1.25)';
+                ctx.filter = 'contrast(1.15) saturate(1.25)'; // HDR
                 ctx.drawImage(uploadedImage, renderX, renderY, renderW, renderH);
                 ctx.restore();
             }
 
-            // Vignette com filtro verde MAIS SUAVE
+            // 3. Vignette
             const vignette = ctx.createRadialGradient(canvas.width/2, canvas.height/2, canvas.width/5, canvas.width/2, canvas.height/2, canvas.width * 0.9);
             vignette.addColorStop(0, "transparent");
-            // Opacidade reduzida de 0.85 para 0.6 para suavizar o verde
-            vignette.addColorStop(1, "rgba(0, 20, 10, 0.6)"); 
+            vignette.addColorStop(1, "rgba(0, 20, 10, 0.6)");
             ctx.fillStyle = vignette;
             ctx.fillRect(0,0,canvas.width, canvas.height);
 
-            const gradHeight = currentFormat === 'vertical' ? 900 : 550;
+            // 4. Gradiente Inferior
+            let gradHeight;
+            if (currentFormat === 'vertical') gradHeight = 900;
+            else if (currentFormat === 'square') gradHeight = 550;
+            else gradHeight = 550;
+
             const gradient = ctx.createLinearGradient(0, canvas.height - gradHeight, 0, canvas.height);
             gradient.addColorStop(0, "transparent");
-            // Opacidade reduzida de 0.95 para 0.7 para suavizar o verde na base
             gradient.addColorStop(0.6, "rgba(10, 42, 36, 0.7)");
             gradient.addColorStop(1, "#010a08");
             ctx.fillStyle = gradient;
             ctx.fillRect(0, canvas.height - gradHeight, canvas.width, gradHeight);
 
-            // 5. Moldura Dourada (SÓ VERTICAL)
-            if (currentFormat === 'vertical') {
+            // 5. Moldura Dourada
+            if (currentFormat === 'vertical' || currentFormat === 'square') {
                 const borderW = 45; 
                 const strokeW = 4;
                 const offset = borderW + (strokeW / 2);
@@ -339,13 +376,21 @@
             }
 
             // 6. LAYOUT
-            const marginH = currentFormat === 'vertical' ? 100 : 130;
-            const marginV = currentFormat === 'vertical' ? 140 : 120;
+            let marginH = 100;
+            let marginV = 120;
             
-            // --- LOGO DISCRETA (Tamanhos Reduzidos Novamente) ---
+            // AJUSTE CRÍTICO: Margens maiores para 1080x1080
+            if (currentFormat === 'square') { marginH = 100; marginV = 110; }
+            if (currentFormat === 'horizontal') { marginH = 130; marginV = 100; }
+            if (currentFormat === 'vertical') { marginH = 100; marginV = 140; }
+
+            // --- LOGO ---
             if(logoImage.complete && logoImage.naturalHeight > 0) {
-                // REDUZIDO: 130px (Vertical) / 110px (Horizontal) -> Voltando aos valores menores que agradaram
-                const logoSize = currentFormat === 'vertical' ? 130 : 110; 
+                let logoSize;
+                if (currentFormat === 'vertical') logoSize = 130;
+                else if (currentFormat === 'square') logoSize = 105; 
+                else logoSize = 110;
+
                 const logoAspectRatio = logoImage.width / logoImage.height;
                 const logoY = canvas.height - marginV - logoSize + 20;
                 ctx.save();
@@ -357,18 +402,19 @@
 
             // --- TEXTOS ---
             ctx.textAlign = 'right';
+            
             let nameSize, subSize, dateSize;
-            // Redução do tamanho do nome para os valores anteriores
             if(currentFormat === 'vertical') {
                 nameSize = 85; subSize = 55; dateSize = 38;
+            } else if (currentFormat === 'square') {
+                nameSize = 72; subSize = 44; dateSize = 30;
             } else {
                 nameSize = 75; subSize = 48; dateSize = 34;
             }
 
-            // Começamos de baixo para cima
             let currentY = canvas.height - marginV;
 
-            // 1. Geovana (Nome menor)
+            // 1. Geovana
             ctx.font = `bold ${nameSize}px "Dancing Script"`; 
             ctx.fillStyle = '#fdd835'; 
             ctx.shadowColor = "rgba(0,0,0,1)"; ctx.shadowBlur = 30;
@@ -391,12 +437,11 @@
             // --- FRASE ---
             ctx.save();
             ctx.textAlign = 'center';
-            const phraseSize = currentFormat === 'vertical' ? 38 : 36;
+            const phraseSize = currentFormat === 'square' ? 30 : (currentFormat === 'vertical' ? 38 : 36);
             ctx.font = `italic 400 ${phraseSize}px "Montserrat"`;
             ctx.fillStyle = 'rgba(255,255,255,0.95)';
             ctx.shadowColor = "rgba(0,0,0,0.9)"; ctx.shadowBlur = 20;
 
-            // Centralizado no rodapé (ambos formatos)
             if (currentFormat === 'vertical') {
                 ctx.fillText("Uma noite mágica em Nova Orleans", canvas.width / 2, canvas.height - 80);
             } else {
@@ -404,7 +449,7 @@
             }
             ctx.restore();
 
-            // 7. BRILHOS MÁGICOS (ZONA SEGURA)
+            // 7. BRILHOS
             const sparkleCount = 45;
             const edgeThickness = canvas.width * 0.15;
             const topThickness = canvas.height * 0.2;
@@ -413,13 +458,13 @@
                 let x, y;
                 const section = Math.random();
                 
-                if (section < 0.33) { // Esquerda
+                if (section < 0.33) { 
                     x = Math.random() * edgeThickness;
                     y = Math.random() * canvas.height;
-                } else if (section < 0.66) { // Direita
+                } else if (section < 0.66) { 
                     x = canvas.width - Math.random() * edgeThickness;
                     y = Math.random() * canvas.height;
-                } else { // Topo
+                } else { 
                     x = Math.random() * canvas.width;
                     y = Math.random() * topThickness;
                 }
@@ -458,29 +503,22 @@
             }
         }
 
-        function dataURLtoBlob(dataurl) {
-            var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
-                bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
-            while(n--){ u8arr[n] = bstr.charCodeAt(n); }
-            return new Blob([u8arr], {type:mime});
-        }
-
         function downloadImage() {
             const link = document.createElement('a');
-            link.download = 'Geovana-XV-Imersao.jpg';
+            link.download = 'Geovana-XV-Imersao-Magica-HD.jpg';
             link.href = canvas.toDataURL('image/jpeg', 0.95);
             link.click();
         }
 
-        // Função shareWhatsapp removida
-
         async function shareNative() {
             const dataUrl = canvas.toDataURL('image/jpeg', 0.95);
-            const blob = dataURLtoBlob(dataUrl);
+            // Função interna para blob
+            const arr = dataUrl.split(','), mime = arr[0].match(/:(.*?);/)[1], bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+            while(n--){ u8arr[n] = bstr.charCodeAt(n); }
+            const blob = new Blob([u8arr], {type:mime});
             const file = new File([blob], "Geovana-XV.jpg", { type: "image/jpeg" });
 
-            // Verificação robusta de compatibilidade
-            if (navigator.canShare && navigator.canShare({ files: [file] })) {
+            if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
                 try { 
                     await navigator.share({ 
                         title: 'XV Geovana', 
@@ -489,7 +527,7 @@
                     }); 
                 } catch (err) { console.log('Compartilhamento cancelado'); }
             } else {
-                alert("Seu navegador não suporta compartilhamento direto de imagem.\n\nBaixando a foto para sua galeria! ✨");
+                alert("Seu navegador não suporta compartilhamento direto de imagem.\n\nClique em 'Baixar (HD)' para salvar! ✨");
                 downloadImage();
             }
         }
