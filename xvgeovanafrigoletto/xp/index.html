@@ -17,7 +17,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
     
     <style>
-        /* --- CSS GERAL --- */
         :root {
             --bg-deep: #0a2a24;
             --gold: #d4af37;
@@ -36,7 +35,6 @@
             display: flex; flex-direction: column; align-items: center; justify-content: center;
         }
 
-        /* Vaga-lumes de fundo do site (estes ficam por toda parte) */
         .firefly-container { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
         .firefly {
             position: absolute; width: 4px; height: 4px; background: var(--gold);
@@ -50,7 +48,7 @@
             100% { opacity: 0; transform: translate(300px, -300px) scale(0.2); }
         }
 
-        /* TELA 1: Formato */
+        /* TELA 1 */
         #step-format { z-index: 10; text-align: center; width: 90%; max-width: 600px; animation: fadeIn 1s ease; }
         h1 { font-family: 'Dancing Script', cursive; color: var(--gold); font-size: 3.5rem; margin-bottom: 10px; text-shadow: 0 0 15px rgba(212, 175, 55, 0.6); }
         p.desc { font-family: 'Cinzel', serif; font-size: 1.1rem; color: #ccc; margin-bottom: 30px; }
@@ -78,7 +76,7 @@
         .logo-click img { height: 40px; opacity: 0.8; transition: 0.3s; cursor: pointer; }
         .logo-click:hover img { transform: scale(1.1); opacity: 1; filter: drop-shadow(0 0 8px var(--magic-green)); }
 
-        /* TELA 2: Editor */
+        /* TELA 2 */
         #step-editor {
             display: none; flex-direction: column; align-items: center;
             width: 100%; min-height: 100dvh; z-index: 20; padding: 20px 15px;
@@ -138,7 +136,6 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         
         #render-canvas { display: none; }
-        /* Efeito do clique na logo do rodapé */
         .firework { position: fixed; width: 6px; height: 6px; border-radius: 50%; pointer-events: none; z-index: 9999; }
     </style>
 </head>
@@ -230,7 +227,6 @@
         logoImage.src = LOGO_SRC;
         document.getElementById('footer-logo-img').onerror = function() { this.src = 'logo.webp'; };
 
-        // Vaga-lumes do fundo do site
         const fireflies = document.getElementById('fireflies');
         for(let i=0; i<35; i++){
             let f = document.createElement('div');
@@ -272,16 +268,14 @@
             }
         }
 
-        // --- FUNÇÃO PARA DESENHAR BRILHOS (SPARKLES) ---
+        // --- FUNÇÃO DE DESENHO DE BRILHO ---
         function drawSparkle(ctx, x, y, size, color, glowColor) {
             ctx.save();
             ctx.translate(x, y);
-            // Gira 45 graus para formar um losango/diamante
             ctx.rotate(Math.PI / 4);
             ctx.fillStyle = color;
             ctx.shadowColor = glowColor;
-            ctx.shadowBlur = 15; 
-            // Desenha o quadrado rotacionado
+            ctx.shadowBlur = 10;
             ctx.fillRect(-size/2, -size/2, size, size);
             ctx.restore();
         }
@@ -290,13 +284,11 @@
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             if (uploadedImage) {
-                // 1. Fundo com DESFOQUE INTENSO (90px)
                 ctx.save();
                 ctx.filter = 'blur(90px) brightness(0.3) saturate(1.5)';
                 ctx.drawImage(uploadedImage, -100, -100, canvas.width + 200, canvas.height + 200);
                 ctx.restore();
 
-                // 2. Foto Principal Nítida
                 const imgRatio = uploadedImage.width / uploadedImage.height;
                 const canvasRatio = canvas.width / canvas.height;
                 let renderW, renderH, renderX, renderY;
@@ -310,19 +302,17 @@
                 }
                 
                 ctx.save();
-                ctx.filter = 'contrast(1.15) saturate(1.25)'; // HDR leve
+                ctx.filter = 'contrast(1.15) saturate(1.25)';
                 ctx.drawImage(uploadedImage, renderX, renderY, renderW, renderH);
                 ctx.restore();
             }
 
-            // 3. Vignette
             const vignette = ctx.createRadialGradient(canvas.width/2, canvas.height/2, canvas.width/5, canvas.width/2, canvas.height/2, canvas.width * 0.9);
             vignette.addColorStop(0, "transparent");
             vignette.addColorStop(1, "rgba(0,10,5,0.85)");
             ctx.fillStyle = vignette;
             ctx.fillRect(0,0,canvas.width, canvas.height);
 
-            // 4. Gradiente Inferior
             const gradHeight = currentFormat === 'vertical' ? 900 : 550;
             const gradient = ctx.createLinearGradient(0, canvas.height - gradHeight, 0, canvas.height);
             gradient.addColorStop(0, "transparent");
@@ -343,14 +333,14 @@
                 ctx.shadowBlur = 0; 
             }
 
-            // 6. LAYOUT - Margens e Tamanhos Reduzidos
+            // 6. LAYOUT
             const marginH = currentFormat === 'vertical' ? 100 : 130;
             const marginV = currentFormat === 'vertical' ? 140 : 120;
             
-            // --- LOGO IMAGINISTA (Ainda Menor) ---
+            // --- LOGO DISCRETA ---
             if(logoImage.complete && logoImage.naturalHeight > 0) {
-                // Tamanhos: 110px Vertical / 90px Horizontal
-                const logoSize = currentFormat === 'vertical' ? 110 : 90; 
+                // REDUZIDO: 130px (Vertical) / 110px (Horizontal)
+                const logoSize = currentFormat === 'vertical' ? 130 : 110; 
                 const logoAspectRatio = logoImage.width / logoImage.height;
                 const logoY = canvas.height - marginV - logoSize + 20;
                 ctx.save();
@@ -360,27 +350,26 @@
                 ctx.restore();
             }
 
-            // --- TEXTOS (Direita Inferior) ---
+            // --- TEXTOS ---
             ctx.textAlign = 'right';
-            
             let nameSize, subSize, dateSize;
-            // Redução do tamanho do nome
             if(currentFormat === 'vertical') {
                 nameSize = 85; subSize = 55; dateSize = 38;
             } else {
                 nameSize = 75; subSize = 48; dateSize = 34;
             }
 
+            // Começamos de baixo para cima
             let currentY = canvas.height - marginV;
 
-            // 1. Geovana Frigoletto (Nome menor)
+            // 1. Geovana
             ctx.font = `bold ${nameSize}px "Dancing Script"`; 
             ctx.fillStyle = '#fdd835'; 
             ctx.shadowColor = "rgba(0,0,0,1)"; ctx.shadowBlur = 30;
             ctx.fillText("Geovana Frigoletto", canvas.width - marginH + 20, currentY);
 
             // 2. XV ANOS
-            currentY -= (nameSize * 0.85);
+            currentY -= (nameSize * 0.85); 
             ctx.font = `bold ${subSize}px "Cinzel"`;
             ctx.fillStyle = '#ffffff';
             ctx.shadowBlur = 20;
@@ -393,7 +382,7 @@
             ctx.shadowBlur = 15;
             ctx.fillText("31.01.2026", canvas.width - marginH + 20, currentY);
 
-            // --- FRASE RODAPÉ ---
+            // --- FRASE ---
             ctx.save();
             ctx.textAlign = 'center';
             const phraseSize = currentFormat === 'vertical' ? 38 : 36;
@@ -401,6 +390,7 @@
             ctx.fillStyle = 'rgba(255,255,255,0.95)';
             ctx.shadowColor = "rgba(0,0,0,0.9)"; ctx.shadowBlur = 20;
 
+            // Centralizado no rodapé (ambos formatos)
             if (currentFormat === 'vertical') {
                 ctx.fillText("Uma noite mágica em Nova Orleans", canvas.width / 2, canvas.height - 80);
             } else {
@@ -408,37 +398,30 @@
             }
             ctx.restore();
 
-            // 7. BRILHOS MÁGICOS NAS BORDAS (NOVO)
+            // 7. BRILHOS MÁGICOS (ZONA SEGURA)
             const sparkleCount = 45;
-            const edgeThickness = canvas.width * 0.15; // Zona segura nas laterais
-            const topThickness = canvas.height * 0.2;  // Zona segura no topo
+            const edgeThickness = canvas.width * 0.15; // Apenas nas bordas
+            const topThickness = canvas.height * 0.2;  // Apenas no topo
 
             for (let i = 0; i < sparkleCount; i++) {
                 let x, y;
-                // Decide aleatoriamente em qual borda o brilho vai aparecer
                 const section = Math.random();
                 
-                if (section < 0.33) { 
-                    // Borda Esquerda
+                // Evita o centro (rosto)
+                if (section < 0.33) { // Esquerda
                     x = Math.random() * edgeThickness;
                     y = Math.random() * canvas.height;
-                } else if (section < 0.66) { 
-                    // Borda Direita
+                } else if (section < 0.66) { // Direita
                     x = canvas.width - Math.random() * edgeThickness;
                     y = Math.random() * canvas.height;
-                } else { 
-                    // Topo
+                } else { // Topo
                     x = Math.random() * canvas.width;
                     y = Math.random() * topThickness;
                 }
 
-                // Tamanho do brilho
                 const size = Math.random() * 6 + 3; 
-                // Alterna cores: Dourado ou Verde Mágico
                 const color = i % 2 === 0 ? "#fdd835" : "#00ff88";
                 const glow = i % 2 === 0 ? "rgba(253, 216, 53, 0.8)" : "rgba(0, 255, 136, 0.8)";
-                
-                // Desenha o brilho
                 drawSparkle(ctx, x, y, size, color, glow);
             }
 
@@ -470,15 +453,24 @@
             }
         }
 
+        function dataURLtoBlob(dataurl) {
+            var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+                bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+            while(n--){ u8arr[n] = bstr.charCodeAt(n); }
+            return new Blob([u8arr], {type:mime});
+        }
+
         function downloadImage() {
             const link = document.createElement('a');
-            link.download = 'Geovana-XV-Imersao-Magica.jpg';
+            link.download = 'Geovana-XV-Imersao.jpg';
             link.href = canvas.toDataURL('image/jpeg', 0.95);
             link.click();
         }
 
         function shareWhatsapp() {
             downloadImage(); 
+            // Aviso explicativo
+            alert("A foto foi baixada no seu celular!\n\nO WhatsApp abrirá em seguida. Basta anexar a foto salva.");
             setTimeout(() => {
                 const text = encodeURIComponent("✨ Olha a foto mágica que fiz na Imersão do XV da Geovana! 🐸 #XVGeovana #NovaOrleans");
                 window.open(`https://wa.me/${PHONE_TEST}?text=${text}`, '_blank');
@@ -487,17 +479,33 @@
 
         async function shareNative() {
             const dataUrl = canvas.toDataURL('image/jpeg', 0.95);
-            const arr = dataUrl.split(','), mime = arr[0].match(/:(.*?);/)[1], bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
-            while(n--){ u8arr[n] = bstr.charCodeAt(n); }
-            const blob = new Blob([u8arr], {type:mime});
+            const blob = dataURLtoBlob(dataUrl);
             const file = new File([blob], "Geovana-XV.jpg", { type: "image/jpeg" });
-            if (navigator.share) {
-                try { await navigator.share({ title: 'XV Geovana', text: 'Minha foto mágica! ✨', files: [file] }); } 
-                catch (err) { console.log('Cancelado'); }
+
+            // Verificação robusta de compatibilidade
+            if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                try { 
+                    await navigator.share({ 
+                        title: 'XV Geovana', 
+                        text: 'Minha foto mágica na Imersão Tecnológica! ✨🐸', 
+                        files: [file] 
+                    }); 
+                } catch (err) { console.log('Compartilhamento cancelado'); }
             } else {
-                alert("Clique em 'Baixar' para salvar! ✨");
+                alert("Seu navegador não suporta compartilhamento direto de imagem.\n\nBaixando a foto para sua galeria! ✨");
                 downloadImage();
             }
+        }
+
+        function drawSparkle(ctx, x, y, size, color, glowColor) {
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.rotate(Math.PI / 4);
+            ctx.fillStyle = color;
+            ctx.shadowColor = glowColor;
+            ctx.shadowBlur = 10;
+            ctx.fillRect(-size/2, -size/2, size, size);
+            ctx.restore();
         }
 
         function magicEffect(e) {
@@ -517,5 +525,3 @@
     </script>
 </body>
 </html>
-
-  
