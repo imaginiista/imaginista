@@ -12,11 +12,14 @@
     <meta name="theme-color" content="#0a2a24">
     
     <meta property="og:title" content="Imersão Tecnológica - XV Geovana"> 
-    <meta property="og:description" content="Crie sua foto mágica para celebrar os 15 Anos da Geovana em Nova Orleans! 🐸✨">
+    <meta property="og:description" content="Uma noite mágica em Nova Orleans! Criei minha foto exclusiva. 🐸✨">
     
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
     
     <style>
+        /* --- CSS PREMIUM --- */
         :root {
             --bg-deep: #0a2a24;
             --gold: #d4af37;
@@ -35,6 +38,7 @@
             display: flex; flex-direction: column; align-items: center; justify-content: center;
         }
 
+        /* Vaga-lumes no site */
         .firefly-container { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
         .firefly {
             position: absolute; width: 4px; height: 4px; background: var(--gold-glow);
@@ -48,57 +52,44 @@
             100% { transform: translate(300px, -300px) scale(0.2); opacity: 0; }
         }
 
-        /* --- TELA 1 --- */
+        /* TELA 1 */
         #step-format { z-index: 10; text-align: center; width: 90%; max-width: 600px; animation: fadeIn 1s ease; }
-
         h1 { font-family: 'Dancing Script', cursive; color: var(--gold); font-size: 3.8rem; margin-bottom: 5px; text-shadow: 0 0 20px rgba(212, 175, 55, 0.6); }
         p.desc { font-family: 'Cinzel', serif; font-size: 1.1rem; color: #ccc; margin-bottom: 40px; letter-spacing: 1px; }
-
         .format-grid { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-bottom: 40px; }
         .format-btn {
             background: rgba(10, 42, 36, 0.4); border: 2px solid var(--gold); border-radius: 15px;
-            padding: 25px 15px; cursor: pointer; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); width: 140px;
+            padding: 25px 15px; cursor: pointer; transition: all 0.3s; width: 140px;
             display: flex; flex-direction: column; align-items: center; backdrop-filter: blur(5px);
         }
-        .format-btn:hover { background: rgba(212, 175, 55, 0.2); transform: translateY(-5px) scale(1.03); box-shadow: 0 10px 30px rgba(212, 175, 55, 0.2); }
-        
-        .icon-screen { border: 2px solid rgba(255,255,255,0.8); margin-bottom: 15px; background: rgba(255,255,255,0.05); border-radius: 6px; box-shadow: 0 0 15px rgba(212, 175, 55, 0.1); }
+        .format-btn:hover { background: rgba(212, 175, 55, 0.2); transform: translateY(-5px); box-shadow: 0 10px 30px rgba(212, 175, 55, 0.2); }
+        .icon-screen { border: 2px solid rgba(255,255,255,0.8); margin-bottom: 15px; background: rgba(255,255,255,0.05); border-radius: 6px; }
         .vertical .icon-screen { width: 45px; height: 80px; }
         .horizontal .icon-screen { width: 80px; height: 45px; }
-        .format-btn span { font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 0.9rem; }
-
         .btn-home {
             color: var(--gold); text-decoration: none; font-size: 0.9rem;
             border: 1px solid rgba(212, 175, 55, 0.5); padding: 12px 25px; border-radius: 30px;
-            transition: 0.3s; font-family: 'Cinzel', serif; display: inline-flex; align-items: center; gap: 8px;
-            background: rgba(0,0,0,0.2); letter-spacing: 1px;
+            transition: 0.3s; font-family: 'Cinzel', serif; display: inline-flex; align-items: center; gap: 8px; background: rgba(0,0,0,0.2);
         }
-        .btn-home:hover { background: var(--gold); color: #0a2a24; box-shadow: 0 0 20px rgba(212, 175, 55, 0.5); border-color: var(--gold); }
-
         .imaginista-footer {
             margin-top: 60px; font-size: 0.7rem; color: #888; text-align: center;
             font-family: 'Montserrat', sans-serif; letter-spacing: 2px; text-transform: uppercase;
             display: flex; flex-direction: column; align-items: center; gap: 15px;
         }
-        .logo-click { cursor: pointer; transition: transform 0.3s; position: relative; }
-        .logo-click:hover { transform: scale(1.05); }
-        .footer-logo { height: 35px; opacity: 0.9; filter: drop-shadow(0 0 5px rgba(0,0,0,0.5)); }
+        .footer-logo { height: 35px; opacity: 0.9; }
 
-        /* --- TELA 2 --- */
+        /* TELA 2 (Editor) */
         #step-editor {
             display: none; flex-direction: column; align-items: center;
             width: 100%; min-height: 100dvh; z-index: 20; padding: 20px 15px;
             position: absolute; top: 0; left: 0; background: radial-gradient(circle at center, #0e3029 0%, #000 100%);
         }
-
         .header-editor { width: 100%; max-width: 600px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         .btn-back {
             background: rgba(0,0,0,0.3); border: 1px solid rgba(212, 175, 55, 0.5); color: var(--gold);
             padding: 10px 20px; border-radius: 30px; cursor: pointer; font-size: 0.9rem;
-            display: flex; align-items: center; gap: 8px; font-family: 'Cinzel', serif; transition: 0.3s;
+            display: flex; align-items: center; gap: 8px; font-family: 'Cinzel', serif;
         }
-        .btn-back:hover { background: rgba(212, 175, 55, 0.1); border-color: var(--gold); }
-
         .preview-container {
             position: relative; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
             border: 3px solid var(--gold); margin-bottom: 25px;
@@ -108,40 +99,29 @@
             animation: glowBorder 4s infinite alternate;
         }
         @keyframes glowBorder { from { box-shadow: 0 0 20px rgba(212, 175, 55, 0.2); } to { box-shadow: 0 0 40px rgba(212, 175, 55, 0.5); } }
-
         #preview-img { display: block; max-height: 55vh; max-width: 100%; object-fit: contain; }
         #placeholder-text { padding: 50px 20px; border: 3px dashed rgba(212, 175, 55, 0.3); color: rgba(255,255,255,0.6); border-radius: 12px; text-align: center; width: 100%; max-width: 300px; font-family: 'Cinzel'; }
 
         .controls { display: flex; flex-direction: column; gap: 15px; width: 100%; max-width: 400px; align-items: center; padding-bottom: 50px; }
-        
         .btn-main-style {
             padding: 16px 30px; border-radius: 50px; font-family: 'Cinzel', serif; font-weight: bold; text-transform: uppercase;
             cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 12px; width: 100%;
             transition: all 0.3s; font-size: 1rem; border: none;
         }
-
-        .btn-upload {
-            background: linear-gradient(45deg, var(--gold), var(--gold-glow)); color: #0a2a24;
-            box-shadow: 0 5px 25px rgba(212, 175, 55, 0.4);
-        }
-        .btn-upload:hover { transform: translateY(-3px); box-shadow: 0 10px 35px rgba(212, 175, 55, 0.6); }
-
+        .btn-upload { background: linear-gradient(45deg, var(--gold), var(--gold-glow)); color: #0a2a24; box-shadow: 0 5px 25px rgba(212, 175, 55, 0.4); }
         .trash-btn {
             background: rgba(255, 68, 68, 0.1); color: #ff4444; border: 2px solid #ff4444;
             width: 50px; height: 50px; border-radius: 50%; font-size: 1.4rem;
-            cursor: pointer; display: none; align-items: center; justify-content: center; margin-bottom: 15px; transition: 0.3s;
+            cursor: pointer; display: none; align-items: center; justify-content: center; margin-bottom: 15px;
         }
-        .trash-btn:hover { background: rgba(255, 68, 68, 0.3); transform: rotate(90deg); }
-
         .final-actions { display: none; flex-direction: column; gap: 12px; width: 100%; animation: fadeIn 0.5s ease; }
         .action-row { display: flex; gap: 12px; width: 100%; }
-        
-        .btn-whatsapp { background: linear-gradient(45deg, #25D366, #128C7E); color: #fff; box-shadow: 0 5px 20px rgba(37, 211, 102, 0.3); }
+        .btn-whatsapp { background: linear-gradient(45deg, #25D366, #128C7E); color: #fff; }
         .btn-share-native { background: rgba(255,255,255,0.1); color: #fff; border: 2px solid rgba(255,255,255,0.3); }
         .btn-download { background: rgba(0,0,0,0.3); color: var(--gold); border: 2px solid var(--gold); }
-
         #file-input { display: none; }
-        
+
+        /* Loading Mágico */
         #loading { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 100; display: none; align-items: center; justify-content: center; flex-direction: column; backdrop-filter: blur(10px); }
         .spinner-container { position: relative; width: 80px; height: 80px; }
         .spinner {
@@ -234,34 +214,27 @@
     <canvas id="render-canvas"></canvas>
 
     <script>
-        // === CONFIGURAÇÕES DIAGNÓSTICO ===
-        // Caminhos corrigidos para PASTA ATUAL
-        const LOGO_PNG = 'logo.png';
-        const LOGO_WEBP = 'logo.webp';
+        // --- CONFIGURAÇÕES ---
         const PHONE_TEST = "5521983340089"; 
-        
         let currentFormat = null;
         let canvas = document.getElementById('render-canvas');
+        // willReadFrequently ajuda na performance dos filtros
         let ctx = canvas.getContext('2d', { willReadFrequently: true });
         let uploadedImage = null;
-        let logoImage = new Image();
-        
-        // Inicialização robusta da Logo
-        logoImage.crossOrigin = "Anonymous";
-        logoImage.onerror = function() {
-            console.warn("Falha no PNG, tentando WEBP...");
-            this.src = LOGO_WEBP;
-            this.onerror = null; 
-        };
-        logoImage.src = LOGO_PNG;
 
-        // Fallback logo rodapé
-        const footerLogo = document.getElementById('footer-logo-img');
-        if(footerLogo) footerLogo.onerror = function() { this.src = LOGO_WEBP; };
+        // --- PRÉ-CARREGAMENTO DA LOGO (A SOLUÇÃO DEFINITIVA) ---
+        let preloadedLogo = new Image();
+        preloadedLogo.crossOrigin = "Anonymous";
+        // Tenta carregar PNG, se falhar, tenta WebP
+        preloadedLogo.onerror = function() { this.src = 'logo.webp'; this.onerror = null; };
+        preloadedLogo.src = 'logo.png'; // Inicia carregamento imediatamente
 
-        // Vaga-lumes
+        // Fallback também para a logo do rodapé
+        document.getElementById('footer-logo-img').onerror = function() { this.src = 'logo.webp'; };
+
+        // Vaga-lumes do site (CSS)
         const fireflies = document.getElementById('fireflies');
-        for(let i=0; i<35; i++){
+        for(let i=0; i<40; i++){
             let f = document.createElement('div');
             f.className = 'firefly';
             f.style.left = Math.random()*100 + '%';
@@ -269,16 +242,17 @@
             const size = Math.random() * 3 + 2;
             f.style.width = size + 'px'; f.style.height = size + 'px';
             if(i % 3 === 0) f.style.background = 'var(--magic-green)';
-            f.style.animationDelay = Math.random()*14 + 's';
+            f.style.animationDelay = Math.random()*15 + 's';
             f.style.animationDuration = (Math.random()*10 + 10) + 's';
             fireflies.appendChild(f);
         }
 
-        // Funções Fluxo
+        // --- FUNÇÕES PRINCIPAIS ---
         function selectFormat(format) {
             currentFormat = format;
             document.getElementById('step-format').style.display = 'none';
             document.getElementById('step-editor').style.display = 'flex';
+            // Resolução 2K para qualidade máxima
             if (format === 'vertical') { canvas.width = 1080; canvas.height = 1920; }
             else { canvas.width = 1920; canvas.height = 1080; }
         }
@@ -297,8 +271,9 @@
                     const img = new Image();
                     img.onload = function() {
                         uploadedImage = img;
+                        // Espera fontes carregarem e dá um tempo extra para o navegador respirar
                         document.fonts.ready.then(() => { 
-                            setTimeout(renderCanvas, 500); // Delay maior p/ carregar filtros
+                            setTimeout(renderCanvas, 800); 
                         });
                     }
                     img.src = e.target.result;
@@ -307,18 +282,18 @@
             }
         }
 
+        // --- O MOTOR DE RENDERIZAÇÃO "DIAMANTE" ---
         function renderCanvas() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             if (uploadedImage) {
-                // 1. FUNDO DESFOCADO (PREENCHIMENTO)
+                // 1. FUNDO DESFOCADO (Preenchimento)
                 ctx.save();
-                ctx.filter = 'blur(60px) brightness(0.4)';
-                // Desenha bem maior que o canvas para evitar bordas brancas no blur
+                ctx.filter = 'blur(80px) brightness(0.3) saturate(1.5)';
                 ctx.drawImage(uploadedImage, -100, -100, canvas.width + 200, canvas.height + 200);
                 ctx.restore();
 
-                // 2. FOTO PRINCIPAL
+                // 2. FOTO PRINCIPAL (Com HDR forte)
                 const imgRatio = uploadedImage.width / uploadedImage.height;
                 const canvasRatio = canvas.width / canvas.height;
                 let renderW, renderH, renderX, renderY;
@@ -332,93 +307,108 @@
                 }
                 
                 ctx.save();
-                // Filtro HDR Leve na Foto Principal
-                ctx.filter = 'contrast(1.1) saturate(1.15)';
+                // HDR mais agressivo para "saltar" a imagem
+                ctx.filter = 'contrast(1.2) saturate(1.3)';
                 ctx.drawImage(uploadedImage, renderX, renderY, renderW, renderH);
                 ctx.restore();
             }
 
-            // 3. VIGNETTE ESCURA
-            const vignette = ctx.createRadialGradient(canvas.width/2, canvas.height/2, canvas.width/4, canvas.width/2, canvas.height/2, canvas.width * 0.9);
+            // 3. VIGNETTE E GRADIENTES (Camadas de Atmosfera)
+            // Vignette escura
+            const vignette = ctx.createRadialGradient(canvas.width/2, canvas.height/2, canvas.width/5, canvas.width/2, canvas.height/2, canvas.width);
             vignette.addColorStop(0, "transparent");
-            vignette.addColorStop(1, "rgba(0,10,5,0.7)");
+            vignette.addColorStop(1, "rgba(0,5,2,0.85)");
             ctx.save();
             ctx.globalCompositeOperation = 'multiply';
             ctx.fillStyle = vignette;
             ctx.fillRect(0,0,canvas.width, canvas.height);
             ctx.restore();
 
-            // 4. GRADIENTE VERDE MÁGICO (BASE)
-            const gradHeight = currentFormat === 'vertical' ? 850 : 550;
+            // Gradiente inferior (Base para o texto)
+            const gradHeight = currentFormat === 'vertical' ? 900 : 600;
             const gradient = ctx.createLinearGradient(0, canvas.height - gradHeight, 0, canvas.height);
             gradient.addColorStop(0, "transparent");
-            gradient.addColorStop(0.6, "rgba(10, 42, 36, 0.9)");
+            gradient.addColorStop(0.7, "rgba(10, 42, 36, 0.95)");
             gradient.addColorStop(1, "#010a08");
             ctx.fillStyle = gradient;
             ctx.fillRect(0, canvas.height - gradHeight, canvas.width, gradHeight);
 
-            // 5. MOLDURA DOURADA INTERNA
-            const borderW = 40; 
-            const strokeW = 3;
+            // 4. MOLDURA DOURADA (Ajustada para não cortar)
+            const borderW = 45; // Margem segura
+            const strokeW = 4;
             const offset = borderW + (strokeW / 2);
-            
             ctx.strokeStyle = "#d4af37";
             ctx.lineWidth = strokeW;
-            ctx.shadowColor = "#fdd835";
-            ctx.shadowBlur = 10;
+            ctx.shadowColor = "#fdd835"; ctx.shadowBlur = 20; // Brilho forte
             ctx.strokeRect(offset, offset, canvas.width - (offset*2), canvas.height - (offset*2));
-            ctx.shadowBlur = 0; // Reset sombra
+            ctx.shadowBlur = 0;
 
-            // 6. ELEMENTOS
-            const margin = currentFormat === 'vertical' ? 100 : 120;
-            const logoSize = currentFormat === 'vertical' ? 240 : 200; 
-            const logoY = canvas.height - logoSize - margin - 20;
-
-            // Logo
-            if(logoImage.complete && logoImage.naturalHeight > 0) {
+            // 5. LAYOUT DE TEXTO E LOGO
+            const marginH = currentFormat === 'vertical' ? 100 : 130; // Margem horizontal
+            const marginV = currentFormat === 'vertical' ? 120 : 100; // Margem vertical baixo
+            
+            // --- LOGO (Esquerda Inferior) ---
+            // Usa a imagem pré-carregada
+            if(preloadedLogo.complete && preloadedLogo.naturalHeight > 0) {
+                const logoSize = currentFormat === 'vertical' ? 250 : 220; 
+                const logoAspectRatio = preloadedLogo.width / preloadedLogo.height;
+                const logoY = canvas.height - marginV - logoSize + 30; // Ajuste fino de altura
                 ctx.save();
-                ctx.globalAlpha = 0.95;
-                ctx.shadowColor = "rgba(0,0,0,0.8)"; ctx.shadowBlur = 15;
-                const logoAspectRatio = logoImage.width / logoImage.height;
-                // Esquerda
-                ctx.drawImage(logoImage, margin - 40, logoY + 50, logoSize * logoAspectRatio, logoSize);
+                ctx.globalAlpha = 0.9;
+                ctx.shadowColor = "rgba(0,0,0,0.8)"; ctx.shadowBlur = 25;
+                // Desenha na esquerda
+                ctx.drawImage(preloadedLogo, marginH - 50, logoY, logoSize * logoAspectRatio, logoSize);
                 ctx.restore();
             }
 
-            // Textos (Direita)
+            // --- DATA (Topo Direito) ---
             ctx.textAlign = 'right';
-            const nameSize = currentFormat === 'vertical' ? 100 : 85;
-            const subSize = currentFormat === 'vertical' ? 55 : 45;
-            const dateSize = currentFormat === 'vertical' ? 40 : 35;
+            const dateSize = currentFormat === 'vertical' ? 45 : 40;
+            ctx.font = `bold ${dateSize}px "Cinzel"`;
+            ctx.fillStyle = '#fff59d';
+            ctx.shadowColor = "rgba(0,0,0,0.8)"; ctx.shadowBlur = 15;
+            // Posiciona no topo direito, dentro da margem
+            ctx.fillText("31.01.2026", canvas.width - marginH + 20, marginV - 20);
 
+            // --- NOMES (Direita Inferior) ---
+            const nameSize = currentFormat === 'vertical' ? 115 : 95;
+            const subSize = currentFormat === 'vertical' ? 60 : 50;
+            
             // Geovana Frigoletto
             ctx.font = `bold ${nameSize}px "Dancing Script"`; 
             ctx.fillStyle = '#fdd835'; 
-            ctx.shadowColor = "rgba(0,0,0,1)"; ctx.shadowBlur = 20;
-            ctx.fillText("Geovana Frigoletto", canvas.width - margin + 20, canvas.height - margin - 160);
+            ctx.shadowColor = "rgba(0,0,0,1)"; ctx.shadowBlur = 30;
+            // Posiciona acima da frase e do "XV Anos"
+            ctx.fillText("Geovana Frigoletto", canvas.width - marginH + 30, canvas.height - marginV - 140);
             
-            // XV ANOS (Bem separado)
+            // XV ANOS
             ctx.font = `bold ${subSize}px "Cinzel"`;
             ctx.fillStyle = '#ffffff';
+            ctx.shadowBlur = 20;
+            ctx.fillText("XV ANOS", canvas.width - marginH + 30, canvas.height - marginV - 260);
+
+            // --- FRASE MÁGICA (Centro Inferior) ---
+            ctx.textAlign = 'center';
+            const phraseSize = currentFormat === 'vertical' ? 38 : 32;
+            ctx.font = `italic ${phraseSize}px "Montserrat"`;
+            ctx.fillStyle = 'rgba(255,255,255,0.85)';
             ctx.shadowBlur = 10;
-            ctx.fillText("XV ANOS", canvas.width - margin + 20, canvas.height - margin - 270);
+            // Posiciona bem no rodapé
+            ctx.fillText("Uma noite mágica em Nova Orleans", canvas.width/2, canvas.height - marginV + 40);
 
-            // Data
-            ctx.font = `bold ${dateSize}px "Cinzel"`;
-            ctx.fillStyle = '#fff59d';
-            ctx.shadowBlur = 5;
-            ctx.fillText("31.01.2026", canvas.width - margin + 20, canvas.height - margin + 10);
-
-            // 7. PARTÍCULAS MÁGICAS (FINAL)
-            for (let i = 0; i < 30; i++) {
+            // 6. PARTÍCULAS MÁGICAS NA FOTO (Finalização)
+            // Mais partículas, maiores e mais brilhantes
+            for (let i = 0; i < 40; i++) {
                 const x = Math.random() * canvas.width;
-                const y = Math.random() * canvas.height;
-                const size = Math.random() * 5 + 1;
+                // Concentra mais na parte inferior
+                const y = Math.random() * canvas.height * 0.7 + canvas.height * 0.3;
+                const size = Math.random() * 7 + 2;
                 ctx.beginPath();
                 ctx.arc(x, y, size, 0, Math.PI * 2);
-                ctx.fillStyle = i % 2 === 0 ? "rgba(255, 215, 0, 0.6)" : "rgba(0, 255, 136, 0.5)";
-                ctx.shadowColor = i % 2 === 0 ? "#fdd835" : "#00ff88";
-                ctx.shadowBlur = 15;
+                // Alterna entre dourado e verde mágico
+                ctx.fillStyle = i % 3 === 0 ? "rgba(0, 255, 136, 0.7)" : "rgba(255, 215, 0, 0.7)";
+                ctx.shadowColor = i % 3 === 0 ? "#00ff88" : "#fdd835";
+                ctx.shadowBlur = 25;
                 ctx.fill();
                 ctx.shadowBlur = 0;
             }
@@ -477,7 +467,6 @@
             const dataUrl = canvas.toDataURL('image/jpeg', 0.95);
             const blob = dataURLtoBlob(dataUrl);
             const file = new File([blob], "Geovana-XV.jpg", { type: "image/jpeg" });
-
             if (navigator.share) {
                 try { await navigator.share({ title: 'XV Geovana', text: 'Minha foto mágica! ✨', files: [file] }); } 
                 catch (err) { console.log('Cancelado'); }
@@ -498,9 +487,7 @@
                 document.body.appendChild(p);
                 const angle = Math.random() * Math.PI * 2;
                 const dist = Math.random() * 120 + 50;
-                const xDir = Math.cos(angle) * dist;
-                const yDir = Math.sin(angle) * dist;
-                p.animate([{ transform: 'translate(0,0) scale(1)', opacity: 1 }, { transform: `translate(${xDir}px, ${yDir}px) scale(0.1)`, opacity: 0 }], { duration: 800 + Math.random()*400, easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)' }).onfinish = () => p.remove();
+                p.animate([{ transform: 'translate(0,0) scale(1)', opacity: 1 }, { transform: `translate(${Math.cos(angle)*dist}px, ${Math.sin(angle)*dist}px) scale(0.1)`, opacity: 0 }], { duration: 800 + Math.random()*400, easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)' }).onfinish = () => p.remove();
             }
         }
     </script>
