@@ -37,113 +37,106 @@
 
         .firefly-container { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
         .firefly {
-            position: absolute; width: 4px; height: 4px; background: var(--gold-glow);
-            border-radius: 50%; box-shadow: 0 0 15px var(--gold-glow);
-            animation: fly 14s infinite ease-in-out; opacity: 0;
+            position: absolute; width: 4px; height: 4px; background: var(--gold);
+            border-radius: 50%; box-shadow: 0 0 10px var(--gold);
+            animation: fly 12s infinite ease-in-out;
         }
         @keyframes fly {
-            0% { transform: translate(0,0) scale(0.5); opacity: 0; }
-            20% { opacity: 0.8; }
-            50% { transform: translate(150px, -150px) scale(1.2); opacity: 0.4;}
-            100% { transform: translate(300px, -300px) scale(0.2); opacity: 0; }
+            0% { opacity: 0; transform: translate(0,0) scale(0.5); }
+            20% { opacity: 1; }
+            50% { opacity: 0.5; transform: translate(150px, -150px) scale(1.2); }
+            100% { opacity: 0; transform: translate(300px, -300px) scale(0.2); }
         }
 
         /* TELA 1 */
         #step-format { z-index: 10; text-align: center; width: 90%; max-width: 600px; animation: fadeIn 1s ease; }
-        h1 { font-family: 'Dancing Script', cursive; color: var(--gold); font-size: 3.8rem; margin-bottom: 5px; text-shadow: 0 0 20px rgba(212, 175, 55, 0.6); }
-        p.desc { font-family: 'Cinzel', serif; font-size: 1.1rem; color: #ccc; margin-bottom: 40px; letter-spacing: 1px; }
-
+        h1 { font-family: 'Dancing Script', cursive; color: var(--gold); font-size: 3.5rem; margin-bottom: 10px; text-shadow: 0 0 20px rgba(212, 175, 55, 0.6); }
+        p.desc { font-family: 'Cinzel', serif; font-size: 1.1rem; color: #ccc; margin-bottom: 30px; }
         .format-grid { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-bottom: 40px; }
         .format-btn {
-            background: rgba(10, 42, 36, 0.4); border: 2px solid var(--gold); border-radius: 15px;
-            padding: 25px 15px; cursor: pointer; transition: all 0.3s; width: 140px;
+            background: rgba(255,255,255,0.05); border: 2px solid var(--gold); border-radius: 15px;
+            padding: 20px; cursor: pointer; transition: 0.3s; width: 140px;
             display: flex; flex-direction: column; align-items: center; backdrop-filter: blur(5px);
         }
-        .format-btn:hover { background: rgba(212, 175, 55, 0.2); transform: translateY(-5px); box-shadow: 0 10px 30px rgba(212, 175, 55, 0.2); }
+        .format-btn:hover { background: rgba(212, 175, 55, 0.2); transform: scale(1.05); }
+        .icon-screen { border: 2px solid #fff; margin-bottom: 10px; background: rgba(255,255,255,0.1); border-radius: 4px; }
+        .vertical .icon-screen { width: 40px; height: 70px; }
+        .horizontal .icon-screen { width: 70px; height: 40px; }
         
-        .icon-screen { border: 2px solid rgba(255,255,255,0.8); margin-bottom: 15px; background: rgba(255,255,255,0.05); border-radius: 6px; }
-        .vertical .icon-screen { width: 45px; height: 80px; }
-        .horizontal .icon-screen { width: 80px; height: 45px; }
-
         .btn-home {
             color: var(--gold); text-decoration: none; font-size: 0.9rem;
             border: 1px solid rgba(212, 175, 55, 0.5); padding: 12px 25px; border-radius: 30px;
-            transition: 0.3s; font-family: 'Cinzel', serif; display: inline-flex; align-items: center; gap: 8px; background: rgba(0,0,0,0.2);
+            transition: 0.3s; font-family: 'Cinzel', serif; display: inline-flex; align-items: center; gap: 8px; background: rgba(0,0,0,0.3);
         }
-        .btn-home:hover { background: var(--gold); color: #0a2a24; box-shadow: 0 0 20px rgba(212, 175, 55, 0.5); border-color: var(--gold); }
-
         .imaginista-footer {
-            margin-top: 60px; font-size: 0.7rem; color: #888; text-align: center;
-            font-family: 'Montserrat', sans-serif; letter-spacing: 2px; text-transform: uppercase;
-            display: flex; flex-direction: column; align-items: center; gap: 15px;
+            margin-top: 50px; font-size: 0.75rem; color: #aaa; text-align: center;
+            font-family: 'Montserrat', sans-serif; letter-spacing: 1px;
+            display: flex; flex-direction: column; align-items: center; gap: 10px;
         }
-        .logo-click { cursor: pointer; transition: transform 0.3s; position: relative; }
-        .logo-click:hover { transform: scale(1.05); }
-        .footer-logo { height: 35px; opacity: 0.9; filter: drop-shadow(0 0 5px rgba(0,0,0,0.5)); }
+        .logo-click img { height: 40px; opacity: 0.8; transition: 0.3s; cursor: pointer; }
+        .logo-click:hover img { transform: scale(1.1); opacity: 1; filter: drop-shadow(0 0 8px var(--magic-green)); }
 
         /* TELA 2 */
         #step-editor {
             display: none; flex-direction: column; align-items: center;
             width: 100%; min-height: 100dvh; z-index: 20; padding: 20px 15px;
-            position: absolute; top: 0; left: 0; background: radial-gradient(circle at center, #0e3029 0%, #000 100%);
+            position: absolute; top: 0; left: 0; background: rgba(10, 42, 36, 0.98);
         }
-
-        .header-editor { width: 100%; max-width: 600px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .header-editor { width: 100%; max-width: 600px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
         .btn-back {
-            background: rgba(0,0,0,0.3); border: 1px solid rgba(212, 175, 55, 0.5); color: var(--gold);
-            padding: 10px 20px; border-radius: 30px; cursor: pointer; font-size: 0.9rem;
-            display: flex; align-items: center; gap: 8px; font-family: 'Cinzel', serif; transition: 0.3s;
+            background: rgba(255,255,255,0.1); border: 1px solid var(--gold); color: var(--gold);
+            padding: 8px 15px; border-radius: 20px; cursor: pointer; font-size: 0.9rem;
+            display: flex; align-items: center; gap: 5px; font-family: 'Cinzel', serif;
         }
-        .btn-back:hover { background: rgba(212, 175, 55, 0.1); border-color: var(--gold); }
 
         .preview-container {
-            position: relative; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-            border: 3px solid var(--gold); margin-bottom: 25px;
-            max-height: 55vh; max-width: 100%; overflow: hidden;
+            position: relative; box-shadow: 0 0 40px rgba(212, 175, 55, 0.3);
+            border: 3px solid var(--gold); margin-bottom: 20px;
+            max-height: 50vh; max-width: 100%; overflow: hidden;
             border-radius: 12px; background: #000;
             display: flex; justify-content: center; align-items: center;
-            animation: glowBorder 4s infinite alternate;
+            animation: pulseBorder 3s infinite alternate;
         }
-        @keyframes glowBorder { from { box-shadow: 0 0 20px rgba(212, 175, 55, 0.2); } to { box-shadow: 0 0 40px rgba(212, 175, 55, 0.5); } }
+        @keyframes pulseBorder { from { border-color: var(--gold); } to { border-color: var(--gold-glow); } }
+        #preview-img { display: block; max-height: 50vh; max-width: 100%; object-fit: contain; }
+        #placeholder-text { padding: 40px 20px; border: 3px dashed rgba(212, 175, 55, 0.5); color: #888; border-radius: 10px; text-align: center; width: 100%; max-width: 300px; font-family: 'Cinzel'; }
 
-        #preview-img { display: block; max-height: 55vh; max-width: 100%; object-fit: contain; }
-        #placeholder-text { padding: 50px 20px; border: 3px dashed rgba(212, 175, 55, 0.3); color: rgba(255,255,255,0.6); border-radius: 12px; text-align: center; width: 100%; max-width: 300px; font-family: 'Cinzel'; }
-
-        .controls { display: flex; flex-direction: column; gap: 15px; width: 100%; max-width: 400px; align-items: center; padding-bottom: 50px; }
-        .btn-main-style {
-            padding: 16px 30px; border-radius: 50px; font-family: 'Cinzel', serif; font-weight: bold; text-transform: uppercase;
-            cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 12px; width: 100%;
-            transition: all 0.3s; font-size: 1rem; border: none;
+        .controls { display: flex; flex-direction: column; gap: 12px; width: 100%; max-width: 400px; align-items: center; padding-bottom: 40px; }
+        .btn-upload {
+            background: linear-gradient(135deg, var(--gold), var(--gold-glow)); color: #0a2a24; padding: 15px 40px; border-radius: 50px;
+            font-family: 'Cinzel', serif; font-weight: bold; text-transform: uppercase; border: none;
+            cursor: pointer; box-shadow: 0 5px 20px rgba(212, 175, 55, 0.4); transition: 0.3s;
+            display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%;
         }
-        .btn-upload { background: linear-gradient(45deg, var(--gold), var(--gold-glow)); color: #0a2a24; box-shadow: 0 5px 25px rgba(212, 175, 55, 0.4); }
-        .btn-upload:hover { transform: translateY(-3px); box-shadow: 0 10px 35px rgba(212, 175, 55, 0.6); }
+        .btn-upload:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(212, 175, 55, 0.6); }
 
         .trash-btn {
-            background: rgba(255, 68, 68, 0.1); color: #ff4444; border: 2px solid #ff4444;
+            background: rgba(255, 68, 68, 0.2); color: #ff4444; border: 2px solid #ff4444;
             width: 50px; height: 50px; border-radius: 50%; font-size: 1.4rem;
             cursor: pointer; display: none; align-items: center; justify-content: center; margin-bottom: 15px; transition: 0.3s;
         }
-        .trash-btn:hover { background: rgba(255, 68, 68, 0.3); transform: rotate(90deg); }
+        .trash-btn:hover { transform: rotate(90deg); background: rgba(255, 68, 68, 0.4); }
 
-        .final-actions { display: none; flex-direction: column; gap: 12px; width: 100%; animation: fadeIn 0.5s ease; }
-        .action-row { display: flex; gap: 12px; width: 100%; }
-        .btn-whatsapp { background: linear-gradient(45deg, #25D366, #128C7E); color: #fff; box-shadow: 0 5px 20px rgba(37, 211, 102, 0.3); }
-        .btn-share-native { background: rgba(255,255,255,0.1); color: #fff; border: 2px solid rgba(255,255,255,0.3); }
-        .btn-download { background: rgba(0,0,0,0.3); color: var(--gold); border: 2px solid var(--gold); }
-        
-        #file-input { display: none; }
-        #loading { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 100; display: none; align-items: center; justify-content: center; flex-direction: column; backdrop-filter: blur(10px); }
-        .spinner-container { position: relative; width: 80px; height: 80px; }
-        .spinner {
-            position: absolute; inset: 0; border: 4px solid transparent; border-top: 4px solid var(--gold); border-right: 4px solid var(--magic-green);
-            border-radius: 50%; animation: spin 1.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
+        .final-actions { display: none; flex-direction: column; gap: 10px; width: 100%; animation: fadeIn 0.5s ease; }
+        .action-row { display: flex; gap: 10px; width: 100%; }
+        .btn-action {
+            flex: 1; border: none; padding: 14px; border-radius: 30px; font-weight: bold; transition: 0.3s;
+            cursor: pointer; font-size: 0.9rem; display: flex; align-items: center; justify-content: center; gap: 8px;
+            font-family: 'Montserrat', sans-serif; text-transform: uppercase;
         }
-        .spinner:nth-child(2) { border: 4px solid transparent; border-bottom: 4px solid var(--gold-glow); animation-delay: 0.5s; animation-direction: reverse; }
+        .btn-whatsapp { background: linear-gradient(135deg, #25D366, #128C7E); color: #fff; }
+        .btn-share-native { background: rgba(255,255,255,0.15); color: #fff; border: 1px solid rgba(255,255,255,0.3); }
+        .btn-download { background: rgba(0,0,0,0.4); color: var(--gold); border: 2px solid var(--gold); }
+        .btn-action:hover { transform: translateY(-2px); }
+
+        #file-input { display: none; }
+        #loading { position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 100; display: none; align-items: center; justify-content: center; flex-direction: column; backdrop-filter: blur(5px); }
+        .spinner { width: 50px; height: 50px; border: 5px solid rgba(255,255,255,0.1); border-top: 5px solid var(--gold); border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         
         #render-canvas { display: none; }
-        .firework { position: fixed; width: 6px; height: 6px; border-radius: 50%; pointer-events: none; z-index: 9999; box-shadow: 0 0 10px var(--gold); }
+        .firework { position: fixed; width: 6px; height: 6px; border-radius: 50%; pointer-events: none; z-index: 9999; }
     </style>
 </head>
 <body>
@@ -182,9 +175,9 @@
         </div>
         
         <div class="preview-container">
-            <img id="preview-img" src="" alt="Sua Foto Mágica" style="display:none;">
+            <img id="preview-img" src="" alt="Sua Foto" style="display:none;">
             <div id="placeholder-text">
-                <div style="font-size: 3rem; margin-bottom: 15px; filter: drop-shadow(0 0 10px var(--gold));">📸</div>
+                <div style="font-size: 3rem; margin-bottom: 10px;">📸</div>
                 Sua foto aparecerá aqui com a magia do Imaginista
             </div>
         </div>
@@ -192,40 +185,35 @@
         <button class="trash-btn" id="trash-btn" onclick="resetImage()">🗑️</button>
 
         <div class="controls">
-            <label for="file-input" class="btn-main-style btn-upload" id="upload-label">
+            <label for="file-input" class="btn-upload" id="upload-label">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
                 Escolher Foto
             </label>
-            <input type="file" id="file-input" accept="image/png, image/jpeg, image/jpg, image/webp" onchange="handleImage(this)">
+            <input type="file" id="file-input" accept="image/*" onchange="handleImage(this)">
 
             <div class="final-actions" id="actions">
                 <div class="action-row">
-                    <button class="btn-main-style btn-whatsapp" onclick="shareWhatsapp()">
-                        <svg width="20" height="20" fill="white" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+                    <button class="btn-action btn-whatsapp" onclick="shareWhatsapp()">
                         Enviar Geovana
                     </button>
-                    <button class="btn-main-style btn-share-native" onclick="shareNative()">
+                    <button class="btn-action btn-share-native" onclick="shareNative()">
                         🔗 Compartilhar
                     </button>
                 </div>
-                <button class="btn-main-style btn-download" onclick="downloadImage()">⬇ Salvar na Galeria</button>
+                <button class="btn-action btn-download" onclick="downloadImage()">⬇ Salvar na Galeria</button>
             </div>
         </div>
     </div>
 
     <div id="loading">
-        <div class="spinner-container">
-            <div class="spinner"></div>
-            <div class="spinner"></div>
-        </div>
-        <p style="margin-top:20px; color:var(--gold); font-family:'Cinzel'; letter-spacing:2px; font-weight:bold;">Aplicando Magia...</p>
+        <div class="spinner"></div>
+        <p style="margin-top:20px; color:var(--gold); font-family:'Cinzel'; letter-spacing:2px;">Aplicando Magia...</p>
     </div>
 
     <canvas id="render-canvas"></canvas>
 
     <script>
         const LOGO_SRC = 'logo.png'; 
-        const LOGO_WEBP = 'logo.webp';
         const PHONE_TEST = "5521983340089"; 
         
         let currentFormat = null;
@@ -234,32 +222,24 @@
         let uploadedImage = null;
         let logoImage = new Image();
         
-        // Pré-carregamento robusto
+        // Pré-carregamento
         logoImage.crossOrigin = "Anonymous";
-        logoImage.onerror = function() {
-            this.src = LOGO_WEBP;
-            this.onerror = null; 
-        };
+        logoImage.onerror = function() { this.src = 'logo.webp'; this.onerror = null; };
         logoImage.src = LOGO_SRC;
+        document.getElementById('footer-logo-img').onerror = function() { this.src = 'logo.webp'; };
 
-        document.getElementById('footer-logo-img').onerror = function() { this.src = LOGO_WEBP; };
-
-        // Vaga-lumes (CSS)
+        // Vaga-lumes CSS
         const fireflies = document.getElementById('fireflies');
         for(let i=0; i<35; i++){
             let f = document.createElement('div');
             f.className = 'firefly';
             f.style.left = Math.random()*100 + '%';
             f.style.top = Math.random()*100 + '%';
-            const size = Math.random() * 3 + 2;
-            f.style.width = size + 'px'; f.style.height = size + 'px';
-            if(i % 3 === 0) f.style.background = 'var(--magic-green)';
-            f.style.animationDelay = Math.random()*15 + 's';
+            f.style.animationDelay = Math.random()*10 + 's';
             f.style.animationDuration = (Math.random()*12 + 8) + 's';
             fireflies.appendChild(f);
         }
 
-        // --- FUNÇÕES ---
         function selectFormat(format) {
             currentFormat = format;
             document.getElementById('step-format').style.display = 'none';
@@ -290,18 +270,17 @@
             }
         }
 
-        // --- RENDERIZAÇÃO DIAMANTE ---
         function renderCanvas() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             if (uploadedImage) {
-                // 1. FUNDO DESFOCADO
+                // 1. Desfoque
                 ctx.save();
                 ctx.filter = 'blur(60px) brightness(0.3) saturate(1.5)';
                 ctx.drawImage(uploadedImage, -100, -100, canvas.width + 200, canvas.height + 200);
                 ctx.restore();
 
-                // 2. FOTO PRINCIPAL COM HDR
+                // 2. Foto Principal
                 const imgRatio = uploadedImage.width / uploadedImage.height;
                 const canvasRatio = canvas.width / canvas.height;
                 let renderW, renderH, renderX, renderY;
@@ -320,18 +299,15 @@
                 ctx.restore();
             }
 
-            // 3. VIGNETTE
+            // 3. Vignette
             const vignette = ctx.createRadialGradient(canvas.width/2, canvas.height/2, canvas.width/5, canvas.width/2, canvas.height/2, canvas.width * 0.9);
             vignette.addColorStop(0, "transparent");
             vignette.addColorStop(1, "rgba(0,10,5,0.85)");
-            ctx.save();
-            ctx.globalCompositeOperation = 'multiply';
             ctx.fillStyle = vignette;
             ctx.fillRect(0,0,canvas.width, canvas.height);
-            ctx.restore();
 
-            // 4. GRADIENTE INFERIOR
-            const gradHeight = currentFormat === 'vertical' ? 900 : 600;
+            // 4. Gradiente Inferior
+            const gradHeight = currentFormat === 'vertical' ? 900 : 550;
             const gradient = ctx.createLinearGradient(0, canvas.height - gradHeight, 0, canvas.height);
             gradient.addColorStop(0, "transparent");
             gradient.addColorStop(0.6, "rgba(10, 42, 36, 0.95)");
@@ -339,9 +315,9 @@
             ctx.fillStyle = gradient;
             ctx.fillRect(0, canvas.height - gradHeight, canvas.width, gradHeight);
 
-            // 5. MOLDURA DOURADA (Só na Vertical)
+            // 5. Moldura Dourada (SÓ VERTICAL)
             if (currentFormat === 'vertical') {
-                const borderW = 45;
+                const borderW = 45; 
                 const strokeW = 4;
                 const offset = borderW + (strokeW / 2);
                 ctx.strokeStyle = "#d4af37";
@@ -351,15 +327,16 @@
                 ctx.shadowBlur = 0; 
             }
 
-            // 6. LAYOUT ELEMENTOS
+            // 6. LAYOUT
             const marginH = currentFormat === 'vertical' ? 100 : 130;
-            const marginV = currentFormat === 'vertical' ? 120 : 100;
+            const marginV = currentFormat === 'vertical' ? 140 : 100; // Aumentei margem V na vertical
             
             // --- LOGO IMAGINISTA (Esquerda) ---
             if(logoImage.complete && logoImage.naturalHeight > 0) {
-                const logoSize = currentFormat === 'vertical' ? 250 : 220; 
+                // Tamanhos REDUZIDOS da logo
+                const logoSize = currentFormat === 'vertical' ? 180 : 150; 
                 const logoAspectRatio = logoImage.width / logoImage.height;
-                const logoY = canvas.height - marginV - logoSize + 30;
+                const logoY = canvas.height - marginV - logoSize + 20;
                 ctx.save();
                 ctx.globalAlpha = 0.95;
                 ctx.shadowColor = "rgba(0,0,0,0.8)"; ctx.shadowBlur = 25;
@@ -367,57 +344,66 @@
                 ctx.restore();
             }
 
-            // --- TEXTOS (Direita) ---
+            // --- TEXTOS (Direita Inferior - Ordem: Data > XV > Nome) ---
             ctx.textAlign = 'right';
+            
             let nameSize, subSize, dateSize;
             if(currentFormat === 'vertical') {
-                nameSize = 110; subSize = 60; dateSize = 40;
+                nameSize = 100; subSize = 55; dateSize = 38;
             } else {
-                nameSize = 90; subSize = 50; dateSize = 35;
+                nameSize = 90; subSize = 48; dateSize = 34;
             }
 
-            // Posição Base (Data)
-            let currentY = canvas.height - marginV + 10;
-            ctx.font = `bold ${dateSize}px "Cinzel"`;
-            ctx.fillStyle = '#fff59d';
-            ctx.shadowColor = "rgba(0,0,0,0.8)"; ctx.shadowBlur = 15;
-            ctx.fillText("31.01.2026", canvas.width - marginH + 20, currentY);
+            // Começamos de baixo (Nome) e subimos
+            let currentY = canvas.height - marginV;
 
-            // Sobe para XV ANOS
-            currentY -= (dateSize + 40); 
-            ctx.font = `bold ${subSize}px "Cinzel"`;
-            ctx.fillStyle = '#ffffff';
-            ctx.shadowBlur = 20;
-            ctx.fillText("XV ANOS", canvas.width - marginH + 30, currentY);
-
-            // Sobe para GEOVANA
-            currentY -= (subSize + 30);
+            // 1. Geovana Frigoletto (Baixo)
             ctx.font = `bold ${nameSize}px "Dancing Script"`; 
             ctx.fillStyle = '#fdd835'; 
             ctx.shadowColor = "rgba(0,0,0,1)"; ctx.shadowBlur = 30;
-            ctx.fillText("Geovana Frigoletto", canvas.width - marginH + 30, currentY);
+            ctx.fillText("Geovana Frigoletto", canvas.width - marginH + 20, currentY);
 
-            // --- FRASE NO TOPO (CENTRALIZADA) ---
+            // 2. XV ANOS (Meio)
+            currentY -= (nameSize * 0.8);
+            ctx.font = `bold ${subSize}px "Cinzel"`;
+            ctx.fillStyle = '#ffffff';
+            ctx.shadowBlur = 20;
+            ctx.fillText("XV ANOS", canvas.width - marginH + 20, currentY);
+
+            // 3. Data (Topo do bloco)
+            currentY -= (subSize * 1.2);
+            ctx.font = `bold ${dateSize}px "Cinzel"`;
+            ctx.fillStyle = '#fff59d';
+            ctx.shadowBlur = 15;
+            ctx.fillText("31.01.2026", canvas.width - marginH + 20, currentY);
+
+            // --- FRASE (Posição depende do formato) ---
             ctx.save();
             ctx.textAlign = 'center';
-            const phraseSize = currentFormat === 'vertical' ? 42 : 36;
+            const phraseSize = currentFormat === 'vertical' ? 40 : 36;
             ctx.font = `italic 400 ${phraseSize}px "Montserrat"`;
             ctx.fillStyle = 'rgba(255,255,255,0.95)';
             ctx.shadowColor = "rgba(0,0,0,0.9)"; ctx.shadowBlur = 20;
-            const topMargin = currentFormat === 'vertical' ? 140 : 100;
-            ctx.fillText("Uma noite mágica em Nova Orleans", canvas.width / 2, topMargin);
+
+            if (currentFormat === 'vertical') {
+                // VERTICAL: No rodapé, centralizado, abaixo de tudo
+                ctx.fillText("Uma noite mágica em Nova Orleans", canvas.width / 2, canvas.height - 40);
+            } else {
+                // HORIZONTAL: No rodapé, centralizado (mantém posição)
+                ctx.fillText("Uma noite mágica em Nova Orleans", canvas.width / 2, canvas.height - 50);
+            }
             ctx.restore();
 
-            // 7. PARTÍCULAS MÁGICAS
+            // 7. Partículas
             for (let i = 0; i < 40; i++) {
                 const x = Math.random() * canvas.width;
                 const y = Math.random() * canvas.height * 0.7 + canvas.height * 0.3;
-                const size = Math.random() * 7 + 2;
+                const size = Math.random() * 6 + 2;
                 ctx.beginPath();
                 ctx.arc(x, y, size, 0, Math.PI * 2);
                 ctx.fillStyle = i % 2 === 0 ? "rgba(255, 215, 0, 0.7)" : "rgba(0, 255, 136, 0.6)";
                 ctx.shadowColor = i % 2 === 0 ? "#fdd835" : "#00ff88";
-                ctx.shadowBlur = 25;
+                ctx.shadowBlur = 20;
                 ctx.fill();
                 ctx.shadowBlur = 0;
             }
@@ -467,7 +453,6 @@
 
         async function shareNative() {
             const dataUrl = canvas.toDataURL('image/jpeg', 0.95);
-            // Função interna para blob
             const arr = dataUrl.split(','), mime = arr[0].match(/:(.*?);/)[1], bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
             while(n--){ u8arr[n] = bstr.charCodeAt(n); }
             const blob = new Blob([u8arr], {type:mime});
