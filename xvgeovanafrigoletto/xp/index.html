@@ -36,7 +36,6 @@
             display: flex; flex-direction: column; align-items: center; justify-content: center;
         }
 
-        /* Vaga-lumes */
         .firefly-container { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
         .firefly {
             position: absolute; width: 4px; height: 4px; background: var(--gold);
@@ -50,58 +49,57 @@
             100% { opacity: 0; transform: translate(300px, -300px) scale(0.2); }
         }
 
-        /* TELA 1: SELEÇÃO */
+        /* TOAST NOTIFICATION (NOVO) */
+        #toast-container {
+            position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+            z-index: 9999; pointer-events: none; width: 90%; max-width: 350px;
+        }
+        .toast {
+            background: rgba(10, 42, 36, 0.95); border: 1px solid var(--gold);
+            color: #fff; padding: 15px; border-radius: 8px; margin-bottom: 10px;
+            text-align: center; box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+            font-size: 0.9rem; opacity: 0; transform: translateY(-20px);
+            transition: all 0.4s ease; display: flex; align-items: center; justify-content: center; gap: 10px;
+        }
+        .toast.show { opacity: 1; transform: translateY(0); }
+
+        /* TELA 1 */
         #step-format { z-index: 10; text-align: center; width: 95%; max-width: 600px; animation: fadeIn 1s ease; }
         h1 { font-family: 'Dancing Script', cursive; color: var(--gold); font-size: 3.5rem; margin-bottom: 5px; text-shadow: 0 0 20px rgba(212, 175, 55, 0.6); }
+        p.desc { font-family: 'Cinzel', serif; font-size: 1.1rem; color: #ccc; margin-bottom: 30px; }
         
-        p.desc { 
-            font-family: 'Cinzel', serif; font-size: 1.1rem; color: #ccc; margin-bottom: 30px; 
-            line-height: 1.5; /* Espaçamento para as duas linhas */
-        }
-        
-        /* Grid lado a lado forçado */
-        .format-grid { 
-            display: flex; gap: 10px; justify-content: center; flex-wrap: nowrap; /* Não quebra linha */
-            margin-bottom: 40px; width: 100%;
-        }
-        
+        .format-grid { display: flex; gap: 10px; justify-content: center; flex-wrap: nowrap; margin-bottom: 40px; width: 100%; }
         .format-btn {
             background: rgba(255,255,255,0.05); border: 2px solid var(--gold); border-radius: 12px;
-            padding: 15px 5px; cursor: pointer; transition: 0.3s; 
-            flex: 1; /* Ocupa espaço igual */
+            padding: 15px 5px; cursor: pointer; transition: 0.3s; flex: 1; min-width: 80px;
             display: flex; flex-direction: column; align-items: center; backdrop-filter: blur(5px);
-            min-width: 80px; /* Tamanho mínimo para não esmagar */
         }
         .format-btn:hover { background: rgba(212, 175, 55, 0.2); transform: scale(1.05); }
         .format-btn span { font-size: 0.75rem; margin-top: 8px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
-
+        
         .icon-screen { border: 2px solid #fff; margin-bottom: 5px; background: rgba(255,255,255,0.1); border-radius: 3px; }
         .vertical .icon-screen { width: 30px; height: 50px; }
         .horizontal .icon-screen { width: 50px; height: 30px; }
         .square .icon-screen { width: 40px; height: 40px; }
-        
-        /* Navegação Inferior (Convite | Imaginista) */
-        .nav-buttons {
-            display: flex; gap: 15px; justify-content: center; width: 100%; margin-bottom: 40px;
-        }
+
+        .nav-buttons { display: flex; gap: 15px; justify-content: center; width: 100%; margin-bottom: 40px; }
         .btn-nav {
             color: var(--gold); text-decoration: none; font-size: 0.85rem; text-transform: uppercase;
             border: 1px solid rgba(212, 175, 55, 0.5); padding: 12px 20px; border-radius: 30px;
             transition: 0.3s; font-family: 'Cinzel', serif; display: flex; align-items: center; gap: 8px; 
             background: rgba(0,0,0,0.3); min-width: 130px; justify-content: center;
         }
-        .btn-nav:hover { background: var(--gold); color: #0a2a24; border-color: var(--gold); box-shadow: 0 0 15px rgba(212,175,55,0.4); }
+        .btn-nav:hover { background: var(--gold); color: #0a2a24; border-color: var(--gold); }
 
         .imaginista-footer {
             margin-top: 20px; font-size: 0.65rem; color: #888; text-align: center;
             font-family: 'Montserrat', sans-serif; letter-spacing: 2px; text-transform: uppercase;
             display: flex; flex-direction: column; align-items: center; gap: 12px; line-height: 1.6;
         }
-        /* Logo aumentada */
         .logo-click img { height: 50px; opacity: 0.9; transition: 0.3s; cursor: pointer; filter: drop-shadow(0 0 5px rgba(0,0,0,0.5)); }
         .logo-click:hover img { transform: scale(1.1); filter: drop-shadow(0 0 10px var(--magic-green)); }
 
-        /* TELA 2: EDITOR */
+        /* TELA 2 */
         #step-editor {
             display: none; flex-direction: column; align-items: center;
             width: 100%; min-height: 100dvh; z-index: 20; padding: 20px 15px;
@@ -142,6 +140,15 @@
         }
         .trash-btn:hover { transform: rotate(90deg); background: rgba(255, 68, 68, 0.4); }
 
+        /* Botão de Filtro P&B */
+        .filter-btn {
+            background: rgba(255,255,255,0.1); border: 1px solid #fff; color: #fff;
+            padding: 8px 20px; border-radius: 20px; cursor: pointer; font-size: 0.8rem;
+            margin-bottom: 10px; display: none; /* Aparece só depois do upload */
+            align-items: center; gap: 5px; font-family: 'Montserrat';
+        }
+        .filter-btn.active { background: #fff; color: #000; font-weight: bold; }
+
         .final-actions { display: none; flex-direction: column; gap: 10px; width: 100%; animation: fadeIn 0.5s ease; }
         .action-row { display: flex; gap: 10px; width: 100%; }
         .btn-action {
@@ -164,6 +171,8 @@
     </style>
 </head>
 <body>
+
+    <div id="toast-container"></div>
 
     <div class="firefly-container" id="fireflies"></div>
 
@@ -213,7 +222,12 @@
             </div>
         </div>
 
-        <button class="trash-btn" id="trash-btn" onclick="resetImage()">🗑️</button>
+        <div style="display:flex; gap:10px; align-items:center;">
+            <button class="filter-btn" id="bw-btn" onclick="toggleBW()">
+                <span>🎨</span> Efeito P&B
+            </button>
+            <button class="trash-btn" id="trash-btn" onclick="resetImage()">🗑️</button>
+        </div>
 
         <div class="controls">
             <label for="file-input" class="btn-upload" id="upload-label">
@@ -250,6 +264,7 @@
         let ctx = canvas.getContext('2d', { willReadFrequently: true });
         let uploadedImage = null;
         let logoImage = new Image();
+        let isBW = false; // Controle do Preto e Branco
         
         logoImage.crossOrigin = "Anonymous";
         logoImage.onerror = function() { this.src = 'logo.webp'; this.onerror = null; };
@@ -267,24 +282,48 @@
             fireflies.appendChild(f);
         }
 
+        function showToast(message) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.innerHTML = `<span>✨</span> ${message}`;
+            container.appendChild(toast);
+            
+            // Trigger reflow
+            void toast.offsetWidth;
+            toast.classList.add('show');
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 400);
+            }, 3000);
+        }
+
         function selectFormat(format) {
             currentFormat = format;
             document.getElementById('step-format').style.display = 'none';
             document.getElementById('step-editor').style.display = 'flex';
             
-            if (format === 'vertical') { 
-                canvas.width = 1080; canvas.height = 1920; 
-            } else if (format === 'square') {
-                canvas.width = 1080; canvas.height = 1080; 
-            } else { 
-                canvas.width = 1920; canvas.height = 1080; 
-            }
+            if (format === 'vertical') { canvas.width = 1080; canvas.height = 1920; }
+            else if (format === 'square') { canvas.width = 1080; canvas.height = 1080; }
+            else { canvas.width = 1920; canvas.height = 1080; }
         }
 
         function resetFormat() {
             resetImage();
             document.getElementById('step-editor').style.display = 'none';
             document.getElementById('step-format').style.display = 'block';
+        }
+
+        function toggleBW() {
+            if(!uploadedImage) return;
+            isBW = !isBW;
+            const btn = document.getElementById('bw-btn');
+            if(isBW) btn.classList.add('active');
+            else btn.classList.remove('active');
+            
+            document.getElementById('loading').style.display = 'flex';
+            setTimeout(renderCanvas, 100);
         }
 
         function handleImage(input) {
@@ -295,6 +334,8 @@
                     const img = new Image();
                     img.onload = function() {
                         uploadedImage = img;
+                        isBW = false;
+                        document.getElementById('bw-btn').classList.remove('active');
                         document.fonts.ready.then(() => { setTimeout(renderCanvas, 500); });
                     }
                     img.src = e.target.result;
@@ -318,9 +359,11 @@
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             if (uploadedImage) {
-                // 1. Desfoque de Fundo
+                // 1. Fundo Desfocado
                 ctx.save();
-                ctx.filter = 'blur(90px) brightness(0.3) saturate(1.5)';
+                let filterStr = 'blur(90px) brightness(0.3) saturate(1.5)';
+                if(isBW) filterStr = 'blur(90px) brightness(0.3) grayscale(100%)';
+                ctx.filter = filterStr;
                 ctx.drawImage(uploadedImage, -100, -100, canvas.width + 200, canvas.height + 200);
                 ctx.restore();
 
@@ -338,7 +381,11 @@
                 }
                 
                 ctx.save();
-                ctx.filter = 'contrast(1.15) saturate(1.25)'; // HDR
+                if(isBW) {
+                    ctx.filter = 'grayscale(100%) contrast(1.1)';
+                } else {
+                    ctx.filter = 'contrast(1.15) saturate(1.25)';
+                }
                 ctx.drawImage(uploadedImage, renderX, renderY, renderW, renderH);
                 ctx.restore();
             }
@@ -379,12 +426,11 @@
             let marginH = 100;
             let marginV = 120;
             
-            // AJUSTE CRÍTICO: Margens maiores para 1080x1080
             if (currentFormat === 'square') { marginH = 100; marginV = 110; }
             if (currentFormat === 'horizontal') { marginH = 130; marginV = 100; }
             if (currentFormat === 'vertical') { marginH = 100; marginV = 140; }
 
-            // --- LOGO ---
+            // --- LOGO (Menor ainda) ---
             if(logoImage.complete && logoImage.naturalHeight > 0) {
                 let logoSize;
                 if (currentFormat === 'vertical') logoSize = 130;
@@ -472,7 +518,9 @@
                 const size = Math.random() * 6 + 3; 
                 const color = i % 2 === 0 ? "#fdd835" : "#00ff88";
                 const glow = i % 2 === 0 ? "rgba(253, 216, 53, 0.8)" : "rgba(0, 255, 136, 0.8)";
-                drawSparkle(ctx, x, y, size, color, glow);
+                // Se P&B, usa brilho branco/prata
+                if(isBW) drawSparkle(ctx, x, y, size, '#ffffff', 'rgba(255,255,255,0.8)');
+                else drawSparkle(ctx, x, y, size, color, glow);
             }
 
             finishPreview();
@@ -486,6 +534,7 @@
             document.getElementById('placeholder-text').style.display = 'none';
             document.getElementById('upload-label').style.display = 'none';
             document.getElementById('trash-btn').style.display = 'flex';
+            document.getElementById('bw-btn').style.display = 'flex'; // Mostra botão P&B
             document.getElementById('actions').style.display = 'flex';
             document.getElementById('loading').style.display = 'none';
         }
@@ -499,8 +548,18 @@
                 document.getElementById('placeholder-text').style.display = 'block';
                 document.getElementById('upload-label').style.display = 'flex';
                 document.getElementById('trash-btn').style.display = 'none';
+                document.getElementById('bw-btn').style.display = 'none';
                 document.getElementById('actions').style.display = 'none';
+                isBW = false;
+                document.getElementById('bw-btn').classList.remove('active');
             }
+        }
+
+        function dataURLtoBlob(dataurl) {
+            var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+                bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+            while(n--){ u8arr[n] = bstr.charCodeAt(n); }
+            return new Blob([u8arr], {type:mime});
         }
 
         function downloadImage() {
@@ -508,26 +567,30 @@
             link.download = 'Geovana-XV-Imersao-Magica-HD.jpg';
             link.href = canvas.toDataURL('image/jpeg', 0.95);
             link.click();
+            showToast("Imagem salva na galeria!");
         }
 
         async function shareNative() {
+            // Tenta compartilhar nativamente
             const dataUrl = canvas.toDataURL('image/jpeg', 0.95);
-            // Função interna para blob
-            const arr = dataUrl.split(','), mime = arr[0].match(/:(.*?);/)[1], bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
-            while(n--){ u8arr[n] = bstr.charCodeAt(n); }
-            const blob = new Blob([u8arr], {type:mime});
+            const blob = dataURLtoBlob(dataUrl);
             const file = new File([blob], "Geovana-XV.jpg", { type: "image/jpeg" });
 
-            if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
-                try { 
-                    await navigator.share({ 
-                        title: 'XV Geovana', 
-                        text: 'Minha foto mágica na Imersão Tecnológica! ✨🐸', 
-                        files: [file] 
-                    }); 
-                } catch (err) { console.log('Compartilhamento cancelado'); }
+            if (navigator.share) {
+                try {
+                    await navigator.share({
+                        title: 'XV Geovana',
+                        text: 'Minha foto mágica na Imersão Tecnológica! ✨🐸',
+                        files: [file]
+                    });
+                } catch (err) {
+                    console.log('Cancelado ou não suportado', err);
+                    // Se falhar ou cancelar, avisa
+                    // showToast("Compartilhamento cancelado.");
+                }
             } else {
-                alert("Seu navegador não suporta compartilhamento direto de imagem.\n\nClique em 'Baixar (HD)' para salvar! ✨");
+                // Se não suportar (PC comum), avisa e baixa
+                showToast("Compartilhamento indisponível neste dispositivo. Baixando...");
                 downloadImage();
             }
         }
