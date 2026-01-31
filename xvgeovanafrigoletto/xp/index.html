@@ -36,6 +36,7 @@
             display: flex; flex-direction: column; align-items: center; justify-content: center;
         }
 
+        /* Vaga-lumes */
         .firefly-container { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
         .firefly {
             position: absolute; width: 4px; height: 4px; background: var(--gold);
@@ -49,7 +50,7 @@
             100% { opacity: 0; transform: translate(300px, -300px) scale(0.2); }
         }
 
-        /* TOAST NOTIFICATION (NOVO) */
+        /* TOAST */
         #toast-container {
             position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
             z-index: 9999; pointer-events: none; width: 90%; max-width: 350px;
@@ -114,14 +115,14 @@
 
         .preview-container {
             position: relative; box-shadow: 0 0 40px rgba(212, 175, 55, 0.3);
-            border: 3px solid var(--gold); margin-bottom: 20px;
-            max-height: 50vh; max-width: 100%; overflow: hidden;
+            border: 3px solid var(--gold); margin-bottom: 15px;
+            max-height: 45vh; max-width: 100%; overflow: hidden;
             border-radius: 12px; background: #000;
             display: flex; justify-content: center; align-items: center;
             animation: pulseBorder 3s infinite alternate;
         }
         @keyframes pulseBorder { from { border-color: var(--gold); } to { border-color: var(--gold-glow); } }
-        #preview-img { display: block; max-height: 50vh; max-width: 100%; object-fit: contain; }
+        #preview-img { display: block; max-height: 45vh; max-width: 100%; object-fit: contain; }
         #placeholder-text { padding: 40px 20px; border: 3px dashed rgba(212, 175, 55, 0.5); color: #888; border-radius: 10px; text-align: center; width: 100%; max-width: 300px; font-family: 'Cinzel'; }
 
         .controls { display: flex; flex-direction: column; gap: 12px; width: 100%; max-width: 400px; align-items: center; padding-bottom: 40px; }
@@ -133,32 +134,77 @@
         }
         .btn-upload:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(212, 175, 55, 0.6); }
 
+        /* FERRAMENTAS DO EDITOR */
+        .editor-tools {
+            display: none; flex-direction: column; width: 100%; max-width: 400px; gap: 10px; margin-bottom: 10px;
+        }
+        
+        .tool-row-1 {
+            display: flex; width: 100%; gap: 10px; overflow-x: auto;
+            -webkit-overflow-scrolling: touch; scrollbar-width: none; padding-bottom: 5px;
+        }
+        .tool-row-1::-webkit-scrollbar { display: none; }
+
+        .filter-chip {
+            display: inline-flex; align-items: center; justify-content: center;
+            background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3);
+            color: #ccc; padding: 8px 16px; border-radius: 20px;
+            cursor: pointer; font-size: 0.8rem; font-family: 'Montserrat';
+            transition: 0.3s; white-space: nowrap;
+        }
+        .filter-chip.active { background: var(--gold); color: #0a2a24; border-color: var(--gold); font-weight: bold; }
+
+        .tool-row-2 { display: flex; justify-content: space-between; align-items: center; width: 100%; }
+        
+        .toggle-btn {
+            background: rgba(255,255,255,0.1); border: 1px solid #fff; color: #fff;
+            padding: 8px 15px; border-radius: 20px; cursor: pointer; font-size: 0.8rem;
+            display: flex; align-items: center; gap: 5px; transition: 0.3s;
+        }
+        .toggle-btn.active { background: #007bff; border-color: #007bff; color: #fff; }
+
         .trash-btn {
             background: rgba(255, 68, 68, 0.2); color: #ff4444; border: 2px solid #ff4444;
-            width: 50px; height: 50px; border-radius: 50%; font-size: 1.4rem;
-            cursor: pointer; display: none; align-items: center; justify-content: center; margin-bottom: 15px; transition: 0.3s;
+            width: 40px; height: 40px; border-radius: 50%; font-size: 1.2rem;
+            cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.3s;
         }
         .trash-btn:hover { transform: rotate(90deg); background: rgba(255, 68, 68, 0.4); }
 
-        /* Botão de Filtro P&B */
-        .filter-btn {
-            background: rgba(255,255,255,0.1); border: 1px solid #fff; color: #fff;
-            padding: 8px 20px; border-radius: 20px; cursor: pointer; font-size: 0.8rem;
-            margin-bottom: 10px; display: none; /* Aparece só depois do upload */
-            align-items: center; gap: 5px; font-family: 'Montserrat';
-        }
-        .filter-btn.active { background: #fff; color: #000; font-weight: bold; }
-
-        .final-actions { display: none; flex-direction: column; gap: 10px; width: 100%; animation: fadeIn 0.5s ease; }
-        .action-row { display: flex; gap: 10px; width: 100%; }
+        .final-actions { display: none; flex-direction: column; gap: 12px; width: 100%; animation: fadeIn 0.5s ease; }
+        .action-row { display: flex; gap: 12px; width: 100%; }
+        
+        /* BOTÕES MAGIA TECH */
         .btn-action {
             flex: 1; border: none; padding: 14px; border-radius: 30px; font-weight: bold; transition: 0.3s;
             cursor: pointer; font-size: 0.9rem; display: flex; align-items: center; justify-content: center; gap: 8px;
             font-family: 'Montserrat', sans-serif; text-transform: uppercase;
+            position: relative; overflow: hidden; z-index: 1;
         }
-        .btn-share-native { background: rgba(255,255,255,0.15); color: #fff; border: 1px solid rgba(255,255,255,0.3); }
-        .btn-download { background: rgba(0,0,0,0.4); color: var(--gold); border: 2px solid var(--gold); }
-        .btn-action:hover { transform: translateY(-2px); }
+        /* Efeito Shimmer (Brilho passando) */
+        .btn-action::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: 0.5s; z-index: -1; animation: shimmer 3s infinite;
+        }
+        @keyframes shimmer { 0% { left: -100%; } 20% { left: 100%; } 100% { left: 100%; } }
+
+        .btn-share-native { 
+            background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.3); 
+        }
+        
+        /* Botão Download com Pulso Dourado */
+        .btn-download { 
+            background: rgba(0,0,0,0.5); color: var(--gold); border: 2px solid var(--gold); 
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+            animation: techPulse 3s infinite ease-in-out;
+        }
+        @keyframes techPulse {
+            0% { box-shadow: 0 0 5px rgba(212, 175, 55, 0.3); transform: scale(1); }
+            50% { box-shadow: 0 0 20px rgba(212, 175, 55, 0.6); transform: scale(1.02); }
+            100% { box-shadow: 0 0 5px rgba(212, 175, 55, 0.3); transform: scale(1); }
+        }
+
+        .btn-action:hover { transform: translateY(-2px); filter: brightness(1.2); }
 
         #file-input { display: none; }
         #loading { position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 100; display: none; align-items: center; justify-content: center; flex-direction: column; backdrop-filter: blur(5px); }
@@ -173,7 +219,6 @@
 <body>
 
     <div id="toast-container"></div>
-
     <div class="firefly-container" id="fireflies"></div>
 
     <div id="step-format">
@@ -211,7 +256,7 @@
     <div id="step-editor">
         <div class="header-editor">
             <button class="btn-back" onclick="resetFormat()">❮ Trocar Formato</button>
-            <span style="font-family:'Dancing Script'; color:var(--gold); font-size:1.4rem;">Geovana XV</span>
+            <span style="font-family:'Dancing Script'; color:var(--gold); font-size:1.4rem;">XV Geovana Frigoletto</span>
         </div>
         
         <div class="preview-container">
@@ -222,11 +267,15 @@
             </div>
         </div>
 
-        <div style="display:flex; gap:10px; align-items:center;">
-            <button class="filter-btn" id="bw-btn" onclick="toggleBW()">
-                <span>🎨</span> Efeito P&B
-            </button>
-            <button class="trash-btn" id="trash-btn" onclick="resetImage()">🗑️</button>
+        <div class="editor-tools" id="editor-tools">
+            <div class="tool-row-1" id="filters-list">
+                </div>
+            <div class="tool-row-2">
+                <button class="toggle-btn active" id="blur-btn" onclick="toggleBlur()">
+                    💧 Fundo Blur
+                </button>
+                <button class="trash-btn" onclick="resetImage()">🗑️</button>
+            </div>
         </div>
 
         <div class="controls">
@@ -264,7 +313,18 @@
         let ctx = canvas.getContext('2d', { willReadFrequently: true });
         let uploadedImage = null;
         let logoImage = new Image();
-        let isBW = false; // Controle do Preto e Branco
+        
+        let currentFilter = 'normal';
+        let isBlurEnabled = true;
+
+        const filters = {
+            'normal': { label: 'Normal', filter: 'contrast(1.15) saturate(1.25)' },
+            'pb':     { label: 'P&B',    filter: 'grayscale(100%) contrast(1.1)' },
+            'sepia':  { label: 'Sépia',  filter: 'sepia(0.8) contrast(1.1) brightness(0.95)' },
+            'ouro':   { label: 'Ouro',   filter: 'sepia(0.3) saturate(1.4) contrast(1.1) brightness(1.05)' },
+            'magia':  { label: 'Magia',  filter: 'hue-rotate(-20deg) contrast(1.1) saturate(1.1)' },
+            'drama':  { label: 'Drama',  filter: 'contrast(1.3) saturate(0.8) brightness(0.9)' }
+        };
         
         logoImage.crossOrigin = "Anonymous";
         logoImage.onerror = function() { this.src = 'logo.webp'; this.onerror = null; };
@@ -282,17 +342,50 @@
             fireflies.appendChild(f);
         }
 
+        function generateFilterButtons() {
+            const container = document.getElementById('filters-list');
+            container.innerHTML = ''; 
+            Object.keys(filters).forEach(key => {
+                const btn = document.createElement('div');
+                btn.className = `filter-chip ${key === currentFilter ? 'active' : ''}`;
+                btn.innerText = filters[key].label;
+                btn.onclick = () => applyFilter(key);
+                container.appendChild(btn);
+            });
+        }
+
+        function applyFilter(filterKey) {
+            if(!uploadedImage || filterKey === currentFilter) return;
+            currentFilter = filterKey;
+            document.querySelectorAll('.filter-chip').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById('loading').style.display = 'flex';
+            setTimeout(renderCanvas, 100);
+        }
+
+        function toggleBlur() {
+            if(!uploadedImage) return;
+            isBlurEnabled = !isBlurEnabled;
+            const btn = document.getElementById('blur-btn');
+            if(isBlurEnabled) {
+                btn.classList.add('active');
+                btn.innerHTML = '💧 Fundo Blur';
+            } else {
+                btn.classList.remove('active');
+                btn.innerHTML = '⬛ Fundo Escuro';
+            }
+            document.getElementById('loading').style.display = 'flex';
+            setTimeout(renderCanvas, 100);
+        }
+
         function showToast(message) {
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
             toast.className = 'toast';
             toast.innerHTML = `<span>✨</span> ${message}`;
             container.appendChild(toast);
-            
-            // Trigger reflow
             void toast.offsetWidth;
             toast.classList.add('show');
-
             setTimeout(() => {
                 toast.classList.remove('show');
                 setTimeout(() => toast.remove(), 400);
@@ -307,23 +400,16 @@
             if (format === 'vertical') { canvas.width = 1080; canvas.height = 1920; }
             else if (format === 'square') { canvas.width = 1080; canvas.height = 1080; }
             else { canvas.width = 1920; canvas.height = 1080; }
+            
+            if(document.getElementById('filters-list').children.length === 0) {
+                generateFilterButtons();
+            }
         }
 
         function resetFormat() {
             resetImage();
             document.getElementById('step-editor').style.display = 'none';
             document.getElementById('step-format').style.display = 'block';
-        }
-
-        function toggleBW() {
-            if(!uploadedImage) return;
-            isBW = !isBW;
-            const btn = document.getElementById('bw-btn');
-            if(isBW) btn.classList.add('active');
-            else btn.classList.remove('active');
-            
-            document.getElementById('loading').style.display = 'flex';
-            setTimeout(renderCanvas, 100);
         }
 
         function handleImage(input) {
@@ -334,8 +420,11 @@
                     const img = new Image();
                     img.onload = function() {
                         uploadedImage = img;
-                        isBW = false;
-                        document.getElementById('bw-btn').classList.remove('active');
+                        currentFilter = 'normal';
+                        isBlurEnabled = true;
+                        document.getElementById('blur-btn').classList.add('active');
+                        document.getElementById('blur-btn').innerHTML = '💧 Fundo Blur';
+                        generateFilterButtons();
                         document.fonts.ready.then(() => { setTimeout(renderCanvas, 500); });
                     }
                     img.src = e.target.result;
@@ -358,13 +447,27 @@
         function renderCanvas() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+            const selectedFilterData = filters[currentFilter];
+            const isMonochrome = currentFilter === 'pb' || currentFilter === 'sepia';
+
+            // 1. Fundo
             if (uploadedImage) {
-                // 1. Fundo Desfocado
                 ctx.save();
-                let filterStr = 'blur(90px) brightness(0.3) saturate(1.5)';
-                if(isBW) filterStr = 'blur(90px) brightness(0.3) grayscale(100%)';
-                ctx.filter = filterStr;
-                ctx.drawImage(uploadedImage, -100, -100, canvas.width + 200, canvas.height + 200);
+                if(isBlurEnabled) {
+                    const bgScale = Math.max(canvas.width / uploadedImage.width, canvas.height / uploadedImage.height) * 1.2;
+                    const bgW = uploadedImage.width * bgScale;
+                    const bgH = uploadedImage.height * bgScale;
+                    const bgX = (canvas.width - bgW) / 2;
+                    const bgY = (canvas.height - bgH) / 2;
+
+                    let bgFilter = `blur(80px) brightness(0.4) ${selectedFilterData.filter}`;
+                    if(isMonochrome) bgFilter = `blur(80px) brightness(0.4) grayscale(100%)`;
+                    ctx.filter = bgFilter;
+                    ctx.drawImage(uploadedImage, bgX, bgY, bgW, bgH);
+                } else {
+                    ctx.fillStyle = "#050505";
+                    ctx.fillRect(0,0, canvas.width, canvas.height);
+                }
                 ctx.restore();
 
                 // 2. Foto Principal
@@ -381,11 +484,7 @@
                 }
                 
                 ctx.save();
-                if(isBW) {
-                    ctx.filter = 'grayscale(100%) contrast(1.1)';
-                } else {
-                    ctx.filter = 'contrast(1.15) saturate(1.25)';
-                }
+                ctx.filter = selectedFilterData.filter;
                 ctx.drawImage(uploadedImage, renderX, renderY, renderW, renderH);
                 ctx.restore();
             }
@@ -410,8 +509,8 @@
             ctx.fillStyle = gradient;
             ctx.fillRect(0, canvas.height - gradHeight, canvas.width, gradHeight);
 
-            // 5. Moldura Dourada
-            if (currentFormat === 'vertical' || currentFormat === 'square') {
+            // 5. Moldura Dourada (Apenas Vertical)
+            if (currentFormat === 'vertical') {
                 const borderW = 45; 
                 const strokeW = 4;
                 const offset = borderW + (strokeW / 2);
@@ -425,12 +524,11 @@
             // 6. LAYOUT
             let marginH = 100;
             let marginV = 120;
-            
             if (currentFormat === 'square') { marginH = 100; marginV = 110; }
             if (currentFormat === 'horizontal') { marginH = 130; marginV = 100; }
             if (currentFormat === 'vertical') { marginH = 100; marginV = 140; }
 
-            // --- LOGO (Menor ainda) ---
+            // --- LOGO ---
             if(logoImage.complete && logoImage.naturalHeight > 0) {
                 let logoSize;
                 if (currentFormat === 'vertical') logoSize = 130;
@@ -518,8 +616,8 @@
                 const size = Math.random() * 6 + 3; 
                 const color = i % 2 === 0 ? "#fdd835" : "#00ff88";
                 const glow = i % 2 === 0 ? "rgba(253, 216, 53, 0.8)" : "rgba(0, 255, 136, 0.8)";
-                // Se P&B, usa brilho branco/prata
-                if(isBW) drawSparkle(ctx, x, y, size, '#ffffff', 'rgba(255,255,255,0.8)');
+                
+                if(isMonochrome) drawSparkle(ctx, x, y, size, '#ffffff', 'rgba(255,255,255,0.8)');
                 else drawSparkle(ctx, x, y, size, color, glow);
             }
 
@@ -533,8 +631,7 @@
             preview.style.display = 'block';
             document.getElementById('placeholder-text').style.display = 'none';
             document.getElementById('upload-label').style.display = 'none';
-            document.getElementById('trash-btn').style.display = 'flex';
-            document.getElementById('bw-btn').style.display = 'flex'; // Mostra botão P&B
+            document.getElementById('editor-tools').style.display = 'flex';
             document.getElementById('actions').style.display = 'flex';
             document.getElementById('loading').style.display = 'none';
         }
@@ -547,19 +644,11 @@
                 document.getElementById('preview-img').src = "";
                 document.getElementById('placeholder-text').style.display = 'block';
                 document.getElementById('upload-label').style.display = 'flex';
-                document.getElementById('trash-btn').style.display = 'none';
-                document.getElementById('bw-btn').style.display = 'none';
+                document.getElementById('editor-tools').style.display = 'none';
                 document.getElementById('actions').style.display = 'none';
-                isBW = false;
-                document.getElementById('bw-btn').classList.remove('active');
+                currentFilter = 'normal';
+                isBlurEnabled = true;
             }
-        }
-
-        function dataURLtoBlob(dataurl) {
-            var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
-                bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
-            while(n--){ u8arr[n] = bstr.charCodeAt(n); }
-            return new Blob([u8arr], {type:mime});
         }
 
         function downloadImage() {
@@ -570,27 +659,28 @@
             showToast("Imagem salva na galeria!");
         }
 
+        function dataURLtoBlob(dataurl) {
+            var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+                bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+            while(n--){ u8arr[n] = bstr.charCodeAt(n); }
+            return new Blob([u8arr], {type:mime});
+        }
+
         async function shareNative() {
-            // Tenta compartilhar nativamente
             const dataUrl = canvas.toDataURL('image/jpeg', 0.95);
             const blob = dataURLtoBlob(dataUrl);
             const file = new File([blob], "Geovana-XV.jpg", { type: "image/jpeg" });
 
-            if (navigator.share) {
-                try {
-                    await navigator.share({
-                        title: 'XV Geovana',
-                        text: 'Minha foto mágica na Imersão Tecnológica! ✨🐸',
-                        files: [file]
-                    });
-                } catch (err) {
-                    console.log('Cancelado ou não suportado', err);
-                    // Se falhar ou cancelar, avisa
-                    // showToast("Compartilhamento cancelado.");
-                }
+            if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+                try { 
+                    await navigator.share({ 
+                        title: 'XV Geovana', 
+                        text: 'Minha foto mágica na Imersão Tecnológica! ✨🐸', 
+                        files: [file] 
+                    }); 
+                } catch (err) { console.log('Cancelado'); }
             } else {
-                // Se não suportar (PC comum), avisa e baixa
-                showToast("Compartilhamento indisponível neste dispositivo. Baixando...");
+                showToast("Compartilhamento indisponível. Baixando imagem...");
                 downloadImage();
             }
         }
