@@ -13,9 +13,6 @@
     
     <meta property="og:title" content="Imersão Tecnológica - XV Geovana"> 
     <meta property="og:description" content="Crie sua foto mágica para celebrar os 15 Anos da Geovana em Nova Orleans! 🐸✨">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://oimaginista.com/xvgeovanafrigoletto/xp/">
-    <meta property="og:image" content="https://oimaginista.com/favicon/web-app-manifest-512x512.png">
     
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Cinzel:wght@400;700&family=Montserrat:wght@300;700&display=swap" rel="stylesheet">
     
@@ -68,7 +65,6 @@
         .vertical .icon-screen { width: 40px; height: 70px; }
         .horizontal .icon-screen { width: 70px; height: 40px; }
 
-        /* Rodapé Imaginista */
         .imaginista-footer {
             margin-top: 50px; font-size: 0.75rem; color: #aaa; text-align: center;
             font-family: 'Montserrat', sans-serif; letter-spacing: 1px;
@@ -259,6 +255,7 @@
                     const img = new Image();
                     img.onload = function() {
                         uploadedImage = img;
+                        // ESPERA AS FONTES CARREGAREM
                         document.fonts.ready.then(() => { setTimeout(renderCanvas, 200); });
                     }
                     img.src = e.target.result;
@@ -270,10 +267,10 @@
         function renderCanvas() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // 1. FUNDO DESFOCADO (Efeito Premium se a foto não preencher)
+            // 1. FUNDO DESFOCADO (Efeito Premium)
             if (uploadedImage) {
                 // Desenha a imagem esticada e desfocada no fundo
-                ctx.filter = 'blur(40px) brightness(0.7)';
+                ctx.filter = 'blur(40px) brightness(0.5)';
                 ctx.drawImage(uploadedImage, 0, 0, canvas.width, canvas.height);
                 ctx.filter = 'none'; // Reseta filtro
 
@@ -334,7 +331,7 @@
                 ctx.restore();
             }
 
-            // Textos
+            // Textos (Ajuste de posição para não trepar)
             ctx.textAlign = 'right';
             const nameSize = currentFormat === 'vertical' ? 95 : 80;
             const subSize = currentFormat === 'vertical' ? 50 : 45;
@@ -344,24 +341,30 @@
             ctx.font = `bold ${nameSize}px "Dancing Script"`; 
             ctx.fillStyle = '#fdd835'; 
             ctx.shadowColor = "rgba(0,0,0,0.9)"; ctx.shadowBlur = 20;
-            ctx.fillText("Geovana Frigoletto", canvas.width - margin, canvas.height - margin - 120);
+            ctx.fillText("Geovana Frigoletto", canvas.width - margin, canvas.height - margin - 140);
             
-            // XV ANOS
+            // XV ANOS (Afastado do nome)
             ctx.font = `bold ${subSize}px "Cinzel"`;
             ctx.fillStyle = '#ffffff';
-            ctx.fillText("XV ANOS", canvas.width - margin, canvas.height - margin - 220);
+            ctx.fillText("XV ANOS", canvas.width - margin, canvas.height - margin - 240);
 
-            // Data
+            // Data (Afastada da borda inferior)
             ctx.font = `${dateSize}px "Cinzel"`;
             ctx.fillStyle = '#fff59d';
-            ctx.fillText("31.01.2026", canvas.width - margin, canvas.height - margin);
+            ctx.fillText("31.01.2026", canvas.width - margin, canvas.height - margin - 10);
 
-            // Frase Mágica
-            ctx.textAlign = 'center';
-            ctx.font = `italic ${dateSize}px "Montserrat"`;
-            ctx.fillStyle = 'rgba(255,255,255,0.8)';
-            ctx.shadowBlur = 5;
-            ctx.fillText("Uma noite mágica em Nova Orleans", canvas.width/2, canvas.height - margin/1.5);
+            // EFEITO DE PARTÍCULAS MÁGICAS (Vagalumes na foto)
+            for (let i = 0; i < 20; i++) {
+                const x = Math.random() * canvas.width;
+                const y = Math.random() * canvas.height;
+                const size = Math.random() * 4 + 1;
+                ctx.beginPath();
+                ctx.arc(x, y, size, 0, Math.PI * 2);
+                ctx.fillStyle = "rgba(255, 215, 0, 0.6)";
+                ctx.shadowColor = "#fdd835";
+                ctx.shadowBlur = 10;
+                ctx.fill();
+            }
 
             finishPreview();
         }
