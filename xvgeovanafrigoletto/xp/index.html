@@ -327,15 +327,15 @@
                 ctx.shadowBlur = 0; 
             }
 
-            // 6. LAYOUT
+            // 6. LAYOUT - Correção das Margens e Tamanhos
             const marginH = currentFormat === 'vertical' ? 100 : 130;
-            // Margem vertical ajustada para subir o bloco de texto na Vertical
-            const marginV = currentFormat === 'vertical' ? 220 : 120;
+            // Margem vertical restaurada para 140 (era 220) para descer os textos
+            const marginV = currentFormat === 'vertical' ? 140 : 120;
             
             // --- LOGO IMAGINISTA (Esquerda) ---
             if(logoImage.complete && logoImage.naturalHeight > 0) {
-                // LOGO PEQUENA: 160px na vertical, 130px na horizontal
-                const logoSize = currentFormat === 'vertical' ? 160 : 130; 
+                // LOGO AINDA MENOR: 130px na vertical, 110px na horizontal
+                const logoSize = currentFormat === 'vertical' ? 130 : 110; 
                 const logoAspectRatio = logoImage.width / logoImage.height;
                 const logoY = canvas.height - marginV - logoSize + 20;
                 ctx.save();
@@ -388,6 +388,7 @@
 
             if (currentFormat === 'vertical') {
                 // VERTICAL: RODAPÉ CENTRALIZADO, ABAIXO DE TUDO
+                // Altura 80 garante que fique acima da borda dourada
                 ctx.fillText("Uma noite mágica em Nova Orleans", canvas.width / 2, canvas.height - 80);
             } else {
                 // HORIZONTAL: Rodapé
