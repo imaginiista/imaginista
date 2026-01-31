@@ -17,6 +17,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
     
     <style>
+        /* --- CSS GERAL --- */
         :root {
             --bg-deep: #0a2a24;
             --gold: #d4af37;
@@ -35,6 +36,7 @@
             display: flex; flex-direction: column; align-items: center; justify-content: center;
         }
 
+        /* Vaga-lumes de fundo do site */
         .firefly-container { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
         .firefly {
             position: absolute; width: 4px; height: 4px; background: var(--gold);
@@ -48,7 +50,7 @@
             100% { opacity: 0; transform: translate(300px, -300px) scale(0.2); }
         }
 
-        /* TELA 1 */
+        /* TELA 1: Formato */
         #step-format { z-index: 10; text-align: center; width: 90%; max-width: 600px; animation: fadeIn 1s ease; }
         h1 { font-family: 'Dancing Script', cursive; color: var(--gold); font-size: 3.5rem; margin-bottom: 10px; text-shadow: 0 0 15px rgba(212, 175, 55, 0.6); }
         p.desc { font-family: 'Cinzel', serif; font-size: 1.1rem; color: #ccc; margin-bottom: 30px; }
@@ -76,7 +78,7 @@
         .logo-click img { height: 40px; opacity: 0.8; transition: 0.3s; cursor: pointer; }
         .logo-click:hover img { transform: scale(1.1); opacity: 1; filter: drop-shadow(0 0 8px var(--magic-green)); }
 
-        /* TELA 2 */
+        /* TELA 2: Editor */
         #step-editor {
             display: none; flex-direction: column; align-items: center;
             width: 100%; min-height: 100dvh; z-index: 20; padding: 20px 15px;
@@ -124,7 +126,7 @@
             cursor: pointer; font-size: 0.9rem; display: flex; align-items: center; justify-content: center; gap: 8px;
             font-family: 'Montserrat', sans-serif; text-transform: uppercase;
         }
-        .btn-whatsapp { background: linear-gradient(135deg, #25D366, #128C7E); color: #fff; }
+        /* Botão WhatsApp Removido */
         .btn-share-native { background: rgba(255,255,255,0.15); color: #fff; border: 1px solid rgba(255,255,255,0.3); }
         .btn-download { background: rgba(0,0,0,0.4); color: var(--gold); border: 2px solid var(--gold); }
         .btn-action:hover { transform: translateY(-2px); }
@@ -136,6 +138,7 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         
         #render-canvas { display: none; }
+        /* Efeito do clique na logo do rodapé */
         .firework { position: fixed; width: 6px; height: 6px; border-radius: 50%; pointer-events: none; z-index: 9999; }
     </style>
 </head>
@@ -193,14 +196,13 @@
 
             <div class="final-actions" id="actions">
                 <div class="action-row">
-                    <button class="btn-action btn-whatsapp" onclick="shareWhatsapp()">
-                        Enviar Geovana
-                    </button>
                     <button class="btn-action btn-share-native" onclick="shareNative()">
                         🔗 Compartilhar
                     </button>
+                    <button class="btn-action btn-download" onclick="downloadImage()">
+                        ⬇ Baixar
+                    </button>
                 </div>
-                <button class="btn-action btn-download" onclick="downloadImage()">⬇ Salvar na Galeria</button>
             </div>
         </div>
     </div>
@@ -214,7 +216,7 @@
 
     <script>
         const LOGO_SRC = 'logo.png'; 
-        const PHONE_TEST = "5521983340089"; 
+        // const PHONE_TEST = "5521983340089"; // Removido pois o botão WhatsApp foi retirado
         
         let currentFormat = null;
         let canvas = document.getElementById('render-canvas');
@@ -268,7 +270,6 @@
             }
         }
 
-        // --- FUNÇÃO DE DESENHO DE BRILHO ---
         function drawSparkle(ctx, x, y, size, color, glowColor) {
             ctx.save();
             ctx.translate(x, y);
@@ -285,6 +286,7 @@
 
             if (uploadedImage) {
                 ctx.save();
+                // Desfoque e saturação do fundo
                 ctx.filter = 'blur(90px) brightness(0.3) saturate(1.5)';
                 ctx.drawImage(uploadedImage, -100, -100, canvas.width + 200, canvas.height + 200);
                 ctx.restore();
@@ -307,16 +309,19 @@
                 ctx.restore();
             }
 
+            // Vignette com filtro verde MAIS SUAVE
             const vignette = ctx.createRadialGradient(canvas.width/2, canvas.height/2, canvas.width/5, canvas.width/2, canvas.height/2, canvas.width * 0.9);
             vignette.addColorStop(0, "transparent");
-            vignette.addColorStop(1, "rgba(0,10,5,0.85)");
+            // Opacidade reduzida de 0.85 para 0.6 para suavizar o verde
+            vignette.addColorStop(1, "rgba(0, 20, 10, 0.6)"); 
             ctx.fillStyle = vignette;
             ctx.fillRect(0,0,canvas.width, canvas.height);
 
             const gradHeight = currentFormat === 'vertical' ? 900 : 550;
             const gradient = ctx.createLinearGradient(0, canvas.height - gradHeight, 0, canvas.height);
             gradient.addColorStop(0, "transparent");
-            gradient.addColorStop(0.6, "rgba(10, 42, 36, 0.95)");
+            // Opacidade reduzida de 0.95 para 0.7 para suavizar o verde na base
+            gradient.addColorStop(0.6, "rgba(10, 42, 36, 0.7)");
             gradient.addColorStop(1, "#010a08");
             ctx.fillStyle = gradient;
             ctx.fillRect(0, canvas.height - gradHeight, canvas.width, gradHeight);
@@ -337,9 +342,9 @@
             const marginH = currentFormat === 'vertical' ? 100 : 130;
             const marginV = currentFormat === 'vertical' ? 140 : 120;
             
-            // --- LOGO DISCRETA ---
+            // --- LOGO DISCRETA (Tamanhos Reduzidos Novamente) ---
             if(logoImage.complete && logoImage.naturalHeight > 0) {
-                // REDUZIDO: 130px (Vertical) / 110px (Horizontal)
+                // REDUZIDO: 130px (Vertical) / 110px (Horizontal) -> Voltando aos valores menores que agradaram
                 const logoSize = currentFormat === 'vertical' ? 130 : 110; 
                 const logoAspectRatio = logoImage.width / logoImage.height;
                 const logoY = canvas.height - marginV - logoSize + 20;
@@ -353,6 +358,7 @@
             // --- TEXTOS ---
             ctx.textAlign = 'right';
             let nameSize, subSize, dateSize;
+            // Redução do tamanho do nome para os valores anteriores
             if(currentFormat === 'vertical') {
                 nameSize = 85; subSize = 55; dateSize = 38;
             } else {
@@ -362,7 +368,7 @@
             // Começamos de baixo para cima
             let currentY = canvas.height - marginV;
 
-            // 1. Geovana
+            // 1. Geovana (Nome menor)
             ctx.font = `bold ${nameSize}px "Dancing Script"`; 
             ctx.fillStyle = '#fdd835'; 
             ctx.shadowColor = "rgba(0,0,0,1)"; ctx.shadowBlur = 30;
@@ -400,14 +406,13 @@
 
             // 7. BRILHOS MÁGICOS (ZONA SEGURA)
             const sparkleCount = 45;
-            const edgeThickness = canvas.width * 0.15; // Apenas nas bordas
-            const topThickness = canvas.height * 0.2;  // Apenas no topo
+            const edgeThickness = canvas.width * 0.15;
+            const topThickness = canvas.height * 0.2;
 
             for (let i = 0; i < sparkleCount; i++) {
                 let x, y;
                 const section = Math.random();
                 
-                // Evita o centro (rosto)
                 if (section < 0.33) { // Esquerda
                     x = Math.random() * edgeThickness;
                     y = Math.random() * canvas.height;
@@ -467,15 +472,7 @@
             link.click();
         }
 
-        function shareWhatsapp() {
-            downloadImage(); 
-            // Aviso explicativo
-            alert("A foto foi baixada no seu celular!\n\nO WhatsApp abrirá em seguida. Basta anexar a foto salva.");
-            setTimeout(() => {
-                const text = encodeURIComponent("✨ Olha a foto mágica que fiz na Imersão do XV da Geovana! 🐸 #XVGeovana #NovaOrleans");
-                window.open(`https://wa.me/${PHONE_TEST}?text=${text}`, '_blank');
-            }, 1000);
-        }
+        // Função shareWhatsapp removida
 
         async function shareNative() {
             const dataUrl = canvas.toDataURL('image/jpeg', 0.95);
@@ -495,17 +492,6 @@
                 alert("Seu navegador não suporta compartilhamento direto de imagem.\n\nBaixando a foto para sua galeria! ✨");
                 downloadImage();
             }
-        }
-
-        function drawSparkle(ctx, x, y, size, color, glowColor) {
-            ctx.save();
-            ctx.translate(x, y);
-            ctx.rotate(Math.PI / 4);
-            ctx.fillStyle = color;
-            ctx.shadowColor = glowColor;
-            ctx.shadowBlur = 10;
-            ctx.fillRect(-size/2, -size/2, size, size);
-            ctx.restore();
         }
 
         function magicEffect(e) {
