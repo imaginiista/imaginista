@@ -179,21 +179,50 @@
         }
     }
 
-    .enter-button {
+    /* Container de Botões da Intro */
+    .intro-btn-container {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .enter-button, .filter-button {
         background: transparent;
         border: 2px solid var(--gold);
         color: var(--gold);
-        padding: 15px 50px;
+        padding: 15px 40px;
         font-family: 'Cinzel', serif;
-        font-size: 1.2rem;
+        font-size: 1.1rem;
         border-radius: 50px;
         cursor: pointer;
         position: relative;
         overflow: hidden;
         transition: 0.3s;
+        text-decoration: none;
+        display: inline-block;
     }
 
-    .enter-button:hover {
+    /* Brilho Sugerido */
+    .enter-button::after, .filter-button::after {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -60%;
+        width: 20%;
+        height: 200%;
+        background: rgba(255, 255, 255, 0.4);
+        transform: rotate(30deg);
+        animation: buttonShine 4s infinite;
+    }
+
+    @keyframes buttonShine {
+        0% { left: -60%; }
+        20% { left: 120%; }
+        100% { left: 120%; }
+    }
+
+    .enter-button:hover, .filter-button:hover {
         background: var(--gold);
         color: var(--bg-dark);
         box-shadow: 0 0 30px var(--gold);
@@ -232,14 +261,14 @@
         padding: 10px 20px;
         display: flex;
         align-items: center;
-        gap: 15px;
+        gap: 12px;
         box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
-        width: 360px;
+        width: 410px; /* Aumentado para caber o novo botão */
     }
 
     .controls-left {
         display: flex;
-        gap: 10px;
+        gap: 8px;
         align-items: center;
     }
 
@@ -272,6 +301,14 @@
         height: 32px;
         font-size: 16px;
         border-color: rgba(212, 175, 55, 0.5);
+    }
+
+    /* Estilo Especial Botão Share no Player */
+    .ctrl-btn.share-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 14px;
+        background: rgba(212, 175, 55, 0.1);
     }
 
     .display-marquee {
@@ -1494,7 +1531,7 @@
             transform: translateX(-50%) translateY(50px);
             bottom: 40px;
             width: 95%;
-            max-width: 400px;
+            max-width: 410px;
         }
 
         .player-container.visible {
@@ -1738,7 +1775,10 @@
             
             <div class="magic-pointer">👇</div>
             
-            <button id="enter-btn" class="enter-button">Aonde a magia acontece</button>
+            <div class="intro-btn-container">
+                <button id="enter-btn" class="enter-button">Aonde a magia acontece</button>
+                <a href="https://oimaginista.com/xvgeovanafrigoletto/xp/" class="filter-button">FILTRO</a>
+            </div>
         </div>
     </div>
 
@@ -1752,6 +1792,7 @@
                 <button id="vol-down" class="ctrl-btn sm">－</button>
                 <button id="play-pause" class="ctrl-btn play">▶</button>
                 <button id="vol-up" class="ctrl-btn sm">＋</button>
+                <button id="share-player" class="ctrl-btn sm share-btn" title="Compartilhar">📤</button>
             </div>
             <div class="display-marquee">
                 <div class="scrolling-text">🎵 XV Geovana Frigoletto • Uma Noite em Nova Orleans • A Magia Está no Ar 🎵</div>
@@ -2010,7 +2051,7 @@
         </p>
     </footer>
 </body>
-        <script>
+    <script>
         /* =========================================
            1. SEGURANÇA & PROTEÇÃO
            ========================================= */
@@ -2028,12 +2069,35 @@
         document.addEventListener('paste', e => e.preventDefault());
 
         /* =========================================
-           2. CONTROLE DE ÁUDIO & PLAYER
+           2. FUNÇÃO DE COMPARTILHAMENTO
+           ========================================= */
+        function sharePage() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'XV Geovana Frigoletto',
+                    text: 'Uma Noite Mágica em Nova Orleans. Venha celebrar comigo!',
+                    url: window.location.href
+                }).catch(err => console.log('Erro ao compartilhar:', err));
+            } else {
+                // Fallback para computadores
+                const tempInput = document.createElement('input');
+                tempInput.value = window.location.href;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                document.execCommand('copy');
+                document.body.removeChild(tempInput);
+                alert('Link do convite copiado com sucesso!');
+            }
+        }
+
+        /* =========================================
+           3. CONTROLE DE ÁUDIO & PLAYER
            ========================================= */
         const audio = document.getElementById("bg-music");
         const playBtn = document.getElementById("play-pause");
         const volUp = document.getElementById("vol-up");
         const volDown = document.getElementById("vol-down");
+        const shareBtn = document.getElementById("share-player");
         const playerContainer = document.getElementById("music-player");
         
         // Volume inicial
@@ -2064,8 +2128,11 @@
             }
         });
 
+        // Evento do botão de compartilhar no player
+        shareBtn.addEventListener('click', sharePage);
+
         /* =========================================
-           3. INTRODUÇÃO (ENTRADA)
+           4. INTRODUÇÃO (ENTRADA)
            ========================================= */
         document.getElementById('enter-btn').addEventListener('click', function() {
             const intro = document.getElementById('intro-overlay');
@@ -2084,7 +2151,6 @@
                     playerContainer.classList.add('visible');
                 })
                 .catch(() => {
-                    // Se o autoplay falhar, mostra o player mesmo assim
                     playerContainer.classList.add('visible');
                 });
 
@@ -2095,7 +2161,7 @@
         });
 
         /* =========================================
-           4. EFEITOS VISUAIS (PARTÍCULAS)
+           5. EFEITOS VISUAIS (PARTÍCULAS)
            ========================================= */
         const logoArea = document.querySelector('.logo-area');
         
@@ -2128,7 +2194,7 @@
         }
 
         /* =========================================
-           5. ANIMAÇÃO DO TICKET
+           6. ANIMAÇÃO DO TICKET
            ========================================= */
         const ticket = document.getElementById('golden-ticket');
         const triggers = document.querySelectorAll('.ticket-scissors, .ticket-left-side');
@@ -2145,7 +2211,7 @@
         }));
 
         /* =========================================
-           6. SLIDESHOW (GALERIA)
+           7. SLIDESHOW (GALERIA)
            ========================================= */
         let slideIndex = 1;
         showSlides(slideIndex);
@@ -2184,7 +2250,7 @@
         }, 5000);
 
         /* =========================================
-           7. CRONÔMETRO REVERSO
+           8. CRONÔMETRO REVERSO
            ========================================= */
         const eventDate = new Date("Jan 31, 2026 19:00:00").getTime();
 
@@ -2226,33 +2292,17 @@
 
         // QUANTIDADE DE FOGOS
         function launchCelebrationStars() {
- //            let count = 0;
- //           const intervalStars = setInterval(() => {
-        
-		                                                                          // NOVO INTERVALO "OPÇÃO 2"
-		                                                                             setInterval(() => {
-		                                                                          //
-		
-		                                                                          // OP2 CRIAR "2 ESTRELAS"
-	                                                                                 for(let i = 0; i < 2; i++) {
-		                                                                          //
-		        const randomX = Math.random() * window.innerWidth;
-                const randomY = Math.random() * window.innerHeight;
-                createStars(randomX, randomY);
-                
-				                                                                  // OP2 CRIAR "2 ESTRELAS"
-			                                                                        }
-				                                                                  //
-//                count++;
-//                if (count > 15) clearInterval(intervalStars);
-//            }, 300);
-
-                                                                                  // INFINITO STAR
-		                                                                            }, 2000);  //500ms "REMOVER 2 ESTRELAS E MANTER APENAS 1 ESTRELA "OP2"
-                                                                                  }
+            setInterval(() => {
+                for(let i = 0; i < 2; i++) {
+                    const randomX = Math.random() * window.innerWidth;
+                    const randomY = Math.random() * window.innerHeight;
+                    createStars(randomX, randomY);
+                }
+            }, 2000);
+        }
 
         /* =========================================
-           8. INICIALIZAÇÃO (ON LOAD)
+           9. INICIALIZAÇÃO (ON LOAD)
            ========================================= */
         document.addEventListener("DOMContentLoaded", () => {
             // Cria vagalumes
@@ -2278,5 +2328,4 @@
             document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
         });
     </script>
-</body>
 </html>
