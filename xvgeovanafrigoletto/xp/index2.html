@@ -17,6 +17,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
     
     <style>
+        /* --- CSS GERAL --- */
         :root {
             --bg-deep: #0a2a24;
             --gold: #d4af37;
@@ -48,33 +49,55 @@
             100% { opacity: 0; transform: translate(300px, -300px) scale(0.2); }
         }
 
+        /* TOAST NOTIFICATION */
+        #toast-container {
+            position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+            z-index: 9999; pointer-events: none; width: 90%; max-width: 350px;
+        }
+        .toast {
+            background: rgba(10, 42, 36, 0.95); border: 1px solid var(--gold);
+            color: #fff; padding: 15px; border-radius: 8px; margin-bottom: 10px;
+            text-align: center; box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+            font-size: 0.9rem; opacity: 0; transform: translateY(-20px);
+            transition: all 0.4s ease; display: flex; align-items: center; justify-content: center; gap: 10px;
+        }
+        .toast.show { opacity: 1; transform: translateY(0); }
+
         /* TELA 1 */
-        #step-format { z-index: 10; text-align: center; width: 90%; max-width: 600px; animation: fadeIn 1s ease; }
-        h1 { font-family: 'Dancing Script', cursive; color: var(--gold); font-size: 3.5rem; margin-bottom: 10px; text-shadow: 0 0 15px rgba(212, 175, 55, 0.6); }
+        #step-format { z-index: 10; text-align: center; width: 95%; max-width: 600px; animation: fadeIn 1s ease; }
+        h1 { font-family: 'Dancing Script', cursive; color: var(--gold); font-size: 3.5rem; margin-bottom: 5px; text-shadow: 0 0 20px rgba(212, 175, 55, 0.6); }
         p.desc { font-family: 'Cinzel', serif; font-size: 1.1rem; color: #ccc; margin-bottom: 30px; }
-        .format-grid { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-bottom: 40px; }
+        
+        .format-grid { display: flex; gap: 10px; justify-content: center; flex-wrap: nowrap; margin-bottom: 40px; width: 100%; }
         .format-btn {
-            background: rgba(255,255,255,0.05); border: 2px solid var(--gold); border-radius: 15px;
-            padding: 20px; cursor: pointer; transition: 0.3s; width: 140px;
+            background: rgba(255,255,255,0.05); border: 2px solid var(--gold); border-radius: 12px;
+            padding: 15px 5px; cursor: pointer; transition: 0.3s; flex: 1; min-width: 80px;
             display: flex; flex-direction: column; align-items: center; backdrop-filter: blur(5px);
         }
         .format-btn:hover { background: rgba(212, 175, 55, 0.2); transform: scale(1.05); }
-        .icon-screen { border: 2px solid #fff; margin-bottom: 10px; background: rgba(255,255,255,0.1); border-radius: 4px; }
-        .vertical .icon-screen { width: 40px; height: 70px; }
-        .horizontal .icon-screen { width: 70px; height: 40px; }
+        .format-btn span { font-size: 0.75rem; margin-top: 8px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
         
-        .btn-home {
-            color: var(--gold); text-decoration: none; font-size: 0.9rem;
-            border: 1px solid rgba(212, 175, 55, 0.5); padding: 12px 25px; border-radius: 30px;
-            transition: 0.3s; font-family: 'Cinzel', serif; display: inline-flex; align-items: center; gap: 5px; background: rgba(0,0,0,0.3);
+        .icon-screen { border: 2px solid #fff; margin-bottom: 5px; background: rgba(255,255,255,0.1); border-radius: 3px; }
+        .vertical .icon-screen { width: 30px; height: 50px; }
+        .horizontal .icon-screen { width: 50px; height: 30px; }
+        .square .icon-screen { width: 40px; height: 40px; }
+
+        .nav-buttons { display: flex; gap: 15px; justify-content: center; width: 100%; margin-bottom: 40px; }
+        .btn-nav {
+            color: var(--gold); text-decoration: none; font-size: 0.85rem; text-transform: uppercase;
+            border: 1px solid rgba(212, 175, 55, 0.5); padding: 12px 20px; border-radius: 30px;
+            transition: 0.3s; font-family: 'Cinzel', serif; display: flex; align-items: center; gap: 8px; 
+            background: rgba(0,0,0,0.3); min-width: 130px; justify-content: center;
         }
+        .btn-nav:hover { background: var(--gold); color: #0a2a24; border-color: var(--gold); }
+
         .imaginista-footer {
-            margin-top: 50px; font-size: 0.75rem; color: #aaa; text-align: center;
-            font-family: 'Montserrat', sans-serif; letter-spacing: 1px;
-            display: flex; flex-direction: column; align-items: center; gap: 10px;
+            margin-top: 20px; font-size: 0.65rem; color: #888; text-align: center;
+            font-family: 'Montserrat', sans-serif; letter-spacing: 2px; text-transform: uppercase;
+            display: flex; flex-direction: column; align-items: center; gap: 12px; line-height: 1.6;
         }
-        .logo-click img { height: 40px; opacity: 0.8; transition: 0.3s; cursor: pointer; }
-        .logo-click:hover img { transform: scale(1.1); opacity: 1; filter: drop-shadow(0 0 8px var(--magic-green)); }
+        .logo-click img { height: 50px; opacity: 0.9; transition: 0.3s; cursor: pointer; filter: drop-shadow(0 0 5px rgba(0,0,0,0.5)); }
+        .logo-click:hover img { transform: scale(1.1); filter: drop-shadow(0 0 10px var(--magic-green)); }
 
         /* TELA 2 */
         #step-editor {
@@ -91,14 +114,15 @@
 
         .preview-container {
             position: relative; box-shadow: 0 0 40px rgba(212, 175, 55, 0.3);
-            border: 3px solid var(--gold); margin-bottom: 20px;
-            max-height: 50vh; max-width: 100%; overflow: hidden;
+            border: 3px solid var(--gold); margin-bottom: 15px; /* Margem reduzida para caber os filtros */
+            max-height: 45vh; /* Altura reduzida para caber os filtros */
+            max-width: 100%; overflow: hidden;
             border-radius: 12px; background: #000;
             display: flex; justify-content: center; align-items: center;
             animation: pulseBorder 3s infinite alternate;
         }
         @keyframes pulseBorder { from { border-color: var(--gold); } to { border-color: var(--gold-glow); } }
-        #preview-img { display: block; max-height: 50vh; max-width: 100%; object-fit: contain; }
+        #preview-img { display: block; max-height: 45vh; max-width: 100%; object-fit: contain; }
         #placeholder-text { padding: 40px 20px; border: 3px dashed rgba(212, 175, 55, 0.5); color: #888; border-radius: 10px; text-align: center; width: 100%; max-width: 300px; font-family: 'Cinzel'; }
 
         .controls { display: flex; flex-direction: column; gap: 12px; width: 100%; max-width: 400px; align-items: center; padding-bottom: 40px; }
@@ -110,10 +134,38 @@
         }
         .btn-upload:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(212, 175, 55, 0.6); }
 
+        /* --- NOVA BARRA DE FILTROS HORIZONTAL --- */
+        .filters-container {
+            display: none; /* Aparece após upload */
+            width: 100%; max-width: 400px;
+            overflow-x: auto; /* Permite rolagem horizontal */
+            white-space: nowrap;
+            gap: 10px; padding-bottom: 15px;
+            -webkit-overflow-scrolling: touch; /* Rolagem suave no iOS */
+            scrollbar-width: none; /* Esconde scrollbar Firefox */
+        }
+        .filters-container::-webkit-scrollbar { display: none; /* Esconde scrollbar Chrome/Safari */ }
+
+        .filter-chip {
+            display: inline-flex; align-items: center; justify-content: center;
+            background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3);
+            color: #ccc; padding: 8px 16px; border-radius: 20px;
+            cursor: pointer; font-size: 0.8rem; font-family: 'Montserrat';
+            transition: 0.3s; margin-right: 8px;
+        }
+        .filter-chip.active {
+            background: var(--gold); color: #0a2a24; border-color: var(--gold); font-weight: bold;
+        }
+        
+        .editor-tools {
+            display: flex; justify-content: space-between; width: 100%; max-width: 400px; align-items: center; margin-bottom: 10px;
+        }
+
         .trash-btn {
             background: rgba(255, 68, 68, 0.2); color: #ff4444; border: 2px solid #ff4444;
-            width: 50px; height: 50px; border-radius: 50%; font-size: 1.4rem;
-            cursor: pointer; display: none; align-items: center; justify-content: center; margin-bottom: 15px; transition: 0.3s;
+            width: 40px; height: 40px; border-radius: 50%; font-size: 1.2rem;
+            cursor: pointer; display: none; align-items: center; justify-content: center; transition: 0.3s;
+            flex-shrink: 0; /* Não encolhe */
         }
         .trash-btn:hover { transform: rotate(90deg); background: rgba(255, 68, 68, 0.4); }
 
@@ -124,7 +176,6 @@
             cursor: pointer; font-size: 0.9rem; display: flex; align-items: center; justify-content: center; gap: 8px;
             font-family: 'Montserrat', sans-serif; text-transform: uppercase;
         }
-        .btn-whatsapp { background: linear-gradient(135deg, #25D366, #128C7E); color: #fff; }
         .btn-share-native { background: rgba(255,255,255,0.15); color: #fff; border: 1px solid rgba(255,255,255,0.3); }
         .btn-download { background: rgba(0,0,0,0.4); color: var(--gold); border: 2px solid var(--gold); }
         .btn-action:hover { transform: translateY(-2px); }
@@ -141,30 +192,39 @@
 </head>
 <body>
 
+    <div id="toast-container"></div>
+
     <div class="firefly-container" id="fireflies"></div>
 
     <div id="step-format">
         <h1>Imersão Tecnológica</h1>
-        <p class="desc">Escolha como eternizar esse momento:</p>
+        <p class="desc">Escolha como eternizar<br>esse momento:</p>
         
         <div class="format-grid">
             <div class="format-btn vertical" onclick="selectFormat('vertical')">
                 <div class="icon-screen"></div>
-                <span>Stories (Vertical)</span>
+                <span>Stories</span>
+            </div>
+            <div class="format-btn square" onclick="selectFormat('square')">
+                <div class="icon-screen"></div>
+                <span>Feed</span>
             </div>
             <div class="format-btn horizontal" onclick="selectFormat('horizontal')">
                 <div class="icon-screen"></div>
-                <span>Feed (Horizontal)</span>
+                <span>TV/PC</span>
             </div>
         </div>
 
-        <a href="https://oimaginista.com/xvgeovanafrigoletto/" class="btn-home">❮ Voltar ao Convite</a>
+        <div class="nav-buttons">
+            <a href="https://oimaginista.com/xvgeovanafrigoletto/" class="btn-nav">Convite</a>
+            <a href="https://oimaginista.com/bio/" class="btn-nav">Imaginista</a>
+        </div>
 
         <div class="imaginista-footer">
             <div class="logo-click" onclick="magicEffect(event)">
                 <img src="logo.png" alt="O Imaginista" class="footer-logo" id="footer-logo-img">
             </div>
-            <span>© 2025 IMAGINISTA ∴ Todos os direitos reservados.</span>
+            <span>© 2025 IMAGINISTA ∴<br>Todos os direitos reservados.</span>
         </div>
     </div>
 
@@ -182,7 +242,11 @@
             </div>
         </div>
 
-        <button class="trash-btn" id="trash-btn" onclick="resetImage()">🗑️</button>
+        <div class="editor-tools">
+             <div class="filters-container" id="filters-list">
+                </div>
+            <button class="trash-btn" id="trash-btn" onclick="resetImage()">🗑️</button>
+        </div>
 
         <div class="controls">
             <label for="file-input" class="btn-upload" id="upload-label">
@@ -193,14 +257,13 @@
 
             <div class="final-actions" id="actions">
                 <div class="action-row">
-                    <button class="btn-action btn-whatsapp" onclick="shareWhatsapp()">
-                        Enviar Geovana
-                    </button>
                     <button class="btn-action btn-share-native" onclick="shareNative()">
                         🔗 Compartilhar
                     </button>
+                    <button class="btn-action btn-download" onclick="downloadImage()">
+                        ⬇ Baixar (HD)
+                    </button>
                 </div>
-                <button class="btn-action btn-download" onclick="downloadImage()">⬇ Salvar na Galeria</button>
             </div>
         </div>
     </div>
@@ -214,13 +277,23 @@
 
     <script>
         const LOGO_SRC = 'logo.png'; 
-        const PHONE_TEST = "5521983340089"; 
         
         let currentFormat = null;
         let canvas = document.getElementById('render-canvas');
         let ctx = canvas.getContext('2d', { willReadFrequently: true });
         let uploadedImage = null;
         let logoImage = new Image();
+        
+        // --- Configuração dos Novos Filtros ---
+        let currentFilter = 'normal'; // Estado atual do filtro
+        const filters = {
+            'normal': { label: 'Normal', filter: 'contrast(1.15) saturate(1.25)' },
+            'pb':     { label: 'P&B',    filter: 'grayscale(100%) contrast(1.1)' },
+            'sepia':  { label: 'Sépia',  filter: 'sepia(0.8) contrast(1.1) brightness(0.95)' },
+            'ouro':   { label: 'Ouro',   filter: 'sepia(0.3) saturate(1.4) contrast(1.1) brightness(1.05)' },
+            'magia':  { label: 'Magia',  filter: 'hue-rotate(-20deg) contrast(1.1) saturate(1.1)' },
+            'drama':  { label: 'Drama',  filter: 'contrast(1.3) saturate(0.8) brightness(0.9)' }
+        };
         
         logoImage.crossOrigin = "Anonymous";
         logoImage.onerror = function() { this.src = 'logo.webp'; this.onerror = null; };
@@ -238,12 +311,58 @@
             fireflies.appendChild(f);
         }
 
+        // Gera os botões de filtro
+        function generateFilterButtons() {
+            const container = document.getElementById('filters-list');
+            container.innerHTML = ''; // Limpa
+            Object.keys(filters).forEach(key => {
+                const btn = document.createElement('div');
+                btn.className = `filter-chip ${key === currentFilter ? 'active' : ''}`;
+                btn.innerText = filters[key].label;
+                btn.onclick = () => applyFilter(key);
+                container.appendChild(btn);
+            });
+        }
+
+        function applyFilter(filterKey) {
+            if(!uploadedImage || filterKey === currentFilter) return;
+            currentFilter = filterKey;
+            
+            // Atualiza UI dos botões
+            document.querySelectorAll('.filter-chip').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            document.getElementById('loading').style.display = 'flex';
+            setTimeout(renderCanvas, 100);
+        }
+
+        function showToast(message) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.innerHTML = `<span>✨</span> ${message}`;
+            container.appendChild(toast);
+            void toast.offsetWidth;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 400);
+            }, 3000);
+        }
+
         function selectFormat(format) {
             currentFormat = format;
             document.getElementById('step-format').style.display = 'none';
             document.getElementById('step-editor').style.display = 'flex';
+            
             if (format === 'vertical') { canvas.width = 1080; canvas.height = 1920; }
+            else if (format === 'square') { canvas.width = 1080; canvas.height = 1080; }
             else { canvas.width = 1920; canvas.height = 1080; }
+            
+            // Gera os botões se ainda não existirem
+            if(document.getElementById('filters-list').children.length === 0) {
+                generateFilterButtons();
+            }
         }
 
         function resetFormat() {
@@ -260,6 +379,9 @@
                     const img = new Image();
                     img.onload = function() {
                         uploadedImage = img;
+                        // Reseta para o filtro normal ao carregar nova imagem
+                        currentFilter = 'normal';
+                        generateFilterButtons();
                         document.fonts.ready.then(() => { setTimeout(renderCanvas, 500); });
                     }
                     img.src = e.target.result;
@@ -268,13 +390,27 @@
             }
         }
 
+        function drawSparkle(ctx, x, y, size, color, glowColor) {
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.rotate(Math.PI / 4);
+            ctx.fillStyle = color;
+            ctx.shadowColor = glowColor;
+            ctx.shadowBlur = 10;
+            ctx.fillRect(-size/2, -size/2, size, size);
+            ctx.restore();
+        }
+
         function renderCanvas() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             if (uploadedImage) {
-                // 1. Desfoque
+                const selectedFilterData = filters[currentFilter];
+
+                // 1. Fundo Desfocado (Aplica uma versão mais suave do filtro escolhido)
                 ctx.save();
-                ctx.filter = 'blur(60px) brightness(0.3) saturate(1.5)';
+                // Concatena o blur com o filtro selecionado (com brilho reduzido para o fundo)
+                ctx.filter = `blur(90px) brightness(0.3) ${selectedFilterData.filter}`;
                 ctx.drawImage(uploadedImage, -100, -100, canvas.width + 200, canvas.height + 200);
                 ctx.restore();
 
@@ -292,7 +428,8 @@
                 }
                 
                 ctx.save();
-                ctx.filter = 'contrast(1.15) saturate(1.25)'; // HDR
+                // Aplica o filtro selecionado na foto principal
+                ctx.filter = selectedFilterData.filter;
                 ctx.drawImage(uploadedImage, renderX, renderY, renderW, renderH);
                 ctx.restore();
             }
@@ -300,21 +437,25 @@
             // 3. Vignette
             const vignette = ctx.createRadialGradient(canvas.width/2, canvas.height/2, canvas.width/5, canvas.width/2, canvas.height/2, canvas.width * 0.9);
             vignette.addColorStop(0, "transparent");
-            vignette.addColorStop(1, "rgba(0,10,5,0.85)");
+            vignette.addColorStop(1, "rgba(0, 20, 10, 0.6)");
             ctx.fillStyle = vignette;
             ctx.fillRect(0,0,canvas.width, canvas.height);
 
             // 4. Gradiente Inferior
-            const gradHeight = currentFormat === 'vertical' ? 900 : 550;
+            let gradHeight;
+            if (currentFormat === 'vertical') gradHeight = 900;
+            else if (currentFormat === 'square') gradHeight = 550;
+            else gradHeight = 550;
+
             const gradient = ctx.createLinearGradient(0, canvas.height - gradHeight, 0, canvas.height);
             gradient.addColorStop(0, "transparent");
-            gradient.addColorStop(0.6, "rgba(10, 42, 36, 0.95)");
+            gradient.addColorStop(0.6, "rgba(10, 42, 36, 0.7)");
             gradient.addColorStop(1, "#010a08");
             ctx.fillStyle = gradient;
             ctx.fillRect(0, canvas.height - gradHeight, canvas.width, gradHeight);
 
-            // 5. Moldura Dourada (SÓ VERTICAL)
-            if (currentFormat === 'vertical') {
+            // 5. Moldura Dourada
+            if (currentFormat === 'vertical' || currentFormat === 'square') {
                 const borderW = 45; 
                 const strokeW = 4;
                 const offset = borderW + (strokeW / 2);
@@ -325,15 +466,20 @@
                 ctx.shadowBlur = 0; 
             }
 
-            // 6. LAYOUT - A Magia acontece aqui
-            const marginH = currentFormat === 'vertical' ? 100 : 130;
-            // Aumentei a margem vertical na versão retrato para subir tudo
-            const marginV = currentFormat === 'vertical' ? 160 : 100;
-            
-            // --- LOGO IMAGINISTA (Esquerda) ---
+            // 6. LAYOUT
+            let marginH = 100;
+            let marginV = 120;
+            if (currentFormat === 'square') { marginH = 100; marginV = 110; }
+            if (currentFormat === 'horizontal') { marginH = 130; marginV = 100; }
+            if (currentFormat === 'vertical') { marginH = 100; marginV = 140; }
+
+            // --- LOGO ---
             if(logoImage.complete && logoImage.naturalHeight > 0) {
-                // LOGO MENOR: Ajustei para 200px (Vertical) e 160px (Horizontal)
-                const logoSize = currentFormat === 'vertical' ? 200 : 160; 
+                let logoSize;
+                if (currentFormat === 'vertical') logoSize = 130;
+                else if (currentFormat === 'square') logoSize = 105; 
+                else logoSize = 110;
+
                 const logoAspectRatio = logoImage.width / logoImage.height;
                 const logoY = canvas.height - marginV - logoSize + 20;
                 ctx.save();
@@ -343,35 +489,34 @@
                 ctx.restore();
             }
 
-            // --- TEXTOS (Direita Inferior - Ordem: Data > XV > Nome) ---
+            // --- TEXTOS ---
             ctx.textAlign = 'right';
-            
             let nameSize, subSize, dateSize;
             if(currentFormat === 'vertical') {
-                nameSize = 100; subSize = 55; dateSize = 38;
+                nameSize = 85; subSize = 55; dateSize = 38;
+            } else if (currentFormat === 'square') {
+                nameSize = 72; subSize = 44; dateSize = 30;
             } else {
-                nameSize = 90; subSize = 48; dateSize = 34;
+                nameSize = 75; subSize = 48; dateSize = 34;
             }
 
-            // Posição Base (Data no topo do bloco de texto)
-            // Calculamos de baixo para cima para garantir alinhamento
             let currentY = canvas.height - marginV;
 
-            // 1. Geovana Frigoletto (Fica embaixo)
+            // 1. Geovana
             ctx.font = `bold ${nameSize}px "Dancing Script"`; 
             ctx.fillStyle = '#fdd835'; 
             ctx.shadowColor = "rgba(0,0,0,1)"; ctx.shadowBlur = 30;
             ctx.fillText("Geovana Frigoletto", canvas.width - marginH + 20, currentY);
 
-            // 2. XV ANOS (Meio)
-            currentY -= (nameSize * 0.85); // Espaço
+            // 2. XV ANOS
+            currentY -= (nameSize * 0.85); 
             ctx.font = `bold ${subSize}px "Cinzel"`;
             ctx.fillStyle = '#ffffff';
             ctx.shadowBlur = 20;
             ctx.fillText("XV ANOS", canvas.width - marginH + 20, currentY);
 
-            // 3. Data (Topo do bloco)
-            currentY -= (subSize * 1.3); // Espaço
+            // 3. Data
+            currentY -= (subSize * 1.3);
             ctx.font = `bold ${dateSize}px "Cinzel"`;
             ctx.fillStyle = '#fff59d';
             ctx.shadowBlur = 15;
@@ -380,33 +525,46 @@
             // --- FRASE ---
             ctx.save();
             ctx.textAlign = 'center';
-            const phraseSize = currentFormat === 'vertical' ? 42 : 36;
+            const phraseSize = currentFormat === 'square' ? 30 : (currentFormat === 'vertical' ? 38 : 36);
             ctx.font = `italic 400 ${phraseSize}px "Montserrat"`;
             ctx.fillStyle = 'rgba(255,255,255,0.95)';
             ctx.shadowColor = "rgba(0,0,0,0.9)"; ctx.shadowBlur = 20;
 
             if (currentFormat === 'vertical') {
-                // VERTICAL: Centralizado lá em baixo, flutuando acima da borda
-                // canvas.height - 80 garante que não encoste na borda de 45px
                 ctx.fillText("Uma noite mágica em Nova Orleans", canvas.width / 2, canvas.height - 80);
             } else {
-                // HORIZONTAL: Rodapé
                 ctx.fillText("Uma noite mágica em Nova Orleans", canvas.width / 2, canvas.height - 50);
             }
             ctx.restore();
 
-            // 7. Partículas
-            for (let i = 0; i < 40; i++) {
-                const x = Math.random() * canvas.width;
-                const y = Math.random() * canvas.height * 0.7 + canvas.height * 0.3;
-                const size = Math.random() * 6 + 2;
-                ctx.beginPath();
-                ctx.arc(x, y, size, 0, Math.PI * 2);
-                ctx.fillStyle = i % 2 === 0 ? "rgba(255, 215, 0, 0.7)" : "rgba(0, 255, 136, 0.6)";
-                ctx.shadowColor = i % 2 === 0 ? "#fdd835" : "#00ff88";
-                ctx.shadowBlur = 20;
-                ctx.fill();
-                ctx.shadowBlur = 0;
+            // 7. BRILHOS
+            const sparkleCount = 45;
+            const edgeThickness = canvas.width * 0.15;
+            const topThickness = canvas.height * 0.2;
+            // Se o filtro for P&B ou Sépia, usa brilhos brancos/prata para combinar
+            const isMonochrome = currentFilter === 'pb' || currentFilter === 'sepia';
+
+            for (let i = 0; i < sparkleCount; i++) {
+                let x, y;
+                const section = Math.random();
+                
+                if (section < 0.33) { 
+                    x = Math.random() * edgeThickness;
+                    y = Math.random() * canvas.height;
+                } else if (section < 0.66) { 
+                    x = canvas.width - Math.random() * edgeThickness;
+                    y = Math.random() * canvas.height;
+                } else { 
+                    x = Math.random() * canvas.width;
+                    y = Math.random() * topThickness;
+                }
+
+                const size = Math.random() * 6 + 3; 
+                const color = i % 2 === 0 ? "#fdd835" : "#00ff88";
+                const glow = i % 2 === 0 ? "rgba(253, 216, 53, 0.8)" : "rgba(0, 255, 136, 0.8)";
+                
+                if(isMonochrome) drawSparkle(ctx, x, y, size, '#ffffff', 'rgba(255,255,255,0.8)');
+                else drawSparkle(ctx, x, y, size, color, glow);
             }
 
             finishPreview();
@@ -420,6 +578,7 @@
             document.getElementById('placeholder-text').style.display = 'none';
             document.getElementById('upload-label').style.display = 'none';
             document.getElementById('trash-btn').style.display = 'flex';
+            document.getElementById('filters-list').style.display = 'flex'; // Mostra os filtros
             document.getElementById('actions').style.display = 'flex';
             document.getElementById('loading').style.display = 'none';
         }
@@ -433,7 +592,9 @@
                 document.getElementById('placeholder-text').style.display = 'block';
                 document.getElementById('upload-label').style.display = 'flex';
                 document.getElementById('trash-btn').style.display = 'none';
+                document.getElementById('filters-list').style.display = 'none'; // Esconde filtros
                 document.getElementById('actions').style.display = 'none';
+                currentFilter = 'normal';
             }
         }
 
@@ -446,28 +607,27 @@
 
         function downloadImage() {
             const link = document.createElement('a');
-            link.download = 'Geovana-XV-Imersao-Magica.jpg';
+            link.download = 'Geovana-XV-Imersao-Magica-HD.jpg';
             link.href = canvas.toDataURL('image/jpeg', 0.95);
             link.click();
-        }
-
-        function shareWhatsapp() {
-            downloadImage(); 
-            setTimeout(() => {
-                const text = encodeURIComponent("✨ Olha a foto mágica que fiz na Imersão do XV da Geovana! 🐸 #XVGeovana #NovaOrleans");
-                window.open(`https://wa.me/${PHONE_TEST}?text=${text}`, '_blank');
-            }, 1000);
+            showToast("Imagem salva na galeria!");
         }
 
         async function shareNative() {
             const dataUrl = canvas.toDataURL('image/jpeg', 0.95);
             const blob = dataURLtoBlob(dataUrl);
             const file = new File([blob], "Geovana-XV.jpg", { type: "image/jpeg" });
-            if (navigator.share) {
-                try { await navigator.share({ title: 'XV Geovana', text: 'Minha foto mágica! ✨', files: [file] }); } 
-                catch (err) { console.log('Cancelado'); }
+
+            if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+                try { 
+                    await navigator.share({ 
+                        title: 'XV Geovana', 
+                        text: 'Minha foto mágica na Imersão Tecnológica! ✨🐸', 
+                        files: [file] 
+                    }); 
+                } catch (err) { console.log('Compartilhamento cancelado'); }
             } else {
-                alert("Clique em 'Baixar' para salvar! ✨");
+                showToast("Compartilhamento indisponível. Baixando imagem...");
                 downloadImage();
             }
         }
