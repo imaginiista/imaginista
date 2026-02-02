@@ -32,7 +32,7 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Playfair Display', serif;
+            font-family: 'Montserrat', sans-serif;
             background-color: var(--swamp-dark);
             background-image: 
                 radial-gradient(circle at 50% 0%, #1a2a3a 0%, transparent 60%),
@@ -43,49 +43,52 @@
             flex-direction: column;
             align-items: center;
             overflow-x: hidden;
-            padding-bottom: 100px;
+            padding-bottom: 50px;
         }
 
-        /* --- Player de Música Estilizado --- */
-        .music-player {
+        /* --- Novo Player Minimalista --- */
+        .music-ctrl {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: rgba(10, 16, 20, 0.8);
-            border: 1px solid var(--gold);
-            padding: 10px 15px;
-            border-radius: 50px;
+            bottom: 30px;
+            right: 30px;
+            z-index: 9999;
             display: flex;
             align-items: center;
-            gap: 15px;
-            z-index: 999;
-            backdrop-filter: blur(5px);
-            box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
+            gap: 10px;
+            background: rgba(0,0,0,0.6);
+            padding: 8px;
+            border-radius: 40px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            backdrop-filter: blur(10px);
+            transition: all 0.5s ease;
         }
 
-        .player-btn {
-            background: none;
-            border: none;
+        .play-toggle {
+            width: 45px; height: 45px;
+            border-radius: 50%;
+            border: 2px solid var(--gold);
+            background: transparent;
             color: var(--gold);
             cursor: pointer;
-            font-family: 'Cinzel', serif;
-            font-weight: bold;
-            font-size: 1.2rem;
-            transition: 0.3s;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 1.2rem;
+            transition: 0.3s;
+        }
+        
+        .vol-slider {
+            width: 0;
+            overflow: hidden;
+            transition: 0.5s ease;
+            opacity: 0;
+            accent-color: var(--gold);
         }
 
-        .player-btn:hover { transform: scale(1.1); text-shadow: 0 0 10px var(--gold); }
-
-        .volume-controls { display: flex; align-items: center; gap: 80px; position: relative; }
-        
-        /* Estilo do input de volume */
-        #volume-slider {
+        .music-ctrl:hover .vol-slider {
             width: 80px;
-            accent-color: var(--gold);
-            cursor: pointer;
+            opacity: 1;
+            margin-right: 10px;
         }
 
         /* --- Intro Overlay --- */
@@ -93,48 +96,66 @@
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background: var(--swamp-dark);
-            z-index: 10000;
+            z-index: 10001;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            transition: opacity 1s ease;
+            transition: opacity 1.5s ease;
         }
         .intro-btn {
-            padding: 15px 40px;
+            padding: 18px 45px;
             background: transparent;
-            border: 2px solid var(--gold);
+            border: 1px solid var(--gold);
             color: var(--gold);
             font-family: 'Cinzel', serif;
             cursor: pointer;
-            letter-spacing: 2px;
-            transition: 0.3s;
+            letter-spacing: 4px;
+            transition: 0.5s;
+            z-index: 2;
         }
-        .intro-btn:hover { background: var(--gold); color: #000; }
+        .intro-btn:hover { background: var(--gold); color: #000; box-shadow: 0 0 30px rgba(255, 215, 0, 0.4); }
 
-        /* --- Estilos Originais Mantidos --- */
-        .fireflies { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; }
-        .firefly { position: absolute; width: 4px; height: 4px; background: var(--gold); border-radius: 50%; box-shadow: 0 0 10px var(--gold), 0 0 20px var(--accent-green); animation: fly 15s infinite linear; opacity: 0; }
-        @keyframes fly { 0% { transform: translate(0, 0) scale(1); opacity: 0; } 20% { opacity: 1; } 80% { opacity: 1; } 100% { transform: translate(-100px, -150px) scale(0.5); opacity: 0; } }
+        /* --- Vagalumes --- */
+        .fireflies { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
+        .firefly {
+            position: absolute; width: 3px; height: 3px; background: var(--gold); border-radius: 50%;
+            box-shadow: 0 0 10px var(--gold), 0 0 15px var(--accent-green);
+            animation: fly 12s infinite linear; opacity: 0;
+        }
+        @keyframes fly {
+            0% { transform: translate(0, 0) scale(1); opacity: 0; }
+            20% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { transform: translate(100px, -200px) scale(0.5); opacity: 0; }
+        }
 
-        .container { width: 100%; max-width: 1100px; padding: 20px; animation: fadeIn 1.5s ease-out; z-index: 1; }
-        header { text-align: center; margin: 40px 0 50px 0; display: flex; flex-direction: column; align-items: center; }
-        .main-logo { width: 280px; filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.3)); margin-bottom: 30px; }
-        h1 { font-family: 'Cinzel', serif; font-size: 3rem; color: var(--gold); text-transform: uppercase; letter-spacing: 5px; text-shadow: 0 5px 20px rgba(0,0,0,1); position: relative; display: inline-block; }
-        h1::after { content: ''; display: block; width: 60%; height: 2px; background: linear-gradient(90deg, transparent, var(--gold), transparent); margin: 15px auto 0 auto; }
+        /* --- Layout --- */
+        .container { width: 100%; max-width: 1100px; padding: 20px; z-index: 2; }
+        header { text-align: center; margin: 40px 0; }
+        .main-logo { width: 280px; filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.3)); margin-bottom: 20px; }
+        h1 { font-family: 'Cinzel', serif; font-size: 2.8rem; color: var(--gold); letter-spacing: 5px; text-shadow: 0 5px 20px #000; }
 
-        .square-feature-frame { width: 100%; max-width: 500px; aspect-ratio: 1 / 1; margin: 0 auto 60px auto; border-radius: 12px; border: 2px solid rgba(255, 215, 0, 0.5); overflow: hidden; box-shadow: 0 15px 40px rgba(0,0,0,0.6); }
-        .square-feature-frame img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 3s ease; }
-        .square-feature-frame:hover img { transform: scale(1.05); }
+        .square-feature-frame {
+            width: 100%; max-width: 500px; aspect-ratio: 1/1; margin: 0 auto 50px auto;
+            border-radius: 12px; border: 2px solid rgba(255, 215, 0, 0.5);
+            overflow: hidden; box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+        }
+        .square-feature-frame img { width: 100%; height: 100%; object-fit: cover; }
 
-        .message-content { max-width: 800px; margin: 0 auto 80px auto; text-align: justify; font-size: 1.2rem; line-height: 1.8; color: #dcdcdc; padding: 0 20px; }
-        .message-content p { text-shadow: 0 0 8px rgba(255, 215, 0, 0.15); }
+        /* --- Ajuste de Texto Mobile --- */
+        .message-content {
+            max-width: 800px; margin: 0 auto 60px auto;
+            text-align: justify; font-size: 1.2rem; line-height: 1.8;
+            color: #dcdcdc; padding: 0 25px;
+        }
 
-        .interactive-showcase { display: flex; flex-wrap: wrap; justify-content: center; gap: 60px; margin-bottom: 100px; }
-        .section-label { text-align: center; font-family: 'Cinzel', serif; color: var(--gold); margin-bottom: 20px; font-size: 1.2rem; letter-spacing: 3px; opacity: 0.8; }
+        /* --- Showcase 3D (Cubo/Flip) --- */
+        .interactive-showcase { display: flex; flex-wrap: wrap; justify-content: center; gap: 60px; margin-bottom: 80px; }
+        .section-label { text-align: center; font-family: 'Cinzel', serif; color: var(--gold); margin-bottom: 20px; letter-spacing: 3px; }
 
         .scene-cube { width: 320px; height: 320px; perspective: 1200px; cursor: pointer; }
-        .cube { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transform: translateZ(-160px); transition: transform 1s cubic-bezier(0.2, 0.8, 0.2, 1); }
+        .cube { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transform: translateZ(-160px); transition: 1s cubic-bezier(0.2, 0.8, 0.2, 1); }
         .cube-face { position: absolute; width: 320px; height: 320px; background: #000; border: 2px solid var(--gold); border-radius: 10px; overflow: hidden; }
         .cube-face img { width: 100%; height: 100%; object-fit: cover; }
         .face-front { transform: rotateY(0deg) translateZ(160px); }
@@ -143,59 +164,71 @@
         .face-left  { transform: rotateY(-90deg) translateZ(160px); }
 
         .scene-flip { width: 320px; height: 320px; perspective: 1000px; cursor: pointer; }
-        .card-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.8s; transform-style: preserve-3d; }
+        .card-inner { position: relative; width: 100%; height: 100%; transition: 0.8s; transform-style: preserve-3d; }
         .scene-flip:hover .card-inner { transform: rotateY(180deg); }
-        .card-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 15px; overflow: hidden; border: 1px solid rgba(255,255,255,0.2); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .card-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 15px; border: 1px solid rgba(255,255,255,0.2); }
         .card-face img { width: 100%; height: 100%; object-fit: cover; }
         .card-back { transform: rotateY(180deg); }
-        .click-hint { text-align: center; font-size: 0.8rem; color: rgba(255,255,255,0.5); margin-top: 15px; font-family: 'Montserrat', sans-serif; }
 
-        .secondary-photo-frame { width: 320px; height: 320px; margin: 0 auto 80px auto; border-radius: 50%; border: 3px solid var(--gold); overflow: hidden; box-shadow: 0 0 40px rgba(212, 175, 55, 0.2); animation: float 6s ease-in-out infinite; }
+        .secondary-photo-frame {
+            width: 320px; height: 320px; margin: 0 auto 60px auto;
+            border-radius: 50%; border: 3px solid var(--gold); overflow: hidden;
+            animation: float 6s ease-in-out infinite;
+        }
         .secondary-photo-frame img { width: 100%; height: 100%; object-fit: cover; }
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
 
-        footer { width: 100%; text-align: center; border-top: 1px solid rgba(212, 175, 55, 0.2); padding: 60px 20px; margin-top: 40px; }
-        .footer-logo { width: 140px; margin-bottom: 10px; opacity: 0.9; }
-        .rights { font-family: 'Montserrat', sans-serif; font-size: 0.8rem; color: rgba(255, 255, 255, 0.5); margin-bottom: 20px; letter-spacing: 1px; }
-        .slogan { font-family: 'Great Vibes', cursive; font-size: 2.2rem; background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c); -webkit-background-clip: text; background-clip: text; color: transparent; margin-top: 10px; animation: shine 5s linear infinite; background-size: 200% auto; }
+        /* --- Footer Ajustado --- */
+        footer {
+            width: 100%; text-align: center; border-top: 1px solid rgba(212, 175, 55, 0.2);
+            padding: 50px 20px; margin-top: 40px;
+        }
+        .footer-logo { width: 120px; margin-bottom: 20px; opacity: 0.8; }
+        .slogan {
+            font-family: 'Great Vibes', cursive; font-size: 2.2rem;
+            background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+            -webkit-background-clip: text; background-clip: text; color: transparent;
+            margin-bottom: 10px; animation: shine 5s linear infinite; background-size: 200% auto;
+        }
+        .rights {
+            font-family: 'Montserrat', sans-serif; font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.4); letter-spacing: 1px; line-height: 1.5;
+        }
         @keyframes shine { to { background-position: 200% center; } }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; } }
 
+        /* --- Responsividade Fina --- */
         @media (max-width: 768px) {
-            h1 { font-size: 2rem; }
-            .slogan { font-size: 1.8rem; }
+            h1 { font-size: 1.8rem; letter-spacing: 3px; }
+            .message-content { text-align: left; font-size: 1.1rem; padding: 0 20px; }
             .scene-cube, .scene-flip, .cube-face { width: 280px; height: 280px; }
             .cube { transform: translateZ(-140px); }
             .face-front { transform: rotateY(0deg) translateZ(140px); }
             .face-right { transform: rotateY(90deg) translateZ(140px); }
             .face-back  { transform: rotateY(180deg) translateZ(140px); }
             .face-left  { transform: rotateY(-90deg) translateZ(140px); }
-            .music-player { bottom: 10px; right: 10px; padding: 5px 10px; }
-            #volume-slider { width: 50px; }
+            .slogan { font-size: 1.8rem; }
+            .music-ctrl { bottom: 20px; right: 20px; }
         }
     </style>
 </head>
 <body>
 
     <div id="intro-overlay">
+        <div class="fireflies" id="intro-fireflies"></div>
+        <img src="logo.png" alt="Logo" style="width: 150px; margin-bottom: 40px; opacity: 0.6;">
         <button class="intro-btn" onclick="startExperience()">ABRIR MENSAGEM</button>
     </div>
 
-    <div class="music-player">
-        <button class="player-btn" onclick="togglePlay()" id="playPauseBtn">❚❚</button>
-        <div class="volume-controls">
-            <span style="color:var(--gold); font-size: 12px;">VOL</span>
-            <input type="range" id="volume-slider" min="0" max="1" step="0.1" value="0.5" oninput="changeVolume(this.value)">
-        </div>
+    <div class="music-ctrl">
+        <button class="play-toggle" onclick="togglePlay()" id="playBtn">❚❚</button>
+        <input type="range" class="vol-slider" min="0" max="1" step="0.1" value="0.5" oninput="changeVolume(this.value)">
     </div>
 
     <audio id="musica" loop>
         <source src="play.mp3" type="audio/mpeg">
     </audio>
 
-    <div class="fireflies">
-        <div class="firefly"></div><div class="firefly"></div><div class="firefly"></div><div class="firefly"></div><div class="firefly"></div>
-    </div>
+    <div class="fireflies" id="main-fireflies"></div>
 
     <div class="container">
         <header>
@@ -204,7 +237,7 @@
         </header>
 
         <div class="square-feature-frame">
-            <img src="foto1.jpg" alt="Momentos Especiais">
+            <img src="foto1.jpg" alt="Momentos">
         </div>
 
         <section class="message-content">
@@ -212,9 +245,9 @@
             <br>
             <p>Fiquei profundamente emocionado com a homenagem no seu cerimonial. Celebrar esses 11 anos de trajetória ao seu lado, como seu tio, foi uma honra indescritível para mim e fazer parte da sua história é um presente que guardarei para sempre.</p>
             <br>
-            <p>Quero te agradecer imensamente pela caneca do Imaginista e, principalmente, pelo carinho que senti em cada detalhe daquela cartinha. Saiba que tudo o que foi produzido e criado pelo Imaginista para o seu dia foi feito de todo o coração mesmo. A minha maior recompensa é torcer para que você tenha gostado e aproveitado intensamente cada segundo, cada minuto e cada momento dessa celebração.</p>
+            <p>Quero te agradecer imensamente pela caneca do Imaginista e, principalmente, pelo carinho que senti em cada detalhe daquela cartinha. Saiba que tudo o que foi produzido pelo Imaginista para o seu dia foi feito de todo o coração. A minha maior recompensa é torcer para que você tenha aproveitado intensamente cada segundo dessa celebração.</p>
             <br>
-            <p style="text-align: right; margin-top: 20px;">Com carinho,<br><strong style="color: var(--gold); font-size: 1.4rem;">Tio Robson</strong></p>
+            <p style="text-align: right;"><strong style="color: var(--gold); font-size: 1.3rem;">Tio Robson</strong></p>
         </section>
 
         <div class="interactive-showcase">
@@ -222,69 +255,74 @@
                 <div class="section-label">✧ A Carta ✧</div>
                 <div class="scene-cube" onclick="rotateCube()">
                     <div class="cube" id="letterCube">
-                        <div class="cube-face face-front"><img src="carta1.png" alt="Capa"></div>
-                        <div class="cube-face face-right"><img src="msg1.png" alt="Msg 1"></div>
-                        <div class="cube-face face-back"><img src="msg2.png" alt="Msg 2"></div>
-                        <div class="cube-face face-left"><img src="carta.png" alt="Capa"></div>
+                        <div class="cube-face face-front"><img src="carta1.png" alt="1"></div>
+                        <div class="cube-face face-right"><img src="msg1.png" alt="2"></div>
+                        <div class="cube-face face-back"><img src="msg2.png" alt="3"></div>
+                        <div class="cube-face face-left"><img src="carta.png" alt="4"></div>
                     </div>
                 </div>
-                <div class="click-hint">Toque para ler a carta</div>
             </div>
             <div>
                 <div class="section-label">✧ O Presente ✧</div>
                 <div class="scene-flip">
                     <div class="card-inner">
-                        <div class="card-face card-front"><img src="gift1.jpg" alt="Frente"></div>
+                        <div class="card-face card-front"><img src="gift1.jpg" alt="Presente"></div>
                         <div class="card-face card-back"><img src="gift2.jpg" alt="Verso"></div>
                     </div>
                 </div>
-                <div class="click-hint">Passe ou toque para girar</div>
             </div>
         </div>
 
         <div class="secondary-photo-frame">
-            <img src="foto2.jpg" alt="Nós">
+            <img src="foto2.jpg" alt="Recordação">
         </div>
 
         <footer>
             <img src="logo.png" alt="Logo Imaginista" class="footer-logo">
-			<div class="slogan">Onde a imaginação vira arte</div>
+            <div class="slogan">Onde a imaginação vira arte</div>
             <div class="rights">©️ 2025 IMAGINISTA ∴ Todos os direitos reservados</div>
-            
         </footer>
     </div>
 
     <script>
         const audio = document.getElementById('musica');
-        const btn = document.getElementById('playPauseBtn');
+        const playBtn = document.getElementById('playBtn');
 
         function startExperience() {
             audio.play();
             document.getElementById('intro-overlay').style.opacity = '0';
-            setTimeout(() => { document.getElementById('intro-overlay').style.display = 'none'; }, 1000);
+            setTimeout(() => { document.getElementById('intro-overlay').style.display = 'none'; }, 1500);
         }
 
         function togglePlay() {
-            if (audio.paused) {
-                audio.play();
-                btn.innerHTML = "❚❚"; // Ícone de Pause
-            } else {
-                audio.pause();
-                btn.innerHTML = "▶"; // Ícone de Play
-            }
+            if (audio.paused) { audio.play(); playBtn.innerHTML = "❚❚"; }
+            else { audio.pause(); playBtn.innerHTML = "▶"; }
         }
 
-        function changeVolume(val) {
-            audio.volume = val;
-        }
+        function changeVolume(val) { audio.volume = val; }
 
         let currentRotation = 0;
         function rotateCube() {
             const cube = document.getElementById('letterCube');
-            const translateZ = window.innerWidth <= 768 ? -140 : -160;
+            const tz = window.innerWidth <= 768 ? -140 : -160;
             currentRotation -= 90;
-            cube.style.transform = `translateZ(${translateZ}px) rotateY(${currentRotation}deg)`;
+            cube.style.transform = `translateZ(${tz}px) rotateY(${currentRotation}deg)`;
         }
+
+        // Criar vagalumes dinamicamente
+        function createFireflies(containerId, count) {
+            const container = document.getElementById(containerId);
+            for (let i = 0; i < count; i++) {
+                const f = document.createElement('div');
+                f.className = 'firefly';
+                f.style.left = Math.random() * 100 + '%';
+                f.style.top = Math.random() * 100 + '%';
+                f.style.animationDelay = Math.random() * 10 + 's';
+                container.appendChild(f);
+            }
+        }
+        createFireflies('intro-fireflies', 15);
+        createFireflies('main-fireflies', 20);
     </script>
 </body>
 </html>
