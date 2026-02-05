@@ -8,22 +8,23 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fslightbox/3.4.1/index.min.js"></script>
-    <script src="https://sdk.mercadopago.com/js/v2"></script>
     
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;900&display=swap');
         
         body { font-family: 'Inter', sans-serif; background-color: #f4f4f5; scroll-behavior: smooth; }
         
-        /* Cores */
+        /* Identidade Visual */
         .sadak-blue { color: #009EE3; }
         .bg-sadak-blue { background-color: #009EE3; }
-        .btn-mp { background-color: #009EE3; transition: all 0.3s; }
-        .btn-mp:hover { background-color: #007eb5; transform: translateY(-2px); }
         
-        /* Banner Dark */
+        /* Botão Mercado Pago Premium */
+        .btn-mp { background: linear-gradient(45deg, #009EE3, #0082b9); transition: all 0.3s ease; }
+        .btn-mp:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0, 158, 227, 0.3); }
+        
+        /* Hero Banner Dark Mode */
         .hero-banner {
-            background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1600&q=80');
+            background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.9)), url('https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1600&q=80');
             background-size: cover; background-position: center;
         }
         
@@ -35,20 +36,17 @@
         .size-radio:checked + label { background-color: black; color: white; border-color: black; }
         input:focus { outline: none; border-color: #009EE3; ring: 2px rgba(0,158,227,0.2); }
         
+        /* Carrinho Lateral */
         #cart-sidebar { transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
         .cart-open { transform: translateX(0); }
         .cart-closed { transform: translateX(100%); }
         .cat-btn.active { background-color: black; color: white; border-color: black; }
         
         .sold-out { opacity: 0.6; pointer-events: none; filter: grayscale(100%); }
-        .sold-out-badge { position: absolute; top: 10px; left: 10px; background: #dc2626; color: white; padding: 5px 10px; font-size: 10px; font-weight: bold; z-index: 10; }
+        .sold-out-badge { position: absolute; top: 10px; left: 10px; background: #dc2626; color: white; padding: 5px 10px; font-size: 10px; font-weight: bold; z-index: 10; letter-spacing: 1px; }
 
         .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 100; align-items: center; justify-content: center; }
         .modal-content { background: white; width: 90%; max-width: 600px; max-height: 80vh; overflow-y: auto; padding: 30px; border-radius: 4px; }
-        
-        /* Loading Spinner */
-        .spinner { border: 3px solid rgba(255,255,255,0.3); border-radius: 50%; border-top: 3px solid white; width: 20px; height: 20px; animation: spin 1s linear infinite; display: none; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body class="text-gray-900 overflow-x-hidden">
@@ -59,7 +57,7 @@
             
             <div class="hidden md:flex flex-grow max-w-md mx-12">
                 <div class="relative w-full">
-                    <input type="text" id="search-input" onkeyup="filterProducts()" placeholder="Buscar..." class="w-full bg-zinc-900 border border-zinc-700 rounded-full py-2 px-10 text-sm focus:border-zinc-500 outline-none text-gray-300">
+                    <input type="text" id="search-input" onkeyup="filterProducts()" placeholder="Buscar coleção..." class="w-full bg-zinc-900 border border-zinc-700 rounded-full py-2 px-10 text-sm focus:border-zinc-500 outline-none text-gray-300 transition">
                     <i class="fas fa-search absolute left-4 top-2.5 text-zinc-500"></i>
                 </div>
             </div>
@@ -138,17 +136,22 @@
                 <span id="cart-total" class="text-2xl font-black text-black tracking-tighter">R$ 0,00</span>
             </div>
             
-            <button onclick="finishOrderWhatsApp()" class="w-full bg-green-600 text-white py-4 rounded font-black hover:bg-green-700 shadow-lg transition flex items-center justify-center gap-3 uppercase text-xs tracking-widest mb-3">
-                <i class="fab fa-whatsapp text-lg"></i> Finalizar no WhatsApp
-            </button>
+            <div class="space-y-3">
+                <button onclick="finishOrder()" class="w-full bg-green-600 text-white py-4 rounded font-black hover:bg-green-700 shadow-lg transition flex items-center justify-center gap-3 uppercase text-xs tracking-widest transform active:scale-[0.99]">
+                    <i class="fab fa-whatsapp text-lg"></i> Enviar Pedido + Link
+                </button>
+                
+                <div class="flex gap-2">
+                    <button onclick="openPaymentLink()" class="flex-1 btn-mp text-white py-3 rounded font-black shadow-md flex items-center justify-center gap-2 uppercase text-xs tracking-widest transform active:scale-[0.99]">
+                        <i class="fas fa-bolt"></i> Pagar Agora
+                    </button>
+                    <button onclick="copyLink()" class="w-12 bg-gray-100 text-gray-600 rounded flex items-center justify-center hover:bg-gray-200 transition" title="Copiar Link de Pagamento">
+                        <i class="far fa-copy"></i>
+                    </button>
+                </div>
+            </div>
             
-            <button id="btn-mp-real" onclick="payWithMercadoPago()" class="w-full btn-mp text-white py-4 rounded font-black shadow-md flex items-center justify-center gap-3 uppercase text-xs tracking-widest">
-                <span class="spinner" id="mp-spinner"></span>
-                <span id="mp-text" class="flex items-center gap-2">
-                    <img src="https://img.icons8.com/color/48/mercado-pago.png" class="w-5 h-5 bg-white rounded-full p-0.5"> 
-                    Pagar com Mercado Pago
-                </span>
-            </button>
+            <p class="text-[9px] text-center text-gray-400 mt-3">Link seguro Mercado Pago integrado ao pedido.</p>
         </div>
     </div>
 
@@ -168,60 +171,18 @@
     </div>
 
     <script>
-        // CONFIGURAÇÃO
-        const mpPublicKey = 'TEST-3daebd00-74f2-4cd1-a114-91a4b6b3591c'; 
+        // =======================================================
+        // ⚠️ SEU LINK TESTE CONFIGURADO AQUI
+        // =======================================================
+        const mpPaymentLink = 'https://link.mercadopago.com.br/imaginista'; 
+        // =======================================================
+
         let allProducts = [], cart = [], shippingValue = 0, currentCategory = 'all';
 
         // INIT
-        window.onload = async () => { 
-            await fetchProducts(); 
-            if(window.MercadoPago) { const mp = new MercadoPago(mpPublicKey, { locale: 'pt-BR' }); }
-        };
+        window.onload = async () => { await fetchProducts(); };
 
-        // --- FUNÇÃO PAGAMENTO REAL (PHP BACKEND) ---
-        async function payWithMercadoPago() {
-            if(cart.length === 0) return alert("Carrinho vazio!");
-            if(!validateOrder()) return;
-
-            const btnText = document.getElementById('mp-text');
-            const spinner = document.getElementById('mp-spinner');
-            const btn = document.getElementById('btn-mp-real');
-
-            btnText.style.display = 'none';
-            spinner.style.display = 'block';
-            btn.disabled = true;
-
-            try {
-                // Chama o arquivo PHP na raiz
-                const response = await fetch('checkout.php', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ items: cart }) 
-                });
-
-                const data = await response.json();
-
-                if (data.url) {
-                    window.location.href = data.url; // Redireciona para o pagamento
-                } else {
-                    console.error(data);
-                    alert("Erro ao criar pagamento: " + (data.error || "Desconhecido"));
-                    resetBtn();
-                }
-            } catch (error) {
-                console.error(error);
-                alert("Erro de conexão. Verifique se o arquivo checkout.php está na mesma pasta do index.html.");
-                resetBtn();
-            }
-        }
-
-        function resetBtn() {
-            document.getElementById('mp-text').style.display = 'flex';
-            document.getElementById('mp-spinner').style.display = 'none';
-            document.getElementById('btn-mp-real').disabled = false;
-        }
-
-        // UTILS & MÁSCARAS
+        // UTILS
         function maskPhone(i){let v=i.value.replace(/\D/g,'');v=v.replace(/^(\d\d)(\d)/g,"($1) $2");v=v.replace(/(\d{5})(\d)/,"$1-$2");i.value=v;}
         function maskCEP(i){let v=i.value.replace(/\D/g,'');v=v.replace(/^(\d{5})(\d)/,"$1-$2");i.value=v;}
 
@@ -325,7 +286,8 @@
             return true;
         }
 
-        function finishOrderWhatsApp() {
+        // --- CHECKOUT WHATSAPP + LINK ---
+        function finishOrder() {
             if(!validateOrder()) return;
             const name = document.getElementById('cust-name').value;
             const phone = document.getElementById('cust-phone').value;
@@ -334,13 +296,38 @@
             const comp = document.getElementById('cust-comp').value;
             const cep = document.getElementById('cep-input').value;
 
-            let msg = `*PEDIDO SADAK*\nCLIENTE: ${name}\nTEL: ${phone}\n\nENTREGA:\n${address}, N ${num} (${comp || ''})\nCEP: ${cep}\n\nITENS:\n`;
+            // MENSAGEM COM O LINK INCLUÍDO
+            let msg = `*NOVO PEDIDO SADAK* 🛒\n\n`;
+            msg += `👤 *Cliente:* ${name}\n📱 *Tel:* ${phone}\n\n`;
+            msg += `📍 *Entrega:* ${address}, N ${num} (${comp || ''})\n📮 *CEP:* ${cep}\n\n`;
+            msg += `📦 *ITENS:*\n`;
+            
             cart.forEach(i => msg += `- ${i.name} (${i.size}) R$ ${i.price.toFixed(2)}\n`);
+            
             const total = (cart.reduce((a,b)=>a+b.price,0)+shippingValue).toFixed(2);
-            msg += `\nFRETE: R$ ${shippingValue.toFixed(2)}\n*TOTAL: R$ ${total}*\n\nAguardo PIX.`;
+            msg += `\n🚚 *Frete:* R$ ${shippingValue.toFixed(2)}`;
+            msg += `\n💎 *TOTAL:* R$ ${total}\n\n`;
+            
+            // Aqui entra o pulo do gato: Link no WhatsApp
+            msg += `🔗 *Pagamento via Link:* ${mpPaymentLink}\n`;
+            msg += `_Envie esta mensagem para confirmar._`;
 
             window.open(`https://wa.me/5521983340089?text=${encodeURIComponent(msg)}`, '_blank');
-            setTimeout(() => { cart=[]; updateCartUI(); toggleCart(false); document.getElementById('cust-name').value = ""; document.getElementById('cust-phone').value = ""; }, 1500);
+            resetCart();
+        }
+
+        function openPaymentLink() {
+            if(!validateOrder()) return;
+            window.open(mpPaymentLink, '_blank');
+        }
+
+        function copyLink() {
+            navigator.clipboard.writeText(mpPaymentLink);
+            alert("Link de pagamento copiado!");
+        }
+
+        function resetCart() {
+            setTimeout(() => { cart=[]; updateCartUI(); toggleCart(false); document.getElementById('cust-name').value = ""; document.getElementById('cust-phone').value = ""; }, 1000);
         }
 
         // MODAIS
