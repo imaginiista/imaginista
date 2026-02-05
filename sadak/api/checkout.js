@@ -1,47 +1,37 @@
-// Arquivo: api/checkout.js
-// Esse código roda no servidor seguro da Vercel, longe dos olhos do usuário.
-
 import { MercadoPagoConfig, Preference } from 'mercadopago';
 
-// ⚠️ AQUI VAI O SEU ACCESS TOKEN (A CHAVE SECRETA)
-// O ideal é usar variáveis de ambiente, mas para teste pode colar aqui entre aspas.
-const client = new MercadoPagoConfig({ accessToken: 'SEU_ACCESS_TOKEN_AQUI' });
+// ⚠️ COLE SEU ACCESS TOKEN AQUI (Aquele que começa com TEST-42...)
+const client = new MercadoPagoConfig({ accessToken: 'TEST-3daebd00-74f2-4cd1-a114-91a4b6b3591c' });
 
 export default async function handler(req, res) {
-  if (req.method === 'OPTIONS') {
-    res.status(200).end();
-    return;
-  }
-
   if (req.method !== 'POST') {
-    res.status(405).json({ error: 'Method not allowed' });
-    return;
+    return res.status(405).json({ error: 'Method not allowed' });
   }
 
   try {
-    const { items } = req.body; // Recebe o carrinho do site
+    const { items } = req.body;
 
-    // Cria a estrutura que o Mercado Pago exige
+    // Cria a preferência de pagamento
     const preference = new Preference(client);
     
     const body = {
       items: items.map(item => ({
         title: item.name,
         unit_price: Number(item.price),
-        quantity: 1, // Ou a quantidade real se tiver
+        quantity: 1,
         currency_id: 'BRL',
       })),
       back_urls: {
-        success: 'https://seusite.com/sucesso', // Onde o cliente volta após pagar
-        failure: 'https://seusite.com/erro',
-        pending: 'https://seusite.com/pendente',
+        success: 'https://oimaginista.com/sadak/', // Para onde volta se der certo
+        failure: 'https://oimaginista.com/sadak/',
+        pending: 'https://oimaginista.com/sadak/',
       },
       auto_return: 'approved',
     };
 
     const result = await preference.create({ body });
 
-    // Devolve o Link de Pagamento para o site
+    // Retorna o Link de Pagamento (init_point)
     res.status(200).json({ url: result.init_point });
 
   } catch (error) {

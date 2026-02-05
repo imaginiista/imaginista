@@ -11,315 +11,191 @@
     <script src="https://sdk.mercadopago.com/js/v2"></script>
     
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
-        
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;900&display=swap');
         body { font-family: 'Inter', sans-serif; background-color: #f4f4f5; scroll-behavior: smooth; }
-        
-        /* Cores da Marca */
-        .mp-blue { background-color: #009EE3; }
-        .mp-blue:hover { background-color: #0081b9; }
         .sadak-blue { color: #009EE3; }
+        .bg-sadak-blue { background-color: #009EE3; }
+        .btn-mp { background-color: #009EE3; transition: all 0.3s; }
+        .btn-mp:hover { background-color: #007eb5; }
+        .btn-mp:disabled { background-color: #ccc; cursor: not-allowed; }
         
-        /* Hero Banner (Estilo Editorial) */
         .hero-banner {
-            background-image: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=2070&auto=format&fit=crop');
-            background-size: cover; 
-            background-position: center 30%; /* Ajuste de foco */
-            background-attachment: fixed;
+            background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1600&q=80');
+            background-size: cover; background-position: center;
         }
         
-        /* Cards */
-        .product-card { transition: transform 0.3s ease, box-shadow 0.3s ease; }
-        .product-card:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); }
-        
-        .img-container { height: 420px; overflow: hidden; position: relative; background: #e5e7eb; }
-        .img-container img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1); }
-        .product-card:hover .img-container img { transform: scale(1.05); }
-        
-        /* Elementos UI */
+        .img-container { height: 380px; overflow: hidden; position: relative; cursor: zoom-in; }
+        .img-container img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s; }
+        .img-container:hover img { transform: scale(1.05); }
         .size-radio:checked + label { background-color: black; color: white; border-color: black; }
+        input:focus { outline: none; border-color: #009EE3; ring: 2px rgba(0,158,227,0.2); }
+        #cart-sidebar { transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
         .cart-open { transform: translateX(0); }
         .cart-closed { transform: translateX(100%); }
-        #cart-sidebar { transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
-        
-        /* Categorias */
         .cat-btn.active { background-color: black; color: white; border-color: black; }
-        
-        /* Loading MP */
-        .spinner { border: 3px solid rgba(255,255,255,0.3); border-radius: 50%; border-top: 3px solid white; width: 20px; height: 20px; animation: spin 1s linear infinite; display: none; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
-        /* Modais */
-        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 100; backdrop-filter: blur(4px); justify-content: center; align-items: center; }
-        .modal-content { background: white; width: 90%; max-width: 600px; max-height: 80vh; overflow-y: auto; padding: 40px; border-radius: 4px; position: relative; }
+        .sold-out { opacity: 0.6; pointer-events: none; filter: grayscale(100%); }
+        .sold-out-badge { position: absolute; top: 10px; left: 10px; background: #dc2626; color: white; padding: 5px 10px; font-size: 10px; font-weight: bold; z-index: 10; }
+        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 100; align-items: center; justify-content: center; }
+        .modal-content { background: white; width: 90%; max-width: 600px; max-height: 80vh; overflow-y: auto; padding: 30px; border-radius: 4px; }
     </style>
 </head>
-<body class="text-gray-900 overflow-x-hidden antialiased">
+<body class="text-gray-900 overflow-x-hidden">
 
-    <header class="bg-black text-white p-5 sticky top-0 z-50 shadow-2xl">
+    <header class="bg-black text-white p-5 sticky top-0 z-50 shadow-xl border-b border-zinc-800">
         <div class="container mx-auto flex justify-between items-center">
             <h1 class="text-2xl font-black tracking-tighter italic">SADAK <span class="sadak-blue">SHOPS</span></h1>
-            
             <div class="hidden md:flex flex-grow max-w-md mx-12">
-                <div class="relative w-full">
-                    <input type="text" id="search-input" onkeyup="filterProducts()" placeholder="Buscar coleção..." class="w-full bg-zinc-900 border border-zinc-800 rounded-full py-2 px-10 text-sm focus:border-zinc-500 focus:outline-none transition-colors text-gray-300">
-                    <i class="fas fa-search absolute left-4 top-2.5 text-zinc-500"></i>
-                </div>
+                <input type="text" id="search-input" onkeyup="filterProducts()" placeholder="Buscar..." class="w-full bg-zinc-900 border border-zinc-700 rounded-full py-2 px-10 text-sm focus:border-zinc-500 outline-none text-gray-300">
             </div>
-
-            <button onclick="toggleCart(true)" class="relative p-2 group hover:text-gray-300 transition">
-                <div class="relative">
-                    <i class="fas fa-shopping-bag text-2xl"></i>
-                    <span id="cart-count" class="absolute -top-2 -right-2 mp-blue text-white text-[10px] h-5 w-5 rounded-full flex items-center justify-center font-bold shadow-lg border-2 border-black">0</span>
-                </div>
+            <button onclick="toggleCart(true)" class="relative p-2">
+                <i class="fas fa-shopping-bag text-2xl"></i>
+                <span id="cart-count" class="absolute -top-2 -right-2 bg-sadak-blue text-white text-[10px] h-5 w-5 rounded-full flex items-center justify-center font-bold">0</span>
             </button>
         </div>
     </header>
 
-    <section class="relative h-[70vh] flex items-center justify-center hero-banner text-white">
-        <div class="absolute inset-0 bg-black/40"></div> <div class="z-10 text-center px-4 animate-fade-in-up">
-            <p class="text-xs font-bold tracking-[0.3em] uppercase mb-4 text-gray-300">New Arrival 2026</p>
-            <h2 class="text-6xl md:text-8xl font-black mb-6 tracking-tighter leading-none">STREET<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-white">CULTURE</span></h2>
-            <a href="#produtos" class="inline-block bg-white text-black px-10 py-4 font-bold text-sm tracking-widest hover:bg-mp-blue hover:text-white transition duration-300 uppercase mt-4">
-                Ver Drop
-            </a>
+    <section class="relative h-[60vh] flex items-center justify-center hero-banner text-white">
+        <div class="z-10 text-center px-4">
+            <h2 class="text-5xl md:text-7xl font-black mb-4 uppercase tracking-tighter">ESSENTIAL <span class="sadak-blue italic">STUFF</span></h2>
+            <p class="text-lg text-gray-300 mb-8 max-w-lg mx-auto font-light tracking-widest uppercase">Coleção exclusiva O Imaginista.</p>
+            <a href="#produtos" class="bg-white text-black px-10 py-3 font-black hover:bg-sadak-blue hover:text-white transition duration-300 rounded-sm uppercase tracking-wider text-sm">Ver Drop 2026</a>
         </div>
     </section>
 
-    <main id="produtos" class="container mx-auto py-24 px-4">
-        
-        <div class="flex flex-col xl:flex-row items-center justify-between mb-16 gap-8">
-            <div class="text-center xl:text-left">
-                <h3 class="text-4xl font-black uppercase italic tracking-tighter mb-2">Catálogo</h3>
-                <p id="product-status" class="text-xs text-gray-400 font-bold tracking-[0.2em] uppercase">Carregando...</p>
-            </div>
-            
+    <main id="produtos" class="container mx-auto py-16 px-4">
+        <div class="flex flex-col xl:flex-row items-center justify-between mb-12 gap-8">
+            <h3 class="text-3xl font-black uppercase italic tracking-tighter">Catálogo</h3>
             <div class="flex flex-wrap gap-2 justify-center">
-                <button onclick="filterCategory('all')" class="cat-btn active border border-gray-300 px-5 py-2 rounded-full text-[10px] font-bold uppercase hover:bg-black hover:text-white transition">Todos</button>
-                <button onclick="filterCategory('basics')" class="cat-btn border border-gray-300 px-5 py-2 rounded-full text-[10px] font-bold uppercase hover:bg-black hover:text-white transition">Basics</button>
-                <button onclick="filterCategory('streetwear')" class="cat-btn border border-gray-300 px-5 py-2 rounded-full text-[10px] font-bold uppercase hover:bg-black hover:text-white transition">Streetwear</button>
-                <button onclick="filterCategory('oversized')" class="cat-btn border border-gray-300 px-5 py-2 rounded-full text-[10px] font-bold uppercase hover:bg-black hover:text-white transition">Oversized</button>
-                <button onclick="filterCategory('limited')" class="cat-btn border border-gray-300 px-5 py-2 rounded-full text-[10px] font-bold uppercase text-blue-600 border-blue-200 hover:bg-blue-600 hover:text-white transition">Limited</button>
+                <button onclick="filterCategory('all')" class="cat-btn active border border-gray-300 px-4 py-2 rounded-full text-[10px] font-bold uppercase hover:bg-black hover:text-white transition">Todos</button>
+                <button onclick="filterCategory('basics')" class="cat-btn border border-gray-300 px-4 py-2 rounded-full text-[10px] font-bold uppercase hover:bg-black hover:text-white transition">Basics</button>
+                <button onclick="filterCategory('streetwear')" class="cat-btn border border-gray-300 px-4 py-2 rounded-full text-[10px] font-bold uppercase hover:bg-black hover:text-white transition">Streetwear</button>
+                <button onclick="filterCategory('oversized')" class="cat-btn border border-gray-300 px-4 py-2 rounded-full text-[10px] font-bold uppercase hover:bg-black hover:text-white transition">Oversized</button>
             </div>
         </div>
-
-        <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-16">
-            <div class="col-span-full py-40 text-center text-gray-300">
-                <i class="fas fa-circle-notch fa-spin text-4xl mb-4"></i>
-                <p class="text-xs uppercase tracking-widest">Carregando estoque...</p>
-            </div>
+        <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
+            <div class="col-span-full py-20 text-center text-gray-400"><i class="fas fa-spinner fa-spin text-3xl"></i></div>
         </div>
     </main>
 
     <div id="cart-sidebar" class="fixed top-0 right-0 w-full md:w-[500px] h-full bg-white shadow-2xl z-[100] cart-closed flex flex-col">
         <div class="p-6 bg-black text-white flex justify-between items-center shadow-lg z-10">
-            <div>
-                <h2 class="text-xl font-black uppercase italic tracking-wider">Checkout</h2>
-                <span class="text-[10px] text-gray-400 block mt-1">Ambiente Seguro <i class="fas fa-lock ml-1"></i></span>
-            </div>
+            <h2 class="text-xl font-black uppercase italic tracking-wider">Seu Carrinho</h2>
             <div class="flex items-center gap-4">
-                <button onclick="clearCart()" class="text-[10px] text-gray-400 hover:text-white uppercase font-bold flex items-center gap-1 transition" title="Limpar">
-                    <i class="fas fa-trash"></i> Limpar
-                </button>
-                <button onclick="toggleCart(false)" class="text-2xl text-gray-400 hover:text-white transition">&times;</button>
+                <button onclick="clearCart()" class="text-[10px] text-gray-400 hover:text-red-500 uppercase font-bold transition">Limpar</button>
+                <button onclick="toggleCart(false)" class="text-2xl hover:text-gray-300">&times;</button>
             </div>
         </div>
-        
-        <div id="cart-items" class="flex-1 overflow-y-auto p-6 space-y-6 bg-gray-50"></div>
-
+        <div id="cart-items" class="flex-1 overflow-y-auto p-6 space-y-4 bg-gray-50"></div>
         <div class="p-6 bg-white border-t border-gray-100 shadow-[0_-10px_40px_rgba(0,0,0,0.05)] z-20">
-            <div class="mb-6 space-y-3">
+            <div class="mb-4 space-y-3">
                 <div class="flex gap-3">
-                    <input type="text" id="cust-name" placeholder="Seu Nome Completo" class="flex-1 bg-gray-50 border border-gray-200 rounded px-4 py-3 text-xs font-bold focus:border-black focus:bg-white transition">
-                    <input type="text" id="cust-phone" onkeyup="maskPhone(this)" placeholder="WhatsApp" class="w-1/3 bg-gray-50 border border-gray-200 rounded px-4 py-3 text-xs font-bold focus:border-black focus:bg-white transition">
+                    <input type="text" id="cust-name" placeholder="Seu Nome" class="flex-1 bg-gray-50 border border-gray-200 rounded px-3 py-2 text-xs font-bold">
+                    <input type="text" id="cust-phone" onkeyup="maskPhone(this)" placeholder="WhatsApp" class="w-1/3 bg-gray-50 border border-gray-200 rounded px-3 py-2 text-xs font-bold">
                 </div>
                 <div class="flex gap-2">
-                    <input type="text" id="cep-input" onkeyup="maskCEP(this)" placeholder="CEP" class="w-24 bg-gray-50 border border-gray-200 rounded px-4 py-3 text-xs font-bold focus:border-black focus:bg-white transition">
-                    <button onclick="searchCEP()" id="btn-cep" class="bg-black text-white px-4 rounded text-xs hover:bg-gray-800 transition"><i class="fas fa-search"></i></button>
-                    <input type="text" id="cust-address" placeholder="Endereço" readonly class="flex-1 bg-gray-100 border border-gray-200 rounded px-4 py-3 text-xs text-gray-500 cursor-not-allowed">
+                    <input type="text" id="cep-input" placeholder="CEP" class="w-24 bg-gray-50 border border-gray-200 rounded px-3 py-2 text-xs font-bold">
+                    <button onclick="searchCEP()" id="btn-cep" class="bg-black text-white px-3 rounded text-xs hover:bg-gray-800 transition"><i class="fas fa-search"></i></button>
+                    <input type="text" id="cust-address" placeholder="Endereço" readonly class="flex-1 bg-gray-100 border border-gray-200 rounded px-3 py-2 text-xs text-gray-500 cursor-not-allowed">
                 </div>
                 <div class="flex gap-3">
-                    <input type="number" id="cust-number" placeholder="Nº" class="w-20 bg-gray-50 border border-gray-200 rounded px-4 py-3 text-xs font-bold focus:border-black focus:bg-white transition">
-                    <input type="text" id="cust-comp" placeholder="Complemento" class="flex-1 bg-gray-50 border border-gray-200 rounded px-4 py-3 text-xs font-bold focus:border-black focus:bg-white transition">
+                    <input type="number" id="cust-number" placeholder="Nº" class="w-20 bg-gray-50 border border-gray-200 rounded px-3 py-2 text-xs font-bold">
+                    <input type="text" id="cust-comp" placeholder="Complemento" class="flex-1 bg-gray-50 border border-gray-200 rounded px-3 py-2 text-xs font-bold">
                 </div>
                 <div id="shipping-result" class="text-xs font-bold text-green-600 text-right h-4"></div>
             </div>
-
-            <div class="flex justify-between items-end mb-6 pt-4 border-t border-dashed border-gray-200">
-                <span class="text-xs text-gray-500 font-bold uppercase tracking-wider">Total a pagar</span>
-                <span id="cart-total" class="text-3xl font-black text-black tracking-tighter">R$ 0,00</span>
+            <div class="flex justify-between items-end mb-4 pt-4 border-t border-dashed border-gray-200">
+                <span class="text-xs text-gray-500 font-bold uppercase">Total Final</span>
+                <span id="cart-total" class="text-2xl font-black text-black tracking-tighter">R$ 0,00</span>
             </div>
-            
-            <div class="space-y-3">
-                <button onclick="finishOrder()" class="w-full bg-green-600 text-white py-4 rounded font-black hover:bg-green-700 shadow-lg transition flex items-center justify-center gap-3 uppercase text-xs tracking-widest transform active:scale-[0.99]">
-                    <i class="fab fa-whatsapp text-lg"></i> Finalizar no WhatsApp
-                </button>
-                
-                <div class="relative">
-                    <div class="absolute inset-0 flex items-center"><div class="w-full border-t border-gray-200"></div></div>
-                    <div class="relative flex justify-center text-xs uppercase"><span class="bg-white px-2 text-gray-400">Ou pague com</span></div>
-                </div>
-
-                <button onclick="payWithMercadoPago()" class="w-full mp-blue text-white py-4 rounded font-bold shadow-md hover:shadow-lg transition flex items-center justify-center gap-2 uppercase text-xs tracking-widest transform active:scale-[0.99]">
-                    <span class="spinner" id="mp-spinner"></span>
-                    <span id="mp-text" class="flex items-center gap-2">
-                        <img src="https://img.icons8.com/color/48/mercado-pago.png" class="w-5 h-5 bg-white rounded-full p-0.5"> 
-                        Mercado Pago
-                    </span>
-                </button>
-                
-                <div class="flex justify-center gap-2 opacity-50 grayscale hover:grayscale-0 transition duration-500">
-                    <img src="https://img.icons8.com/color/48/visa.png" class="h-6">
-                    <img src="https://img.icons8.com/color/48/mastercard.png" class="h-6">
-                    <img src="https://img.icons8.com/color/48/pix.png" class="h-6">
-                </div>
-            </div>
+            <button onclick="finishOrderWhatsApp()" class="w-full bg-green-600 text-white py-4 rounded font-black hover:bg-green-700 shadow-lg transition flex items-center justify-center gap-3 uppercase text-xs tracking-widest mb-3">
+                <i class="fab fa-whatsapp text-lg"></i> Finalizar no WhatsApp
+            </button>
+            <button id="btn-mp-real" onclick="payWithMercadoPago()" class="w-full btn-mp text-white py-4 rounded font-black shadow-md flex items-center justify-center gap-3 uppercase text-xs tracking-widest">
+                <img src="https://img.icons8.com/color/48/mercado-pago.png" class="w-5 h-5 bg-white rounded-full p-0.5"> Pagar Agora (Pix/Cartão)
+            </button>
         </div>
     </div>
 
-    <footer class="bg-black text-gray-500 py-16 px-4 border-t border-zinc-900 text-sm">
-        <div class="container mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 text-center md:text-left">
-            <div class="md:col-span-1">
-                <h4 class="text-white font-black mb-6 text-2xl italic tracking-tighter">SADAK <span class="sadak-blue">SHOPS</span></h4>
-                <p class="text-xs text-gray-500 leading-relaxed">Desenvolvido por <strong>IMAGINISTA</strong>.<br>E-commerce de alta performance.</p>
-                <p class="text-[10px] uppercase mt-4 text-zinc-700">© 2026 Todos os direitos reservados.</p>
-            </div>
-            <div>
-                <h4 class="text-white font-bold mb-6 uppercase text-[10px] tracking-[0.2em]">Institucional</h4>
-                <ul class="space-y-3 text-xs">
-                    <li><button onclick="openModal('termos')" class="hover:text-white transition">Termos de Uso</button></li>
-                    <li><button onclick="openModal('privacidade')" class="hover:text-white transition">Privacidade</button></li>
-                    <li><button onclick="openModal('trocas')" class="hover:text-white transition">Trocas e Devoluções</button></li>
-                </ul>
-            </div>
-            <div>
-                <h4 class="text-white font-bold mb-6 uppercase text-[10px] tracking-[0.2em]">Ajuda</h4>
-                <ul class="space-y-3 text-xs">
-                    <li><a href="#" class="hover:text-white transition">Meus Pedidos</a></li>
-                    <li><a href="#" class="hover:text-white transition">Guia de Medidas</a></li>
-                    <li><a href="#" class="hover:text-white transition">Status do Envio</a></li>
-                </ul>
-            </div>
-            <div>
-                <h4 class="text-white font-bold mb-6 uppercase text-[10px] tracking-[0.2em]">Social</h4>
-                <div class="flex justify-center md:justify-start gap-4 text-lg">
-                    <a href="#" class="w-10 h-10 rounded-full bg-zinc-900 flex items-center justify-center hover:bg-gradient-to-tr hover:from-yellow-500 hover:to-purple-600 hover:text-white transition"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="w-10 h-10 rounded-full bg-zinc-900 flex items-center justify-center hover:bg-red-600 hover:text-white transition"><i class="fab fa-youtube"></i></a>
-                    <a href="#" class="w-10 h-10 rounded-full bg-zinc-900 flex items-center justify-center hover:bg-blue-600 hover:text-white transition"><i class="fab fa-facebook-f"></i></a>
-                </div>
-            </div>
+    <footer class="bg-black text-gray-500 py-16 px-4 border-t border-zinc-900 text-sm mt-12">
+        <div class="container mx-auto text-center">
+            <h4 class="text-white font-black mb-6 text-xl italic tracking-tighter">SADAK <span class="sadak-blue">SHOPS</span></h4>
+            <p class="text-[10px] text-gray-500">Desenvolvido por <strong>IMAGINISTA</strong>.</p>
         </div>
     </footer>
 
-    <div id="modal-legal" class="modal-overlay" onclick="if(event.target === this) this.style.display='none'">
-        <div class="modal-content animate-fade-in-up">
-            <button onclick="document.getElementById('modal-legal').style.display='none'" class="absolute top-5 right-5 text-gray-400 hover:text-black text-2xl">&times;</button>
-            <h2 id="modal-title" class="text-2xl font-black mb-6 uppercase italic text-black"></h2>
-            <div id="modal-body" class="text-sm text-gray-600 leading-relaxed space-y-4 font-light text-justify"></div>
-        </div>
-    </div>
-
     <script>
-        // =========================================================================
-        // ⚠️ SUA CHAVE CONFIGURADA
-        // =========================================================================
-        const mpPublicKey = 'TEST-3daebd00-74f2-4cd1-a114-91a4b6b3591c'; 
-        // =========================================================================
+        // CONFIG
+        const mpPublicKey = 'TEST-3daebd00-74f2-4cd1-a114-91a4b6b3591c';
+        let allProducts = [], cart = [], shippingValue = 0;
 
-        let allProducts = [];
-        let cart = [];
-        let shippingValue = 0;
-        let currentCategory = 'all';
+        window.onload = async () => { await fetchProducts(); };
 
-        // --- INICIALIZAÇÃO ---
-        window.onload = async () => {
-            await fetchProducts();
-            
-            // Inicializa SDK (Mesmo sem backend, para carregar scripts internos)
-            if(window.MercadoPago) {
-                const mp = new MercadoPago(mpPublicKey, { locale: 'pt-BR' });
+        // --- FUNÇÃO PAGAMENTO REAL (BACKEND) ---
+        async function payWithMercadoPago() {
+            if(cart.length === 0) return alert("Carrinho vazio!");
+            if(shippingValue === 0) return alert("Calcule o frete primeiro!");
+
+            const btn = document.getElementById('btn-mp-real');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processando...';
+            btn.disabled = true;
+
+            try {
+                // Chama sua API (o arquivo api/checkout.js)
+                const response = await fetch('/api/checkout', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ items: cart }) 
+                });
+
+                const data = await response.json();
+
+                if (data.url) {
+                    window.location.href = data.url; // Redireciona para o Mercado Pago
+                } else {
+                    alert("Erro ao gerar link de pagamento.");
+                }
+            } catch (error) {
+                console.error(error);
+                alert("Erro de conexão com o servidor. Verifique se o projeto está rodando (Vercel).");
+            } finally {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
             }
-        };
-
-        // --- SIMULAÇÃO DE PAGAMENTO (PREMIUM DEMO) ---
-        function payWithMercadoPago() {
-            if(cart.length === 0) return alert("Seu carrinho está vazio!");
-            if(!validateForm()) return; // Valida dados antes
-
-            const btnText = document.getElementById('mp-text');
-            const spinner = document.getElementById('mp-spinner');
-            
-            // Efeito de Carregamento
-            btnText.style.display = 'none';
-            spinner.style.display = 'block';
-            
-            setTimeout(() => {
-                alert(`DEMONSTRAÇÃO DE CHECKOUT:\n\nConectado à conta: ${mpPublicKey.substring(0,10)}...\n\nNeste ponto, o cliente seria redirecionado para o ambiente seguro do Mercado Pago para pagar R$ ${document.getElementById('cart-total').innerText} via PIX ou Cartão.\n\nComo este é um site de demonstração (sem servidor), a transação real foi pausada.`);
-                
-                btnText.style.display = 'flex';
-                spinner.style.display = 'none';
-            }, 1500);
         }
 
-        function validateForm() {
-            const name = document.getElementById('cust-name').value;
-            const phone = document.getElementById('cust-phone').value;
-            const address = document.getElementById('cust-address').value;
-            const num = document.getElementById('cust-number').value;
-            
-            if(!name || !phone || !address || !num) {
-                alert("Por favor, preencha todos os dados de entrega para calcular o frete e gerar a nota.");
-                return false;
-            }
-            if(shippingValue === 0) {
-                alert("Por favor, clique na lupa para calcular o frete.");
-                return false;
-            }
-            return true;
-        }
-
-        // --- MÁSCARAS E CEP ---
+        // UTILS
         function maskPhone(i){let v=i.value.replace(/\D/g,'');v=v.replace(/^(\d\d)(\d)/g,"($1) $2");v=v.replace(/(\d{5})(\d)/,"$1-$2");i.value=v;}
         function maskCEP(i){let v=i.value.replace(/\D/g,'');v=v.replace(/^(\d{5})(\d)/,"$1-$2");i.value=v;}
 
         async function searchCEP() {
             const cep = document.getElementById('cep-input').value.replace(/\D/g, '');
-            if (cep.length !== 8) return alert("CEP inválido!");
-            
-            document.getElementById('btn-cep').innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+            if(cep.length !== 8) return alert("CEP inválido!");
+            document.getElementById('btn-cep').innerHTML = '...';
             try {
                 const res = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
                 const data = await res.json();
                 if(data.erro) throw new Error();
-                
                 document.getElementById('cust-address').value = `${data.logradouro}, ${data.bairro}, ${data.localidade}-${data.uf}`;
                 shippingValue = data.uf === 'RJ' ? 15.00 : 30.00;
                 document.getElementById('shipping-result').innerText = `+ FRETE: R$ ${shippingValue.toFixed(2)}`;
                 updateCartUI();
-                document.getElementById('cust-number').focus();
             } catch(e){ alert("CEP não encontrado."); }
             document.getElementById('btn-cep').innerHTML = '<i class="fas fa-search"></i>';
         }
 
-        // --- LOJA E FILTROS ---
         async function fetchProducts() {
             try {
                 const res = await fetch('produtos.json');
-                if(!res.ok) throw new Error();
                 allProducts = await res.json();
                 renderProducts(allProducts);
-            } catch (e) {
-                document.getElementById('product-grid').innerHTML = '<p class="col-span-full text-center text-gray-400">Erro ao carregar catálogo. Verifique o JSON.</p>';
-            }
+            } catch (e) { document.getElementById('product-grid').innerHTML = '<p class="col-span-full text-center py-20 text-gray-400">Erro no JSON.</p>'; }
         }
 
         function filterCategory(cat) {
-            currentCategory = cat;
             document.querySelectorAll('.cat-btn').forEach(btn => btn.classList.remove('active', 'bg-black', 'text-white'));
             event.target.classList.add('active', 'bg-black', 'text-white');
-            
-            if(cat === 'all') renderProducts(allProducts);
-            else renderProducts(allProducts.filter(p => p.category === cat));
+            renderProducts(cat === 'all' ? allProducts : allProducts.filter(p => p.category === cat));
         }
 
         function filterProducts() {
@@ -329,173 +205,59 @@
 
         function renderProducts(data) {
             const grid = document.getElementById('product-grid');
-            document.getElementById('product-status').innerText = `${data.length} MODELOS`;
-            
-            if(data.length === 0) {
-                grid.innerHTML = '<div class="col-span-full text-center py-20 opacity-50"><i class="fas fa-ghost text-4xl mb-4"></i><p>Nada encontrado.</p></div>';
-                return;
-            }
-
+            if(data.length===0){ grid.innerHTML='<div class="col-span-full text-center py-20 opacity-50"><p>Vazio.</p></div>'; return; }
             grid.innerHTML = data.map(p => {
                 const isSold = !p.inStock;
                 const lightboxLinks = p.images.map(img => `<a data-fslightbox="gallery-${p.id}" href="${img}"></a>`).join('');
-                
                 return `
-                <div class="product-card bg-white rounded overflow-hidden relative group cursor-pointer">
+                <div class="product-card bg-white rounded overflow-hidden relative group">
                     ${isSold ? '<div class="sold-out-layer">SOLD OUT</div>' : ''}
-                    
-                    <div class="img-container" onclick="openGallery(${p.id})">
-                        <img src="${p.images[0]}" loading="lazy" alt="${p.name}">
-                        <div class="absolute bottom-3 right-3 bg-white text-black px-3 py-1 rounded-full text-[10px] font-bold shadow-sm uppercase tracking-wider opacity-0 group-hover:opacity-100 transition transform translate-y-2 group-hover:translate-y-0">
-                            + Fotos
-                        </div>
+                    <div class="img-container" onclick="document.querySelector('[data-fslightbox=\\'gallery-${p.id}\\']').click()">
+                        <img src="${p.images[0]}" alt="${p.name}">
+                        <div class="absolute bottom-3 right-3 bg-white/90 backdrop-blur text-black px-2 py-1 rounded text-[10px] font-bold shadow opacity-0 group-hover:opacity-100 transition">Fotos</div>
                     </div>
-                    
                     <div class="hidden">${lightboxLinks}</div>
-                    
                     <div class="p-5">
                         <div class="flex justify-between items-start mb-2">
-                            <div>
-                                <p class="text-[10px] text-gray-400 font-bold uppercase tracking-wider mb-1">${p.category}</p>
-                                <h4 class="font-black text-sm uppercase leading-tight">${p.name}</h4>
-                            </div>
-                            <span class="font-black text-lg">R$ ${Math.floor(p.price)}<span class="text-xs align-top">,${(p.price % 1).toFixed(2).substring(2)}</span></span>
+                            <div><p class="text-[10px] text-gray-400 font-bold uppercase tracking-wider mb-1">${p.category}</p><h4 class="font-black text-sm uppercase">${p.name}</h4></div>
+                            <span class="font-black text-lg">R$ ${Math.floor(p.price)}</span>
                         </div>
-                        
-                        <div class="flex flex-col gap-4 mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 md:opacity-100">
-                            <div class="flex gap-2 justify-center">
-                                ${['P','M','G','GG'].map(s=>`
-                                    <div class="relative">
-                                        <input type="radio" name="size-${p.id}" id="s-${p.id}-${s}" value="${s}" class="hidden size-radio" ${s==='M'?'checked':''} ${isSold?'disabled':''}>
-                                        <label for="s-${p.id}-${s}" class="w-8 h-8 flex items-center justify-center text-[10px] font-bold border border-gray-200 rounded cursor-pointer hover:border-black transition text-gray-600">${s}</label>
-                                    </div>
-                                `).join('')}
-                            </div>
-                            
-                            <button onclick="addToCart(${p.id})" ${isSold?'disabled':''} class="w-full bg-black text-white py-3 rounded text-xs font-bold uppercase tracking-widest hover:bg-mp-blue transition duration-300 flex items-center justify-center gap-2 shadow-lg">
-                                ${isSold ? 'Esgotado' : 'Adicionar'}
-                            </button>
+                        <div class="flex flex-col gap-4 mt-4">
+                            <div class="flex gap-2 justify-center">${['P','M','G','GG'].map(s=>`<div class="relative"><input type="radio" name="size-${p.id}" id="s-${p.id}-${s}" value="${s}" class="hidden size-radio" ${s==='M'?'checked':''} ${isSold?'disabled':''}><label for="s-${p.id}-${s}" class="w-8 h-8 flex items-center justify-center text-[10px] font-bold border border-gray-200 rounded cursor-pointer hover:border-black transition text-gray-600">${s}</label></div>`).join('')}</div>
+                            <button onclick="addToCart(${p.id})" ${isSold?'disabled':''} class="w-full bg-black text-white py-3 rounded text-xs font-black uppercase tracking-widest hover:bg-sadak-blue transition duration-300">${isSold ? 'Esgotado' : 'Adicionar'}</button>
                         </div>
                     </div>
-                </div>`
+                </div>`;
             }).join('');
-            
             refreshFsLightbox();
         }
 
-        function openGallery(id) {
-            const link = document.querySelector(`[data-fslightbox="gallery-${id}"]`);
-            if(link) link.click();
-        }
-
-        // --- CARRINHO ---
         function addToCart(id) {
             const product = allProducts.find(p => p.id === id);
-            const sizeInput = document.querySelector(`input[name="size-${id}"]:checked`);
-            if(!sizeInput) return alert("Selecione um tamanho.");
-            
-            cart.push({...product, size: sizeInput.value});
+            const size = document.querySelector(`input[name="size-${id}"]:checked`).value;
+            cart.push({...product, size});
             updateCartUI();
             toggleCart(true);
         }
 
-        function clearCart() {
-            if(cart.length > 0 && confirm("Limpar toda a sacola?")) {
-                cart = [];
-                updateCartUI();
-            }
-        }
-
-        function toggleCart(open) {
-            const sb = document.getElementById('cart-sidebar');
-            if(open) { sb.classList.remove('cart-closed'); sb.classList.add('cart-open'); }
-            else { sb.classList.remove('cart-open'); sb.classList.add('cart-closed'); }
-        }
+        function clearCart() { if(cart.length>0 && confirm("Limpar carrinho?")) { cart=[]; updateCartUI(); } }
+        function toggleCart(open) { const sb = document.getElementById('cart-sidebar'); open ? (sb.classList.remove('cart-closed'), sb.classList.add('cart-open')) : (sb.classList.remove('cart-open'), sb.classList.add('cart-closed')); }
 
         function updateCartUI() {
             const container = document.getElementById('cart-items');
-            const totalEl = document.getElementById('cart-total');
-            const countEl = document.getElementById('cart-count');
-            
-            countEl.innerText = cart.length;
-            const subtotal = cart.reduce((acc, item) => acc + item.price, 0);
-            const total = subtotal + shippingValue;
-            totalEl.innerText = `R$ ${total.toFixed(2)}`;
-
-            if(cart.length === 0) {
-                container.innerHTML = `
-                    <div class="h-full flex flex-col items-center justify-center text-gray-300 space-y-4">
-                        <i class="fas fa-shopping-bag text-6xl opacity-20"></i>
-                        <p class="text-xs uppercase font-bold tracking-widest">Sua sacola está vazia</p>
-                    </div>`;
-                return;
-            }
-
-            container.innerHTML = cart.map((item, idx) => `
-                <div class="flex gap-4 p-4 bg-white border border-gray-100 rounded shadow-sm relative group hover:border-gray-300 transition">
-                    <img src="${item.images[0]}" class="w-16 h-20 object-cover rounded">
-                    <div class="flex-1">
-                        <div class="flex justify-between items-start">
-                            <h4 class="font-black text-xs uppercase w-3/4 leading-tight">${item.name}</h4>
-                            <span class="text-xs font-bold text-gray-900">R$ ${item.price.toFixed(0)}</span>
-                        </div>
-                        <p class="text-[10px] text-gray-500 mt-1 uppercase">Tam: <span class="font-bold text-black">${item.size}</span></p>
-                        <button onclick="cart.splice(${idx},1);updateCartUI()" class="absolute bottom-3 right-3 text-gray-300 hover:text-red-500 transition"><i class="fas fa-trash-alt"></i></button>
-                    </div>
-                </div>
-            `).join('');
+            document.getElementById('cart-count').innerText = cart.length;
+            document.getElementById('cart-total').innerText = `R$ ${(cart.reduce((a,b)=>a+b.price,0)+shippingValue).toFixed(2)}`;
+            container.innerHTML = cart.map((i,idx) => `<div class="flex gap-4 p-4 bg-white border border-gray-100 rounded shadow-sm relative group"><img src="${i.images[0]}" class="w-12 h-16 object-cover rounded"><div class="flex-1"><h4 class="font-black text-[10px] uppercase w-3/4">${i.name}</h4><p class="text-[10px] text-gray-500 mt-1 uppercase">Tam: <b>${i.size}</b> | R$ ${i.price.toFixed(0)}</p><button onclick="cart.splice(${idx},1);updateCartUI()" class="absolute bottom-3 right-3 text-gray-300 hover:text-red-500 transition"><i class="fas fa-trash-alt"></i></button></div></div>`).join('');
         }
 
-        // --- FINALIZAR WHATSAPP (CORRIGIDO) ---
-        function finishOrder() {
-            if(!validateForm()) return;
-            if(cart.length === 0) return alert("Adicione itens!");
-
+        function finishOrderWhatsApp() {
+            if(cart.length===0 || shippingValue===0) return alert("Adicione itens e calcule o frete!");
             const name = document.getElementById('cust-name').value;
-            const phone = document.getElementById('cust-phone').value;
-            const address = document.getElementById('cust-address').value;
-            const num = document.getElementById('cust-number').value;
-            const comp = document.getElementById('cust-comp').value;
-            const cep = document.getElementById('cep-input').value;
-
-            // Mensagem Limpa e Codificada Corretamente
-            let msg = `*PEDIDO OFICIAL SADAK* 🛒\n\n`;
-            msg += `👤 *Cliente:* ${name}\n📱 *Tel:* ${phone}\n\n`;
-            msg += `📍 *Entrega:* ${address}, Nº ${num} ${comp ? '('+comp+')' : ''}\n📮 *CEP:* ${cep}\n\n`;
-            msg += `📦 *ITENS:*\n`;
-            
-            cart.forEach(item => {
-                msg += `▪️ ${item.name} (${item.size}) - R$ ${item.price.toFixed(2)}\n`;
-            });
-
-            const total = (cart.reduce((a,b)=>a+b.price,0) + shippingValue).toFixed(2);
-            msg += `\n🚚 *Frete:* R$ ${shippingValue.toFixed(2)}`;
-            msg += `\n💎 *TOTAL:* R$ ${total}\n\n`;
-            msg += `_Aguardo a chave PIX!_`;
-
-            // Envia e Reseta
+            let msg = `*PEDIDO SADAK*\nCLIENTE: ${name}\nITENS:\n`;
+            cart.forEach(i => msg += `- ${i.name} (${i.size})\n`);
+            msg += `TOTAL: ${document.getElementById('cart-total').innerText}`;
             window.open(`https://wa.me/5521983340089?text=${encodeURIComponent(msg)}`, '_blank');
-            
-            setTimeout(() => {
-                alert("✅ Pedido enviado! Verifique o WhatsApp.");
-                cart = [];
-                updateCartUI();
-                toggleCart(false);
-                document.getElementById('cust-name').value = "";
-                document.getElementById('cust-phone').value = "";
-            }, 1000);
-        }
-
-        // --- MODAIS ---
-        const legalTexts = {
-            'termos': "Termos de Uso Sadak Shops: Todos os direitos reservados. Proibida a cópia.",
-            'privacidade': "Seus dados são utilizados exclusivamente para o processamento e entrega do pedido.",
-            'trocas': "Trocas em até 7 dias corridos após o recebimento, desde que o produto esteja com a etiqueta e sem uso."
-        };
-        function openModal(t) {
-            document.getElementById('modal-title').innerText = t.toUpperCase();
-            document.getElementById('modal-body').innerText = legalTexts[t];
-            document.getElementById('modal-legal').style.display = 'flex';
+            setTimeout(() => { cart=[]; updateCartUI(); toggleCart(false); }, 1000);
         }
     </script>
 </body>
