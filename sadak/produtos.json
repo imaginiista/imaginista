@@ -1,0 +1,13 @@
+[
+  {
+    "id": 1,
+    "name": "Camiseta Minimalist Black",
+    "price": 89.90,
+    "desc": "Algodão Pima Premium",
+    "images": [
+      "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=800",
+      "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=800",
+      "https://images.unsplash.com/photo-1503341504253-dff4815485f1?w=800"
+    ]
+  }
+]

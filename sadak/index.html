@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sadak Shops T-shirt | Edição Premium</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fslightbox/3.4.1/index.min.js"></script>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #f9fafb; scroll-behavior: smooth; }
+        .blue-detail { color: #007bff; }
+        .bg-blue-sadak { background-color: #007bff; }
+        .hover-scale { transition: all 0.3s ease; }
+        .hover-scale:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+        .cart-modal { transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        .hero-banner {
+            background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1600&q=80');
+            background-size: cover; background-position: center;
+        }
+        .img-container { height: 380px; overflow: hidden; position: relative; cursor: zoom-in; }
+        .img-container img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s; }
+        .img-container:hover img { transform: scale(1.05); }
+        .size-badge { border: 1px solid #e5e7eb; transition: all 0.2s; cursor: pointer; }
+        .size-badge:hover { border-color: #007bff; color: #007bff; }
+        input[type="radio"]:checked + label { background-color: #000; color: #fff; border-color: #000; }
+    </style>
+</head>
+<body class="text-gray-900">
+
+    <header class="bg-black text-white p-4 sticky top-0 z-50 shadow-lg border-b border-zinc-800">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-black tracking-tighter italic">SADAK <span class="blue-detail">SHOPS</span></h1>
+            
+            <div class="hidden md:flex flex-grow max-w-md mx-8">
+                <div class="relative w-full">
+                    <input type="text" id="search-input" onkeyup="filterProducts()" placeholder="Buscar modelo..." class="w-full bg-zinc-900 border-none rounded-sm py-2 px-10 text-sm focus:ring-1 focus:ring-blue-500 outline-none">
+                    <i class="fas fa-search absolute left-4 top-2.5 text-gray-500"></i>
+                </div>
+            </div>
+
+            <button onclick="toggleCart()" class="relative p-2 bg-zinc-900 rounded-full border border-zinc-700">
+                <i class="fas fa-shopping-cart text-xl"></i>
+                <span id="cart-count" class="absolute -top-1 -right-1 bg-blue-sadak text-white text-[10px] rounded-full h-5 w-5 flex items-center justify-center font-bold">0</span>
+            </button>
+        </div>
+    </header>
+
+    <section class="relative h-[55vh] flex items-center justify-center hero-banner text-white">
+        <div class="z-10 text-center px-4">
+            <h2 class="text-5xl md:text-7xl font-black mb-4 uppercase tracking-tighter">ESSENTIAL <span class="blue-detail italic">STUFF</span></h2>
+            <p class="text-lg text-gray-200 mb-8 max-w-lg mx-auto font-light tracking-widest uppercase">Camisetas de alta gramatura.</p>
+            <a href="#produtos" class="bg-white text-black px-12 py-4 font-black hover:bg-blue-sadak hover:text-white transition duration-300 rounded-sm">VER COLEÇÃO</a>
+        </div>
+    </section>
+
+    <main id="produtos" class="container mx-auto py-16 px-4">
+        <div class="flex items-center justify-between mb-12">
+            <h3 class="text-3xl font-black border-l-8 border-blue-600 pl-4 uppercase italic">Drops 2026</h3>
+            <p id="product-status" class="text-[10px] text-gray-400 font-bold tracking-[0.3em] uppercase"></p>
+        </div>
+
+        <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
+            </div>
+    </main>
+
+    <div id="cart-sidebar" class="fixed top-0 -right-full w-full md:w-[500px] h-full bg-white shadow-2xl z-[60] cart-modal p-8 overflow-y-auto">
+        <div class="flex justify-between items-center mb-8 border-b pb-4 text-black">
+            <h2 class="text-2xl font-black uppercase tracking-tighter italic">Checkout Fast</h2>
+            <button onclick="toggleCart(false)" class="text-3xl">&times;</button>
+        </div>
+        
+        <div id="cart-items" class="space-y-4 mb-8"></div>
+
+        <div class="bg-gray-50 p-6 rounded-sm mb-6 border border-gray-100">
+            <h4 class="font-black mb-4 text-black uppercase text-xs tracking-widest">Informações de Envio</h4>
+            <div class="space-y-4">
+                <input type="text" id="cust-name" placeholder="NOME COMPLETO" class="w-full border p-3 rounded-sm text-xs outline-none focus:border-blue-500">
+                <div class="flex gap-2">
+                    <input type="text" id="cep-input" placeholder="CEP" class="border p-3 w-full rounded-sm text-xs outline-none focus:border-blue-500">
+                    <button onclick="searchCEP()" class="bg-black text-white px-6 rounded-sm text-[10px] font-bold hover:bg-blue-sadak uppercase transition">Calcular</button>
+                </div>
+                <input type="text" id="cust-address" placeholder="ENDEREÇO AUTOMÁTICO" class="w-full border p-3 rounded-sm text-xs bg-gray-100" readonly>
+                <input type="text" id="cust-number" placeholder="NÚMERO E COMPLEMENTO" class="w-full border p-3 rounded-sm text-xs outline-none focus:border-blue-500">
+                <p id="shipping-result" class="text-[11px] font-bold text-blue-600 uppercase"></p>
+            </div>
+        </div>
+
+        <div class="border-t-4 border-black pt-6">
+            <div class="flex justify-between text-2xl font-black mb-6 italic uppercase">
+                <span>Total:</span>
+                <span id="cart-total" class="blue-detail">R$ 0,00</span>
+            </div>
+            <button onclick="finishOrder()" class="w-full bg-green-600 text-white py-5 rounded-sm font-black hover:bg-green-700 shadow-xl transition flex items-center justify-center gap-3 uppercase">
+                <i class="fab fa-whatsapp text-2xl"></i> Finalizar no WhatsApp
+            </button>
+        </div>
+    </div>
+
+    <footer id="contato" class="bg-black text-gray-400 py-16 px-4">
+        <div class="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 text-center md:text-left">
+            <div>
+                <h4 class="text-white font-black mb-6 text-xl tracking-tighter italic">SADAK <span class="blue-detail">SHOPS</span></h4>
+                <p class="text-sm">Minimalismo elevado. Desenvolvido pelo Tio Robson para Geovana e agora para o mundo.</p>
+            </div>
+            <div class="flex flex-col items-center">
+                <h4 class="text-white font-bold mb-6 uppercase text-xs tracking-widest">Suporte</h4>
+                <p class="text-sm">contato@sadakshops.com</p>
+                <p class="text-sm">WhatsApp: (21) 98334-0089</p>
+            </div>
+            <div class="flex flex-col items-center md:items-end">
+                <h4 class="text-white font-bold mb-6 uppercase text-xs tracking-widest">Siga a Sadak</h4>
+                <div class="flex space-x-6 text-2xl">
+                    <a href="#" class="hover:text-blue-500 transition"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="hover:text-blue-500 transition"><i class="fab fa-facebook"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let allProducts = [];
+        let cart = [];
+        let shippingValue = 0;
+
+        async function fetchProducts() {
+            try {
+                const response = await fetch('produtos.json');
+                allProducts = await response.json();
+                renderProducts(allProducts);
+            } catch (e) { console.error("Erro no JSON:", e); }
+        }
+
+        async function searchCEP() {
+            const cep = document.getElementById('cep-input').value.replace(/\D/g, '');
+            if (cep.length !== 8) return alert("CEP inválido!");
+            const res = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+            const data = await res.json();
+            if (data.erro) return alert("CEP não encontrado!");
+            document.getElementById('cust-address').value = `${data.logradouro}, ${data.bairro}, ${data.localidade}-${data.uf}`;
+            shippingValue = data.uf === 'RJ' ? 10.00 : 25.00;
+            document.getElementById('shipping-result').innerText = `🚚 FRETE PARA ${data.uf}: R$ ${shippingValue.toFixed(2)}`;
+            updateCartUI();
+        }
+
+        function renderProducts(data) {
+            const grid = document.getElementById('product-grid');
+            document.getElementById('product-status').innerText = `${data.length} MODELOS EXCLUSIVOS`;
+            
+            grid.innerHTML = data.map(p => {
+                // Monta os links para o Lightbox (Imagens extras)
+                const lightboxLinks = p.images.map(img => `<a data-fslightbox="gallery-${p.id}" href="${img}"></a>`).join('');
+                
+                return `
+                <div class="bg-white p-5 hover-scale rounded-sm border border-gray-100 flex flex-col relative">
+                    <div class="img-container rounded-sm mb-6" onclick="openGallery(${p.id})">
+                        <img src="${p.images[0]}" alt="${p.name}" loading="lazy">
+                        <div class="absolute bottom-2 right-2 bg-black/50 text-white p-2 rounded-full text-[10px]">
+                            <i class="fas fa-images"></i> +${p.images.length - 1}
+                        </div>
+                    </div>
+                    
+                    <div class="hidden">${lightboxLinks}</div>
+
+                    <h4 class="font-black text-sm mb-2 uppercase italic">${p.name}</h4>
+                    
+                    <div class="flex gap-2 mb-4">
+                        ${['P', 'M', 'G', 'GG'].map(size => `
+                            <div class="relative">
+                                <input type="radio" name="size-${p.id}" id="s-${p.id}-${size}" value="${size}" class="hidden" ${size === 'M' ? 'checked' : ''}>
+                                <label for="s-${p.id}-${size}" class="size-badge flex items-center justify-center w-8 h-8 text-[10px] font-bold rounded-sm uppercase transition-all">
+                                    ${size}
+                                </label>
+                            </div>
+                        `).join('')}
+                    </div>
+
+                    <div class="flex justify-between items-center mt-auto">
+                        <span class="text-black font-black text-xl italic">R$ ${p.price.toFixed(2)}</span>
+                        <button onclick="addToCart(${p.id})" class="bg-black text-white px-6 py-2 rounded-sm text-[10px] font-black hover:bg-blue-sadak transition uppercase tracking-tighter">🛒 ADD</button>
+                    </div>
+                </div>
+            `}).join('');
+            
+            // Atualiza o Lightbox após renderizar
+            refreshFsLightbox();
+        }
+
+        function openGallery(id) {
+            // Clica no primeiro link da galeria oculta do produto
+            document.querySelector(`[data-fslightbox="gallery-${id}"]`).click();
+        }
+
+        function addToCart(id) {
+            const product = allProducts.find(p => p.id === id);
+            const selectedSize = document.querySelector(`input[name="size-${id}"]:checked`).value;
+            
+            // Adiciona cópia com tamanho selecionado
+            cart.push({ ...product, size: selectedSize });
+            updateCartUI();
+            toggleCart(true);
+        }
+
+        function toggleCart(open) {
+            const sidebar = document.getElementById('cart-sidebar');
+            if (open) sidebar.classList.replace('-right-full', 'right-0');
+            else sidebar.classList.replace('right-0', '-right-full');
+        }
+
+        function updateCartUI() {
+            const container = document.getElementById('cart-items');
+            document.getElementById('cart-count').innerText = cart.length;
+            
+            container.innerHTML = cart.map((item, idx) => `
+                <div class="flex justify-between items-center bg-zinc-50 p-4 border border-zinc-100">
+                    <div class="flex items-center gap-4">
+                        <img src="${item.images[0]}" class="w-14 h-14 object-cover shadow-sm">
+                        <div>
+                            <p class="font-black text-[11px] uppercase">${item.name}</p>
+                            <p class="text-gray-500 text-[10px] font-bold uppercase">Tamanho: <span class="text-blue-600">${item.size}</span></p>
+                            <p class="text-blue-600 text-xs font-black">R$ ${item.price.toFixed(2)}</p>
+                        </div>
+                    </div>
+                    <button onclick="removeItem(${idx})" class="text-zinc-300 hover:text-red-500"><i class="fas fa-trash-alt"></i></button>
+                </div>
+            `).join('');
+
+            const total = cart.reduce((acc, curr) => acc + curr.price, 0) + shippingValue;
+            document.getElementById('cart-total').innerText = `R$ ${total.toFixed(2)}`;
+        }
+
+        function removeItem(idx) {
+            cart.splice(idx, 1);
+            updateCartUI();
+        }
+
+        function finishOrder() {
+            const name = document.getElementById('cust-name').value;
+            const address = document.getElementById('cust-address').value;
+            const number = document.getElementById('cust-number').value;
+            const cep = document.getElementById('cep-input').value;
+
+            if (!name || !address || !number) return alert("Preencha os dados de entrega!");
+
+            const phoneNumber = "5521983340089";
+            const items = cart.map(i => `• ${i.name} [TAM: ${i.size}] (R$ ${i.price.toFixed(2)})`).join('%0A');
+            const total = (cart.reduce((a, b) => a + b.price, 0) + shippingValue).toFixed(2);
+            
+            const msg = `*NOVO PEDIDO SADAK SHOPS*%0A%0A*CLIENTE:* ${name}%0A*CEP:* ${cep}%0A*ENDEREÇO:* ${address}, ${number}%0A%0A*ITENS:*%0A${items}%0A%0A*TOTAL COM FRETE:* R$ ${total}`;
+            
+            window.open(`https://wa.me/${phoneNumber}?text=${msg}`, '_blank');
+        }
+
+        function filterProducts() {
+            const query = document.getElementById('search-input').value.toLowerCase();
+            const filtered = allProducts.filter(p => p.name.toLowerCase().includes(query));
+            renderProducts(filtered);
+        }
+
+        window.onload = fetchProducts;
+    </script>
+</body>
+</html>
