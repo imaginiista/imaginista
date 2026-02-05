@@ -1,126 +1,56 @@
 [
-  {
-    "category_group": "=== LEGGINGS ===",
-    "id": 101,
-    "name": "Legging High Compress Black",
-    "price": 129.90,
-    "category": "leggings",
-    "inStock": true,
-    "desc": "Alta compressão que modela o corpo.",
-    "images": ["https://images.unsplash.com/photo-1506619237369-f6b981881efc?w=800"]
-  },
-  {
-    "id": 102,
-    "name": "Legging Seamless Rosa",
-    "price": 149.90,
-    "category": "leggings",
-    "inStock": true,
-    "desc": "Sem costura, toque suave.",
-    "images": ["https://images.unsplash.com/photo-1552160753-117159d4541c?w=800"]
-  },
-  {
-    "id": 103,
-    "name": "Legging Efeito Levanta",
-    "price": 139.90,
-    "category": "leggings",
-    "inStock": false,
-    "desc": "Tecnologia push-up. Esgotado.",
-    "images": ["https://images.unsplash.com/photo-1574680096141-1cddd32e016f?w=800"]
-  },
-  {
-    "id": 104,
-    "name": "Legging Galaxy Roxo",
-    "price": 119.90,
-    "category": "leggings",
-    "inStock": true,
-    "desc": "Estampa moderna.",
-    "images": ["https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=800"]
-  },
+  { "id": 1, "category": "leggings", "name": "Legging High Black", "price": 129.90, "inStock": true, "images": ["https://images.unsplash.com/photo-1506619237369-f6b981881efc?w=500"] },
+  { "id": 2, "category": "leggings", "name": "Legging Seamless Pink", "price": 149.90, "inStock": true, "images": ["https://images.unsplash.com/photo-1552160753-117159d4541c?w=500"] },
+  { "id": 3, "category": "leggings", "name": "Legging Push Up", "price": 139.90, "inStock": false, "images": ["https://images.unsplash.com/photo-1574680096141-1cddd32e016f?w=500"] },
+  { "id": 4, "category": "leggings", "name": "Legging Galaxy Roxo", "price": 119.90, "inStock": true, "images": ["https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=500"] },
+  { "id": 5, "category": "leggings", "name": "Legging Shine Azul", "price": 159.90, "inStock": true, "images": ["https://images.unsplash.com/photo-1518310383802-640c2de311b2?w=500"] },
+  { "id": 6, "category": "leggings", "name": "Legging Recortes Tela", "price": 125.00, "inStock": true, "images": ["https://images.unsplash.com/photo-1506619237369-f6b981881efc?w=500"] },
+  { "id": 7, "category": "leggings", "name": "Legging Cintura Alta", "price": 110.00, "inStock": true, "images": ["https://images.unsplash.com/photo-1552160753-117159d4541c?w=500"] },
+  { "id": 8, "category": "leggings", "name": "Legging Estampa Onça", "price": 145.00, "inStock": true, "images": ["https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=500"] },
+  { "id": 9, "category": "leggings", "name": "Legging Térmica Frio", "price": 169.90, "inStock": true, "images": ["https://images.unsplash.com/photo-1506619237369-f6b981881efc?w=500"] },
+  { "id": 10, "category": "leggings", "name": "Legging 3/4 Running", "price": 99.90, "inStock": true, "images": ["https://images.unsplash.com/photo-1574680096141-1cddd32e016f?w=500"] },
 
-  {
-    "category_group": "=== TOPS ===",
-    "id": 201,
-    "name": "Top Cross Back Pink",
-    "price": 89.90,
-    "category": "tops",
-    "inStock": true,
-    "desc": "Costas cruzadas e alta sustentação.",
-    "images": ["https://images.unsplash.com/photo-1571731956672-f2b94d7dd0cb?w=800"]
-  },
-  {
-    "id": 202,
-    "name": "Top Basic White",
-    "price": 79.90,
-    "category": "tops",
-    "inStock": true,
-    "desc": "O básico essencial.",
-    "images": ["https://images.unsplash.com/photo-1518310383802-640c2de311b2?w=800"]
-  },
-  {
-    "id": 203,
-    "name": "Top Cropped Manga Longa",
-    "price": 110.00,
-    "category": "tops",
-    "inStock": true,
-    "desc": "Estilo para dias frios.",
-    "images": ["https://images.unsplash.com/photo-1516726817505-f5ed825624d8?w=800"]
-  },
-  {
-    "id": 204,
-    "name": "Sports Bra Neon",
-    "price": 95.00,
-    "category": "tops",
-    "inStock": false,
-    "desc": "Cor neon vibrante.",
-    "images": ["https://images.unsplash.com/photo-1620799140408-ed5341cd2431?w=800"]
-  },
+  { "id": 11, "category": "tops", "name": "Top Cross Pink", "price": 89.90, "inStock": true, "images": ["https://images.unsplash.com/photo-1571731956672-f2b94d7dd0cb?w=500"] },
+  { "id": 12, "category": "tops", "name": "Top Basic Branco", "price": 79.90, "inStock": true, "images": ["https://images.unsplash.com/photo-1518310383802-640c2de311b2?w=500"] },
+  { "id": 13, "category": "tops", "name": "Top Manga Longa", "price": 110.00, "inStock": true, "images": ["https://images.unsplash.com/photo-1516726817505-f5ed825624d8?w=500"] },
+  { "id": 14, "category": "tops", "name": "Top Neon Vibes", "price": 95.00, "inStock": false, "images": ["https://images.unsplash.com/photo-1620799140408-ed5341cd2431?w=500"] },
+  { "id": 15, "category": "tops", "name": "Top Bojo Removível", "price": 85.00, "inStock": true, "images": ["https://images.unsplash.com/photo-1571731956672-f2b94d7dd0cb?w=500"] },
+  { "id": 16, "category": "tops", "name": "Top Nadador Preto", "price": 69.90, "inStock": true, "images": ["https://images.unsplash.com/photo-1518310383802-640c2de311b2?w=500"] },
+  { "id": 17, "category": "tops", "name": "Top Alça Fina", "price": 65.00, "inStock": true, "images": ["https://images.unsplash.com/photo-1516726817505-f5ed825624d8?w=500"] },
+  { "id": 18, "category": "tops", "name": "Top Zíper Frontal", "price": 99.90, "inStock": true, "images": ["https://images.unsplash.com/photo-1620799140408-ed5341cd2431?w=500"] },
+  { "id": 19, "category": "tops", "name": "Top Alta Sustentação", "price": 105.00, "inStock": true, "images": ["https://images.unsplash.com/photo-1571731956672-f2b94d7dd0cb?w=500"] },
+  { "id": 20, "category": "tops", "name": "Top Ombro Único", "price": 95.00, "inStock": true, "images": ["https://images.unsplash.com/photo-1518310383802-640c2de311b2?w=500"] },
 
-  {
-    "category_group": "=== SHORTS ===",
-    "id": 301,
-    "name": "Shorts Runner Duplo",
-    "price": 99.90,
-    "category": "shorts",
-    "inStock": true,
-    "desc": "Shorts soltinho com compressão por baixo.",
-    "images": ["https://images.unsplash.com/photo-1539185441755-769473a23570?w=800"]
-  },
-  {
-    "id": 302,
-    "name": "Biker Shorts Preto",
-    "price": 85.00,
-    "category": "shorts",
-    "inStock": true,
-    "desc": "Estilo ciclista clássico.",
-    "images": ["https://images.unsplash.com/photo-1534067783741-5127d28f8512?w=800"]
-  },
-  {
-    "id": 303,
-    "name": "Shorts Levanta Bumbum",
-    "price": 95.00,
-    "category": "shorts",
-    "inStock": true,
-    "desc": "Tecido texturizado.",
-    "images": ["https://images.unsplash.com/photo-1574680096141-1cddd32e016f?w=800"]
-  },
+  { "id": 21, "category": "shorts", "name": "Shorts Runner Duplo", "price": 99.90, "inStock": true, "images": ["https://images.unsplash.com/photo-1539185441755-769473a23570?w=500"] },
+  { "id": 22, "category": "shorts", "name": "Biker Shorts Preto", "price": 85.00, "inStock": true, "images": ["https://images.unsplash.com/photo-1534067783741-5127d28f8512?w=500"] },
+  { "id": 23, "category": "shorts", "name": "Shorts Levanta Bumbum", "price": 95.00, "inStock": true, "images": ["https://images.unsplash.com/photo-1574680096141-1cddd32e016f?w=500"] },
+  { "id": 24, "category": "shorts", "name": "Shorts Moletom", "price": 79.90, "inStock": true, "images": ["https://images.unsplash.com/photo-1539185441755-769473a23570?w=500"] },
+  { "id": 25, "category": "shorts", "name": "Biker Shorts Onça", "price": 89.90, "inStock": true, "images": ["https://images.unsplash.com/photo-1534067783741-5127d28f8512?w=500"] },
+  { "id": 26, "category": "shorts", "name": "Shorts Compressão", "price": 90.00, "inStock": true, "images": ["https://images.unsplash.com/photo-1574680096141-1cddd32e016f?w=500"] },
+  { "id": 27, "category": "shorts", "name": "Shorts Saia Tênis", "price": 110.00, "inStock": true, "images": ["https://images.unsplash.com/photo-1539185441755-769473a23570?w=500"] },
+  { "id": 28, "category": "shorts", "name": "Shorts Curto Corrida", "price": 75.00, "inStock": true, "images": ["https://images.unsplash.com/photo-1534067783741-5127d28f8512?w=500"] },
+  { "id": 29, "category": "shorts", "name": "Shorts Cintura Alta", "price": 85.00, "inStock": true, "images": ["https://images.unsplash.com/photo-1574680096141-1cddd32e016f?w=500"] },
+  { "id": 30, "category": "shorts", "name": "Shorts Bolso Celular", "price": 99.90, "inStock": true, "images": ["https://images.unsplash.com/photo-1539185441755-769473a23570?w=500"] },
 
-  {
-    "category_group": "=== CONJUNTOS ===",
-    "id": 401,
-    "name": "Conjunto Power Berry",
-    "price": 229.90,
-    "category": "sets",
-    "inStock": true,
-    "desc": "Top + Legging na cor da estação.",
-    "images": ["https://images.unsplash.com/photo-1579758629938-03607ccdbaba?w=800"]
-  },
-  {
-    "id": 402,
-    "name": "Kit Treino Preto",
-    "price": 199.90,
-    "category": "sets",
-    "inStock": true,
-    "desc": "O 'pretinho básico' da academia.",
-    "images": ["https://images.unsplash.com/photo-1483721310020-03333e577078?w=800"]
-  }
+  { "id": 31, "category": "conjuntos", "name": "Conjunto Power Berry", "price": 229.90, "inStock": true, "images": ["https://images.unsplash.com/photo-1579758629938-03607ccdbaba?w=500"] },
+  { "id": 32, "category": "conjuntos", "name": "Kit Treino Preto", "price": 199.90, "inStock": true, "images": ["https://images.unsplash.com/photo-1483721310020-03333e577078?w=500"] },
+  { "id": 33, "category": "conjuntos", "name": "Conjunto Yoga Cinza", "price": 210.00, "inStock": true, "images": ["https://images.unsplash.com/photo-1518310383802-640c2de311b2?w=500"] },
+  { "id": 34, "category": "conjuntos", "name": "Conjunto Verão Neon", "price": 240.00, "inStock": false, "images": ["https://images.unsplash.com/photo-1620799140408-ed5341cd2431?w=500"] },
+  { "id": 35, "category": "conjuntos", "name": "Conjunto Animal Print", "price": 250.00, "inStock": true, "images": ["https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=500"] },
+  { "id": 36, "category": "conjuntos", "name": "Conjunto Seamless Azul", "price": 235.00, "inStock": true, "images": ["https://images.unsplash.com/photo-1579758629938-03607ccdbaba?w=500"] },
+  { "id": 37, "category": "conjuntos", "name": "Conjunto Short e Top", "price": 180.00, "inStock": true, "images": ["https://images.unsplash.com/photo-1539185441755-769473a23570?w=500"] },
+  { "id": 38, "category": "conjuntos", "name": "Conjunto Manga Longa", "price": 260.00, "inStock": true, "images": ["https://images.unsplash.com/photo-1483721310020-03333e577078?w=500"] },
+  { "id": 39, "category": "conjuntos", "name": "Conjunto Runner", "price": 190.00, "inStock": true, "images": ["https://images.unsplash.com/photo-1579758629938-03607ccdbaba?w=500"] },
+  { "id": 40, "category": "conjuntos", "name": "Conjunto Crossfit", "price": 220.00, "inStock": true, "images": ["https://images.unsplash.com/photo-1483721310020-03333e577078?w=500"] },
+
+  { "id": 41, "category": "acessorios", "name": "Garrafa Térmica 1L", "price": 89.90, "inStock": true, "images": ["https://images.unsplash.com/photo-1602143407151-11115cdbf69c?w=500"] },
+  { "id": 42, "category": "acessorios", "name": "Tapete Yoga Premium", "price": 120.00, "inStock": true, "images": ["https://images.unsplash.com/photo-1592432678016-e910b452f9a9?w=500"] },
+  { "id": 43, "category": "acessorios", "name": "Faixa Elástica Kit", "price": 59.90, "inStock": true, "images": ["https://images.unsplash.com/photo-1598289431512-b97b0917affc?w=500"] },
+  { "id": 44, "category": "acessorios", "name": "Boné Running", "price": 69.90, "inStock": true, "images": ["https://images.unsplash.com/photo-1588850561407-ed78c282e89b?w=500"] },
+  { "id": 45, "category": "acessorios", "name": "Meia Performance (Par)", "price": 29.90, "inStock": true, "images": ["https://images.unsplash.com/photo-1586350977771-b3b0abd50c82?w=500"] },
+  { "id": 46, "category": "acessorios", "name": "Munhequeira Cross", "price": 45.00, "inStock": true, "images": ["https://images.unsplash.com/photo-1598289431512-b97b0917affc?w=500"] },
+  { "id": 47, "category": "acessorios", "name": "Luva de Treino", "price": 55.00, "inStock": true, "images": ["https://images.unsplash.com/photo-1602143407151-11115cdbf69c?w=500"] },
+  { "id": 48, "category": "acessorios", "name": "Corda de Pular Pro", "price": 39.90, "inStock": true, "images": ["https://images.unsplash.com/photo-1592432678016-e910b452f9a9?w=500"] },
+  { "id": 49, "category": "acessorios", "name": "Mochila Fitness", "price": 199.90, "inStock": true, "images": ["https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500"] },
+  { "id": 50, "category": "acessorios", "name": "Viseira Proteção UV", "price": 49.90, "inStock": true, "images": ["https://images.unsplash.com/photo-1588850561407-ed78c282e89b?w=500"] }
 ]
