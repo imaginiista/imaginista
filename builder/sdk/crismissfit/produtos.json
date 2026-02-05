@@ -1,0 +1,126 @@
+[
+  {
+    "category_group": "=== LEGGINGS ===",
+    "id": 101,
+    "name": "Legging High Compress Black",
+    "price": 129.90,
+    "category": "leggings",
+    "inStock": true,
+    "desc": "Alta compressão que modela o corpo.",
+    "images": ["https://images.unsplash.com/photo-1506619237369-f6b981881efc?w=800"]
+  },
+  {
+    "id": 102,
+    "name": "Legging Seamless Rosa",
+    "price": 149.90,
+    "category": "leggings",
+    "inStock": true,
+    "desc": "Sem costura, toque suave.",
+    "images": ["https://images.unsplash.com/photo-1552160753-117159d4541c?w=800"]
+  },
+  {
+    "id": 103,
+    "name": "Legging Efeito Levanta",
+    "price": 139.90,
+    "category": "leggings",
+    "inStock": false,
+    "desc": "Tecnologia push-up. Esgotado.",
+    "images": ["https://images.unsplash.com/photo-1574680096141-1cddd32e016f?w=800"]
+  },
+  {
+    "id": 104,
+    "name": "Legging Galaxy Roxo",
+    "price": 119.90,
+    "category": "leggings",
+    "inStock": true,
+    "desc": "Estampa moderna.",
+    "images": ["https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=800"]
+  },
+
+  {
+    "category_group": "=== TOPS ===",
+    "id": 201,
+    "name": "Top Cross Back Pink",
+    "price": 89.90,
+    "category": "tops",
+    "inStock": true,
+    "desc": "Costas cruzadas e alta sustentação.",
+    "images": ["https://images.unsplash.com/photo-1571731956672-f2b94d7dd0cb?w=800"]
+  },
+  {
+    "id": 202,
+    "name": "Top Basic White",
+    "price": 79.90,
+    "category": "tops",
+    "inStock": true,
+    "desc": "O básico essencial.",
+    "images": ["https://images.unsplash.com/photo-1518310383802-640c2de311b2?w=800"]
+  },
+  {
+    "id": 203,
+    "name": "Top Cropped Manga Longa",
+    "price": 110.00,
+    "category": "tops",
+    "inStock": true,
+    "desc": "Estilo para dias frios.",
+    "images": ["https://images.unsplash.com/photo-1516726817505-f5ed825624d8?w=800"]
+  },
+  {
+    "id": 204,
+    "name": "Sports Bra Neon",
+    "price": 95.00,
+    "category": "tops",
+    "inStock": false,
+    "desc": "Cor neon vibrante.",
+    "images": ["https://images.unsplash.com/photo-1620799140408-ed5341cd2431?w=800"]
+  },
+
+  {
+    "category_group": "=== SHORTS ===",
+    "id": 301,
+    "name": "Shorts Runner Duplo",
+    "price": 99.90,
+    "category": "shorts",
+    "inStock": true,
+    "desc": "Shorts soltinho com compressão por baixo.",
+    "images": ["https://images.unsplash.com/photo-1539185441755-769473a23570?w=800"]
+  },
+  {
+    "id": 302,
+    "name": "Biker Shorts Preto",
+    "price": 85.00,
+    "category": "shorts",
+    "inStock": true,
+    "desc": "Estilo ciclista clássico.",
+    "images": ["https://images.unsplash.com/photo-1534067783741-5127d28f8512?w=800"]
+  },
+  {
+    "id": 303,
+    "name": "Shorts Levanta Bumbum",
+    "price": 95.00,
+    "category": "shorts",
+    "inStock": true,
+    "desc": "Tecido texturizado.",
+    "images": ["https://images.unsplash.com/photo-1574680096141-1cddd32e016f?w=800"]
+  },
+
+  {
+    "category_group": "=== CONJUNTOS ===",
+    "id": 401,
+    "name": "Conjunto Power Berry",
+    "price": 229.90,
+    "category": "sets",
+    "inStock": true,
+    "desc": "Top + Legging na cor da estação.",
+    "images": ["https://images.unsplash.com/photo-1579758629938-03607ccdbaba?w=800"]
+  },
+  {
+    "id": 402,
+    "name": "Kit Treino Preto",
+    "price": 199.90,
+    "category": "sets",
+    "inStock": true,
+    "desc": "O 'pretinho básico' da academia.",
+    "images": ["https://images.unsplash.com/photo-1483721310020-03333e577078?w=800"]
+  }
+]
