@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sadak Shops | O Imaginista</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fslightbox/3.4.1/index.min.js"></script>
+    <script src="https://sdk.mercadopago.com/js/v2"></script>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;900&display=swap');
+        
+        body { font-family: 'Inter', sans-serif; background-color: #f8f9fa; scroll-behavior: smooth; }
+        
+        /* Identidade Visual */
+        .brand-blue { color: #009ee3; }
+        .bg-brand-blue { background-color: #009ee3; }
+        .hover-brand-blue:hover { background-color: #007eb5; }
+        
+        /* Hero Banner Premium */
+        .hero-banner {
+            background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1469334031218-e382a71b716b?q=80&w=2070&auto=format&fit=crop');
+            background-size: cover; background-position: center; background-attachment: fixed;
+        }
+        
+        /* Card Produto */
+        .product-card { transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); border: 1px solid transparent; }
+        .product-card:hover { transform: translateY(-8px); box-shadow: 0 15px 30px rgba(0,0,0,0.08); border-color: #e5e7eb; }
+        
+        .img-container { height: 400px; overflow: hidden; position: relative; cursor: pointer; background: #f3f4f6; }
+        .img-container img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s ease; }
+        .product-card:hover .img-container img { transform: scale(1.08); }
+        
+        /* Badges */
+        .sold-out-layer { position: absolute; inset: 0; background: rgba(255,255,255,0.7); backdrop-filter: grayscale(1); z-index: 10; display: flex; align-items: center; justify-content: center; font-weight: 900; letter-spacing: 2px; color: #666; pointer-events: none; }
+        
+        /* UI Elements */
+        .size-radio:checked + label { background-color: black; color: white; border-color: black; }
+        input:focus { outline: none; border-color: #009ee3; ring: 2px rgba(0,158,227,0.1); }
+        
+        /* Carrinho Lateral */
+        #cart-sidebar { transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        .cart-open { transform: translateX(0); }
+        .cart-closed { transform: translateX(100%); }
+        
+        /* Categorias */
+        .cat-btn.active { background-color: black; color: white; border-color: black; }
+
+        /* Modais */
+        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 100; backdrop-filter: blur(5px); justify-content: center; align-items: center; }
+        .modal-content { background: white; width: 90%; max-width: 600px; max-height: 80vh; overflow-y: auto; padding: 40px; border-radius: 8px; position: relative; animation: slideUp 0.3s ease; }
+        @keyframes slideUp { from {transform: translateY(20px); opacity:0;} to {transform: translateY(0); opacity:1;} }
+    </style>
+</head>
+<body class="text-gray-900 overflow-x-hidden selection:bg-black selection:text-white">
+
+    <header class="bg-white/95 backdrop-blur-md text-black py-4 px-6 sticky top-0 z-50 border-b border-gray-100">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-black tracking-tighter italic">SADAK <span class="brand-blue">SHOPS</span></h1>
+            
+            <div class="hidden md:flex flex-grow max-w-lg mx-12">
+                <div class="relative w-full">
+                    <input type="text" id="search-input" onkeyup="filterProducts()" placeholder="O que você procura hoje?" class="w-full bg-gray-100 border-none rounded-full py-2.5 px-12 text-sm focus:bg-white focus:ring-1 focus:ring-gray-200 transition-all">
+                    <i class="fas fa-search absolute left-4 top-3 text-gray-400"></i>
+                </div>
+            </div>
+
+            <button onclick="toggleCart(true)" class="relative p-2 group">
+                <div class="relative">
+                    <i class="fas fa-shopping-bag text-2xl text-gray-800 group-hover:text-brand-blue transition"></i>
+                    <span id="cart-count" class="absolute -top-1 -right-2 bg-black text-white text-[10px] h-5 w-5 rounded-full flex items-center justify-center font-bold">0</span>
+                </div>
+            </button>
+        </div>
+    </header>
+
+    <section class="relative h-[65vh] flex items-center justify-center hero-banner text-white text-center px-4">
+        <div class="max-w-4xl z-10">
+            <span class="inline-block py-1 px-3 border border-white/30 rounded-full text-xs font-bold tracking-widest uppercase mb-4 backdrop-blur-sm">Nova Coleção 2026</span>
+            <h2 class="text-6xl md:text-8xl font-black mb-6 tracking-tighter leading-tight">PREMIUM <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">ESSENTIALS</span></h2>
+            <p class="text-lg md:text-xl text-gray-200 mb-10 font-light max-w-2xl mx-auto">Design minimalista e alta gramatura. A união perfeita entre o streetwear e a sofisticação.</p>
+            <a href="#produtos" class="bg-white text-black px-10 py-4 font-black hover:bg-brand-blue hover:text-white transition duration-300 rounded-sm uppercase tracking-widest shadow-2xl">Explorar Drop</a>
+        </div>
+    </section>
+
+    <main id="produtos" class="container mx-auto py-20 px-4">
+        
+        <div class="flex flex-col xl:flex-row items-center justify-between mb-16 gap-8">
+            <div class="text-center xl:text-left">
+                <h3 class="text-3xl font-black uppercase italic tracking-tighter">Vitrine</h3>
+                <p id="product-status" class="text-xs text-gray-400 font-bold tracking-[0.2em] uppercase mt-1">Carregando...</p>
+            </div>
+            
+            <div class="flex flex-wrap gap-3 justify-center">
+                <button onclick="filterCategory('all')" class="cat-btn active border border-gray-200 px-6 py-2 rounded-full text-xs font-bold uppercase hover:border-black transition">Todos</button>
+                <button onclick="filterCategory('basics')" class="cat-btn border border-gray-200 px-6 py-2 rounded-full text-xs font-bold uppercase hover:border-black transition">Basics</button>
+                <button onclick="filterCategory('streetwear')" class="cat-btn border border-gray-200 px-6 py-2 rounded-full text-xs font-bold uppercase hover:border-black transition">Streetwear</button>
+                <button onclick="filterCategory('oversized')" class="cat-btn border border-gray-200 px-6 py-2 rounded-full text-xs font-bold uppercase hover:border-black transition">Oversized</button>
+                <button onclick="filterCategory('limited')" class="cat-btn border border-gray-200 px-6 py-2 rounded-full text-xs font-bold uppercase hover:border-black transition text-brand-blue border-blue-100">Limited</button>
+            </div>
+        </div>
+
+        <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-16">
+            <div class="col-span-full py-32 text-center text-gray-300 animate-pulse">
+                <i class="fas fa-circle-notch fa-spin text-4xl mb-4"></i>
+                <p class="text-xs uppercase tracking-widest">Carregando catálogo...</p>
+            </div>
+        </div>
+    </main>
+
+    <section class="bg-gray-900 text-white py-24 px-4">
+        <div class="container mx-auto text-center">
+            <h3 class="text-3xl font-black mb-16 uppercase tracking-tighter">Quem veste <span class="brand-blue">SADAK</span></h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                <div class="bg-gray-800 p-8 rounded-lg relative">
+                    <div class="absolute -top-6 left-1/2 -translate-x-1/2 w-12 h-12 bg-brand-blue rounded-full flex items-center justify-center text-xl"><i class="fas fa-quote-left"></i></div>
+                    <p class="text-gray-300 text-sm italic mb-6 mt-4 leading-relaxed">"O caimento da Oversized é exatamente o que eu procurava. Tecido pesado, gola que não deforma. Virei fã."</p>
+                    <div class="flex items-center justify-center gap-3">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" class="w-10 h-10 rounded-full border-2 border-brand-blue">
+                        <div class="text-left">
+                            <h5 class="font-bold text-xs uppercase">André Silva</h5>
+                            <div class="text-yellow-400 text-[10px]"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray-800 p-8 rounded-lg relative">
+                    <div class="absolute -top-6 left-1/2 -translate-x-1/2 w-12 h-12 bg-brand-blue rounded-full flex items-center justify-center text-xl"><i class="fas fa-quote-left"></i></div>
+                    <p class="text-gray-300 text-sm italic mb-6 mt-4 leading-relaxed">"Comprei a coleção Basics inteira. A qualidade do algodão é outro nível. Entrega super rápida no RJ."</p>
+                    <div class="flex items-center justify-center gap-3">
+                        <img src="https://randomuser.me/api/portraits/women/44.jpg" class="w-10 h-10 rounded-full border-2 border-brand-blue">
+                        <div class="text-left">
+                            <h5 class="font-bold text-xs uppercase">Mariana Costa</h5>
+                            <div class="text-yellow-400 text-[10px]"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray-800 p-8 rounded-lg relative">
+                    <div class="absolute -top-6 left-1/2 -translate-x-1/2 w-12 h-12 bg-brand-blue rounded-full flex items-center justify-center text-xl"><i class="fas fa-quote-left"></i></div>
+                    <p class="text-gray-300 text-sm italic mb-6 mt-4 leading-relaxed">"Atendimento impecável do Robson. A peça chegou cheirosa e muito bem embalada. Experiência premium."</p>
+                    <div class="flex items-center justify-center gap-3">
+                        <img src="https://randomuser.me/api/portraits/men/85.jpg" class="w-10 h-10 rounded-full border-2 border-brand-blue">
+                        <div class="text-left">
+                            <h5 class="font-bold text-xs uppercase">Felipe M.</h5>
+                            <div class="text-yellow-400 text-[10px]"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="cart-sidebar" class="fixed top-0 right-0 w-full md:w-[480px] h-full bg-white shadow-2xl z-[100] cart-closed flex flex-col">
+        <div class="p-6 border-b border-gray-100 flex justify-between items-center bg-white z-10">
+            <div>
+                <h2 class="text-xl font-black uppercase italic">Sua Sacola</h2>
+                <span class="text-xs text-gray-400">Entrega segura garantida</span>
+            </div>
+            <div class="flex items-center gap-4">
+                <button onclick="clearCart()" class="text-xs text-red-500 font-bold hover:bg-red-50 px-3 py-1 rounded transition uppercase" title="Esvaziar">Limpar</button>
+                <button onclick="toggleCart(false)" class="text-2xl text-gray-400 hover:text-black transition">&times;</button>
+            </div>
+        </div>
+        
+        <div id="cart-items" class="flex-1 overflow-y-auto p-6 space-y-4 bg-gray-50"></div>
+
+        <div class="p-6 bg-white border-t border-gray-100 shadow-[0_-5px_20px_rgba(0,0,0,0.05)]">
+            <div class="mb-6 space-y-3">
+                <div class="flex gap-3">
+                    <input type="text" id="cust-name" placeholder="Seu Nome" class="flex-1 bg-gray-50 border-0 rounded-sm px-4 py-3 text-xs font-bold focus:ring-2 focus:ring-brand-blue">
+                    <input type="text" id="cust-phone" onkeyup="maskPhone(this)" placeholder="WhatsApp" class="w-1/3 bg-gray-50 border-0 rounded-sm px-4 py-3 text-xs font-bold focus:ring-2 focus:ring-brand-blue">
+                </div>
+                <div class="flex gap-2">
+                    <input type="text" id="cep-input" onkeyup="maskCEP(this)" placeholder="CEP" class="w-24 bg-gray-50 border-0 rounded-sm px-4 py-3 text-xs font-bold focus:ring-2 focus:ring-brand-blue">
+                    <button onclick="searchCEP()" id="btn-cep" class="bg-black text-white px-4 rounded-sm text-xs hover:bg-gray-800 transition"><i class="fas fa-search"></i></button>
+                    <input type="text" id="cust-address" placeholder="Endereço Automático" readonly class="flex-1 bg-gray-100 border-0 rounded-sm px-4 py-3 text-xs text-gray-500 cursor-not-allowed">
+                </div>
+                <div class="flex gap-3">
+                    <input type="number" id="cust-number" placeholder="Nº" class="w-20 bg-gray-50 border-0 rounded-sm px-4 py-3 text-xs font-bold focus:ring-2 focus:ring-brand-blue">
+                    <input type="text" id="cust-comp" placeholder="Complemento (Opcional)" class="flex-1 bg-gray-50 border-0 rounded-sm px-4 py-3 text-xs font-bold focus:ring-2 focus:ring-brand-blue">
+                </div>
+                <div id="shipping-result" class="text-xs font-bold text-brand-blue text-right h-4"></div>
+            </div>
+
+            <div class="flex justify-between items-end mb-6 pt-4 border-t border-dashed border-gray-200">
+                <span class="text-sm text-gray-500 font-medium">Total com Frete</span>
+                <span id="cart-total" class="text-3xl font-black text-black tracking-tighter">R$ 0,00</span>
+            </div>
+            
+            <div class="space-y-3">
+                <button onclick="finishOrder()" class="w-full bg-green-600 text-white py-4 rounded-sm font-black hover:bg-green-700 shadow-lg hover:shadow-green-200/50 transition flex items-center justify-center gap-3 uppercase text-xs tracking-widest transform active:scale-95">
+                    <i class="fab fa-whatsapp text-lg"></i> Finalizar Pedido
+                </button>
+                
+                <div id="wallet_container"></div>
+                
+                <button id="btn-mp-demo" onclick="alert('MODO DEMONSTRAÇÃO:\n\n1. Insira sua Public Key no código HTML.\n2. O botão oficial do Mercado Pago aparecerá aqui.')" class="w-full bg-sky-500 text-white py-4 rounded-sm font-black hover:bg-sky-600 shadow-md transition flex items-center justify-center gap-3 uppercase text-xs tracking-widest">
+                    <i class="fas fa-bolt"></i> Pagar com Pix/Cartão
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-black text-gray-500 py-20 px-4 border-t border-gray-900 text-sm">
+        <div class="container mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
+            <div>
+                <h4 class="text-white font-black text-2xl italic tracking-tighter mb-6">SADAK <span class="brand-blue">SHOPS</span></h4>
+                <p class="mb-6 leading-relaxed text-xs">A excelência do básico ao streetwear. Produzido e curado por quem entende de imagem e estilo.</p>
+                <p class="text-[10px] uppercase font-bold text-gray-700">© 2026 O Imaginista. All rights reserved.</p>
+            </div>
+            <div>
+                <h4 class="text-white font-bold uppercase text-[10px] tracking-[0.2em] mb-6">Institucional</h4>
+                <ul class="space-y-3 text-xs">
+                    <li><button onclick="openModal('termos')" class="hover:text-white transition">Termos de Uso</button></li>
+                    <li><button onclick="openModal('privacidade')" class="hover:text-white transition">Privacidade</button></li>
+                    <li><button onclick="openModal('trocas')" class="hover:text-white transition">Trocas e Devoluções</button></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-white font-bold uppercase text-[10px] tracking-[0.2em] mb-6">Ajuda</h4>
+                <ul class="space-y-3 text-xs">
+                    <li><a href="#" class="hover:text-white transition">Acompanhar Pedido</a></li>
+                    <li><a href="#" class="hover:text-white transition">Tabela de Medidas</a></li>
+                    <li><a href="#" class="hover:text-white transition">Fale Conosco</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-white font-bold uppercase text-[10px] tracking-[0.2em] mb-6">Social</h4>
+                <div class="flex gap-4 text-xl">
+                    <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-brand-blue hover:text-white transition"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-red-600 hover:text-white transition"><i class="fab fa-youtube"></i></a>
+                    <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-blue-600 hover:text-white transition"><i class="fab fa-facebook-f"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div id="modal-legal" class="modal-overlay" onclick="if(event.target === this) this.style.display='none'">
+        <div class="modal-content">
+            <button onclick="document.getElementById('modal-legal').style.display='none'" class="absolute top-5 right-5 text-gray-400 hover:text-red-500 text-xl">&times;</button>
+            <h2 id="modal-title" class="text-2xl font-black mb-6 uppercase italic"></h2>
+            <div id="modal-body" class="text-sm text-gray-600 leading-relaxed space-y-4 font-light"></div>
+        </div>
+    </div>
+
+    <script>
+        // =========================================================================
+        // ⚠️ CONFIGURAÇÃO MERCADO PAGO
+        // =========================================================================
+        const mpPublicKey = 'TEST-3daebd00-74f2-4cd1-a114-91a4b6b3591c'; // <--- COLE SUA CHAVE AQUI
+        // =========================================================================
+
+        let allProducts = [];
+        let cart = [];
+        let shippingValue = 0;
+        let currentCategory = 'all';
+
+        // --- INICIALIZAÇÃO ---
+        window.onload = async () => {
+            await fetchProducts();
+            initMercadoPago();
+        };
+
+        function initMercadoPago() {
+            if (mpPublicKey && mpPublicKey !== 'TEST-3daebd00-74f2-4cd1-a114-91a4b6b3591c') {
+                document.getElementById('btn-mp-demo').style.display = 'none'; // Esconde botão demo
+                const mp = new MercadoPago(mpPublicKey, { locale: 'pt-BR' });
+                
+                // Renderiza botão oficial (Wallet Brick)
+                mp.bricks().create("wallet", "wallet_container", {
+                    initialization: {
+                        preferenceId: "<PREFERENCE_ID_DO_BACKEND>", // *Nota: Em site estático, isso falhará no clique, mas renderiza o botão visualmente.
+                    },
+                    customization: {
+                        texts: { valueProp: 'security_details' },
+                        visual: {
+                            buttonBackground: 'black',
+                            borderRadius: '4px',
+                        }
+                    },
+                });
+            }
+        }
+
+        // --- MÁSCARAS E CEP ---
+        function maskPhone(i){let v=i.value.replace(/\D/g,'');v=v.replace(/^(\d\d)(\d)/g,"($1) $2");v=v.replace(/(\d{5})(\d)/,"$1-$2");i.value=v;}
+        function maskCEP(i){let v=i.value.replace(/\D/g,'');v=v.replace(/^(\d{5})(\d)/,"$1-$2");i.value=v;}
+
+        async function searchCEP() {
+            const cep = document.getElementById('cep-input').value.replace(/\D/g, '');
+            if (cep.length !== 8) return alert("CEP inválido!");
+            
+            document.getElementById('btn-cep').innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+            try {
+                const res = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+                const data = await res.json();
+                if(data.erro) throw new Error();
+                
+                document.getElementById('cust-address').value = `${data.logradouro}, ${data.bairro}, ${data.localidade}-${data.uf}`;
+                shippingValue = data.uf === 'RJ' ? 15.00 : 30.00; // Regra de negócio simples
+                document.getElementById('shipping-result').innerText = `+ FRETE: R$ ${shippingValue.toFixed(2)}`;
+                updateCartUI();
+                document.getElementById('cust-number').focus();
+            } catch(e){ alert("CEP não encontrado."); }
+            document.getElementById('btn-cep').innerHTML = '<i class="fas fa-search"></i>';
+        }
+
+        // --- LOJA ---
+        async function fetchProducts() {
+            try {
+                const res = await fetch('produtos.json');
+                if(!res.ok) throw new Error();
+                allProducts = await res.json();
+                renderProducts(allProducts);
+            } catch (e) {
+                document.getElementById('product-grid').innerHTML = '<p class="col-span-full text-center text-gray-400">Erro ao carregar catálogo. Verifique o JSON.</p>';
+            }
+        }
+
+        function filterCategory(cat) {
+            currentCategory = cat;
+            document.querySelectorAll('.cat-btn').forEach(btn => btn.classList.remove('active', 'bg-black', 'text-white'));
+            event.target.classList.add('active', 'bg-black', 'text-white');
+            
+            if(cat === 'all') renderProducts(allProducts);
+            else renderProducts(allProducts.filter(p => p.category === cat));
+        }
+
+        function filterProducts() {
+            const q = document.getElementById('search-input').value.toLowerCase();
+            renderProducts(allProducts.filter(p => p.name.toLowerCase().includes(q)));
+        }
+
+        function renderProducts(data) {
+            const grid = document.getElementById('product-grid');
+            document.getElementById('product-status').innerText = `${data.length} ITENS`;
+            
+            if(data.length === 0) {
+                grid.innerHTML = '<div class="col-span-full text-center py-20 opacity-50"><i class="fas fa-ghost text-4xl mb-4"></i><p>Nada encontrado.</p></div>';
+                return;
+            }
+
+            grid.innerHTML = data.map(p => {
+                const isSold = !p.inStock;
+                const lightboxLinks = p.images.map(img => `<a data-fslightbox="gallery-${p.id}" href="${img}"></a>`).join('');
+                
+                return `
+                <div class="product-card bg-white rounded-sm overflow-hidden relative group">
+                    ${isSold ? '<div class="sold-out-layer">SOLD OUT</div>' : ''}
+                    
+                    <div class="img-container" onclick="openGallery(${p.id})">
+                        <img src="${p.images[0]}" alt="${p.name}">
+                        <div class="absolute bottom-3 right-3 bg-white/90 backdrop-blur text-black px-2 py-1 rounded text-[10px] font-bold shadow-sm uppercase tracking-wider opacity-0 group-hover:opacity-100 transition">
+                            <i class="fas fa-expand-arrows-alt"></i> Ver Fotos
+                        </div>
+                    </div>
+                    
+                    <div class="hidden">${lightboxLinks}</div>
+                    
+                    <div class="p-5">
+                        <div class="flex justify-between items-start mb-2">
+                            <div>
+                                <p class="text-[10px] text-gray-400 font-bold uppercase tracking-wider mb-1">${p.category}</p>
+                                <h4 class="font-black text-sm uppercase leading-tight">${p.name}</h4>
+                            </div>
+                            <span class="font-black text-lg">R$ ${Math.floor(p.price)}<span class="text-xs align-top">,${(p.price % 1).toFixed(2).substring(2)}</span></span>
+                        </div>
+                        
+                        <p class="text-xs text-gray-500 line-clamp-1 mb-4 h-4">${p.desc || 'Qualidade premium.'}</p>
+                        
+                        <div class="flex flex-col gap-3">
+                            <div class="flex gap-2 justify-center">
+                                ${['P','M','G','GG'].map(s=>`
+                                    <div class="relative">
+                                        <input type="radio" name="size-${p.id}" id="s-${p.id}-${s}" value="${s}" class="hidden size-radio" ${s==='M'?'checked':''} ${isSold?'disabled':''}>
+                                        <label for="s-${p.id}-${s}" class="w-8 h-8 flex items-center justify-center text-[10px] font-bold border border-gray-200 rounded cursor-pointer hover:border-black transition text-gray-600">${s}</label>
+                                    </div>
+                                `).join('')}
+                            </div>
+                            
+                            <button onclick="addToCart(${p.id})" ${isSold?'disabled':''} class="w-full bg-black text-white py-3 rounded-sm text-xs font-black uppercase tracking-widest hover:bg-brand-blue transition duration-300 flex items-center justify-center gap-2 group-hover:shadow-lg">
+                                ${isSold ? 'Esgotado' : 'Adicionar à Sacola'}
+                            </button>
+                        </div>
+                    </div>
+                </div>`
+            }).join('');
+            
+            refreshFsLightbox();
+        }
+
+        function openGallery(id) {
+            const link = document.querySelector(`[data-fslightbox="gallery-${id}"]`);
+            if(link) link.click();
+        }
+
+        // --- LÓGICA DO CARRINHO ---
+        function addToCart(id) {
+            const product = allProducts.find(p => p.id === id);
+            const size = document.querySelector(`input[name="size-${id}"]:checked`).value;
+            cart.push({...product, size});
+            updateCartUI();
+            toggleCart(true);
+        }
+
+        function clearCart() {
+            if(cart.length > 0 && confirm("Limpar toda a sacola?")) {
+                cart = [];
+                updateCartUI();
+            }
+        }
+
+        function toggleCart(open) {
+            const sb = document.getElementById('cart-sidebar');
+            if(open) { sb.classList.remove('cart-closed'); sb.classList.add('cart-open'); }
+            else { sb.classList.remove('cart-open'); sb.classList.add('cart-closed'); }
+        }
+
+        function updateCartUI() {
+            const container = document.getElementById('cart-items');
+            const totalEl = document.getElementById('cart-total');
+            const countEl = document.getElementById('cart-count');
+            
+            countEl.innerText = cart.length;
+            
+            const subtotal = cart.reduce((acc, item) => acc + item.price, 0);
+            const total = subtotal + shippingValue;
+            
+            totalEl.innerText = `R$ ${total.toFixed(2)}`;
+
+            if(cart.length === 0) {
+                container.innerHTML = `
+                    <div class="h-full flex flex-col items-center justify-center text-gray-300 space-y-4">
+                        <i class="fas fa-shopping-basket text-6xl"></i>
+                        <p class="text-xs uppercase font-bold tracking-widest">Sua sacola está vazia</p>
+                    </div>`;
+                return;
+            }
+
+            container.innerHTML = cart.map((item, idx) => `
+                <div class="flex gap-4 p-4 bg-white border border-gray-100 rounded-sm shadow-sm relative group">
+                    <img src="${item.images[0]}" class="w-16 h-20 object-cover rounded-sm">
+                    <div class="flex-1">
+                        <div class="flex justify-between items-start">
+                            <h4 class="font-black text-xs uppercase w-3/4 leading-tight">${item.name}</h4>
+                            <span class="text-xs font-bold text-gray-900">R$ ${item.price.toFixed(0)}</span>
+                        </div>
+                        <p class="text-[10px] text-gray-500 mt-1 uppercase">Tam: <span class="font-bold text-black">${item.size}</span></p>
+                        
+                        <button onclick="cart.splice(${idx},1);updateCartUI()" class="absolute bottom-3 right-3 text-gray-300 hover:text-red-500 transition">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // --- CHECKOUT ---
+        function finishOrder() {
+            const name = document.getElementById('cust-name').value;
+            const phone = document.getElementById('cust-phone').value;
+            const address = document.getElementById('cust-address').value;
+            const num = document.getElementById('cust-number').value;
+            const comp = document.getElementById('cust-comp').value;
+            const cep = document.getElementById('cep-input').value;
+
+            if(cart.length === 0) return alert("Adicione itens à sacola!");
+            if(!name || !phone || !address || !num) return alert("Preencha os dados de entrega.");
+            if(shippingValue === 0) return alert("Calcule o frete.");
+
+            // Mensagem
+            let itemsList = cart.map(i => `▪️ ${i.name} (${i.size}) - R$ ${i.price.toFixed(2)}`).join('\n');
+            const total = (cart.reduce((a,b)=>a+b.price,0) + shippingValue).toFixed(2);
+            
+            let msg = `*PEDIDO OFICIAL SADAK* 🛒\n\n`;
+            msg += `👤 *Cliente:* ${name}\n📱 *Tel:* ${phone}\n\n`;
+            msg += `📍 *Entrega:* ${address}, Nº ${num} ${comp ? '('+comp+')' : ''}\n📮 *CEP:* ${cep}\n\n`;
+            msg += `📦 *ITENS:*\n${itemsList}\n\n`;
+            msg += `🚚 *Frete:* R$ ${shippingValue.toFixed(2)}\n`;
+            msg += `💎 *TOTAL:* R$ ${total}\n\n`;
+            msg += `_Aguardo chave PIX!_`;
+
+            // Envia e Reseta
+            window.open(`https://wa.me/5521983340089?text=${encodeURIComponent(msg)}`, '_blank');
+            
+            setTimeout(() => {
+                alert("✅ Pedido enviado! Verifique o WhatsApp.");
+                cart = [];
+                updateCartUI();
+                toggleCart(false);
+                document.getElementById('cust-name').value = "";
+                document.getElementById('cust-phone').value = "";
+            }, 1000);
+        }
+
+        // --- MODAIS ---
+        const legalTexts = {
+            'termos': "Termos de Uso Sadak Shops: Todos os direitos reservados. Proibida a cópia.",
+            'privacidade': "Seus dados são utilizados exclusivamente para o processamento e entrega do pedido.",
+            'trocas': "Trocas em até 7 dias corridos após o recebimento, desde que o produto esteja com a etiqueta e sem uso."
+        };
+        function openModal(t) {
+            document.getElementById('modal-title').innerText = t.toUpperCase();
+            document.getElementById('modal-body').innerText = legalTexts[t];
+            document.getElementById('modal-legal').style.display = 'flex';
+        }
+    </script>
+</body>
+</html>

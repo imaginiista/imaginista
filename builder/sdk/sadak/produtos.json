@@ -1,0 +1,340 @@
+[
+  {
+    "id": 1,
+    "name": "Minimalist Black",
+    "price": 89.90,
+    "category": "basics",
+    "inStock": true,
+    "desc": "Algodão Pima 100% toque suave.",
+    "images": [
+      "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=800",
+      "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=800"
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Essential White",
+    "price": 79.90,
+    "category": "basics",
+    "inStock": true,
+    "desc": "A peça chave para qualquer look.",
+    "images": [
+      "https://images.unsplash.com/photo-1581655353564-df123a1eb820?w=800",
+      "https://images.unsplash.com/photo-1562157873-818bc0726f68?w=800"
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Navy Blue Classic",
+    "price": 85.00,
+    "category": "basics",
+    "inStock": true,
+    "desc": "Azul marinho profundo e elegante.",
+    "images": [
+      "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=800",
+      "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=800"
+    ]
+  },
+  {
+    "id": 4,
+    "name": "Urban Concrete Grey",
+    "price": 99.90,
+    "category": "streetwear",
+    "inStock": true,
+    "desc": "Estilo urbano com lavagem estonada.",
+    "images": [
+      "https://images.unsplash.com/photo-1562157873-818bc0726f68?w=800",
+      "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=800"
+    ]
+  },
+  {
+    "id": 5,
+    "name": "Sadak Red Drop",
+    "price": 95.00,
+    "category": "streetwear",
+    "inStock": false,
+    "desc": "Vermelho vibrante, sold out rápido.",
+    "images": [
+      "https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=800",
+      "https://images.unsplash.com/photo-1529374255404-311a2a4f1fd9?w=800"
+    ]
+  },
+  {
+    "id": 6,
+    "name": "Forest Green Tee",
+    "price": 89.90,
+    "category": "basics",
+    "inStock": true,
+    "desc": "Verde musgo para compor tons terrosos.",
+    "images": [
+      "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=800",
+      "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=800"
+    ]
+  },
+  {
+    "id": 7,
+    "name": "Beige Oversized",
+    "price": 109.90,
+    "category": "oversized",
+    "inStock": true,
+    "desc": "Modelagem ampla e ombros caídos.",
+    "images": [
+      "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=800",
+      "https://images.unsplash.com/photo-1562157873-818bc0726f68?w=800"
+    ]
+  },
+  {
+    "id": 8,
+    "name": "Vintage Wash Black",
+    "price": 110.00,
+    "category": "streetwear",
+    "inStock": true,
+    "desc": "Aspecto envelhecido vintage premium.",
+    "images": [
+      "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=800",
+      "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=800"
+    ]
+  },
+  {
+    "id": 9,
+    "name": "Graphic Skull Tee",
+    "price": 120.00,
+    "category": "streetwear",
+    "inStock": true,
+    "desc": "Estampa em silk screen de alta definição.",
+    "images": [
+      "https://images.unsplash.com/photo-1576871337622-98d48d1cf531?w=800"
+    ]
+  },
+  {
+    "id": 10,
+    "name": "Imaginista Gold Edition",
+    "price": 199.90,
+    "category": "limited",
+    "inStock": true,
+    "desc": "Detalhes em fio de ouro. Exclusiva.",
+    "images": [
+      "https://images.unsplash.com/photo-1626557981101-aae6f84aa6ff?w=800"
+    ]
+  },
+  {
+    "id": 11,
+    "name": "Striped Sailor",
+    "price": 75.00,
+    "category": "basics",
+    "inStock": true,
+    "desc": "Listrado clássico atemporal.",
+    "images": [
+      "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=800"
+    ]
+  },
+  {
+    "id": 12,
+    "name": "Heavy Cotton Charcoal",
+    "price": 105.00,
+    "category": "oversized",
+    "inStock": false,
+    "desc": "Algodão pesado 280g.",
+    "images": [
+      "https://images.unsplash.com/photo-1562157873-818bc0726f68?w=800"
+    ]
+  },
+  {
+    "id": 13,
+    "name": "Summer Vibe Yellow",
+    "price": 69.90,
+    "category": "basics",
+    "inStock": true,
+    "desc": "Amarelo solar para o verão.",
+    "images": [
+      "https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=800"
+    ]
+  },
+  {
+    "id": 14,
+    "name": "Pocket Tee White",
+    "price": 82.00,
+    "category": "basics",
+    "inStock": true,
+    "desc": "Básica com bolso funcional.",
+    "images": [
+      "https://images.unsplash.com/photo-1581655353564-df123a1eb820?w=800"
+    ]
+  },
+  {
+    "id": 15,
+    "name": "Long Sleeve Black",
+    "price": 115.00,
+    "category": "longsleeve",
+    "inStock": true,
+    "desc": "Manga longa perfeita para meia estação.",
+    "images": [
+      "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=800"
+    ]
+  },
+  {
+    "id": 16,
+    "name": "Gym Fit Grey",
+    "price": 79.90,
+    "category": "basics",
+    "inStock": true,
+    "desc": "Corte atlético que valoriza o corpo.",
+    "images": [
+      "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=800"
+    ]
+  },
+  {
+    "id": 17,
+    "name": "Signature Black LTD",
+    "price": 250.00,
+    "category": "limited",
+    "inStock": false,
+    "desc": "Assinada e numerada. Colecionável.",
+    "images": [
+      "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=800"
+    ]
+  },
+  {
+    "id": 18,
+    "name": "Crew Neck Pink",
+    "price": 79.90,
+    "category": "basics",
+    "inStock": true,
+    "desc": "Rosa pastel suave.",
+    "images": [
+      "https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=800"
+    ]
+  },
+  {
+    "id": 19,
+    "name": "Raglan Baseball",
+    "price": 89.90,
+    "category": "longsleeve",
+    "inStock": true,
+    "desc": "Estilo americano mangas 3/4.",
+    "images": [
+      "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=800"
+    ]
+  },
+  {
+    "id": 20,
+    "name": "Oversized Hoodie Black",
+    "price": 249.90,
+    "category": "oversized",
+    "inStock": true,
+    "desc": "Moletom pesado com capuz estruturado.",
+    "images": [
+      "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=800"
+    ]
+  },
+  {
+    "id": 21,
+    "name": "Street Hoodie Grey",
+    "price": 249.90,
+    "category": "oversized",
+    "inStock": true,
+    "desc": "Conforto extremo para o dia a dia.",
+    "images": [
+      "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=800"
+    ]
+  },
+  {
+    "id": 22,
+    "name": "Crop Top White",
+    "price": 65.00,
+    "category": "basics",
+    "inStock": true,
+    "desc": "Modelagem curta feminina.",
+    "images": [
+      "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=800"
+    ]
+  },
+  {
+    "id": 23,
+    "name": "Tank Top Black",
+    "price": 55.00,
+    "category": "basics",
+    "inStock": true,
+    "desc": "Regata cavada para treino.",
+    "images": [
+      "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=800"
+    ]
+  },
+  {
+    "id": 24,
+    "name": "Performance Blue",
+    "price": 79.90,
+    "category": "basics",
+    "inStock": true,
+    "desc": "Tecido tecnológico respirável.",
+    "images": [
+      "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=800"
+    ]
+  },
+  {
+    "id": 25,
+    "name": "Abstract Art Print",
+    "price": 110.00,
+    "category": "streetwear",
+    "inStock": true,
+    "desc": "Arte abstrata nas costas.",
+    "images": [
+      "https://images.unsplash.com/photo-1576871337622-98d48d1cf531?w=800"
+    ]
+  },
+  {
+    "id": 26,
+    "name": "Typography White",
+    "price": 89.90,
+    "category": "streetwear",
+    "inStock": true,
+    "desc": "Tipografia minimalista no peito.",
+    "images": [
+      "https://images.unsplash.com/photo-1581655353564-df123a1eb820?w=800"
+    ]
+  },
+  {
+    "id": 27,
+    "name": "Retro 90s Vibe",
+    "price": 95.00,
+    "category": "streetwear",
+    "inStock": true,
+    "desc": "Cores neon estilo anos 90.",
+    "images": [
+      "https://images.unsplash.com/photo-1529374255404-311a2a4f1fd9?w=800"
+    ]
+  },
+  {
+    "id": 28,
+    "name": "Purple Haze Long",
+    "price": 120.00,
+    "category": "longsleeve",
+    "inStock": true,
+    "desc": "Roxo intenso manga longa.",
+    "images": [
+      "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=800"
+    ]
+  },
+  {
+    "id": 29,
+    "name": "Orange Sunset",
+    "price": 79.90,
+    "category": "basics",
+    "inStock": false,
+    "desc": "Laranja pôr do sol.",
+    "images": [
+      "https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=800"
+    ]
+  },
+  {
+    "id": 30,
+    "name": "Sadak Mystery Box",
+    "price": 199.90,
+    "category": "limited",
+    "inStock": true,
+    "desc": "Caixa com 3 camisetas surpresa.",
+    "images": [
+      "https://images.unsplash.com/photo-1562157873-818bc0726f68?w=800"
+    ]
+  }
+]
