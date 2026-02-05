@@ -45,6 +45,10 @@
 
         .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 100; align-items: center; justify-content: center; }
         .modal-content { background: white; width: 90%; max-width: 600px; max-height: 80vh; overflow-y: auto; padding: 30px; border-radius: 4px; }
+        
+        /* Loading Spinner */
+        .spinner { border: 3px solid rgba(255,255,255,0.3); border-radius: 50%; border-top: 3px solid white; width: 20px; height: 20px; animation: spin 1s linear infinite; display: none; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body class="text-gray-900 overflow-x-hidden">
@@ -138,8 +142,12 @@
                 <i class="fab fa-whatsapp text-lg"></i> Finalizar no WhatsApp
             </button>
             
-            <button onclick="openPaymentLink()" class="w-full btn-mp text-white py-4 rounded font-black shadow-md flex items-center justify-center gap-3 uppercase text-xs tracking-widest">
-                <img src="https://img.icons8.com/color/48/mercado-pago.png" class="w-5 h-5 bg-white rounded-full p-0.5"> Pagar com Mercado Pago
+            <button id="btn-mp-real" onclick="payWithMercadoPago()" class="w-full btn-mp text-white py-4 rounded font-black shadow-md flex items-center justify-center gap-3 uppercase text-xs tracking-widest">
+                <span class="spinner" id="mp-spinner"></span>
+                <span id="mp-text" class="flex items-center gap-2">
+                    <img src="https://img.icons8.com/color/48/mercado-pago.png" class="w-5 h-5 bg-white rounded-full p-0.5"> 
+                    Pagar com Mercado Pago
+                </span>
             </button>
         </div>
     </div>
@@ -160,30 +168,63 @@
     </div>
 
     <script>
-        // =======================================================
-        // ⚠️ CONFIGURAÇÕES
-        // =======================================================
+        // CONFIGURAÇÃO
         const mpPublicKey = 'TEST-3daebd00-74f2-4cd1-a114-91a4b6b3591c'; 
-        
-        // COLE AQUI SEU LINK DE PAGAMENTO DO MERCADO PAGO
-        // Crie em: MP > Link de Pagamento > Criar Novo
-        const mpPaymentLink = 'https://link.mercadopago.com.br/SEU_LINK_AQUI'; 
-        // =======================================================
-
         let allProducts = [], cart = [], shippingValue = 0, currentCategory = 'all';
 
         // INIT
         window.onload = async () => { 
             await fetchProducts(); 
-            // Inicia SDK apenas para carregar elementos internos se necessário
             if(window.MercadoPago) { const mp = new MercadoPago(mpPublicKey, { locale: 'pt-BR' }); }
         };
 
-        // --- MÁSCARAS ---
+        // --- FUNÇÃO PAGAMENTO REAL (PHP BACKEND) ---
+        async function payWithMercadoPago() {
+            if(cart.length === 0) return alert("Carrinho vazio!");
+            if(!validateOrder()) return;
+
+            const btnText = document.getElementById('mp-text');
+            const spinner = document.getElementById('mp-spinner');
+            const btn = document.getElementById('btn-mp-real');
+
+            btnText.style.display = 'none';
+            spinner.style.display = 'block';
+            btn.disabled = true;
+
+            try {
+                // Chama o arquivo PHP na raiz
+                const response = await fetch('checkout.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ items: cart }) 
+                });
+
+                const data = await response.json();
+
+                if (data.url) {
+                    window.location.href = data.url; // Redireciona para o pagamento
+                } else {
+                    console.error(data);
+                    alert("Erro ao criar pagamento: " + (data.error || "Desconhecido"));
+                    resetBtn();
+                }
+            } catch (error) {
+                console.error(error);
+                alert("Erro de conexão. Verifique se o arquivo checkout.php está na mesma pasta do index.html.");
+                resetBtn();
+            }
+        }
+
+        function resetBtn() {
+            document.getElementById('mp-text').style.display = 'flex';
+            document.getElementById('mp-spinner').style.display = 'none';
+            document.getElementById('btn-mp-real').disabled = false;
+        }
+
+        // UTILS & MÁSCARAS
         function maskPhone(i){let v=i.value.replace(/\D/g,'');v=v.replace(/^(\d\d)(\d)/g,"($1) $2");v=v.replace(/(\d{5})(\d)/,"$1-$2");i.value=v;}
         function maskCEP(i){let v=i.value.replace(/\D/g,'');v=v.replace(/^(\d{5})(\d)/,"$1-$2");i.value=v;}
 
-        // --- BUSCA CEP ---
         async function searchCEP() {
             const cep = document.getElementById('cep-input').value.replace(/\D/g, '');
             if(cep.length !== 8) return alert("CEP inválido!");
@@ -200,7 +241,7 @@
             document.getElementById('btn-cep').innerHTML = '<i class="fas fa-search"></i>';
         }
 
-        // --- LOJA ---
+        // LOJA
         async function fetchProducts() {
             try {
                 const res = await fetch('produtos.json');
@@ -273,8 +314,6 @@
             container.innerHTML = cart.map((i,idx) => `<div class="flex gap-4 p-4 bg-white border border-gray-100 rounded shadow-sm relative group"><img src="${i.images[0]}" class="w-12 h-16 object-cover rounded"><div class="flex-1"><h4 class="font-black text-[10px] uppercase w-3/4">${i.name}</h4><p class="text-[10px] text-gray-500 mt-1 uppercase">Tam: <b>${i.size}</b> | R$ ${i.price.toFixed(0)}</p><button onclick="cart.splice(${idx},1);updateCartUI()" class="absolute bottom-3 right-3 text-gray-300 hover:text-red-500 transition"><i class="fas fa-trash-alt"></i></button></div></div>`).join('');
         }
 
-        // --- CHECKOUTS ---
-        
         function validateOrder() {
             const name = document.getElementById('cust-name').value;
             const phone = document.getElementById('cust-phone').value;
@@ -302,19 +341,6 @@
 
             window.open(`https://wa.me/5521983340089?text=${encodeURIComponent(msg)}`, '_blank');
             setTimeout(() => { cart=[]; updateCartUI(); toggleCart(false); document.getElementById('cust-name').value = ""; document.getElementById('cust-phone').value = ""; }, 1500);
-        }
-
-        function openPaymentLink() {
-            if(!validateOrder()) return;
-            if(mpPaymentLink.includes('SEU_LINK')) return alert("Configure o Link de Pagamento no código HTML!");
-            
-            // Abre o Link do Mercado Pago
-            window.open(mpPaymentLink, '_blank');
-            
-            // Opcional: Avisa no WhatsApp que foi pago
-            if(confirm("Deseja confirmar o pedido no WhatsApp após o pagamento?")) {
-                finishOrderWhatsApp();
-            }
         }
 
         // MODAIS
