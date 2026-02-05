@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Eletricista Residencial e Industrial no Rio de Janeiro. Instalação de Ar Condicionado e Manutenção.">
+    <title>SADAK ELETRO | Soluções em Energia</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;600;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --neon-blue: #00f3ff;
+            --neon-yellow: #ffdd00;
+            --dark-bg: #050505;
+            --card-bg: #111;
+            --glass: rgba(10, 10, 10, 0.85);
+            --text-main: #f0f0f0;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Exo 2', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-main);
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* --- BACKGROUND PARTICLES (EFEITO GLOBAL DE ENERGIA) --- */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: radial-gradient(var(--neon-blue) 1px, transparent 1px);
+            background-size: 50px 50px;
+            opacity: 0.05;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Partículas flutuantes */
+        .particles {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 1; overflow: hidden;
+        }
+        .particle {
+            position: absolute;
+            width: 2px; height: 2px;
+            background: var(--neon-yellow);
+            border-radius: 50%;
+            animation: floatUp linear infinite;
+            opacity: 0;
+        }
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) scale(0); opacity: 0; }
+            50% { opacity: 0.8; }
+            100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
+        }
+
+        /* --- BARRA DE PROGRESSO DE ROLAGEM --- */
+        .scroll-line {
+            position: fixed; top: 0; left: 0; height: 3px; background: var(--neon-yellow);
+            z-index: 2000; width: 0%; transition: width 0.1s;
+            box-shadow: 0 0 10px var(--neon-yellow);
+        }
+
+        /* --- VÍDEO BACKGROUND --- */
+        .video-container {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100vh;
+            z-index: -2; overflow: hidden;
+        }
+        .video-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(180deg, rgba(5,5,5,0.85) 0%, rgba(5,5,5,0.5) 50%, var(--dark-bg) 100%);
+        }
+        .bg-video { width: 100%; height: 100%; object-fit: cover; opacity: 0.6; }
+
+        /* --- NAVBAR (MENU FIXO) --- */
+        nav {
+            position: fixed; top: 0; width: 100%; z-index: 1000;
+            padding: 15px 5%;
+            display: flex; justify-content: space-between; align-items: center;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+            transition: 0.3s;
+        }
+
+        .logo {
+            font-family: 'Orbitron', sans-serif; font-size: 1.4rem; color: #fff;
+            display: flex; align-items: center; gap: 8px; text-transform: uppercase;
+            text-shadow: 0 0 10px rgba(0,243,255,0.3);
+        }
+        .logo i { color: var(--neon-yellow); animation: pulse 2s infinite; }
+        .logo span { color: var(--neon-blue); }
+
+        /* Menu Links (Desktop) */
+        .nav-links { display: flex; gap: 30px; }
+        .nav-links a {
+            color: #ccc; text-decoration: none; font-family: 'Orbitron';
+            font-size: 0.9rem; transition: 0.3s; position: relative;
+        }
+        .nav-links a:hover { color: var(--neon-blue); text-shadow: 0 0 8px var(--neon-blue); }
+        
+        /* Botão do Menu Mobile (Escondido no Desktop) */
+        .menu-toggle { display: none; color: #fff; font-size: 1.5rem; cursor: pointer; }
+
+        @keyframes pulse {
+            0% { text-shadow: 0 0 5px var(--neon-yellow); transform: scale(1); }
+            50% { text-shadow: 0 0 20px var(--neon-yellow); transform: scale(1.1); }
+            100% { text-shadow: 0 0 5px var(--neon-yellow); transform: scale(1); }
+        }
+
+        /* --- HERO --- */
+        .hero {
+            min-height: 100vh; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; text-align: center;
+            padding: 100px 20px 20px; position: relative; z-index: 2;
+        }
+        .hero h1 {
+            font-family: 'Orbitron', sans-serif; font-size: 2.8rem;
+            text-transform: uppercase; margin-bottom: 15px; color: #fff;
+            text-shadow: 0 0 30px rgba(0, 243, 255, 0.4); line-height: 1.2;
+        }
+        .hero p {
+            font-size: 1.1rem; color: #ddd; background: rgba(0,0,0,0.6);
+            padding: 8px 20px; border-radius: 50px; border: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 30px; max-width: 600px;
+        }
+        .btn-cta {
+            padding: 15px 40px; background: rgba(0, 243, 255, 0.1);
+            border: 2px solid var(--neon-blue); color: var(--neon-blue);
+            font-family: 'Orbitron'; font-weight: 700; text-decoration: none;
+            transition: 0.3s; text-transform: uppercase; letter-spacing: 1px;
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.1);
+        }
+        .btn-cta:hover {
+            background: var(--neon-blue); color: #000; box-shadow: 0 0 40px var(--neon-blue);
+        }
+
+        /* --- SEÇÕES GERAIS --- */
+        section { padding: 80px 5%; position: relative; z-index: 2; }
+        .section-title {
+            text-align: center; font-family: 'Orbitron'; font-size: 2rem;
+            margin-bottom: 50px; color: #fff;
+        }
+        .section-title span { color: var(--neon-yellow); }
+
+        /* --- SERVIÇOS GRID --- */
+        .services-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px; max-width: 1200px; margin: 0 auto;
+        }
+        .service-card {
+            background: var(--card-bg); padding: 30px; border-radius: 10px;
+            border: 1px solid #222; border-bottom: 3px solid var(--neon-blue);
+            transition: 0.3s; position: relative; overflow: hidden;
+        }
+        .service-card:hover {
+            transform: translateY(-5px); border-bottom-color: var(--neon-yellow);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .service-card i { font-size: 2.2rem; color: var(--neon-blue); margin-bottom: 15px; }
+        .service-card h3 { font-family: 'Exo 2'; font-weight: 800; text-transform: uppercase; font-size: 1.1rem; margin-bottom: 10px; color: #fff; }
+        .service-card p { font-size: 0.9rem; color: #aaa; line-height: 1.6; }
+
+        /* --- GALERIA --- */
+        .gallery-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px; max-width: 1200px; margin: 0 auto;
+        }
+        .gallery-item {
+            height: 250px; position: relative; overflow: hidden;
+            border-radius: 10px; border: 1px solid #333;
+        }
+        .gallery-item img {
+            width: 100%; height: 100%; object-fit: cover; transition: 0.5s; opacity: 0.8;
+        }
+        .gallery-item:hover img { transform: scale(1.1); opacity: 1; }
+        .overlay-text {
+            position: absolute; bottom: 0; left: 0; width: 100%; padding: 15px;
+            background: linear-gradient(0deg, #000 0%, transparent 100%);
+            color: var(--neon-yellow); font-weight: bold; text-align: center;
+            font-family: 'Orbitron'; letter-spacing: 1px; text-shadow: 0 0 5px #000;
+        }
+
+        /* --- BIO & ORÇAMENTO --- */
+        .bio-wrapper {
+            background: linear-gradient(180deg, var(--dark-bg) 0%, #0a0a0a 100%);
+            padding-top: 50px; border-top: 1px solid #222;
+        }
+        .main-container { max-width: 600px; margin: 0 auto; }
+        .profile-card {
+            background: #121212; border-radius: 20px; padding: 40px 20px;
+            text-align: center; border: 1px solid #333;
+            box-shadow: 0 0 40px rgba(0, 243, 255, 0.05); position: relative; overflow: hidden;
+        }
+        /* Efeito de Borda Neon Rodando */
+        .profile-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+            background: linear-gradient(90deg, transparent, var(--neon-blue), transparent);
+            animation: scanline 3s infinite linear;
+        }
+        @keyframes scanline { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+
+        .profile-pic {
+            width: 120px; height: 120px; margin: 0 auto 15px; border-radius: 50%;
+            border: 3px solid var(--neon-blue); padding: 3px;
+            background-image: url('profile.png');
+            background-size: cover; background-position: center;
+        }
+        .profile-name { font-family: 'Orbitron'; font-size: 1.5rem; color: white; margin-bottom: 5px; }
+        .bio-links { display: flex; flex-direction: column; gap: 12px; margin: 30px 0; }
+        .bio-btn {
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            background-color: #1e1e1e; color: white; padding: 16px; border-radius: 8px;
+            text-decoration: none; font-weight: 600; border: 1px solid #333; transition: 0.3s;
+        }
+        .bio-btn:hover { border-color: var(--neon-blue); background-color: #000; color: var(--neon-blue); }
+
+        /* Form Orçamento */
+        .express-quote { border-top: 1px solid #333; padding-top: 30px; text-align: left; }
+        .form-control {
+            width: 100%; background: #080808; border: 1px solid #333; color: #fff;
+            padding: 15px; border-radius: 8px; font-family: 'Exo 2'; margin-bottom: 15px; font-size: 1rem;
+        }
+        .form-control:focus { outline: none; border-color: var(--neon-blue); }
+        .btn-submit {
+            width: 100%; padding: 15px; background: var(--neon-blue); color: #000;
+            font-weight: 800; border: none; border-radius: 8px; cursor: pointer;
+            font-family: 'Orbitron'; text-transform: uppercase; transition: 0.3s;
+        }
+        .btn-submit:hover { background: #fff; box-shadow: 0 0 25px rgba(0, 243, 255, 0.5); }
+
+        /* --- FOOTER --- */
+        footer {
+            text-align: center; padding: 40px 20px; font-size: 0.8rem; color: #555;
+            background: #000; border-top: 1px solid #222; position: relative;
+        }
+        footer::after {
+            content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 2px;
+            background: linear-gradient(90deg, transparent, var(--neon-yellow), transparent);
+            animation: pulseFooter 3s infinite;
+        }
+        @keyframes pulseFooter { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+        
+        .privacy-link { color: #555; text-decoration: none; margin-top: 10px; display: inline-block; font-size: 0.75rem; }
+        .privacy-link:hover { color: var(--neon-blue); text-decoration: underline; }
+
+        /* Float WA */
+        .float-wa {
+            position: fixed; bottom: 20px; right: 20px; background: #25D366; color: white;
+            width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center;
+            justify-content: center; font-size: 30px; box-shadow: 0 0 20px rgba(37, 211, 102, 0.4);
+            text-decoration: none; z-index: 2000; transition: 0.3s;
+        }
+        .float-wa:hover { transform: scale(1.1); }
+
+        /* --- MOBILE TUNING --- */
+        @media (max-width: 768px) {
+            .nav-links { display: none; } /* Esconde links no mobile para limpar a tela */
+            .menu-toggle { display: block; }
+            .hero h1 { font-size: 2rem; }
+            .services-grid { grid-template-columns: 1fr; }
+            .section-title { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="scroll-line" id="progressBar"></div>
+
+    <div class="particles" id="particles">
+        </div>
+
+    <div class="video-container">
+        <video class="bg-video" autoplay muted loop playsinline poster="https://images.pexels.com/photos/257736/pexels-photo-257736.jpeg">
+            <source src="https://videos.pexels.com/video-files/853959/853959-hd_1920_1080_30fps.mp4" type="video/mp4">
+        </video>
+        <div class="video-overlay"></div>
+    </div>
+
+    <nav>
+        <div class="logo">
+            <i class="fa-solid fa-bolt"></i>
+            SADAK<span>ELETRO</span>
+        </div>
+        <div class="nav-links">
+            <a href="#inicio">INÍCIO</a>
+            <a href="#servicos">SERVIÇOS</a>
+            <a href="#projetos">PROJETOS</a>
+            <a href="#contato-final" style="color:var(--neon-blue);">CONTATO</a>
+        </div>
+        <div class="menu-toggle">
+            <a href="#contato-final" style="color:white; text-decoration:none;"><i class="fa-solid fa-phone"></i></a>
+        </div>
+    </nav>
+
+    <section id="inicio" class="hero">
+        <h1>POTÊNCIA &<br>SEGURANÇA</h1>
+        <p>Eletricista Credenciado e Especialista em Refrigeração no RJ.</p>
+        <a href="#contato-final" class="btn-cta">SOLICITAR ORÇAMENTO</a>
+    </section>
+
+    <section id="servicos">
+        <h2 class="section-title">NOSSOS <span>SERVIÇOS</span></h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <i class="fa-solid fa-screwdriver-wrench"></i>
+                <h3>Elétrica Residencial</h3>
+                <p>Instalação completa, troca de fiação, manutenção de quadros e disjuntores.</p>
+            </div>
+            <div class="service-card">
+                <i class="fa-solid fa-snowflake"></i>
+                <h3>Instalação de Ar</h3>
+                <p>Instalação técnica de Ar Split e Janela com vácuo e teste de estanqueidade.</p>
+            </div>
+            <div class="service-card">
+                <i class="fa-solid fa-pump-soap"></i>
+                <h3>Limpeza de Ar</h3>
+                <p>Higienização profunda (Bactericida/Fungicida) para saúde e economia de energia.</p>
+            </div>
+            <div class="service-card">
+                <i class="fa-solid fa-industry"></i>
+                <h3>Elétrica Industrial</h3>
+                <p>Comandos elétricos, motores trifásicos, inversores e manutenção fabril.</p>
+            </div>
+            <div class="service-card">
+                <i class="fa-solid fa-bolt"></i>
+                <h3>Padrão Light/Enel</h3>
+                <p>Adequação e aumento de carga conforme normas da concessionária.</p>
+            </div>
+            <div class="service-card">
+                <i class="fa-solid fa-video"></i>
+                <h3>Segurança Eletrônica</h3>
+                <p>Instalação de câmeras CFTV, cercas elétricas e interfones.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="projetos" style="background:#080808;">
+        <h2 class="section-title">TRABALHOS <span>RECENTES</span></h2>
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?q=80" alt="Quadro Elétrico">
+                <div class="overlay-text">MONTAGEM DE QUADROS</div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?q=80" alt="Instalação Ar Condicionado">
+                <div class="overlay-text">INSTALAÇÃO SPLIT</div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.pexels.com/photos/5092078/pexels-photo-5092078.jpeg?auto=compress&cs=tinysrgb&w=1260" alt="Limpeza de Ar">
+                <div class="overlay-text">LIMPEZA TÉCNICA</div>
+            </div>
+        </div>
+    </section>
+
+    <div id="contato-final" class="bio-wrapper">
+        <div class="main-container">
+            <div class="profile-card">
+                
+                <div class="profile-pic"></div> 
+                <h2 class="profile-name">SADAK ELETRO</h2>
+                <p style="color:#aaa; margin-bottom:20px;">Técnico Especialista Credenciado</p>
+
+                <div class="bio-links">
+                    <a href="https://wa.me/5521983340089" class="bio-btn">
+                        <i class="fa-brands fa-whatsapp" style="color:#25D366;"></i> Chamar no WhatsApp
+                    </a>
+                    <a href="#" class="bio-btn">
+                        <i class="fa-brands fa-instagram" style="color:#E1306C;"></i> Portfólio no Instagram
+                    </a>
+                    <a href="#" class="bio-btn">
+                        <i class="fa-brands fa-facebook" style="color:#1877F2;"></i> Facebook
+                    </a>
+                </div>
+
+                <div class="express-quote">
+                    <h3 style="font-family:'Orbitron'; color:var(--neon-yellow); margin-bottom:10px;">ORÇAMENTO EXPRESS</h3>
+                    <p style="color:#666; font-size:0.9rem; margin-bottom:20px;">Preencha e fale direto comigo no Zap.</p>
+
+                    <form id="whatsappForm">
+                        <input type="text" id="nome" class="form-control" placeholder="Seu Nome">
+                        <select id="servico" class="form-control">
+                            <option value="Elétrica Residencial">⚡ Elétrica Residencial</option>
+                            <option value="Instalação de Ar">❄️ Instalação de Ar Condicionado</option>
+                            <option value="Limpeza de Ar">🧼 Limpeza e Higienização</option>
+                            <option value="Elétrica Industrial">🏭 Elétrica Industrial</option>
+                            <option value="Padrão de Entrada">🔌 Padrão de Entrada</option>
+                            <option value="Urgência">🚨 EMERGÊNCIA (Sem Luz)</option>
+                        </select>
+                        <textarea id="detalhes" rows="3" class="form-control" placeholder="Descreva o problema..."></textarea>
+
+                        <button type="button" onclick="enviarWhatsapp()" class="btn-submit">
+                            ENVIAR AGORA <i class="fa-solid fa-bolt"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <a href="https://wa.me/5521983340089" class="float-wa" target="_blank">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <footer>
+        <p>&copy; 2026 SADAK ELETRO. Todos os direitos reservados.</p>
+        <a href="#" class="privacy-link">Política de Privacidade</a>
+    </footer>
+
+    <script>
+        // 1. Função WhatsApp
+        function enviarWhatsapp() {
+            var nome = document.getElementById('nome').value;
+            var servico = document.getElementById('servico').value;
+            var detalhes = document.getElementById('detalhes').value;
+            var numeroTelefone = "5521983340089"; 
+
+            if(!nome) { alert("Por favor, digite seu nome para eu saber quem é."); return; }
+
+            var mensagem = "Olá Sadak! Me chamo *" + nome + "*.\n" +
+                           "Preciso de: *" + servico + "*.\n" +
+                           "Detalhes: " + detalhes + "\n\n" +
+                           "Vim pelo site e gostaria de um orçamento.";
+
+            window.open("https://wa.me/" + numeroTelefone + "?text=" + encodeURIComponent(mensagem), '_blank');
+        }
+
+        // 2. Barra de Progresso no Topo
+        window.onscroll = function() {
+            var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            var scrolled = (winScroll / height) * 100;
+            document.getElementById("progressBar").style.width = scrolled + "%";
+        };
+
+        // 3. Gerar Partículas de Energia (Leve e Automático)
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 20; i++) {
+            const p = document.createElement('div');
+            p.classList.add('particle');
+            p.style.left = Math.random() * 100 + 'vw';
+            p.style.animationDuration = (Math.random() * 3 + 2) + 's'; // Entre 2s e 5s
+            p.style.animationDelay = Math.random() * 5 + 's';
+            particlesContainer.appendChild(p);
+        }
+    </script>
+</body>
+</html>
