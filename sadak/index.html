@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sadak Shops T-shirt | Edição Premium</title>
+    <title>Sadak Shops | Checkout V4</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fslightbox/3.4.1/index.min.js"></script>
@@ -26,6 +26,9 @@
         .size-badge { border: 1px solid #e5e7eb; transition: all 0.2s; cursor: pointer; }
         .size-badge:hover { border-color: #007bff; color: #007bff; }
         input[type="radio"]:checked + label { background-color: #000; color: #fff; border-color: #000; }
+        
+        /* Estilo para inputs focados */
+        input:focus { border-color: #007bff; outline: none; box-shadow: 0 0 0 2px rgba(0,123,255,0.1); }
     </style>
 </head>
 <body class="text-gray-900">
@@ -68,23 +71,40 @@
 
     <div id="cart-sidebar" class="fixed top-0 -right-full w-full md:w-[500px] h-full bg-white shadow-2xl z-[60] cart-modal p-8 overflow-y-auto">
         <div class="flex justify-between items-center mb-8 border-b pb-4 text-black">
-            <h2 class="text-2xl font-black uppercase tracking-tighter italic">Checkout Fast</h2>
-            <button onclick="toggleCart(false)" class="text-3xl">&times;</button>
+            <h2 class="text-2xl font-black uppercase tracking-tighter italic">Checkout</h2>
+            <button onclick="toggleCart(false)" class="text-3xl hover:text-red-500">&times;</button>
         </div>
         
         <div id="cart-items" class="space-y-4 mb-8"></div>
 
         <div class="bg-gray-50 p-6 rounded-sm mb-6 border border-gray-100">
-            <h4 class="font-black mb-4 text-black uppercase text-xs tracking-widest">Informações de Envio</h4>
-            <div class="space-y-4">
-                <input type="text" id="cust-name" placeholder="NOME COMPLETO" class="w-full border p-3 rounded-sm text-xs outline-none focus:border-blue-500">
+            <h4 class="font-black mb-4 text-black uppercase text-xs tracking-widest flex items-center gap-2">
+                <i class="fas fa-user-circle"></i> Seus Dados
+            </h4>
+            <div class="space-y-3 mb-6">
+                <input type="text" id="cust-name" placeholder="Nome Completo" class="w-full border p-3 rounded-sm text-xs bg-white">
+                <input type="text" id="cust-phone" placeholder="Celular (WhatsApp)" maxlength="15" onkeyup="maskPhone(this)" class="w-full border p-3 rounded-sm text-xs bg-white">
+            </div>
+
+            <h4 class="font-black mb-4 text-black uppercase text-xs tracking-widest flex items-center gap-2">
+                <i class="fas fa-map-marker-alt"></i> Entrega
+            </h4>
+            <div class="space-y-3">
                 <div class="flex gap-2">
-                    <input type="text" id="cep-input" placeholder="CEP" class="border p-3 w-full rounded-sm text-xs outline-none focus:border-blue-500">
-                    <button onclick="searchCEP()" class="bg-black text-white px-6 rounded-sm text-[10px] font-bold hover:bg-blue-sadak uppercase transition">Calcular</button>
+                    <input type="text" id="cep-input" placeholder="CEP" maxlength="9" onkeyup="maskCEP(this)" class="border p-3 w-full rounded-sm text-xs bg-white">
+                    <button onclick="searchCEP()" id="btn-cep" class="bg-black text-white px-6 rounded-sm text-[10px] font-bold hover:bg-blue-sadak uppercase transition">
+                        <i class="fas fa-search"></i>
+                    </button>
                 </div>
-                <input type="text" id="cust-address" placeholder="ENDEREÇO AUTOMÁTICO" class="w-full border p-3 rounded-sm text-xs bg-gray-100" readonly>
-                <input type="text" id="cust-number" placeholder="NÚMERO E COMPLEMENTO" class="w-full border p-3 rounded-sm text-xs outline-none focus:border-blue-500">
-                <p id="shipping-result" class="text-[11px] font-bold text-blue-600 uppercase"></p>
+                
+                <input type="text" id="cust-address" placeholder="Endereço Automático" class="w-full border p-3 rounded-sm text-xs bg-gray-100 text-gray-500 cursor-not-allowed" readonly>
+                
+                <div class="flex gap-2">
+                    <input type="number" id="cust-number" placeholder="Número" class="w-1/3 border p-3 rounded-sm text-xs bg-white">
+                    <input type="text" id="cust-comp" placeholder="Complemento (Opcional)" class="w-2/3 border p-3 rounded-sm text-xs bg-white">
+                </div>
+
+                <p id="shipping-result" class="text-[11px] font-bold text-blue-600 uppercase mt-2"></p>
             </div>
         </div>
 
@@ -94,8 +114,9 @@
                 <span id="cart-total" class="blue-detail">R$ 0,00</span>
             </div>
             <button onclick="finishOrder()" class="w-full bg-green-600 text-white py-5 rounded-sm font-black hover:bg-green-700 shadow-xl transition flex items-center justify-center gap-3 uppercase">
-                <i class="fab fa-whatsapp text-2xl"></i> Finalizar no WhatsApp
+                <i class="fab fa-whatsapp text-2xl"></i> Finalizar Pedido
             </button>
+            <p class="text-center text-[10px] text-gray-400 mt-4 uppercase tracking-widest">O pedido será montado no site e enviado para conferência.</p>
         </div>
     </div>
 
@@ -103,7 +124,7 @@
         <div class="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 text-center md:text-left">
             <div>
                 <h4 class="text-white font-black mb-6 text-xl tracking-tighter italic">SADAK <span class="blue-detail">SHOPS</span></h4>
-                <p class="text-sm">Minimalismo elevado. Desenvolvido pelo Tio Robson para Geovana e agora para o mundo.</p>
+                <p class="text-sm">Minimalismo elevado. Desenvolvido pelo Tio Robson.</p>
             </div>
             <div class="flex flex-col items-center">
                 <h4 class="text-white font-bold mb-6 uppercase text-xs tracking-widest">Suporte</h4>
@@ -114,7 +135,6 @@
                 <h4 class="text-white font-bold mb-6 uppercase text-xs tracking-widest">Siga a Sadak</h4>
                 <div class="flex space-x-6 text-2xl">
                     <a href="#" class="hover:text-blue-500 transition"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="hover:text-blue-500 transition"><i class="fab fa-facebook"></i></a>
                 </div>
             </div>
         </div>
@@ -125,6 +145,20 @@
         let cart = [];
         let shippingValue = 0;
 
+        // Máscaras de Input (Melhora a UX)
+        function maskPhone(input) {
+            let v = input.value.replace(/\D/g,'');
+            v = v.replace(/^(\d\d)(\d)/g,"($1) $2"); 
+            v = v.replace(/(\d{5})(\d)/,"$1-$2");    
+            input.value = v;
+        }
+
+        function maskCEP(input) {
+            let v = input.value.replace(/\D/g,'');
+            v = v.replace(/^(\d{5})(\d)/,"$1-$2"); 
+            input.value = v;
+        }
+
         async function fetchProducts() {
             try {
                 const response = await fetch('produtos.json');
@@ -134,15 +168,33 @@
         }
 
         async function searchCEP() {
-            const cep = document.getElementById('cep-input').value.replace(/\D/g, '');
+            const cepBtn = document.getElementById('btn-cep');
+            const cepInput = document.getElementById('cep-input');
+            const cep = cepInput.value.replace(/\D/g, '');
+
             if (cep.length !== 8) return alert("CEP inválido!");
-            const res = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
-            const data = await res.json();
-            if (data.erro) return alert("CEP não encontrado!");
-            document.getElementById('cust-address').value = `${data.logradouro}, ${data.bairro}, ${data.localidade}-${data.uf}`;
-            shippingValue = data.uf === 'RJ' ? 10.00 : 25.00;
-            document.getElementById('shipping-result').innerText = `🚚 FRETE PARA ${data.uf}: R$ ${shippingValue.toFixed(2)}`;
-            updateCartUI();
+            
+            // Efeito de carregamento
+            cepBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+            
+            try {
+                const res = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+                const data = await res.json();
+                
+                if (data.erro) {
+                    alert("CEP não encontrado!");
+                } else {
+                    document.getElementById('cust-address').value = `${data.logradouro}, ${data.bairro}, ${data.localidade}-${data.uf}`;
+                    shippingValue = data.uf === 'RJ' ? 10.00 : 25.00;
+                    document.getElementById('shipping-result').innerText = `🚚 FRETE PARA ${data.uf}: R$ ${shippingValue.toFixed(2)}`;
+                    updateCartUI();
+                    document.getElementById('cust-number').focus(); // Joga o foco pro número
+                }
+            } catch (error) {
+                alert("Erro ao buscar CEP.");
+            }
+            
+            cepBtn.innerHTML = '<i class="fas fa-search"></i>';
         }
 
         function renderProducts(data) {
@@ -150,7 +202,6 @@
             document.getElementById('product-status').innerText = `${data.length} MODELOS EXCLUSIVOS`;
             
             grid.innerHTML = data.map(p => {
-                // Monta os links para o Lightbox (Imagens extras)
                 const lightboxLinks = p.images.map(img => `<a data-fslightbox="gallery-${p.id}" href="${img}"></a>`).join('');
                 
                 return `
@@ -161,43 +212,32 @@
                             <i class="fas fa-images"></i> +${p.images.length - 1}
                         </div>
                     </div>
-                    
                     <div class="hidden">${lightboxLinks}</div>
-
                     <h4 class="font-black text-sm mb-2 uppercase italic">${p.name}</h4>
-                    
                     <div class="flex gap-2 mb-4">
                         ${['P', 'M', 'G', 'GG'].map(size => `
                             <div class="relative">
                                 <input type="radio" name="size-${p.id}" id="s-${p.id}-${size}" value="${size}" class="hidden" ${size === 'M' ? 'checked' : ''}>
-                                <label for="s-${p.id}-${size}" class="size-badge flex items-center justify-center w-8 h-8 text-[10px] font-bold rounded-sm uppercase transition-all">
-                                    ${size}
-                                </label>
+                                <label for="s-${p.id}-${size}" class="size-badge flex items-center justify-center w-8 h-8 text-[10px] font-bold rounded-sm uppercase transition-all">${size}</label>
                             </div>
                         `).join('')}
                     </div>
-
                     <div class="flex justify-between items-center mt-auto">
                         <span class="text-black font-black text-xl italic">R$ ${p.price.toFixed(2)}</span>
                         <button onclick="addToCart(${p.id})" class="bg-black text-white px-6 py-2 rounded-sm text-[10px] font-black hover:bg-blue-sadak transition uppercase tracking-tighter">🛒 ADD</button>
                     </div>
                 </div>
             `}).join('');
-            
-            // Atualiza o Lightbox após renderizar
             refreshFsLightbox();
         }
 
         function openGallery(id) {
-            // Clica no primeiro link da galeria oculta do produto
             document.querySelector(`[data-fslightbox="gallery-${id}"]`).click();
         }
 
         function addToCart(id) {
             const product = allProducts.find(p => p.id === id);
             const selectedSize = document.querySelector(`input[name="size-${id}"]:checked`).value;
-            
-            // Adiciona cópia com tamanho selecionado
             cart.push({ ...product, size: selectedSize });
             updateCartUI();
             toggleCart(true);
@@ -212,21 +252,19 @@
         function updateCartUI() {
             const container = document.getElementById('cart-items');
             document.getElementById('cart-count').innerText = cart.length;
-            
             container.innerHTML = cart.map((item, idx) => `
                 <div class="flex justify-between items-center bg-zinc-50 p-4 border border-zinc-100">
                     <div class="flex items-center gap-4">
                         <img src="${item.images[0]}" class="w-14 h-14 object-cover shadow-sm">
                         <div>
                             <p class="font-black text-[11px] uppercase">${item.name}</p>
-                            <p class="text-gray-500 text-[10px] font-bold uppercase">Tamanho: <span class="text-blue-600">${item.size}</span></p>
+                            <p class="text-gray-500 text-[10px] font-bold uppercase">Tam: <span class="text-blue-600">${item.size}</span></p>
                             <p class="text-blue-600 text-xs font-black">R$ ${item.price.toFixed(2)}</p>
                         </div>
                     </div>
                     <button onclick="removeItem(${idx})" class="text-zinc-300 hover:text-red-500"><i class="fas fa-trash-alt"></i></button>
                 </div>
             `).join('');
-
             const total = cart.reduce((acc, curr) => acc + curr.price, 0) + shippingValue;
             document.getElementById('cart-total').innerText = `R$ ${total.toFixed(2)}`;
         }
@@ -236,27 +274,66 @@
             updateCartUI();
         }
 
-        function finishOrder() {
-            const name = document.getElementById('cust-name').value;
-            const address = document.getElementById('cust-address').value;
-            const number = document.getElementById('cust-number').value;
-            const cep = document.getElementById('cep-input').value;
-
-            if (!name || !address || !number) return alert("Preencha os dados de entrega!");
-
-            const phoneNumber = "5521983340089";
-            const items = cart.map(i => `• ${i.name} [TAM: ${i.size}] (R$ ${i.price.toFixed(2)})`).join('%0A');
-            const total = (cart.reduce((a, b) => a + b.price, 0) + shippingValue).toFixed(2);
-            
-            const msg = `*NOVO PEDIDO SADAK SHOPS*%0A%0A*CLIENTE:* ${name}%0A*CEP:* ${cep}%0A*ENDEREÇO:* ${address}, ${number}%0A%0A*ITENS:*%0A${items}%0A%0A*TOTAL COM FRETE:* R$ ${total}`;
-            
-            window.open(`https://wa.me/${phoneNumber}?text=${msg}`, '_blank');
-        }
-
         function filterProducts() {
             const query = document.getElementById('search-input').value.toLowerCase();
             const filtered = allProducts.filter(p => p.name.toLowerCase().includes(query));
             renderProducts(filtered);
+        }
+
+        // FUNÇÃO FINAL DE CHECKOUT
+        function finishOrder() {
+            // 1. Captura os dados
+            const name = document.getElementById('cust-name').value;
+            const phone = document.getElementById('cust-phone').value;
+            const cep = document.getElementById('cep-input').value;
+            const address = document.getElementById('cust-address').value;
+            const number = document.getElementById('cust-number').value;
+            const comp = document.getElementById('cust-comp').value;
+
+            // 2. Validações
+            if(cart.length === 0) return alert("Seu carrinho está vazio!");
+            if(!name) return alert("Por favor, digite seu Nome.");
+            if(!phone || phone.length < 14) return alert("Por favor, digite um Telefone válido.");
+            if(!address || !number) return alert("Por favor, preencha o endereço e número.");
+            if(shippingValue === 0) return alert("Calcule o frete antes de finalizar.");
+
+            // 3. Monta a mensagem detalhada (O "Log" do pedido)
+            const phoneNumber = "5521983340089";
+            
+            // Formata a lista de itens
+            let itemsText = "";
+            cart.forEach(i => {
+                itemsText += `▪️ ${i.name} | Tam: ${i.size} | R$ ${i.price.toFixed(2)}\n`;
+            });
+
+            const subtotal = cart.reduce((a, b) => a + b.price, 0);
+            const total = (subtotal + shippingValue).toFixed(2);
+            
+            // Monta mensagem bonita
+            const msg = 
+`*NOVO PEDIDO - SADAK SHOPS* 🛒
+--------------------------------
+*DADOS DO CLIENTE:*
+👤 Nome: ${name}
+📱 Tel: ${phone}
+
+*ENDEREÇO DE ENTREGA:*
+📍 ${address}, Nº ${number}
+📦 Comp: ${comp || "Sem complemento"}
+📮 CEP: ${cep}
+
+*RESUMO DO PEDIDO:*
+${itemsText}
+--------------------------------
+💰 Subtotal: R$ ${subtotal.toFixed(2)}
+🚚 Frete: R$ ${shippingValue.toFixed(2)}
+*TOTAL A PAGAR: R$ ${total}*
+
+_Aguardo chave PIX ou Link de Pagamento!_`;
+
+            // 4. Envia para o WhatsApp
+            const encodedMsg = encodeURIComponent(msg);
+            window.open(`https://wa.me/${phoneNumber}?text=${encodedMsg}`, '_blank');
         }
 
         window.onload = fetchProducts;
