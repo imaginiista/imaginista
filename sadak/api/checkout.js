@@ -1,7 +1,7 @@
 import { MercadoPagoConfig, Preference } from 'mercadopago';
 
 // ⚠️ COLE SEU ACCESS TOKEN AQUI (Aquele que começa com TEST-42...)
-const client = new MercadoPagoConfig({ accessToken: 'TEST-3daebd00-74f2-4cd1-a114-91a4b6b3591c' });
+const client = new MercadoPagoConfig({ accessToken: 'TEST-4208404900050443-020504-27ecbb02f4c3eec540d80923593dc8df-120720214' });
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
