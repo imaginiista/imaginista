@@ -58,9 +58,20 @@
         .tab-btn:hover { color: #db2777; }
         .tab-btn.active-tab { border-color: #db2777; color: #db2777; }
 
+        /* LIGHTBOX CONFIG - Garante botão X visível e setas */
         .fslightbox-toolbar-button[title="Enter fullscreen"] { display: none !important; }
         .fslightbox-toolbar-button:nth-child(2) { display: none !important; } 
-        .fslightbox-toolbar-button:first-child { background: #db2777 !important; width: 45px !important; height: 45px !important; border-radius: 50% !important; top: 20px !important; right: 20px !important; opacity: 1 !important; border: 2px solid white !important; box-shadow: 0 4px 10px rgba(0,0,0,0.3) !important; }
+        .fslightbox-toolbar-button:first-child { 
+            background: #db2777 !important; 
+            width: 45px !important; 
+            height: 45px !important; 
+            border-radius: 50% !important; 
+            top: 20px !important; 
+            right: 20px !important; 
+            opacity: 1 !important; 
+            border: 2px solid white !important; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3) !important; 
+        }
         .fslightbox-toolbar-button:first-child:hover { transform: scale(1.1) !important; background: #be185d !important; }
         .fslightbox-toolbar-button svg path { fill: white !important; }
 
@@ -90,7 +101,7 @@
 
     <section class="relative h-[60vh] flex items-center justify-center hero-banner text-white">
         <div class="z-10 text-center px-4" data-aos="zoom-in">
-            <h2 class="text-5xl md:text-8xl font-black mb-2 uppercase tracking-tighter drop-shadow-lg">CRISMISS<span class="italic text-pink-300">FIT</span></h2>
+            <h2 class="text-5xl md:text-8xl font-black mb-2 uppercase tracking-tighter drop-shadow-lg">CRISMISS <span class="italic text-pink-300">FIT</span></h2>
             <p class="text-lg mb-8 max-w-lg mx-auto font-light tracking-wide">Sua energia, sua moda, seu treino.</p>
             <a href="#produtos" class="bg-white text-pink-600 px-10 py-3 font-black hover:bg-pink-50 transition rounded-full uppercase tracking-wider text-sm shadow-xl">VITRINE</a>
         </div>
@@ -254,10 +265,12 @@
                 <h4 class="font-bold text-xs uppercase mb-2">Tabela Padrão (cm)</h4>
                 <table class="w-full text-[10px] text-center text-gray-600 border border-gray-100">
                     <tr class="bg-gray-100 font-bold"><td class="p-2">TAM</td><td>BUSTO</td><td>CINTURA</td><td>QUADRIL</td></tr>
+                    <tr class="border-b"><td>PP</td><td>74-79</td><td>54-59</td><td>80-87</td></tr>
                     <tr class="border-b"><td>P</td><td>80-88</td><td>60-69</td><td>88-98</td></tr>
                     <tr class="border-b"><td>M</td><td>89-96</td><td>70-79</td><td>99-109</td></tr>
                     <tr class="border-b"><td>G</td><td>97-105</td><td>80-89</td><td>110-120</td></tr>
-                    <tr><td>GG</td><td>106+</td><td>90-99</td><td>121+</td></tr>
+                    <tr class="border-b"><td>GG</td><td>106-114</td><td>90-99</td><td>121-130</td></tr>
+                    <tr><td>EG</td><td>115+</td><td>100+</td><td>131+</td></tr>
                 </table>
             </div>
         </div>
@@ -269,9 +282,10 @@
             
             <div class="w-full md:w-1/2 bg-gray-100 h-[300px] md:h-auto relative group">
                 <a id="modal-lightbox-link" data-fslightbox="modal-gallery" href="">
-                    <img id="modal-img" src="" class="w-full h-full object-cover">
+                    <img id="modal-img" src="" class="w-full h-full object-cover transition duration-500 hover:scale-105 cursor-zoom-in">
                 </a>
                 <div id="modal-badge-container" class="absolute top-4 left-4"></div>
+                <div id="modal-gallery-hidden" class="hidden"></div>
             </div>
 
             <div class="w-full md:w-1/2 p-6 flex flex-col overflow-y-auto">
@@ -317,13 +331,17 @@
                     <div id="content-medidas" class="hidden">
                         <table class="w-full text-[10px] text-center text-gray-600">
                             <tr class="bg-gray-200 font-bold"><td class="p-1">TAM</td><td class="p-1">MANEQUIM</td><td class="p-1">BUSTO</td><td class="p-1">QUADRIL</td></tr>
+                            <tr class="border-b"><td class="p-1 font-bold">PP</td><td>34-36</td><td>74-79</td><td>80-87</td></tr>
                             <tr class="border-b"><td class="p-1 font-bold">P</td><td>36-38</td><td>80-88</td><td>88-98</td></tr>
                             <tr class="border-b"><td class="p-1 font-bold">M</td><td>40-42</td><td>89-96</td><td>99-109</td></tr>
                             <tr class="border-b"><td class="p-1 font-bold">G</td><td>44-46</td><td>97-105</td><td>110-120</td></tr>
-                            <tr><td class="p-1 font-bold">GG</td><td>48</td><td>106+</td><td>121+</td></tr>
+                            <tr class="border-b"><td class="p-1 font-bold">GG</td><td>48</td><td>106-114</td><td>121-130</td></tr>
+                            <tr><td class="p-1 font-bold">EG</td><td>50-52</td><td>115+</td><td>131+</td></tr>
                         </table>
                     </div>
                 </div>
+
+                <div id="modal-thumbs" class="flex gap-2 p-2 overflow-x-auto justify-start mb-4 h-16 items-center"></div>
 
                 <button id="modal-add-btn" class="w-full bg-gradient-brand text-white py-3 rounded-lg font-bold uppercase tracking-widest hover:opacity-90 transition disabled:opacity-50 disabled:cursor-not-allowed shadow-lg">
                     Selecione Tamanho
@@ -342,7 +360,6 @@
         let currentProduct = null;
         let selectedColorObj = null; 
 
-        // TEXTOS LEGAIS
         const legalTexts = {
             'sobre': '<p>A <strong>CRISMISSFIT</strong> nasceu em 2026 com o propósito de unir tecnologia têxtil e design para mulheres que não abrem mão de estilo durante o treino. Nossas peças são desenvolvidas no Rio de Janeiro e testadas por atletas reais.</p>',
             'termos': '<p><strong>1. ACEITAÇÃO:</strong> Ao acessar este site, você concorda com nossos termos.<br><strong>2. PRODUTOS:</strong> As imagens são ilustrativas.<br><strong>3. PREÇOS:</strong> Reservamo-nos o direito de alterar preços sem aviso prévio.</p>',
@@ -368,33 +385,29 @@
             else { p.classList.add('hidden'); m.classList.remove('hidden'); btP.classList.remove('active-tab'); btM.classList.add('active-tab'); }
         }
 
-        // --- LÓGICA DO PROVADOR VIRTUAL INTELIGENTE (IMC + MEDIDAS) ---
+        // LÓGICA DO GARGALO (Inclui PP e EG)
         function calculateSizeLogic(heightCm, weightKg, bust, hip) {
             const h = heightCm / 100;
             const imc = weightKg / (h * h);
-            
-            let size = 'P'; 
+            let size = 'P'; // Default
 
-            // 1. Base pelo IMC
-            if (imc < 19) size = 'P';
+            // Base IMC
+            if (imc < 17) size = 'PP';
+            else if (imc >= 17 && imc < 19) size = 'P';
             else if (imc >= 19 && imc < 24) size = 'M';
             else if (imc >= 24 && imc < 29) size = 'G';
-            else if (imc >= 29) size = 'GG';
+            else if (imc >= 29 && imc < 33) size = 'GG';
+            else if (imc >= 33) size = 'EG';
 
-            // 2. Ajuste pelo "Gargalo" (Quadril)
+            // Ajuste Gargalo (Quadril)
             if (hip > 0) {
-                if (hip >= 121) size = 'GG'; 
-                else if (hip >= 110 && (size === 'P' || size === 'M')) size = 'G';
-                else if (hip >= 99 && size === 'P') size = 'M';
+                if (hip >= 131) size = 'EG';
+                else if (hip >= 121) size = size === 'EG' ? 'EG' : 'GG';
+                else if (hip >= 110) size = (size === 'GG' || size === 'EG') ? size : 'G';
+                else if (hip >= 99) size = (['G','GG','EG'].includes(size)) ? size : 'M';
+                else if (hip >= 88) size = (['M','G','GG','EG'].includes(size)) ? size : 'P';
+                else size = (['P','M','G','GG','EG'].includes(size)) ? size : 'PP';
             }
-
-            // 3. Ajuste pelo "Gargalo" (Busto)
-            if (bust > 0) {
-                if (bust >= 106) size = 'GG';
-                else if (bust >= 97 && (size === 'P' || size === 'M')) size = 'G';
-                else if (bust >= 89 && size === 'P') size = 'M';
-            }
-
             return size;
         }
 
@@ -408,7 +421,7 @@
             if(!h || !w) { res.innerHTML = "Preencha Altura e Peso!"; res.classList.remove('hidden'); return; }
             
             const size = calculateSizeLogic(h, w, bust, hip);
-            res.innerHTML = `Com base no seu biotipo, sugerimos: <span class="text-pink-600 text-2xl font-black">${size}</span>`;
+            res.innerHTML = `Sugerimos: <span class="text-pink-600 text-2xl font-black">${size}</span>`;
             res.classList.remove('hidden');
         }
 
@@ -418,15 +431,12 @@
             const bust = parseFloat(document.getElementById('gen-bust').value) || 0;
             const hip = parseFloat(document.getElementById('gen-hip').value) || 0;
             const res = document.getElementById('gen-result');
-            
-            if(!h || !w) { res.innerHTML = "Preencha Altura e Peso!"; res.classList.remove('hidden'); return; }
-            
+            if(!h || !w) { res.innerHTML = "Preencha os dados!"; res.classList.remove('hidden'); return; }
             const size = calculateSizeLogic(h, w, bust, hip);
             res.innerHTML = `Sugerimos: <span class="text-pink-600 text-xl font-black">${size}</span>`;
             res.classList.remove('hidden');
         }
 
-        // --- SISTEMA DE PRODUTOS ---
         window.onload = async () => { try {
             const r = await fetch('produtos.json');
             allProducts = await r.json();
@@ -453,14 +463,22 @@
                     badgeHTML = `<div class="badge ${cls}">${p.badge}</div>`;
                 }
                 const mainImg = p.images && p.images.length > 0 ? p.images[0] : '';
+                
+                // CRIA A GALERIA DE LIGHTBOX PARA O CARD (CORREÇÃO SOLICITADA)
+                let galleryLinks = '';
+                if(p.images && p.images.length > 0) {
+                    galleryLinks = p.images.map((img, idx) => {
+                        const style = idx === 0 ? '' : 'hidden'; // Mostra só a primeira imagem, esconde as outras
+                        const content = idx === 0 ? `<img src="${img}" alt="${p.name}">` : ''; 
+                        return `<a data-fslightbox="gallery-card-${p.id}" href="${img}" class="${style}">${content}</a>`;
+                    }).join('');
+                }
 
                 return `<div class="product-card group" data-aos="fade-up">
                     <div class="bg-white rounded-xl shadow-sm hover:shadow-xl transition duration-500 overflow-hidden border border-gray-100 relative">
                         ${badgeHTML}
                         <div class="img-container bg-gray-100 relative">
-                            <a data-fslightbox="gallery-${p.id}" href="${mainImg}">
-                                <img src="${mainImg}" alt="${p.name}">
-                            </a>
+                            ${galleryLinks}
                         </div>
                         <div class="p-4 cursor-pointer" onclick="openProductModal(${p.id})">
                             <p class="text-[9px] text-pink-500 font-bold uppercase mb-1">${p.category}</p>
@@ -488,7 +506,6 @@
 
             if(c === 'all') filteredProducts = allProducts;
             else filteredProducts = allProducts.filter(p => p.category === c);
-            
             renderProducts(filteredProducts);
         }
 
@@ -508,15 +525,30 @@
             document.getElementById('modal-prod-title').innerText = currentProduct.name;
             document.getElementById('modal-desc').innerText = currentProduct.desc || "";
             document.getElementById('modal-price').innerText = `R$ ${currentProduct.price.toFixed(2)}`;
-            
-            const initialImg = currentProduct.images[0];
-            document.getElementById('modal-img').src = initialImg;
-            document.getElementById('modal-lightbox-link').href = initialImg;
-            refreshFsLightbox();
+            const oldP = document.getElementById('modal-old-price');
+            if(currentProduct.oldPrice) { oldP.innerText = `R$ ${currentProduct.oldPrice.toFixed(2)}`; oldP.style.display='inline'; } 
+            else { oldP.style.display='none'; }
 
+            const allImages = currentProduct.images || [];
+            const initialImg = allImages[0];
+            setMainImage(initialImg);
+
+            // GERAÇÃO DE THUMBNAILS
+            const thumbsDiv = document.getElementById('modal-thumbs');
+            const galleryHiddenDiv = document.getElementById('modal-gallery-hidden');
+            thumbsDiv.innerHTML = '';
+            galleryHiddenDiv.innerHTML = '';
+
+            if(allImages.length > 1) {
+                allImages.forEach((img, index) => {
+                    thumbsDiv.innerHTML += `<img src="${img}" onclick="setMainImage('${img}')" class="w-12 h-12 object-cover rounded border-2 border-transparent hover:border-pink-500 cursor-pointer transition flex-shrink-0">`;
+                    if(index > 0) galleryHiddenDiv.innerHTML += `<a data-fslightbox="modal-gallery" href="${img}"></a>`;
+                });
+            }
+
+            // CORES
             const colorsDiv = document.getElementById('modal-colors');
             const colorContainer = document.getElementById('color-selection-container');
-            
             if(currentProduct.colors && currentProduct.colors.length > 0) {
                 colorContainer.classList.remove('hidden');
                 colorsDiv.innerHTML = currentProduct.colors.map((c, index) => `
@@ -535,15 +567,17 @@
             document.getElementById('product-modal').style.display = 'flex';
         }
 
+        function setMainImage(imgUrl) {
+            document.getElementById('modal-img').src = imgUrl;
+            document.getElementById('modal-lightbox-link').href = imgUrl;
+            refreshFsLightbox();
+        }
+
         function selectColor(index, element) {
             document.querySelectorAll('.color-option').forEach(el => el.classList.remove('selected'));
             element.classList.add('selected');
             selectedColorObj = currentProduct.colors[index];
-            if(selectedColorObj.image) {
-                document.getElementById('modal-img').src = selectedColorObj.image;
-                document.getElementById('modal-lightbox-link').href = selectedColorObj.image;
-                refreshFsLightbox();
-            }
+            if(selectedColorObj.image) setMainImage(selectedColorObj.image);
             renderSizes();
         }
 
@@ -554,7 +588,7 @@
             btn.disabled = true; btn.innerText = "Selecione Tamanho"; msg.innerText = "";
 
             const stockMap = selectedColorObj.sizes || {}; 
-            const sizes = ['P','M','G','GG'];
+            const sizes = ['PP', 'P', 'M', 'G', 'GG', 'EG']; // Grade atualizada
 
             sizesDiv.innerHTML = sizes.map(s => {
                 const qty = stockMap[s] !== undefined ? stockMap[s] : 0;
