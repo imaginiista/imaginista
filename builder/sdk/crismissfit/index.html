@@ -28,11 +28,12 @@
         .hero-banner { background-image: linear-gradient(rgba(147, 51, 234, 0.4), rgba(219, 39, 119, 0.6)), url('https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=1600&q=80'); background-size: cover; background-position: center; background-attachment: fixed; }
         
         /* CARD PRODUTO */
+        /* Padroniza o tamanho da caixa da imagem para evitar quebras */
         .img-container { height: 400px; overflow: hidden; position: relative; border-radius: 12px; cursor: pointer; }
         .img-container img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
         .product-card:hover .img-container img { transform: scale(1.05); }
         
-        /* BADGES (Novos) */
+        /* BADGES */
         .badge { position: absolute; top: 10px; left: 10px; padding: 4px 10px; border-radius: 4px; font-size: 10px; font-weight: 900; text-transform: uppercase; z-index: 10; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
         .badge-lancamento { background: black; color: white; }
         .badge-oferta { background: #db2777; color: white; }
@@ -45,7 +46,7 @@
         .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 200; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
         .modal-content { background: white; width: 90%; max-width: 500px; max-height: 85vh; overflow-y: auto; padding: 30px; border-radius: 15px; position: relative; animation: slideUp 0.3s ease; }
         
-        /* MODAL DE PRODUTO (NOVO) */
+        /* MODAL DE PRODUTO */
         .product-detail-content { width: 95%; max-width: 900px; padding: 0; display: flex; flex-direction: column; overflow: hidden; }
         @media (min-width: 768px) { .product-detail-content { flex-direction: row; height: auto; max-height: 90vh; } }
 
@@ -56,24 +57,32 @@
         .cart-closed { transform: translateX(100%); }
         .cat-btn.active { background-image: linear-gradient(to right, #db2777, #9333ea); color: white; border-color: transparent; }
 
-        /* === CUSTOMIZAÇÃO FSLIGHTBOX (BOTÃO X 3D) === */
-        .fslightbox-toolbar-button:nth-child(1) { /* Botão Fechar */
-            background: #db2777 !important;
-            border-radius: 50% !important;
-            width: 50px !important;
-            height: 50px !important;
+        /* === CORREÇÃO CRÍTICA DO LIGHTBOX (Botão X e Imagens) === */
+        
+        /* 1. Esconder o botão quadrado de Fullscreen (Tela Cheia) */
+        .fslightbox-toolbar-button[title="Enter fullscreen"] { display: none !important; }
+        .fslightbox-toolbar-button:nth-child(2) { display: none !important; } 
+
+        /* 2. Estilizar o botão de Fechar (X) para ficar visível e bonito */
+        .fslightbox-toolbar-button:first-child {
+            background: #db2777 !important; /* Cor Rosa da marca */
+            width: 45px !important;
+            height: 45px !important;
+            border-radius: 50% !important; /* Bolinha */
             top: 20px !important;
             right: 20px !important;
-            box-shadow: 0 5px 15px rgba(219, 39, 119, 0.5), inset 0 2px 5px rgba(255,255,255,0.3) !important;
-            border: 2px solid white !important;
             opacity: 1 !important;
-            transform: scale(1) !important;
-            transition: transform 0.2s !important;
+            border: 2px solid white !important;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3) !important;
         }
-        .fslightbox-toolbar-button:nth-child(1):hover { transform: scale(1.1) !important; background: #be185d !important; }
-        .fslightbox-toolbar-button:nth-child(1) svg path { fill: white !important; }
-        /* Esconder botão de fullscreen padrão para limpar a tela */
-        .fslightbox-toolbar-button:nth-child(2) { display: none !important; } 
+        /* Efeito ao passar o mouse no X */
+        .fslightbox-toolbar-button:first-child:hover {
+            transform: scale(1.1) !important;
+            background: #be185d !important;
+        }
+        /* Garante que o ícone SVG dentro do botão seja branco */
+        .fslightbox-toolbar-button svg path { fill: white !important; }
+
     </style>
 </head>
 <body class="text-gray-800 antialiased overflow-x-hidden">
@@ -280,19 +289,18 @@
         let allProducts = [], cart = [], shippingValue = 0, currentCategory = 'all';
         let currentProduct = null;
 
-        // --- TEXTOS LEGAIS (Mantido Original) ---
         const legalTexts = {
-            'sobre': '<p>A <strong>CRISMISSFIT</strong> nasceu em 2026...</p>',
-            'termos': '<p>1. ACEITAÇÃO: Ao acessar este site...</p>',
-            'privacidade': '<p>LGPD: Seus dados...</p>',
-            'trocas': '<p>DIREITO DE ARREPENDIMENTO...</p>',
-            'medidas': `<div class="bg-pink-50 p-4 rounded-lg mb-4 text-center">... (Código da tabela mantido) ...</div>`
+            'sobre': '<p>A <strong>CRISMISSFIT</strong> nasceu em 2026 com o propósito de unir tecnologia têxtil e design para mulheres que não abrem mão de estilo durante o treino. Nossas peças são desenvolvidas no Rio de Janeiro e testadas por atletas reais.</p>',
+            'termos': '<p><strong>1. ACEITAÇÃO:</strong> Ao acessar este site, você concorda com nossos termos.<br><strong>2. PRODUTOS:</strong> As imagens são ilustrativas. Podem ocorrer pequenas variações de cor.<br><strong>3. PREÇOS:</strong> Reservamo-nos o direito de alterar preços sem aviso prévio.</p>',
+            'privacidade': '<p><strong>LGPD:</strong> Seus dados (nome, endereço, telefone) são utilizados exclusivamente para processamento e entrega do pedido. Não compartilhamos informações com terceiros para fins de marketing sem consentimento. Utilizamos SSL para navegação segura.</p>',
+            'trocas': '<p><strong>DIREITO DE ARREPENDIMENTO:</strong> Conforme o CDC, você tem até 7 dias corridos após o recebimento para solicitar a devolução por arrependimento.<br><strong>TROCA POR DEFEITO:</strong> Garantia de 30 dias para defeitos de fabricação. O produto deve estar com etiqueta e sem uso.</p>',
+            'medidas': `` // Mantido vazio pois é preenchido dinamicamente no openModal
         };
 
         function openModal(t) {
             const map = {'sobre':'Sobre Nós','termos':'Termos','privacidade':'Privacidade','trocas':'Trocas','medidas':'Medidas'};
             document.getElementById('modal-title').innerText = map[t];
-            // Nota: Para simplificar o código aqui, use o conteúdo original do modal de medidas
+            
             if(t === 'medidas') {
                  document.getElementById('modal-body').innerHTML = `
                  <div class="bg-pink-50 p-4 rounded-lg mb-4 text-center">
@@ -321,7 +329,6 @@
             res.classList.remove('hidden');
         }
 
-        // --- LÓGICA DO SITE ATUALIZADA ---
         window.onload = async () => { try {
             const r = await fetch('produtos.json');
             allProducts = await r.json();
@@ -334,13 +341,11 @@
             if(data.length===0){ grid.innerHTML='<div class="col-span-full text-center py-10 opacity-50">Nada encontrado.</div>'; return; }
             
             grid.innerHTML = data.map((p, i) => {
-                // Badge Logic
                 let badgeHTML = '';
                 if(p.badge) {
                     const cls = p.badge.toLowerCase() === 'oferta' ? 'badge-oferta' : p.badge.toLowerCase() === 'mais vendido' ? 'badge-maisvendido' : 'badge-lancamento';
                     badgeHTML = `<div class="badge ${cls}">${p.badge}</div>`;
                 }
-                // Price Logic
                 const priceDisplay = p.oldPrice ? `<span class="old-price">R$ ${p.oldPrice.toFixed(0)}</span> R$ ${p.price.toFixed(0)}` : `R$ ${p.price.toFixed(0)}`;
 
                 return `<div class="product-card group" data-aos="fade-up" data-aos-delay="${i*50}">
@@ -367,7 +372,6 @@
             refreshFsLightbox();
         }
 
-        // --- LÓGICA DO MODAL DE DETALHES ---
         function openProductModal(id) {
             currentProduct = allProducts.find(p => p.id === id);
             if(!currentProduct) return;
@@ -383,7 +387,6 @@
 
             document.getElementById('modal-img').src = currentProduct.images[0];
 
-            // Renderiza Tamanhos
             const sizesDiv = document.getElementById('modal-sizes');
             const btn = document.getElementById('modal-add-btn');
             const msg = document.getElementById('stock-msg');
@@ -392,7 +395,6 @@
             const sizes = ['P','M','G','GG'];
             
             sizesDiv.innerHTML = sizes.map(s => {
-                // Se não tiver inventory definido no JSON, assume 99 (Disponível)
                 const qty = (currentProduct.inventory && currentProduct.inventory[s] !== undefined) ? currentProduct.inventory[s] : 99;
                 const dis = qty === 0 ? 'disabled' : '';
                 const style = qty === 0 ? 'opacity-50 cursor-not-allowed bg-gray-100 text-gray-400' : 'hover:border-pink-500 cursor-pointer';
@@ -402,7 +404,6 @@
                 </div>`;
             }).join('');
 
-            // Relacionados
             const relSec = document.getElementById('related-section');
             const relGrid = document.getElementById('related-grid');
             if(currentProduct.relatedIds && currentProduct.relatedIds.length > 0) {
@@ -433,7 +434,6 @@
 
         function closeProductModal() { document.getElementById('product-modal').style.display='none'; }
 
-        // --- CARRINHO ---
         function clearCart() { if(cart.length>0 && confirm("Esvaziar sacola?")) { cart=[]; updateCartUI(); } }
         function toggleCart(o) { const s=document.getElementById('cart-sidebar'); o? (s.classList.remove('cart-closed'),s.classList.add('cart-open')) : (s.classList.remove('cart-open'),s.classList.add('cart-closed')); }
         
@@ -446,7 +446,6 @@
             c.innerHTML = cart.map((i,x) => `<div class="flex gap-3 p-3 bg-white border border-gray-100 rounded shadow-sm relative"><img src="${i.images[0]}" class="w-12 h-12 object-cover rounded"><div class="flex-1"><h4 class="font-bold text-[10px] uppercase truncate w-32">${i.name}</h4><p class="text-[10px] text-gray-500">Tam: <b>${i.size}</b> | R$ ${i.price.toFixed(0)}</p></div><button onclick="cart.splice(${x},1);updateCartUI()" class="text-gray-300 hover:text-red-500"><i class="fas fa-trash"></i></button></div>`).join('');
         }
 
-        // --- UTILS ---
         function maskPhone(i){let v=i.value.replace(/\D/g,'');v=v.replace(/^(\d\d)(\d)/g,"($1) $2");v=v.replace(/(\d{5})(\d)/,"$1-$2");i.value=v;}
         function maskCEP(i){let v=i.value.replace(/\D/g,'');v=v.replace(/^(\d{5})(\d)/,"$1-$2");i.value=v;}
         async function searchCEP() {
