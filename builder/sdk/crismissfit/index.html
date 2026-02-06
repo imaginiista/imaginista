@@ -357,115 +357,100 @@
 
         // TEXTOS LEGAIS
         const legalTexts = {
-            'sobre': '<p>A <strong>CRISMISSFIT</strong> nasceu em 2026 com o propósito de unir tecnologia têxtil e design para mulheres que não abrem mão de estilo durante o treino. Nossas peças são desenvolvidas no Rio de Janeiro e testadas por atletas reais.</p>',
-            'termos': '<p><strong>1. ACEITAÇÃO:</strong> Ao acessar este site, você concorda com nossos termos.<br><strong>2. PRODUTOS:</strong> As imagens são ilustrativas.<br><strong>3. PREÇOS:</strong> Reservamo-nos o direito de alterar preços sem aviso prévio.</p>',
-            'privacidade': '<p><strong>LGPD:</strong> Seus dados (nome, endereço, telefone) são utilizados exclusivamente para processamento e entrega do pedido. Não compartilhamos informações com terceiros para fins de marketing sem consentimento. Utilizamos SSL para navegação segura.</p>',
-            'trocas': '<p><strong>DIREITO DE ARREPENDIMENTO:</strong> Conforme o CDC, você tem até 7 dias corridos após o recebimento para solicitar a devolução por arrependimento.<br><strong>TROCA POR DEFEITO:</strong> Garantia de 30 dias para defeitos de fabricação. O produto deve estar com etiqueta e sem uso.</p>'
+            'sobre': '<p>A <strong>CRISMISSFIT</strong> nasceu em 2026 com o propósito de unir tecnologia têxtil e design para mulheres que não abrem mão de estilo durante o treino.</p>',
+            'termos': '<p><strong>1. ACEITAÇÃO:</strong> Ao acessar este site, você concorda com nossos termos.</p>',
+            'privacidade': '<p><strong>LGPD:</strong> Seus dados são utilizados apenas para o pedido.</p>',
+            'trocas': '<p><strong>DIREITO DE ARREPENDIMENTO:</strong> 7 dias corridos após o recebimento.</p>'
         };
 
         function openModal(t) {
-            document.getElementById('modal-title').innerText = {'sobre':'Sobre Nós','termos':'Termos de Uso','privacidade':'Privacidade','trocas':'Trocas e Devoluções'}[t];
+            document.getElementById('modal-title').innerText = t.toUpperCase();
             document.getElementById('modal-body').innerHTML = legalTexts[t] || "Texto indisponível.";
             document.getElementById('modal-legal').style.display = 'flex';
         }
 
-        function openProvadorModal() {
-            document.getElementById('modal-provador-generic').style.display = 'flex';
-        }
+        function openProvadorModal() { document.getElementById('modal-provador-generic').style.display = 'flex'; }
+        function triggerLogoAnimation() { const l = document.getElementById('footer-logo'); l.classList.remove('logo-beat'); void l.offsetWidth; l.classList.add('logo-beat'); }
 
-        function triggerLogoAnimation() {
-            const logo = document.getElementById('footer-logo');
-            logo.classList.remove('logo-beat');
-            void logo.offsetWidth; 
-            logo.classList.add('logo-beat');
-        }
-
-        // ABAS DO PROVADOR
         function toggleGuide(tab) {
             const p = document.getElementById('content-provador');
             const m = document.getElementById('content-medidas');
             const btP = document.getElementById('tab-provador');
             const btM = document.getElementById('tab-medidas');
-
-            if(tab === 'provador') {
-                p.classList.remove('hidden'); m.classList.add('hidden');
-                btP.classList.add('active-tab'); btM.classList.remove('active-tab');
-            } else {
-                p.classList.add('hidden'); m.classList.remove('hidden');
-                btP.classList.remove('active-tab'); btM.classList.add('active-tab');
-            }
+            if(tab === 'provador') { p.classList.remove('hidden'); m.classList.add('hidden'); btP.classList.add('active-tab'); btM.classList.remove('active-tab'); }
+            else { p.classList.add('hidden'); m.classList.remove('hidden'); btP.classList.remove('active-tab'); btM.classList.add('active-tab'); }
         }
 
-        // LÓGICA DO PROVADOR VIRTUAL (CORRIGIDA - MÉTODO DO GARGALO)
-        function calculateSizeLogic(h, w, bust, hip) {
-            // Define o tamanho baseado na MAIOR medida necessária (método do gargalo)
-            // Se o quadril precisa de G, a peça será G, mesmo que o peso seja P.
+        // --- LÓGICA DO PROVADOR VIRTUAL INTELIGENTE (IMC + MEDIDAS) ---
+        function calculateSizeLogic(heightCm, weightKg, bust, hip) {
+            // Converte altura para metros
+            const h = heightCm / 100;
+            // Calcula IMC
+            const imc = weightKg / (h * h);
             
-            let sizeScore = 1; // 1=P, 2=M, 3=G, 4=GG
+            let size = 'P'; // Base
 
-            // Avalia Peso
-            if (w >= 85) sizeScore = Math.max(sizeScore, 4);
-            else if (w >= 70) sizeScore = Math.max(sizeScore, 3);
-            else if (w >= 60) sizeScore = Math.max(sizeScore, 2);
+            // 1. Base pelo IMC (Aproximação Fitness Feminina)
+            if (imc < 19) size = 'P';
+            else if (imc >= 19 && imc < 24) size = 'M';
+            else if (imc >= 24 && imc < 29) size = 'G';
+            else if (imc >= 29) size = 'GG';
 
-            // Avalia Busto (se informado)
-            if (bust > 0) {
-                if (bust >= 106) sizeScore = Math.max(sizeScore, 4);
-                else if (bust >= 97) sizeScore = Math.max(sizeScore, 3);
-                else if (bust >= 89) sizeScore = Math.max(sizeScore, 2);
-            }
-
-            // Avalia Quadril (se informado - crítico para leggings)
+            // 2. Ajuste pelo "Gargalo" (Se quadril ou busto forem grandes para o IMC)
+            // Tabela Base: P(88-98), M(99-109), G(110-120), GG(121+)
+            
+            // Verifica Quadril (Crítico para Leggings)
             if (hip > 0) {
-                if (hip >= 121) sizeScore = Math.max(sizeScore, 4);
-                else if (hip >= 110) sizeScore = Math.max(sizeScore, 3);
-                else if (hip >= 99) sizeScore = Math.max(sizeScore, 2);
+                if (hip >= 121 && size !== 'GG') size = 'GG'; 
+                else if (hip >= 110 && (size === 'P' || size === 'M')) size = 'G';
+                else if (hip >= 99 && size === 'P') size = 'M';
             }
 
-            if (sizeScore === 4) return 'GG';
-            if (sizeScore === 3) return 'G';
-            if (sizeScore === 2) return 'M';
-            return 'P';
+            // Verifica Busto (Crítico para Tops)
+            if (bust > 0) {
+                if (bust >= 106 && size !== 'GG') size = 'GG';
+                else if (bust >= 97 && (size === 'P' || size === 'M')) size = 'G';
+                else if (bust >= 89 && size === 'P') size = 'M';
+            }
+
+            return size;
         }
 
         function calcSize() {
-            // Pega valores do modal do PRODUTO
             const h = parseFloat(document.getElementById('sim-height').value);
             const w = parseFloat(document.getElementById('sim-weight').value);
             const bust = parseFloat(document.getElementById('sim-bust').value) || 0;
             const hip = parseFloat(document.getElementById('sim-hip').value) || 0;
             const res = document.getElementById('sim-result');
             
-            if(!h || !w) { res.innerHTML = "Preencha pelo menos Altura e Peso!"; res.classList.remove('hidden'); return; }
+            if(!h || !w) { res.innerHTML = "Preencha Altura e Peso!"; res.classList.remove('hidden'); return; }
             
             const size = calculateSizeLogic(h, w, bust, hip);
-            res.innerHTML = `Sua medida sugerida: <span class="text-pink-600 text-lg uppercase font-black">${size}</span>`;
+            res.innerHTML = `Com base no seu biotipo, sugerimos: <span class="text-pink-600 text-2xl font-black">${size}</span>`;
             res.classList.remove('hidden');
         }
 
         function calcSizeGeneric() {
-            // Pega valores do modal GENÉRICO (Rodapé)
             const h = parseFloat(document.getElementById('gen-height').value);
             const w = parseFloat(document.getElementById('gen-weight').value);
             const bust = parseFloat(document.getElementById('gen-bust').value) || 0;
             const hip = parseFloat(document.getElementById('gen-hip').value) || 0;
             const res = document.getElementById('gen-result');
             
-            if(!h || !w) { res.innerHTML = "Preencha pelo menos Altura e Peso!"; res.classList.remove('hidden'); return; }
+            if(!h || !w) { res.innerHTML = "Preencha Altura e Peso!"; res.classList.remove('hidden'); return; }
             
             const size = calculateSizeLogic(h, w, bust, hip);
-            res.innerHTML = `Sua medida sugerida: <span class="text-pink-600 font-bold">${size}</span>`;
+            res.innerHTML = `Sugerimos: <span class="text-pink-600 text-xl font-black">${size}</span>`;
             res.classList.remove('hidden');
         }
 
-        // INIT
+        // --- SISTEMA DE PRODUTOS ---
         window.onload = async () => { try {
             const r = await fetch('produtos.json');
             allProducts = await r.json();
             filterCategory('all');
-        } catch(e){ console.log(e); document.getElementById('product-grid').innerHTML = '<p class="text-center col-span-full">Erro no Catálogo.</p>'; }};
+        } catch(e){ console.log(e); }};
 
-        // RENDERIZAÇÃO
         function renderProducts(data) {
             const grid = document.getElementById('product-grid');
             const btnLoad = document.getElementById('load-more-container');
@@ -532,11 +517,9 @@
             renderProducts(filteredProducts);
         }
 
-        // --- LÓGICA DE ESTOQUE POR COR ---
         function openProductModal(id) {
             currentProduct = allProducts.find(p => p.id === id);
             if(!currentProduct) return;
-            
             selectedColorObj = null;
 
             document.getElementById('modal-cat').innerText = currentProduct.category;
@@ -549,48 +532,36 @@
             document.getElementById('modal-lightbox-link').href = initialImg;
             refreshFsLightbox();
 
-            // CORES
             const colorsDiv = document.getElementById('modal-colors');
             const colorContainer = document.getElementById('color-selection-container');
             
             if(currentProduct.colors && currentProduct.colors.length > 0) {
                 colorContainer.classList.remove('hidden');
-                // Renderiza bolinhas de cor
                 colorsDiv.innerHTML = currentProduct.colors.map((c, index) => `
                     <div class="color-option" style="background-color: ${c.hex};" title="${c.name}" onclick="selectColor(${index}, this)"></div>
                 `).join('');
                 document.getElementById('stock-msg').innerText = "Selecione uma cor para ver o estoque.";
             } else {
                 colorContainer.classList.add('hidden');
-                // Se não tem cores, usa o inventory da raiz
                 selectedColorObj = { name: "Única", sizes: currentProduct.inventory || {} };
                 renderSizes();
             }
 
-            // Limpa tamanhos se tiver cor (espera seleção)
             if(currentProduct.colors && currentProduct.colors.length > 0) {
                 document.getElementById('modal-sizes').innerHTML = '<span class="text-xs text-gray-400">Escolha a cor...</span>';
             }
-
             document.getElementById('product-modal').style.display = 'flex';
         }
 
         function selectColor(index, element) {
-            // Marca visualmente
             document.querySelectorAll('.color-option').forEach(el => el.classList.remove('selected'));
             element.classList.add('selected');
-
-            // Pega o objeto da cor selecionada do JSON
             selectedColorObj = currentProduct.colors[index];
-
-            // Troca foto se tiver
             if(selectedColorObj.image) {
                 document.getElementById('modal-img').src = selectedColorObj.image;
                 document.getElementById('modal-lightbox-link').href = selectedColorObj.image;
                 refreshFsLightbox();
             }
-
-            // Renderiza tamanhos baseados no estoque DA COR
             renderSizes();
         }
 
@@ -598,10 +569,8 @@
             const sizesDiv = document.getElementById('modal-sizes');
             const btn = document.getElementById('modal-add-btn');
             const msg = document.getElementById('stock-msg');
-            
             btn.disabled = true; btn.innerText = "Selecione Tamanho"; msg.innerText = "";
 
-            // Se não tiver objeto de tamanhos (erro no json), previne crash
             const stockMap = selectedColorObj.sizes || {}; 
             const sizes = ['P','M','G','GG'];
 
@@ -609,7 +578,6 @@
                 const qty = stockMap[s] !== undefined ? stockMap[s] : 0;
                 const dis = qty === 0 ? 'disabled' : '';
                 const style = qty === 0 ? 'opacity-30 cursor-not-allowed bg-gray-100 text-gray-400 border-gray-200' : 'hover:border-pink-500 cursor-pointer border-gray-300';
-                
                 return `<div class="relative">
                     <input type="radio" name="mod-sz" id="ms-${s}" value="${s}" ${dis} class="hidden size-radio" onchange="checkStock('${s}', ${qty})">
                     <label for="ms-${s}" class="w-10 h-10 flex items-center justify-center text-xs font-bold border rounded ${style}">${s}</label>
@@ -620,18 +588,13 @@
         function checkStock(size, qty) {
             const btn = document.getElementById('modal-add-btn');
             const msg = document.getElementById('stock-msg');
-            
             btn.disabled = false; btn.innerText = "ADICIONAR À SACOLA";
             
             if(qty < 5) { msg.innerText = `🔥 Restam apenas ${qty} unidades!`; msg.style.color='#db2777'; }
             else { msg.innerText = "Em estoque ✔"; msg.style.color='green'; }
 
             btn.onclick = () => {
-                cart.push({
-                    ...currentProduct, 
-                    size: size, 
-                    selectedColor: selectedColorObj.name 
-                });
+                cart.push({ ...currentProduct, size: size, selectedColor: selectedColorObj.name });
                 updateCartUI(); closeProductModal(); toggleCart(true);
             };
         }
@@ -645,9 +608,7 @@
             document.getElementById('cart-count').innerText = cart.length;
             const t = cart.reduce((a,b)=>a+b.price,0)+shippingValue;
             document.getElementById('cart-total').innerText = `R$ ${t.toFixed(2)}`;
-            
             if(cart.length===0){ c.innerHTML='<div class="h-full flex flex-col items-center justify-center opacity-30 text-xs font-bold uppercase"><i class="fas fa-shopping-basket text-4xl mb-2"></i>Sua sacola está vazia</div>'; return; }
-            
             c.innerHTML = cart.map((i,x) => `
                 <div class="flex gap-3 p-3 bg-white border border-gray-100 rounded shadow-sm relative">
                     <img src="${i.images[0]}" class="w-12 h-12 object-cover rounded">
