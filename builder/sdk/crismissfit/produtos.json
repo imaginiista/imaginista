@@ -8,26 +8,11 @@
     "badge": "TESTE DE IMAGEM",
     "desc": "Produto teste com estoque separado por cor.",
     "colors": [
-      { 
-        "name": "Preto", 
-        "hex": "#000000", 
-        "image": "produtos/312413-1.webp",
-        "sizes": { "P": 10, "M": 0, "G": 5, "GG": 2 } 
-      },
-      { 
-        "name": "Azul", 
-        "hex": "#0000FF", 
-        "image": "produtos/312413-2.webp",
-        "sizes": { "P": 0, "M": 5, "G": 5, "GG": 5 }
-      }
+      { "name": "Preto", "hex": "#000000", "image": "produtos/312413-1.webp", "sizes": { "P": 10, "M": 0, "G": 5, "GG": 2 } },
+      { "name": "Azul", "hex": "#0000FF", "image": "produtos/312413-2.webp", "sizes": { "P": 0, "M": 5, "G": 5, "GG": 5 } }
     ],
     "relatedIds": [11, 41],
-    "images": [
-      "produtos/312413-1.webp",
-      "produtos/312413-2.webp",
-      "produtos/312413-3.webp",
-      "produtos/312413-4.webp"
-    ]
+    "images": ["produtos/312413-1.webp", "produtos/312413-2.webp", "produtos/312413-3.webp", "produtos/312413-4.webp"]
   },
   {
     "id": 2,
@@ -35,18 +20,9 @@
     "name": "Legging Seamless Pink",
     "price": 149.90,
     "desc": "Tecnologia sem costura.",
-    "colors": [
-      { 
-        "name": "Rosa", 
-        "hex": "#db2777", 
-        "image": "https://images.unsplash.com/photo-1552160753-117159d4541c?w=800&q=80",
-        "sizes": { "P": 20, "M": 15, "G": 8, "GG": 5 }
-      }
-    ],
+    "colors": [ { "name": "Rosa", "hex": "#db2777", "image": "produtos/312413-2.webp", "sizes": { "P": 20, "M": 15, "G": 8, "GG": 5 } } ],
     "relatedIds": [12, 42],
-    "images": [
-      "produtos/312413-2.webp"
-    ]
+    "images": ["produtos/312413-2.webp"]
   },
   {
     "id": 3,
@@ -55,597 +31,491 @@
     "price": 89.90,
     "oldPrice": 149.90,
     "badge": "OFERTA",
-    "colors": [],
+    "desc": "Item exclusivo da categoria Promoção.",
     "inventory": { "P": 5, "M": 5, "G": 5, "GG": 5 },
     "relatedIds": [],
-    "desc": "Sem variação de cor, estoque padrão.",
-    "images": [
-      "produtos/312413-2.webp"
-    ]
+    "images": ["produtos/312413-3.webp"]
   },
   {
     "id": 4,
     "category": "leggings",
     "name": "Legging Galaxy Roxo",
     "price": 119.90,
-    "colors": [
-        { 
-          "name": "Roxo", 
-          "hex": "#800080", 
-          "image": "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=800&q=80",
-          "sizes": { "P": 2, "M": 2, "G": 2, "GG": 2 }
-        }
-    ],
-    "relatedIds": [13, 22],
     "desc": "Estampa moderna.",
-    "images": [
-      "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=800&q=80"
-    ]
-  }
-]
+    "colors": [ { "name": "Roxo", "hex": "#800080", "image": "produtos/312413-4.webp", "sizes": { "P": 5, "M": 5, "G": 5, "GG": 5 } } ],
+    "relatedIds": [13, 22],
+    "images": ["produtos/312413-4.webp"]
   },
   {
     "id": 5,
     "category": "leggings",
     "name": "Legging Shine Azul",
-    "price": 159.9,
-    "inventory": { "P": 10, "M": 2, "G": 1, "GG": 0 },
+    "price": 159.90,
+    "desc": "Acabamento acetinado com brilho discreto.",
+    "colors": [ { "name": "Azul", "hex": "#0000FF", "image": "produtos/312413-2.webp", "sizes": { "P": 10, "M": 2, "G": 1, "GG": 0 } } ],
     "relatedIds": [18, 45],
-    "desc": "Acabamento acetinado com brilho discreto. Ideal para Crossfit.",
-    "images": [
-      "https://images.unsplash.com/photo-1518310383802-640c2de311b2?auto=format&fit=crop&w=600&q=80"
-    ]
+    "images": ["produtos/312413-2.webp"]
   },
   {
     "id": 6,
     "category": "leggings",
     "name": "Legging Recortes Tela",
-    "price": 125.0,
-    "oldPrice": 145.0,
+    "price": 125.00,
+    "oldPrice": 145.00,
     "badge": "OFERTA",
-    "inventory": { "P": 30, "M": 20, "G": 10, "GG": 5 },
+    "desc": "Recortes em mesh para maior ventilação.",
+    "colors": [ { "name": "Preto", "hex": "#000000", "image": "produtos/312413-1.webp", "sizes": { "P": 30, "M": 20, "G": 10, "GG": 5 } } ],
     "relatedIds": [19, 41],
-    "desc": "Recortes em mesh para maior ventilação durante treinos intensos.",
-    "images": [
-      "produtos/312413-2.webp"
-    ]
+    "images": ["produtos/312413-1.webp"]
   },
   {
     "id": 7,
     "category": "leggings",
     "name": "Legging Cintura Alta",
-    "price": 110.0,
+    "price": 110.00,
+    "desc": "Cós duplo reforçado que comprime o abdômen.",
     "inventory": { "P": 8, "M": 8, "G": 8, "GG": 8 },
     "relatedIds": [12, 33],
-    "desc": "Cós duplo reforçado que comprime o abdômen sem apertar.",
-    "images": [
-      "produtos/312413-2.webp"
-    ]
+    "images": ["produtos/312413-3.webp"]
   },
   {
     "id": 8,
     "category": "leggings",
     "name": "Legging Estampa Onça",
-    "price": 145.0,
+    "price": 145.00,
+    "desc": "Animal print sofisticado. Tecido toque gelado.",
     "inventory": { "P": 3, "M": 1, "G": 0, "GG": 0 },
     "relatedIds": [14, 25],
-    "desc": "Animal print sofisticado. Tecido toque gelado.",
-    "images": [
-      "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?auto=format&fit=crop&w=600&q=80"
-    ]
+    "images": ["produtos/312413-4.webp"]
   },
   {
     "id": 9,
     "category": "leggings",
     "name": "Legging Térmica Frio",
-    "price": 169.9,
+    "price": 169.90,
+    "desc": "Interior peluciado. Perfeita para treinos em dias frios.",
     "inventory": { "P": 10, "M": 10, "G": 10, "GG": 10 },
     "relatedIds": [38, 44],
-    "desc": "Interior peluciado. Perfeita para treinos em dias frios.",
-    "images": [
-      "produtos/312413-2.webp"
-    ]
+    "images": ["produtos/312413-1.webp"]
   },
   {
     "id": 10,
     "category": "leggings",
     "name": "Legging 3/4 Running",
-    "price": 99.9,
+    "price": 99.90,
+    "desc": "Comprimento midi capri. Liberdade total.",
     "inventory": { "P": 15, "M": 15, "G": 15, "GG": 15 },
     "relatedIds": [11, 48],
-    "desc": "Comprimento midi capri. Liberdade total para sua corrida.",
-    "images": [
-      "produtos/312413-2.webp"
-    ]
+    "images": ["produtos/312413-2.webp"]
   },
   {
     "id": 11,
     "category": "tops",
     "name": "Top Cross Pink",
-    "price": 89.9,
+    "price": 89.90,
     "badge": "LANÇAMENTO",
-    "inventory": { "P": 10, "M": 10, "G": 5, "GG": 0 },
+    "desc": "Alta sustentação com costas cruzadas.",
+    "colors": [ { "name": "Rosa", "hex": "#db2777", "image": "produtos/312413-3.webp", "sizes": { "P": 10, "M": 10, "G": 5, "GG": 0 } } ],
     "relatedIds": [1, 45],
-    "desc": "Alta sustentação com costas cruzadas. Perfeito para corrida.",
-    "images": [
-      "https://images.unsplash.com/photo-1571731956672-f2b94d7dd0cb?auto=format&fit=crop&w=600&q=80"
-    ]
+    "images": ["produtos/312413-3.webp"]
   },
   {
     "id": 12,
     "category": "tops",
     "name": "Top Basic Branco",
-    "price": 79.9,
-    "oldPrice": 99.9,
+    "price": 79.90,
+    "oldPrice": 99.90,
     "badge": "OFERTA",
-    "inventory": { "P": 10, "M": 10, "G": 10, "GG": 10 },
-    "relatedIds": [2, 22],
     "desc": "O básico que combina com qualquer look.",
-    "images": [
-      "https://images.unsplash.com/photo-1518310383802-640c2de311b2?auto=format&fit=crop&w=600&q=80"
-    ]
+    "colors": [ { "name": "Branco", "hex": "#ffffff", "image": "produtos/312413-4.webp", "sizes": { "P": 10, "M": 10, "G": 10, "GG": 10 } } ],
+    "relatedIds": [2, 22],
+    "images": ["produtos/312413-4.webp"]
   },
   {
     "id": 13,
     "category": "tops",
     "name": "Top Manga Longa",
-    "price": 110.0,
+    "price": 110.00,
+    "desc": "Proteção UV50+ e estilo.",
     "inventory": { "P": 5, "M": 5, "G": 0, "GG": 0 },
     "relatedIds": [4, 26],
-    "desc": "Proteção UV50+ e estilo para treinos ao ar livre.",
-    "images": [
-      "https://images.unsplash.com/photo-1516726817505-f5ed825624d8?auto=format&fit=crop&w=600&q=80"
-    ]
+    "images": ["produtos/312413-1.webp"]
   },
   {
     "id": 14,
     "category": "tops",
     "name": "Top Neon Vibes",
-    "price": 95.0,
+    "price": 95.00,
+    "desc": "Cor vibrante para quem gosta de se destacar.",
     "inventory": { "P": 0, "M": 0, "G": 0, "GG": 0 },
     "relatedIds": [34, 44],
-    "desc": "Cor vibrante para quem gosta de se destacar.",
-    "images": [
-      "https://images.unsplash.com/photo-1620799140408-ed5341cd2431?auto=format&fit=crop&w=600&q=80"
-    ]
+    "images": ["produtos/312413-2.webp"]
   },
   {
     "id": 15,
     "category": "tops",
     "name": "Top Bojo Removível",
-    "price": 85.0,
+    "price": 85.00,
+    "desc": "Versátil: use com ou sem bojo.",
     "inventory": { "P": 20, "M": 20, "G": 10, "GG": 5 },
     "relatedIds": [3, 23],
-    "desc": "Versátil: use com ou sem bojo. Tecido macio.",
-    "images": [
-      "https://images.unsplash.com/photo-1571731956672-f2b94d7dd0cb?auto=format&fit=crop&w=600&q=80"
-    ]
+    "images": ["produtos/312413-3.webp"]
   },
   {
     "id": 16,
     "category": "tops",
     "name": "Top Nadador Preto",
-    "price": 69.9,
+    "price": 69.90,
     "badge": "CLÁSSICO",
-    "inventory": { "P": 50, "M": 50, "G": 50, "GG": 20 },
-    "relatedIds": [1, 21],
     "desc": "O modelo nadador que nunca sai de moda.",
-    "images": [
-      "https://images.unsplash.com/photo-1518310383802-640c2de311b2?auto=format&fit=crop&w=600&q=80"
-    ]
+    "colors": [ { "name": "Preto", "hex": "#000000", "image": "produtos/312413-4.webp", "sizes": { "P": 50, "M": 50, "G": 50, "GG": 20 } } ],
+    "relatedIds": [1, 21],
+    "images": ["produtos/312413-4.webp"]
   },
   {
     "id": 17,
     "category": "tops",
     "name": "Top Alça Fina",
-    "price": 65.0,
+    "price": 65.00,
+    "desc": "Leve e delicado, ideal para Yoga.",
     "inventory": { "P": 10, "M": 10, "G": 0, "GG": 0 },
     "relatedIds": [33, 42],
-    "desc": "Leve e delicado, ideal para Yoga e Pilates.",
-    "images": [
-      "https://images.unsplash.com/photo-1516726817505-f5ed825624d8?auto=format&fit=crop&w=600&q=80"
-    ]
+    "images": ["produtos/312413-1.webp"]
   },
   {
     "id": 18,
     "category": "tops",
     "name": "Top Zíper Frontal",
-    "price": 99.9,
+    "price": 99.90,
+    "desc": "Praticidade para vestir e retirar.",
     "inventory": { "P": 5, "M": 2, "G": 1, "GG": 0 },
     "relatedIds": [5, 22],
-    "desc": "Praticidade para vestir e retirar. Zíper com trava.",
-    "images": [
-      "produtos/312413-2.webp"
-    ]
+    "images": ["produtos/312413-2.webp"]
   },
   {
     "id": 19,
     "category": "tops",
     "name": "Top Alta Sustentação",
-    "price": 105.0,
+    "price": 105.00,
+    "desc": "Desenvolvido para esportes de alto impacto.",
     "inventory": { "P": 15, "M": 15, "G": 15, "GG": 15 },
     "relatedIds": [6, 46],
-    "desc": "Desenvolvido para esportes de alto impacto.",
-    "images": [
-      "https://images.unsplash.com/photo-1571731956672-f2b94d7dd0cb?auto=format&fit=crop&w=600&q=80"
-    ]
+    "images": ["produtos/312413-3.webp"]
   },
   {
     "id": 20,
     "category": "tops",
     "name": "Top Ombro Único",
-    "price": 95.0,
+    "price": 95.00,
+    "desc": "Design assimétrico para um look fashion.",
     "inventory": { "P": 4, "M": 4, "G": 4, "GG": 0 },
     "relatedIds": [7, 29],
-    "desc": "Design assimétrico para um look fashion fitness.",
-    "images": [
-      "https://images.unsplash.com/photo-1518310383802-640c2de311b2?auto=format&fit=crop&w=600&q=80"
-    ]
+    "images": ["produtos/312413-4.webp"]
   },
   {
     "id": 21,
     "category": "shorts",
     "name": "Shorts Runner Duplo",
-    "price": 99.9,
+    "price": 99.90,
+    "desc": "Short soltinho externo com bermuda interna.",
     "inventory": { "P": 12, "M": 8, "G": 4, "GG": 2 },
     "relatedIds": [12, 44],
-    "desc": "Short soltinho externo com bermuda de compressão interna.",
-    "images": [
-      "https://images.unsplash.com/photo-1539185441755-769473a23570?auto=format&fit=crop&w=600&q=80"
-    ]
+    "images": ["produtos/312413-1.webp"]
   },
   {
     "id": 22,
     "category": "shorts",
     "name": "Biker Shorts Preto",
-    "price": 85.0,
+    "price": 85.00,
     "badge": "MAIS VENDIDO",
-    "inventory": { "P": 20, "M": 20, "G": 20, "GG": 10 },
+    "desc": "O queridinho das fashionistas.",
+    "colors": [ { "name": "Preto", "hex": "#000000", "image": "produtos/312413-2.webp", "sizes": { "P": 20, "M": 20, "G": 20, "GG": 10 } } ],
     "relatedIds": [12, 13],
-    "desc": "O queridinho das fashionistas. Vai do treino ao passeio.",
-    "images": [
-      "produtos/312413-2.webp"
-    ]
+    "images": ["produtos/312413-2.webp"]
   },
   {
     "id": 23,
     "category": "shorts",
     "name": "Shorts Levanta Bumbum",
-    "price": 95.0,
+    "price": 95.00,
+    "desc": "Costura ripple que valoriza as curvas.",
     "inventory": { "P": 5, "M": 0, "G": 5, "GG": 0 },
     "relatedIds": [15, 43],
-    "desc": "Costura ripple (franzida) que valoriza as curvas.",
-    "images": [
-      "https://images.unsplash.com/photo-1574680096141-1cddd32e016f?auto=format&fit=crop&w=600&q=80"
-    ]
+    "images": ["produtos/312413-3.webp"]
   },
   {
     "id": 24,
     "category": "shorts",
     "name": "Shorts Moletom",
-    "price": 79.9,
-    "oldPrice": 89.9,
+    "price": 79.90,
+    "oldPrice": 89.90,
+    "desc": "Conforto máximo em algodão premium.",
     "inventory": { "P": 10, "M": 10, "G": 10, "GG": 10 },
     "relatedIds": [12, 49],
-    "desc": "Conforto máximo em algodão premium.",
-    "images": [
-      "https://images.unsplash.com/photo-1539185441755-769473a23570?auto=format&fit=crop&w=600&q=80"
-    ]
+    "images": ["produtos/312413-4.webp"]
   },
   {
     "id": 25,
     "category": "shorts",
     "name": "Biker Shorts Onça",
-    "price": 89.9,
+    "price": 89.90,
+    "desc": "Estampa animal print para um look ousado.",
     "inventory": { "P": 3, "M": 3, "G": 0, "GG": 0 },
     "relatedIds": [8, 16],
-    "desc": "Estampa animal print para um look ousado.",
-    "images": [
-      "https://images.unsplash.com/photo-1534067783741-5127d28f8512?auto=format&fit=crop&w=600&q=80"
-    ]
+    "images": ["produtos/312413-1.webp"]
   },
   {
     "id": 26,
     "category": "shorts",
     "name": "Shorts Compressão",
-    "price": 90.0,
+    "price": 90.00,
+    "desc": "Firmeza muscular, ideal para treinos de perna.",
     "inventory": { "P": 15, "M": 15, "G": 10, "GG": 5 },
     "relatedIds": [19, 46],
-    "desc": "Firmeza muscular, ideal para treinos de perna.",
-    "images": [
-      "https://images.unsplash.com/photo-1574680096141-1cddd32e016f?auto=format&fit=crop&w=600&q=80"
-    ]
+    "images": ["produtos/312413-2.webp"]
   },
   {
     "id": 27,
     "category": "shorts",
     "name": "Shorts Saia Tênis",
-    "price": 110.0,
+    "price": 110.00,
+    "desc": "Feminilidade da saia com a segurança do short.",
     "inventory": { "P": 5, "M": 5, "G": 5, "GG": 0 },
     "relatedIds": [17, 50],
-    "desc": "Feminilidade da saia com a segurança do short interno.",
-    "images": [
-      "https://images.unsplash.com/photo-1539185441755-769473a23570?auto=format&fit=crop&w=600&q=80"
-    ]
+    "images": ["produtos/312413-3.webp"]
   },
   {
     "id": 28,
     "category": "shorts",
     "name": "Shorts Curto Corrida",
-    "price": 75.0,
+    "price": 75.00,
+    "desc": "Tecido leve de secagem rápida.",
     "inventory": { "P": 8, "M": 8, "G": 8, "GG": 8 },
     "relatedIds": [11, 44],
-    "desc": "Tecido leve de secagem rápida. Abertura lateral.",
-    "images": [
-      "https://images.unsplash.com/photo-1534067783741-5127d28f8512?auto=format&fit=crop&w=600&q=80"
-    ]
+    "images": ["produtos/312413-4.webp"]
   },
   {
     "id": 29,
     "category": "shorts",
     "name": "Shorts Cintura Alta",
-    "price": 85.0,
+    "price": 85.00,
+    "desc": "Cós anatômico que não enrola.",
     "inventory": { "P": 10, "M": 2, "G": 1, "GG": 0 },
     "relatedIds": [20, 12],
-    "desc": "Cós anatômico que não enrola.",
-    "images": [
-      "https://images.unsplash.com/photo-1574680096141-1cddd32e016f?auto=format&fit=crop&w=600&q=80"
-    ]
+    "images": ["produtos/312413-1.webp"]
   },
   {
     "id": 30,
     "category": "shorts",
     "name": "Shorts Bolso Celular",
-    "price": 99.9,
+    "price": 99.90,
+    "desc": "Bolso lateral fundo, cabe qualquer smartphone.",
     "inventory": { "P": 20, "M": 20, "G": 20, "GG": 20 },
     "relatedIds": [13, 41],
-    "desc": "Bolso lateral fundo, cabe qualquer smartphone.",
-    "images": [
-      "https://images.unsplash.com/photo-1539185441755-769473a23570?auto=format&fit=crop&w=600&q=80"
-    ]
+    "images": ["produtos/312413-2.webp"]
   },
   {
     "id": 31,
     "category": "conjuntos",
     "name": "Conjunto Power Berry",
-    "price": 229.9,
-    "oldPrice": 299.9,
+    "price": 229.90,
+    "oldPrice": 299.90,
     "badge": "OFERTA",
+    "desc": "Economize comprando o look completo.",
     "inventory": { "P": 2, "M": 2, "G": 0, "GG": 1 },
     "relatedIds": [42, 49],
-    "desc": "Economize comprando o look completo. Top + Legging na cor da estação.",
-    "images": [
-      "https://images.unsplash.com/photo-1579758629938-03607ccdbaba?auto=format&fit=crop&w=600&q=80"
-    ]
+    "images": ["produtos/312413-3.webp"]
   },
   {
     "id": 32,
     "category": "conjuntos",
     "name": "Kit Treino Preto",
-    "price": 199.9,
+    "price": 199.90,
+    "desc": "O básico essencial. Legging preta + Top preto.",
     "inventory": { "P": 10, "M": 10, "G": 10, "GG": 5 },
     "relatedIds": [41, 46],
-    "desc": "O básico essencial. Legging preta + Top preto.",
-    "images": [
-      "https://images.unsplash.com/photo-1483721310020-03333e577078?auto=format&fit=crop&w=600&q=80"
-    ]
+    "images": ["produtos/312413-4.webp"]
   },
   {
     "id": 33,
     "category": "conjuntos",
     "name": "Conjunto Yoga Cinza",
-    "price": 210.0,
+    "price": 210.00,
+    "desc": "Tecido extra macio, ideal para práticas de solo.",
     "inventory": { "P": 5, "M": 5, "G": 5, "GG": 5 },
     "relatedIds": [42, 17],
-    "desc": "Tecido extra macio, ideal para práticas de solo.",
-    "images": [
-      "https://images.unsplash.com/photo-1518310383802-640c2de311b2?auto=format&fit=crop&w=600&q=80"
-    ]
+    "images": ["produtos/312413-1.webp"]
   },
   {
     "id": 34,
     "category": "conjuntos",
     "name": "Conjunto Verão Neon",
-    "price": 240.0,
+    "price": 240.00,
+    "desc": "Para brilhar no sol. Tecido com proteção UV.",
     "inventory": { "P": 0, "M": 0, "G": 0, "GG": 0 },
     "relatedIds": [14, 50],
-    "desc": "Para brilhar no sol. Tecido com proteção UV.",
-    "images": [
-      "https://images.unsplash.com/photo-1620799140408-ed5341cd2431?auto=format&fit=crop&w=600&q=80"
-    ]
+    "images": ["produtos/312413-2.webp"]
   },
   {
     "id": 35,
     "category": "conjuntos",
     "name": "Conjunto Animal Print",
-    "price": 250.0,
+    "price": 250.00,
+    "desc": "Estampa de onça total look.",
     "inventory": { "P": 3, "M": 2, "G": 1, "GG": 0 },
     "relatedIds": [8, 25],
-    "desc": "Estampa de onça total look.",
-    "images": [
-      "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?auto=format&fit=crop&w=600&q=80"
-    ]
+    "images": ["produtos/312413-3.webp"]
   },
   {
     "id": 36,
     "category": "conjuntos",
     "name": "Conjunto Seamless Azul",
-    "price": 235.0,
+    "price": 235.00,
+    "desc": "Sem costuras para máximo conforto.",
     "inventory": { "P": 8, "M": 8, "G": 8, "GG": 8 },
     "relatedIds": [5, 43],
-    "desc": "Sem costuras para máximo conforto.",
-    "images": [
-      "https://images.unsplash.com/photo-1579758629938-03607ccdbaba?auto=format&fit=crop&w=600&q=80"
-    ]
+    "images": ["produtos/312413-4.webp"]
   },
   {
     "id": 37,
     "category": "conjuntos",
     "name": "Conjunto Short e Top",
-    "price": 180.0,
+    "price": 180.00,
+    "desc": "A combinação perfeita para dias quentes.",
     "inventory": { "P": 12, "M": 12, "G": 12, "GG": 12 },
     "relatedIds": [21, 11],
-    "desc": "A combinação perfeita para dias quentes.",
-    "images": [
-      "https://images.unsplash.com/photo-1539185441755-769473a23570?auto=format&fit=crop&w=600&q=80"
-    ]
+    "images": ["produtos/312413-1.webp"]
   },
   {
     "id": 38,
     "category": "conjuntos",
     "name": "Conjunto Manga Longa",
-    "price": 260.0,
+    "price": 260.00,
+    "desc": "Elegância e proteção para o inverno.",
     "inventory": { "P": 4, "M": 4, "G": 4, "GG": 0 },
     "relatedIds": [13, 9],
-    "desc": "Elegância e proteção para o inverno.",
-    "images": [
-      "https://images.unsplash.com/photo-1483721310020-03333e577078?auto=format&fit=crop&w=600&q=80"
-    ]
+    "images": ["produtos/312413-2.webp"]
   },
   {
     "id": 39,
     "category": "conjuntos",
     "name": "Conjunto Runner",
-    "price": 190.0,
+    "price": 190.00,
     "badge": "PERFORMANCE",
+    "desc": "Projetado especificamente para corredoras.",
     "inventory": { "P": 10, "M": 10, "G": 5, "GG": 2 },
     "relatedIds": [10, 11],
-    "desc": "Projetado especificamente para corredoras.",
-    "images": [
-      "https://images.unsplash.com/photo-1579758629938-03607ccdbaba?auto=format&fit=crop&w=600&q=80"
-    ]
+    "images": ["produtos/312413-3.webp"]
   },
   {
     "id": 40,
     "category": "conjuntos",
     "name": "Conjunto Crossfit",
-    "price": 220.0,
+    "price": 220.00,
+    "desc": "Alta resistência à abrasão.",
     "inventory": { "P": 6, "M": 6, "G": 6, "GG": 6 },
     "relatedIds": [19, 46],
-    "desc": "Alta resistência à abrasão.",
-    "images": [
-      "https://images.unsplash.com/photo-1483721310020-03333e577078?auto=format&fit=crop&w=600&q=80"
-    ]
+    "images": ["produtos/312413-4.webp"]
   },
   {
     "id": 41,
     "category": "acessorios",
     "name": "Garrafa Térmica 1L",
-    "price": 89.9,
+    "price": 89.90,
+    "desc": "Aço inox, mantém gelado por 24h.",
     "inventory": { "P": 50, "M": 50, "G": 50, "GG": 50 },
     "relatedIds": [1, 30],
-    "desc": "Aço inox, mantém gelado por 24h.",
-    "images": [
-      "https://images.unsplash.com/photo-1602143407151-11115cdbf69c?auto=format&fit=crop&w=600&q=80"
-    ]
+    "images": ["produtos/312413-1.webp"]
   },
   {
     "id": 42,
     "category": "acessorios",
     "name": "Tapete Yoga Premium",
-    "price": 120.0,
+    "price": 120.00,
+    "desc": "Antiderrapante, espessura ideal de 5mm.",
     "inventory": { "P": 10, "M": 10, "G": 10, "GG": 10 },
     "relatedIds": [17, 33],
-    "desc": "Antiderrapante, espessura ideal de 5mm.",
-    "images": [
-      "https://images.unsplash.com/photo-1592432678016-e910b452f9a9?auto=format&fit=crop&w=600&q=80"
-    ]
+    "images": ["produtos/312413-2.webp"]
   },
   {
     "id": 43,
     "category": "acessorios",
     "name": "Faixa Elástica Kit",
-    "price": 59.9,
+    "price": 59.90,
+    "desc": "Kit com 3 níveis de intensidade.",
     "inventory": { "P": 20, "M": 20, "G": 20, "GG": 20 },
     "relatedIds": [23, 36],
-    "desc": "Kit com 3 níveis de intensidade: Leve, Médio, Forte.",
-    "images": [
-      "https://images.unsplash.com/photo-1598289431512-b97b0917affc?auto=format&fit=crop&w=600&q=80"
-    ]
+    "images": ["produtos/312413-3.webp"]
   },
   {
     "id": 44,
     "category": "acessorios",
     "name": "Boné Running",
-    "price": 69.9,
+    "price": 69.90,
+    "desc": "Tecido dry fit ultra leve e respirável.",
     "inventory": { "P": 15, "M": 15, "G": 15, "GG": 15 },
     "relatedIds": [28, 11],
-    "desc": "Tecido dry fit ultra leve e respirável.",
-    "images": [
-      "https://images.unsplash.com/photo-1588850561407-ed78c282e89b?auto=format&fit=crop&w=600&q=80"
-    ]
+    "images": ["produtos/312413-4.webp"]
   },
   {
     "id": 45,
     "category": "acessorios",
     "name": "Meia Performance",
-    "price": 29.9,
+    "price": 29.90,
     "badge": "UTILITÁRIO",
+    "desc": "Cano médio com compressão no arco do pé.",
     "inventory": { "P": 100, "M": 100, "G": 100, "GG": 100 },
     "relatedIds": [1, 5],
-    "desc": "Cano médio com compressão no arco do pé.",
-    "images": [
-      "https://images.unsplash.com/photo-1586350977771-b3b0abd50c82?auto=format&fit=crop&w=600&q=80"
-    ]
+    "images": ["produtos/312413-1.webp"]
   },
   {
     "id": 46,
     "category": "acessorios",
     "name": "Munhequeira Cross",
-    "price": 45.0,
+    "price": 45.00,
+    "desc": "Estabilidade para seus pulsos em cargas altas.",
     "inventory": { "P": 30, "M": 30, "G": 30, "GG": 30 },
     "relatedIds": [19, 26],
-    "desc": "Estabilidade para seus pulsos em cargas altas.",
-    "images": [
-      "https://images.unsplash.com/photo-1598289431512-b97b0917affc?auto=format&fit=crop&w=600&q=80"
-    ]
+    "images": ["produtos/312413-2.webp"]
   },
   {
     "id": 47,
     "category": "acessorios",
     "name": "Luva de Treino",
-    "price": 55.0,
+    "price": 55.00,
+    "desc": "Palma emborrachada para melhor grip.",
     "inventory": { "P": 10, "M": 10, "G": 10, "GG": 10 },
     "relatedIds": [24, 16],
-    "desc": "Palma emborrachada para melhor grip.",
-    "images": [
-      "https://images.unsplash.com/photo-1602143407151-11115cdbf69c?auto=format&fit=crop&w=600&q=80"
-    ]
+    "images": ["produtos/312413-3.webp"]
   },
   {
     "id": 48,
     "category": "acessorios",
     "name": "Corda de Pular Pro",
-    "price": 39.9,
+    "price": 39.90,
+    "desc": "Speed rope com rolamento para saltos duplos.",
     "inventory": { "P": 40, "M": 40, "G": 40, "GG": 40 },
     "relatedIds": [10, 21],
-    "desc": "Speed rope com rolamento para saltos duplos.",
-    "images": [
-      "https://images.unsplash.com/photo-1592432678016-e910b452f9a9?auto=format&fit=crop&w=600&q=80"
-    ]
+    "images": ["produtos/312413-4.webp"]
   },
   {
     "id": 49,
     "category": "acessorios",
     "name": "Mochila Fitness",
-    "price": 199.9,
+    "price": 199.90,
+    "desc": "Compartimento separado para tênis e roupa suja.",
     "inventory": { "P": 5, "M": 5, "G": 5, "GG": 5 },
     "relatedIds": [31, 24],
-    "desc": "Compartimento separado para tênis e roupa suja.",
-    "images": [
-      "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=600&q=80"
-    ]
+    "images": ["produtos/312413-1.webp"]
   },
   {
     "id": 50,
     "category": "acessorios",
     "name": "Viseira Proteção UV",
-    "price": 49.9,
+    "price": 49.90,
+    "desc": "Ajuste em velcro, essencial para esportes outdoor.",
     "inventory": { "P": 25, "M": 25, "G": 25, "GG": 25 },
     "relatedIds": [27, 34],
-    "desc": "Ajuste em velcro, essencial para esportes outdoor.",
-    "images": [
-      "https://images.unsplash.com/photo-1588850561407-ed78c282e89b?auto=format&fit=crop&w=600&q=80"
-    ]
+    "images": ["produtos/312413-2.webp"]
   }
 ]
