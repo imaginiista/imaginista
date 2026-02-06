@@ -1,16 +1,19 @@
 [
-  {
+{
     "id": 1,
     "category": "leggings",
-    "name": "Legging High Black",
+    "name": "Legging Teste Local (312413)",
     "price": 129.9,
     "oldPrice": 159.9,
-    "badge": "MAIS VENDIDO",
+    "badge": "TESTE DE IMAGEM",
     "inventory": { "P": 5, "M": 0, "G": 10, "GG": 2 },
     "relatedIds": [11, 41],
-    "desc": "Tecido blackout zero transparência. A peça curinga que você precisa.",
+    "desc": "Produto teste carregando imagens locais da pasta /produtos.",
     "images": [
-      "https://images.unsplash.com/photo-1506619237369-f6b981881efc?auto=format&fit=crop&w=600&q=80"
+      "produtos/312413-1.webp",
+      "produtos/312413-2.webp",
+      "produtos/312413-3.webp",
+      "produtos/312413-4.webp"
     ]
   },
   {
