@@ -6,12 +6,21 @@
     "price": 129.90,
     "oldPrice": 159.90,
     "badge": "TESTE DE IMAGEM",
-    "desc": "Produto teste com variação de cores e imagens locais.",
+    "desc": "Produto teste com estoque separado por cor.",
     "colors": [
-      { "name": "Preto", "hex": "#000000", "image": "produtos/312413-1.webp" },
-      { "name": "Azul", "hex": "#0000FF", "image": "produtos/312413-2.webp" }
+      { 
+        "name": "Preto", 
+        "hex": "#000000", 
+        "image": "produtos/312413-1.webp",
+        "sizes": { "P": 10, "M": 0, "G": 5, "GG": 2 } 
+      },
+      { 
+        "name": "Azul", 
+        "hex": "#0000FF", 
+        "image": "produtos/312413-2.webp",
+        "sizes": { "P": 0, "M": 5, "G": 5, "GG": 5 }
+      }
     ],
-    "inventory": { "P": 5, "M": 0, "G": 10, "GG": 2 },
     "relatedIds": [11, 41],
     "images": [
       "produtos/312413-1.webp",
@@ -27,9 +36,13 @@
     "price": 149.90,
     "desc": "Tecnologia sem costura.",
     "colors": [
-      { "name": "Rosa", "hex": "#db2777", "image": "https://images.unsplash.com/photo-1552160753-117159d4541c?w=800&q=80" }
+      { 
+        "name": "Rosa", 
+        "hex": "#db2777", 
+        "image": "https://images.unsplash.com/photo-1552160753-117159d4541c?w=800&q=80",
+        "sizes": { "P": 20, "M": 15, "G": 8, "GG": 5 }
+      }
     ],
-    "inventory": { "P": 20, "M": 15, "G": 8, "GG": 5 },
     "relatedIds": [12, 42],
     "images": [
       "https://images.unsplash.com/photo-1552160753-117159d4541c?w=800&q=80"
@@ -45,7 +58,7 @@
     "colors": [],
     "inventory": { "P": 5, "M": 5, "G": 5, "GG": 5 },
     "relatedIds": [],
-    "desc": "Item exclusivo da categoria Promoção.",
+    "desc": "Sem variação de cor, estoque padrão.",
     "images": [
       "https://images.unsplash.com/photo-1506619237369-f6b981881efc?w=800&q=80"
     ]
@@ -55,11 +68,15 @@
     "category": "leggings",
     "name": "Legging Galaxy Roxo",
     "price": 119.90,
-    "inventory": { "P": 5, "M": 5, "G": 5, "GG": 5 },
-    "relatedIds": [13, 22],
     "colors": [
-        { "name": "Roxo", "hex": "#800080", "image": "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=800&q=80" }
+        { 
+          "name": "Roxo", 
+          "hex": "#800080", 
+          "image": "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=800&q=80",
+          "sizes": { "P": 2, "M": 2, "G": 2, "GG": 2 }
+        }
     ],
+    "relatedIds": [13, 22],
     "desc": "Estampa moderna.",
     "images": [
       "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=800&q=80"

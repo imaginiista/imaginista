@@ -56,32 +56,29 @@
 
         /* Color Selector */
         .color-option { width: 30px; height: 30px; border-radius: 50%; border: 2px solid #e5e7eb; cursor: pointer; transition: all 0.2s; position: relative; }
-        .color-option.selected { border-color: #000; transform: scale(1.1); }
-        .color-option.selected::after { content: '\f00c'; font-family: 'Font Awesome 5 Free'; font-weight: 900; color: white; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 12px; text-shadow: 0 1px 2px rgba(0,0,0,0.5); }
-
+        .color-option.selected { border-color: #000; transform: scale(1.1); box-shadow: 0 0 0 2px white, 0 0 0 4px #db2777; }
+        
         /* Abas Provador */
         .tab-btn { padding: 10px; border-bottom: 2px solid transparent; color: #9ca3af; font-weight: 600; font-size: 11px; text-transform: uppercase; cursor: pointer; display: flex; align-items: center; gap: 5px; transition: 0.3s; }
         .tab-btn:hover { color: #db2777; }
         .tab-btn.active-tab { border-color: #db2777; color: #db2777; }
 
-        /* Lightbox Fix (Botão X e Fullscreen) */
+        /* Lightbox Fix */
         .fslightbox-toolbar-button[title="Enter fullscreen"] { display: none !important; }
         .fslightbox-toolbar-button:nth-child(2) { display: none !important; } 
         .fslightbox-toolbar-button:first-child { background: #db2777 !important; width: 45px !important; height: 45px !important; border-radius: 50% !important; top: 20px !important; right: 20px !important; opacity: 1 !important; border: 2px solid white !important; box-shadow: 0 4px 10px rgba(0,0,0,0.3) !important; }
         .fslightbox-toolbar-button:first-child:hover { transform: scale(1.1) !important; background: #be185d !important; }
         .fslightbox-toolbar-button svg path { fill: white !important; }
 
-        /* Nova Animação Fitness (Power Pump no Logo) */
-        @keyframes powerPump {
+        /* Animação Logo Heartbeat */
+        @keyframes heartbeat {
             0% { transform: scale(1); }
-            25% { transform: scale(1.15); } /* Aumenta */
-            40% { transform: scale(0.95); } /* Diminui um pouco */
-            60% { transform: scale(1.10); } /* Aumenta de novo */
-            100% { transform: scale(1); } /* Volta ao normal */
+            15% { transform: scale(1.2); }
+            30% { transform: scale(1); }
+            45% { transform: scale(1.2); }
+            60% { transform: scale(1); }
         }
-        .animate-power-pump {
-            animation: powerPump 0.6s ease-in-out;
-        }
+        .logo-beat { animation: heartbeat 0.8s ease-in-out; }
     </style>
 </head>
 <body class="text-gray-800 antialiased overflow-x-hidden">
@@ -195,13 +192,13 @@
                 <h5 class="text-white font-bold uppercase tracking-wider mb-4 text-xs">Ajuda</h5>
                 <ul class="space-y-2 text-xs">
                     <li><button onclick="openModal('trocas')" class="hover:text-pink-500 transition">Trocas e Devoluções</button></li>
-                    <li><button onclick="openModal('medidas')" class="hover:text-pink-500 transition">Guia de Medidas</button></li>
+                    <li><button onclick="openProvadorModal()" class="hover:text-pink-500 transition">Guia de Medidas</button></li>
                     <li><a href="https://wa.me/5521983340089" target="_blank" class="hover:text-pink-500 transition">Fale Conosco</a></li>
                 </ul>
             </div>
         </div>
         <div class="text-center mt-12 pt-8 border-t border-gray-800 text-[10px] flex flex-col items-center gap-4">
-            <img id="footer-logo" src="logo.png" onclick="triggerLogoAnimation()" class="w-28 h-auto cursor-pointer hover:opacity-90 transition" title="Clique para ativar o modo turbo!">
+            <img id="footer-logo" src="logo.png" onclick="triggerLogoAnimation()" class="w-40 h-auto cursor-pointer hover:opacity-90 transition" title="Clique para treinar!">
             <p>Desenvolvido por <strong>IMAGINISTA</strong> © 2026</p>
         </div>
     </footer>
@@ -251,6 +248,34 @@
         </div>
     </div>
 
+    <div id="modal-provador-generic" class="modal-overlay" onclick="if(event.target === this) this.style.display='none'">
+        <div class="modal-content">
+            <button onclick="document.getElementById('modal-provador-generic').style.display='none'" class="absolute top-4 right-4 text-gray-400 hover:text-red-500 text-xl">&times;</button>
+            <h2 class="text-xl font-black mb-4 uppercase italic text-gray-800">Guia de Medidas</h2>
+            <div class="bg-gray-50 rounded-lg p-4">
+                <p class="text-xs text-gray-500 mb-4 text-center">Informe seus dados para descobrir sua medida aproximada.</p>
+                <div class="grid grid-cols-2 gap-2 mb-2">
+                    <input type="number" id="gen-height" placeholder="Altura (cm)" class="p-2 border rounded text-xs">
+                    <input type="number" id="gen-weight" placeholder="Peso (kg)" class="p-2 border rounded text-xs">
+                    <input type="number" id="gen-bust" placeholder="Busto (cm)" class="p-2 border rounded text-xs">
+                    <input type="number" id="gen-hip" placeholder="Quadril (cm)" class="p-2 border rounded text-xs">
+                </div>
+                <button onclick="calcSizeGeneric()" class="w-full bg-black text-white py-3 rounded text-xs font-bold uppercase hover:bg-gray-800 transition">Calcular</button>
+                <div id="gen-result" class="mt-3 text-center text-sm font-bold hidden bg-white p-2 rounded border shadow-sm"></div>
+            </div>
+            <div class="mt-4">
+                <h4 class="font-bold text-xs uppercase mb-2">Tabela Padrão (cm)</h4>
+                <table class="w-full text-[10px] text-center text-gray-600 border border-gray-100">
+                    <tr class="bg-gray-100 font-bold"><td class="p-2">TAM</td><td>BUSTO</td><td>CINTURA</td><td>QUADRIL</td></tr>
+                    <tr class="border-b"><td>P</td><td>80-88</td><td>60-69</td><td>88-98</td></tr>
+                    <tr class="border-b"><td>M</td><td>89-96</td><td>70-79</td><td>99-109</td></tr>
+                    <tr class="border-b"><td>G</td><td>97-105</td><td>80-89</td><td>110-120</td></tr>
+                    <tr><td>GG</td><td>106+</td><td>90-99</td><td>121+</td></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
     <div id="product-modal" class="modal-overlay" onclick="if(event.target === this) closeProductModal()">
         <div class="modal-content product-detail-content">
             <button onclick="closeProductModal()" class="absolute top-4 right-4 z-50 bg-white rounded-full w-8 h-8 flex items-center justify-center shadow-lg hover:text-red-500 transition">&times;</button>
@@ -291,21 +316,22 @@
                     </div>
                     
                     <div id="content-provador">
-                        <div class="flex gap-2 mb-2">
-                            <input type="number" id="sim-height" placeholder="Altura (cm)" class="w-1/2 p-2 border rounded text-xs outline-none focus:border-pink-500">
-                            <input type="number" id="sim-weight" placeholder="Peso (kg)" class="w-1/2 p-2 border rounded text-xs outline-none focus:border-pink-500">
-                        </div>
+                        <div class="grid grid-cols-2 gap-2 mb-2">
+                            <input type="number" id="sim-age" placeholder="Idade" class="p-2 border rounded text-xs">
+                            <input type="number" id="sim-height" placeholder="Altura (cm)" class="p-2 border rounded text-xs">
+                            <input type="number" id="sim-weight" placeholder="Peso (kg)" class="p-2 border rounded text-xs">
+                            <input type="number" id="sim-bust" placeholder="Busto (cm)" class="p-2 border rounded text-xs"> </div>
                         <button onclick="calcSize()" class="w-full bg-black text-white py-2 rounded text-xs font-bold uppercase hover:bg-gray-800 transition">Calcular Recomendação</button>
                         <div id="sim-result" class="mt-2 text-center text-xs font-bold hidden bg-white p-2 rounded border border-gray-200 shadow-sm"></div>
                     </div>
 
                     <div id="content-medidas" class="hidden">
                         <table class="w-full text-[10px] text-center text-gray-600">
-                            <tr class="bg-gray-200 font-bold"><td class="p-1">TAM</td><td class="p-1">MANEQUIM</td><td class="p-1">CINTURA</td><td class="p-1">QUADRIL</td></tr>
-                            <tr class="border-b"><td class="p-1 font-bold">P</td><td>36-38</td><td>60-69</td><td>88-98</td></tr>
-                            <tr class="border-b"><td class="p-1 font-bold">M</td><td>40-42</td><td>70-79</td><td>99-109</td></tr>
-                            <tr class="border-b"><td class="p-1 font-bold">G</td><td>44-46</td><td>80-89</td><td>110-120</td></tr>
-                            <tr><td class="p-1 font-bold">GG</td><td>48</td><td>90-99</td><td>121+</td></tr>
+                            <tr class="bg-gray-200 font-bold"><td class="p-1">TAM</td><td class="p-1">MANEQUIM</td><td class="p-1">BUSTO</td><td class="p-1">QUADRIL</td></tr>
+                            <tr class="border-b"><td class="p-1 font-bold">P</td><td>36-38</td><td>80-88</td><td>88-98</td></tr>
+                            <tr class="border-b"><td class="p-1 font-bold">M</td><td>40-42</td><td>89-96</td><td>99-109</td></tr>
+                            <tr class="border-b"><td class="p-1 font-bold">G</td><td>44-46</td><td>97-105</td><td>110-120</td></tr>
+                            <tr><td class="p-1 font-bold">GG</td><td>48</td><td>106+</td><td>121+</td></tr>
                         </table>
                     </div>
                 </div>
@@ -325,39 +351,35 @@
         let allProducts = [], filteredProducts = [], cart = [], shippingValue = 0;
         let visibleCount = 16;
         let currentProduct = null;
-        let selectedColor = null;
+        let selectedColorObj = null; 
 
+        // TEXTOS LEGAIS
         const legalTexts = {
             'sobre': '<p>A <strong>CRISMISSFIT</strong> nasceu em 2026 com o propósito de unir tecnologia têxtil e design para mulheres que não abrem mão de estilo durante o treino. Nossas peças são desenvolvidas no Rio de Janeiro e testadas por atletas reais.</p>',
             'termos': '<p><strong>1. ACEITAÇÃO:</strong> Ao acessar este site, você concorda com nossos termos.<br><strong>2. PRODUTOS:</strong> As imagens são ilustrativas.<br><strong>3. PREÇOS:</strong> Reservamo-nos o direito de alterar preços sem aviso prévio.</p>',
-            'privacidade': '<p><strong>LGPD:</strong> Seus dados (nome, endereço, telefone) são utilizados exclusivamente para processamento e entrega do pedido. Não compartilhamos informações com terceiros.</p>',
-            'trocas': '<p><strong>DIREITO DE ARREPENDIMENTO:</strong> Conforme o CDC, você tem até 7 dias corridos após o recebimento para solicitar a devolução por arrependimento.<br><strong>TROCA POR DEFEITO:</strong> Garantia de 30 dias para defeitos de fabricação.</p>'
+            'privacidade': '<p><strong>LGPD:</strong> Seus dados (nome, endereço, telefone) são utilizados exclusivamente para processamento e entrega do pedido. Não compartilhamos informações com terceiros para fins de marketing sem consentimento. Utilizamos SSL para navegação segura.</p>',
+            'trocas': '<p><strong>DIREITO DE ARREPENDIMENTO:</strong> Conforme o CDC, você tem até 7 dias corridos após o recebimento para solicitar a devolução por arrependimento.<br><strong>TROCA POR DEFEITO:</strong> Garantia de 30 dias para defeitos de fabricação. O produto deve estar com etiqueta e sem uso.</p>'
         };
 
         function openModal(t) {
-            if(t === 'medidas') { 
-                document.getElementById('modal-title').innerText = "Guia de Medidas";
-                document.getElementById('modal-body').innerHTML = '<p>Consulte a tabela de medidas na página de cada produto.</p>';
-            } else {
-                const titles = {'sobre':'Sobre Nós','termos':'Termos de Uso','privacidade':'Privacidade','trocas':'Trocas e Devoluções'};
-                document.getElementById('modal-title').innerText = titles[t];
-                document.getElementById('modal-body').innerHTML = legalTexts[t] || "Conteúdo indisponível.";
-            }
+            document.getElementById('modal-title').innerText = {'sobre':'Sobre Nós','termos':'Termos de Uso','privacidade':'Privacidade','trocas':'Trocas e Devoluções'}[t];
+            document.getElementById('modal-body').innerHTML = legalTexts[t] || "Texto indisponível.";
             document.getElementById('modal-legal').style.display = 'flex';
         }
 
-        // NOVA ANIMAÇÃO DO LOGO (Power Pump)
-        function triggerLogoAnimation() {
-            const logo = document.getElementById('footer-logo');
-            logo.classList.remove('animate-power-pump');
-            void logo.offsetWidth; // Força reflow
-            logo.classList.add('animate-power-pump');
-            setTimeout(() => {
-                logo.classList.remove('animate-power-pump');
-            }, 600);
+        // Abre o Provador Genérico pelo Rodapé
+        function openProvadorModal() {
+            document.getElementById('modal-provador-generic').style.display = 'flex';
         }
 
-        // LÓGICA DO PROVADOR / ABAS
+        function triggerLogoAnimation() {
+            const logo = document.getElementById('footer-logo');
+            logo.classList.remove('logo-beat');
+            void logo.offsetWidth; // Trigger reflow
+            logo.classList.add('logo-beat');
+        }
+
+        // ABAS DO PROVADOR
         function toggleGuide(tab) {
             const p = document.getElementById('content-provador');
             const m = document.getElementById('content-medidas');
@@ -373,22 +395,44 @@
             }
         }
 
+        // LÓGICA DO PROVADOR VIRTUAL (SIMULADO)
+        function calculateSizeLogic(h, w, bust, hip) {
+            // Algoritmo simples de estimativa
+            let score = 0;
+            if(w > 60) score++; if(w > 70) score++; if(w > 80) score++;
+            if(bust > 90) score++; if(bust > 100) score++;
+            if(hip > 100) score++; if(hip > 115) score++;
+            
+            if(score <= 1) return 'P';
+            if(score <= 3) return 'M';
+            if(score <= 5) return 'G';
+            return 'GG';
+        }
+
         function calcSize() {
-            const h = parseInt(document.getElementById('sim-height').value);
-            const w = parseInt(document.getElementById('sim-weight').value);
+            const h = document.getElementById('sim-height').value;
+            const w = document.getElementById('sim-weight').value;
+            const bust = document.getElementById('sim-bust').value || 0;
             const res = document.getElementById('sim-result');
+            
             if(!h || !w) { res.innerHTML = "Preencha altura e peso!"; res.classList.remove('hidden'); return; }
             
-            let s = 'P';
-            if (w >= 80) s = 'GG';
-            else if (w >= 68) s = 'G';
-            else if (w >= 58) s = 'M';
-            
-            res.innerHTML = `Recomendamos o tamanho <span class="text-pink-600 text-lg uppercase font-black">${s}</span>`;
+            const size = calculateSizeLogic(h, w, bust, 0);
+            res.innerHTML = `Sua medida sugerida: <span class="text-pink-600 text-lg uppercase font-black">${size}</span>`;
             res.classList.remove('hidden');
         }
 
-        // CARREGAMENTO
+        function calcSizeGeneric() {
+            const h = document.getElementById('gen-height').value;
+            const w = document.getElementById('gen-weight').value;
+            const res = document.getElementById('gen-result');
+            if(!h || !w) { res.innerHTML = "Preencha os dados!"; res.classList.remove('hidden'); return; }
+            const size = calculateSizeLogic(h, w, 0, 0);
+            res.innerHTML = `Sua medida sugerida: <span class="text-pink-600 font-bold">${size}</span>`;
+            res.classList.remove('hidden');
+        }
+
+        // INIT
         window.onload = async () => { try {
             const r = await fetch('produtos.json');
             allProducts = await r.json();
@@ -399,7 +443,6 @@
         function renderProducts(data) {
             const grid = document.getElementById('product-grid');
             const btnLoad = document.getElementById('load-more-container');
-            
             document.getElementById('product-status').innerText = `${data.length} ITENS`;
 
             if(data.length === 0) {
@@ -410,13 +453,12 @@
 
             const visibleData = data.slice(0, visibleCount);
             
-            const html = visibleData.map((p, i) => {
+            grid.innerHTML = visibleData.map((p, i) => {
                 let badgeHTML = '';
                 if(p.badge) {
-                    const cls = p.badge.toLowerCase() === 'oferta' ? 'badge-oferta' : p.badge.toLowerCase() === 'mais vendido' ? 'badge-maisvendido' : 'badge-lancamento';
+                    const cls = p.badge.toLowerCase().includes('oferta') ? 'badge-oferta' : 'badge-lancamento';
                     badgeHTML = `<div class="badge ${cls}">${p.badge}</div>`;
                 }
-                const priceDisplay = p.oldPrice ? `<span class="old-price">R$ ${p.oldPrice.toFixed(2)}</span> R$ ${p.price.toFixed(2)}` : `R$ ${p.price.toFixed(2)}`;
                 const mainImg = p.images && p.images.length > 0 ? p.images[0] : '';
 
                 return `<div class="product-card group" data-aos="fade-up">
@@ -426,31 +468,23 @@
                             <a data-fslightbox="gallery-${p.id}" href="${mainImg}">
                                 <img src="${mainImg}" alt="${p.name}">
                             </a>
-                            <div class="hidden">
-                                ${p.images.slice(1).map(url => `<a data-fslightbox="gallery-${p.id}" href="${url}"></a>`).join('')}
-                            </div>
                         </div>
                         <div class="p-4 cursor-pointer" onclick="openProductModal(${p.id})">
                             <p class="text-[9px] text-pink-500 font-bold uppercase mb-1">${p.category}</p>
                             <h4 class="font-bold text-sm uppercase leading-tight mb-2 h-8 overflow-hidden">${p.name}</h4>
-                            <div class="font-black text-lg text-gray-900">${priceDisplay}</div>
+                            <div class="font-black text-lg text-gray-900">R$ ${p.price.toFixed(2)}</div>
                             <button class="w-full mt-3 bg-black text-white py-2 rounded text-[10px] font-bold uppercase hover:bg-gradient-brand transition">Ver Detalhes</button>
                         </div>
                     </div>
                 </div>`
             }).join('');
-
-            grid.innerHTML = html;
             refreshFsLightbox();
 
             if(visibleCount < data.length) btnLoad.classList.remove('hidden');
             else btnLoad.classList.add('hidden');
         }
 
-        function loadMoreProducts() {
-            visibleCount += 16;
-            renderProducts(filteredProducts);
-        }
+        function loadMoreProducts() { visibleCount += 16; renderProducts(filteredProducts); }
 
         function filterCategory(c) {
             currentCategory = c;
@@ -462,9 +496,7 @@
             if(c === 'all') filteredProducts = allProducts;
             else filteredProducts = allProducts.filter(p => p.category === c);
             
-            const grid = document.getElementById('product-grid');
-            grid.style.opacity='0';
-            setTimeout(()=>{ renderProducts(filteredProducts); grid.style.opacity='1'; }, 300);
+            renderProducts(filteredProducts);
         }
 
         function filterProducts() {
@@ -474,20 +506,18 @@
             renderProducts(filteredProducts);
         }
 
-        // LÓGICA DO MODAL
+        // --- LÓGICA DE ESTOQUE POR COR ---
         function openProductModal(id) {
             currentProduct = allProducts.find(p => p.id === id);
             if(!currentProduct) return;
-            selectedColor = null;
+            
+            selectedColorObj = null;
 
             document.getElementById('modal-cat').innerText = currentProduct.category;
             document.getElementById('modal-prod-title').innerText = currentProduct.name;
-            document.getElementById('modal-desc').innerText = currentProduct.desc || "Peça exclusiva CRISMISSFIT.";
+            document.getElementById('modal-desc').innerText = currentProduct.desc || "";
             document.getElementById('modal-price').innerText = `R$ ${currentProduct.price.toFixed(2)}`;
-            const oldP = document.getElementById('modal-old-price');
-            if(currentProduct.oldPrice) { oldP.innerText = `R$ ${currentProduct.oldPrice.toFixed(2)}`; oldP.style.display='inline'; } 
-            else { oldP.style.display='none'; }
-
+            
             const initialImg = currentProduct.images[0];
             document.getElementById('modal-img').src = initialImg;
             document.getElementById('modal-lightbox-link').href = initialImg;
@@ -496,71 +526,92 @@
             // CORES
             const colorsDiv = document.getElementById('modal-colors');
             const colorContainer = document.getElementById('color-selection-container');
+            
             if(currentProduct.colors && currentProduct.colors.length > 0) {
                 colorContainer.classList.remove('hidden');
-                colorsDiv.innerHTML = currentProduct.colors.map(c => `
-                    <div class="color-option" style="background-color: ${c.hex};" title="${c.name}" onclick="selectColor('${c.name}', '${c.image}', this)"></div>
+                // Renderiza bolinhas de cor
+                colorsDiv.innerHTML = currentProduct.colors.map((c, index) => `
+                    <div class="color-option" style="background-color: ${c.hex};" title="${c.name}" onclick="selectColor(${index}, this)"></div>
                 `).join('');
+                document.getElementById('stock-msg').innerText = "Selecione uma cor para ver o estoque.";
             } else {
                 colorContainer.classList.add('hidden');
-                selectedColor = "Única";
+                // Se não tem cores, usa o inventory da raiz
+                selectedColorObj = { name: "Única", sizes: currentProduct.inventory || {} };
+                renderSizes();
             }
 
-            // TAMANHOS
-            const sizesDiv = document.getElementById('modal-sizes');
-            const btn = document.getElementById('modal-add-btn');
-            const msg = document.getElementById('stock-msg');
-            btn.disabled = true; btn.innerText = "Selecione Tamanho"; msg.innerText = "";
-            
-            sizesDiv.innerHTML = ['P','M','G','GG'].map(s => {
-                const qty = (currentProduct.inventory && currentProduct.inventory[s] !== undefined) ? currentProduct.inventory[s] : 99;
-                const dis = qty === 0 ? 'disabled' : '';
-                const style = qty === 0 ? 'opacity-50 cursor-not-allowed bg-gray-100 text-gray-400' : 'hover:border-pink-500 cursor-pointer';
-                return `<div class="relative">
-                    <input type="radio" name="mod-sz" id="ms-${s}" value="${s}" ${dis} class="hidden size-radio" onchange="checkStock('${s}', ${qty})">
-                    <label for="ms-${s}" class="w-10 h-10 flex items-center justify-center text-xs font-bold border border-gray-200 rounded ${style}">${s}</label>
-                </div>`;
-            }).join('');
+            // Limpa tamanhos se tiver cor (espera seleção)
+            if(currentProduct.colors && currentProduct.colors.length > 0) {
+                document.getElementById('modal-sizes').innerHTML = '<span class="text-xs text-gray-400">Escolha a cor...</span>';
+            }
 
             document.getElementById('product-modal').style.display = 'flex';
         }
 
-        function selectColor(name, image, element) {
-            selectedColor = name;
+        function selectColor(index, element) {
+            // Marca visualmente
             document.querySelectorAll('.color-option').forEach(el => el.classList.remove('selected'));
             element.classList.add('selected');
-            if(image) {
-                document.getElementById('modal-img').src = image;
-                document.getElementById('modal-lightbox-link').href = image;
+
+            // Pega o objeto da cor selecionada do JSON
+            selectedColorObj = currentProduct.colors[index];
+
+            // Troca foto se tiver
+            if(selectedColorObj.image) {
+                document.getElementById('modal-img').src = selectedColorObj.image;
+                document.getElementById('modal-lightbox-link').href = selectedColorObj.image;
                 refreshFsLightbox();
             }
+
+            // Renderiza tamanhos baseados no estoque DA COR
+            renderSizes();
+        }
+
+        function renderSizes() {
+            const sizesDiv = document.getElementById('modal-sizes');
+            const btn = document.getElementById('modal-add-btn');
+            const msg = document.getElementById('stock-msg');
+            
+            btn.disabled = true; btn.innerText = "Selecione Tamanho"; msg.innerText = "";
+
+            // Se não tiver objeto de tamanhos (erro no json), previne crash
+            const stockMap = selectedColorObj.sizes || {}; 
+            const sizes = ['P','M','G','GG'];
+
+            sizesDiv.innerHTML = sizes.map(s => {
+                const qty = stockMap[s] !== undefined ? stockMap[s] : 0;
+                const dis = qty === 0 ? 'disabled' : '';
+                const style = qty === 0 ? 'opacity-30 cursor-not-allowed bg-gray-100 text-gray-400 border-gray-200' : 'hover:border-pink-500 cursor-pointer border-gray-300';
+                
+                return `<div class="relative">
+                    <input type="radio" name="mod-sz" id="ms-${s}" value="${s}" ${dis} class="hidden size-radio" onchange="checkStock('${s}', ${qty})">
+                    <label for="ms-${s}" class="w-10 h-10 flex items-center justify-center text-xs font-bold border rounded ${style}">${s}</label>
+                </div>`;
+            }).join('');
         }
 
         function checkStock(size, qty) {
             const btn = document.getElementById('modal-add-btn');
             const msg = document.getElementById('stock-msg');
             
-            if(currentProduct.colors && currentProduct.colors.length > 0 && !selectedColor) {
-                 msg.innerText = "Selecione uma cor primeiro!"; msg.style.color = 'red';
-                 return;
-            }
-
             btn.disabled = false; btn.innerText = "ADICIONAR À SACOLA";
+            
             if(qty < 5) { msg.innerText = `🔥 Restam apenas ${qty} unidades!`; msg.style.color='#db2777'; }
             else { msg.innerText = "Em estoque ✔"; msg.style.color='green'; }
 
             btn.onclick = () => {
-                if(currentProduct.colors && currentProduct.colors.length > 0 && !selectedColor) {
-                    alert("Por favor, selecione uma cor.");
-                    return;
-                }
-                cart.push({...currentProduct, size: size, selectedColor: selectedColor || "Padrão"});
+                cart.push({
+                    ...currentProduct, 
+                    size: size, 
+                    selectedColor: selectedColorObj.name 
+                });
                 updateCartUI(); closeProductModal(); toggleCart(true);
             };
         }
 
         function closeProductModal() { document.getElementById('product-modal').style.display='none'; }
-        function clearCart() { if(cart.length>0 && confirm("Esvaziar sacola?")) { cart=[]; updateCartUI(); } }
+        function clearCart() { if(cart.length>0 && confirm("Esvaziar?")) { cart=[]; updateCartUI(); } }
         function toggleCart(o) { const s=document.getElementById('cart-sidebar'); o? (s.classList.remove('cart-closed'),s.classList.add('cart-open')) : (s.classList.remove('cart-open'),s.classList.add('cart-closed')); }
         
         function updateCartUI() {
@@ -568,7 +619,9 @@
             document.getElementById('cart-count').innerText = cart.length;
             const t = cart.reduce((a,b)=>a+b.price,0)+shippingValue;
             document.getElementById('cart-total').innerText = `R$ ${t.toFixed(2)}`;
+            
             if(cart.length===0){ c.innerHTML='<div class="h-full flex flex-col items-center justify-center opacity-30 text-xs font-bold uppercase"><i class="fas fa-shopping-basket text-4xl mb-2"></i>Sua sacola está vazia</div>'; return; }
+            
             c.innerHTML = cart.map((i,x) => `
                 <div class="flex gap-3 p-3 bg-white border border-gray-100 rounded shadow-sm relative">
                     <img src="${i.images[0]}" class="w-12 h-12 object-cover rounded">
@@ -606,21 +659,19 @@
             const cep = document.getElementById('cep-input').value;
 
             if(cart.length===0) return alert("Carrinho vazio.");
-            if(!name || !phone || !addr || !num) return alert("Preencha todos os dados.");
-            if(shippingValue===0) return alert("Calcule o frete.");
+            if(!name || !phone) return alert("Preencha seus dados.");
 
             let text = `*PEDIDO CRISMISSFIT* 🏃‍♀️💖\n\n`;
             text += `👤 *Cliente:* ${name}\n📱 *Contato:* ${phone}\n`;
             text += `📍 *Entrega:* ${addr}, ${num} - CEP ${cep}\n\n`;
-            text += `📦 *RESUMO DO PEDIDO:*\n`;
+            text += `📦 *ITENS:*\n`;
             cart.forEach(i => {
-                text += `▫️ (ID: ${i.id}) ${i.name}\n   Tam: ${i.size} | Cor: ${i.selectedColor} | R$ ${i.price.toFixed(2)}\n`;
+                text += `▫️ ${i.name}\n   Tam: ${i.size} | Cor: ${i.selectedColor} | R$ ${i.price.toFixed(2)}\n`;
             });
             const total = cart.reduce((a,b)=>a+b.price,0)+shippingValue;
             text += `\n🚚 *Frete:* R$ ${shippingValue.toFixed(2)}`;
-            text += `\n💎 *TOTAL FINAL:* R$ ${total.toFixed(2)}\n\n`;
+            text += `\n💎 *TOTAL:* R$ ${total.toFixed(2)}\n\n`;
             text += `🔗 *PAGAMENTO:* ${mpPaymentLink}\n`;
-            text += `_Envie o comprovante para confirmar._`;
 
             window.open(`https://api.whatsapp.com/send?phone=5521983340089&text=${encodeURIComponent(text)}`, '_blank');
             setTimeout(() => { cart=[]; updateCartUI(); toggleCart(false); }, 2000);
