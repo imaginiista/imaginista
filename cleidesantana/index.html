@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dra. Cleide Santana</title>
+    <title>Dra. Cleide Santana | OAB/RJ 162.541</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,600;0,800;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -22,13 +22,12 @@
             --borda-suave: #e5e5e5;
         }
 
-        /* RESET TOTAL PARA EVITAR ROLAGEM LATERAL */
+        /* RESET GERAL */
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
+
         html, body {
+            overflow-x: hidden; /* Trava rolagem lateral no mobile */
             width: 100%;
-            overflow-x: hidden; /* Trava rolagem lateral */
-            position: relative;
         }
 
         body {
@@ -42,7 +41,7 @@
 
         /* --- BARRA DE PROGRESSO --- */
         #progress-container {
-            position: fixed; top: 0; left: 0; width: 100%; height: 4px; z-index: 1002; background: transparent;
+            position: fixed; top: 0; left: 0; width: 100%; height: 4px; z-index: 2000; background: transparent;
         }
         #progress-bar {
             height: 4px; background: var(--dourado); width: 0%; box-shadow: 0 0 10px var(--dourado); transition: 0.1s;
@@ -57,6 +56,7 @@
             display: flex; justify-content: space-between; align-items: center;
             z-index: 1000;
             border-bottom: 2px solid var(--dourado);
+            height: 70px; /* Altura fixa para facilitar ajustes */
         }
 
         .brand { display: flex; align-items: center; gap: 15px; }
@@ -69,10 +69,11 @@
             color: var(--vinho-principal);
             background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             animation: shine 4s linear infinite;
+            white-space: nowrap; /* Não quebra linha no desktop */
         }
         @keyframes shine { to { background-position: 200% center; } }
 
-        nav ul { display: flex; gap: 25px; }
+        nav ul { display: flex; gap: 25px; list-style: none; }
         nav a { 
             text-decoration: none; color: var(--texto-cinza); font-size: 0.85rem; 
             letter-spacing: 1px; text-transform: uppercase; transition: 0.3s; font-weight: 600;
@@ -86,7 +87,7 @@
         }
         .cta-header:hover { background-color: var(--dourado); }
 
-        .menu-toggle { display: none; color: var(--vinho-principal); font-size: 1.5rem; cursor: pointer; }
+        .menu-toggle { display: none; color: var(--vinho-principal); font-size: 1.8rem; cursor: pointer; }
 
         /* --- HERO --- */
         .hero {
@@ -94,13 +95,14 @@
             display: flex; align-items: center; justify-content: center; text-align: center;
             background: url('https://images.unsplash.com/photo-1497366811353-6870744d04b2?q=80&w=2069&auto=format&fit=crop') center/cover;
             background-attachment: fixed;
+            margin-top: 70px; /* Compensa o header fixo */
         }
         .hero-overlay {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background: linear-gradient(to bottom, rgba(114, 47, 55, 0.4), rgba(74, 18, 24, 0.8));
             z-index: 1;
         }
-        .hero-content { position: relative; z-index: 2; max-width: 900px; padding: 0 20px; color: var(--branco); width: 100%; }
+        .hero-content { position: relative; z-index: 2; max-width: 900px; padding: 0 20px; color: var(--branco); }
         .hero h2 {
             font-size: 3.8rem; margin-bottom: 20px; line-height: 1.1; color: var(--branco);
             text-shadow: 0 2px 10px rgba(74, 18, 24, 0.3);
@@ -183,7 +185,7 @@
         .triage-box {
             max-width: 700px; margin: 0 auto; background: var(--creme-fundo);
             padding: 50px; border-radius: 8px; border: 2px solid var(--dourado);
-            box-shadow: 0 10px 40px rgba(114, 47, 55, 0.05); width: 100%;
+            box-shadow: 0 10px 40px rgba(114, 47, 55, 0.05);
         }
         .triage-box h3 { color: var(--vinho-principal); font-size: 2.2rem; margin-bottom: 10px; }
         .triage-box p { margin-bottom: 30px; color: #666; }
@@ -284,28 +286,62 @@
 
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* --- RESPONSIVIDADE CORRIGIDA --- */
+        /* --- RESPONSIVIDADE AVANÇADA (A CORREÇÃO DO MOBILE) --- */
         @media (max-width: 900px) {
-            nav ul { display: none; }
+            /* Header Ajustes */
+            .cta-header { display: none; } /* Esconde botão do header para limpar o mobile */
             .menu-toggle { display: block; }
+            .brand i { font-size: 1.5rem; }
             
-            /* Ajuste Hero Fontes */
-            .hero h2 { font-size: 2.2rem; }
-            .hero p { font-size: 1rem; }
-            .hero-content { padding: 0 15px; }
+            /* Ajuste Fino do Nome da Dra. no Mobile */
+            .brand-name { 
+                font-size: 1.1rem; /* Diminui a fonte para não quebrar */
+                white-space: normal; /* Permite quebrar linha se precisar muito */
+                line-height: 1.2;
+            }
 
-            /* Ajuste Cards e Grids */
+            /* Menu Hamburger (Drop Down) */
+            nav ul {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 70px; /* Logo abaixo do header */
+                left: 0;
+                width: 100%;
+                background: white;
+                padding: 20px;
+                box-shadow: 0 10px 10px rgba(0,0,0,0.1);
+                text-align: center;
+                border-top: 1px solid #eee;
+            }
+            nav ul.active { display: flex; animation: fadeIn 0.3s; }
+            nav a { font-size: 1rem; padding: 10px 0; display: block; border-bottom: 1px solid #f9f9f9; }
+
+            /* Hero Texto */
+            .hero h2 { font-size: 2.5rem; }
+            .hero p { font-size: 1rem; padding-left: 15px; }
+            
+            /* Ajuste dos Cards e Padding */
             .features-section, .section, .triage-section, .faq-section { padding: 60px 5%; }
-            .law-card { padding: 30px 20px; }
-            .triage-box { padding: 30px 20px; width: 100%; }
-            .triage-box h3 { font-size: 1.8rem; }
-
-            /* Footer Mobile */
+            
+            /* FOOTER AJUSTADO (SEM SOBREPOSIÇÃO) */
+            footer {
+                padding-bottom: 110px; /* Espaço extra gigante embaixo para os botões flutuantes */
+            }
             .footer-content { flex-direction: column; text-align: center; }
-            .ft-imaginista { text-align: center; border-left: none; padding-left: 0; margin-top: 30px; }
-            .contact-row { flex-direction: column; gap: 10px; justify-content: center; }
-            .social-links { justify-content: center; display: flex; margin-top: 20px; }
-            #cookie-banner { flex-direction: column; text-align: center; }
+            .ft-imaginista { 
+                text-align: center; 
+                border-left: none; 
+                padding-left: 0; 
+                margin-top: 30px; 
+                border-top: 1px solid rgba(255,255,255,0.1); 
+                padding-top: 20px;
+            }
+            .contact-row { justify-content: center; }
+            .social-links { justify-content: center; display: flex; }
+            
+            /* Banner LGPD Mobile */
+            #cookie-banner { flex-direction: column; text-align: center; padding-bottom: 20px; }
         }
     </style>
 </head>
@@ -323,16 +359,16 @@
             <i class="fas fa-balance-scale"></i>
             <h1 class="brand-name">DRA. CLEIDE SANTANA</h1>
         </div>
-        <nav>
+        <nav id="nav-menu">
             <ul>
-                <li><a href="#inicio">Início</a></li>
-                <li><a href="#diferenciais">Escritório</a></li>
-                <li><a href="#areas">Atuação</a></li>
-                <li><a href="#faq">Dúvidas</a></li>
+                <li><a href="#inicio" onclick="toggleMenu()">Início</a></li>
+                <li><a href="#diferenciais" onclick="toggleMenu()">Escritório</a></li>
+                <li><a href="#areas" onclick="toggleMenu()">Atuação</a></li>
+                <li><a href="#faq" onclick="toggleMenu()">Dúvidas</a></li>
             </ul>
         </nav>
         <a href="#contato" class="cta-header">FALAR COM ADVOGADA</a>
-        <div class="menu-toggle"><i class="fas fa-bars"></i></div>
+        <div class="menu-toggle" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
     </header>
 
     <section id="inicio" class="hero">
@@ -553,6 +589,12 @@
     <script>
         AOS.init();
         
+        // Toggle Menu Mobile
+        function toggleMenu() {
+            var menu = document.querySelector('nav ul');
+            menu.classList.toggle('active');
+        }
+
         // Barra de Progresso
         window.onscroll = function() {
             scrollFunction();
@@ -591,7 +633,6 @@
         });
 
         // WhatsApp TICKET BLINDADO (Códigos Percent-Encoded + encodeURIComponent)
-        // Solução para qualquer codificação de arquivo e formatação perfeita
         function sendZap(e) {
             e.preventDefault();
             var nome = document.getElementById('tNome').value;
@@ -600,11 +641,9 @@
             
             if(!nome || !area || !msg) { alert('Preencha todos os campos!'); return; }
 
-            // Gera Ticket e Data
             var ticketID = Math.floor(Math.random() * 9000) + 1000;
             var dataAtual = new Date().toLocaleDateString('pt-BR');
 
-            // Ícones HEX para URL (Garante que funcione em qualquer browser/PC)
             var iconBank = "%F0%9F%8F%9B%EF%B8%8F"; // Prédio
             var iconTicket = "%F0%9F%8E%AB";        // Ticket
             var iconDate = "%F0%9F%93%85";          // Calendário
@@ -614,7 +653,6 @@
             var iconAlert = "%E2%9A%A0%EF%B8%8F";   // Alerta
             var br = "%0A";                         // Pular linha
 
-            // Monta o texto já codificado
             var texto = iconBank + " *" + encodeURIComponent("NOVO ATENDIMENTO DIGITAL") + "*" + br +
                         iconTicket + " *Ticket:* %23WEB-" + ticketID + br +
                         iconDate + " *Data:* " + encodeURIComponent(dataAtual) + br + br +
