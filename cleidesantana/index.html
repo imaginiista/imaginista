@@ -285,9 +285,20 @@
 
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* --- RESPONSIVIDADE MOBILE --- */
+        /* --- RESPONSIVIDADE MOBILE (AJUSTES FINAIS) --- */
         @media (max-width: 900px) {
-            /* Menu */
+            /* Títulos Menores e Proporcionais */
+            .section-header h3 { font-size: 1.8rem; line-height: 1.2; }
+            .hero h2 { font-size: 2rem; }
+            .hero p { font-size: 1rem; }
+            
+            /* Card Fale com Advogada (Compacto) */
+            .triage-section { padding: 40px 5%; }
+            .triage-box { padding: 25px 15px; }
+            .triage-box h3 { font-size: 1.6rem; }
+            .input-light { padding: 12px; font-size: 0.9rem; }
+            
+            /* Menu Mobile */
             nav ul {
                 display: none;
                 flex-direction: column;
@@ -295,7 +306,7 @@
                 top: 70px;
                 left: 0;
                 width: 100%;
-                background: white;
+                background: white; /* Fundo sólido para leitura */
                 padding: 20px;
                 box-shadow: 0 10px 10px rgba(0,0,0,0.1);
                 text-align: center;
@@ -305,40 +316,28 @@
             nav a { font-size: 1rem; padding: 12px 0; display: block; border-bottom: 1px solid #f9f9f9; }
             .cta-header { display: none; }
             .menu-toggle { display: block; }
-            .brand-name { font-size: 1rem; white-space: normal; line-height: 1.2; } /* Nome ajustado */
-
-            /* Triage Box (Compacto) */
-            .triage-section { padding: 50px 5%; }
-            .triage-box { padding: 30px 15px; width: 100%; border-width: 1px; }
-            .triage-box h3 { font-size: 1.6rem; }
-            .input-light { padding: 10px; font-size: 0.9rem; margin-bottom: 10px; }
-            .btn-vinho { padding: 12px; font-size: 0.9rem; }
-
-            /* Footer Mobile Específico */
-            footer { padding-bottom: 120px; } /* Espaço extra no fundo */
             
-            .footer-content { flex-direction: column; text-align: center; }
-            .ft-info h4 { font-size: 1.6rem; margin-bottom: 20px; }
+            /* Nome Dra. Ajustado */
+            .brand-name { font-size: 1rem; white-space: normal; line-height: 1.2; max-width: 200px; } 
 
-            /* Linhas do Rodapé Mobile */
-            .footer-row-1 {
-                justify-content: center; /* OAB + Socials */
+            /* FOOTER CENTRALIZADO E ORGANIZADO NO MOBILE */
+            footer {
+                padding-bottom: 110px; /* Margem para não bater nos botões */
+                text-align: center;
             }
-            .footer-row-2 {
-                justify-content: center; /* Phone + Location */
-            }
-            .footer-row-3 {
-                justify-content: center; /* Email */
-            }
-
+            .footer-content { flex-direction: column; align-items: center; }
+            
+            /* Organização das linhas do Rodapé Mobile */
+            .footer-row-1 { justify-content: center; width: 100%; }
+            .footer-row-2 { justify-content: center; width: 100%; flex-direction: column; gap: 5px; } /* Tel em cima, RJ embaixo */
+            .footer-row-3 { justify-content: center; width: 100%; }
+            
+            .ft-info h4 { font-size: 1.5rem; text-align: center; width: 100%; }
+            
             .ft-imaginista { 
                 text-align: center; border-left: none; padding-left: 0; 
-                margin-top: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;
+                margin-top: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; width: 100%;
             }
-            
-            /* Ajustes Hero Text */
-            .hero h2 { font-size: 2.2rem; }
-            .hero p { font-size: 1rem; padding-left: 10px; }
             
             #cookie-banner { flex-direction: column; text-align: center; }
         }
