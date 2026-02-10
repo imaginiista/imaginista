@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dra. Cleide Santana</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,600;0,800;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        /* --- PALETA IMAGINISTA --- */
+        :root {
+            --vinho-principal: #722f37;
+            --vinho-profundo: #4a1218;
+            --dourado: #c5a059;
+            --dourado-brilho: #e6c88b;
+            --creme-fundo: #fdfbf9;
+            --branco: #ffffff;
+            --texto-cinza: #4a4a4a;
+            --borda-suave: #e5e5e5;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: var(--creme-fundo);
+            color: var(--texto-cinza);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4 { font-family: 'Playfair Display', serif; color: var(--vinho-principal); }
+
+        /* --- BARRA DE PROGRESSO --- */
+        #progress-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 4px; z-index: 1002; background: transparent;
+        }
+        #progress-bar {
+            height: 4px; background: var(--dourado); width: 0%; box-shadow: 0 0 10px var(--dourado); transition: 0.1s;
+        }
+
+        /* --- HEADER --- */
+        header {
+            position: fixed; top: 0; width: 100%;
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 4px 15px rgba(114, 47, 55, 0.05);
+            padding: 10px 5%;
+            display: flex; justify-content: space-between; align-items: center;
+            z-index: 1000;
+            border-bottom: 2px solid var(--dourado);
+        }
+
+        .brand { display: flex; align-items: center; gap: 15px; }
+        .brand i { font-size: 2rem; color: var(--vinho-principal); }
+        
+        .brand-name { 
+            font-size: 1.5rem; letter-spacing: 1px; text-transform: uppercase; font-weight: 800;
+            background: linear-gradient(to right, var(--vinho-principal) 0%, #e6c88b 50%, var(--vinho-principal) 100%);
+            background-size: 200% auto;
+            color: var(--vinho-principal);
+            background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            animation: shine 4s linear infinite;
+        }
+        @keyframes shine { to { background-position: 200% center; } }
+
+        nav ul { display: flex; gap: 25px; }
+        nav a { 
+            text-decoration: none; color: var(--texto-cinza); font-size: 0.85rem; 
+            letter-spacing: 1px; text-transform: uppercase; transition: 0.3s; font-weight: 600;
+        }
+        nav a:hover { color: var(--vinho-principal); }
+
+        .cta-header {
+            background-color: var(--vinho-principal); color: var(--branco); 
+            padding: 10px 25px; border-radius: 4px; font-size: 0.8rem; 
+            letter-spacing: 1px; transition: 0.3s; text-decoration: none; font-weight: bold;
+        }
+        .cta-header:hover { background-color: var(--dourado); }
+
+        .menu-toggle { display: none; color: var(--vinho-principal); font-size: 1.5rem; cursor: pointer; }
+
+        /* --- HERO --- */
+        .hero {
+            height: 90vh; position: relative;
+            display: flex; align-items: center; justify-content: center; text-align: center;
+            background: url('https://images.unsplash.com/photo-1497366811353-6870744d04b2?q=80&w=2069&auto=format&fit=crop') center/cover;
+            background-attachment: fixed;
+        }
+        .hero-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, rgba(114, 47, 55, 0.4), rgba(74, 18, 24, 0.8));
+            z-index: 1;
+        }
+        .hero-content { position: relative; z-index: 2; max-width: 900px; padding: 0 20px; color: var(--branco); }
+        .hero h2 {
+            font-size: 3.8rem; margin-bottom: 20px; line-height: 1.1; color: var(--branco);
+            text-shadow: 0 2px 10px rgba(74, 18, 24, 0.3);
+        }
+        .type-wrap { color: var(--dourado); font-style: italic; }
+        .hero p { 
+            font-size: 1.3rem; color: #f0f0f0; margin-bottom: 40px; 
+            font-weight: 400; max-width: 800px; margin-left: auto; margin-right: auto;
+            border-left: 4px solid var(--dourado); padding-left: 20px;
+        }
+        .btn-gold {
+            background: linear-gradient(45deg, var(--dourado), #bfa365);
+            color: #fff; padding: 18px 50px; border: none; font-weight: 700;
+            letter-spacing: 1px; text-transform: uppercase; cursor: pointer; border-radius: 4px;
+            box-shadow: 0 5px 20px rgba(197, 160, 89, 0.4); transition: 0.3s;
+            text-shadow: 1px 1px 0 rgba(0,0,0,0.1);
+        }
+        .btn-gold:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(197, 160, 89, 0.6); }
+
+        /* --- DIFERENCIAIS --- */
+        .features-section { background: var(--branco); padding: 100px 5%; border-bottom: 1px solid var(--borda-suave); }
+        .section-header { text-align: center; margin-bottom: 60px; }
+        .section-header h3 { font-size: 2.8rem; margin-bottom: 10px; }
+        .section-header .divider { width: 80px; height: 3px; background: var(--dourado); margin: 10px auto; }
+        
+        .features-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px; max-width: 1200px; margin: 0 auto;
+        }
+        .feature-box {
+            text-align: center; padding: 40px 25px; background: var(--creme-fundo); border-radius: 8px;
+            transition: 0.4s; border: 1px solid transparent; display: flex; flex-direction: column; align-items: center;
+        }
+        .feature-box:hover { border-color: var(--dourado); transform: translateY(-5px); box-shadow: 0 10px 30px rgba(114, 47, 55, 0.08); }
+        .f-icon { font-size: 2.2rem; color: var(--vinho-principal); margin-bottom: 20px; }
+        .feature-box h4 { font-size: 1.3rem; margin-bottom: 15px; color: var(--vinho-principal); font-weight: 700; }
+        .feature-box p { font-size: 0.95rem; color: #666; line-height: 1.6; }
+
+        /* --- SERVIÇOS --- */
+        .section { padding: 100px 5%; position: relative; }
+        .cards-wrapper { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; }
+        
+        .law-card {
+            background: var(--branco); padding: 40px; border-top: 5px solid var(--vinho-principal);
+            box-shadow: 0 5px 25px rgba(0,0,0,0.05); transition: 0.4s; border-radius: 4px;
+        }
+        .law-card:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(114, 47, 55, 0.1); }
+        .law-card h4 { font-size: 1.6rem; margin-bottom: 20px; color: var(--vinho-principal); display: flex; align-items: center; gap: 10px; }
+        .law-card h4 i { color: var(--dourado); font-size: 1.3rem; }
+        .law-list li {
+            list-style: none; margin-bottom: 12px; color: #555; font-size: 0.95rem; padding-left: 20px; position: relative;
+        }
+        .law-list li::before { content: '•'; color: var(--vinho-principal); position: absolute; left: 0; font-size: 1.5rem; line-height: 1rem; }
+
+        /* --- FAQ --- */
+        .faq-section { background: var(--creme-fundo); padding: 80px 5%; }
+        .faq-container { max-width: 900px; margin: 0 auto; }
+        .faq-item { background: var(--branco); border-radius: 4px; margin-bottom: 15px; border: 1px solid #eee; transition: 0.3s; }
+        .faq-title {
+            padding: 20px 25px; cursor: pointer; display: flex; justify-content: space-between; align-items: center;
+            font-weight: 600; color: var(--texto-cinza); transition: 0.3s; font-size: 1.05rem;
+        }
+        .faq-title:hover { color: var(--vinho-principal); background: #fafafa; }
+        .faq-content {
+            max-height: 0; overflow: hidden; transition: 0.4s ease; color: #555; padding: 0 25px;
+            line-height: 1.7; text-align: justify;
+        }
+        .faq-item.active .faq-content { max-height: 500px; padding-bottom: 25px; }
+        .faq-hidden { display: none; }
+        
+        .faq-load-more { text-align: center; margin-top: 40px; }
+        .btn-outline {
+            background: transparent; border: 2px solid var(--dourado); color: var(--vinho-principal);
+            padding: 12px 35px; font-weight: 700; text-transform: uppercase; cursor: pointer;
+            transition: 0.3s; border-radius: 4px; letter-spacing: 1px;
+        }
+        .btn-outline:hover { background: var(--dourado); color: white; border-color: var(--dourado); }
+
+        /* --- TRIAGEM --- */
+        .triage-section { background: var(--branco); padding: 100px 5%; text-align: center; border-top: 1px solid var(--borda-suave); }
+        .triage-box {
+            max-width: 700px; margin: 0 auto; background: var(--creme-fundo);
+            padding: 50px; border-radius: 8px; border: 2px solid var(--dourado);
+            box-shadow: 0 10px 40px rgba(114, 47, 55, 0.05);
+        }
+        .triage-box h3 { color: var(--vinho-principal); font-size: 2.2rem; margin-bottom: 10px; }
+        .triage-box p { margin-bottom: 30px; color: #666; }
+        
+        .input-light {
+            width: 100%; padding: 16px; margin-bottom: 15px; background: var(--branco); 
+            border: 1px solid #ccc; color: #333; font-family: 'Lato'; font-size: 1rem; outline: none; transition: 0.3s; border-radius: 4px;
+        }
+        .input-light:focus { border-color: var(--vinho-principal); box-shadow: 0 0 5px rgba(114, 47, 55, 0.1); }
+        
+        .btn-vinho {
+            width: 100%; padding: 18px; background: var(--vinho-principal); color: var(--branco);
+            font-weight: 700; letter-spacing: 1px; cursor: pointer; transition: 0.3s;
+            border: none; border-radius: 4px; text-transform: uppercase;
+        }
+        .btn-vinho:hover { background: var(--vinho-profundo); transform: translateY(-2px); }
+        
+        #msgFeedback {
+            display: none; margin-top: 20px; font-family: 'Playfair Display', serif;
+            font-style: italic; color: var(--dourado); font-size: 1.1rem; animation: fadeIn 1s;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background: var(--vinho-profundo); padding: 60px 5% 30px;
+            color: #f0f0f0; border-top: 5px solid var(--dourado);
+        }
+        .footer-content {
+            display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 40px;
+            max-width: 1200px; margin: 0 auto;
+        }
+        .ft-info h4 { font-size: 1.8rem; margin-bottom: 10px; color: var(--branco); }
+        .oab-badge {
+            background: rgba(255,255,255,0.1); padding: 5px 12px; border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 4px; color: var(--dourado); font-weight: bold; font-size: 0.9rem;
+            display: inline-block; margin-bottom: 20px;
+        }
+        .contact-row { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 15px; align-items: center; }
+        .contact-item { display: flex; align-items: center; gap: 10px; color: #ccc; font-size: 0.95rem; }
+        .contact-item i { color: var(--dourado); }
+        
+        .social-links a { 
+            color: var(--branco); font-size: 1.6rem; margin-right: 20px; transition: 0.3s;
+        }
+        .social-links a:hover { color: var(--dourado); transform: translateY(-3px); display: inline-block; }
+        
+        /* CORREÇÃO DO LINK IMAGINISTA (SEM AZUL) */
+        .ft-imaginista {
+            text-align: right; border-left: 1px solid rgba(255,255,255,0.1); padding-left: 40px;
+        }
+        .logo-dev { width: 120px; transition: 0.5s; cursor: pointer; filter: brightness(0) invert(1); }
+        .logo-dev:hover { transform: scale(1.05) rotate(5deg); }
+        
+        .ft-imaginista a {
+            color: inherit !important; /* Tira o azul */
+            text-decoration: none; /* Tira o sublinhado */
+            transition: 0.3s;
+        }
+        .ft-imaginista a:hover {
+            color: var(--dourado) !important; /* Dourado ao passar o mouse */
+        }
+
+        /* --- BOTOES FLUTUANTES --- */
+        #scrollTopBtn {
+            display: none; position: fixed; bottom: 30px; left: 30px; z-index: 99;
+            border: none; outline: none; background-color: var(--vinho-principal); color: white;
+            cursor: pointer; padding: 12px 15px; border-radius: 5px; font-size: 16px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3); transition: 0.3s;
+        }
+        #scrollTopBtn:hover { background-color: var(--dourado); transform: translateY(-3px); }
+
+        .float-whatsapp {
+            position: fixed; width: 60px; height: 60px; bottom: 30px; right: 30px;
+            background-color: #25d366; color: #FFF; border-radius: 50px; text-align: center;
+            font-size: 30px; box-shadow: 2px 2px 3px #999; z-index: 100;
+            display: flex; align-items: center; justify-content: center;
+            animation: pulse 2s infinite;
+        }
+        .float-whatsapp:hover { background-color: #128c7e; }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+        }
+
+        /* Banner LGPD */
+        #cookie-banner {
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            background: var(--vinho-profundo); color: white; padding: 15px;
+            display: flex; justify-content: center; align-items: center; gap: 20px;
+            z-index: 2000; box-shadow: 0 -2px 10px rgba(0,0,0,0.2);
+            font-size: 0.9rem; transform: translateY(100%); transition: 0.5s;
+        }
+        #cookie-banner.show { transform: translateY(0); }
+        .btn-cookie {
+            background: var(--dourado); color: white; border: none; padding: 8px 20px;
+            border-radius: 4px; cursor: pointer; font-weight: bold;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        @media (max-width: 900px) {
+            nav ul { display: none; }
+            .menu-toggle { display: block; }
+            .hero h2 { font-size: 2.5rem; }
+            .hero p { font-size: 1.1rem; }
+            .footer-content { flex-direction: column; text-align: center; }
+            .ft-imaginista { text-align: center; border-left: none; padding-left: 0; margin-top: 30px; }
+            .contact-row { flex-direction: column; gap: 10px; justify-content: center; }
+            .social-links { justify-content: center; display: flex; margin-top: 20px; }
+            #cookie-banner { flex-direction: column; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="progress-container"><div id="progress-bar"></div></div>
+
+    <button onclick="topFunction()" id="scrollTopBtn" title="Voltar ao topo"><i class="fas fa-arrow-up"></i></button>
+    <a href="https://wa.me/5521983340089" class="float-whatsapp" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <header data-aos="fade-down">
+        <div class="brand">
+            <i class="fas fa-balance-scale"></i>
+            <h1 class="brand-name">DRA. CLEIDE SANTANA</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#inicio">Início</a></li>
+                <li><a href="#diferenciais">Escritório</a></li>
+                <li><a href="#areas">Atuação</a></li>
+                <li><a href="#faq">Dúvidas</a></li>
+            </ul>
+        </nav>
+        <a href="#contato" class="cta-header">FALAR COM ADVOGADA</a>
+        <div class="menu-toggle"><i class="fas fa-bars"></i></div>
+    </header>
+
+    <section id="inicio" class="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content" data-aos="fade-up">
+            <h2>Justiça com Excelência.<br>
+                <span class="type-wrap">Compromisso com sua História.</span>
+            </h2>
+            <p>"Não é apenas sobre leis. É sobre a sua vida, a sua família e a garantia do seu futuro. Lutamos pelos seus direitos como se fossem os nossos."</p>
+            <button onclick="document.getElementById('contato').scrollIntoView()" class="btn-gold">Iniciar Atendimento</button>
+        </div>
+    </section>
+
+    <section id="diferenciais" class="features-section">
+        <div class="section-header">
+            <h3>Por Que Nos Escolher?</h3>
+            <div class="divider"></div>
+        </div>
+        <div class="features-grid">
+            <div class="feature-box" data-aos="fade-up">
+                <i class="fas fa-heart f-icon"></i>
+                <h4>Atendimento Humanizado</h4>
+                <p>Cada cliente é único. Ouvimos sua história com atenção e tratamos seu caso com o respeito que ele merece.</p>
+            </div>
+            <div class="feature-box" data-aos="fade-up" data-aos-delay="100">
+                <i class="fas fa-laptop-file f-icon"></i>
+                <h4>Agilidade Digital</h4>
+                <p>Envie documentos e tire dúvidas pelo WhatsApp. Resolvemos a burocracia para que você não precise sair de casa.</p>
+            </div>
+            <div class="feature-box" data-aos="fade-up" data-aos-delay="200">
+                <i class="fas fa-scale-balanced f-icon"></i>
+                <h4>Transparência</h4>
+                <p>Explicação clara sobre seus direitos, os riscos do processo e os honorários. Sem letras miúdas.</p>
+            </div>
+            <div class="feature-box" data-aos="fade-up" data-aos-delay="300">
+                <i class="fas fa-hand-holding-heart f-icon"></i>
+                <h4>Atendimento Acolhedor</h4>
+                <p>Sabemos que momentos jurídicos são delicados. Aqui você é ouvido com paciência, respeito e total sigilo.</p>
+            </div>
+            <div class="feature-box" data-aos="fade-up" data-aos-delay="400">
+                <i class="fas fa-certificate f-icon"></i> 
+                <h4>Experiência Comprovada</h4>
+                <p>Anos de atuação focada em reverter negativas do INSS e resolver conflitos familiares com a máxima competência.</p>
+            </div>
+            <div class="feature-box" data-aos="fade-up" data-aos-delay="500">
+                <i class="fas fa-gavel f-icon"></i>
+                <h4>Combate Incansável</h4>
+                <p>Não aceitamos injustiças. Estudamos cada detalhe do seu caso para buscar o melhor resultado possível na justiça.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="areas" class="section">
+        <div class="section-header">
+            <h3>Nossas Especialidades</h3>
+            <div class="divider"></div>
+            <p>Atuação completa nas esferas administrativa e judicial.</p>
+        </div>
+        <div class="cards-wrapper">
+            <div class="law-card" data-aos="fade-right">
+                <h4><i class="fas fa-landmark"></i> Direito Previdenciário</h4>
+                <ul class="law-list">
+                    <li>Aposentadorias (Tempo, Idade, Rural)</li>
+                    <li>Auxílio-Doença e Aposentadoria por Invalidez</li>
+                    <li>Benefício LOAS (Idoso e Deficiente)</li>
+                    <li>Revisão da Vida Toda e Reajustes</li>
+                    <li>Planejamento Previdenciário</li>
+                    <li>Acerto de CNIS e Recolhimentos</li>
+                </ul>
+            </div>
+            <div class="law-card" data-aos="fade-up">
+                <h4><i class="fas fa-shopping-cart"></i> Direito do Consumidor</h4>
+                <ul class="law-list">
+                    <li>Problemas com Compras Online e Entregas</li>
+                    <li>Negativação Indevida (SPC/Serasa)</li>
+                    <li>Ação contra Bancos e Juros Abusivos</li>
+                    <li>Planos de Saúde (Negativas e Reajustes)</li>
+                    <li>Cancelamento de Voo e Extravio</li>
+                    <li>Danos Morais e Materiais</li>
+                </ul>
+            </div>
+            <div class="law-card" data-aos="fade-left">
+                <h4><i class="fas fa-users"></i> Família e Sucessões</h4>
+                <ul class="law-list">
+                    <li>Divórcio Consensual e Litigioso</li>
+                    <li>Pensão Alimentícia (Fixação e Revisão)</li>
+                    <li>Guarda de Menor e Visitas</li>
+                    <li>Inventários, Partilhas e Testamentos</li>
+                    <li>Investigação de Paternidade</li>
+                    <li>União Estável e Homoafetiva</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="faq" class="faq-section">
+        <div class="section-header">
+            <h3>Perguntas Frequentes</h3>
+        </div>
+        <div class="faq-container">
+            <div class="faq-item">
+                <div class="faq-title">O INSS negou meu pedido. O que fazer? <i class="fas fa-plus"></i></div>
+                <div class="faq-content">Não se preocupe. A negativa do INSS é comum. Analisamos o motivo e entramos com recurso administrativo ou ação judicial para garantir seu benefício.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-title">Quanto tempo demora para sair a aposentadoria? <i class="fas fa-plus"></i></div>
+                <div class="faq-content">O prazo varia. Administrativamente (INSS) de 45 a 90 dias, mas atrasos são comuns. Judicialmente, pode levar de 1 a 2 anos.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-title">Posso me divorciar em cartório? <i class="fas fa-plus"></i></div>
+                <div class="faq-content">Sim! Se o divórcio for consensual e o casal não tiver filhos menores, pode ser feito no cartório, o que é muito mais rápido.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-title">Meu nome foi para o SPC indevidamente. Cabe indenização? <i class="fas fa-plus"></i></div>
+                <div class="faq-content">Sim. Se você não deve e foi negativado, isso gera dano moral presumido, passível de indenização e limpeza imediata do nome.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-title">Como agendar uma consulta? <i class="fas fa-plus"></i></div>
+                <div class="faq-content">Basta preencher o formulário abaixo ou clicar no botão do WhatsApp. Atendemos presencialmente no RJ ou online.</div>
+            </div>
+
+            <div class="faq-hidden">
+                <div class="faq-item">
+                    <div class="faq-title">Pai não paga pensão, posso proibir visita? <i class="fas fa-plus"></i></div>
+                    <div class="faq-content">Não. O direito de visita é da criança, não do pai. A cobrança da pensão deve ser feita na justiça (com possibilidade de prisão), mas sem impedir a convivência.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-title">Comprei online e me arrependi. Posso devolver? <i class="fas fa-plus"></i></div>
+                    <div class="faq-content">Sim. Pelo Art. 49 do CDC, você tem 7 dias após o recebimento para desistir da compra feita fora da loja física, com reembolso total.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-title">Tenho direito à Revisão da Vida Toda? <i class="fas fa-plus"></i></div>
+                    <div class="faq-content">Depende. Essa revisão beneficia quem tinha altos salários antes de julho de 1994. É necessário fazer um cálculo detalhado.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-title">O plano de saúde negou minha cirurgia. É legal? <i class="fas fa-plus"></i></div>
+                    <div class="faq-content">Muitas vezes, a negativa é abusiva, se houver indicação médica. É possível conseguir uma liminar na justiça obrigando o plano a cobrir.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-title">Qual a diferença entre auxílio-doença e invalidez? <i class="fas fa-plus"></i></div>
+                    <div class="faq-content">O auxílio-doença é temporário (você vai melhorar). A aposentadoria por invalidez é quando a incapacidade é permanente e sem reabilitação.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-title">O que é BPC/LOAS? <i class="fas fa-plus"></i></div>
+                    <div class="faq-content">É um benefício de um salário mínimo para idosos (+65) ou deficientes de baixa renda. Não precisa ter contribuído, mas precisa provar a necessidade.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-title">Meu voo foi cancelado. Tenho direito a que? <i class="fas fa-plus"></i></div>
+                    <div class="faq-content">Reacomodação, reembolso e assistência material (comida/hotel). Se o atraso for grande e sem suporte, cabe danos morais.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-title">Como funciona a união estável? <i class="fas fa-plus"></i></div>
+                    <div class="faq-content">Se configurada (convivência pública, contínua e duradoura), gera direitos a herança, partilha de bens e pensão, similar ao casamento.</div>
+                </div>
+            </div>
+
+            <div class="faq-load-more">
+                <button id="loadMoreBtn" class="btn-outline">Ver todas as perguntas <i class="fas fa-chevron-down"></i></button>
+            </div>
+        </div>
+    </section>
+
+    <section id="contato" class="triage-section">
+        <div class="triage-box" data-aos="zoom-in">
+            <h3>Fale com a Advogada</h3>
+            <p>Preencha os dados. Analisaremos seu caso com prioridade.</p>
+            <form onsubmit="sendZap(event)">
+                <input type="text" id="tNome" class="input-light" placeholder="Seu Nome Completo" required>
+                <select id="tArea" class="input-light" required>
+                    <option value="" disabled selected>Qual o assunto?</option>
+                    <option value="INSS / Aposentadoria">INSS / Aposentadoria</option>
+                    <option value="Problema de Consumo">Problema de Consumo</option>
+                    <option value="Família / Divórcio">Família / Divórcio</option>
+                    <option value="Outros Assuntos">Outros Assuntos</option>
+                </select>
+                <textarea id="tMsg" class="input-light" style="height: 120px; resize: none;" placeholder="Descreva brevemente o que aconteceu..." required></textarea>
+                <button type="submit" class="btn-vinho">ENVIAR SOLICITAÇÃO <i class="fab fa-whatsapp"></i></button>
+                <p id="msgFeedback">
+                    <i class="fas fa-check-circle"></i> <strong>Ticket Gerado com Sucesso!</strong><br>
+                    Verifique a janela do WhatsApp que se abriu para concluir o envio.
+                </p>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="ft-info">
+                <h4>Dra. Cleide Santana</h4>
+                <span class="oab-badge">OAB/RJ: 162.541</span>
+                <div class="contact-row">
+                    <span class="contact-item"><i class="fas fa-phone"></i> (21) 99653-5039</span>
+                    <span class="contact-item"><i class="fas fa-envelope"></i> cleidesantanasantos@yahoo.com.br</span>
+                </div>
+                <p style="margin-top: 10px;"><i class="fas fa-map-marker-alt"></i> Rio de Janeiro - RJ</p>
+                <div class="social-links">
+                    <a href="https://www.instagram.com/cleide.adv/" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.facebook.com/CleideSantanaAdvogada" target="_blank"><i class="fab fa-facebook"></i></a>
+                    <a href="mailto:cleidesantanasantos@yahoo.com.br"><i class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+            
+            <div class="ft-imaginista">
+                <img src="logo.png" alt="O Imaginista" class="logo-dev">
+                <div style="margin-top: 10px; font-size: 0.7rem; color: #ddd; letter-spacing: 2px;">
+                    Desenvolvido por <strong><a href="https://oimaginista.com" target="_blank">IMAGINISTA</a></strong> © 2025
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div id="cookie-banner">
+        <p>Este site utiliza cookies para garantir que você tenha a melhor experiência. Ao continuar navegando, você concorda com nossa política de privacidade.</p>
+        <button class="btn-cookie" onclick="acceptCookies()">Aceitar e Continuar</button>
+    </div>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init();
+        
+        // Barra de Progresso
+        window.onscroll = function() {
+            scrollFunction();
+            updateProgress();
+        };
+
+        function updateProgress() {
+            var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            var scrolled = (winScroll / height) * 100;
+            document.getElementById("progress-bar").style.width = scrolled + "%";
+        }
+
+        // Lógica FAQ
+        document.querySelectorAll('.faq-title').forEach(item => {
+            item.addEventListener('click', () => {
+                const parent = item.parentElement;
+                parent.classList.toggle('active');
+            });
+        });
+
+        const loadMoreBtn = document.getElementById('loadMoreBtn');
+        const hiddenFaqs = document.querySelector('.faq-hidden');
+        let isExpanded = false;
+
+        loadMoreBtn.addEventListener('click', () => {
+            if (!isExpanded) {
+                hiddenFaqs.style.display = 'block';
+                loadMoreBtn.innerHTML = 'Recolher perguntas <i class="fas fa-chevron-up"></i>';
+            } else {
+                hiddenFaqs.style.display = 'none';
+                loadMoreBtn.innerHTML = 'Ver todas as perguntas <i class="fas fa-chevron-down"></i>';
+                document.getElementById('faq').scrollIntoView({ behavior: 'smooth' });
+            }
+            isExpanded = !isExpanded;
+        });
+
+        // WhatsApp TICKET BLINDADO (Códigos Unicode + encodeURIComponent)
+        function sendZap(e) {
+            e.preventDefault();
+            let nome = document.getElementById('tNome').value;
+            let area = document.getElementById('tArea').value;
+            let msg = document.getElementById('tMsg').value;
+            
+            if(!nome || !area || !msg) { alert('Preencha todos os campos!'); return; }
+
+            // Gera Ticket
+            let ticketID = Math.floor(Math.random() * 9000) + 1000;
+            let dataAtual = new Date().toLocaleDateString('pt-BR');
+
+            // MONTAGEM DO TEXTO COM CÓDIGOS UNICODE (BLINDAGEM TOTAL)
+            // \uD83C\uDFDB = Prédio
+            // \uD83C\uDFAB = Ticket
+            // \uD83D\uDCC5 = Data
+            // \uD83D\uDC64 = Pessoa
+            // \uD83D\uDCC2 = Pasta
+            // \uD83D\uDCDD = Lápis
+            // \u26A0\uFE0F = Alerta
+
+            let texto = `\uD83C\uDFDB *NOVO ATENDIMENTO DIGITAL*\n` +
+                        `\uD83C\uDFAB *Ticket:* #WEB-${ticketID}\n` +
+                        `\uD83D\uDCC5 *Data:* ${dataAtual}\n\n` +
+                        `\uD83D\uDC64 *Cliente:* ${nome}\n` +
+                        `\uD83D\uDCC2 *Área:* ${area}\n\n` +
+                        `\uD83D\uDCDD *Relato do Caso:*\n${msg}\n\n` +
+                        `\u26A0\uFE0F *Status:* Cliente aguardando retorno.`;
+
+            // Codifica TUDO para URL (Resolve o problema do emoji quebrado)
+            let textoCodificado = encodeURIComponent(texto);
+
+            window.open(`https://wa.me/5521983340089?text=${textoCodificado}`, '_blank');
+            document.getElementById('msgFeedback').style.display = 'block';
+        }
+
+        // Voltar ao Topo
+        var mybutton = document.getElementById("scrollTopBtn");
+        function scrollFunction() {
+            if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+                mybutton.style.display = "block";
+            } else {
+                mybutton.style.display = "none";
+            }
+        }
+        function topFunction() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // LGPD
+        function acceptCookies() {
+            document.getElementById("cookie-banner").style.transform = "translateY(100%)";
+        }
+        setTimeout(() => {
+            document.getElementById("cookie-banner").classList.add("show");
+        }, 2000);
+    </script>
+</body>
+</html>
