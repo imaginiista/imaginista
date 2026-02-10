@@ -22,13 +22,19 @@
             --borda-suave: #e5e5e5;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+        /* RESET TOTAL PARA EVITAR ROLAGEM LATERAL */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        html, body {
+            width: 100%;
+            overflow-x: hidden; /* Trava rolagem lateral */
+            position: relative;
+        }
 
         body {
             font-family: 'Lato', sans-serif;
             background-color: var(--creme-fundo);
             color: var(--texto-cinza);
-            overflow-x: hidden;
             line-height: 1.6;
         }
 
@@ -94,7 +100,7 @@
             background: linear-gradient(to bottom, rgba(114, 47, 55, 0.4), rgba(74, 18, 24, 0.8));
             z-index: 1;
         }
-        .hero-content { position: relative; z-index: 2; max-width: 900px; padding: 0 20px; color: var(--branco); }
+        .hero-content { position: relative; z-index: 2; max-width: 900px; padding: 0 20px; color: var(--branco); width: 100%; }
         .hero h2 {
             font-size: 3.8rem; margin-bottom: 20px; line-height: 1.1; color: var(--branco);
             text-shadow: 0 2px 10px rgba(74, 18, 24, 0.3);
@@ -177,7 +183,7 @@
         .triage-box {
             max-width: 700px; margin: 0 auto; background: var(--creme-fundo);
             padding: 50px; border-radius: 8px; border: 2px solid var(--dourado);
-            box-shadow: 0 10px 40px rgba(114, 47, 55, 0.05);
+            box-shadow: 0 10px 40px rgba(114, 47, 55, 0.05); width: 100%;
         }
         .triage-box h3 { color: var(--vinho-principal); font-size: 2.2rem; margin-bottom: 10px; }
         .triage-box p { margin-bottom: 30px; color: #666; }
@@ -224,7 +230,6 @@
         }
         .social-links a:hover { color: var(--dourado); transform: translateY(-3px); display: inline-block; }
         
-        /* CORREÇÃO DO LINK IMAGINISTA (SEM AZUL) */
         .ft-imaginista {
             text-align: right; border-left: 1px solid rgba(255,255,255,0.1); padding-left: 40px;
         }
@@ -232,12 +237,12 @@
         .logo-dev:hover { transform: scale(1.05) rotate(5deg); }
         
         .ft-imaginista a {
-            color: inherit !important; /* Tira o azul */
-            text-decoration: none; /* Tira o sublinhado */
+            color: inherit !important;
+            text-decoration: none;
             transition: 0.3s;
         }
         .ft-imaginista a:hover {
-            color: var(--dourado) !important; /* Dourado ao passar o mouse */
+            color: var(--dourado) !important;
         }
 
         /* --- BOTOES FLUTUANTES --- */
@@ -279,11 +284,23 @@
 
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
+        /* --- RESPONSIVIDADE CORRIGIDA --- */
         @media (max-width: 900px) {
             nav ul { display: none; }
             .menu-toggle { display: block; }
-            .hero h2 { font-size: 2.5rem; }
-            .hero p { font-size: 1.1rem; }
+            
+            /* Ajuste Hero Fontes */
+            .hero h2 { font-size: 2.2rem; }
+            .hero p { font-size: 1rem; }
+            .hero-content { padding: 0 15px; }
+
+            /* Ajuste Cards e Grids */
+            .features-section, .section, .triage-section, .faq-section { padding: 60px 5%; }
+            .law-card { padding: 30px 20px; }
+            .triage-box { padding: 30px 20px; width: 100%; }
+            .triage-box h3 { font-size: 1.8rem; }
+
+            /* Footer Mobile */
             .footer-content { flex-direction: column; text-align: center; }
             .ft-imaginista { text-align: center; border-left: none; padding-left: 0; margin-top: 30px; }
             .contact-row { flex-direction: column; gap: 10px; justify-content: center; }
@@ -573,40 +590,40 @@
             isExpanded = !isExpanded;
         });
 
-        // WhatsApp TICKET BLINDADO (Códigos Unicode + encodeURIComponent)
+        // WhatsApp TICKET BLINDADO (Códigos Percent-Encoded + encodeURIComponent)
+        // Solução para qualquer codificação de arquivo e formatação perfeita
         function sendZap(e) {
             e.preventDefault();
-            let nome = document.getElementById('tNome').value;
-            let area = document.getElementById('tArea').value;
-            let msg = document.getElementById('tMsg').value;
+            var nome = document.getElementById('tNome').value;
+            var area = document.getElementById('tArea').value;
+            var msg = document.getElementById('tMsg').value;
             
             if(!nome || !area || !msg) { alert('Preencha todos os campos!'); return; }
 
-            // Gera Ticket
-            let ticketID = Math.floor(Math.random() * 9000) + 1000;
-            let dataAtual = new Date().toLocaleDateString('pt-BR');
+            // Gera Ticket e Data
+            var ticketID = Math.floor(Math.random() * 9000) + 1000;
+            var dataAtual = new Date().toLocaleDateString('pt-BR');
 
-            // MONTAGEM DO TEXTO COM CÓDIGOS UNICODE (BLINDAGEM TOTAL)
-            // \uD83C\uDFDB = Prédio
-            // \uD83C\uDFAB = Ticket
-            // \uD83D\uDCC5 = Data
-            // \uD83D\uDC64 = Pessoa
-            // \uD83D\uDCC2 = Pasta
-            // \uD83D\uDCDD = Lápis
-            // \u26A0\uFE0F = Alerta
+            // Ícones HEX para URL (Garante que funcione em qualquer browser/PC)
+            var iconBank = "%F0%9F%8F%9B%EF%B8%8F"; // Prédio
+            var iconTicket = "%F0%9F%8E%AB";        // Ticket
+            var iconDate = "%F0%9F%93%85";          // Calendário
+            var iconUser = "%F0%9F%91%A4";          // Pessoa
+            var iconFolder = "%F0%9F%93%82";        // Pasta
+            var iconWrite = "%F0%9F%93%9D";         // Lápis
+            var iconAlert = "%E2%9A%A0%EF%B8%8F";   // Alerta
+            var br = "%0A";                         // Pular linha
 
-            let texto = `\uD83C\uDFDB *NOVO ATENDIMENTO DIGITAL*\n` +
-                        `\uD83C\uDFAB *Ticket:* #WEB-${ticketID}\n` +
-                        `\uD83D\uDCC5 *Data:* ${dataAtual}\n\n` +
-                        `\uD83D\uDC64 *Cliente:* ${nome}\n` +
-                        `\uD83D\uDCC2 *Área:* ${area}\n\n` +
-                        `\uD83D\uDCDD *Relato do Caso:*\n${msg}\n\n` +
-                        `\u26A0\uFE0F *Status:* Cliente aguardando retorno.`;
+            // Monta o texto já codificado
+            var texto = iconBank + " *" + encodeURIComponent("NOVO ATENDIMENTO DIGITAL") + "*" + br +
+                        iconTicket + " *Ticket:* %23WEB-" + ticketID + br +
+                        iconDate + " *Data:* " + encodeURIComponent(dataAtual) + br + br +
+                        iconUser + " *Cliente:* " + encodeURIComponent(nome) + br +
+                        iconFolder + " *Área:* " + encodeURIComponent(area) + br + br +
+                        iconWrite + " *Relato do Caso:*" + br + encodeURIComponent(msg) + br + br +
+                        iconAlert + " *Status:* " + encodeURIComponent("Cliente aguardando retorno.");
 
-            // Codifica TUDO para URL (Resolve o problema do emoji quebrado)
-            let textoCodificado = encodeURIComponent(texto);
-
-            window.open(`https://wa.me/5521983340089?text=${textoCodificado}`, '_blank');
+            window.open("https://wa.me/5521983340089?text=" + texto, '_blank');
             document.getElementById('msgFeedback').style.display = 'block';
         }
 
