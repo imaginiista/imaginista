@@ -22,12 +22,10 @@
             --borda-suave: #e5e5e5;
         }
 
-        /* RESET GERAL */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
 
         html, body {
-            overflow-x: hidden; /* Trava rolagem lateral no mobile */
-            width: 100%;
+            overflow-x: hidden; width: 100%;
         }
 
         body {
@@ -56,7 +54,7 @@
             display: flex; justify-content: space-between; align-items: center;
             z-index: 1000;
             border-bottom: 2px solid var(--dourado);
-            height: 70px; /* Altura fixa para facilitar ajustes */
+            height: 70px;
         }
 
         .brand { display: flex; align-items: center; gap: 15px; }
@@ -69,7 +67,7 @@
             color: var(--vinho-principal);
             background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             animation: shine 4s linear infinite;
-            white-space: nowrap; /* Não quebra linha no desktop */
+            white-space: nowrap;
         }
         @keyframes shine { to { background-position: 200% center; } }
 
@@ -95,7 +93,7 @@
             display: flex; align-items: center; justify-content: center; text-align: center;
             background: url('https://images.unsplash.com/photo-1497366811353-6870744d04b2?q=80&w=2069&auto=format&fit=crop') center/cover;
             background-attachment: fixed;
-            margin-top: 70px; /* Compensa o header fixo */
+            margin-top: 70px;
         }
         .hero-overlay {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
@@ -213,39 +211,40 @@
             background: var(--vinho-profundo); padding: 60px 5% 30px;
             color: #f0f0f0; border-top: 5px solid var(--dourado);
         }
+        
         .footer-content {
             display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 40px;
             max-width: 1200px; margin: 0 auto;
         }
-        .ft-info h4 { font-size: 1.8rem; margin-bottom: 10px; color: var(--branco); }
+        
+        .ft-info h4 { font-size: 1.8rem; margin-bottom: 15px; color: var(--branco); }
+        
+        /* Flex containers para o rodapé */
+        .footer-row-1, .footer-row-2, .footer-row-3 {
+            display: flex; align-items: center; gap: 15px; margin-bottom: 15px;
+        }
+        
+        /* Estilos base dos itens */
         .oab-badge {
             background: rgba(255,255,255,0.1); padding: 5px 12px; border: 1px solid rgba(255,255,255,0.2);
             border-radius: 4px; color: var(--dourado); font-weight: bold; font-size: 0.9rem;
-            display: inline-block; margin-bottom: 20px;
         }
-        .contact-row { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 15px; align-items: center; }
         .contact-item { display: flex; align-items: center; gap: 10px; color: #ccc; font-size: 0.95rem; }
         .contact-item i { color: var(--dourado); }
         
         .social-links a { 
-            color: var(--branco); font-size: 1.6rem; margin-right: 20px; transition: 0.3s;
+            color: var(--branco); font-size: 1.6rem; margin-right: 15px; transition: 0.3s;
         }
         .social-links a:hover { color: var(--dourado); transform: translateY(-3px); display: inline-block; }
         
+        /* Link Imaginista */
         .ft-imaginista {
             text-align: right; border-left: 1px solid rgba(255,255,255,0.1); padding-left: 40px;
         }
         .logo-dev { width: 120px; transition: 0.5s; cursor: pointer; filter: brightness(0) invert(1); }
         .logo-dev:hover { transform: scale(1.05) rotate(5deg); }
-        
-        .ft-imaginista a {
-            color: inherit !important;
-            text-decoration: none;
-            transition: 0.3s;
-        }
-        .ft-imaginista a:hover {
-            color: var(--dourado) !important;
-        }
+        .ft-imaginista a { color: inherit !important; text-decoration: none; transition: 0.3s; }
+        .ft-imaginista a:hover { color: var(--dourado) !important; }
 
         /* --- BOTOES FLUTUANTES --- */
         #scrollTopBtn {
@@ -286,26 +285,14 @@
 
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* --- RESPONSIVIDADE AVANÇADA (A CORREÇÃO DO MOBILE) --- */
+        /* --- RESPONSIVIDADE MOBILE --- */
         @media (max-width: 900px) {
-            /* Header Ajustes */
-            .cta-header { display: none; } /* Esconde botão do header para limpar o mobile */
-            .menu-toggle { display: block; }
-            .brand i { font-size: 1.5rem; }
-            
-            /* Ajuste Fino do Nome da Dra. no Mobile */
-            .brand-name { 
-                font-size: 1.1rem; /* Diminui a fonte para não quebrar */
-                white-space: normal; /* Permite quebrar linha se precisar muito */
-                line-height: 1.2;
-            }
-
-            /* Menu Hamburger (Drop Down) */
+            /* Menu */
             nav ul {
                 display: none;
                 flex-direction: column;
                 position: absolute;
-                top: 70px; /* Logo abaixo do header */
+                top: 70px;
                 left: 0;
                 width: 100%;
                 background: white;
@@ -315,33 +302,45 @@
                 border-top: 1px solid #eee;
             }
             nav ul.active { display: flex; animation: fadeIn 0.3s; }
-            nav a { font-size: 1rem; padding: 10px 0; display: block; border-bottom: 1px solid #f9f9f9; }
+            nav a { font-size: 1rem; padding: 12px 0; display: block; border-bottom: 1px solid #f9f9f9; }
+            .cta-header { display: none; }
+            .menu-toggle { display: block; }
+            .brand-name { font-size: 1rem; white-space: normal; line-height: 1.2; } /* Nome ajustado */
 
-            /* Hero Texto */
-            .hero h2 { font-size: 2.5rem; }
-            .hero p { font-size: 1rem; padding-left: 15px; }
+            /* Triage Box (Compacto) */
+            .triage-section { padding: 50px 5%; }
+            .triage-box { padding: 30px 15px; width: 100%; border-width: 1px; }
+            .triage-box h3 { font-size: 1.6rem; }
+            .input-light { padding: 10px; font-size: 0.9rem; margin-bottom: 10px; }
+            .btn-vinho { padding: 12px; font-size: 0.9rem; }
+
+            /* Footer Mobile Específico */
+            footer { padding-bottom: 120px; } /* Espaço extra no fundo */
             
-            /* Ajuste dos Cards e Padding */
-            .features-section, .section, .triage-section, .faq-section { padding: 60px 5%; }
-            
-            /* FOOTER AJUSTADO (SEM SOBREPOSIÇÃO) */
-            footer {
-                padding-bottom: 110px; /* Espaço extra gigante embaixo para os botões flutuantes */
-            }
             .footer-content { flex-direction: column; text-align: center; }
-            .ft-imaginista { 
-                text-align: center; 
-                border-left: none; 
-                padding-left: 0; 
-                margin-top: 30px; 
-                border-top: 1px solid rgba(255,255,255,0.1); 
-                padding-top: 20px;
+            .ft-info h4 { font-size: 1.6rem; margin-bottom: 20px; }
+
+            /* Linhas do Rodapé Mobile */
+            .footer-row-1 {
+                justify-content: center; /* OAB + Socials */
             }
-            .contact-row { justify-content: center; }
-            .social-links { justify-content: center; display: flex; }
+            .footer-row-2 {
+                justify-content: center; /* Phone + Location */
+            }
+            .footer-row-3 {
+                justify-content: center; /* Email */
+            }
+
+            .ft-imaginista { 
+                text-align: center; border-left: none; padding-left: 0; 
+                margin-top: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;
+            }
             
-            /* Banner LGPD Mobile */
-            #cookie-banner { flex-direction: column; text-align: center; padding-bottom: 20px; }
+            /* Ajustes Hero Text */
+            .hero h2 { font-size: 2.2rem; }
+            .hero p { font-size: 1rem; padding-left: 10px; }
+            
+            #cookie-banner { flex-direction: column; text-align: center; }
         }
     </style>
 </head>
@@ -558,16 +557,22 @@
         <div class="footer-content">
             <div class="ft-info">
                 <h4>Dra. Cleide Santana</h4>
-                <span class="oab-badge">OAB/RJ: 162.541</span>
-                <div class="contact-row">
-                    <span class="contact-item"><i class="fas fa-phone"></i> (21) 99653-5039</span>
-                    <span class="contact-item"><i class="fas fa-envelope"></i> cleidesantanasantos@yahoo.com.br</span>
+                
+                <div class="footer-row-1">
+                    <span class="oab-badge">OAB/RJ: 162.541</span>
+                    <div class="social-links">
+                        <a href="https://www.instagram.com/cleide.adv/" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.facebook.com/CleideSantanaAdvogada" target="_blank"><i class="fab fa-facebook"></i></a>
+                    </div>
                 </div>
-                <p style="margin-top: 10px;"><i class="fas fa-map-marker-alt"></i> Rio de Janeiro - RJ</p>
-                <div class="social-links">
-                    <a href="https://www.instagram.com/cleide.adv/" target="_blank"><i class="fab fa-instagram"></i></a>
-                    <a href="https://www.facebook.com/CleideSantanaAdvogada" target="_blank"><i class="fab fa-facebook"></i></a>
-                    <a href="mailto:cleidesantanasantos@yahoo.com.br"><i class="fas fa-envelope"></i></a>
+
+                <div class="footer-row-2">
+                    <span class="contact-item"><i class="fas fa-phone"></i> (21) 99653-5039</span>
+                    <span class="contact-item"><i class="fas fa-map-marker-alt"></i> Rio de Janeiro - RJ</span>
+                </div>
+
+                <div class="footer-row-3">
+                    <span class="contact-item"><i class="fas fa-envelope"></i> cleidesantanasantos@yahoo.com.br</span>
                 </div>
             </div>
             
@@ -632,7 +637,7 @@
             isExpanded = !isExpanded;
         });
 
-        // WhatsApp TICKET BLINDADO (Códigos Percent-Encoded + encodeURIComponent)
+        // WhatsApp TICKET BLINDADO
         function sendZap(e) {
             e.preventDefault();
             var nome = document.getElementById('tNome').value;
