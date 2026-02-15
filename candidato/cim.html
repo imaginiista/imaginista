@@ -3,447 +3,219 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dossiê de Candidatura - A∴ R∴ L∴ S∴ Fraternidade Imperial Nº 264</title>
+    <title>Dossiê Digital - Candidato</title>
     <meta name="robots" content="noindex, nofollow">
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --royal-blue: #002a52; /* Azul Profundo Maçônico */
-            --bright-blue: #005eb8; /* Azul GLMERJ */
-            --gold: #d4af37;        /* Dourado Metálico */
-            --gold-shine: #f9eac3;  /* Brilho Dourado */
-            --bg-light: #f8f9fa;
-            --text-main: #1a1a1a;
-            --card-shadow: 0 10px 30px rgba(0, 42, 82, 0.15);
+            --dark-navy: #001529;
+            --royal-blue: #002a52;
+            --gold: #d4af37;
+            --gold-glow: #f9eac3;
+            --glass-bg: rgba(255, 255, 255, 0.95);
+            --shadow-hdr: 0 20px 50px rgba(0,0,0,0.3);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Lato', sans-serif; background-color: var(--bg-light); color: var(--text-main); overflow-x: hidden; }
-
-        /* --- TELA DE BLOQUEIO TRIUNFAL --- */
-        #lock-screen {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(135deg, var(--royal-blue) 0%, #001529 100%);
-            z-index: 9999;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            transition: opacity 0.8s ease-in-out;
+        
+        body { 
+            font-family: 'Lato', sans-serif; 
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364); /* Fundo Dark Premium */
+            color: #333; min-height: 100vh;
         }
 
-        .lock-content { text-align: center; color: var(--gold-shine); padding: 20px; animation: fadeInUp 1s ease; }
-        
-        .lock-logo-container {
-            width: 180px; height: 180px; margin: 0 auto 30px;
-            border-radius: 50%; padding: 5px;
-            background: linear-gradient(45deg, var(--gold), #8a6e2f);
-            box-shadow: 0 0 30px rgba(212, 175, 55, 0.4);
-            animation: pulse-gold 3s infinite;
+        .container { max-width: 1100px; margin: 0 auto; padding: 40px 20px; }
+
+        /* HEADER ANIMADO */
+        header { 
+            text-align: center; margin-bottom: 50px; 
+            animation: slideDown 1s ease-out;
         }
-        .lock-logo { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 4px solid var(--royal-blue); }
-
-        .lock-title { font-family: 'Cinzel', serif; font-size: 1.5rem; letter-spacing: 2px; color: var(--white); margin-bottom: 10px; }
-        
-        .lock-input {
-            padding: 15px 25px; border-radius: 50px; border: 2px solid var(--gold);
-            background: rgba(255,255,255,0.1); color: var(--gold-shine); 
-            outline: none; text-align: center; font-size: 1.1rem; margin-top: 30px;
-            width: 250px; transition: all 0.3s;
+        .header-logos img { 
+            height: 90px; margin: 0 15px; 
+            filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.3));
+            transition: transform 0.3s;
         }
-        .lock-input::placeholder { color: rgba(243, 229, 171, 0.5); }
-        .lock-input:focus { background: rgba(0, 42, 82, 0.8); box-shadow: 0 0 15px var(--gold); }
+        .header-logos img:hover { transform: scale(1.1); }
+        h1 { font-family: 'Cinzel', serif; color: var(--gold); font-size: 2.2rem; text-shadow: 0 2px 10px rgba(0,0,0,0.5); margin-top: 15px;}
 
-        .lock-btn {
-            margin-top: 20px; padding: 12px 40px; border-radius: 50px; border: none;
-            background: linear-gradient(to right, var(--gold), #bfa15f); 
-            color: var(--royal-blue); font-weight: 800; cursor: pointer;
-            text-transform: uppercase; letter-spacing: 2px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            transition: transform 0.2s;
-        }
-        .lock-btn:hover { transform: scale(1.05); }
-
-        /* --- CONTEÚDO PRINCIPAL --- */
-        #main-content { display: none; opacity: 0; transition: opacity 1.5s ease; padding-bottom: 80px; }
-        
-        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
-
-        /* Header */
-        header { text-align: center; padding: 40px 0; border-bottom: 1px solid rgba(212, 175, 55, 0.3); margin-bottom: 40px; position: relative; }
-        
-        .header-logos { display: flex; justify-content: center; align-items: center; gap: 30px; margin-bottom: 25px; }
-        .glmerj-logo { height: 100px; filter: drop-shadow(0 4px 4px rgba(0,0,0,0.2)); transition: transform 0.3s; }
-        .loja-logo { height: 130px; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.3)); border-radius: 50%; border: 3px solid var(--gold); }
-        .glmerj-logo:hover, .loja-logo:hover { transform: scale(1.05); }
-
-        h1 { font-family: 'Cinzel', serif; color: var(--royal-blue); font-size: 2.2rem; margin-bottom: 5px; }
-        .subtitle { color: var(--gold); font-family: 'Playfair Display', serif; font-size: 1.1rem; font-style: italic; letter-spacing: 1px; }
-
-        /* Card do Candidato (Hero) Melhorado */
+        /* CARD HERO (VIDRO) */
         .hero-card {
-            background: #fff; border-radius: 20px; overflow: hidden;
-            box-shadow: var(--card-shadow); display: flex; 
-            border: 1px solid rgba(212, 175, 55, 0.2);
-            position: relative;
+            background: var(--glass-bg); border-radius: 15px;
+            display: flex; align-items: center; padding: 30px;
+            box-shadow: var(--shadow-hdr); border: 1px solid rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px); margin-bottom: 40px;
+            position: relative; overflow: hidden;
         }
-        /* Barra lateral dourada decorativa */
-        .hero-card::before {
-            content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 6px; 
-            background: linear-gradient(to bottom, var(--gold), var(--royal-blue));
+        /* Detalhe dourado na lateral */
+        .hero-card::after {
+            content: ''; position: absolute; left: 0; top: 0; height: 100%; width: 5px;
+            background: linear-gradient(to bottom, var(--gold), transparent);
         }
-
-        .hero-photo-wrapper {
-            flex: 0 0 280px; padding: 20px; display: flex; align-items: center; justify-content: center;
-            background: #fdfdfd; border-right: 1px solid #eee;
-        }
-        .hero-photo {
-            width: 220px; height: 220px; object-fit: cover; border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2); border: 2px solid var(--gold);
-        }
-
-        .hero-info { flex: 1; padding: 30px 40px; display: flex; flex-direction: column; justify-content: center; }
         
-        .status-pill {
-            display: inline-block; background: var(--gold-light); color: var(--royal-blue);
-            padding: 5px 15px; border-radius: 50px; font-size: 0.8rem; font-weight: bold;
-            text-transform: uppercase; width: fit-content; margin-bottom: 10px; border: 1px solid var(--gold);
+        .hero-photo { 
+            width: 180px; height: 180px; border-radius: 50%; object-fit: cover; 
+            border: 4px solid var(--gold); box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            margin-right: 40px;
         }
+        
+        .hero-info h2 { color: var(--royal-blue); font-family: 'Cinzel', serif; font-size: 1.8rem; margin-bottom: 10px; }
+        .hero-info p { margin-bottom: 5px; font-size: 1.1rem; }
 
-        .candidato-name {
-            font-family: 'Cinzel', serif; font-size: 1.8rem; color: var(--royal-blue);
-            line-height: 1.2; margin-bottom: 15px; border-bottom: 2px solid #eee; padding-bottom: 10px;
+        /* TIMELINE CLEAN */
+        .timeline-box { 
+            background: white; padding: 30px; border-radius: 15px; 
+            box-shadow: var(--shadow-hdr); margin-bottom: 40px; 
         }
-
-        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 10px; }
-        .info-item strong { color: var(--royal-blue); display: block; font-size: 0.85rem; text-transform: uppercase; }
-        .info-item span { font-size: 1.1rem; color: #444; }
-
-        /* Timeline Ajustada */
-        .timeline-box { background: #fff; padding: 30px; border-radius: 15px; box-shadow: var(--card-shadow); margin: 40px 0; }
-        .section-header { font-family: 'Cinzel', serif; font-size: 1.3rem; color: var(--royal-blue); margin-bottom: 30px; border-left: 5px solid var(--gold); padding-left: 15px; }
-
-        .timeline { display: flex; justify-content: space-between; position: relative; margin-top: 20px; padding: 0 20px; }
+        .timeline { display: flex; justify-content: space-between; position: relative; margin-top: 20px; }
         .timeline::before {
-            content: ''; position: absolute; top: 15px; left: 30px; right: 30px; height: 3px; background: #e0e0e0; z-index: 0;
+            content: ''; position: absolute; top: 15px; left: 20px; right: 20px; height: 3px; background: #eee; z-index: 0;
         }
-        
         .step { position: relative; z-index: 1; text-align: center; flex: 1; }
         .circle {
             width: 35px; height: 35px; background: #fff; border: 3px solid #ccc; border-radius: 50%;
-            margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.9rem;
-            transition: all 0.4s;
+            margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; font-weight: bold;
         }
-        .step-label { font-size: 0.75rem; color: #888; text-transform: uppercase; font-weight: 600; }
-
-        /* Estados Timeline */
-        .step.completed .circle { background: var(--royal-blue); border-color: var(--royal-blue); color: #fff; }
-        .step.completed .step-label { color: var(--royal-blue); }
-        
-        /* ATENÇÃO: ONDE O PROCESSO ESTÁ (DOCUMENTAÇÃO) */
-        .step.active .circle {
+        .step.active .circle { 
             background: var(--gold); border-color: var(--gold); color: var(--royal-blue);
-            box-shadow: 0 0 0 5px rgba(212, 175, 55, 0.3);
-            animation: pulse-active 2s infinite;
+            box-shadow: 0 0 0 5px rgba(212, 175, 55, 0.3); animation: pulse 2s infinite;
         }
-        .step.active .step-label { color: #d4af37; font-weight: 800; }
+        .step.completed .circle { background: var(--royal-blue); border-color: var(--royal-blue); color: white; }
 
-        /* Preview Area */
-        .preview-area {
-            background: linear-gradient(to right, #f8f9fa, #fff); border: 1px dashed var(--gold);
-            padding: 20px; text-align: center; border-radius: 10px; margin-bottom: 30px;
+        /* VISUALIZADOR PDF EMBUTIDO */
+        .pdf-viewer-section {
+            background: #2c3e50; padding: 10px; border-radius: 10px;
+            box-shadow: var(--shadow-hdr); margin-bottom: 40px;
         }
-        .preview-btn {
-            background: var(--royal-blue); color: white; border: none; padding: 10px 25px; border-radius: 5px;
-            cursor: pointer; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 8px;
-            transition: background 0.3s;
-        }
-        .preview-btn:hover { background: #004080; }
+        .pdf-header { color: white; padding: 10px 15px; font-family: 'Cinzel', serif; display: flex; justify-content: space-between; align-items: center; }
+        iframe { width: 100%; height: 700px; border: none; border-radius: 5px; background: white; }
 
-        /* Documentos Grid */
-        .docs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; }
-        
-        .doc-item {
-            background: #fff; border: 1px solid #eee; border-radius: 10px; padding: 20px;
-            text-align: center; transition: all 0.3s; position: relative; overflow: hidden;
+        /* GRID DOWNLOADS */
+        .docs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
+        .doc-card {
+            background: white; padding: 20px; border-radius: 10px; text-align: center;
+            transition: transform 0.3s; border-bottom: 3px solid transparent;
         }
-        .doc-item:hover { transform: translateY(-5px); border-color: var(--gold); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        .doc-icon { font-size: 2.5rem; color: #e74c3c; margin-bottom: 10px; }
-        .doc-title { font-weight: bold; font-size: 0.9rem; color: #333; margin-bottom: 15px; min-height: 40px; display: flex; align-items: center; justify-content: center; }
+        .doc-card:hover { transform: translateY(-5px); border-bottom: 3px solid var(--gold); }
         
-        .doc-actions { display: flex; justify-content: center; gap: 10px; }
+        /* BOTÕES DE AÇÃO CORRIGIDOS */
+        .action-row { display: flex; gap: 10px; justify-content: center; margin-top: 15px; }
         .btn-mini {
-            padding: 5px 12px; border-radius: 4px; font-size: 0.75rem; text-decoration: none; font-weight: bold;
+            padding: 8px 15px; border-radius: 4px; font-size: 0.8rem; text-decoration: none; font-weight: bold; display: inline-block;
         }
-        .btn-view { background: #e0f7fa; color: #006064; }
-        .btn-down { background: #f1f8e9; color: #33691e; }
+        .btn-view { background: #e3f2fd; color: #1565c0; border: 1px solid #bbdefb; } /* Azul claro */
+        .btn-down { background: #f1f8e9; color: #2e7d32; border: 1px solid #c8e6c9; } /* Verde claro */
 
-        /* Botão Mestre Download */
-        .master-action { text-align: center; margin-top: 50px; }
-        .btn-master {
-            background: linear-gradient(45deg, var(--royal-blue), #1a4a7c);
-            color: var(--gold-shine); padding: 18px 50px; border-radius: 50px;
-            text-decoration: none; font-family: 'Cinzel', serif; font-size: 1.1rem;
-            box-shadow: 0 10px 25px rgba(0, 42, 82, 0.4); transition: transform 0.3s;
-            display: inline-block; border: 1px solid var(--gold);
+        /* FOOTER & LOGO SOUND */
+        footer { text-align: center; margin-top: 60px; color: rgba(255,255,255,0.6); padding-bottom: 20px;}
+        .imaginista-logo { 
+            height: 35px; margin-left: 10px; vertical-align: middle; 
+            cursor: pointer; transition: filter 0.3s;
         }
-        .btn-master:hover { transform: scale(1.03); filter: brightness(1.1); }
+        .imaginista-logo:hover { filter: brightness(1.5) drop-shadow(0 0 5px #fff); }
 
-        /* Footer Imaginista */
-        footer { margin-top: 80px; text-align: center; border-top: 1px solid #eee; padding-top: 40px; }
-        .dev-by { font-size: 0.8rem; color: #888; margin-bottom: 10px; }
-        .imaginista-logo { height: 30px; opacity: 0.7; transition: opacity 0.3s; vertical-align: middle; margin-left: 5px;}
-        .imaginista-logo:hover { opacity: 1; }
+        @keyframes slideDown { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.7); } 100% { box-shadow: 0 0 0 10px rgba(212, 175, 55, 0); } }
 
-        /* Cookies Banner (LGPD) */
-        #cookie-banner {
-            position: fixed; bottom: -100px; left: 0; width: 100%;
-            background: #fff; border-top: 3px solid var(--gold);
-            padding: 15px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.1);
-            display: flex; justify-content: center; align-items: center; gap: 20px;
-            z-index: 10000; transition: bottom 0.5s ease;
-        }
-        .cookie-text { font-size: 0.85rem; color: #555; max-width: 800px; }
-        .cookie-btn {
-            background: var(--royal-blue); color: white; border: none; padding: 8px 20px;
-            border-radius: 5px; cursor: pointer; font-size: 0.8rem; font-weight: bold;
-        }
-
-        /* Animações Keyframes */
-        @keyframes pulse-gold { 0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(212, 175, 55, 0); } 100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); } }
-        @keyframes pulse-active { 0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.6); } 100% { box-shadow: 0 0 0 8px rgba(212, 175, 55, 0); } }
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* Mobile Adjusts */
+        /* Mobile Adjust */
         @media (max-width: 768px) {
-            .hero-card { flex-direction: column; }
-            .hero-photo-wrapper { border-right: none; border-bottom: 1px solid #eee; }
-            .timeline { overflow-x: auto; padding-bottom: 10px; justify-content: start; gap: 40px; }
-            .header-logos { flex-direction: column; gap: 15px; }
-            .candidato-name { font-size: 1.4rem; }
-            .info-grid { grid-template-columns: 1fr; }
+            .hero-card { flex-direction: column; text-align: center; }
+            .hero-photo { margin: 0 0 20px 0; }
+            iframe { height: 400px; } /* Menor no mobile */
         }
     </style>
 </head>
 <body>
 
-    <div id="lock-screen">
-        <div class="lock-content">
-            <div class="lock-logo-container">
-                <img src="264.jpg" alt="A∴R∴L∴S∴ 264" class="lock-logo">
+    <div class="container">
+        <header>
+            <div class="header-logos">
+                <img src="../glmerj.png" alt="GLMERJ">
+                <img src="../264.jpg" alt="Loja 264">
             </div>
-            <h2 class="lock-title">Área Restrita</h2>
-            <p style="text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem;">Sindicância & Documentação</p>
-            <p style="font-size: 0.8rem; opacity: 0.7; margin-top: 5px;">A∴ R∴ L∴ S∴ Fraternidade Imperial Nº 264</p>
-            
-            <input type="password" id="passwordInput" class="lock-input" placeholder="Senha de Acesso">
-            <br>
-            <button class="lock-btn" onclick="checkAccess()">Entrar</button>
-            <p id="error-msg" style="color: #ff6b6b; margin-top: 15px; display: none; font-size: 0.9rem; background: rgba(0,0,0,0.5); padding: 5px 10px; border-radius: 5px;">Senha Incorreta</p>
+            <h1>Dossiê do Candidato</h1>
+        </header>
+
+        <div class="hero-card">
+            <img src="3x4.png" alt="Candidato" class="hero-photo">
+            <div class="hero-info">
+                <h2>Ruan Pablo da Silva</h2>
+                <p><strong>Idade:</strong> 42 anos | <strong>Profissão:</strong> Advogado</p>
+                <p><strong>Indicado por:</strong> Ir.'. Robson</p>
+                <div style="margin-top: 15px;">
+                    <span style="background: var(--gold); color: #000; padding: 5px 10px; border-radius: 4px; font-weight: bold; font-size: 0.8rem;">EM SINDICÂNCIA</span>
+                </div>
+            </div>
         </div>
-    </div>
 
-    <div id="main-content">
-        <div class="container">
-            <header>
-                <div class="header-logos">
-                    <img src="glmerj.png" alt="GLMERJ" class="glmerj-logo">
-                    <img src="264.jpg" alt="A∴R∴L∴S∴ 264" class="loja-logo">
-                </div>
-                <h1>Dossiê do Candidato</h1>
-                <div class="subtitle">A∴ R∴ L∴ S∴ FRATERNIDADE IMPERIAL Nº 264</div>
-            </header>
-
-            <div class="hero-card">
-                <div class="hero-photo-wrapper">
-                    <img src="foto-candidato.jpg" alt="Foto do Candidato" class="hero-photo">
-                </div>
-                <div class="hero-info">
-                    <span class="status-pill"><i class="fas fa-file-contract"></i> Em Análise Documental</span>
-                    <h2 class="candidato-name">Sr. Ruan Pablo da Silva de Lima Santos</h2>
-                    
-                    <div class="info-grid">
-                        <div class="info-item">
-                            <strong>Profissão</strong>
-                            <span>Advogado</span>
-                        </div>
-                        <div class="info-item">
-                            <strong>Idade</strong>
-                            <span>42 anos</span>
-                        </div>
-                        <div class="info-item">
-                            <strong>Estado Civil</strong>
-                            <span>Casado</span>
-                        </div>
-                        <div class="info-item">
-                            <strong>Indicado Por</strong>
-                            <span>Ir.'. Robson</span>
-                        </div>
-                    </div>
-                </div>
+        <div class="timeline-box">
+            <div class="timeline">
+                <div class="step completed"><div class="circle">✓</div></div>
+                <div class="step active"><div class="circle">2</div></div> <div class="step"><div class="circle">3</div></div>
+                <div class="step"><div class="circle">4</div></div>
+                <div class="step"><div class="circle">5</div></div>
             </div>
-
-            <div class="timeline-box">
-                <div class="section-header">Status do Processo</div>
-                
-                <div class="preview-area">
-                    <p style="margin-bottom: 10px; font-size: 0.9rem;">Documentação unificada disponível para conferência.</p>
-                    <button class="preview-btn" onclick="alert('Aqui abriria o Modal com o PDF Unificado!')">
-                        <i class="fas fa-eye"></i> Visualizar Dossiê Completo
-                    </button>
-                </div>
-
-                <div class="timeline">
-                    <div class="step completed">
-                        <div class="circle"><i class="fas fa-check"></i></div>
-                        <div class="step-label">Metais</div>
-                    </div>
-                    
-                    <div class="step active">
-                        <div class="circle"><i class="fas fa-folder-open"></i></div>
-                        <div class="step-label">Documentação</div>
-                    </div>
-                    
-                    <div class="step">
-                        <div class="circle">3</div>
-                        <div class="step-label">Sindicância (Cand.)</div>
-                    </div>
-                    <div class="step">
-                        <div class="circle">4</div>
-                        <div class="step-label">Sindicância (Esp.)</div>
-                    </div>
-                    <div class="step">
-                        <div class="circle">5</div>
-                        <div class="step-label">Aguardando Data</div>
-                    </div>
-                    <div class="step">
-                        <div class="circle">6</div>
-                        <div class="step-label">Iniciação</div>
-                    </div>
-                </div>
+            <div style="text-align: center; margin-top: 10px; font-size: 0.9rem; color: #888;">
+                Fase Atual: <strong>Análise Documental</strong>
             </div>
+        </div>
 
-            <div class="section-header" style="margin-top: 50px;">Documentos Digitalizados</div>
-            <div class="docs-grid">
-                <div class="doc-item">
-                    <i class="fas fa-file-pdf doc-icon"></i>
-                    <div class="doc-title">RG e CPF</div>
-                    <div class="doc-actions">
-                        <a href="cnh.pdf" class="btn-mini btn-view"><i class="fas fa-eye"></i> Ver</a>
-                        <a href="cnh.pdf" class="btn-mini btn-down"><i class="fas fa-download"></i> Baixar</a>
-                    </div>
-                </div>
-                <div class="doc-item">
-                    <i class="fas fa-file-pdf doc-icon"></i>
-                    <div class="doc-title">Certidão de Casamento</div>
-                    <div class="doc-actions">
-                        <a href="#" class="btn-mini btn-view"><i class="fas fa-eye"></i> Ver</a>
-                        <a href="#" class="btn-mini btn-down"><i class="fas fa-download"></i> Baixar</a>
-                    </div>
-                </div>
-                <div class="doc-item">
-                    <i class="fas fa-file-contract doc-icon"></i>
-                    <div class="doc-title">Nada Consta Criminal</div>
-                    <div class="doc-actions">
-                        <a href="#" class="btn-mini btn-view"><i class="fas fa-eye"></i> Ver</a>
-                        <a href="#" class="btn-mini btn-down"><i class="fas fa-download"></i> Baixar</a>
-                    </div>
-                </div>
-                <div class="doc-item">
-                    <i class="fas fa-home doc-icon"></i>
-                    <div class="doc-title">Comprovante Residência</div>
-                    <div class="doc-actions">
-                        <a href="#" class="btn-mini btn-view"><i class="fas fa-eye"></i> Ver</a>
-                        <a href="#" class="btn-mini btn-down"><i class="fas fa-download"></i> Baixar</a>
-                    </div>
-                </div>
-                 <div class="doc-item">
-                    <i class="fas fa-image doc-icon"></i>
-                    <div class="doc-title">Foto 3x4 Digital</div>
-                    <div class="doc-actions">
-                        <a href="#" class="btn-mini btn-view"><i class="fas fa-eye"></i> Ver</a>
-                        <a href="#" class="btn-mini btn-down"><i class="fas fa-download"></i> Baixar</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="master-action">
-                <a href="#" class="btn-master">
-                    <i class="fas fa-file-archive" style="margin-right: 10px;"></i> Baixar Dossiê Completo (.PDF)
+        <div class="pdf-viewer-section">
+            <div class="pdf-header">
+                <span><i class="fas fa-book-open"></i> Dossiê Unificado</span>
+                <a href="cnh.pdf" download class="btn-mini btn-down" style="color: #2e7d32; background: white;">
+                    <i class="fas fa-download"></i> Baixar PDF
                 </a>
             </div>
+            <iframe src="cnh.pdf">
+                <p>Seu navegador não suporta PDFs. <a href="cnh.pdf">Baixe aqui</a>.</p>
+            </iframe>
+        </div>
 
-            <footer>
-                <div class="dev-by">
-                    Desenvolvido com excelência por 
-                    <a href="https://oimaginista.com" target="_blank">
-                        <img src="imaginista.png" alt="O Imaginista" class="imaginista-logo">
-                    </a>
+        <h3 style="color: white; margin-bottom: 20px; font-family: 'Cinzel', serif;">Arquivos Individuais</h3>
+        <div class="docs-grid">
+            <div class="doc-card">
+                <i class="fas fa-id-card" style="font-size: 2rem; color: #555; margin-bottom: 10px;"></i>
+                <div style="font-weight: bold; margin-bottom: 15px;">RG e CPF</div>
+                <div class="action-row">
+                    <a href="cnh.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
+                    <a href="docs/cnh.pdf" download class="btn-mini btn-down">Baixar</a>
                 </div>
-                <p style="font-size: 0.7rem; color: #aaa; margin-top: 10px;">
-                    © 2026 A∴ R∴ L∴ S∴ Fraternidade Imperial Nº 264. Todos os direitos reservados.
-                </p>
-            </footer>
+            </div>
+
+            <div class="doc-card">
+                <i class="fas fa-file-contract" style="font-size: 2rem; color: #555; margin-bottom: 10px;"></i>
+                <div style="font-weight: bold; margin-bottom: 15px;">Certidões</div>
+                <div class="action-row">
+                    <a href="../docs/certidoes.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
+                    <a href="../docs/certidoes.pdf" download class="btn-mini btn-down">Baixar</a>
+                </div>
+            </div>
         </div>
+
+        <footer>
+            Desenvolvido por 
+            <img src="../logo.png" alt="O Imaginista" class="imaginista-logo" onclick="playSound()">
+        </footer>
     </div>
 
-    <div id="cookie-banner">
-        <div class="cookie-text">
-            <i class="fas fa-shield-alt" style="color: var(--royal-blue); margin-right: 10px;"></i>
-            <strong>Privacidade e LGPD:</strong> Este ambiente utiliza cookies estritamente necessários para garantir a segurança do acesso e a integridade da sessão durante a visualização dos documentos. Nenhum dado é compartilhado externamente.
-        </div>
-        <button class="cookie-btn" onclick="acceptCookies()">Entendido</button>
-    </div>
+    <audio id="imaginistaSound" src="../magic-effect.mp3"></audio>
 
     <script>
-        // Lógica de Senha
-        function checkAccess() {
-            const pass = document.getElementById('passwordInput').value;
-            if(pass.toLowerCase() === "modelo") {
-                const lockScreen = document.getElementById('lock-screen');
-                lockScreen.style.opacity = '0';
-                setTimeout(() => {
-                    lockScreen.style.display = 'none';
-                    const mainContent = document.getElementById('main-content');
-                    mainContent.style.display = 'block';
-                    // Pequeno delay para permitir que o display:block renderize antes da opacidade
-                    setTimeout(() => {
-                        mainContent.style.opacity = '1';
-                        showCookieBanner();
-                    }, 100);
-                }, 800);
-            } else {
-                const errorMsg = document.getElementById('error-msg');
-                errorMsg.style.display = 'block';
-                // Efeito de "tremer" no input
-                const input = document.getElementById('passwordInput');
-                input.style.borderColor = '#ff6b6b';
-                setTimeout(() => { input.style.borderColor = '#d4af37'; }, 500);
-            }
+        function playSound() {
+            var audio = document.getElementById("imaginistaSound");
+            audio.volume = 0.5; // 50% do volume
+            audio.play();
+            
+            // Efeito visual extra no clique
+            const logo = document.querySelector('.imaginista-logo');
+            logo.style.transform = "scale(1.2) rotate(5deg)";
+            setTimeout(() => {
+                logo.style.transform = "scale(1) rotate(0deg)";
+            }, 300);
         }
-
-        // Lógica de Cookies
-        function showCookieBanner() {
-            if(!localStorage.getItem('cookiesAccepted')) {
-                setTimeout(() => {
-                    document.getElementById('cookie-banner').style.bottom = '0';
-                }, 2000);
-            }
-        }
-
-        function acceptCookies() {
-            document.getElementById('cookie-banner').style.bottom = '-150px';
-            localStorage.setItem('cookiesAccepted', 'true');
-        }
-
-        // Permitir Enter para login
-        document.getElementById("passwordInput").addEventListener("keypress", function(event) {
-            if (event.key === "Enter") {
-                checkAccess();
-            }
-        });
     </script>
 </body>
 </html>
