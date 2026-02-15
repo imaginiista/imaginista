@@ -141,16 +141,15 @@
             box-shadow: var(--shadow-hdr); margin-bottom: 40px; overflow-x: auto; 
             border-bottom: 4px solid var(--gold);
             
-            /* --- REMOVE BARRA DE ROLAGEM MANTENDO SCROLL --- */
-            scrollbar-width: none; /* Firefox */
-            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none; 
+            -ms-overflow-style: none;
         }
         .timeline-box::-webkit-scrollbar {
-            display: none; /* Chrome, Safari, Opera */
+            display: none; 
         }
 
         .timeline-header { text-align: center; font-family: 'Cinzel', serif; color: var(--royal-blue); font-size: 1.4rem; margin-bottom: 40px; }
-        .progress-steps { display: flex; justify-content: space-between; position: relative; min-width: 800px; padding: 0 20px;}
+        .progress-steps { display: flex; justify-content: space-between; position: relative; min-width: 900px; padding: 0 20px;} /* Aumentei min-width para caber os 8 itens */
         .progress-line-bg { position: absolute; top: 18px; left: 45px; right: 45px; height: 6px; background: #e0e0e0; z-index: 0; border-radius: 10px; }
         .progress-line-fill { 
             position: absolute; top: 18px; left: 45px; height: 6px; 
@@ -166,7 +165,7 @@
             margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; 
             font-weight: bold; color: #ccc; transition: all 0.4s;
         }
-        .p-label { font-size: 0.75rem; color: #999; font-weight: 700; margin-top: 5px; text-transform: uppercase;}
+        .p-label { font-size: 0.7rem; color: #999; font-weight: 700; margin-top: 5px; text-transform: uppercase;}
         
         .p-step.completed .p-circle { background: var(--royal-blue); border-color: var(--royal-blue); color: white; }
         .p-step.completed .p-label { color: var(--royal-blue); }
@@ -179,7 +178,7 @@
 
         /* --- CLASSE PARA FINALIZADO (VERDE) --- */
         .p-step.finished .p-circle { 
-            background: #2e7d32; /* Verde Sucesso */
+            background: #2e7d32; 
             border-color: #2e7d32; 
             color: white; 
             transform: scale(1.2);
@@ -385,13 +384,19 @@
                 <div class="progress-steps">
                     <div class="progress-line-bg"></div>
                     <div class="progress-line-fill" id="prog-line"></div>
-                    <div class="p-step" id="step-1"><div class="p-circle"><i class="fas fa-check"></i></div><div class="p-label">Metais</div></div>
-                    <div class="p-step" id="step-2"><div class="p-circle"><i class="fas fa-folder-open"></i></div><div class="p-label">Entrega Docs</div></div>
-                    <div class="p-step" id="step-3"><div class="p-circle"><i class="fas fa-search"></i></div><div class="p-label">Verificação</div></div>
-                    <div class="p-step" id="step-4"><div class="p-circle"><i class="fas fa-user-tie"></i></div><div class="p-label">Sindicância</div></div>
-                    <div class="p-step" id="step-5"><div class="p-circle"><i class="fas fa-home"></i></div><div class="p-label">Sindicância Familiar</div></div>
-                    <div class="p-step" id="step-6"><div class="p-circle"><i class="fas fa-landmark"></i></div><div class="p-label">GLMERJ</div></div>
-                    <div class="p-step" id="step-7"><div class="p-circle"><i class="fas fa-gavel"></i></div><div class="p-label">Iniciação</div></div>
+                    
+                    <div class="p-step" id="step-1">
+                        <div class="p-circle"><i class="fas fa-handshake"></i></div>
+                        <div class="p-label">Pré-Proposta</div>
+                    </div>
+                    
+                    <div class="p-step" id="step-2"><div class="p-circle"><i class="fas fa-check"></i></div><div class="p-label">Metais</div></div>
+                    <div class="p-step" id="step-3"><div class="p-circle"><i class="fas fa-folder-open"></i></div><div class="p-label">Entrega Docs</div></div>
+                    <div class="p-step" id="step-4"><div class="p-circle"><i class="fas fa-search"></i></div><div class="p-label">Verificação Docs</div></div>
+                    <div class="p-step" id="step-5"><div class="p-circle"><i class="fas fa-user-tie"></i></div><div class="p-label">Sindicância</div></div>
+                    <div class="p-step" id="step-6"><div class="p-circle"><i class="fas fa-home"></i></div><div class="p-label">Sindicância Familiar</div></div>
+                    <div class="p-step" id="step-7"><div class="p-circle"><i class="fas fa-landmark"></i></div><div class="p-label">GLMERJ</div></div>
+                    <div class="p-step" id="step-8"><div class="p-circle"><i class="fas fa-gavel"></i></div><div class="p-label">Iniciação</div></div>
                 </div>
             </div>
 
@@ -405,7 +410,7 @@
                         <a href="docs/completo.pdf" download class="btn-mini btn-down"><i class="fas fa-download"></i> Baixar</a>
                     </div>
                 </div>
-                <iframe src="docs/completo.pdf">
+                <iframe src="docs/dossie_completo.pdf">
                     <p>Seu navegador não suporta visualização direta. <a href="docs/completo.pdf">Clique aqui para baixar.</a></p>
                 </iframe>
             </div>
@@ -531,7 +536,7 @@
 
     <script>
     // --- STATUS DO PROCESSO ---
-    const currentStep = 2; 
+    const currentStep = 3; 
 
         function checkPassword() {
             const pass = document.getElementById('passInput').value;
@@ -545,7 +550,7 @@
                     main.style.filter = 'none';
                     initConstellations(); 
                     updateLogic();
-                    calculateAge(); // RODA O CALCULO DA IDADE
+                    calculateAge(); 
                 }, 500);
             } else {
                 document.getElementById('error-msg').style.display = 'block';
@@ -553,10 +558,9 @@
         }
         document.getElementById("passInput").addEventListener("keypress", (e) => { if(e.key === "Enter") checkPassword(); });
 
-        // --- CÁLCULO AUTOMÁTICO DE IDADE ---
         function calculateAge() {
             const birthElement = document.getElementById('nasc-data');
-            const birthDateString = birthElement.innerText; // Pega "25/12/1990"
+            const birthDateString = birthElement.innerText; 
             
             const [day, month, year] = birthDateString.split('/');
             const birthDate = new Date(year, month - 1, day);
@@ -568,8 +572,6 @@
             if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
                 age--;
             }
-            
-            // Atualiza o texto com a idade calculada
             birthElement.innerHTML = `${birthDateString} <span style="color: #777; font-weight: normal; margin-left: 5px;">(${age} anos)</span>`;
         }
 
@@ -589,29 +591,36 @@
         }
 
         function updateLogic() {
+            // ATUALIZADO COM 8 PASSOS
             const stepsData = [
-                {id:1, txt:"Metais"}, {id:2, txt:"Entrega Docs"}, {id:3, txt:"Verificando Docs"},
-                {id:4, txt:"Sindicância Candidato"}, {id:5, txt:"Sindicância Familiar"}, {id:6, txt:"Aguardando GLMERJ"}, {id:7, txt:"Iniciação"}
+                {id:1, txt:"Pré-Proposta"},
+                {id:2, txt:"Metais"}, 
+                {id:3, txt:"Entrega Docs"}, 
+                {id:4, txt:"Verificando Docs"},
+                {id:5, txt:"Sindicância"}, 
+                {id:6, txt:"Sindicância Familiar"}, 
+                {id:7, txt:"Aguardando GLMERJ"}, 
+                {id:8, txt:"Iniciação"}
             ];
 
             const badge = document.getElementById('status-badge');
             const dateDisplay = document.getElementById('init-date-display');
             const progLine = document.getElementById('prog-line');
 
-            // --- LÓGICA DE TEXTOS E CORES ---
-            if (currentStep <= 7) {
+            // Lógica de Textos
+            if (currentStep <= 8) {
                 badge.innerText = stepsData[currentStep-1].txt;
                 badge.style.background = 'var(--gold)';
                 badge.style.color = '#000';
             } else {
-                // Status 8 (Finalizado)
+                // Status 9 (Finalizado)
                 badge.innerText = "INICIADO (CONCLUÍDO)";
                 badge.style.background = '#2e7d32'; // Verde
                 badge.style.color = '#fff';
             }
             
-            // --- LÓGICA DA DATA ---
-            if (currentStep >= 7) {
+            // Lógica da Data (Agora 8 ou 9)
+            if (currentStep >= 8) {
                 dateDisplay.innerText = "28/03/2026 (Sábado)";
                 dateDisplay.style.color = "#2e7d32"; 
                 dateDisplay.style.fontWeight = "800";
@@ -620,23 +629,23 @@
                 dateDisplay.style.color = "#777";
             }
 
-            // --- LÓGICA DA BARRA DE PROGRESSO ---
-            if (currentStep === 8) {
+            // Barra de Progresso (Divisão por 7 intervalos agora)
+            if (currentStep === 9) {
                 progLine.style.width = "100%"; 
             } else {
-                const percent = ((currentStep-1) / 6) * 100;
+                const percent = ((currentStep-1) / 7) * 100;
                 progLine.style.width = percent + "%";
             }
 
-            // --- LÓGICA DAS BOLINHAS ---
-            for(let i=1; i<=7; i++) {
+            // Bolinhas (Loop até 8)
+            for(let i=1; i<=8; i++) {
                 const el = document.getElementById(`step-${i}`);
                 
-                if (currentStep === 8) {
-                    if (i === 7) {
-                        el.className = "p-step finished"; // O último passo fica VERDE
+                if (currentStep === 9) {
+                    if (i === 8) {
+                        el.className = "p-step finished"; 
                     } else {
-                        el.className = "p-step completed"; // Os outros ficam AZUL
+                        el.className = "p-step completed"; 
                     }
                 } 
                 else {
