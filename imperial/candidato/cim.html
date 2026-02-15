@@ -120,13 +120,12 @@
         .data-item strong { display: block; color: #777; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px; }
         .data-item span, .data-item a { font-weight: 700; color: #222; font-size: 0.95rem; text-decoration: none;}
         .full-width { grid-column: span 3; border-top: 1px solid #eee; padding-top: 10px; }
-        .col-span-2 { grid-column: span 2; } /* Novo para o email ocupar espaço */
+        .col-span-2 { grid-column: span 2; } 
 
-        /* Estilo do Link Whatsapp */
         .whatsapp-link { 
             display: inline-flex; align-items: center; gap: 6px; color: var(--royal-blue); transition: color 0.3s; 
         }
-        .whatsapp-link:hover { color: #25D366; } /* Verde Zap */
+        .whatsapp-link:hover { color: #25D366; } 
         
         .initiation-date { 
             grid-column: span 3; background: rgba(212, 175, 55, 0.1); 
@@ -141,7 +140,15 @@
             background: white; padding: 40px 20px; border-radius: 12px; 
             box-shadow: var(--shadow-hdr); margin-bottom: 40px; overflow-x: auto; 
             border-bottom: 4px solid var(--gold);
+            
+            /* --- REMOVE BARRA DE ROLAGEM MANTENDO SCROLL --- */
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none;  /* IE and Edge */
         }
+        .timeline-box::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
+        }
+
         .timeline-header { text-align: center; font-family: 'Cinzel', serif; color: var(--royal-blue); font-size: 1.4rem; margin-bottom: 40px; }
         .progress-steps { display: flex; justify-content: space-between; position: relative; min-width: 800px; padding: 0 20px;}
         .progress-line-bg { position: absolute; top: 18px; left: 45px; right: 45px; height: 6px; background: #e0e0e0; z-index: 0; border-radius: 10px; }
@@ -160,13 +167,28 @@
             font-weight: bold; color: #ccc; transition: all 0.4s;
         }
         .p-label { font-size: 0.75rem; color: #999; font-weight: 700; margin-top: 5px; text-transform: uppercase;}
+        
         .p-step.completed .p-circle { background: var(--royal-blue); border-color: var(--royal-blue); color: white; }
         .p-step.completed .p-label { color: var(--royal-blue); }
+        
         .p-step.active .p-circle { 
             background: var(--gold); border-color: var(--gold); color: white; 
             transform: scale(1.3); box-shadow: 0 0 20px rgba(212, 175, 55, 0.6); 
         }
         .p-step.active .p-label { color: #d4af37; font-weight: 800; }
+
+        /* --- CLASSE PARA FINALIZADO (VERDE) --- */
+        .p-step.finished .p-circle { 
+            background: #2e7d32; /* Verde Sucesso */
+            border-color: #2e7d32; 
+            color: white; 
+            transform: scale(1.2);
+            box-shadow: 0 0 25px rgba(46, 125, 50, 0.5); 
+        }
+        .p-step.finished .p-label { 
+            color: #2e7d32; 
+            font-weight: 800; 
+        }
 
         /* VISUALIZADOR PDF */
         .pdf-viewer-section {
@@ -202,14 +224,14 @@
         .btn-view:hover { background: #1565c0; color: white; }
         .btn-down:hover { background: #2e7d32; color: white; }
 
-.doc-desc {
-    font-size: 0.75rem;       /* Fonte menor */
-    color: #555;              /* Cinza escuro */
-    margin-top: -10px;        /* Puxa um pouco para cima, perto do título */
-    margin-bottom: 15px;      /* Dá espaço para os botões */
-    text-transform: uppercase; /* Opcional: deixa em maiúsculo elegante */
-    letter-spacing: 0.5px;
-}
+        .doc-desc {
+            font-size: 0.75rem; 
+            color: #555; 
+            margin-top: -10px; 
+            margin-bottom: 15px; 
+            text-transform: uppercase; 
+            letter-spacing: 0.5px;
+        }
 
         /* FOOTER */
         footer { margin-top: 80px; text-align: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 40px; }
@@ -269,7 +291,7 @@
             #status-badge { align-self: center; }
             
             .data-grid { grid-template-columns: 1fr; gap: 10px; }
-            .full-width, .col-span-2 { grid-column: span 1; } /* No mobile tudo vira 1 coluna */
+            .full-width, .col-span-2 { grid-column: span 1; }
             .initiation-date { flex-direction: column; text-align: center; grid-column: span 1; }
             
             .progress-steps { padding-bottom: 10px; }
@@ -288,8 +310,8 @@
     <div id="password-overlay">
         <div class="auth-box">
             <i class="fas fa-compass" style="font-size: 3rem; color: var(--gold); margin-bottom: 20px;"></i>
-			<h2 style="color: white; font-family: 'Cinzel'; margin-bottom: 5px;">A∴ R∴ L∴ S∴ Fraternidade Imperial Nº 264</h2>
-			<h3 style="color: white; font-family: 'Cinzel'; margin-bottom: 5px;">Portal da Sindicância</h3>
+            <h2 style="color: white; font-family: 'Cinzel'; margin-bottom: 5px;">A∴ R∴ L∴ S∴ Fraternidade Imperial Nº 264</h2>
+            <h3 style="color: white; font-family: 'Cinzel'; margin-bottom: 5px;">Portal da Sindicância</h3>
             <p style="color: #bbb; font-size: 0.9rem;">RUAN PABLO DA SILVA DE LIMA SANTOS</p>
             <input type="password" id="passInput" class="auth-input" placeholder="SENHA MESTRA">
             <button class="auth-btn" onclick="checkPassword()">Acessar Dossiê</button>
@@ -383,7 +405,7 @@
                         <a href="docs/2024-07 - CNH-e.pdf" download class="btn-mini btn-down"><i class="fas fa-download"></i> Baixar</a>
                     </div>
                 </div>
-                <iframe src="docs/dossie_completo.pdf">
+                <iframe src="docs/2024-07 - CNH-e.pdf">
                     <p>Seu navegador não suporta visualização direta. <a href="docs/dossie_completo.pdf">Clique aqui para baixar.</a></p>
                 </iframe>
             </div>
@@ -410,85 +432,81 @@
                 </div>
                <div class="doc-card">
                    <div class="doc-icon"><i class="fas fa-child"></i></div>
-				   <div class="doc-name">Certidão de Nascimento</div>
-				   <div class="doc-desc">GIULIANO CASTRO LIMA GIAMPAOLI</div>
-				   <a href="docs/2018.11 - CERTIDÃO DE NASCIMENTO - GIULIANO CASTRO LIMA GIAMPAOLI.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
-				   <a href="docs/2018.11 - CERTIDÃO DE NASCIMENTO - GIULIANO CASTRO LIMA GIAMPAOLI.pdf" download class="btn-mini btn-down">Baixar</a>
+                   <div class="doc-name">Certidão de Nascimento</div>
+                   <div class="doc-desc">GIULIANO CASTRO LIMA GIAMPAOLI</div>
+                   <a href="docs/2018.11 - CERTIDÃO DE NASCIMENTO - GIULIANO CASTRO LIMA GIAMPAOLI.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
+                   <a href="docs/2018.11 - CERTIDÃO DE NASCIMENTO - GIULIANO CASTRO LIMA GIAMPAOLI.pdf" download class="btn-mini btn-down">Baixar</a>
                </div>
                 <div class="doc-card">
                     <div class="doc-icon"><i class="fas fa-ring"></i></div>
                     <div class="doc-name">Certidão de Casamento</div>
-					<div class="doc-desc">MONICK DEYZE CORREIA SPÍNOLA</div>
+                    <div class="doc-desc">MONICK DEYZE CORREIA SPÍNOLA</div>
                     <a href="docs/2023.11 - CERTIDÃO DE CASAMENTO.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
                     <a href="docs/2023.11 - CERTIDÃO DE CASAMENTO.pdf" download class="btn-mini btn-down">Baixar</a>
                 </div>
-			   <div class="doc-card">
+               <div class="doc-card">
                    <div class="doc-icon"><i class="fas fa-baby"></i></div>
-				   <div class="doc-name">Certidão de Nascimento</div>
-				   <div class="doc-desc">CHLOÉ LIMA SPÍNOLA</div>
-				   <a href="docs/2024.02 - CERTIDÃO DE NASCIMENTO - CHLOÉ LIMA SPÍNOLA.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
-				   <a href="docs/2024.02 - CERTIDÃO DE NASCIMENTO - CHLOÉ LIMA SPÍNOLA.pdf" download class="btn-mini btn-down">Baixar</a>
+                   <div class="doc-name">Certidão de Nascimento</div>
+                   <div class="doc-desc">CHLOÉ LIMA SPÍNOLA</div>
+                   <a href="docs/2024.02 - CERTIDÃO DE NASCIMENTO - CHLOÉ LIMA SPÍNOLA.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
+                   <a href="docs/2024.02 - CERTIDÃO DE NASCIMENTO - CHLOÉ LIMA SPÍNOLA.pdf" download class="btn-mini btn-down">Baixar</a>
                </div>
-			    <div class="doc-card">
-                    <div class="doc-icon"><i class="fas fa-map-marked-alt"></i></div>
-                    <div class="doc-name">Comprovante de Residência</div>
-					<div class="doc-desc">2026/01</div>
-                    <a href="docs/2026.01 - COMPROVANTE DE RESIDÊNCIA.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
-                    <a href="docs/2026.01 - COMPROVANTE DE RESIDÊNCIA.pdf" download class="btn-mini btn-down">Baixar</a>
-                </div>
-				<div class="doc-card">
+               <div class="doc-card">
+                   <div class="doc-icon"><i class="fas fa-map-marked-alt"></i></div>
+                   <div class="doc-name">Comprovante de Residência</div>
+                   <div class="doc-desc">2026/01</div>
+                   <a href="docs/2026.01 - COMPROVANTE DE RESIDÊNCIA.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
+                   <a href="docs/2026.01 - COMPROVANTE DE RESIDÊNCIA.pdf" download class="btn-mini btn-down">Baixar</a>
+               </div>
+                <div class="doc-card">
                     <div class="doc-icon"><i class="fas fa-balance-scale"></i></div>
                     <div class="doc-name">SEFAZ</div>
-					<div class="doc-desc">Nada Consta</div>
+                    <div class="doc-desc">Nada Consta</div>
                     <a href="docs/2026.02 - SEFAZ - CERTIDÃO NEGATIVA DE DÉBITOS.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
                     <a href="docs/2026.02 - SEFAZ - CERTIDÃO NEGATIVA DE DÉBITOS.pdf" download class="btn-mini btn-down">Baixar</a>
                 </div>
-				<div class="doc-card">
+                <div class="doc-card">
                     <div class="doc-icon"><i class="fas fa-file-invoice-dollar"></i></div>
                     <div class="doc-name">SEFAZ</div>
-					<div class="doc-desc">Nada Consta</div>
+                    <div class="doc-desc">Nada Consta</div>
                     <a href="docs/2026.02 - CJF - CERTIDÃO JUDICIAL CRIMINAL NEGATIVA.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
                     <a href="docs/2026.02 - CJF - CERTIDÃO JUDICIAL CRIMINAL NEGATIVA.pdf" download class="btn-mini btn-down">Baixar</a>
                 </div>
-				<div class="doc-card">
+                <div class="doc-card">
                     <div class="doc-icon"><i class="fas fa-passport"></i></div>
                     <div class="doc-name">Polícia Federal</div>
-					<div class="doc-desc">Nada Consta</div>
+                    <div class="doc-desc">Nada Consta</div>
                     <a href="docs/2026.02 - PF - CERTIDÃO DE ANTECEDENTES CRIMINAIS.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
                     <a href="docs/2026.02 - PF - CERTIDÃO DE ANTECEDENTES CRIMINAIS.pdf" download class="btn-mini btn-down">Baixar</a>
                 </div>
-				<div class="doc-card">
+                <div class="doc-card">
                     <div class="doc-icon"><i class="fas fa-fingerprint"></i></div>
                     <div class="doc-name">Polícia Civil</div>
-					<div class="doc-desc">Nada Consta</div>
+                    <div class="doc-desc">Nada Consta</div>
                     <a href="docs/2026.02 - PC - CERTIDÃO DE ANTECEDENTES CRIMINAIS.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
                     <a href="docs/2026.02 - PC - CERTIDÃO DE ANTECEDENTES CRIMINAIS.pdf" download class="btn-mini btn-down">Baixar</a>
                 </div>
-				<div class="doc-card">
+                <div class="doc-card">
                     <div class="doc-icon"><i class="fas fa-balance-scale"></i></div>
                     <div class="doc-name">CJF | Certidão Judicial CÍVEL</div>
-					<div class="doc-desc">Nada Consta</div>
+                    <div class="doc-desc">Nada Consta</div>
                     <a href="docs/2026.02 - CJF - CERTIDÃO JUDICIAL CÍVEL.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
                     <a href="docs/2026.02 - CJF - CERTIDÃO JUDICIAL CÍVEL.pdf" download class="btn-mini btn-down">Baixar</a>
                 </div>
-				<div class="doc-card">
+                <div class="doc-card">
                     <div class="doc-icon"><i class="fas fa-balance-scale"></i></div>
                     <div class="doc-name">CJF | Certidão Judicial Criminal Negativa</div>
-					<div class="doc-desc">Nada Consta</div>
+                    <div class="doc-desc">Nada Consta</div>
                     <a href="docs/2026.02 - CJF - CERTIDÃO JUDICIAL CRIMINAL NEGATIVA.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
                     <a href="docs/2026.02 - CJF - CERTIDÃO JUDICIAL CRIMINAL NEGATIVA.pdf" download class="btn-mini btn-down">Baixar</a>
                 </div>
-				<div class="doc-card">
+                <div class="doc-card">
                     <div class="doc-icon"><i class="fas fa-landmark"></i></div>
                     <div class="doc-name">TST | Certidão Negativa de Débitos Trabalhistas</div>
-					<div class="doc-desc">Nada Consta</div>
+                    <div class="doc-desc">Nada Consta</div>
                     <a href="docs/2026.02 - TST - CERTIDÃO NEGATIVA DE DÉBITOS TRABALHISTAS.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
                     <a href="docs/2026.02 - TST - CERTIDÃO NEGATIVA DE DÉBITOS TRABALHISTAS.pdf" download class="btn-mini btn-down">Baixar</a>
                 </div>
-				
-				
-				
-
             </div>
             <footer>
                 <div class="footer-rights">
@@ -512,8 +530,8 @@
     </div>
 
     <script>
-	// STATUS
-        const currentStep = 2; 
+    // --- STATUS DO PROCESSO ---
+    const currentStep = 2; 
 
         function checkPassword() {
             const pass = document.getElementById('passInput').value;
@@ -573,15 +591,28 @@
         function updateLogic() {
             const stepsData = [
                 {id:1, txt:"Metais"}, {id:2, txt:"Entrega Docs"}, {id:3, txt:"Verificando Docs"},
-                {id:4, txt:"Sindicância Cand."}, {id:5, txt:"Sindicância Fam."}, {id:6, txt:"Aguardando GLMERJ"}, {id:7, txt:"Iniciação"}
+                {id:4, txt:"Sindicância Candidato"}, {id:5, txt:"Sindicância Familiar"}, {id:6, txt:"Aguardando GLMERJ"}, {id:7, txt:"Iniciação"}
             ];
 
             const badge = document.getElementById('status-badge');
-            badge.innerText = stepsData[currentStep-1].txt;
-            
             const dateDisplay = document.getElementById('init-date-display');
-            if (currentStep === 7) {
-                dateDisplay.innerText = "20/08/2026 (Quinta-feira)";
+            const progLine = document.getElementById('prog-line');
+
+            // --- LÓGICA DE TEXTOS E CORES ---
+            if (currentStep <= 7) {
+                badge.innerText = stepsData[currentStep-1].txt;
+                badge.style.background = 'var(--gold)';
+                badge.style.color = '#000';
+            } else {
+                // Status 8 (Finalizado)
+                badge.innerText = "INICIADO (CONCLUÍDO)";
+                badge.style.background = '#2e7d32'; // Verde
+                badge.style.color = '#fff';
+            }
+            
+            // --- LÓGICA DA DATA ---
+            if (currentStep >= 7) {
+                dateDisplay.innerText = "28/03/2026 (Sábado)";
                 dateDisplay.style.color = "#2e7d32"; 
                 dateDisplay.style.fontWeight = "800";
             } else {
@@ -589,13 +620,30 @@
                 dateDisplay.style.color = "#777";
             }
 
-            const percent = ((currentStep-1) / 6) * 100;
-            document.getElementById('prog-line').style.width = percent + "%";
+            // --- LÓGICA DA BARRA DE PROGRESSO ---
+            if (currentStep === 8) {
+                progLine.style.width = "100%"; 
+            } else {
+                const percent = ((currentStep-1) / 6) * 100;
+                progLine.style.width = percent + "%";
+            }
 
+            // --- LÓGICA DAS BOLINHAS ---
             for(let i=1; i<=7; i++) {
                 const el = document.getElementById(`step-${i}`);
-                if(i < currentStep) el.className = "p-step completed";
-                else if(i === currentStep) el.className = "p-step active";
+                
+                if (currentStep === 8) {
+                    if (i === 7) {
+                        el.className = "p-step finished"; // O último passo fica VERDE
+                    } else {
+                        el.className = "p-step completed"; // Os outros ficam AZUL
+                    }
+                } 
+                else {
+                    if(i < currentStep) el.className = "p-step completed";
+                    else if(i === currentStep) el.className = "p-step active";
+                    else el.className = "p-step";
+                }
             }
         }
 
