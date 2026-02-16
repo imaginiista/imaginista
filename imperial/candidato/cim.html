@@ -80,7 +80,7 @@
             background: #000;
         }
 
-        /* --- POPUP SENHA OTIMIZADO (INTRO) --- */
+        /* POPUP SENHA OTIMIZADO */
         #password-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 5, 10, 0.98); z-index: 9999; 
@@ -89,13 +89,12 @@
             backdrop-filter: blur(10px);
         }
         
-        /* CARD DA SENHA - AJUSTADO PARA SER MAIS LARGO */
         .auth-box {
             text-align: center; border: 1px solid var(--gold); 
-            padding: 50px 40px; /* Mais espaço interno */
+            padding: 50px 40px; 
             border-radius: 12px; background: rgba(0,0,0,0.85); 
             width: 90%; 
-            max-width: 600px; /* AUMENTADO PARA O DESKTOP (era 400px) */
+            max-width: 600px; 
             box-shadow: 0 0 60px rgba(212, 175, 55, 0.25); 
             animation: fadeInUp 0.8s ease;
             position: relative; overflow: hidden;
@@ -200,7 +199,6 @@
             min-width: fit-content;
         }
 
-        /* GRID DESKTOP */
         .data-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
         .data-item strong { display: block; color: #777; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px; }
         .data-item span, .data-item a { font-weight: 700; color: #222; font-size: 0.95rem; text-decoration: none; word-break: break-word;}
@@ -331,7 +329,7 @@
 
         /* BOTÃO DE COMPARTILHAMENTO */
         .share-fab {
-            position: fixed; bottom: 20px; right: 20px;
+            position: fixed; bottom: 80px; right: 20px; /* Subi um pouco para não ficar em cima do aviso de cookies */
             width: 60px; height: 60px; border-radius: 50%;
             background: linear-gradient(45deg, var(--gold), #bfa15f);
             color: #000; display: flex; justify-content: center; align-items: center;
@@ -347,6 +345,27 @@
         }
         .share-fab:hover .share-tooltip { opacity: 1; }
 
+        /* BANNER LGPD / COOKIES */
+        #cookie-banner {
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            background: rgba(0, 10, 20, 0.95); border-top: 1px solid var(--gold);
+            padding: 15px 20px; z-index: 9998;
+            display: flex; justify-content: space-between; align-items: center;
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.8);
+            transform: translateY(100%); transition: transform 0.5s ease;
+        }
+        #cookie-banner.show { transform: translateY(0); }
+        .cookie-text {
+            color: #ccc; font-size: 0.8rem; margin-right: 20px; font-family: 'Lato', sans-serif;
+        }
+        .cookie-btn {
+            background: var(--gold); color: #000; border: none;
+            padding: 8px 20px; border-radius: 4px; font-weight: bold;
+            cursor: pointer; text-transform: uppercase; font-size: 0.75rem;
+            white-space: nowrap;
+        }
+        .cookie-btn:hover { background: #fff; }
+
         @keyframes progress-stripes { from { background-position: 1rem 0; } to { background-position: 0 0; } }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes pulse-share { 0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(212, 175, 55, 0); } 100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); } }
@@ -359,36 +378,40 @@
             
             /* Ajuste de Texto do Header no Mobile */
             .header-title-prefix { font-size: 1.2rem; }
-            .header-title-main { font-size: 1.5rem; line-height: 1.3; }
+            .header-title-main { 
+                font-size: 1.3rem; /* Fonte reduzida para evitar sobreposição */
+                line-height: 1.4; /* Mais espaço entre as linhas */
+                margin-bottom: 5px;
+            }
             .sub-header { font-size: 0.65rem; padding: 0 20px;}
 
-            /* CARD SENHA MOBILE - AJUSTE PARA O TÍTULO CABER E NÃO QUEBRAR */
+            /* CARD SENHA MOBILE */
             .auth-box { 
-                width: 92%; /* Quase a largura toda, mas com margem */
+                width: 92%; 
                 padding: 30px 15px; 
             }
             .title-prefix { font-size: 1.1rem; }
             .title-main { 
-                font-size: 1.4rem; /* Fonte ajustada para caber */
-                line-height: 1.1;
+                font-size: 1.3rem; /* Fonte equilibrada */
+                line-height: 1.4; /* Espaçamento corrigido */
                 margin-top: 5px;
             }
             .auth-logo-img { max-width: 80px; }
 
-            /* Sol e Lua menores no mobile e com órbita ajustada */
+            /* BANNER COOKIES MOBILE */
+            #cookie-banner { flex-direction: column; text-align: center; gap: 10px; }
+            .cookie-text { margin-right: 0; margin-bottom: 10px; }
+
+            /* Sol e Lua menores no mobile */
             .luminary { width: 80px; height: 80px; margin: -40px; }
             
             .hero-card { flex-direction: column; overflow: visible; margin-bottom: 30px; }
             
-            /* CORREÇÃO FOTO MOBILE - TOPO GARANTIDO */
             .hero-photo-area { 
                 height: 250px; flex: auto; width: 100%; 
                 border-right: none; border-bottom: 1px solid #ddd; 
             }
-            .hero-photo {
-                object-fit: cover;
-                object-position: top; 
-            }
+            .hero-photo { object-fit: cover; object-position: top; }
 
             .hero-info { padding: 20px 15px; }
             
@@ -396,28 +419,20 @@
             .hero-info h2 { font-size: 1.3rem; text-align: center; margin-bottom: 0; line-height: 1.3; }
             #status-badge { align-self: center; font-size: 0.65rem; padding: 8px 15px; }
             
-            /* GRID MOBILE PREMIUM (2 COLUNAS) */
-            .data-grid { 
-                grid-template-columns: 1fr 1fr; 
-                gap: 12px; 
-            }
+            .data-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
             .data-item { border-bottom: 1px solid rgba(0,0,0,0.05); padding-bottom: 8px; }
             .data-item:last-child { border-bottom: none; }
             
-            /* Itens longos ocupam 2 colunas */
-            .full-width, .col-span-2, .initiation-date { 
-                grid-column: span 2; 
-            }
+            .full-width, .col-span-2, .initiation-date { grid-column: span 2; }
             
             .progress-steps { padding-bottom: 10px; }
             .docs-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
             
-            .pdf-viewer-section { display: none; } 
+            .pdf-viewer-section { display: none; }
             
             .btn-close-3d { right: -10px; top: -10px; width: 40px; height: 40px; font-size: 1rem; }
         }
         
-        /* Ajuste fino para celulares muito pequenos (ex: iPhone SE) */
         @media (max-width: 380px) {
              .data-grid { grid-template-columns: 1fr; } 
              .full-width, .col-span-2, .initiation-date { grid-column: span 1; }
@@ -439,12 +454,19 @@
         <div class="share-tooltip">Compartilhar Dossiê</div>
     </div>
 
+    <div id="cookie-banner">
+        <div class="cookie-text">
+            Utilizamos cookies para garantir segurança e melhor experiência, conforme a LGPD. Ao continuar, você concorda.
+        </div>
+        <button class="cookie-btn" onclick="acceptCookies()">Concordar</button>
+    </div>
+
     <div id="password-overlay">
         <div class="auth-box">
             <img src="../glmerj.png" alt="GLMERJ" class="auth-logo-img">
 
             <span class="title-prefix">A∴ R∴ L∴ S∴</span>
-            <span class="title-main">FRATERNIDADE IMPERIAL Nº 264</span>
+            <span class="title-main">FRATERNIDADE IMPERIAL<br>Nº 264</span>
             
             <h3 style="color: white; font-family: 'Cinzel'; margin-bottom: 15px; margin-top: 10px; font-size: 1rem; opacity: 0.8;">Portal da Sindicância</h3>
             <p style="color: #bbb; font-size: 0.8rem; margin-bottom: 10px;">CANDIDATO:</p>
@@ -463,7 +485,7 @@
                     <img src="../264.jpg" alt="Loja 264">
                 </div>
                 <span class="header-title-prefix">A∴ R∴ L∴ S∴</span>
-                <span class="header-title-main">FRATERNIDADE IMPERIAL Nº 264</span>
+                <span class="header-title-main">FRATERNIDADE IMPERIAL<br>Nº 264</span>
                 <div class="sub-header">Dossiê do Candidato</div>
             </header>
 
@@ -900,6 +922,25 @@
                 requestAnimationFrame(updateP);
             }
         }
+
+        // --- FUNÇÕES DE COOKIES LGPD ---
+        function checkCookies() {
+            if (!localStorage.getItem('cookiesAccepted')) {
+                // Pequeno delay para o banner subir suavemente
+                setTimeout(() => {
+                    document.getElementById('cookie-banner').classList.add('show');
+                }, 1000);
+            }
+        }
+
+        function acceptCookies() {
+            localStorage.setItem('cookiesAccepted', 'true');
+            document.getElementById('cookie-banner').classList.remove('show');
+        }
+
+        // Iniciar checagem ao carregar
+        window.addEventListener('load', checkCookies);
+
     </script>
 </body>
 </html>
