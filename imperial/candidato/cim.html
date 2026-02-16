@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dossiê Digital - Candidato</title>
     <meta name="robots" content="noindex, nofollow">
-    <meta name="theme-color" content="#001529"> <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="theme-color" content="#001529">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
 
     <style>
@@ -15,7 +16,8 @@
             --gold: #d4af37;
             --gold-light: #f3e5ab;
             --glass-bg: rgba(255, 255, 255, 0.96);
-            --shadow-hdr: 0 20px 40px rgba(0,0,0,0.5);
+            --glass-dark: rgba(0, 20, 40, 0.85);
+            --shadow-hdr: 0 20px 40px rgba(0,0,0,0.6);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -23,29 +25,102 @@
         body { 
             font-family: 'Lato', sans-serif; 
             background-color: #050505;
-            color: #333; min-height: 100vh; padding-bottom: 80px; /* Espaço extra para o botão share */
+            color: #333; min-height: 100vh; padding-bottom: 80px;
             overflow-x: hidden; position: relative;
         }
+
+        /* --- LUMINARIES (SISTEMA ORBITAL) --- */
+        #orbit-system {
+            position: fixed; top: 50%; left: 50%;
+            width: 0; height: 0; /* Ponto central invisível */
+            z-index: -1; pointer-events: none;
+            animation: orbitRotation 60s linear infinite; /* Tempo da órbita completa */
+        }
+
+        .luminary {
+            position: absolute;
+            width: 150px; height: 150px;
+            border-radius: 50%;
+            margin: -75px; /* Centralizar no próprio eixo */
+        }
+        
+        #sun {
+            /* Empurra o sol para longe do centro (Raio da órbita) */
+            transform: translateX(45vmax); 
+            background: radial-gradient(circle at center, #fff 10%, #ffeb3b 40%, #f57f17 70%, transparent 100%);
+            box-shadow: 0 0 60px rgba(255, 215, 0, 0.6), 0 0 100px rgba(255, 140, 0, 0.4);
+            /* O Sol contragira para dar efeito de vida */
+            animation: sunSelfRotate 20s linear infinite; 
+        }
+
+        #moon {
+            /* Empurra a lua para o lado oposto (Raio negativo) */
+            transform: translateX(-45vmax);
+            background: radial-gradient(circle at 30% 30%, #e0e0e0, #909090);
+            box-shadow: 0 0 40px rgba(255, 255, 255, 0.3), inset -20px -20px 50px rgba(0,0,0,0.5);
+            opacity: 0.8;
+            overflow: hidden;
+            /* A Lua contragira */
+            animation: moonSelfRotate 25s linear infinite;
+        }
+        /* Crateras da Lua */
+        #moon::before {
+            content: ''; position: absolute; top: 20%; left: 30%; width: 20px; height: 20px;
+            background: rgba(0,0,0,0.15); border-radius: 50%;
+            box-shadow: 
+                40px 10px 0 -5px rgba(0,0,0,0.15), 
+                10px 40px 0 -2px rgba(0,0,0,0.15),
+                -20px 60px 0 -4px rgba(0,0,0,0.15);
+        }
+
+        /* Animação que gira o sistema inteiro (faz a translação) */
+        @keyframes orbitRotation {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Animações de rotação interna (eixo próprio) */
+        @keyframes sunSelfRotate { from { transform: translateX(45vmax) rotate(0deg); } to { transform: translateX(45vmax) rotate(360deg); } }
+        @keyframes moonSelfRotate { from { transform: translateX(-45vmax) rotate(0deg); } to { transform: translateX(-45vmax) rotate(-360deg); } }
+
 
         /* CANVAS FUNDO */
         #constellation-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1; pointer-events: none;
-            background: radial-gradient(circle at center, #002a52 0%, #000000 100%);
+            z-index: -2; pointer-events: none; 
+            /* O JS vai cuidar do gradiente, mas deixamos um fallback preto */
+            background: #000;
         }
 
-        /* POPUP SENHA */
+        /* POPUP SENHA OTIMIZADO */
         #password-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 5, 10, 0.98); z-index: 9999; 
             display: flex; justify-content: center; align-items: center;
             flex-direction: column; transition: opacity 0.8s ease;
+            backdrop-filter: blur(8px);
         }
         .auth-box {
             text-align: center; border: 1px solid var(--gold); padding: 40px 20px;
-            border-radius: 10px; background: rgba(0,0,0,0.8); width: 90%; max-width: 400px;
+            border-radius: 10px; background: rgba(0,0,0,0.85); width: 90%; max-width: 400px;
             box-shadow: 0 0 50px rgba(212, 175, 55, 0.3); animation: fadeInUp 0.8s ease;
+            position: relative; overflow: hidden;
         }
+        /* Efeito de brilho passando na caixa de senha */
+        .auth-box::after {
+            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: linear-gradient(to bottom right, transparent, transparent, rgba(212, 175, 55, 0.1), transparent, transparent);
+            transform: rotate(45deg); animation: shimmer 3s infinite;
+        }
+
+        /* LOGO GLMERJ NA SENHA */
+        .auth-logo-img {
+            max-width: 100px; height: auto; margin-bottom: 20px;
+            filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.6));
+            animation: floatLogo 4s ease-in-out infinite;
+        }
+        @keyframes floatLogo { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+
         .auth-input {
             padding: 15px; font-size: 1.1rem; border-radius: 5px; border: 1px solid var(--gold);
             background: rgba(255,255,255,0.05); color: var(--gold); text-align: center; outline: none;
@@ -65,7 +140,8 @@
 
         /* HEADER */
         header { text-align: center; margin-bottom: 40px; position: relative; z-index: 2; }
-        .header-logos img { height: 100px; margin: 0 10px; filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.2)); transition: transform 0.4s; }
+        .header-logos { display: flex; justify-content: center; align-items: center; gap: 20px; }
+        .header-logos img { height: 100px; filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.2)); transition: transform 0.4s; }
         .header-logos img:hover { transform: scale(1.1); }
         h1 { font-family: 'Cinzel', serif; color: var(--gold); font-size: 2.2rem; text-shadow: 0 5px 15px rgba(0,0,0,0.8); margin: 15px 0 5px; line-height: 1.2;}
         .sub-header { color: #aaa; letter-spacing: 3px; text-transform: uppercase; font-size: 0.8rem; }
@@ -116,6 +192,7 @@
             min-width: fit-content;
         }
 
+        /* GRID ORIGINAL (COMPACTO NO DESKTOP) */
         .data-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
         .data-item strong { display: block; color: #777; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px; }
         .data-item span, .data-item a { font-weight: 700; color: #222; font-size: 0.95rem; text-decoration: none; word-break: break-word;}
@@ -140,9 +217,10 @@
             background: white; padding: 40px 20px; border-radius: 12px; 
             box-shadow: var(--shadow-hdr); margin-bottom: 40px; overflow-x: auto; 
             border-bottom: 4px solid var(--gold);
-            scrollbar-width: none; -ms-overflow-style: none;
+            scrollbar-width: thin; scrollbar-color: var(--gold) #f0f0f0;
         }
-        .timeline-box::-webkit-scrollbar { display: none; }
+        .timeline-box::-webkit-scrollbar { height: 6px; }
+        .timeline-box::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 10px; }
 
         .timeline-header { text-align: center; font-family: 'Cinzel', serif; color: var(--royal-blue); font-size: 1.4rem; margin-bottom: 40px; }
         .progress-steps { display: flex; justify-content: space-between; position: relative; min-width: 900px; padding: 0 20px;}
@@ -243,7 +321,7 @@
         }
         .btn-close-3d:hover { transform: scale(1.1) rotate(90deg); }
 
-        /* BOTÃO DE COMPARTILHAMENTO (NOVO) */
+        /* BOTÃO DE COMPARTILHAMENTO */
         .share-fab {
             position: fixed; bottom: 20px; right: 20px;
             width: 60px; height: 60px; border-radius: 50%;
@@ -264,14 +342,19 @@
         @keyframes progress-stripes { from { background-position: 1rem 0; } to { background-position: 0 0; } }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes pulse-share { 0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(212, 175, 55, 0); } 100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); } }
+        @keyframes shimmer { 0% { left: -50%; top: -50%; } 100% { left: 150%; top: 150%; } }
 
         /* --- RESPONSIVIDADE MOBILE OTIMIZADA --- */
         @media (max-width: 768px) {
             .container { padding: 15px 10px; }
             .header-logos img { height: 60px; margin: 0 5px; }
-            h1 { font-size: 1.5rem; margin-top: 10px; }
-            .sub-header { font-size: 0.65rem; }
+            h1 { font-size: 1.5rem; margin-top: 10px; padding: 0 10px; }
+            .sub-header { font-size: 0.65rem; padding: 0 20px;}
 
+            /* Sol e Lua menores no mobile e com órbita ajustada */
+            .luminary { width: 80px; height: 80px; margin: -40px; }
+            /* Se quiser esconder no mobile: display: none; mas vamos manter para o efeito */
+            
             .hero-card { flex-direction: column; overflow: visible; margin-bottom: 30px; }
             .hero-photo-area { height: 250px; flex: auto; width: 100%; border-right: none; border-bottom: 1px solid #ddd; }
             .hero-info { padding: 20px 15px; }
@@ -282,30 +365,43 @@
             
             /* GRID MOBILE PREMIUM (2 COLUNAS) */
             .data-grid { 
-                grid-template-columns: 1fr 1fr; /* Mantém 2 colunas para dados curtos */
+                grid-template-columns: 1fr 1fr; /* 2 colunas no mobile */
                 gap: 12px; 
             }
+            .data-item { border-bottom: 1px solid rgba(0,0,0,0.05); padding-bottom: 8px; }
+            .data-item:last-child { border-bottom: none; }
+            
+            /* Itens longos ocupam 2 colunas */
             .full-width, .col-span-2, .initiation-date { 
-                grid-column: span 2; /* Itens longos ocupam tudo */
+                grid-column: span 2; 
             }
+            
+            /* Ajuste senha mobile */
+            .auth-box { width: 85%; padding: 30px 15px; }
+            .auth-logo-img { max-width: 80px; } /* Logo menor no mobile */
             
             .progress-steps { padding-bottom: 10px; }
             .docs-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
             
-            .pdf-viewer-section { display: none; } /* Opcional: Esconder visualizador pesado no mobile se quiser */
-            iframe { height: 300px; } /* Se mantiver, reduz altura */
+            .pdf-viewer-section { display: none; } /* Esconde iframe pesado no mobile */
             
             .btn-close-3d { right: -10px; top: -10px; width: 40px; height: 40px; font-size: 1rem; }
         }
-        @media (max-width: 480px) {
-            .data-item span { font-size: 0.85rem; }
-            /* Se ficar muito apertado em telas mínimas (iPhone SE), volta pra 1 coluna */
-            /* .data-grid { grid-template-columns: 1fr; } */
+        
+        /* Ajuste fino para celulares muito pequenos (ex: iPhone SE) */
+        @media (max-width: 380px) {
+             .data-grid { grid-template-columns: 1fr; } /* Vira 1 coluna se a tela for minúscula */
+             .full-width, .col-span-2, .initiation-date { grid-column: span 1; }
         }
     </style>
 </head>
 <body>
 
+    <div id="orbit-system">
+        <div id="sun" class="luminary"></div>
+        <div id="moon" class="luminary"></div>
+    </div>
+    
     <canvas id="constellation-bg"></canvas>
 
     <div class="share-fab" onclick="sharePage()">
@@ -315,10 +411,12 @@
 
     <div id="password-overlay">
         <div class="auth-box">
-            <i class="fas fa-compass" style="font-size: 3rem; color: var(--gold); margin-bottom: 20px;"></i>
-            <h2 style="color: white; font-family: 'Cinzel'; margin-bottom: 5px;">A∴ R∴ L∴ S∴ Fraternidade Imperial Nº 264</h2>
-            <h3 style="color: white; font-family: 'Cinzel'; margin-bottom: 5px;">Portal da Sindicância</h3>
-            <p style="color: #bbb; font-size: 0.9rem;">RUAN PABLO DA SILVA DE LIMA SANTOS</p>
+            <img src="../glmerj.png" alt="GLMERJ" class="auth-logo-img">
+
+            <h2 style="color: white; font-family: 'Cinzel'; margin-bottom: 5px; font-size: 1.2rem;">A∴ R∴ L∴ S∴ Fraternidade Imperial Nº 264</h2>
+            <h3 style="color: white; font-family: 'Cinzel'; margin-bottom: 15px; font-size: 1rem; opacity: 0.8;">Portal da Sindicância</h3>
+            <p style="color: #bbb; font-size: 0.8rem; margin-bottom: 10px;">CANDIDATO:</p>
+            <p style="color: var(--gold); font-size: 0.9rem; font-weight: bold; margin-bottom: 20px;">RUAN PABLO DA SILVA DE LIMA SANTOS</p>
             <input type="password" id="passInput" class="auth-input" placeholder="SENHA MESTRA">
             <button class="auth-btn" onclick="checkPassword()">Acessar Dossiê</button>
             <p id="error-msg" style="color: #ff6b6b; margin-top: 15px; display: none; font-size: 0.8rem; background: rgba(0,0,0,0.5); padding: 5px;">SENHA INCORRETA</p>
@@ -438,13 +536,13 @@
                     <a href="docs/2024-07 - CNH-e.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
                     <a href="docs/2024-07 - CNH-e.pdf" download class="btn-mini btn-down">Baixar</a>
                 </div>
-               <div class="doc-card">
-                   <div class="doc-icon"><i class="fas fa-child"></i></div>
-                   <div class="doc-name">Certidão de Nascimento</div>
-                   <div class="doc-desc">GIULIANO CASTRO LIMA GIAMPAOLI</div>
-                   <a href="docs/2018.11 - CERTIDÃO DE NASCIMENTO - GIULIANO CASTRO LIMA GIAMPAOLI.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
-                   <a href="docs/2018.11 - CERTIDÃO DE NASCIMENTO - GIULIANO CASTRO LIMA GIAMPAOLI.pdf" download class="btn-mini btn-down">Baixar</a>
-               </div>
+                <div class="doc-card">
+                    <div class="doc-icon"><i class="fas fa-child"></i></div>
+                    <div class="doc-name">Certidão de Nascimento</div>
+                    <div class="doc-desc">GIULIANO CASTRO LIMA GIAMPAOLI</div>
+                    <a href="docs/2018.11 - CERTIDÃO DE NASCIMENTO - GIULIANO CASTRO LIMA GIAMPAOLI.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
+                    <a href="docs/2018.11 - CERTIDÃO DE NASCIMENTO - GIULIANO CASTRO LIMA GIAMPAOLI.pdf" download class="btn-mini btn-down">Baixar</a>
+                </div>
                 <div class="doc-card">
                     <div class="doc-icon"><i class="fas fa-ring"></i></div>
                     <div class="doc-name">Certidão de Casamento</div>
@@ -452,20 +550,20 @@
                     <a href="docs/2023.11 - CERTIDÃO DE CASAMENTO.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
                     <a href="docs/2023.11 - CERTIDÃO DE CASAMENTO.pdf" download class="btn-mini btn-down">Baixar</a>
                 </div>
-               <div class="doc-card">
-                   <div class="doc-icon"><i class="fas fa-baby"></i></div>
-                   <div class="doc-name">Certidão de Nascimento</div>
-                   <div class="doc-desc">CHLOÉ LIMA SPÍNOLA</div>
-                   <a href="docs/2024.02 - CERTIDÃO DE NASCIMENTO - CHLOÉ LIMA SPÍNOLA.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
-                   <a href="docs/2024.02 - CERTIDÃO DE NASCIMENTO - CHLOÉ LIMA SPÍNOLA.pdf" download class="btn-mini btn-down">Baixar</a>
-               </div>
-               <div class="doc-card">
-                   <div class="doc-icon"><i class="fas fa-map-marked-alt"></i></div>
-                   <div class="doc-name">Comprovante de Residência</div>
-                   <div class="doc-desc">2026/01</div>
-                   <a href="docs/2026.01 - COMPROVANTE DE RESIDÊNCIA.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
-                   <a href="docs/2026.01 - COMPROVANTE DE RESIDÊNCIA.pdf" download class="btn-mini btn-down">Baixar</a>
-               </div>
+                <div class="doc-card">
+                    <div class="doc-icon"><i class="fas fa-baby"></i></div>
+                    <div class="doc-name">Certidão de Nascimento</div>
+                    <div class="doc-desc">CHLOÉ LIMA SPÍNOLA</div>
+                    <a href="docs/2024.02 - CERTIDÃO DE NASCIMENTO - CHLOÉ LIMA SPÍNOLA.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
+                    <a href="docs/2024.02 - CERTIDÃO DE NASCIMENTO - CHLOÉ LIMA SPÍNOLA.pdf" download class="btn-mini btn-down">Baixar</a>
+                </div>
+                <div class="doc-card">
+                    <div class="doc-icon"><i class="fas fa-map-marked-alt"></i></div>
+                    <div class="doc-name">Comprovante de Residência</div>
+                    <div class="doc-desc">2026/01</div>
+                    <a href="docs/2026.01 - COMPROVANTE DE RESIDÊNCIA.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
+                    <a href="docs/2026.01 - COMPROVANTE DE RESIDÊNCIA.pdf" download class="btn-mini btn-down">Baixar</a>
+                </div>
                 <div class="doc-card">
                     <div class="doc-icon"><i class="fas fa-balance-scale"></i></div>
                     <div class="doc-name">SEFAZ</div>
@@ -630,7 +728,7 @@
                 badge.style.background = 'var(--gold)';
                 badge.style.color = '#000';
             } else {
-                badge.innerText = "INICIADO (CONCLUÍDO)";
+                badge.innerText = "INICIADO (PROCESSO CONCLUÍDO)";
                 badge.style.background = '#2e7d32'; // Verde
                 badge.style.color = '#fff';
             }
@@ -665,34 +763,80 @@
             }
         }
 
+        // --- CONSTELAÇÕES EFEITO "CLÁSSICO" (HOSPEDADO) ---
         function initConstellations() {
             const canvas = document.getElementById('constellation-bg');
             const ctx = canvas.getContext('2d');
-            let w, h, stars = [];
+            let w, h, particles = [];
+            
+            // Configurações do modelo "antigo"
+            const properties = {
+                bgColor: 'rgba(0, 10, 20, 1)', // Fundo escuro
+                particleColor: 'rgba(212, 175, 55, 1)', // Dourado
+                particleRadius: 2, // Estrelas um pouco maiores
+                particleCount: 70, // Quantidade
+                lineLength: 150, // Distância de conexão
+                particleSpeed: 0.5 // Velocidade suave
+            };
+
             const resize = () => { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; };
             window.addEventListener('resize', resize);
             resize();
-            for(let i=0; i<60; i++) stars.push({x:Math.random()*w, y:Math.random()*h, vx:(Math.random()-0.5)*0.5, vy:(Math.random()-0.5)*0.5, radius:Math.random()*1.5});
-            function draw() {
-                ctx.clearRect(0,0,w,h);
-                const grad = ctx.createRadialGradient(w/2, h/2, 0, w/2, h/2, w);
-                grad.addColorStop(0, '#001a33'); grad.addColorStop(1, '#000000');
-                ctx.fillStyle = grad; ctx.fillRect(0,0,w,h);
-                ctx.fillStyle = '#d4af37'; ctx.strokeStyle = 'rgba(212, 175, 55, 0.2)';
-                stars.forEach((star, i) => {
-                    star.x+=star.vx; star.y+=star.vy;
-                    if(star.x<0||star.x>w) star.vx*=-1; if(star.y<0||star.y>h) star.vy*=-1;
-                    ctx.beginPath(); ctx.arc(star.x, star.y, star.radius, 0, Math.PI*2); ctx.fill();
-                    for(let j=i+1; j<stars.length; j++) {
-                        const s2 = stars[j];
-                        if(Math.hypot(star.x-s2.x, star.y-s2.y)<150) {
-                            ctx.beginPath(); ctx.moveTo(star.x, star.y); ctx.lineTo(s2.x, s2.y); ctx.stroke();
+
+            class Particle {
+                constructor(){
+                    this.x = Math.random() * w;
+                    this.y = Math.random() * h;
+                    this.vx = (Math.random() - 0.5) * properties.particleSpeed;
+                    this.vy = (Math.random() - 0.5) * properties.particleSpeed;
+                }
+                position(){
+                    // Bater nas paredes e voltar
+                    if(this.x > w || this.x < 0) this.vx *= -1;
+                    if(this.y > h || this.y < 0) this.vy *= -1;
+                    this.x += this.vx;
+                    this.y += this.vy;
+                }
+                draw(){
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, properties.particleRadius, 0, Math.PI * 2);
+                    ctx.fillStyle = properties.particleColor;
+                    ctx.fill();
+                }
+            }
+
+            for(let i=0; i < properties.particleCount; i++){
+                particles.push(new Particle());
+            }
+
+            function loop(){
+                // O efeito antigo usa um gradiente radial no fundo
+                const bgGradient = ctx.createRadialGradient(w/2, h/2, 0, w/2, h/2, w);
+                bgGradient.addColorStop(0, '#001a33'); // Azul centro
+                bgGradient.addColorStop(1, '#000000'); // Preto bordas
+                ctx.fillStyle = bgGradient;
+                ctx.fillRect(0, 0, w, h);
+
+                for(let i=0; i < particles.length; i++){
+                    particles[i].position();
+                    particles[i].draw();
+                    
+                    // Desenhar linhas
+                    for(let j = i + 1; j < particles.length; j++){
+                        const dist = Math.hypot(particles[i].x - particles[j].x, particles[i].y - particles[j].y);
+                        if(dist < properties.lineLength){
+                            ctx.lineWidth = 0.5;
+                            ctx.strokeStyle = `rgba(212, 175, 55, ${1 - dist/properties.lineLength})`; // Dourado desvanecendo
+                            ctx.beginPath();
+                            ctx.moveTo(particles[i].x, particles[i].y);
+                            ctx.lineTo(particles[j].x, particles[j].y);
+                            ctx.stroke();
                         }
                     }
-                });
-                requestAnimationFrame(draw);
+                }
+                requestAnimationFrame(loop);
             }
-            draw();
+            loop();
             setupLogoBurst();
         }
 
