@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dossiê Digital - Candidato</title>
     <meta name="robots" content="noindex, nofollow">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="theme-color" content="#001529"> <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
 
     <style>
@@ -18,12 +18,12 @@
             --shadow-hdr: 0 20px 40px rgba(0,0,0,0.5);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
         body { 
             font-family: 'Lato', sans-serif; 
             background-color: #050505;
-            color: #333; min-height: 100vh; padding-bottom: 40px;
+            color: #333; min-height: 100vh; padding-bottom: 80px; /* Espaço extra para o botão share */
             overflow-x: hidden; position: relative;
         }
 
@@ -42,22 +42,22 @@
             flex-direction: column; transition: opacity 0.8s ease;
         }
         .auth-box {
-            text-align: center; border: 1px solid var(--gold); padding: 50px;
-            border-radius: 10px; background: rgba(0,0,0,0.8);
+            text-align: center; border: 1px solid var(--gold); padding: 40px 20px;
+            border-radius: 10px; background: rgba(0,0,0,0.8); width: 90%; max-width: 400px;
             box-shadow: 0 0 50px rgba(212, 175, 55, 0.3); animation: fadeInUp 0.8s ease;
         }
         .auth-input {
-            padding: 15px 20px; font-size: 1.2rem; border-radius: 5px; border: 1px solid var(--gold);
+            padding: 15px; font-size: 1.1rem; border-radius: 5px; border: 1px solid var(--gold);
             background: rgba(255,255,255,0.05); color: var(--gold); text-align: center; outline: none;
-            margin-top: 20px; width: 280px; letter-spacing: 2px;
+            margin-top: 20px; width: 100%; letter-spacing: 2px;
         }
         .auth-btn {
-            display: block; margin: 25px auto 0; padding: 12px 40px;
+            display: block; margin: 25px auto 0; padding: 12px 40px; width: 100%;
             background: linear-gradient(45deg, var(--gold), #bfa15f); color: #000; font-weight: bold;
             border: none; border-radius: 2px; cursor: pointer; transition: transform 0.2s;
             text-transform: uppercase; letter-spacing: 2px;
         }
-        .auth-btn:hover { transform: scale(1.05); box-shadow: 0 0 20px var(--gold); }
+        .auth-btn:hover { transform: scale(1.02); box-shadow: 0 0 20px var(--gold); }
 
         /* MAIN CONTENT */
         #main-content { filter: blur(20px); opacity: 0; transition: all 1s ease; }
@@ -65,10 +65,10 @@
 
         /* HEADER */
         header { text-align: center; margin-bottom: 40px; position: relative; z-index: 2; }
-        .header-logos img { height: 100px; margin: 0 15px; filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.2)); transition: transform 0.4s; }
+        .header-logos img { height: 100px; margin: 0 10px; filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.2)); transition: transform 0.4s; }
         .header-logos img:hover { transform: scale(1.1); }
-        h1 { font-family: 'Cinzel', serif; color: var(--gold); font-size: 2.5rem; text-shadow: 0 5px 15px rgba(0,0,0,0.8); margin: 15px 0 5px;}
-        .sub-header { color: #aaa; letter-spacing: 3px; text-transform: uppercase; font-size: 0.85rem; }
+        h1 { font-family: 'Cinzel', serif; color: var(--gold); font-size: 2.2rem; text-shadow: 0 5px 15px rgba(0,0,0,0.8); margin: 15px 0 5px; line-height: 1.2;}
+        .sub-header { color: #aaa; letter-spacing: 3px; text-transform: uppercase; font-size: 0.8rem; }
 
         /* HERO CARD */
         .hero-card {
@@ -117,8 +117,8 @@
         }
 
         .data-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
-        .data-item strong { display: block; color: #777; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px; }
-        .data-item span, .data-item a { font-weight: 700; color: #222; font-size: 0.95rem; text-decoration: none;}
+        .data-item strong { display: block; color: #777; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px; }
+        .data-item span, .data-item a { font-weight: 700; color: #222; font-size: 0.95rem; text-decoration: none; word-break: break-word;}
         .full-width { grid-column: span 3; border-top: 1px solid #eee; padding-top: 10px; }
         .col-span-2 { grid-column: span 2; } 
 
@@ -140,16 +140,12 @@
             background: white; padding: 40px 20px; border-radius: 12px; 
             box-shadow: var(--shadow-hdr); margin-bottom: 40px; overflow-x: auto; 
             border-bottom: 4px solid var(--gold);
-            
-            scrollbar-width: none; 
-            -ms-overflow-style: none;
+            scrollbar-width: none; -ms-overflow-style: none;
         }
-        .timeline-box::-webkit-scrollbar {
-            display: none; 
-        }
+        .timeline-box::-webkit-scrollbar { display: none; }
 
         .timeline-header { text-align: center; font-family: 'Cinzel', serif; color: var(--royal-blue); font-size: 1.4rem; margin-bottom: 40px; }
-        .progress-steps { display: flex; justify-content: space-between; position: relative; min-width: 900px; padding: 0 20px;} /* Aumentei min-width para caber os 8 itens */
+        .progress-steps { display: flex; justify-content: space-between; position: relative; min-width: 900px; padding: 0 20px;}
         .progress-line-bg { position: absolute; top: 18px; left: 45px; right: 45px; height: 6px; background: #e0e0e0; z-index: 0; border-radius: 10px; }
         .progress-line-fill { 
             position: absolute; top: 18px; left: 45px; height: 6px; 
@@ -169,25 +165,12 @@
         
         .p-step.completed .p-circle { background: var(--royal-blue); border-color: var(--royal-blue); color: white; }
         .p-step.completed .p-label { color: var(--royal-blue); }
-        
-        .p-step.active .p-circle { 
-            background: var(--gold); border-color: var(--gold); color: white; 
-            transform: scale(1.3); box-shadow: 0 0 20px rgba(212, 175, 55, 0.6); 
-        }
+        .p-step.active .p-circle { background: var(--gold); border-color: var(--gold); color: white; transform: scale(1.3); box-shadow: 0 0 20px rgba(212, 175, 55, 0.6); }
         .p-step.active .p-label { color: #d4af37; font-weight: 800; }
-
-        /* --- CLASSE PARA FINALIZADO (VERDE) --- */
-        .p-step.finished .p-circle { 
-            background: #2e7d32; 
-            border-color: #2e7d32; 
-            color: white; 
-            transform: scale(1.2);
-            box-shadow: 0 0 25px rgba(46, 125, 50, 0.5); 
-        }
-        .p-step.finished .p-label { 
-            color: #2e7d32; 
-            font-weight: 800; 
-        }
+        
+        /* ESTADO FINALIZADO */
+        .p-step.finished .p-circle { background: #2e7d32; border-color: #2e7d32; color: white; transform: scale(1.2); box-shadow: 0 0 25px rgba(46, 125, 50, 0.5); }
+        .p-step.finished .p-label { color: #2e7d32; font-weight: 800; }
 
         /* VISUALIZADOR PDF */
         .pdf-viewer-section {
@@ -222,15 +205,7 @@
         .btn-down { background: #f1f8e9; color: #2e7d32; border: 1px solid #c8e6c9; }
         .btn-view:hover { background: #1565c0; color: white; }
         .btn-down:hover { background: #2e7d32; color: white; }
-
-        .doc-desc {
-            font-size: 0.75rem; 
-            color: #555; 
-            margin-top: -10px; 
-            margin-bottom: 15px; 
-            text-transform: uppercase; 
-            letter-spacing: 0.5px;
-        }
+        .doc-desc { font-size: 0.75rem; color: #555; margin-top: -10px; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 0.5px; }
 
         /* FOOTER */
         footer { margin-top: 80px; text-align: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 40px; }
@@ -260,51 +235,83 @@
             border-radius: 5px; box-shadow: 0 20px 50px rgba(0,0,0,0.8); 
         }
         .btn-close-3d {
-            position: absolute; top: -25px; right: -25px;
-            width: 45px; height: 45px;
+            position: absolute; top: -25px; right: -25px; width: 45px; height: 45px;
             background: linear-gradient(135deg, #ff4d4d, #cc0000);
-            border: 2px solid var(--gold); border-radius: 50%;
-            color: white; font-size: 1.2rem; font-weight: bold;
-            display: flex; justify-content: center; align-items: center;
-            cursor: pointer;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-            transition: all 0.3s; z-index: 10001;
+            border: 2px solid var(--gold); border-radius: 50%; color: white; font-size: 1.2rem; font-weight: bold;
+            display: flex; justify-content: center; align-items: center; cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5); transition: all 0.3s; z-index: 10001;
         }
         .btn-close-3d:hover { transform: scale(1.1) rotate(90deg); }
 
+        /* BOTÃO DE COMPARTILHAMENTO (NOVO) */
+        .share-fab {
+            position: fixed; bottom: 20px; right: 20px;
+            width: 60px; height: 60px; border-radius: 50%;
+            background: linear-gradient(45deg, var(--gold), #bfa15f);
+            color: #000; display: flex; justify-content: center; align-items: center;
+            font-size: 1.5rem; box-shadow: 0 10px 25px rgba(212, 175, 55, 0.4);
+            cursor: pointer; z-index: 5000; transition: transform 0.3s;
+            animation: pulse-share 3s infinite;
+        }
+        .share-fab:hover { transform: scale(1.1); }
+        .share-tooltip {
+            position: absolute; bottom: 70px; right: 0; background: rgba(0,0,0,0.8);
+            color: white; padding: 5px 10px; border-radius: 5px; font-size: 0.8rem;
+            white-space: nowrap; opacity: 0; transition: opacity 0.3s; pointer-events: none;
+        }
+        .share-fab:hover .share-tooltip { opacity: 1; }
+
         @keyframes progress-stripes { from { background-position: 1rem 0; } to { background-position: 0 0; } }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes pulse-share { 0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(212, 175, 55, 0); } 100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); } }
 
-        /* RESPONSIVIDADE MOBILE */
+        /* --- RESPONSIVIDADE MOBILE OTIMIZADA --- */
         @media (max-width: 768px) {
-            .container { padding: 20px 10px; }
-            .header-logos img { height: 70px; margin: 0 10px; }
-            h1 { font-size: 1.8rem; }
+            .container { padding: 15px 10px; }
+            .header-logos img { height: 60px; margin: 0 5px; }
+            h1 { font-size: 1.5rem; margin-top: 10px; }
+            .sub-header { font-size: 0.65rem; }
 
-            .hero-card { flex-direction: column; overflow: visible; }
-            .hero-photo-area { height: 300px; flex: auto; width: 100%; }
-            .hero-info { padding: 20px; }
+            .hero-card { flex-direction: column; overflow: visible; margin-bottom: 30px; }
+            .hero-photo-area { height: 250px; flex: auto; width: 100%; border-right: none; border-bottom: 1px solid #ddd; }
+            .hero-info { padding: 20px 15px; }
             
-            .hero-header-row { flex-direction: column-reverse; align-items: center; text-align: center; gap: 15px; }
-            .hero-info h2 { font-size: 1.5rem; text-align: center; margin-bottom: 0; }
-            #status-badge { align-self: center; }
+            .hero-header-row { flex-direction: column-reverse; align-items: center; text-align: center; gap: 15px; margin-bottom: 20px;}
+            .hero-info h2 { font-size: 1.3rem; text-align: center; margin-bottom: 0; line-height: 1.3; }
+            #status-badge { align-self: center; font-size: 0.65rem; padding: 8px 15px; }
             
-            .data-grid { grid-template-columns: 1fr; gap: 10px; }
-            .full-width, .col-span-2 { grid-column: span 1; }
-            .initiation-date { flex-direction: column; text-align: center; grid-column: span 1; }
+            /* GRID MOBILE PREMIUM (2 COLUNAS) */
+            .data-grid { 
+                grid-template-columns: 1fr 1fr; /* Mantém 2 colunas para dados curtos */
+                gap: 12px; 
+            }
+            .full-width, .col-span-2, .initiation-date { 
+                grid-column: span 2; /* Itens longos ocupam tudo */
+            }
             
             .progress-steps { padding-bottom: 10px; }
-            .docs-grid { grid-template-columns: 1fr 1fr; gap: 15px; }
-            iframe { height: 400px; }
+            .docs-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+            
+            .pdf-viewer-section { display: none; } /* Opcional: Esconder visualizador pesado no mobile se quiser */
+            iframe { height: 300px; } /* Se mantiver, reduz altura */
+            
+            .btn-close-3d { right: -10px; top: -10px; width: 40px; height: 40px; font-size: 1rem; }
         }
         @media (max-width: 480px) {
-            .docs-grid { grid-template-columns: 1fr; }
+            .data-item span { font-size: 0.85rem; }
+            /* Se ficar muito apertado em telas mínimas (iPhone SE), volta pra 1 coluna */
+            /* .data-grid { grid-template-columns: 1fr; } */
         }
     </style>
 </head>
 <body>
 
     <canvas id="constellation-bg"></canvas>
+
+    <div class="share-fab" onclick="sharePage()">
+        <i class="fas fa-share-alt"></i>
+        <div class="share-tooltip">Compartilhar Dossiê</div>
+    </div>
 
     <div id="password-overlay">
         <div class="auth-box">
@@ -353,13 +360,13 @@
                         <div class="data-item"><strong>Categoria</strong><span>AD</span></div>
                         <div class="data-item"><strong>Profissão</strong><span>Motorista de Caminhão</span></div>
 
-                        <div class="data-item">
+                        <div class="data-item full-width">
                             <strong>Telefone / WhatsApp</strong>
                             <a href="https://wa.me/5521983340089" target="_blank" class="whatsapp-link">
                                 <i class="fab fa-whatsapp"></i> (21) 98334-0089
                             </a>
                         </div>
-                        <div class="data-item col-span-2">
+                        <div class="data-item full-width">
                             <strong>E-mail</strong>
                             <a href="mailto:ruanrsp@hotmail.com" style="color: var(--royal-blue);">ruanrsp@hotmail.com</a>
                         </div>
@@ -385,11 +392,7 @@
                     <div class="progress-line-bg"></div>
                     <div class="progress-line-fill" id="prog-line"></div>
                     
-                    <div class="p-step" id="step-1">
-                        <div class="p-circle"><i class="fas fa-handshake"></i></div>
-                        <div class="p-label">Pré-Proposta</div>
-                    </div>
-                    
+                    <div class="p-step" id="step-1"><div class="p-circle"><i class="fas fa-handshake"></i></div><div class="p-label">Pré-Proposta</div></div>
                     <div class="p-step" id="step-2"><div class="p-circle"><i class="fas fa-check"></i></div><div class="p-label">Metais</div></div>
                     <div class="p-step" id="step-3"><div class="p-circle"><i class="fas fa-folder-open"></i></div><div class="p-label">Entrega Docs</div></div>
                     <div class="p-step" id="step-4"><div class="p-circle"><i class="fas fa-search"></i></div><div class="p-label">Verificação Docs</div></div>
@@ -575,6 +578,22 @@
             birthElement.innerHTML = `${birthDateString} <span style="color: #777; font-weight: normal; margin-left: 5px;">(${age} anos)</span>`;
         }
 
+        // --- FUNÇÃO DE COMPARTILHAMENTO ---
+        function sharePage() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Dossiê do Candidato',
+                    text: 'Acesse o dossiê digital da sindicância.',
+                    url: window.location.href
+                })
+                .then(() => console.log('Compartilhado com sucesso'))
+                .catch((error) => console.log('Erro ao compartilhar', error));
+            } else {
+                // Fallback para quem não suporta (PC antigo)
+                alert("Link copiado: " + window.location.href);
+            }
+        }
+
         function openModal() {
             const modal = document.getElementById('photoModal');
             modal.style.display = 'flex';
@@ -591,7 +610,6 @@
         }
 
         function updateLogic() {
-            // ATUALIZADO COM 8 PASSOS
             const stepsData = [
                 {id:1, txt:"Pré-Proposta"},
                 {id:2, txt:"Metais"}, 
@@ -607,19 +625,16 @@
             const dateDisplay = document.getElementById('init-date-display');
             const progLine = document.getElementById('prog-line');
 
-            // Lógica de Textos
             if (currentStep <= 8) {
                 badge.innerText = stepsData[currentStep-1].txt;
                 badge.style.background = 'var(--gold)';
                 badge.style.color = '#000';
             } else {
-                // Status 9 (Finalizado)
                 badge.innerText = "INICIADO (CONCLUÍDO)";
                 badge.style.background = '#2e7d32'; // Verde
                 badge.style.color = '#fff';
             }
             
-            // Lógica da Data (Agora 8 ou 9)
             if (currentStep >= 8) {
                 dateDisplay.innerText = "28/03/2026 (Sábado)";
                 dateDisplay.style.color = "#2e7d32"; 
@@ -629,7 +644,6 @@
                 dateDisplay.style.color = "#777";
             }
 
-            // Barra de Progresso (Divisão por 7 intervalos agora)
             if (currentStep === 9) {
                 progLine.style.width = "100%"; 
             } else {
@@ -637,16 +651,11 @@
                 progLine.style.width = percent + "%";
             }
 
-            // Bolinhas (Loop até 8)
             for(let i=1; i<=8; i++) {
                 const el = document.getElementById(`step-${i}`);
-                
                 if (currentStep === 9) {
-                    if (i === 8) {
-                        el.className = "p-step finished"; 
-                    } else {
-                        el.className = "p-step completed"; 
-                    }
+                    if (i === 8) el.className = "p-step finished"; 
+                    else el.className = "p-step completed"; 
                 } 
                 else {
                     if(i < currentStep) el.className = "p-step completed";
