@@ -32,38 +32,34 @@
         /* --- LUMINARIES (SISTEMA ORBITAL) --- */
         #orbit-system {
             position: fixed; top: 50%; left: 50%;
-            width: 0; height: 0; /* Ponto central invisível */
+            width: 0; height: 0; 
             z-index: -1; pointer-events: none;
-            animation: orbitRotation 60s linear infinite; /* Tempo da órbita completa */
+            animation: orbitRotation 60s linear infinite; 
         }
 
         .luminary {
             position: absolute;
             width: 150px; height: 150px;
             border-radius: 50%;
-            margin: -75px; /* Centralizar no próprio eixo */
+            margin: -75px; 
         }
         
         #sun {
-            /* Empurra o sol para longe do centro (Raio da órbita) */
             transform: translateX(45vmax); 
             background: radial-gradient(circle at center, #fff 10%, #ffeb3b 40%, #f57f17 70%, transparent 100%);
             box-shadow: 0 0 60px rgba(255, 215, 0, 0.6), 0 0 100px rgba(255, 140, 0, 0.4);
-            /* O Sol contragira para dar efeito de vida */
             animation: sunSelfRotate 20s linear infinite; 
         }
 
         #moon {
-            /* Empurra a lua para o lado oposto (Raio negativo) */
             transform: translateX(-45vmax);
             background: radial-gradient(circle at 30% 30%, #e0e0e0, #909090);
             box-shadow: 0 0 40px rgba(255, 255, 255, 0.3), inset -20px -20px 50px rgba(0,0,0,0.5);
             opacity: 0.8;
             overflow: hidden;
-            /* A Lua contragira */
             animation: moonSelfRotate 25s linear infinite;
         }
-        /* Crateras da Lua */
+        
         #moon::before {
             content: ''; position: absolute; top: 20%; left: 30%; width: 20px; height: 20px;
             background: rgba(0,0,0,0.15); border-radius: 50%;
@@ -73,66 +69,76 @@
                 -20px 60px 0 -4px rgba(0,0,0,0.15);
         }
 
-        /* Animação que gira o sistema inteiro (faz a translação) */
-        @keyframes orbitRotation {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        /* Animações de rotação interna (eixo próprio) */
+        @keyframes orbitRotation { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         @keyframes sunSelfRotate { from { transform: translateX(45vmax) rotate(0deg); } to { transform: translateX(45vmax) rotate(360deg); } }
         @keyframes moonSelfRotate { from { transform: translateX(-45vmax) rotate(0deg); } to { transform: translateX(-45vmax) rotate(-360deg); } }
-
 
         /* CANVAS FUNDO */
         #constellation-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             z-index: -2; pointer-events: none; 
-            /* O JS vai cuidar do gradiente, mas deixamos um fallback preto */
             background: #000;
         }
 
-        /* POPUP SENHA OTIMIZADO */
+        /* --- POPUP SENHA OTIMIZADO (INTRO) --- */
         #password-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 5, 10, 0.98); z-index: 9999; 
             display: flex; justify-content: center; align-items: center;
             flex-direction: column; transition: opacity 0.8s ease;
-            backdrop-filter: blur(8px);
+            backdrop-filter: blur(10px);
         }
+        
+        /* CARD DA SENHA - AJUSTADO PARA SER MAIS LARGO */
         .auth-box {
-            text-align: center; border: 1px solid var(--gold); padding: 40px 20px;
-            border-radius: 10px; background: rgba(0,0,0,0.85); width: 90%; max-width: 400px;
-            box-shadow: 0 0 50px rgba(212, 175, 55, 0.3); animation: fadeInUp 0.8s ease;
+            text-align: center; border: 1px solid var(--gold); 
+            padding: 50px 40px; /* Mais espaço interno */
+            border-radius: 12px; background: rgba(0,0,0,0.85); 
+            width: 90%; 
+            max-width: 600px; /* AUMENTADO PARA O DESKTOP (era 400px) */
+            box-shadow: 0 0 60px rgba(212, 175, 55, 0.25); 
+            animation: fadeInUp 0.8s ease;
             position: relative; overflow: hidden;
         }
-        /* Efeito de brilho passando na caixa de senha */
+        
         .auth-box::after {
             content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
             background: linear-gradient(to bottom right, transparent, transparent, rgba(212, 175, 55, 0.1), transparent, transparent);
             transform: rotate(45deg); animation: shimmer 3s infinite;
         }
 
-        /* LOGO GLMERJ NA SENHA */
         .auth-logo-img {
-            max-width: 100px; height: auto; margin-bottom: 20px;
+            max-width: 110px; height: auto; margin-bottom: 25px;
             filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.6));
             animation: floatLogo 4s ease-in-out infinite;
         }
         @keyframes floatLogo { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
 
-        .auth-input {
-            padding: 15px; font-size: 1.1rem; border-radius: 5px; border: 1px solid var(--gold);
-            background: rgba(255,255,255,0.05); color: var(--gold); text-align: center; outline: none;
-            margin-top: 20px; width: 100%; letter-spacing: 2px;
+        /* TÍTULOS DO CARD SENHA */
+        .title-prefix { 
+            font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.6rem; 
+            margin-top: 5px; display: block; letter-spacing: 3px; font-weight: normal;
         }
+        .title-main { 
+            font-family: 'Cinzel', serif; color: var(--gold); font-size: 2.2rem; 
+            text-shadow: 0 5px 15px rgba(0,0,0,0.9); margin: 10px 0; line-height: 1.2; display: block; 
+            font-weight: 700;
+        }
+
+        .auth-input {
+            padding: 15px; font-size: 1.2rem; border-radius: 5px; border: 1px solid var(--gold);
+            background: rgba(255,255,255,0.08); color: var(--gold); text-align: center; outline: none;
+            margin-top: 30px; width: 100%; letter-spacing: 4px; transition: 0.3s;
+        }
+        .auth-input:focus { background: rgba(255,255,255,0.15); box-shadow: 0 0 15px rgba(212,175,55,0.3); }
+
         .auth-btn {
-            display: block; margin: 25px auto 0; padding: 12px 40px; width: 100%;
+            display: block; margin: 25px auto 0; padding: 15px 40px; width: 100%;
             background: linear-gradient(45deg, var(--gold), #bfa15f); color: #000; font-weight: bold;
             border: none; border-radius: 2px; cursor: pointer; transition: transform 0.2s;
-            text-transform: uppercase; letter-spacing: 2px;
+            text-transform: uppercase; letter-spacing: 2px; font-size: 1rem;
         }
-        .auth-btn:hover { transform: scale(1.02); box-shadow: 0 0 20px var(--gold); }
+        .auth-btn:hover { transform: scale(1.02); box-shadow: 0 0 25px var(--gold); }
 
         /* MAIN CONTENT */
         #main-content { filter: blur(20px); opacity: 0; transition: all 1s ease; }
@@ -143,8 +149,10 @@
         .header-logos { display: flex; justify-content: center; align-items: center; gap: 20px; }
         .header-logos img { height: 100px; filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.2)); transition: transform 0.4s; }
         .header-logos img:hover { transform: scale(1.1); }
-        h1 { font-family: 'Cinzel', serif; color: var(--gold); font-size: 2.2rem; text-shadow: 0 5px 15px rgba(0,0,0,0.8); margin: 15px 0 5px; line-height: 1.2;}
-        .sub-header { color: #aaa; letter-spacing: 3px; text-transform: uppercase; font-size: 0.8rem; }
+        
+        .header-title-prefix { font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.5rem; display: block; margin-top: 15px; }
+        .header-title-main { font-family: 'Cinzel', serif; color: var(--gold); font-size: 2.2rem; text-shadow: 0 5px 15px rgba(0,0,0,0.8); margin: 5px 0; line-height: 1.2; display: block; }
+        .sub-header { color: #aaa; letter-spacing: 3px; text-transform: uppercase; font-size: 0.8rem; margin-top: 10px; }
 
         /* HERO CARD */
         .hero-card {
@@ -192,7 +200,7 @@
             min-width: fit-content;
         }
 
-        /* GRID ORIGINAL (COMPACTO NO DESKTOP) */
+        /* GRID DESKTOP */
         .data-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
         .data-item strong { display: block; color: #777; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px; }
         .data-item span, .data-item a { font-weight: 700; color: #222; font-size: 0.95rem; text-decoration: none; word-break: break-word;}
@@ -348,15 +356,40 @@
         @media (max-width: 768px) {
             .container { padding: 15px 10px; }
             .header-logos img { height: 60px; margin: 0 5px; }
-            h1 { font-size: 1.5rem; margin-top: 10px; padding: 0 10px; }
+            
+            /* Ajuste de Texto do Header no Mobile */
+            .header-title-prefix { font-size: 1.2rem; }
+            .header-title-main { font-size: 1.5rem; line-height: 1.3; }
             .sub-header { font-size: 0.65rem; padding: 0 20px;}
+
+            /* CARD SENHA MOBILE - AJUSTE PARA O TÍTULO CABER E NÃO QUEBRAR */
+            .auth-box { 
+                width: 92%; /* Quase a largura toda, mas com margem */
+                padding: 30px 15px; 
+            }
+            .title-prefix { font-size: 1.1rem; }
+            .title-main { 
+                font-size: 1.4rem; /* Fonte ajustada para caber */
+                line-height: 1.1;
+                margin-top: 5px;
+            }
+            .auth-logo-img { max-width: 80px; }
 
             /* Sol e Lua menores no mobile e com órbita ajustada */
             .luminary { width: 80px; height: 80px; margin: -40px; }
-            /* Se quiser esconder no mobile: display: none; mas vamos manter para o efeito */
             
             .hero-card { flex-direction: column; overflow: visible; margin-bottom: 30px; }
-            .hero-photo-area { height: 250px; flex: auto; width: 100%; border-right: none; border-bottom: 1px solid #ddd; }
+            
+            /* CORREÇÃO FOTO MOBILE - TOPO GARANTIDO */
+            .hero-photo-area { 
+                height: 250px; flex: auto; width: 100%; 
+                border-right: none; border-bottom: 1px solid #ddd; 
+            }
+            .hero-photo {
+                object-fit: cover;
+                object-position: top; 
+            }
+
             .hero-info { padding: 20px 15px; }
             
             .hero-header-row { flex-direction: column-reverse; align-items: center; text-align: center; gap: 15px; margin-bottom: 20px;}
@@ -365,7 +398,7 @@
             
             /* GRID MOBILE PREMIUM (2 COLUNAS) */
             .data-grid { 
-                grid-template-columns: 1fr 1fr; /* 2 colunas no mobile */
+                grid-template-columns: 1fr 1fr; 
                 gap: 12px; 
             }
             .data-item { border-bottom: 1px solid rgba(0,0,0,0.05); padding-bottom: 8px; }
@@ -376,22 +409,19 @@
                 grid-column: span 2; 
             }
             
-            /* Ajuste senha mobile */
-            .auth-box { width: 85%; padding: 30px 15px; }
-            .auth-logo-img { max-width: 80px; } /* Logo menor no mobile */
-            
             .progress-steps { padding-bottom: 10px; }
             .docs-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
             
-            .pdf-viewer-section { display: none; } /* Esconde iframe pesado no mobile */
+            .pdf-viewer-section { display: none; } 
             
             .btn-close-3d { right: -10px; top: -10px; width: 40px; height: 40px; font-size: 1rem; }
         }
         
         /* Ajuste fino para celulares muito pequenos (ex: iPhone SE) */
         @media (max-width: 380px) {
-             .data-grid { grid-template-columns: 1fr; } /* Vira 1 coluna se a tela for minúscula */
+             .data-grid { grid-template-columns: 1fr; } 
              .full-width, .col-span-2, .initiation-date { grid-column: span 1; }
+             .title-main { font-size: 1.1rem; } 
         }
     </style>
 </head>
@@ -413,8 +443,10 @@
         <div class="auth-box">
             <img src="../glmerj.png" alt="GLMERJ" class="auth-logo-img">
 
-            <h2 style="color: white; font-family: 'Cinzel'; margin-bottom: 5px; font-size: 1.2rem;">A∴ R∴ L∴ S∴ Fraternidade Imperial Nº 264</h2>
-            <h3 style="color: white; font-family: 'Cinzel'; margin-bottom: 15px; font-size: 1rem; opacity: 0.8;">Portal da Sindicância</h3>
+            <span class="title-prefix">A∴ R∴ L∴ S∴</span>
+            <span class="title-main">FRATERNIDADE IMPERIAL Nº 264</span>
+            
+            <h3 style="color: white; font-family: 'Cinzel'; margin-bottom: 15px; margin-top: 10px; font-size: 1rem; opacity: 0.8;">Portal da Sindicância</h3>
             <p style="color: #bbb; font-size: 0.8rem; margin-bottom: 10px;">CANDIDATO:</p>
             <p style="color: var(--gold); font-size: 0.9rem; font-weight: bold; margin-bottom: 20px;">RUAN PABLO DA SILVA DE LIMA SANTOS</p>
             <input type="password" id="passInput" class="auth-input" placeholder="SENHA MESTRA">
@@ -430,8 +462,9 @@
                     <img src="../glmerj.png" alt="GLMERJ">
                     <img src="../264.jpg" alt="Loja 264">
                 </div>
-                <h1>Dossiê do Candidato</h1>
-                <div class="sub-header">A∴ R∴ L∴ S∴ Fraternidade Imperial Nº 264</div>
+                <span class="header-title-prefix">A∴ R∴ L∴ S∴</span>
+                <span class="header-title-main">FRATERNIDADE IMPERIAL Nº 264</span>
+                <div class="sub-header">Dossiê do Candidato</div>
             </header>
 
             <div class="hero-card">
@@ -728,7 +761,7 @@
                 badge.style.background = 'var(--gold)';
                 badge.style.color = '#000';
             } else {
-                badge.innerText = "INICIADO (PROCESSO CONCLUÍDO)";
+                badge.innerText = "INICIADO (CONCLUÍDO)";
                 badge.style.background = '#2e7d32'; // Verde
                 badge.style.color = '#fff';
             }
@@ -763,20 +796,24 @@
             }
         }
 
-        // --- CONSTELAÇÕES EFEITO "CLÁSSICO" (HOSPEDADO) ---
+        // --- CONSTELAÇÕES EFEITO "CLÁSSICO" COM OTIMIZAÇÃO MOBILE ---
         function initConstellations() {
             const canvas = document.getElementById('constellation-bg');
             const ctx = canvas.getContext('2d');
             let w, h, particles = [];
             
-            // Configurações do modelo "antigo"
+            // VERIFICA SE É MOBILE PARA REDUZIR CARGA
+            const isMobile = window.innerWidth < 768;
+
             const properties = {
-                bgColor: 'rgba(0, 10, 20, 1)', // Fundo escuro
-                particleColor: 'rgba(212, 175, 55, 1)', // Dourado
-                particleRadius: 2, // Estrelas um pouco maiores
-                particleCount: 70, // Quantidade
-                lineLength: 150, // Distância de conexão
-                particleSpeed: 0.5 // Velocidade suave
+                bgColor: 'rgba(0, 10, 20, 1)', 
+                particleColor: 'rgba(212, 175, 55, 1)', 
+                particleRadius: 2, 
+                // Reduz pela metade no mobile para limpar a visão e melhorar performance
+                particleCount: isMobile ? 35 : 70, 
+                // Diminui o alcance das linhas no mobile para não ficar uma "teia" bagunçada
+                lineLength: isMobile ? 100 : 150, 
+                particleSpeed: 0.5 
             };
 
             const resize = () => { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; };
@@ -791,7 +828,6 @@
                     this.vy = (Math.random() - 0.5) * properties.particleSpeed;
                 }
                 position(){
-                    // Bater nas paredes e voltar
                     if(this.x > w || this.x < 0) this.vx *= -1;
                     if(this.y > h || this.y < 0) this.vy *= -1;
                     this.x += this.vx;
@@ -810,10 +846,9 @@
             }
 
             function loop(){
-                // O efeito antigo usa um gradiente radial no fundo
                 const bgGradient = ctx.createRadialGradient(w/2, h/2, 0, w/2, h/2, w);
-                bgGradient.addColorStop(0, '#001a33'); // Azul centro
-                bgGradient.addColorStop(1, '#000000'); // Preto bordas
+                bgGradient.addColorStop(0, '#001a33'); 
+                bgGradient.addColorStop(1, '#000000'); 
                 ctx.fillStyle = bgGradient;
                 ctx.fillRect(0, 0, w, h);
 
@@ -821,12 +856,11 @@
                     particles[i].position();
                     particles[i].draw();
                     
-                    // Desenhar linhas
                     for(let j = i + 1; j < particles.length; j++){
                         const dist = Math.hypot(particles[i].x - particles[j].x, particles[i].y - particles[j].y);
                         if(dist < properties.lineLength){
                             ctx.lineWidth = 0.5;
-                            ctx.strokeStyle = `rgba(212, 175, 55, ${1 - dist/properties.lineLength})`; // Dourado desvanecendo
+                            ctx.strokeStyle = `rgba(212, 175, 55, ${1 - dist/properties.lineLength})`; 
                             ctx.beginPath();
                             ctx.moveTo(particles[i].x, particles[i].y);
                             ctx.lineTo(particles[j].x, particles[j].y);
