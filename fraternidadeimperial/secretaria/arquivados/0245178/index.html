@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dossiê Digital - Candidato</title>
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="theme-color" content="#001529">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --dark-navy: #001529;
+            --royal-blue: #002a52;
+            --gold: #d4af37;
+            --gold-light: #f3e5ab;
+            --glass-bg: rgba(255, 255, 255, 0.96);
+            --glass-dark: rgba(0, 20, 40, 0.85);
+            --shadow-hdr: 0 20px 40px rgba(0,0,0,0.6);
+            --gold-shadow: rgba(212, 175, 55, 0.5);
+            --blue-deep: #000c18;
+            --text-main: #e2e8f0;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
+        body { 
+            font-family: 'Lato', sans-serif; 
+            background: radial-gradient(circle at center, #002a52 0%, #000c18 100%); 
+            color: #333; min-height: 100vh; padding-bottom: 80px;
+            overflow-x: hidden; position: relative;
+        }
+
+        /* --- LUMINARIES (SISTEMA ORBITAL) --- */
+        #orbit-system {
+            position: fixed; top: 50%; left: 50%;
+            width: 0; height: 0; 
+            z-index: -1; pointer-events: none;
+            animation: orbitRotation 60s linear infinite; 
+        }
+
+        .luminary { position: absolute; width: 150px; height: 150px; border-radius: 50%; margin: -75px; }
+        
+        #sun {
+            transform: translateX(45vmax); 
+            background: radial-gradient(circle at center, #fff 10%, #ffeb3b 40%, #f57f17 70%, transparent 100%);
+            box-shadow: 0 0 60px rgba(255, 215, 0, 0.6), 0 0 100px rgba(255, 140, 0, 0.4);
+            animation: sunSelfRotate 20s linear infinite; 
+        }
+
+        #moon {
+            transform: translateX(-45vmax); background: radial-gradient(circle at 30% 30%, #e0e0e0, #909090);
+            box-shadow: 0 0 40px rgba(255, 255, 255, 0.3), inset -20px -20px 50px rgba(0,0,0,0.5);
+            opacity: 0.8; overflow: hidden; animation: moonSelfRotate 25s linear infinite;
+        }
+        
+        #moon::before {
+            content: ''; position: absolute; top: 20%; left: 30%; width: 20px; height: 20px;
+            background: rgba(0,0,0,0.15); border-radius: 50%;
+            box-shadow: 40px 10px 0 -5px rgba(0,0,0,0.15), 10px 40px 0 -2px rgba(0,0,0,0.15), -20px 60px 0 -4px rgba(0,0,0,0.15);
+        }
+
+        @keyframes orbitRotation { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes sunSelfRotate { from { transform: translateX(45vmax) rotate(0deg); } to { transform: translateX(45vmax) rotate(360deg); } }
+        @keyframes moonSelfRotate { from { transform: translateX(-45vmax) rotate(0deg); } to { transform: translateX(-45vmax) rotate(-360deg); } }
+
+        /* CANVAS FUNDO */
+        #constellation-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; pointer-events: none; background: transparent; }
+
+        /* --- HEADER DO DOSSIÊ (APARECE APÓS LOGIN) --- */
+        header#dossie-header { 
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 100; padding: 15px 0; 
+            background: rgba(0, 12, 24, 0.95); backdrop-filter: blur(10px); 
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+            display: none; justify-content: center; align-items: center; 
+        }
+        .header-nav-inner { display: flex; justify-content: center; gap: 20px; align-items: center; max-width: 1200px; width: 100%; padding: 0 20px;}
+        .nav-link { 
+            color: #fff; text-decoration: none; font-family: 'Cinzel'; text-transform: uppercase; 
+            font-size: 0.85rem; letter-spacing: 1px; transition: 0.3s; 
+            display: flex; align-items: center; gap: 8px; 
+            border: 1px solid var(--gold); padding: 8px 20px; border-radius: 4px;
+        }
+        .nav-link:hover { background: var(--gold); color: #000; box-shadow: 0 0 15px var(--gold-shadow); }
+
+        /* --- POPUP SENHA --- */
+        #password-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            background: rgba(0, 5, 10, 0.98); z-index: 9999; 
+            display: flex; justify-content: center; align-items: center;
+            transition: opacity 0.5s ease; backdrop-filter: blur(10px);
+        }
+        
+        .auth-box {
+            text-align: center; border: 1px solid var(--gold); 
+            padding: 40px 30px; border-radius: 12px; background: rgba(0,0,0,0.85); 
+            width: 90%; max-width: 450px; 
+            box-shadow: 0 0 60px rgba(212, 175, 55, 0.25); 
+            animation: popIn 0.5s ease forwards; position: relative; overflow: hidden;
+            margin: auto;
+        }
+        
+        .auth-box::after {
+            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: linear-gradient(to bottom right, transparent, transparent, rgba(212, 175, 55, 0.1), transparent, transparent);
+            transform: rotate(45deg); animation: shimmer 3s infinite;
+        }
+
+        .auth-logo-img { max-width: 80px; height: auto; margin-bottom: 15px; filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.6)); animation: floatLogo 4s ease-in-out infinite; }
+        @keyframes floatLogo { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+
+        .auth-box h2 { font-family: 'Cinzel', serif; font-size: 1.5rem; margin-bottom: 15px; color: var(--gold); }
+        .cand-label { font-family: 'Lato', sans-serif; color: #bbb; font-size: 0.75rem; margin-bottom: 5px; letter-spacing: 2px;}
+        .cand-name-auth { color: var(--gold); font-size: 0.9rem; font-weight: bold; margin-bottom: 25px; letter-spacing: 1px; font-family: 'Lato', sans-serif;}
+
+        .auth-input {
+            width: 100%; padding: 12px; font-size: 1rem; border-radius: 5px; border: 1px solid var(--gold);
+            background: rgba(255,255,255,0.08); color: var(--gold); text-align: center; outline: none;
+            margin-bottom: 20px; letter-spacing: 4px; transition: 0.3s;
+        }
+        .auth-input:focus { background: rgba(255,255,255,0.15); box-shadow: 0 0 15px rgba(212,175,55,0.3); }
+
+        .auth-btn {
+            display: block; width: 100%; padding: 12px 20px; background: linear-gradient(45deg, var(--gold), #bfa15f); 
+            color: #000; font-family: 'Cinzel'; font-weight: bold; border: none; border-radius: 4px; 
+            cursor: pointer; transition: transform 0.2s; text-transform: uppercase; letter-spacing: 2px; font-size: 1rem;
+        }
+        .auth-btn:hover { transform: scale(1.02); box-shadow: 0 0 15px var(--gold-shadow); }
+
+        .auth-links { display: flex; justify-content: space-between; gap: 10px; margin-top: 20px; position: relative; z-index: 10;}
+        .btn-voltar {
+            flex: 1; padding: 10px; background: transparent; border: 1px solid rgba(212, 175, 55, 0.5); border-radius: 4px;
+            color: var(--gold); text-decoration: none; font-family: 'Cinzel'; font-size: 0.75rem;
+            transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; display: inline-flex; align-items: center; justify-content: center; gap: 5px;
+        }
+        .btn-voltar:hover { background: rgba(212, 175, 55, 0.1); border-color: var(--gold); }
+
+        .error-msg { color: #ff4c4c; font-family: 'Lato'; font-size: 0.85rem; margin-bottom: 15px; display: none; height: 20px; }
+
+
+        /* --- MAIN CONTENT (DOSSIÊ) --- */
+        #main-content { filter: blur(20px); opacity: 0; transition: all 1s ease; display: none; padding-top: 80px;} 
+        .container { max-width: 1100px; margin: 0 auto; padding: 30px 20px; }
+
+         /* HEADER INTERNO DA LOJA */
+        .dossier-header { text-align: center; margin-bottom: 40px; position: relative; z-index: 2; }
+        .header-logos { display: flex; justify-content: center; align-items: center; gap: 25px; margin-bottom: 15px; }
+        .logo-glmerj { height: 100px; width: auto; filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.2)); transition: transform 0.4s; }
+        .logo-loja { height: 80px; width: auto; filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.2)); transition: transform 0.4s; }
+        .logo-glmerj:hover, .logo-loja:hover { transform: scale(1.1); }
+        
+        .header-title-prefix { font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.5rem; display: block; }
+        .header-title-main { 
+            font-family: 'Cinzel', serif; 
+            font-size: 2.2rem; 
+            text-shadow: 0 4px 10px rgba(0,0,0,0.8); 
+            margin: 5px 0; line-height: 1.2; display: block; 
+            background: linear-gradient(to bottom, #fff, #d4af37);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .header-title-main span { white-space: nowrap; font-size: 1.8rem;}
+        .sub-header { color: #aaa; letter-spacing: 3px; text-transform: uppercase; font-size: 0.8rem; margin-top: 10px; }
+
+        /* HERO CARD */
+        .hero-card {
+            background: var(--glass-bg); border-radius: 12px; display: flex; 
+            box-shadow: var(--shadow-hdr); margin-bottom: 40px; 
+            border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(10px);
+            position: relative; overflow: hidden;
+        }
+        .hero-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: linear-gradient(90deg, var(--royal-blue), var(--gold), var(--royal-blue)); }
+
+        .hero-photo-area { flex: 0 0 260px; background: #e0e0e0; display: flex; justify-content: center; align-items: center; position: relative; cursor: pointer; overflow: hidden; }
+        .hero-photo { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
+        .hero-photo-area:hover .hero-photo { transform: scale(1.1); }
+        .zoom-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.3); opacity: 0; transition: opacity 0.3s; display: flex; justify-content: center; align-items: center; }
+        .hero-photo-area:hover .zoom-overlay { opacity: 1; }
+        .zoom-overlay i { color: var(--gold); font-size: 2.5rem; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
+
+        .hero-info { flex: 1; padding: 30px; position: relative; display: flex; flex-direction: column; }
+        
+        .hero-header-row { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 25px; border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 15px; gap: 20px; }
+        .hero-info h2 { color: var(--royal-blue); font-family: 'Cinzel', serif; font-size: 1.8rem; margin: 0; line-height: 1.2; flex: 1; }
+        
+        #status-badge { background: var(--gold); color: #000; padding: 10px 18px; border-radius: 6px; font-weight: 800; font-size: 0.75rem; letter-spacing: 1px; text-transform: uppercase; box-shadow: 0 4px 10px rgba(0,0,0,0.15); border: 1px solid #bfa15f; white-space: nowrap; align-self: flex-start; min-width: fit-content; }
+
+        .data-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+        .data-item strong { display: block; color: #777; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px; }
+        .data-item span, .data-item a { font-weight: 700; color: #222; font-size: 0.95rem; text-decoration: none; word-break: break-word;}
+        .full-width { grid-column: span 3; border-top: 1px solid #eee; padding-top: 10px; }
+        .col-span-2 { grid-column: span 2; } 
+        
+        .whatsapp-link { display: inline-flex; align-items: center; gap: 6px; color: var(--royal-blue); transition: color 0.3s; }
+        .whatsapp-link:hover { color: #25D366; } 
+        
+        /* BLOCOS DE DATAS E STATUS */
+        .initiation-date { grid-column: span 3; background: rgba(212, 175, 55, 0.1); padding: 12px; border-radius: 6px; border-left: 4px solid var(--gold); display: flex; align-items: center; justify-content: space-between; gap: 15px; margin-top: 5px; }
+        .init-info-wrapper { display: flex; align-items: center; gap: 15px; }
+        .initiation-date strong { margin-bottom: 0; color: var(--royal-blue); font-size: 0.8rem;}
+        .initiation-date span { color: var(--royal-blue); font-size: 1rem; font-weight: bold; }
+        
+        /* CAMPO CIM (Inicialmente Oculto) */
+        #cim-display-container { display: none; text-align: right; border-left: 1px solid rgba(212, 175, 55, 0.5); padding-left: 15px;}
+        #cim-display-container strong { color: var(--royal-blue); font-size: 0.7rem; letter-spacing: 1px;}
+        #cim-display-container span { display: block; color: #2e7d32; font-size: 1.2rem; font-weight: 900; letter-spacing: 2px;}
+
+        /* CAMPO DE PROCESSO NEGADO / ARQUIVADO */
+        #status-alert-container { 
+            display: none; grid-column: span 3; background: rgba(200, 0, 0, 0.08); 
+            padding: 15px; border-radius: 6px; border-left: 4px solid #cc0000; margin-top: 5px; 
+        }
+
+        /* TIMELINE */
+        .timeline-box { background: white; padding: 40px 20px; border-radius: 12px; box-shadow: var(--shadow-hdr); margin-bottom: 40px; overflow-x: auto; border-bottom: 4px solid var(--gold); scrollbar-width: thin; scrollbar-color: var(--gold) #f0f0f0; }
+        .timeline-box::-webkit-scrollbar { height: 6px; }
+        .timeline-box::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 10px; }
+
+        .timeline-header { text-align: center; font-family: 'Cinzel', serif; color: var(--royal-blue); font-size: 1.4rem; margin-bottom: 40px; }
+        .progress-steps { display: flex; justify-content: space-between; position: relative; min-width: 900px; padding: 0 20px;}
+        .progress-line-bg { position: absolute; top: 18px; left: 45px; right: 45px; height: 6px; background: #e0e0e0; z-index: 0; border-radius: 10px; }
+        .progress-line-fill { position: absolute; top: 18px; left: 45px; height: 6px; background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.2) 75%, transparent 75%, transparent); background-color: var(--gold); background-size: 1rem 1rem; animation: progress-stripes 1s linear infinite; z-index: 0; transition: width 1s ease; width: 0%; border-radius: 10px; box-shadow: 0 0 10px rgba(212, 175, 55, 0.5); }
+        .p-step { position: relative; z-index: 1; text-align: center; flex: 1; }
+        .p-circle { width: 42px; height: 42px; background: #fff; border: 3px solid #ddd; border-radius: 50%; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #ccc; transition: all 0.4s; }
+        .p-label { font-size: 0.7rem; color: #999; font-weight: 700; margin-top: 5px; text-transform: uppercase;}
+        
+        .p-step.completed .p-circle { background: var(--royal-blue); border-color: var(--royal-blue); color: white; }
+        .p-step.completed .p-label { color: var(--royal-blue); }
+        .p-step.active .p-circle { background: var(--gold); border-color: var(--gold); color: white; transform: scale(1.3); box-shadow: 0 0 20px rgba(212, 175, 55, 0.6); }
+        .p-step.active .p-label { color: #d4af37; font-weight: 800; }
+        
+        .p-step.finished .p-circle { background: #2e7d32; border-color: #2e7d32; color: white; transform: scale(1.2); box-shadow: 0 0 25px rgba(46, 125, 50, 0.5); }
+        .p-step.finished .p-label { color: #2e7d32; font-weight: 800; }
+
+        .p-step.denied .p-circle { background: #cc0000; border-color: #cc0000; color: white; }
+        .p-step.denied .p-label { color: #cc0000; font-weight: 800; }
+
+        /* VISUALIZADOR PDF */
+        .pdf-viewer-section { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: var(--shadow-hdr); margin-bottom: 40px; border: 1px solid #ddd; }
+        .pdf-toolbar { background: #f8f9fa; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; }
+        .pdf-title { font-weight: bold; color: var(--royal-blue); display: flex; align-items: center; gap: 10px; font-family: 'Cinzel', serif; }
+        iframe { width: 100%; height: 600px; border: none; background: #525659; }
+
+        /* DOCS GRID */
+        .section-title { color: var(--gold); margin-bottom: 20px; font-family: 'Cinzel', serif; font-size: 1.3rem; text-shadow: 0 2px 5px rgba(0,0,0,0.8); display: flex; align-items: center; gap: 10px; }
+        .section-title::before { content: ''; display: block; width: 4px; height: 25px; background: var(--gold); }
+        .docs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 20px; }
+        .doc-card { background: white; padding: 20px; border-radius: 8px; text-align: center; transition: all 0.3s; border-bottom: 3px solid #eee; position: relative; top: 0; }
+        .doc-card:hover { top: -5px; border-bottom-color: var(--gold); box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
+        .doc-icon { font-size: 2rem; color: #555; margin-bottom: 10px; }
+        .doc-name { font-weight: bold; font-size: 0.85rem; margin-bottom: 15px; color: #333; min-height: 32px; display: flex; align-items: center; justify-content: center; }
+        .btn-mini { padding: 6px 12px; border-radius: 4px; font-size: 0.7rem; text-decoration: none; font-weight: bold; display: inline-block; margin: 0 2px; transition: background 0.2s; }
+        .btn-view { background: #e3f2fd; color: #1565c0; border: 1px solid #bbdefb; }
+        .btn-down { background: #f1f8e9; color: #2e7d32; border: 1px solid #c8e6c9; }
+        .btn-view:hover { background: #1565c0; color: white; }
+        .btn-down:hover { background: #2e7d32; color: white; }
+        .doc-desc { font-size: 0.75rem; color: #555; margin-top: -10px; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+        /* FOOTER */
+        footer { margin-top: 80px; text-align: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 40px; }
+        .footer-rights { color: rgba(255,255,255,0.4); font-size: 0.8rem; letter-spacing: 1px; margin-bottom: 20px; }
+        .dev-container { display: inline-flex; flex-direction: column; align-items: center; gap: 8px; cursor: pointer; transition: transform 0.2s; position: relative; }
+        .dev-container:hover { transform: scale(1.05); }
+        .dev-text { color: var(--gold); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; opacity: 0.7; }
+        .imaginista-logo { height: 60px; filter: drop-shadow(0 0 5px rgba(255,255,255,0.3)); transition: filter 0.3s; }
+        .imaginista-logo:hover { filter: drop-shadow(0 0 20px var(--gold)); }
+
+        /* MODAL FOTO */
+        #photoModal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 10000; display: none; justify-content: center; align-items: center; perspective: 1500px; opacity: 0; transition: opacity 0.5s; }
+        .modal-content { position: relative; max-width: 90%; transform-style: preserve-3d; transform: rotateX(15deg); transition: transform 0.5s; }
+        .modal-img { max-width: 500px; width: 100%; border: 8px solid var(--gold); border-radius: 5px; box-shadow: 0 20px 50px rgba(0,0,0,0.8); }
+        .btn-close-3d { position: absolute; top: -25px; right: -25px; width: 45px; height: 45px; background: linear-gradient(135deg, #ff4d4d, #cc0000); border: 2px solid var(--gold); border-radius: 50%; color: white; font-size: 1.2rem; font-weight: bold; display: flex; justify-content: center; align-items: center; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.5); transition: all 0.3s; z-index: 10001; }
+        .btn-close-3d:hover { transform: scale(1.1) rotate(90deg); }
+
+        /* BOTÃO DE COMPARTILHAMENTO */
+        .share-fab { position: fixed; bottom: 80px; right: 20px; width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(45deg, var(--gold), #bfa15f); color: #000; display: flex; justify-content: center; align-items: center; font-size: 1.5rem; box-shadow: 0 10px 25px rgba(212, 175, 55, 0.4); cursor: pointer; z-index: 5000; transition: transform 0.3s; animation: pulse-share 3s infinite; }
+        .share-fab:hover { transform: scale(1.1); }
+        .share-tooltip { position: absolute; bottom: 70px; right: 0; background: rgba(0,0,0,0.8); color: white; padding: 5px 10px; border-radius: 5px; font-size: 0.8rem; white-space: nowrap; opacity: 0; transition: opacity 0.3s; pointer-events: none; }
+        .share-fab:hover .share-tooltip { opacity: 1; }
+
+        /* BANNER LGPD / COOKIES */
+        #cookie-banner { position: fixed; bottom: -100px; left: 0; width: 100%; background: rgba(0, 10, 20, 0.95); border-top: 1px solid var(--gold); padding: 15px 20px; z-index: 9998; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 -5px 20px rgba(0,0,0,0.8); transform: translateY(100%); transition: transform 0.5s ease; }
+        #cookie-banner.show { transform: translateY(0); }
+        .cookie-text { color: #ccc; font-size: 0.8rem; margin-right: 20px; font-family: 'Lato', sans-serif; }
+        .cookie-btn { background: var(--gold); color: #000; border: none; padding: 8px 20px; border-radius: 4px; font-weight: bold; cursor: pointer; text-transform: uppercase; font-size: 0.75rem; white-space: nowrap; }
+        .cookie-btn:hover { background: #fff; }
+
+        /* --- EFEITO MATRIX (HACK/ERRO) CORRIGIDO --- */
+        body.matrix-mode { background: #000 !important; color: #0f0 !important; font-family: monospace !important; animation: shake 0.5s infinite; }
+        body.matrix-mode * { display: none !important; }
+        body.matrix-mode::before { 
+            content: 'ACESSO NEGADO. VIOLAÇÃO DE SEGURANÇA DETECTADA. REDIRECIONANDO...'; 
+            display: flex !important; justify-content: center; align-items: center; 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh; 
+            font-size: 2rem; color: #f00; text-align: center; padding: 20px; z-index: 9999; 
+            background: #000;
+        }
+        
+        @keyframes progress-stripes { from { background-position: 1rem 0; } to { background-position: 0 0; } }
+        @keyframes popIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+        @keyframes pulse-share { 0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(212, 175, 55, 0); } 100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); } }
+        @keyframes shimmer { 0% { left: -50%; top: -50%; } 100% { left: 150%; top: 150%; } }
+        @keyframes shake { 0% { transform: translate(1px, 1px) rotate(0deg); } 10% { transform: translate(-1px, -2px) rotate(-1deg); } 20% { transform: translate(-3px, 0px) rotate(1deg); } 30% { transform: translate(3px, 2px) rotate(0deg); } 40% { transform: translate(1px, -1px) rotate(1deg); } 50% { transform: translate(-1px, 2px) rotate(-1deg); } 60% { transform: translate(-3px, 1px) rotate(0deg); } 70% { transform: translate(3px, 1px) rotate(-1deg); } 80% { transform: translate(-1px, -1px) rotate(1deg); } 90% { transform: translate(1px, 2px) rotate(0deg); } 100% { transform: translate(1px, -2px) rotate(-1deg); } }
+
+        /* --- RESPONSIVIDADE MOBILE --- */
+        @media (max-width: 768px) {
+            .container { padding: 15px 10px; }
+            .logo-glmerj { height: 75px; } 
+            .logo-loja { height: 60px; }
+            
+            .header-title-prefix { font-size: 1.2rem; }
+            .header-title-main { font-size: 1.5rem; line-height: 1.4; margin-bottom: 5px; }
+            .header-title-main span { font-size: 1.1rem; }
+            
+            .sub-header { font-size: 0.65rem; padding: 0 20px;}
+
+            .header-nav-inner { flex-wrap: wrap; gap: 8px; padding: 0 10px; justify-content: center;}
+            .nav-link { font-size: 0.7rem; padding: 6px 10px; }
+
+            .auth-box { width: 92%; padding: 30px 15px; }
+            .auth-box h2 { font-size: 1.3rem; }
+            .cand-name-auth { font-size: 0.85rem; }
+            
+            #cookie-banner { flex-direction: column; text-align: center; gap: 10px; }
+            .cookie-text { margin-right: 0; margin-bottom: 10px; }
+
+            .luminary { width: 80px; height: 80px; margin: -40px; }
+            
+            .hero-card { flex-direction: column; overflow: visible; margin-bottom: 30px; }
+            .hero-photo-area { height: 250px; flex: auto; width: 100%; border-right: none; border-bottom: 1px solid #ddd; }
+            .hero-photo { object-fit: cover; object-position: top; }
+            .hero-info { padding: 20px 15px; }
+            
+            .hero-header-row { flex-direction: column-reverse; align-items: center; text-align: center; gap: 15px; margin-bottom: 20px;}
+            .hero-info h2 { font-size: 1.3rem; text-align: center; margin-bottom: 0; line-height: 1.3; }
+            #status-badge { align-self: center; font-size: 0.65rem; padding: 8px 15px; }
+            
+            .data-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+            .data-item { border-bottom: 1px solid rgba(0,0,0,0.05); padding-bottom: 8px; }
+            .data-item:last-child { border-bottom: none; }
+            
+            .full-width, .col-span-2, .initiation-date { grid-column: span 2; }
+            
+            .progress-steps { padding-bottom: 10px; }
+            .docs-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+            .pdf-viewer-section { display: none; }
+            .btn-close-3d { right: -10px; top: -10px; width: 40px; height: 40px; font-size: 1rem; }
+            
+            body.matrix-mode::before { font-size: 1.2rem; }
+        }
+        
+        @media (max-width: 380px) {
+             .data-grid { grid-template-columns: 1fr; } 
+             .full-width, .col-span-2, .initiation-date { grid-column: span 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="password-overlay">
+        <div class="auth-box">
+            <img src="../../../imagens/264.webp" alt="264" class="auth-logo-img" onerror="this.src='../../../264.jpg'">
+            
+            <h2 style="margin-top: 10px;"><i class="fa fa-lock" aria-hidden="true"> ∴</i></h2>
+            <p class="cand-label">CANDIDATO:</p>
+            <p class="cand-name-auth">CARLOS HENRIQUE B. M.</p>
+            
+            <div id="error-msg" class="error-msg">Palavra Incorreta. Tentativas: <span id="tentativas">0</span>/3</div>
+            
+            <input type="password" id="passInput" class="auth-input" placeholder="SENHA MESTRA" autocomplete="off">
+            <button class="auth-btn" id="btn-login" onclick="checkPassword()">Acessar Dossiê</button>
+            
+            <div class="auth-links">
+                <a href="../../../index.html" class="btn-voltar"><i class="fas fa-home"></i> Início</a>
+                <a href="../../index.html" class="btn-voltar"><i class="fas fa-folder"></i> Secretaria</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="main-content">
+        
+        <header id="dossie-header">
+            <div class="header-nav-inner">
+                <a href="../../../index.html" class="nav-link"><i class="fas fa-home"></i> <span>Início</span></a>
+                <a href="../../index.html" class="nav-link"><i class="fas fa-folder"></i> <span>Secretaria</span></a>
+				<a href="../../historico.html" class="nav-link"><i class="fas fa-folder-open"></i> <span>Histórico</span></a>
+            </div>
+        </header>
+
+        <div id="orbit-system">
+            <div id="sun" class="luminary"></div>
+            <div id="moon" class="luminary"></div>
+        </div>
+        
+        <canvas id="constellation-bg"></canvas>
+
+        <div class="share-fab" onclick="sharePage()">
+            <i class="fas fa-share-alt"></i>
+            <div class="share-tooltip">Compartilhar Dossiê</div>
+        </div>
+
+        <div class="container">
+            <div class="dossier-header">
+               <div class="header-logos">
+			    <img src="../../../imagens/264.webp" alt="Loja 264" class="logo-loja" onerror="this.src='../../../imagens/264.jpg'">
+                <img src="../../../imagens/glmerj.webp" alt="GLMERJ" class="logo-glmerj" onerror="this.src='../../../glmerj.png'">
+            </div>
+                <span class="header-title-prefix">A∴ R∴ L∴ M∴</span>
+                <span class="header-title-main">FRATERNIDADE IMPERIAL <span>Nº 264</span></span>
+                <div class="sub-header">Dossiê de Sindicância</div>
+            </div>
+
+            <div class="hero-card">
+                <div class="hero-photo-area" onclick="openModal()">
+                    <img src="3x4.webp" alt="Foto Candidato" class="hero-photo">
+                    <div class="zoom-overlay"><i class="fas fa-search-plus"></i></div>
+                </div>
+                <div class="hero-info">
+                    <div class="hero-header-row">
+                        <h2>CARLOS HENRIQUE BASTOS MELO</h2>
+                        <div id="status-badge">...</div>
+                    </div>
+
+                    <div class="data-grid">
+                        <div class="data-item"><strong>CPF</strong><span>116.168.707-61</span></div>
+                        <div class="data-item"><strong>RG</strong><span>21.680.515-0 (DIC RJ)</span></div>
+                        
+                        <div class="data-item">
+                            <strong>Nascimento</strong>
+                            <span id="nasc-data">25/12/1990</span>
+                        </div>
+                        
+                        <div class="data-item"><strong>Tipo Sanguíneo</strong><span style="color: #e67e22;">O+</span></div>
+                        <div class="data-item col-span-2"><strong>Formação</strong><span>Superior Incompleto (Engenharia Civil)</span></div>
+
+                        <div class="data-item"><strong>CNH</strong><span>06286765102</span></div>
+                        <div class="data-item"><strong>Categoria</strong><span>AD</span></div>
+                        <div class="data-item"><strong>Profissão</strong><span>Motorista de Caminhão</span></div>
+
+                        <div class="data-item full-width">
+                            <strong>Telefone / WhatsApp</strong>
+                            <a href="https://wa.me/5521983340089" target="_blank" class="whatsapp-link">
+                                <i class="fab fa-whatsapp"></i> (21) 98334-0089
+                            </a>
+                        </div>
+                        <div class="data-item full-width">
+                            <strong>E-mail</strong>
+                            <a href="mailto:ruanrsp@hotmail.com" style="color: var(--royal-blue);">ruanrsp@hotmail.com</a>
+                        </div>
+
+                        <div class="data-item full-width"><strong>Filiação (Mãe)</strong><span>ALZIRA DA SILVA DE LIMA SANTOS</span></div>
+                        <div class="data-item full-width"><strong>Filiação (Pai)</strong><span>PABLO FERREIRA SANTOS</span></div>
+                        <div class="data-item full-width"><strong>Esposa</strong><span>MONICK DEYZE CORREIA SPÍNOLA</span></div>
+                        
+                        <div class="data-item full-width" style="margin-top: 10px; border-top: 1px dashed #ccc; padding-top: 10px;">
+                            <strong>Data da Pré-Proposta</strong>
+                            <span>14/11/2025</span>
+                        </div>
+
+                        <div id="default-date-container" class="initiation-date">
+                            <div class="init-info-wrapper">
+                                <i class="fas fa-calendar-alt" style="font-size: 1.5rem; color: var(--gold);"></i>
+                                <div>
+                                    <strong id="init-label">Previsão de Iniciação</strong><br>
+                                    <span id="init-date-display">Aguardando...</span>
+                                </div>
+                            </div>
+                            
+                            <div id="cim-display-container">
+                                <strong>CIM</strong>
+                                <span id="cim-number"></span>
+                            </div>
+                        </div>
+
+                        <div id="status-alert-container">
+                            <div style="display: flex; gap: 15px; align-items: flex-start;">
+                                <i class="fas fa-exclamation-triangle" style="font-size: 1.5rem; color: #cc0000; margin-top: 5px;"></i>
+                                <div>
+                                    <strong style="color: #cc0000; font-size: 0.9rem;" id="alert-title">PROCESSO ARQUIVADO</strong><br>
+                                    <span style="color: #333; font-size: 0.85rem;" id="alert-reason">Motivo: ...</span><br>
+                                    <span style="color: #777; font-size: 0.75rem; display: block; margin-top: 5px;" id="alert-resp">Responsável: ...</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-box">
+                <div class="timeline-header">Status do Processo</div>
+                <div class="progress-steps">
+                    <div class="progress-line-bg"></div>
+                    <div class="progress-line-fill" id="prog-line"></div>
+                    
+                    <div class="p-step" id="step-1"><div class="p-circle"><i class="fas fa-handshake"></i></div><div class="p-label">Pré-Proposta</div></div>
+                    <div class="p-step" id="step-2"><div class="p-circle"><i class="fas fa-check"></i></div><div class="p-label">Metais</div></div>
+                    <div class="p-step" id="step-3"><div class="p-circle"><i class="fas fa-folder-open"></i></div><div class="p-label">Entrega Docs</div></div>
+                    <div class="p-step" id="step-4"><div class="p-circle"><i class="fas fa-search"></i></div><div class="p-label">Verificação</div></div>
+                    <div class="p-step" id="step-5"><div class="p-circle"><i class="fas fa-user-tie"></i></div><div class="p-label">Sindicância</div></div>
+                    <div class="p-step" id="step-6"><div class="p-circle"><i class="fas fa-home"></i></div><div class="p-label">Sindicância Lar</div></div>
+                    <div class="p-step" id="step-7"><div class="p-circle"><i class="fas fa-landmark"></i></div><div class="p-label">GLMERJ</div></div>
+                    <div class="p-step" id="step-8"><div class="p-circle"><i class="fas fa-gavel"></i></div><div class="p-label">Iniciação</div></div>
+                </div>
+            </div>
+
+            <div class="pdf-viewer-section">
+                <div class="pdf-toolbar">
+                    <div class="pdf-title">
+                        <i class="fas fa-book-reader"></i> Dossiê Unificado (Todos os Documentos)
+                    </div>
+                    <div>
+                        <a href="docs/completo.pdf" target="_blank" class="btn-mini btn-view">Ver Tela Cheia</a>
+                        <a href="docs/completo.pdf" download class="btn-mini btn-down"><i class="fas fa-download"></i> Baixar</a>
+                    </div>
+                </div>
+                <iframe src="docs/completo.pdf">
+                    <p>Seu navegador não suporta visualização direta. <a href="docs/completo.pdf">Clique aqui para baixar.</a></p>
+                </iframe>
+            </div>
+
+            <h3 class="section-title"><i class="fas fa-archive"></i> Arquivos Individuais</h3>
+            <div class="docs-grid">
+                <div class="doc-card">
+                    <div class="doc-icon" style="color: #e67e22;"><i class="fas fa-image"></i></div>
+                    <div class="doc-name">Foto 3x4 Digital</div>
+                    <a href="docs/3x4.png" target="_blank" class="btn-mini btn-view">Ver</a>
+                    <a href="docs/3x4.png" download class="btn-mini btn-down">Baixar</a>
+                </div>
+                <div class="doc-card">
+                    <div class="doc-icon"><i class="fas fa-id-card"></i></div>
+                    <div class="doc-name">RG Digital</div>
+                    <a href="docs/2025.04 - RG DIGITAL.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
+                    <a href="docs/2025.04 - RG DIGITAL.pdf" download class="btn-mini btn-down">Baixar</a>
+                </div>             
+            </div>
+            
+            <footer>
+                <div class="footer-rights">
+                    © 2025 A∴ R∴ L∴ M∴ Fraternidade Imperial Nº 264. Todos os direitos reservados.
+                </div>
+                <div class="dev-container" id="imaginista-btn">
+                    <span class="dev-text">Desenvolvido por:</span>
+                    <img src="../../../imagens/logo.webp" alt="O Imaginista" class="imaginista-logo" onerror="this.src='../../../logo.png'">
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <div id="photoModal">
+        <div class="modal-content">
+            <div class="btn-close-3d" onclick="closeModal()">
+                <i class="fas fa-times"></i>
+            </div>
+            <img src="3x4.webp" class="modal-img">
+        </div>
+    </div>
+
+    <div id="cookie-banner" class="cookie-banner">
+        <div class="cookie-text">
+            Utilizamos cookies para garantir a segurança no acesso aos dados da Sindicância, em conformidade com a LGPD.
+        </div>
+        <button class="cookie-btn" onclick="acceptCookies()">Concordar e Fechar</button>
+    </div>
+
+    <script>
+        // =========================================================
+        // CONFIGURAÇÕES DO PROCESSO DO CANDIDATO
+        // =========================================================
+        
+        // 1. Defina o passo atual na linha do tempo (de 1 a 8)
+        const currentStep = 1; 
+        
+        // 2. Defina o STATUS DO PROCESSO. 
+        // Opções aceitas: "ativo", "iniciado", "negado", "desistencia"
+        const processStatus = "desistencia"; 
+        
+        // 3. Informações de Conclusão / Arquivamento
+        const finalDate = "21/02/2026"; // Data de Iniciação OU Data do Arquivamento
+        const cimNumber = "0245178"; // Número do CIM (se for iniciado)
+        const statusResponsible = "V∴ M∴ Everton Almeida"; // Quem assinou a recusa/desistência
+        const statusReason = "O Candidato desistiu do processo."; // Motivo do arquivamento
+        // =========================================================
+
+        function checkPassword() {
+            const passInput = document.getElementById('passInput');
+            const pass = passInput.value.trim();
+            const correctPass = "264"; 
+            
+            if(pass === correctPass) {
+                const overlay = document.getElementById('password-overlay');
+                const main = document.getElementById('main-content');
+                const header = document.getElementById('dossie-header');
+                
+                overlay.style.opacity = '0';
+                
+                setTimeout(() => {
+                    overlay.style.display = 'none';
+                    main.style.display = 'block'; 
+                    header.style.display = 'flex'; 
+                    
+                    main.offsetHeight; 
+                    main.style.opacity = '1';
+                    main.style.filter = 'none';
+                    
+                    initConstellations(); 
+                    setupLogoBurst(); 
+                    updateLogic();
+                    calculateAge(); 
+                }, 500);
+            } else {
+                let tentativasSpan = document.getElementById('tentativas');
+                let t = parseInt(tentativasSpan.innerText);
+                t++;
+                tentativasSpan.innerText = t;
+                document.getElementById('error-msg').style.display = 'block';
+                passInput.value = '';
+                passInput.focus();
+                
+                if (t >= 3) {
+                    document.body.className = 'matrix-mode';
+                    passInput.disabled = true;
+                    document.getElementById('btn-login').disabled = true;
+                    setTimeout(() => { window.location.href = "../../../index.html"; }, 3000);
+                }
+            }
+        }
+
+        function calculateAge() {
+            const birthElement = document.getElementById('nasc-data');
+            const birthDateString = birthElement.innerText; 
+            
+            const [day, month, year] = birthDateString.split('/');
+            const birthDate = new Date(year, month - 1, day);
+            const today = new Date();
+            
+            let age = today.getFullYear() - birthDate.getFullYear();
+            const m = today.getMonth() - birthDate.getMonth();
+            
+            if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+            birthElement.innerHTML = `${birthDateString} <span style="color: #777; font-weight: normal; margin-left: 5px;">(${age} anos)</span>`;
+        }
+
+        function sharePage() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Dossiê do Candidato',
+                    text: 'Acesse o dossiê digital da sindicância.',
+                    url: window.location.href
+                }).catch((error) => console.log('Erro ao compartilhar', error));
+            } else {
+                navigator.clipboard.writeText(window.location.href);
+                alert("Link copiado para a área de transferência!");
+            }
+        }
+
+        function openModal() {
+            const modal = document.getElementById('photoModal');
+            modal.style.display = 'flex';
+            setTimeout(() => { 
+                modal.style.opacity = '1'; 
+                modal.querySelector('.modal-content').style.transform = 'rotateX(0deg)';
+            }, 50);
+        }
+        function closeModal() {
+            const modal = document.getElementById('photoModal');
+            modal.style.opacity = '0';
+            modal.querySelector('.modal-content').style.transform = 'rotateX(15deg)';
+            setTimeout(() => { modal.style.display = 'none'; }, 500);
+        }
+
+        function updateLogic() {
+            const stepsData = [
+                {id:1, txt:"Pré-Proposta"}, {id:2, txt:"Metais"}, {id:3, txt:"Entrega Docs"}, 
+                {id:4, txt:"Verificando"}, {id:5, txt:"Sindicância"}, {id:6, txt:"Sind. Familiar"}, 
+                {id:7, txt:"Aguardando GLMERJ"}, {id:8, txt:"Iniciação"}
+            ];
+
+            const badge = document.getElementById('status-badge');
+            const defaultDateBox = document.getElementById('default-date-container');
+            const alertBox = document.getElementById('status-alert-container');
+            const dateDisplay = document.getElementById('init-date-display');
+            const initLabel = document.getElementById('init-label');
+            const progLine = document.getElementById('prog-line');
+            const cimContainer = document.getElementById('cim-display-container');
+
+            // --- LÓGICA DE STATUS ---
+            if (processStatus === "iniciado") {
+                badge.innerText = "INICIADO (CONCLUÍDO)";
+                badge.style.background = '#2e7d32'; // Verde
+                badge.style.color = '#fff';
+                badge.style.borderColor = '#1b5e20';
+                
+                initLabel.innerText = "Data da Iniciação";
+                dateDisplay.innerText = finalDate;
+                dateDisplay.style.color = "#2e7d32"; 
+                dateDisplay.style.fontWeight = "800";
+                
+                cimContainer.style.display = "block"; // Revela CIM
+                document.getElementById('cim-number').innerText = cimNumber;
+                
+                progLine.style.width = "100%"; 
+
+                for(let i=1; i<=8; i++) {
+                    const el = document.getElementById(`step-${i}`);
+                    if (i === 8) el.className = "p-step finished"; 
+                    else el.className = "p-step completed"; 
+                }
+
+            } else if (processStatus === "negado" || processStatus === "desistencia") {
+                // NEGADO OU DESISTÊNCIA
+                badge.innerText = processStatus === "negado" ? "PROCESSO NEGADO" : "DESISTÊNCIA";
+                badge.style.background = '#cc0000'; // Vermelho
+                badge.style.color = '#fff';
+                badge.style.borderColor = '#880000';
+
+                // Troca a caixa de data pela caixa de alerta
+                defaultDateBox.style.display = "none";
+                alertBox.style.display = "block";
+
+                document.getElementById('alert-title').innerText = processStatus === "negado" ? "PROCESSO NEGADO E ARQUIVADO" : "DESISTÊNCIA DO CANDIDATO";
+                document.getElementById('alert-reason').innerText = "Motivo: " + statusReason;
+                document.getElementById('alert-resp').innerText = "Despacho por: " + statusResponsible + " em " + finalDate;
+
+                // Para a barra de progresso onde parou e pinta de vermelho
+                const percent = ((currentStep-1) / 7) * 100;
+                progLine.style.width = percent + "%";
+                progLine.style.backgroundColor = "#cc0000";
+                progLine.style.backgroundImage = "none"; // Tira as listras animadas
+
+                for(let i=1; i<=8; i++) {
+                    const el = document.getElementById(`step-${i}`);
+                    if(i < currentStep) el.className = "p-step completed";
+                    else if(i === currentStep) el.className = "p-step denied"; // Cria classe vermelha no CSS
+                    else el.className = "p-step";
+                }
+
+            } else {
+                // ATIVO (Padrão)
+                badge.innerText = stepsData[currentStep-1].txt;
+                badge.style.background = 'var(--gold)';
+                badge.style.color = '#000';
+                
+                // --- LÓGICA DE DATA AJUSTADA AQUI ---
+                if (currentStep === 8) {
+                    // Se estiver no passo 8, mostra a data agendada
+                    initLabel.innerText = "Previsão de Iniciação";
+                    dateDisplay.innerText = finalDate;
+                    dateDisplay.style.color = "#2e7d32"; 
+                    dateDisplay.style.fontWeight = "800";
+                } else {
+                    // Passos de 1 a 7
+                    initLabel.innerText = "Previsão de Iniciação";
+                    dateDisplay.innerText = "Aguardando conclusão do processo...";
+                    dateDisplay.style.color = "#777";
+                    dateDisplay.style.fontWeight = "normal";
+                }
+                
+                const percent = ((currentStep-1) / 7) * 100;
+                progLine.style.width = percent + "%";
+
+                for(let i=1; i<=8; i++) {
+                    const el = document.getElementById(`step-${i}`);
+                    if(i < currentStep) el.className = "p-step completed";
+                    else if(i === currentStep) el.className = "p-step active";
+                    else el.className = "p-step";
+                }
+            }
+        }
+
+        /* --- ANIMAÇÃO LOGO O IMAGINISTA --- */
+        function setupLogoBurst() {
+            const btn = document.getElementById('imaginista-btn');
+            if(btn) {
+                btn.addEventListener('click', () => {
+                    const rect = btn.getBoundingClientRect();
+                    createBurst(rect.left + rect.width/2, rect.top);
+                });
+            }
+        }
+        function createBurst(x, y) {
+            for(let i=0; i<30; i++) {
+                const p = document.createElement('div');
+                p.style.position = 'fixed'; p.style.left = x+'px'; p.style.top = y+'px';
+                p.style.width = (Math.random()*4+2)+'px'; p.style.height = p.style.width;
+                p.style.background = Math.random()>0.5?'#d4af37':'#005eb8';
+                p.style.borderRadius = '50%'; p.style.pointerEvents = 'none'; p.style.zIndex = '9999';
+                document.body.appendChild(p);
+                const angle = Math.random()*Math.PI*2, velocity = Math.random()*5+2;
+                const vx = Math.cos(angle)*velocity, vy = Math.sin(angle)*velocity-5;
+                let life = 100;
+                function updateP() {
+                    life-=2; p.style.left=(parseFloat(p.style.left)+vx)+'px'; p.style.top=(parseFloat(p.style.top)+vy)+'px';
+                    p.style.opacity=life/100;
+                    if(life>0) requestAnimationFrame(updateP); else p.remove();
+                }
+                requestAnimationFrame(updateP);
+            }
+        }
+
+        /* --- CONSTELAÇÕES EFEITO "CLÁSSICO" OTIMIZADO --- */
+        function initConstellations() {
+            const canvas = document.getElementById('constellation-bg');
+            const ctx = canvas.getContext('2d');
+            let w, h, particles = [];
+            
+            const isMobile = window.innerWidth < 768;
+
+            const properties = {
+                particleColor: 'rgba(212, 175, 55, 1)', 
+                particleRadius: 2, 
+                particleCount: isMobile ? 35 : 70, 
+                lineLength: isMobile ? 100 : 150, 
+                particleSpeed: 0.5 
+            };
+
+            const resize = () => { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; };
+            window.addEventListener('resize', resize);
+            resize();
+
+            class Particle {
+                constructor(){
+                    this.x = Math.random() * w;
+                    this.y = Math.random() * h;
+                    this.vx = (Math.random() - 0.5) * properties.particleSpeed;
+                    this.vy = (Math.random() - 0.5) * properties.particleSpeed;
+                }
+                position(){
+                    if(this.x > w || this.x < 0) this.vx *= -1;
+                    if(this.y > h || this.y < 0) this.vy *= -1;
+                    this.x += this.vx;
+                    this.y += this.vy;
+                }
+                draw(){
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, properties.particleRadius, 0, Math.PI * 2);
+                    ctx.fillStyle = properties.particleColor;
+                    ctx.fill();
+                }
+            }
+
+            for(let i=0; i < properties.particleCount; i++){
+                particles.push(new Particle());
+            }
+
+            function loop(){
+                ctx.clearRect(0, 0, w, h);
+
+                for(let i=0; i < particles.length; i++){
+                    particles[i].position();
+                    particles[i].draw();
+                    
+                    for(let j = i + 1; j < particles.length; j++){
+                        const dist = Math.hypot(particles[i].x - particles[j].x, particles[i].y - particles[j].y);
+                        if(dist < properties.lineLength){
+                            ctx.lineWidth = 0.5;
+                            ctx.strokeStyle = `rgba(212, 175, 55, ${1 - dist/properties.lineLength})`; 
+                            ctx.beginPath();
+                            ctx.moveTo(particles[i].x, particles[i].y);
+                            ctx.lineTo(particles[j].x, particles[j].y);
+                            ctx.stroke();
+                        }
+                    }
+                }
+                requestAnimationFrame(loop);
+            }
+            loop();
+        }
+
+        // --- FUNÇÕES DE COOKIES LGPD ---
+        function checkCookies() {
+            if (!localStorage.getItem('cookiesAcceptedDossie')) {
+                setTimeout(() => {
+                    document.getElementById('cookie-banner').classList.add('show');
+                }, 1000);
+            }
+        }
+
+        function acceptCookies() {
+            localStorage.setItem('cookiesAcceptedDossie', 'true');
+            document.getElementById('cookie-banner').classList.remove('show');
+        }
+
+        window.addEventListener('load', checkCookies);
+
+    </script>
+</body>
+</html>
