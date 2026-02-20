@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arquivo Central | A∴ R∴ L∴ S∴ Fraternidade Imperial Nº 264</title>
+    <title>Arquivo Central | A∴ R∴ L∴ M∴ Fraternidade Imperial Nº 264</title>
     
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="X-XSS-Protection" content="1; mode=block">
@@ -43,6 +43,7 @@
             position: fixed; top: 0; left: 0; width: 100%; z-index: 100; padding: 15px 0; 
             background: rgba(0, 12, 24, 0.95); backdrop-filter: blur(10px); 
             border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+            /* Modificado de display:none para flex via JS para evitar pulos */
             display: none; justify-content: center; align-items: center;
         }
         .header-nav-inner { display: flex; justify-content: center; gap: 20px; align-items: center; max-width: 1200px; width: 100%; padding: 0 20px;}
@@ -53,8 +54,6 @@
             border: 1px solid var(--gold); padding: 8px 20px; border-radius: 4px;
         }
         .nav-link:hover { background: var(--gold); color: #000; box-shadow: 0 0 15px var(--gold-shadow); }
-        .btn-active { background: rgba(212, 175, 55, 0.1); color: var(--gold); border-color: var(--gold); }
-        .btn-active:hover { background: var(--gold); color: #000; }
 
         /* --- POPUP SENHA CORRIGIDO PARA NÃO PULAR --- */
         #password-overlay {
@@ -113,20 +112,20 @@
         /* --- MAIN CONTENT (ARQUIVO) --- */
         #main-content {
             width: 100%; display: none; flex-direction: column; align-items: center; 
-            margin-top: 120px; flex: 1; opacity: 0; filter: blur(20px); transition: all 1s ease;
+            margin-top: 100px; flex: 1; opacity: 0; filter: blur(20px); transition: all 1s ease;
         }
 
         .container { 
             text-align: center; animation: fadeIn 2s ease; position: relative; z-index: 2; 
-            width: 100%; max-width: 800px; padding: 20px;
+            width: 100%; max-width: 900px; padding: 20px;
         }
         
         .brasao-container {
-            width: 180px; height: 180px; margin: 0 auto 30px; border-radius: 50%;
-            box-shadow: 0 0 60px rgba(212, 175, 55, 0.3); animation: float 6s ease-in-out infinite;
+            width: 160px; height: 160px; margin: 0 auto 20px; border-radius: 50%;
+            box-shadow: 0 0 40px rgba(212, 175, 55, 0.3); animation: float 6s ease-in-out infinite;
             background: rgba(0,0,0,0.3); padding: 10px; border: 1px solid rgba(212, 175, 55, 0.3);
         }
-        .brasao-img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; border: 4px solid var(--gold); }
+        .brasao-img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; border: 3px solid var(--gold); }
 
         .page-title { 
             font-family: 'Cinzel', serif; font-size: 2.2rem; line-height: 1.2; letter-spacing: 2px; margin-bottom: 5px; 
@@ -139,7 +138,7 @@
 
         /* --- BUSCADOR --- */
         .search-container {
-            width: 100%; margin-bottom: 30px; position: relative;
+            width: 100%; margin-bottom: 40px; position: relative;
         }
         .search-input {
             width: 100%; padding: 15px 20px 15px 50px; font-size: 1rem; border-radius: 8px; 
@@ -164,20 +163,26 @@
             color: #fff; text-decoration: none; border-radius: 8px;
             transition: all 0.3s; backdrop-filter: blur(5px); box-shadow: 0 5px 15px rgba(0,0,0,0.3);
             position: relative; overflow: hidden;
+            display: none; /* Controlado via JS para paginação */
         }
         .archive-btn:hover { background: rgba(0, 42, 82, 0.9); transform: translateY(-3px); border-color: var(--gold); box-shadow: 0 10px 25px rgba(212, 175, 55, 0.2); }
 
-        .cand-info { text-align: left; display: flex; align-items: center; gap: 20px; }
+        .cand-info { text-align: left; display: flex; align-items: center; gap: 20px; flex: 1;}
         
-        /* Box do CIM */
+        /* Box do CIM / Status */
         .cim-box { 
             background: rgba(212, 175, 55, 0.15); border: 1px solid var(--gold); 
             border-radius: 6px; padding: 10px 15px; text-align: center; min-width: 100px;
         }
-        .cim-label { font-size: 0.6rem; color: var(--gold); display: block; letter-spacing: 2px; margin-bottom: 3px;}
-        .cim-num { font-size: 1.1rem; font-family: 'Cinzel'; font-weight: bold; color: #fff;}
+        .cim-box.negado { background: rgba(204, 0, 0, 0.1); border-color: #cc0000; }
+        
+        .cim-label { font-size: 0.6rem; color: var(--gold); display: block; letter-spacing: 2px; margin-bottom: 3px; text-transform: uppercase;}
+        .cim-label.negado { color: #cc0000; }
+        
+        .cim-num { font-size: 1.1rem; font-family: 'Cinzel'; font-weight: bold; color: #fff; letter-spacing: 1px;}
+        .cim-num.negado { font-size: 0.85rem; color: #ff6666; font-family: 'Lato';}
 
-        .cand-name { font-size: 1rem; font-weight: bold; display: block; font-family: 'Lato', sans-serif; letter-spacing: 1px;}
+        .cand-name { font-size: 1.1rem; font-weight: bold; display: block; font-family: 'Lato', sans-serif; letter-spacing: 1px;}
         
         .status-badge { 
             display: inline-block; padding: 4px 10px; border-radius: 4px; font-size: 0.65rem; 
@@ -187,10 +192,19 @@
         .st-denied { background: #880000; color: #fff; border: 1px solid #cc0000; }
 
         .date-info { font-size: 0.75rem; color: #aaa; margin-top: 5px; display: block; }
-        .arrow { font-size: 1rem; opacity: 0.5; transition: transform 0.3s; color: var(--gold);}
+        .arrow { font-size: 1rem; opacity: 0.5; transition: transform 0.3s; color: var(--gold); margin-left: 15px;}
         .archive-btn:hover .arrow { transform: translateX(5px); opacity: 1; }
 
         .section-title { font-size: 1rem; text-transform: uppercase; letter-spacing: 2px; color: var(--gold); margin-bottom: 20px; border-bottom: 1px solid rgba(212, 175, 55, 0.3); padding-bottom: 10px; font-family: 'Cinzel', serif; text-align: left;}
+
+        /* PAGINAÇÃO */
+        #loadMoreBtn { 
+            display: none; margin: 20px auto 50px; padding: 12px 40px; 
+            background: transparent; border: 1px solid var(--gold); color: var(--gold); 
+            font-family: 'Cinzel'; font-weight: bold; letter-spacing: 1px; cursor: pointer; 
+            transition: 0.3s; border-radius: 4px; text-transform: uppercase;
+        }
+        #loadMoreBtn:hover { background: var(--gold); color: #000; box-shadow: 0 0 15px var(--gold-shadow); }
 
         /* MENSAGEM NENHUM RESULTADO */
         #no-results-msg {
@@ -198,9 +212,20 @@
             background: rgba(255,255,255,0.05); border-radius: 8px; border: 1px dashed rgba(255,255,255,0.2);
         }
 
-        /* FOOTER */
-        footer { width: 100%; position: relative; background-color: #02050a; background-image: linear-gradient(45deg, rgba(255,255,255,0.06) 25%, transparent 25%, transparent 75%, rgba(255,255,255,0.06) 75%, rgba(255,255,255,0.06)), linear-gradient(45deg, rgba(255,255,255,0.06) 25%, transparent 25%, transparent 75%, rgba(255,255,255,0.06) 75%, rgba(255,255,255,0.06)); background-size: 80px 80px; background-position: 0 0, 40px 40px; padding: 80px 0 20px; border-top: 3px solid var(--gold); margin-top: auto; display: none; }
-        footer::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, rgba(0,12,24,0.9) 0%, rgba(0,0,0,0) 20%, rgba(0,0,0,0) 80%, rgba(0,0,0,0.95) 100%); z-index: 0; pointer-events: none; }
+        /* --- FOOTER PADRÃO MOSAICO --- */
+        footer { 
+            position: relative; width: 100%; background-color: #02050a; 
+            background-image: 
+                linear-gradient(45deg, rgba(255,255,255,0.06) 25%, transparent 25%, transparent 75%, rgba(255,255,255,0.06) 75%, rgba(255,255,255,0.06)),
+                linear-gradient(45deg, rgba(255,255,255,0.06) 25%, transparent 25%, transparent 75%, rgba(255,255,255,0.06) 75%, rgba(255,255,255,0.06));
+            background-size: 80px 80px; background-position: 0 0, 40px 40px;
+            padding: 80px 0 20px; border-top: 3px solid var(--gold); margin-top: auto; display: none;
+        }
+        footer::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, rgba(0,12,24,0.9) 0%, rgba(0,0,0,0) 20%, rgba(0,0,0,0) 80%, rgba(0,0,0,0.95) 100%);
+            z-index: 0; pointer-events: none;
+        }
         .footer-grid { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 40px; text-align: left; padding-bottom: 40px; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
         .footer-col h4 { color: var(--gold); font-family: 'Cinzel'; margin-bottom: 20px; font-size: 1.1rem; text-shadow: 0 2px 5px rgba(0,0,0,0.8);}
         .footer-contact p { margin-bottom: 10px; font-size: 0.9rem; color: #ddd; display: flex; gap: 10px; text-shadow: 0 1px 3px rgba(0,0,0,0.9); }
@@ -209,16 +234,9 @@
         .social-btn { display: inline-flex; justify-content: center; align-items: center; width: 50px; height: 50px; border-radius: 50%; border: 1px solid rgba(212, 175, 55, 0.4); color: #fff; font-size: 1.3rem; margin: 0 10px; transition: 0.3s; text-decoration: none; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px);}
         .social-btn:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-5px); box-shadow: 0 0 15px var(--gold-shadow); background: rgba(0,0,0,0.9);}
         .footer-dev-right { text-align: right; display: flex; flex-direction: column; align-items: flex-end; justify-content: center; }
-        .dev-logo { width: 100px; filter: grayscale(100%) brightness(200%); opacity: 0.8; transition: 0.3s; cursor: pointer; }
+        .dev-logo { width: 120px; filter: grayscale(100%) brightness(200%); opacity: 0.8; transition: 0.3s; cursor: pointer; }
         .dev-logo:hover { filter: grayscale(0%) brightness(100%); opacity: 1; }
         .copyright { position: relative; z-index: 1; font-size: 0.8rem; color: #ccc; padding-top: 20px; border-top: 1px solid rgba(212, 175, 55, 0.3); display: flex; justify-content: space-between; max-width: 1200px; margin: 0 auto; padding-left: 20px; padding-right: 20px; flex-wrap: wrap; text-shadow: 0 1px 2px #000; }
-
-        /* BANNER LGPD / COOKIES */
-        #cookie-banner { position: fixed; bottom: -100px; left: 0; width: 100%; background: rgba(0, 10, 20, 0.95); border-top: 1px solid var(--gold); padding: 15px 20px; z-index: 9998; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 -5px 20px rgba(0,0,0,0.8); transform: translateY(100%); transition: transform 0.5s ease; font-family: 'Lato', sans-serif;}
-        #cookie-banner.show { transform: translateY(0); }
-        .cookie-text { font-size: 0.8rem; color: #ccc; max-width: 800px; text-align: center;}
-        .cookie-btn { background: var(--gold); color: #000; border: none; padding: 10px 25px; font-weight: bold; cursor: pointer; border-radius: 4px; transition: 0.3s; text-transform: uppercase; font-size: 0.75rem;}
-        .cookie-btn:hover { background: #fff; }
 
         /* --- EFEITO MATRIX (HACK/ERRO) --- */
         body.matrix-mode { background: #000 !important; color: #0f0 !important; font-family: monospace !important; animation: shake 0.5s infinite; }
@@ -226,36 +244,38 @@
         body.matrix-mode::before { content: 'ACESSO NEGADO. VIOLAÇÃO DE SEGURANÇA DETECTADA. REDIRECIONANDO...'; display: flex !important; justify-content: center; align-items: center; position: fixed; top: 0; left: 0; width: 100%; height: 100vh; font-size: 2rem; color: #f00; text-align: center; padding: 20px; z-index: 9999; background: #000;}
         
         @keyframes popIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
-        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-15px); } 100% { transform: translateY(0px); } }
+        @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
         @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
         @keyframes shimmer { 0% { left: -50%; top: -50%; } 100% { left: 150%; top: 150%; } }
         @keyframes shake { 0% { transform: translate(1px, 1px) rotate(0deg); } 10% { transform: translate(-1px, -2px) rotate(-1deg); } 20% { transform: translate(-3px, 0px) rotate(1deg); } 30% { transform: translate(3px, 2px) rotate(0deg); } 40% { transform: translate(1px, -1px) rotate(1deg); } 50% { transform: translate(-1px, 2px) rotate(-1deg); } 60% { transform: translate(-3px, 1px) rotate(0deg); } 70% { transform: translate(3px, 1px) rotate(-1deg); } 80% { transform: translate(-1px, -1px) rotate(1deg); } 90% { transform: translate(1px, 2px) rotate(0deg); } 100% { transform: translate(1px, -2px) rotate(-1deg); } }
 
         /* --- RESPONSIVIDADE MOBILE --- */
         @media (max-width: 768px) {
-            .brasao-container { width: 140px; height: 140px; margin-bottom: 20px; } 
+            .brasao-container { width: 120px; height: 120px; margin-bottom: 20px; } 
             
             .page-title { font-size: 1.5rem; margin-bottom: 5px; } 
             .page-title span { font-size: 1.1rem; }
             .subtitle { font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 30px; }
             
-            .header-nav-inner { flex-wrap: wrap; gap: 8px; padding: 0 10px; justify-content: center;}
-            .nav-link { font-size: 0.7rem; padding: 6px 10px; }
+            .header-nav-inner { gap: 10px; }
+            .nav-link { font-size: 0.7rem; padding: 6px 12px; }
 
             .auth-box { width: 92%; padding: 30px 15px; }
             .auth-box h2 { font-size: 1.3rem; }
             .cand-name-auth { font-size: 0.85rem; }
             
+            /* Ajuste Perfeito do Card no Mobile */
             .cand-info { flex-direction: column; align-items: flex-start; gap: 10px;}
-            .cim-box { min-width: auto; padding: 8px 10px; align-self: flex-start;}
+            .cim-box { align-self: flex-start; margin-bottom: 5px; padding: 8px 12px;}
+            .archive-btn { padding: 15px; align-items: center; }
             
             .footer-grid { grid-template-columns: 1fr; text-align: center; gap: 30px;}
             .footer-dev-right { align-items: center; }
             .footer-contact p { justify-content: center; }
             .copyright { flex-direction: column; gap: 10px; text-align: center; }
-            #cookie-banner { flex-direction: column; text-align: center; gap: 10px; }
-            .cookie-text { margin-right: 0; margin-bottom: 10px; }
+            
             body.matrix-mode::before { font-size: 1.2rem; }
+            #main-content { margin-top: 80px; }
         }
     </style>
 </head>
@@ -287,7 +307,6 @@
             <div class="header-nav-inner">
                 <a href="../../index.html" class="nav-link"><i class="fas fa-home"></i> <span>Início</span></a>
                 <a href="../index.html" class="nav-link"><i class="fas fa-folder"></i> <span>Secretaria</span></a>
-                <a href="#" class="nav-link btn-active"><i class="fas fa-archive"></i> <span>Arquivados</span></a>
             </div>
         </header>
 
@@ -304,120 +323,168 @@
 
             <div class="search-container">
                 <i class="fas fa-search search-icon"></i>
-                <input type="text" id="searchInput" class="search-input" placeholder="Pesquisar por nome ou CIM..." onkeyup="filterProcess()">
+                <input type="text" id="searchInput" class="search-input" placeholder="Pesquisar por Nome, Status ou CIM..." onkeyup="filterProcess()">
             </div>
             
             <div class="process-list" id="process-list">
                 
                 <div id="no-results-msg"><i class="fas fa-search-minus" style="font-size: 2rem; margin-bottom: 10px; display:block;"></i>Nenhum processo encontrado.</div>
 
-                <div class="section-title js-section-title"><i class="fas fa-archive"></i> Processos Concluídos (Iniciados)</div>
+                <div class="section-title js-section-title"><i class="fas fa-archive"></i> Processos Avaliados</div>
 
-                <a href="../processos/0245177/" class="archive-btn js-process-card">
-                    <div class="cand-info">
-                        <div class="cim-box">
-                            <span class="cim-label">CIM</span>
-                            <span class="cim-num">0245177</span>
-                        </div>
-                        <div>
-                            <span class="cand-name">Ruan Pablo da Silva de Lima Santos</span>
-                            <span class="date-info"><i class="fas fa-calendar-check"></i> Iniciado em: 28/03/2026</span>
-                            <div class="status-badge st-success">Processo Concluído</div>
-                        </div>
-                    </div>
-                    <i class="fas fa-chevron-right arrow"></i>
-                </a>
-
-                <a href="../processos/0245178/" class="archive-btn js-process-card">
-                    <div class="cand-info">
-                        <div class="cim-box">
-                            <span class="cim-label">CIM</span>
-                            <span class="cim-num">0245178</span>
-                        </div>
-                        <div>
-                            <span class="cand-name">Carlos Henrique Bastos Melo</span>
-                            <span class="date-info"><i class="fas fa-calendar-check"></i> Iniciado em: 15/12/2025</span>
-                            <div class="status-badge st-success">Processo Concluído</div>
-                        </div>
-                    </div>
-                    <i class="fas fa-chevron-right arrow"></i>
-                </a>
-
-                <div class="section-title js-section-title" style="margin-top: 30px; color: #cc0000; border-bottom-color: rgba(204, 0, 0, 0.3);"><i class="fas fa-ban"></i> Processos Arquivados (Negados/Desistência)</div>
-
-                <a href="../processos/0245179/" class="archive-btn js-process-card" style="border-color: rgba(204, 0, 0, 0.3);">
-                    <div class="cand-info">
-                        <div class="cim-box" style="background: rgba(204, 0, 0, 0.1); border-color: #cc0000;">
-                            <span class="cim-label" style="color: #cc0000;">PROCESSO</span>
-                            <span class="cim-num" style="font-size: 0.9rem; color: #ff6666;">ARQUIVADO</span>
-                        </div>
-                        <div>
-                            <span class="cand-name">Gabriel da Silveira Filho</span>
-                            <span class="date-info"><i class="fas fa-calendar-times"></i> Encerrado em: 10/01/2026</span>
-                            <div class="status-badge st-denied">Processo Negado</div>
-                        </div>
-                    </div>
-                    <i class="fas fa-lock arrow" style="color: #cc0000;"></i>
-                </a>
-
-            </div>
+                </div>
+            
+            <button id="loadMoreBtn" onclick="loadMore()">Carregar Mais Arquivos</button>
 
         </div>
 
-    </div>
-
-    <footer id="secretaria-footer">
-        <div class="footer-grid">
-            <div class="footer-col">
-                <h4>Fale Conosco</h4>
-                <div class="footer-contact">
-                    <p><i class="fas fa-map-pin"></i> Rua Nair Tefé, 320 - Quitandinha, Petrópolis - RJ</p>
-                    <p><i class="fas fa-clock"></i> Reuniões: Sábados (Quinzenalmente) às 10h</p>
-                    <p><i class="fas fa-envelope"></i> secretaria@fraternidadeimperial264.com.br</p>
+        <footer id="secretaria-footer">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>Fale Conosco</h4>
+                    <div class="footer-contact">
+                        <p><i class="fas fa-map-pin"></i> Rua Nair Tefé, 320 - Quitandinha, Petrópolis - RJ</p>
+                        <p><i class="fas fa-clock"></i> Reuniões: Sábados (Quinzenalmente) às 10h</p>
+                        <p><i class="fas fa-envelope"></i> secretaria@fraternidadeimperial264.com.br</p>
+                    </div>
+                </div>
+                <div class="footer-col footer-social-center">
+                    <h4>Redes Sociais</h4>
+                    <div class="social-icons">
+                        <a href="https://www.instagram.com/fraternidadeimperial264" target="_blank" class="social-btn" title="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-btn" title="YouTube (Em breve)"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col footer-dev-right">
+                    <span style="font-size:0.8rem; color:#aaa; margin-bottom:5px; text-shadow: 0 1px 2px #000;">Desenvolvido por:</span>
+                    <a href="https://oimaginista.com" target="_blank">
+                        <img src="../../imagens/logo.png" alt="O Imaginista" class="dev-logo" onerror="this.src='../../logo.png'">
+                    </a>
                 </div>
             </div>
-            <div class="footer-col footer-social-center">
-                <h4>Redes Sociais</h4>
-                <div class="social-icons">
-                    <a href="https://www.instagram.com/fraternidadeimperial264" target="_blank" class="social-btn" title="Instagram"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="social-btn" title="YouTube (Em breve)"><i class="fab fa-youtube"></i></a>
-                </div>
-            </div>
-            <div class="footer-col footer-dev-right">
-                <span style="font-size:0.8rem; color:#aaa; margin-bottom:5px; text-shadow: 0 1px 2px #000;">Desenvolvido por:</span>
-                <img src="../../imagens/logo.png" alt="O Imaginista" class="imaginista-logo" onerror="this.src='../../logo.png'">
-            </div>
-        </div>
 
-        <div class="copyright">
-            <span>© 2025 A∴ R∴ L∴ M∴ Fraternidade Imperial Nº 264. Todos os direitos reservados.</span>
-            <span>CNPJ: 00.000.000/0000-00</span>
-        </div>
-    </footer>
+            <div class="copyright">
+                <span>© 2025 A∴ R∴ L∴ M∴ Fraternidade Imperial Nº 264. Todos os direitos reservados.</span>
+                <span>CNPJ: 00.000.000/0000-00</span>
+            </div>
+        </footer>
 
-    <div id="cookie-banner" class="cookie-banner">
-        <div class="cookie-text">
-            Este site utiliza cookies para garantir a segurança e funcionalidade da Secretaria. 
-            Ao continuar, você concorda com nossa <a href="#" style="color:var(--gold); text-decoration: underline;">Política de Privacidade</a>.
-        </div>
-        <button id="accept-cookies" class="cookie-btn">Entendido</button>
     </div>
 
     <script>
-        // --- FUNÇÃO DE BUSCA/FILTRO ---
+        // =========================================================
+        // BASE DE DADOS: ARQUIVO CENTRAL (15 Nomes Fictícios)
+        // Configure o "status" e se deve "exibirCim" (true/false)
+        // =========================================================
+        const dadosProcessos = [
+            {nome: "Ruan Pablo da Silva de Lima Santos", data: "28/03/2026", cim: "0245177", status: "Concluído", exibirCim: true},
+            {nome: "Jefferson Alencar de Souza", data: "15/12/2025", cim: "0245178", status: "Concluído", exibirCim: true},
+            {nome: "Marcos Vinícius Oliveira", data: "10/01/2026", cim: "ARQUIVADO", status: "Desistência", exibirCim: false},
+            {nome: "Ricardo Ferreira da Costa", data: "05/11/2025", cim: "0245180", status: "Concluído", exibirCim: true},
+            {nome: "Claudio Roberto Mendes", data: "20/09/2025", cim: "NEGADO", status: "Negado", exibirCim: false},
+            {nome: "Fábio de Andrade Lima", data: "18/08/2025", cim: "0245182", status: "Concluído", exibirCim: true},
+            {nome: "Sérgio Murilo Peixoto", data: "10/07/2025", cim: "0245183", status: "Concluído", exibirCim: true},
+            {nome: "Gustavo Henrique Duarte", data: "02/06/2025", cim: "ARQUIVADO", status: "Desistência", exibirCim: false},
+            {nome: "Thiago Braga de Matos", data: "15/05/2025", cim: "0245185", status: "Concluído", exibirCim: true},
+            {nome: "André Luiz Guimarães", data: "30/04/2025", cim: "0245186", status: "Concluído", exibirCim: true},
+            {nome: "Paulo Roberto de Souza", data: "22/03/2025", cim: "0245187", status: "Concluído", exibirCim: true},
+            {nome: "Luciano Barbosa da Silva", data: "10/02/2025", cim: "NEGADO", status: "Negado", exibirCim: false},
+            {nome: "Otávio Augusto Valente", data: "28/01/2025", cim: "0245189", status: "Concluído", exibirCim: true},
+            {nome: "Rodrigo Antunes de Oliveira", data: "15/12/2024", cim: "0245190", status: "Concluído", exibirCim: true},
+            {nome: "Fernando José de Almeida", data: "05/11/2024", cim: "0245191", status: "Concluído", exibirCim: true}
+        ];
+
+        let visibleCount = 6; // Começa exibindo 6 itens
+        const listContainer = document.getElementById('process-list');
+        const loadBtn = document.getElementById('loadMoreBtn');
+        const noResultsMsg = document.getElementById('no-results-msg');
+        const sectionTitle = document.querySelector('.js-section-title');
+
+        // --- FUNÇÃO PARA RENDERIZAR A LISTA ---
+        function renderList() {
+            // Remove todos os cards existentes, mas mantém o título e a mensagem de erro
+            const cards = listContainer.querySelectorAll('.js-process-card');
+            cards.forEach(card => card.remove());
+            
+            dadosProcessos.forEach((p, index) => {
+                const isConcluido = p.status === "Concluído";
+                const card = document.createElement('a');
+                
+                // Link aponta para a pasta do processo. Se for arquivado, aponta pra raiz da pasta dele (ex: /0245177/)
+                // Como os negados não tem CIM real na var, o link pode ser configurado depois.
+                const pastaLink = isConcluido ? `../processos/${p.cim}/` : `#`; 
+                
+                card.href = pastaLink;
+                card.className = "archive-btn js-process-card";
+                
+                // Exibe apenas até o limite (visibleCount)
+                card.style.display = index < visibleCount ? "flex" : "none";
+                
+                // Ajuste de cores baseado no exibirCim e Status
+                const cimLabelClass = p.exibirCim ? "cim-label" : "cim-label negado";
+                const cimNumClass = p.exibirCim ? "cim-num" : "cim-num negado";
+                const cimBoxClass = p.exibirCim ? "cim-box" : "cim-box negado";
+                const iconClass = isConcluido ? "fas fa-calendar-check" : "fas fa-calendar-times";
+                const arrowIcon = isConcluido ? "fas fa-chevron-right arrow" : "fas fa-lock arrow";
+                const arrowStyle = isConcluido ? "" : "color: #cc0000;";
+                const borderStyle = isConcluido ? "" : "border-color: rgba(204, 0, 0, 0.3);";
+                const tagClass = isConcluido ? "status-badge st-success" : "status-badge st-denied";
+                const dateLabel = isConcluido ? "Iniciado em:" : "Encerrado em:";
+                const labelCIMTexto = p.exibirCim ? "CIM" : "PROCESSO";
+
+                card.style.cssText = borderStyle;
+
+                card.innerHTML = `
+                    <div class="cand-info">
+                        <div class="${cimBoxClass}">
+                            <span class="${cimLabelClass}">${labelCIMTexto}</span>
+                            <span class="${cimNumClass}">${p.cim}</span>
+                        </div>
+                        <div>
+                            <span class="cand-name">${p.nome}</span>
+                            <span class="date-info"><i class="${iconClass}"></i> ${dateLabel} ${p.data}</span>
+                            <div class="${tagClass}">Processo ${p.status}</div>
+                        </div>
+                    </div>
+                    <i class="${arrowIcon}" style="${arrowStyle}"></i>
+                `;
+                
+                listContainer.appendChild(card);
+            });
+
+            // Gerencia o botão "Carregar Mais"
+            loadBtn.style.display = visibleCount >= dadosProcessos.length ? "none" : "block";
+        }
+
+        // --- FUNÇÃO CARREGAR MAIS ---
+        function loadMore() {
+            visibleCount += 6; // Adiciona +6 itens por clique
+            renderList();
+        }
+
+        // --- FUNÇÃO DE BUSCA/FILTRO (Ao digitar) ---
         function filterProcess() {
             let input = document.getElementById('searchInput').value.toLowerCase();
             let cards = document.getElementsByClassName('js-process-card');
-            let titles = document.getElementsByClassName('js-section-title');
-            let noResultsMsg = document.getElementById('no-results-msg');
             let hasVisibleCard = false;
+
+            if(input === "") {
+                renderList(); // Se apagar a pesquisa, volta ao limite da paginação
+                sectionTitle.style.display = "block";
+                noResultsMsg.style.display = "none";
+                return;
+            }
+
+            // Oculta título e botão de carregar mais durante a pesquisa
+            sectionTitle.style.display = "none";
+            loadBtn.style.display = "none";
 
             for (let i = 0; i < cards.length; i++) {
                 let name = cards[i].querySelector('.cand-name').innerText.toLowerCase();
                 let cim = cards[i].querySelector('.cim-num').innerText.toLowerCase();
+                let status = cards[i].querySelector('.status-badge').innerText.toLowerCase();
                 
-                // Busca tanto pelo nome quanto pelo CIM/Status
-                if (name.includes(input) || cim.includes(input)) {
+                if (name.includes(input) || cim.includes(input) || status.includes(input)) {
                     cards[i].style.display = "flex";
                     hasVisibleCard = true;
                 } else {
@@ -425,19 +492,7 @@
                 }
             }
 
-            // Se o usuário estiver pesquisando algo, esconde os títulos de seção para não bagunçar
-            if (input.length > 0) {
-                for (let i = 0; i < titles.length; i++) { titles[i].style.display = "none"; }
-            } else {
-                for (let i = 0; i < titles.length; i++) { titles[i].style.display = "block"; }
-            }
-
-            // Mostra mensagem se não achou ninguém
-            if (!hasVisibleCard) {
-                noResultsMsg.style.display = "block";
-            } else {
-                noResultsMsg.style.display = "none";
-            }
+            noResultsMsg.style.display = hasVisibleCard ? "none" : "block";
         }
 
         // --- LÓGICA DE LOGIN ---
@@ -463,6 +518,7 @@
                     main.style.opacity = '1';
                     main.style.filter = 'none';
                     
+                    renderList(); // Inicializa a lista aqui
                     initConstellations(); 
                 }, 500);
             } else {
@@ -553,22 +609,6 @@
             }
             loop();
         }
-
-        // --- FUNÇÕES DE COOKIES LGPD ---
-        function checkCookies() {
-            if (!localStorage.getItem('cookiesAcceptedDossie')) {
-                setTimeout(() => {
-                    document.getElementById('cookie-banner').classList.add('show');
-                }, 1000);
-            }
-        }
-
-        function acceptCookies() {
-            localStorage.setItem('cookiesAcceptedDossie', 'true');
-            document.getElementById('cookie-banner').classList.remove('show');
-        }
-
-        window.addEventListener('load', checkCookies);
 
     </script>
 </body>
