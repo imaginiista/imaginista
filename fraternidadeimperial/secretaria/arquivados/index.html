@@ -355,12 +355,12 @@
             <i class="fas fa-lock"></i>
             <h2>Acesso Restrito</h2>
             <p class="cand-label" style="color: #bbb; letter-spacing: 1px;">ARQUIVO CENTRAL DE PROCESSOS</p>
-            <p style="font-family: 'Lato'; color: #ccc; font-size: 0.85rem; margin-bottom: 20px; position: relative; z-index: 5;">Insira a Palavra de Passe para acessar a Secretaria.</p>
+            <p style="font-family: 'Lato'; color: #ccc; font-size: 0.85rem; margin-bottom: 20px; position: relative; z-index: 5;">Insira a Palavra de Passe para acessar o histórico.</p>
             
             <div id="error-msg" class="error-msg">Palavra Incorreta. Tentativas: <span id="tentativas">0</span>/3</div>
             
             <input type="password" id="passInput" class="auth-input" placeholder="••••••••" autocomplete="off">
-            <button class="auth-btn" id="btn-login" onclick="checkPassword()">Desbloquear Arquivo</button>
+            <button class="auth-btn" id="btn-login" onclick="checkPassword()">Abrir Processos</button>
             
             <div class="auth-links">
                 <a href="../../index.html" class="btn-voltar"><i class="fas fa-home"></i> Início</a>
@@ -385,7 +385,7 @@
                     <img src="../../imagens/264.webp" alt="Brasão 264" class="brasao-img" onerror="this.src='../../imagens/264.jpg'">
                 </div>
                 <h1 class="page-title">A∴ R∴ L∴ M∴<br>Fraternidade Imperial <span>Nº 264</span></h1>
-                <p class="subtitle">Arquivo Histórico de Sindicâncias</p>
+                <p class="subtitle">Histórico de Sindicâncias</p>
             </div>
 
             <div class="search-container">
@@ -543,7 +543,7 @@
 
             window.checkPassword = function() {
                 const pass = passInput.value.trim();
-                const correctPass = "imperial"; 
+                const correctPass = "admin"; 
                 
                 if(pass === correctPass) {
                     const overlay = document.getElementById('password-overlay');
