@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arquivo Central | A∴ R∴ L∴ S∴ Fraternidade Imperial Nº 264</title>
+    <title>Arquivo Central | A∴ R∴ L∴ M∴ Fraternidade Imperial Nº 264</title>
     
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="X-XSS-Protection" content="1; mode=block">
@@ -38,14 +38,17 @@
         /* CANVAS FUNDO */
         #constellation-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; pointer-events: none; background: transparent; }
 
-        /* --- HEADER BÁSICO (APARECE APÓS LOGIN SEM PULAR) --- */
+        /* --- HEADER BÁSICO (ANIMAÇÃO SUAVE, SEM PULO) --- */
         header#dossie-header { 
             position: fixed; top: 0; left: 0; width: 100%; z-index: 100; padding: 15px 0; 
             background: rgba(0, 12, 24, 0.95); backdrop-filter: blur(10px); 
             border-bottom: 1px solid rgba(212, 175, 55, 0.3);
             display: flex; justify-content: center; align-items: center;
-            opacity: 0; pointer-events: none; transition: opacity 0.8s ease; /* Transição Suave */
+            /* Inicia invisível para o FadeIn */
+            opacity: 0; visibility: hidden; transition: opacity 0.8s ease, visibility 0.8s;
         }
+        header#dossie-header.visible { opacity: 1; visibility: visible; }
+        
         .header-nav-inner { display: flex; justify-content: center; gap: 20px; align-items: center; max-width: 1200px; width: 100%; padding: 0 20px;}
         .nav-link { 
             color: #fff; text-decoration: none; font-family: 'Cinzel'; text-transform: uppercase; 
@@ -60,7 +63,7 @@
             position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
             background: rgba(0, 5, 10, 0.98); z-index: 9999; 
             display: flex; justify-content: center; align-items: center;
-            transition: opacity 0.5s ease; backdrop-filter: blur(10px);
+            transition: opacity 0.6s ease; backdrop-filter: blur(10px);
         }
         
         .auth-box {
@@ -75,17 +78,18 @@
             content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
             background: linear-gradient(to bottom right, transparent, transparent, rgba(212, 175, 55, 0.1), transparent, transparent);
             transform: rotate(45deg); animation: shimmer 3s infinite;
+            pointer-events: none; /* Blinda contra clique acidental no brilho */
         }
 
-        .auth-box i.fa-lock { font-size: 3rem; margin-bottom: 15px; color: var(--gold); }
-        .auth-box h2 { font-family: 'Cinzel', serif; font-size: 1.5rem; margin-bottom: 10px; color: var(--gold); }
-        .cand-label { font-family: 'Lato', sans-serif; color: #bbb; font-size: 0.75rem; margin-bottom: 5px; letter-spacing: 2px;}
-        .cand-name-auth { color: var(--gold); font-size: 0.9rem; font-weight: bold; margin-bottom: 25px; letter-spacing: 1px; font-family: 'Lato', sans-serif;}
+        .auth-box i.fa-lock { font-size: 3rem; margin-bottom: 15px; color: var(--gold); position: relative; z-index: 2;}
+        .auth-box h2 { font-family: 'Cinzel', serif; font-size: 1.5rem; margin-bottom: 15px; color: var(--gold); position: relative; z-index: 2;}
+        .cand-label { font-family: 'Lato', sans-serif; color: #bbb; font-size: 0.75rem; margin-bottom: 5px; letter-spacing: 2px; position: relative; z-index: 2;}
+        .cand-name-auth { color: var(--gold); font-size: 0.85rem; margin-bottom: 25px; letter-spacing: 1px; font-family: 'Lato', sans-serif; position: relative; z-index: 2;}
 
         .auth-input {
-            width: 100%; padding: 12px; font-size: 1rem; border-radius: 5px; border: 1px solid var(--gold);
+            width: 100%; padding: 15px; font-size: 1rem; border-radius: 5px; border: 1px solid var(--gold);
             background: rgba(255,255,255,0.08); color: var(--gold); text-align: center; outline: none;
-            margin-bottom: 20px; letter-spacing: 4px; transition: 0.3s;
+            margin-bottom: 20px; letter-spacing: 4px; transition: 0.3s; position: relative; z-index: 5;
         }
         .auth-input:focus { background: rgba(255,255,255,0.15); box-shadow: 0 0 15px rgba(212,175,55,0.3); }
 
@@ -93,10 +97,11 @@
             display: block; width: 100%; padding: 12px 20px; background: linear-gradient(45deg, var(--gold), #bfa15f); 
             color: #000; font-family: 'Cinzel'; font-weight: bold; border: none; border-radius: 4px; 
             cursor: pointer; transition: transform 0.2s; text-transform: uppercase; letter-spacing: 2px; font-size: 1rem;
+            position: relative; z-index: 5; margin-bottom: 20px;
         }
         .auth-btn:hover { transform: scale(1.02); box-shadow: 0 0 15px var(--gold-shadow); }
 
-        .auth-links { display: flex; justify-content: space-between; gap: 10px; margin-top: 20px; position: relative; z-index: 10;}
+        .auth-links { display: flex; justify-content: center; gap: 15px; position: relative; z-index: 5; width: 100%;}
         .btn-voltar {
             flex: 1; padding: 10px; background: transparent; border: 1px solid rgba(212, 175, 55, 0.5); border-radius: 4px;
             color: var(--gold); text-decoration: none; font-family: 'Cinzel'; font-size: 0.75rem;
@@ -104,23 +109,25 @@
         }
         .btn-voltar:hover { background: rgba(212, 175, 55, 0.1); border-color: var(--gold); }
 
-        .error-msg { color: #ff4c4c; font-family: 'Lato'; font-size: 0.85rem; margin-bottom: 15px; display: none; height: 20px; }
+        .error-msg { color: #ff4c4c; font-family: 'Lato'; font-size: 0.85rem; margin-bottom: 15px; display: none; height: 20px; position: relative; z-index: 5;}
 
 
         /* --- MAIN CONTENT (ARQUIVO) --- */
         #main-content {
             width: 100%; display: none; flex-direction: column; align-items: center; 
-            margin-top: 100px; flex: 1; opacity: 0; filter: blur(20px); transition: all 1s ease;
+            margin-top: 100px; flex: 1; opacity: 0; transition: opacity 1s ease;
         }
+        /* Classe ativada via JS para o FadeIn */
+        #main-content.visible { opacity: 1; }
 
         .container { 
-            text-align: center; animation: fadeIn 2s ease; position: relative; z-index: 2; 
-            width: 100%; max-width: 900px; padding: 20px;
+            text-align: center; position: relative; z-index: 2; 
+            width: 100%; max-width: 1200px; padding: 20px;
         }
         
         .brasao-container {
             width: 160px; height: 160px; margin: 0 auto 20px; border-radius: 50%;
-            box-shadow: 0 0 60px rgba(212, 175, 55, 0.3); animation: float 6s ease-in-out infinite;
+            box-shadow: 0 0 40px rgba(212, 175, 55, 0.3); animation: float 6s ease-in-out infinite;
             background: rgba(0,0,0,0.3); padding: 10px; border: 1px solid rgba(212, 175, 55, 0.3);
         }
         .brasao-img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; border: 3px solid var(--gold); }
@@ -135,7 +142,7 @@
         .subtitle { font-family: 'Lato', sans-serif; letter-spacing: 3px; font-size: 0.9rem; opacity: 0.8; margin-bottom: 40px; text-transform: uppercase; color: var(--gold-light); }
 
         /* --- BUSCADOR --- */
-        .search-container { width: 100%; margin-bottom: 40px; position: relative; }
+        .search-container { width: 100%; max-width: 800px; margin: 0 auto 40px; position: relative; }
         .search-input {
             width: 100%; padding: 15px 20px 15px 50px; font-size: 1rem; border-radius: 8px; 
             border: 1px solid rgba(212, 175, 55, 0.5); background: rgba(0, 20, 40, 0.6); 
@@ -146,51 +153,56 @@
         .search-input:focus { border-color: var(--gold); box-shadow: 0 0 15px rgba(212, 175, 55, 0.3); background: rgba(0, 20, 40, 0.8); }
         .search-icon { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: var(--gold); font-size: 1.2rem; pointer-events: none; opacity: 0.8;}
 
-        /* --- LISTA DE PROCESSOS ARQUIVADOS --- */
-        .process-list { display: flex; flex-direction: column; gap: 15px; width: 100%; margin-bottom: 50px;}
+        /* --- LISTA DE PROCESSOS ARQUIVADOS (3 POR LINHA) --- */
+        .process-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
+            gap: 20px; width: 100%; margin-bottom: 30px;
+        }
 
         .archive-btn {
-            display: flex; align-items: center; justify-content: space-between; padding: 20px; 
-            border: 1px solid rgba(212, 175, 55, 0.4); 
-            background: linear-gradient(90deg, rgba(0, 12, 24, 0.8), rgba(0, 42, 82, 0.6)); 
+            display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between; 
+            padding: 25px 20px; border: 1px solid rgba(212, 175, 55, 0.4); 
+            background: linear-gradient(135deg, rgba(0, 12, 24, 0.8), rgba(0, 42, 82, 0.6)); 
             color: #fff; text-decoration: none; border-radius: 8px;
             transition: all 0.3s; backdrop-filter: blur(5px); box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            position: relative; overflow: hidden; display: none;
+            position: relative; overflow: hidden; display: none; text-align: left;
+            min-height: 160px;
         }
-        .archive-btn:hover { background: rgba(0, 42, 82, 0.9); transform: translateY(-3px); border-color: var(--gold); box-shadow: 0 10px 25px rgba(212, 175, 55, 0.2); }
+        .archive-btn:hover { background: rgba(0, 42, 82, 0.9); transform: translateY(-5px); border-color: var(--gold); box-shadow: 0 10px 25px rgba(212, 175, 55, 0.2); }
 
-        .cand-info { text-align: left; display: flex; align-items: center; gap: 20px; flex: 1;}
+        .cand-info { width: 100%; }
+        .card-header-row { display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 15px;}
         
-        /* Box do CIM / Status */
-        .cim-box { background: rgba(212, 175, 55, 0.15); border: 1px solid var(--gold); border-radius: 6px; padding: 10px 15px; text-align: center; min-width: 100px; }
+        .cim-box { background: rgba(212, 175, 55, 0.15); border: 1px solid var(--gold); border-radius: 6px; padding: 6px 12px; text-align: center; }
         .cim-box.negado { background: rgba(204, 0, 0, 0.1); border-color: #cc0000; }
         
-        .cim-label { font-size: 0.6rem; color: var(--gold); display: block; letter-spacing: 2px; margin-bottom: 3px; text-transform: uppercase;}
+        .cim-label { font-size: 0.55rem; color: var(--gold); display: block; letter-spacing: 2px; text-transform: uppercase;}
         .cim-label.negado { color: #cc0000; }
         
-        .cim-num { font-size: 1.1rem; font-family: 'Cinzel'; font-weight: bold; color: #fff; letter-spacing: 1px;}
-        .cim-num.negado { font-size: 0.85rem; color: #ff6666; font-family: 'Lato';}
+        .cim-num { font-size: 1rem; font-family: 'Cinzel'; font-weight: bold; color: #fff; letter-spacing: 1px;}
+        .cim-num.negado { font-size: 0.8rem; color: #ff6666; font-family: 'Lato';}
 
-        .cand-name { font-size: 1.1rem; font-weight: bold; display: block; font-family: 'Lato', sans-serif; letter-spacing: 1px;}
+        .cand-name { font-size: 1.1rem; font-weight: bold; display: block; font-family: 'Lato', sans-serif; letter-spacing: 1px; color: var(--gold-light); line-height: 1.3; margin-bottom: 10px;}
         
-        .status-badge { display: inline-block; padding: 4px 10px; border-radius: 4px; font-size: 0.65rem; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; margin-top: 8px; }
+        .status-badge { display: inline-block; padding: 4px 10px; border-radius: 4px; font-size: 0.65rem; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; margin-top: 5px; }
         .st-success { background: #1b5e20; color: #fff; border: 1px solid #2e7d32; }
         .st-denied { background: #880000; color: #fff; border: 1px solid #cc0000; }
 
-        .date-info { font-size: 0.75rem; color: #aaa; margin-top: 5px; display: block; }
-        .arrow { font-size: 1rem; opacity: 0.5; transition: transform 0.3s; color: var(--gold); margin-left: 15px;}
-        .archive-btn:hover .arrow { transform: translateX(5px); opacity: 1; }
+        .date-info { font-size: 0.8rem; color: #aaa; display: block; margin-top: 5px;}
+        .arrow-bottom { align-self: flex-end; font-size: 1.2rem; opacity: 0.5; transition: transform 0.3s; color: var(--gold); margin-top: 10px;}
+        .archive-btn:hover .arrow-bottom { transform: translateX(5px); opacity: 1; }
 
         /* PAGINAÇÃO */
         #loadMoreBtn { 
-            display: none; margin: 20px auto 50px; padding: 12px 40px; 
-            background: transparent; border: 1px solid var(--gold); color: var(--gold); 
-            font-family: 'Cinzel'; font-weight: bold; letter-spacing: 1px; cursor: pointer; 
-            transition: 0.3s; border-radius: 4px; text-transform: uppercase;
+            display: none; margin: 20px auto 50px; padding: 15px 40px; 
+            background: rgba(212, 175, 55, 0.1); border: 1px solid var(--gold); color: var(--gold); 
+            font-family: 'Cinzel'; font-weight: bold; letter-spacing: 2px; cursor: pointer; 
+            transition: 0.3s; border-radius: 4px; text-transform: uppercase; font-size: 0.9rem;
         }
-        #loadMoreBtn:hover { background: var(--gold); color: #000; box-shadow: 0 0 15px var(--gold-shadow); }
+        #loadMoreBtn:hover { background: var(--gold); color: #000; box-shadow: 0 0 25px var(--gold-shadow); }
 
-        #no-results-msg { display: none; text-align: center; padding: 30px; font-family: 'Lato'; color: #bbb; background: rgba(255,255,255,0.05); border-radius: 8px; border: 1px dashed rgba(255,255,255,0.2); }
+        #no-results-msg { display: none; text-align: center; padding: 30px; font-family: 'Lato'; color: #bbb; background: rgba(255,255,255,0.05); border-radius: 8px; border: 1px dashed rgba(255,255,255,0.2); grid-column: 1 / -1; }
 
         /* --- FOOTER PADRÃO MOSAICO --- */
         footer { 
@@ -209,7 +221,6 @@
         .footer-grid { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 40px; text-align: left; padding-bottom: 40px; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
         .footer-col h4 { color: var(--gold); font-family: 'Cinzel'; margin-bottom: 20px; font-size: 1.1rem; text-shadow: 0 2px 5px rgba(0,0,0,0.8);}
         
-        /* Ajuste do contato para não quebrar o layout no Mobile */
         .footer-contact p { margin-bottom: 12px; font-size: 0.9rem; color: #ddd; display: flex; align-items: flex-start; gap: 10px; text-shadow: 0 1px 3px rgba(0,0,0,0.9); line-height: 1.4; }
         .footer-contact i { color: var(--gold); margin-top: 3px; font-size: 1.1rem; width: 20px; text-align: center; }
         
@@ -229,13 +240,14 @@
         body.matrix-mode::before { content: 'ACESSO NEGADO. VIOLAÇÃO DE SEGURANÇA DETECTADA. REDIRECIONANDO...'; display: flex !important; justify-content: center; align-items: center; position: fixed; top: 0; left: 0; width: 100%; height: 100vh; font-size: 2rem; color: #f00; text-align: center; padding: 20px; z-index: 9999; background: #000;}
         
         @keyframes popIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
-        @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-15px); } }
+        @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
         @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+        @keyframes shimmer { 0% { left: -50%; top: -50%; } 100% { left: 150%; top: 150%; } }
         @keyframes shake { 0% { transform: translate(1px, 1px) rotate(0deg); } 10% { transform: translate(-1px, -2px) rotate(-1deg); } 20% { transform: translate(-3px, 0px) rotate(1deg); } 30% { transform: translate(3px, 2px) rotate(0deg); } 40% { transform: translate(1px, -1px) rotate(1deg); } 50% { transform: translate(-1px, 2px) rotate(-1deg); } 60% { transform: translate(-3px, 1px) rotate(0deg); } 70% { transform: translate(3px, 1px) rotate(-1deg); } 80% { transform: translate(-1px, -1px) rotate(1deg); } 90% { transform: translate(1px, 2px) rotate(0deg); } 100% { transform: translate(1px, -2px) rotate(-1deg); } }
 
         /* --- RESPONSIVIDADE MOBILE --- */
         @media (max-width: 768px) {
-            .brasao-container { width: 140px; height: 140px; margin-bottom: 20px; } 
+            .brasao-container { width: 120px; height: 120px; margin-bottom: 20px; } 
             .page-title { font-size: 1.5rem; margin-bottom: 5px; } 
             .page-title span { font-size: 1.1rem; }
             .subtitle { font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 30px; }
@@ -247,17 +259,13 @@
             .auth-box h2 { font-size: 1.3rem; }
             .cand-name-auth { font-size: 0.85rem; }
             
-            /* Ajuste Perfeito do Card no Mobile */
-            .cand-info { flex-direction: column; align-items: flex-start; gap: 10px;}
-            .cim-box { align-self: flex-start; margin-bottom: 5px; padding: 8px 12px;}
-            .archive-btn { padding: 15px; align-items: center; }
+            .process-grid { grid-template-columns: 1fr; }
+            .archive-btn { min-height: auto; }
             .cand-name { font-size: 1rem; }
             
-            /* Ajuste do Rodapé Fale Conosco para ficar alinhado */
             .footer-grid { grid-template-columns: 1fr; text-align: center; gap: 40px;}
             .mobile-center-col { display: flex; flex-direction: column; align-items: center; }
-            .footer-contact { text-align: left; display: inline-block; }
-            
+            .footer-contact { text-align: left; display: inline-block; width: fit-content; max-width: 100%;}
             .footer-dev-right { align-items: center; }
             .copyright { flex-direction: column; gap: 10px; text-align: center; }
             
@@ -273,12 +281,12 @@
             <i class="fas fa-lock"></i>
             <h2>Acesso Restrito</h2>
             <p class="cand-label" style="color: #bbb; letter-spacing: 1px;">ARQUIVO CENTRAL DE PROCESSOS</p>
-            <p style="font-family: 'Lato'; color: #ccc; font-size: 0.85rem; margin-bottom: 20px;">Insira a Palavra de Passe para acessar a Secretaria.</p>
+            <p style="font-family: 'Lato'; color: #ccc; font-size: 0.85rem; margin-bottom: 20px; position: relative; z-index: 5;">Insira a Palavra de Passe para acessar a Secretaria.</p>
             
             <div id="error-msg" class="error-msg">Palavra Incorreta. Tentativas: <span id="tentativas">0</span>/3</div>
             
             <input type="password" id="passInput" class="auth-input" placeholder="••••••••" autocomplete="off">
-            <button class="auth-btn" id="btn-login" onclick="checkPassword()">Desbloquear</button>
+            <button class="auth-btn" id="btn-login">Desbloquear Arquivo</button>
             
             <div class="auth-links">
                 <a href="../../index.html" class="btn-voltar"><i class="fas fa-home"></i> Início</a>
@@ -301,7 +309,7 @@
         <div class="container">
             <div class="dossier-header">
                 <div class="brasao-container">
-                    <img src="../../imagens/264.webp" alt="Brasão 264" class="brasao-img" onerror="this.src='../../264.jpg'">
+                    <img src="../../imagens/264.webp" alt="Brasão 264" class="brasao-img" onerror="this.src='../../imagens/264.jpg'">
                 </div>
                 <h1 class="page-title">A∴ R∴ L∴ M∴<br>Fraternidade Imperial <span>Nº 264</span></h1>
                 <p class="subtitle">Arquivo Histórico de Sindicâncias</p>
@@ -309,14 +317,14 @@
 
             <div class="search-container">
                 <i class="fas fa-search search-icon"></i>
-                <input type="text" id="searchInput" class="search-input" placeholder="Pesquisar por Nome, Status ou CIM..." onkeyup="filterProcess()">
+                <input type="text" id="searchInput" class="search-input" placeholder="Pesquisar por Nome, Status ou CIM...">
             </div>
             
-            <div class="process-list" id="process-list">
+            <div class="process-grid" id="process-list">
                 <div id="no-results-msg"><i class="fas fa-search-minus" style="font-size: 2rem; margin-bottom: 10px; display:block;"></i>Nenhum processo encontrado.</div>
                 </div>
             
-            <button id="loadMoreBtn" onclick="loadMore()">Carregar Mais Arquivos</button>
+            <button id="loadMoreBtn" style="display:none;">Carregar Mais Arquivos</button>
 
         </div>
 
@@ -340,7 +348,7 @@
                 <div class="footer-col footer-dev-right">
                     <span style="font-size:0.8rem; color:#aaa; margin-bottom:5px; text-shadow: 0 1px 2px #000;">Desenvolvido por:</span>
                     <a href="https://oimaginista.com" target="_blank">
-                        <img src="../../imagens/logo.png" alt="O Imaginista" class="dev-logo" onerror="this.src='../../logo.png'">
+                        <img src="../../imagens/logo.webp" alt="O Imaginista" class="dev-logo" onerror="this.src='../../logo.png'">
                     </a>
                 </div>
             </div>
@@ -356,7 +364,7 @@
     <script>
         // =========================================================
         // BASE DE DADOS: ARQUIVO CENTRAL (15 Nomes Fictícios para teste)
-        // Você pode adicionar, remover ou editar livremente.
+        // Configure o "status" e se deve "exibirCim" (true/false)
         // =========================================================
         const dadosProcessos = [
             {nome: "Ruan Pablo da Silva de Lima Santos", data: "28/03/2026", cim: "0245177", status: "Concluído", exibirCim: true},
@@ -376,14 +384,13 @@
             {nome: "Fernando José de Almeida", data: "05/11/2024", cim: "0245191", status: "Concluído", exibirCim: true}
         ];
 
-        let visibleCount = 6; // Qtd inicial de cards na tela
+        let visibleCount = 6; 
         const listContainer = document.getElementById('process-list');
         const loadBtn = document.getElementById('loadMoreBtn');
         const noResultsMsg = document.getElementById('no-results-msg');
 
-        // --- FUNÇÃO PARA RENDERIZAR A LISTA ---
+        // --- FUNÇÃO PARA RENDERIZAR A LISTA EM CARDS TRIPLOS ---
         function renderList() {
-            // Limpa lista exceto a msg de erro
             const cards = listContainer.querySelectorAll('.js-process-card');
             cards.forEach(card => card.remove());
             
@@ -391,143 +398,143 @@
                 const isConcluido = p.status === "Concluído";
                 const card = document.createElement('a');
                 
-                // Redireciona para a pasta do candidato
                 const pastaLink = isConcluido ? `../processos/${p.cim}/` : `#`; 
                 
                 card.href = pastaLink;
                 card.className = "archive-btn js-process-card";
                 card.style.display = index < visibleCount ? "flex" : "none";
                 
-                // Configuração das cores (Iniciado vs Negado)
                 const cimLabelClass = p.exibirCim ? "cim-label" : "cim-label negado";
                 const cimNumClass = p.exibirCim ? "cim-num" : "cim-num negado";
                 const cimBoxClass = p.exibirCim ? "cim-box" : "cim-box negado";
                 const iconClass = isConcluido ? "fas fa-calendar-check" : "fas fa-calendar-times";
-                const arrowIcon = isConcluido ? "fas fa-chevron-right arrow" : "fas fa-lock arrow";
-                const arrowStyle = isConcluido ? "" : "color: #cc0000;";
                 const borderStyle = isConcluido ? "" : "border-color: rgba(204, 0, 0, 0.3);";
                 const tagClass = isConcluido ? "status-badge st-success" : "status-badge st-denied";
                 const dateLabel = isConcluido ? "Iniciado em:" : "Encerrado em:";
                 const labelCIMTexto = p.exibirCim ? "CIM" : "PROCESSO";
+                const lockIcon = isConcluido ? "" : `<i class="fas fa-lock" style="color:#cc0000;"></i>`;
 
                 card.style.cssText += borderStyle;
 
                 card.innerHTML = `
                     <div class="cand-info">
-                        <div class="${cimBoxClass}">
-                            <span class="${cimLabelClass}">${labelCIMTexto}</span>
-                            <span class="${cimNumClass}">${p.cim}</span>
+                        <div class="card-header-row">
+                            <div class="${cimBoxClass}">
+                                <span class="${cimLabelClass}">${labelCIMTexto}</span>
+                                <span class="${cimNumClass}">${p.cim}</span>
+                            </div>
+                            ${lockIcon}
                         </div>
-                        <div>
-                            <span class="cand-name">${p.nome}</span>
-                            <span class="date-info"><i class="${iconClass}"></i> ${dateLabel} ${p.data}</span>
-                            <div class="${tagClass}">Processo ${p.status}</div>
-                        </div>
+                        
+                        <span class="cand-name">${p.nome}</span>
+                        <div class="${tagClass}">Processo ${p.status}</div>
+                        <span class="date-info"><i class="${iconClass}"></i> ${dateLabel} ${p.data}</span>
                     </div>
-                    <i class="${arrowIcon}" style="${arrowStyle}"></i>
+                    <i class="fas fa-arrow-right arrow-bottom" style="${isConcluido ? '' : 'display:none;'}"></i>
                 `;
                 listContainer.appendChild(card);
             });
 
-            // Gerencia o botão "Carregar Mais"
             loadBtn.style.display = visibleCount >= dadosProcessos.length ? "none" : "block";
         }
 
         // --- FUNÇÃO CARREGAR MAIS ---
-        function loadMore() {
-            visibleCount += 6;
-            renderList();
+        if(loadBtn) {
+            loadBtn.addEventListener('click', () => {
+                visibleCount += 9; 
+                renderList();
+            });
         }
 
-        // --- FUNÇÃO DE BUSCA EM TEMPO REAL ---
-        function filterProcess() {
-            let input = document.getElementById('searchInput').value.toLowerCase();
-            let cards = document.getElementsByClassName('js-process-card');
-            let hasVisibleCard = false;
-
-            if(input === "") {
-                renderList(); // Retorna ao limite de paginação
-                noResultsMsg.style.display = "none";
-                return;
-            }
-
-            // Oculta botão de carregar mais durante a pesquisa
-            loadBtn.style.display = "none";
-
-            for (let i = 0; i < cards.length; i++) {
-                let name = cards[i].querySelector('.cand-name').innerText.toLowerCase();
-                let cim = cards[i].querySelector('.cim-num').innerText.toLowerCase();
-                let status = cards[i].querySelector('.status-badge').innerText.toLowerCase();
-                
-                if (name.includes(input) || cim.includes(input) || status.includes(input)) {
-                    cards[i].style.display = "flex";
-                    hasVisibleCard = true;
-                } else {
-                    cards[i].style.display = "none";
-                }
-            }
-
-            noResultsMsg.style.display = hasVisibleCard ? "none" : "block";
-        }
-
-        // --- LÓGICA DE LOGIN ---
-        function checkPassword() {
+        // --- LÓGICA DE LOGIN DESACOMPLADA E BLINDADA ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const btnLogin = document.getElementById('btn-login');
             const passInput = document.getElementById('passInput');
-            const pass = passInput.value.trim();
-            const correctPass = "imperial"; 
+            const searchInput = document.getElementById('searchInput');
             
-            if(pass === correctPass) {
-                const overlay = document.getElementById('password-overlay');
-                const main = document.getElementById('main-content');
-                const header = document.getElementById('dossie-header');
-                const footer = document.getElementById('secretaria-footer');
+            let tentativas = 0;
+            const maxTentativas = 3;
+
+            function checkPassword() {
+                const pass = passInput.value.trim();
+                const correctPass = "imperial"; 
                 
-                overlay.style.opacity = '0';
-                
-                setTimeout(() => {
-                    overlay.style.display = 'none';
-                    main.style.display = 'flex'; 
-                    footer.style.display = 'block';
+                if(pass === correctPass) {
+                    const overlay = document.getElementById('password-overlay');
+                    const main = document.getElementById('main-content');
+                    const header = document.getElementById('dossie-header');
+                    const footer = document.getElementById('secretaria-footer');
                     
-                    // Força redesenho
-                    void main.offsetWidth; 
+                    overlay.style.opacity = '0';
                     
-                    main.style.opacity = '1';
-                    main.style.filter = 'none';
-                    
-                    // Revela o Header sem pular
-                    header.style.display = 'flex';
                     setTimeout(() => {
-                        header.style.opacity = '1';
-                        header.style.pointerEvents = 'auto';
-                    }, 100);
+                        overlay.style.display = 'none';
+                        main.style.display = 'flex'; 
+                        footer.style.display = 'block';
+                        
+                        main.classList.add('visible'); // Classe ativa o fade-in via CSS
+                        header.classList.add('visible');
+                        
+                        renderList(); 
+                        initConstellations(); 
+                    }, 600);
+                } else {
+                    let tentativasSpan = document.getElementById('tentativas');
+                    tentativas++;
+                    tentativasSpan.innerText = tentativas;
+                    document.getElementById('error-msg').style.display = 'block';
+                    passInput.value = '';
+                    passInput.focus();
                     
-                    renderList(); 
-                    initConstellations(); 
-                }, 500);
-            } else {
-                let tentativasSpan = document.getElementById('tentativas');
-                let t = parseInt(tentativasSpan.innerText);
-                t++;
-                tentativasSpan.innerText = t;
-                document.getElementById('error-msg').style.display = 'block';
-                passInput.value = '';
-                passInput.focus();
-                
-                if (t >= 3) {
-                    document.body.className = 'matrix-mode';
-                    passInput.disabled = true;
-                    document.getElementById('btn-login').disabled = true;
-                    setTimeout(() => { window.location.href = "../../index.html"; }, 3000);
+                    if (tentativas >= maxTentativas) {
+                        document.body.className = 'matrix-mode';
+                        passInput.disabled = true;
+                        btnLogin.disabled = true;
+                        setTimeout(() => { window.location.href = "../../index.html"; }, 3000);
+                    }
                 }
             }
-        }
 
-        document.getElementById("passInput").addEventListener("keypress", (e) => { if(e.key === "Enter") checkPassword(); });
+            btnLogin.addEventListener('click', checkPassword);
+            passInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') checkPassword();
+            });
 
-        /* --- CONSTELAÇÕES EFEITO "CLÁSSICO" OTIMIZADO --- */
+            // Lógica do Buscador
+            searchInput.addEventListener('keyup', () => {
+                let input = searchInput.value.toLowerCase();
+                let cards = document.getElementsByClassName('js-process-card');
+                let hasVisibleCard = false;
+
+                if(input === "") {
+                    renderList(); 
+                    noResultsMsg.style.display = "none";
+                    return;
+                }
+
+                loadBtn.style.display = "none";
+
+                for (let i = 0; i < cards.length; i++) {
+                    let name = cards[i].querySelector('.cand-name').innerText.toLowerCase();
+                    let cim = cards[i].querySelector('.cim-num').innerText.toLowerCase();
+                    let status = cards[i].querySelector('.status-badge').innerText.toLowerCase();
+                    
+                    if (name.includes(input) || cim.includes(input) || status.includes(input)) {
+                        cards[i].style.display = "flex";
+                        hasVisibleCard = true;
+                    } else {
+                        cards[i].style.display = "none";
+                    }
+                }
+
+                noResultsMsg.style.display = hasVisibleCard ? "none" : "block";
+            });
+        });
+
+        /* --- CONSTELAÇÕES --- */
         function initConstellations() {
             const canvas = document.getElementById('constellation-bg');
+            if(!canvas) return;
             const ctx = canvas.getContext('2d');
             let w, h, particles = [];
             
@@ -572,11 +579,9 @@
 
             function loop(){
                 ctx.clearRect(0, 0, w, h);
-
                 for(let i=0; i < particles.length; i++){
                     particles[i].position();
                     particles[i].draw();
-                    
                     for(let j = i + 1; j < particles.length; j++){
                         const dist = Math.hypot(particles[i].x - particles[j].x, particles[i].y - particles[j].y);
                         if(dist < properties.lineLength){
@@ -593,7 +598,6 @@
             }
             loop();
         }
-
     </script>
 </body>
 </html>
