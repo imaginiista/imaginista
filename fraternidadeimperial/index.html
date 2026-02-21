@@ -89,6 +89,7 @@
         .gadu-text::after { content: ''; display: block; width: 40px; height: 1px; background: var(--gold); margin: 10px auto 0; }
 
         .hero h1 { font-size: 3.5rem; line-height: 1.2; margin-bottom: 15px; text-shadow: 0 4px 10px rgba(0,0,0,0.8); background: linear-gradient(to bottom, #fff, #d4af37); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .no-wrap { white-space: nowrap; }
         
         /* ESTILO PARA O NOVO TEXTO DE DESTAQUE */
         .texto-destaque { font-family: 'Cinzel', serif; font-size: 1.6rem; color: var(--gold); text-transform: uppercase; text-shadow: 0 2px 5px rgba(0,0,0,0.8); margin-bottom: 20px; letter-spacing: 3px; text-align: center; }
@@ -226,7 +227,7 @@
             .nav-menu ul { flex-direction: column; gap: 25px; width: 100%; align-items: center; }
             .mobile-toggle { display: block; margin-left: 5px; }
 
-            .hero h1 { font-size: 2.2rem; }
+            .hero h1 { font-size: 1.8rem; } /* Tamanho ajustado para caber na tela do celular */
             .gadu-text { font-size: 0.75rem; letter-spacing: 2px; }
             
             /* Novo texto de destaque no mobile */
@@ -321,7 +322,7 @@
         <div class="hero-content">
             <div class="gadu-text">À Glória do Supremo Arquiteto do Universo</div>
             
-            <h1>A∴ R∴ L∴ M∴<br>Monte Castelo<br><span>Nº 264</span></h1>
+            <h1>A∴ R∴ L∴ M∴<br><span class="no-wrap">Fraternidade Imperial</span><br><span>Nº 264</span></h1>
 			
             <p class="motto motto-desktop">Liberdade, Igualdade e Fraternidade</p>
             <p class="motto motto-mobile">
