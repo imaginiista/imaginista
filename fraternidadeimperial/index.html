@@ -13,7 +13,22 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
+	
+	<link rel="icon" type="image/png" href="favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/svg+xml" href="favicon/favicon.svg">
+    <link rel="shortcut icon" href="favicon/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
+    <meta name="theme-color" content="#0a2a24">
+	
+    <meta property="og:title" content="A∴ R∴ L∴ M∴ Fraternidade Imperial Nº 264"> 
+    <meta property="og:description" content="No coração da Cidade Imperial, a luz da fraternidade se ergue como símbolo de união, sabedoria e continuidade espiritual.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://oimaginista.com/fraternidadeimperial/">
+    <meta property="og:image" content="https://oimaginista.com/favicon/web-app-manifest-512x512.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="512">
+    <meta property="og:image:height" content="512">
+	
     <style>
         :root {
             --gold: #d4af37;
@@ -148,24 +163,24 @@
         /* Ocultar a versão mobile dos botões no desktop */
         .mobile-map-buttons { display: none; }
 
-        /* --- FOOTER ATUALIZADO --- */
+        /* --- FOOTER PADRÃO MOSAICO --- */
         footer { 
             position: relative; width: 100%; background-color: #02050a; 
             background-image: 
                 linear-gradient(45deg, rgba(255,255,255,0.06) 25%, transparent 25%, transparent 75%, rgba(255,255,255,0.06) 75%, rgba(255,255,255,0.06)),
                 linear-gradient(45deg, rgba(255,255,255,0.06) 25%, transparent 25%, transparent 75%, rgba(255,255,255,0.06) 75%, rgba(255,255,255,0.06));
             background-size: 80px 80px; background-position: 0 0, 40px 40px;
-            padding: 80px 0 20px; border-top: 3px solid var(--gold); margin-top: auto; 
+            padding: 80px 0 20px; border-top: 3px solid var(--gold); margin-top: auto; display: none;
         }
         footer::before {
             content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background: linear-gradient(to bottom, rgba(0,12,24,0.9) 0%, rgba(0,0,0,0) 20%, rgba(0,0,0,0) 80%, rgba(0,0,0,0.95) 100%);
             z-index: 0; pointer-events: none;
         }
-
-        .footer-grid { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 40px; text-align: left; padding-bottom: 40px; max-width: 1200px; margin: 0 auto; padding: 0 20px; width: 100%; box-sizing: border-box; }
+        .footer-grid { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 40px; text-align: left; padding-bottom: 40px; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
         .footer-col h4 { color: var(--gold); font-family: 'Cinzel'; margin-bottom: 20px; font-size: 1.1rem; text-shadow: 0 2px 5px rgba(0,0,0,0.8);}
-        .footer-contact p { margin-bottom: 12px; font-size: 0.9rem; color: #ddd; display: flex; align-items: flex-start; gap: 10px; text-shadow: 0 1px 3px rgba(0,0,0,0.9); line-height: 1.4; word-wrap: break-word; }
+        
+        .footer-contact p { margin-bottom: 12px; font-size: 0.9rem; color: #ddd; display: flex; align-items: flex-start; gap: 10px; text-shadow: 0 1px 3px rgba(0,0,0,0.9); line-height: 1.4; }
         .footer-contact i { color: var(--gold); margin-top: 3px; font-size: 1.1rem; width: 20px; text-align: center; flex-shrink: 0;}
         
         .keep-together { white-space: nowrap; }
@@ -176,10 +191,11 @@
         .social-btn:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-5px); box-shadow: 0 0 15px var(--gold-shadow); background: rgba(0,0,0,0.9);}
         
         .footer-dev-right { text-align: right; display: flex; flex-direction: column; align-items: flex-end; justify-content: center; }
-        .dev-logo { width: 120px; filter: grayscale(100%) brightness(200%); opacity: 0.8; transition: 0.3s; cursor: pointer; max-width: 100%; height: auto; }
+        .dev-logo { width: 120px; filter: grayscale(100%) brightness(200%); opacity: 0.8; transition: 0.3s; cursor: pointer; }
         .dev-logo:hover { filter: grayscale(0%) brightness(100%); opacity: 1; }
         
-        .copyright { position: relative; z-index: 1; font-size: 0.8rem; color: #ccc; padding-top: 20px; border-top: 1px solid rgba(212, 175, 55, 0.3); display: flex; justify-content: space-between; max-width: 1200px; margin: 0 auto; padding-left: 20px; padding-right: 20px; flex-wrap: wrap; text-shadow: 0 1px 2px #000; width: 100%; box-sizing: border-box; }
+        .copyright { position: relative; z-index: 1; font-size: 0.8rem; color: #ccc; padding-top: 20px; border-top: 1px solid rgba(212, 175, 55, 0.3); display: flex; justify-content: space-between; max-width: 1200px; margin: 0 auto; padding-left: 20px; padding-right: 20px; flex-wrap: wrap; text-shadow: 0 1px 2px #000; }
+
 
         /* --- BOTÕES FLUTUANTES --- */
         .floating-actions { position: fixed; bottom: 30px; right: 30px; display: flex; flex-direction: column; gap: 15px; z-index: 998; transition: opacity 0.4s, visibility 0.4s; opacity: 0; visibility: hidden; }
@@ -298,6 +314,14 @@
             <div class="gadu-text">À Glória do Supremo Arquiteto do Universo</div>
             
             <h1>A∴ R∴ L∴ M∴<br>Fraternidade Imperial <span>Nº 264</span></h1>
+			
+			<p class="motto motto-mobile">
+                <span class="motto-top">A∴ R∴ L∴ M∴</span> 
+                <span class="motto-bot">Fraternidade Imperial Nº 264</span>
+            </p>
+			
+			
+			
             
             <p class="motto motto-desktop">Liberdade, Igualdade e Fraternidade</p>
             <p class="motto motto-mobile">
@@ -419,35 +443,37 @@
         </div>
     </section>
 
-    <footer id="secretaria-footer">
-        <div class="footer-grid">
-            <div class="footer-col mobile-center-col">
-                <h4>Fale Conosco</h4>
-                <div class="footer-contact">
-                    <p><i class="fas fa-map-pin"></i> <span>Rua Nair Tefé, 320 - Quitandinha, <br class="mobile-break"><span class="keep-together">Petrópolis - RJ</span></span></p>
-                    <p><i class="fas fa-clock"></i> <span>Reuniões: Sábados (Quinzenalmente) às 10h</span></p>
-                    <p><i class="fas fa-envelope"></i> <span>secretaria@fraternidadeimperial264.com.br</span></p>
+        <footer id="secretaria-footer">
+            <div class="footer-grid">
+                <div class="footer-col mobile-center-col">
+                    <h4>Fale Conosco</h4>
+                    <div class="footer-contact">
+                        <p><i class="fas fa-map-pin"></i> <span>Rua Nair Tefé, 320 - Quitandinha, <br class="mobile-break"><span class="keep-together">Petrópolis - RJ</span></span></p>
+                        <p><i class="fas fa-clock"></i> <span>Reuniões: Sábados (Quinzenalmente) às 10h</span></p>
+                        <p><i class="fas fa-envelope"></i> <span>secretaria@fraternidadeimperial264.com.br</span></p>
+                    </div>
                 </div>
-            </div>
-            <div class="footer-col footer-social-center">
-                <h4>Redes Sociais</h4>
-                <div class="social-icons">
-                    <a href="https://www.instagram.com/fraternidadeimperial264" target="_blank" class="social-btn" title="Instagram"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="social-btn" title="YouTube (Em breve)"><i class="fab fa-youtube"></i></a>
+                <div class="footer-col footer-social-center">
+                    <h4>Redes Sociais</h4>
+                    <div class="social-icons">
+                        <a href="https://www.instagram.com/fraternidadeimperial264" target="_blank" class="social-btn" title="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-btn" title="YouTube (Em breve)"><i class="fab fa-youtube"></i></a>
+                    </div>
                 </div>
-            </div>
-            <div class="footer-col footer-dev-right">
-                <span style="font-size:0.8rem; color:#aaa; margin-bottom:5px; text-shadow: 0 1px 2px #000;">Desenvolvido por:</span>
-                <a href="https://oimaginista.com" target="_blank">
+				
+				
+                  <div class="footer-col footer-dev-right">
+                    <span style="font-size:0.8rem; color:#aaa; margin-bottom:5px; text-shadow: 0 1px 2px #000;">Desenvolvido por:</span>
+                    <a href="https://oimaginista.com" target="_blank">
                     <img src="imagens/logo.png" alt="O Imaginista" class="dev-logo" onerror="this.src='logo.png'">
                 </a>
             </div>
         </div>
-        <div class="copyright">
-            <span>© 2026 A∴ R∴ L∴ M∴ Fraternidade Imperial Nº 264. Todos os direitos reservados.</span>
-            <span>CNPJ: 00.000.000/0000-00</span>
-        </div>
-    </footer>
+            <div class="copyright">
+                <span>© 2026 A∴ R∴ L∴ M∴ Fraternidade Imperial Nº 264. Todos os direitos reservados.</span>
+                <span>CNPJ: 00.000.000/0000-00</span>
+            </div>
+        </footer>
 
     <div class="floating-actions" id="floating-actions">
         <button class="float-btn" id="btn-share" title="Compartilhar">
@@ -458,10 +484,10 @@
         </button>
     </div>
 
-    <div id="cookie-banner" class="cookie-banner">
+       <div id="cookie-banner" class="cookie-banner">
         <div class="cookie-text">
-            Este site utiliza cookies para garantir a melhor experiência e funcionalidade. 
-            Ao continuar navegando, você concorda com nossa <a href="#" style="color:var(--gold); text-decoration: underline;">Política de Privacidade</a>.
+            Este site utiliza cookies para garantir a segurança e funcionalidade da Secretaria. 
+            Ao continuar, você concorda com nossa <a href="#" style="color:var(--gold); text-decoration: underline;">Política de Privacidade</a>.
         </div>
         <button id="accept-cookies" class="cookie-btn">Aceitar e Fechar</button>
     </div>
