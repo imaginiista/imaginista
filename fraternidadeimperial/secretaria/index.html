@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Secretaria | A∴ R∴ L∴ S∴ Fraternidade Imperial Nº 264</title>
+    <title>Secretaria 264</title>
     
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="X-XSS-Protection" content="1; mode=block">
@@ -56,9 +56,9 @@
         .container { 
             text-align: center; animation: fadeIn 2s ease; position: relative; z-index: 2; 
             width: 100%; max-width: 600px; padding: 20px;
-            margin-top: 120px; /* Ajuste para não colar no header */
-            display: none; /* COMEÇA OCULTO ATÉ O LOGIN */
-            flex: 1; /* Empurra o rodapé pro fundo se a tela for grande */
+            margin-top: 120px; 
+            display: none; 
+            flex: 1; 
         }
         
         .brasao-container {
@@ -68,7 +68,6 @@
         }
         .brasao-img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; border: 4px solid var(--gold); }
 
-        /* TÍTULO COM DEGRADÊ IGUAL AO DA RAIZ E PROTEÇÃO DE QUEBRA DE LINHA */
         .page-title { 
             font-family: 'Cinzel', serif;
             font-size: 2.2rem; 
@@ -82,7 +81,7 @@
         }
         .page-title span { 
             font-size: 1.6rem; 
-            white-space: nowrap; /* Impede que o 'Nº' se separe do '264' */
+            white-space: nowrap;
         }
         
         .subtitle { font-family: 'Lato', sans-serif; letter-spacing: 3px; font-size: 0.9rem; opacity: 0.8; margin-bottom: 40px; text-transform: uppercase; color: var(--gold-light); }
@@ -97,21 +96,20 @@
             transition: all 0.3s; backdrop-filter: blur(5px); box-shadow: 0 5px 15px rgba(0,0,0,0.3);
             position: relative; overflow: hidden;
         }
-        .candidate-btn:hover { background: rgba(0, 42, 82, 0.9); transform: translateY(-3px); border-color: var(--gold); box-shadow: 0 10px 25px rgba(212, 175, 55, 0.2); }
+        .candidate-btn:hover:not(.locked) { background: rgba(0, 42, 82, 0.9); transform: translateY(-3px); border-color: var(--gold); box-shadow: 0 10px 25px rgba(212, 175, 55, 0.2); }
+        .candidate-btn.locked { opacity: 0.8; cursor: default; }
+        .candidate-btn.locked:hover { transform: none; box-shadow: 0 5px 15px rgba(0,0,0,0.3); border-color: rgba(212, 175, 55, 0.4); background: linear-gradient(45deg, rgba(0, 42, 82, 0.6), rgba(0, 20, 40, 0.9));}
 
         .cand-info { text-align: left; display: flex; align-items: center; gap: 15px; }
         .cand-icon { font-size: 1.5rem; color: var(--gold); width: 30px; text-align: center; }
+        .cand-icon.locked-icon { color: #888; }
         .cand-name { font-size: 1rem; font-weight: bold; display: block; font-family: 'Lato', sans-serif; color: #fff;}
         .cand-status { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1px; opacity: 0.8; margin-top: 3px; font-family: 'Lato', sans-serif; }
 
         .arrow { font-size: 0.9rem; opacity: 0.5; transition: transform 0.3s; }
-        .candidate-btn:hover .arrow { transform: translateX(5px); opacity: 1; color: var(--gold); }
+        .candidate-btn:not(.locked):hover .arrow { transform: translateX(5px); opacity: 1; color: var(--gold); }
 
         .status-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 5px; }
-        .s-sindicancia { background: #f1c40f; box-shadow: 0 0 5px #f1c40f; } 
-        .s-docs { background: #3498db; box-shadow: 0 0 5px #3498db; } 
-        .s-inicio { background: #2ecc71; box-shadow: 0 0 5px #2ecc71; } 
-
         .section-title { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; color: rgba(255,255,255,0.4); margin-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; font-family: 'Lato', sans-serif; }
 
         /* Botões Extras da Secretaria */
@@ -155,7 +153,6 @@
         }
         .login-btn:hover { background: #fff; box-shadow: 0 0 15px var(--gold-shadow); }
         
-        /* Botão Voltar ao Início na tela de senha */
         .btn-voltar-inicio {
             display: inline-flex; justify-content: center; align-items: center; gap: 8px;
             width: 100%; padding: 12px;
@@ -167,103 +164,96 @@
 
         .error-msg { color: #ff4c4c; font-family: 'Lato'; font-size: 0.85rem; margin-bottom: 15px; display: none; height: 20px; }
 
-        /* --- EFEITO MATRIX (HACK/ERRO) --- */
-        body.matrix-mode {
-            background: #000 !important; color: #0f0 !important; font-family: monospace !important;
-            animation: shake 0.5s infinite;
+        /* --- TELA DE BLOQUEIO DO SISTEMA (ESTILO HACKER) --- */
+        #system-lock-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #000; color: #0f0; font-family: 'Courier New', Courier, monospace;
+            display: none; flex-direction: column; justify-content: center; align-items: center;
+            z-index: 100000; padding: 20px; text-align: center; overflow: hidden;
         }
-        body.matrix-mode * { display: none !important; }
-        body.matrix-mode::before {
-            content: 'ACESSO NEGADO. VIOLAÇÃO DE SEGURANÇA DETECTADA. REDIRECIONANDO...';
-            display: flex !important; justify-content: center; align-items: center;
-            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
-            font-size: 2rem; color: #f00; text-align: center; padding: 20px; z-index: 9999;
-        }
+        #system-lock-screen.active { display: flex; animation: glitch-anim 0.2s linear infinite; }
+        .lock-title { font-size: 2rem; color: #f00; margin-bottom: 20px; text-transform: uppercase; font-weight: bold; }
+        .lock-text { font-size: 1rem; color: #0f0; margin-bottom: 10px; }
+        .lock-progress { width: 80%; max-width: 300px; height: 15px; border: 1px solid #0f0; margin-top: 20px; position: relative; }
+        .lock-progress-bar { height: 100%; background: #f00; width: 0%; animation: fill-bar 3s linear forwards; }
 
-        /* --- FOOTER PADRÃO MOSAICO --- */
+        @keyframes glitch-anim { 0%, 100% { transform: translate(0) } 20% { transform: translate(-2px, 1px) } 40% { transform: translate(-1px, -1px) } 80% { transform: translate(1px, -1px) } }
+        @keyframes fill-bar { to { width: 100%; } }
+        body.locked-mode > *:not(#system-lock-screen) { display: none !important; }
+
+        /* --- FOOTER PADRÃO MOSAICO (MESMO DA ABA ARQUIVADOS) --- */
         footer { 
-            position: relative; width: 100%;
-            background-color: #02050a; 
+            position: relative; width: 100%; background-color: #02050a; 
             background-image: 
                 linear-gradient(45deg, rgba(255,255,255,0.06) 25%, transparent 25%, transparent 75%, rgba(255,255,255,0.06) 75%, rgba(255,255,255,0.06)),
                 linear-gradient(45deg, rgba(255,255,255,0.06) 25%, transparent 25%, transparent 75%, rgba(255,255,255,0.06) 75%, rgba(255,255,255,0.06));
-            background-size: 80px 80px; 
-            background-position: 0 0, 40px 40px;
-            padding: 80px 0 20px; 
-            border-top: 3px solid var(--gold); 
-            margin-top: auto; 
-            display: none; /* Oculta até logar */
+            background-size: 80px 80px; background-position: 0 0, 40px 40px;
+            padding: 80px 0 20px; border-top: 3px solid var(--gold); margin-top: auto; display: none;
         }
         footer::before {
             content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background: linear-gradient(to bottom, rgba(0,12,24,0.9) 0%, rgba(0,0,0,0) 20%, rgba(0,0,0,0) 80%, rgba(0,0,0,0.95) 100%);
             z-index: 0; pointer-events: none;
         }
-
         .footer-grid { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 40px; text-align: left; padding-bottom: 40px; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
         .footer-col h4 { color: var(--gold); font-family: 'Cinzel'; margin-bottom: 20px; font-size: 1.1rem; text-shadow: 0 2px 5px rgba(0,0,0,0.8);}
-        .footer-contact p { margin-bottom: 10px; font-size: 0.9rem; color: #ddd; display: flex; gap: 10px; text-shadow: 0 1px 3px rgba(0,0,0,0.9); }
-        .footer-contact i { color: var(--gold); margin-top: 4px; }
+        .footer-contact p { margin-bottom: 12px; font-size: 0.9rem; color: #ddd; display: flex; align-items: flex-start; gap: 10px; text-shadow: 0 1px 3px rgba(0,0,0,0.9); line-height: 1.4; }
+        .footer-contact i { color: var(--gold); margin-top: 3px; font-size: 1.1rem; width: 20px; text-align: center; flex-shrink: 0;}
         .footer-social-center { text-align: center; }
         .social-btn { display: inline-flex; justify-content: center; align-items: center; width: 50px; height: 50px; border-radius: 50%; border: 1px solid rgba(212, 175, 55, 0.4); color: #fff; font-size: 1.3rem; margin: 0 10px; transition: 0.3s; text-decoration: none; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px);}
-        .social-btn:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-5px); box-shadow: 0 0 15px var(--gold-shadow); background: rgba(0,0,0,0.9);}
+        .social-btn:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-5px); box-shadow: 0 0 15px var(--gold-shadow); }
         .footer-dev-right { text-align: right; display: flex; flex-direction: column; align-items: flex-end; justify-content: center; }
-        .dev-logo { width: 100px; filter: grayscale(100%) brightness(200%); opacity: 0.8; transition: 0.3s; cursor: pointer; }
+        .dev-logo { width: 120px; filter: grayscale(100%) brightness(200%); opacity: 0.8; transition: 0.3s; cursor: pointer; }
         .dev-logo:hover { filter: grayscale(0%) brightness(100%); opacity: 1; }
         .copyright { position: relative; z-index: 1; font-size: 0.8rem; color: #ccc; padding-top: 20px; border-top: 1px solid rgba(212, 175, 55, 0.3); display: flex; justify-content: space-between; max-width: 1200px; margin: 0 auto; padding-left: 20px; padding-right: 20px; flex-wrap: wrap; text-shadow: 0 1px 2px #000; }
 
-
         /* --- LGPD COOKIE BANNER --- */
         .cookie-banner {
-            position: fixed; bottom: -100px; left: 0; width: 100%;
+            position: fixed; bottom: 0; left: 0; width: 100%; transform: translateY(100%); 
             background: rgba(0, 12, 24, 0.98); border-top: 1px solid var(--gold);
             padding: 20px; z-index: 9999; display: flex; justify-content: center; align-items: center; gap: 20px;
-            transition: bottom 0.5s ease-in-out; box-shadow: 0 -5px 20px rgba(0,0,0,0.5);
-            font-family: 'Lato', sans-serif;
+            transition: transform 0.5s ease-in-out; box-shadow: 0 -5px 20px rgba(0,0,0,0.5); font-family: 'Lato', sans-serif;
         }
-        .cookie-banner.show { bottom: 0; }
-        .cookie-text { font-size: 0.9rem; color: #ccc; max-width: 800px; text-align: center;}
-        .cookie-btn { background: var(--gold); color: #000; border: none; padding: 10px 25px; font-weight: bold; cursor: pointer; border-radius: 4px; transition: 0.3s; }
-        .cookie-btn:hover { background: #fff; }
+        .cookie-banner.show { transform: translateY(0); }
+        .cookie-text { font-size: 0.9rem; color: #ccc; max-width: 800px; text-align: center; line-height: 1.4;}
+        .cookie-btn { background: var(--gold); color: #000; border: none; padding: 12px 25px; font-weight: bold; cursor: pointer; border-radius: 4px; transition: 0.3s; }
 
         @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-15px); } 100% { transform: translateY(0px); } }
         @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
         @keyframes starMove { from { background-position: 0 0; } to { background-position: 1000px 1000px; } }
-        @keyframes shake { 0% { transform: translate(1px, 1px) rotate(0deg); } 10% { transform: translate(-1px, -2px) rotate(-1deg); } 20% { transform: translate(-3px, 0px) rotate(1deg); } 30% { transform: translate(3px, 2px) rotate(0deg); } 40% { transform: translate(1px, -1px) rotate(1deg); } 50% { transform: translate(-1px, 2px) rotate(-1deg); } 60% { transform: translate(-3px, 1px) rotate(0deg); } 70% { transform: translate(3px, 1px) rotate(-1deg); } 80% { transform: translate(-1px, -1px) rotate(1deg); } 90% { transform: translate(1px, 2px) rotate(0deg); } 100% { transform: translate(1px, -2px) rotate(-1deg); } }
-
+        
         @media (max-width: 768px) {
             .brasao-container { width: 140px; height: 140px; margin-bottom: 20px; } 
-            
-            /* Ajuste do Título para Mobile */
             .page-title { font-size: 1.5rem; margin-bottom: 5px; } 
             .page-title span { font-size: 1.1rem; }
-            
             p.subtitle { font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 30px; }
             .candidate-btn { padding: 15px; }
-            .cand-icon { font-size: 1.2rem; }
-            .cand-name { font-size: 0.85rem; }
             .header-inner { flex-wrap: wrap; gap: 8px; padding: 0 10px; justify-content: center;}
             .nav-link { font-size: 0.7rem; padding: 6px 10px; }
-            .cookie-banner { flex-direction: column; }
-            
-            /* Rodapé Mobile */
             .footer-grid { grid-template-columns: 1fr; text-align: center; gap: 30px;}
             .footer-dev-right { align-items: center; }
             .footer-contact p { justify-content: center; }
-            .copyright { flex-direction: column; gap: 10px; text-align: center; }
+            .cookie-banner { flex-direction: column; padding: 20px 15px 30px 15px; }
+            .lock-title { font-size: 1.5rem; }
+            .lock-text { font-size: 0.85rem; }
         }
     </style>
 </head>
 <body>
 
+    <div id="system-lock-screen">
+        <div class="lock-title">VIOLAÇÃO DE SEGURANÇA</div>
+        <div class="lock-text">ACESSO NEGADO. TENTATIVAS ESGOTADAS.</div>
+        <div class="lock-text">RASTREANDO IP E REDIRECIONANDO...</div>
+        <div class="lock-progress"><div class="lock-progress-bar"></div></div>
+    </div>
+
     <div id="login-overlay">
         <div class="login-box">
-            <i class="fas fa-lock"></i>
+            <i class="fas fa-lock" style="font-size: 3rem; color:var(--gold); margin-bottom:20px"></i>
             <h2>Acesso Restrito</h2>
             <p style="font-family: 'Lato'; color: #ccc; font-size: 0.9rem; margin-bottom: 20px;">Insira a Palavra de Passe para acessar a Secretaria.</p>
-            
             <div id="error-msg" class="error-msg">Palavra Incorreta. Tentativas: <span id="tentativas">0</span>/3</div>
-            
             <input type="password" id="pass-input" class="login-input" placeholder="••••••••" autocomplete="off">
             <button id="btn-login" class="login-btn">Entrar</button>
             <a href="../index.html" class="btn-voltar-inicio"><i class="fas fa-home"></i> Fraternidade Imperial</a>
@@ -282,83 +272,15 @@
     <div class="bg-particles"></div>
     
     <div class="container" id="secretaria-content">
-        
         <div class="brasao-container">
             <img src="../imagens/264.webp" alt="Brasão 264" class="brasao-img" onerror="this.src='../264.jpg'">
         </div>
-        
         <h1 class="page-title">A∴ R∴ L∴ M∴<br>Fraternidade Imperial <span>Nº 264</span></h1>
-        <p class="subtitle">Secretaria Executiva</p>
+        <p class="subtitle">Secretaria Digital</p>
         
-        <div class="process-list">
+        <div class="process-list" id="process-list-container">
             <div class="section-title">Processos de Iniciação Ativos</div>
-
-            <a href="processos/rpsls/" class="candidate-btn">
-                <div class="cand-info">
-                    <div class="cand-icon"><i class="fas fa-user-secret"></i></div>
-                    <div>
-                        <span class="cand-name">RUAN PABLO DA SILVA DE LIMA SANTOS</span>
-                        <div class="cand-status">
-                            <span class="status-dot s-sindicancia"></span> Em Sindicância
-                        </div>
-                    </div>
-                </div>
-                <i class="fas fa-chevron-right arrow"></i>
-            </a>
-
-            <a href="#" class="candidate-btn">
-                <div class="cand-info">
-                    <div class="cand-icon"><i class="fas fa-user"></i></div>
-                    <div>
-                        <span class="cand-name">CARLOS HENRIQUE BASTOS MELO</span>
-                        <div class="cand-status">
-                            <span class="status-dot s-docs"></span> Aguardando Placet
-                        </div>
-                    </div>
-                </div>
-                <i class="fas fa-chevron-right arrow"></i>
-            </a>
-
-            <a href="#" class="candidate-btn" style="opacity: 0.8;">
-                <div class="cand-info">
-                    <div class="cand-icon"><i class="fas fa-user"></i></div>
-                    <div>
-                        <span class="cand-name">BRUNO FERNANDES DE OLIVEIRA</span>
-                        <div class="cand-status">
-                            <span class="status-dot s-inicio"></span> Aguardando Pré-Proposta
-                        </div>
-                    </div>
-                </div>
-                <i class="fas fa-lock arrow" style="font-size: 0.7rem;"></i>
-            </a>
-
-            <a href="#" class="candidate-btn" style="opacity: 0.8;">
-                <div class="cand-info">
-                    <div class="cand-icon"><i class="fas fa-user"></i></div>
-                    <div>
-                        <span class="cand-name">MATHEUS MAGALHÃES DA SILVA</span>
-                        <div class="cand-status">
-                            <span class="status-dot s-inicio"></span> Aguardando Pré-Proposta
-                        </div>
-                    </div>
-                </div>
-                <i class="fas fa-lock arrow" style="font-size: 0.7rem;"></i>
-            </a>
-
-            <a href="#" class="candidate-btn" style="opacity: 0.8;">
-                <div class="cand-info">
-                    <div class="cand-icon"><i class="fas fa-user"></i></div>
-                    <div>
-                        <span class="cand-name">GABRIEL DA SILVEIRA FILHO</span>
-                        <div class="cand-status">
-                            <span class="status-dot s-inicio"></span> Aguardando Pré-Proposta
-                        </div>
-                    </div>
-                </div>
-                <i class="fas fa-lock arrow" style="font-size: 0.7rem;"></i>
-            </a>
-
-        </div>
+            </div>
 
         <a href="arquivados/index.html" class="btn-history">
             <i class="fas fa-folder-open"></i> Histórico de Processos Concluídos
@@ -367,7 +289,6 @@
         <div style="margin-top: 40px; font-size: 0.7rem; opacity: 0.5; font-family: 'Lato'; letter-spacing: 2px;">
             <i class="fas fa-shield-alt"></i> AMBIENTE SEGURO E CRIPTOGRAFADO
         </div>
-
     </div>
 
     <footer id="secretaria-footer">
@@ -375,111 +296,150 @@
             <div class="footer-col">
                 <h4>Fale Conosco</h4>
                 <div class="footer-contact">
-                    <p><i class="fas fa-map-pin"></i> Rua Nair Tefé, 320 - Quitandinha, Petrópolis - RJ</p>
-                    <p><i class="fas fa-clock"></i> Reuniões: Sábados (Quinzenalmente) às 10h</p>
-                    <p><i class="fas fa-envelope"></i> secretaria@fraternidadeimperial264.com.br</p>
+                    <p><i class="fas fa-map-pin"></i> <span>Rua Nair Tefé, 320 - Quitandinha, Petrópolis - RJ</span></p>
+                    <p><i class="fas fa-clock"></i> <span>Reuniões: Sábados (Quinzenalmente) às 10h</span></p>
+                    <p><i class="fas fa-envelope"></i> <span>secretaria@fraternidadeimperial264.com.br</span></p>
                 </div>
             </div>
             <div class="footer-col footer-social-center">
                 <h4>Redes Sociais</h4>
                 <div class="social-icons">
-                    <a href="https://www.instagram.com/fraternidadeimperial264" target="_blank" class="social-btn" title="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.instagram.com/fraternidadeimperial264" target="_blank" class="social-btn"><i class="fab fa-instagram"></i></a>
                     <a href="#" class="social-btn" title="YouTube (Em breve)"><i class="fab fa-youtube"></i></a>
                 </div>
             </div>
             <div class="footer-col footer-dev-right">
                 <span style="font-size:0.8rem; color:#aaa; margin-bottom:5px; text-shadow: 0 1px 2px #000;">Desenvolvido por:</span>
-                <img src="../logo.png" alt="O Imaginista" class="dev-logo" onclick="window.open('https://oimaginista.com', '_blank')">
+                <a href="https://oimaginista.com" target="_blank">
+                    <img src="../logo.png" alt="O Imaginista" class="dev-logo">
+                </a>
             </div>
         </div>
-
         <div class="copyright">
             <span>© 2025 A∴ R∴ L∴ M∴ Fraternidade Imperial Nº 264. Todos os direitos reservados.</span>
-            <span>CNPJ: 00.000.000/0000-00</span>
         </div>
     </footer>
 
     <div id="cookie-banner" class="cookie-banner">
-        <div class="cookie-text">
-            Este site utiliza cookies para garantir a segurança e funcionalidade da Secretaria. 
-            Ao continuar, você concorda com nossa <a href="#" style="color:var(--gold); text-decoration: underline;">Política de Privacidade</a>.
-        </div>
+        <div class="cookie-text">Este site utiliza cookies para garantir a segurança e funcionalidade da Secretaria. Ao continuar, você concorda.</div>
         <button id="accept-cookies" class="cookie-btn">Entendido</button>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            
-            /* --- LÓGICA DE LOGIN (ESTRITA SEM SESSÃO SALVA) --- */
-            const correctPass = "imperial"; // TEM QUE SER EXATAMENTE "imperial"
-            let tentativas = 0;
-            const maxTentativas = 3;
 
+            /* ========================================================
+               LISTA DE CANDIDATOS (EDITE AQUI COM CORES HEXADECIMAIS)
+            ======================================================== */
+            const candidatosAtivos = [
+                {
+                    nome: "RUAN PABLO DA SILVA DE LIMA SANTOS",
+                    statusTexto: "Entrega de Documentos",
+                    corHex: "#f1c40f", 
+                    iconeUsuario: "fas fa-user-secret",
+                    linkUrl: "processos/rpsls/",
+                    liberado: true
+                },
+                {
+                    nome: "CARLOS HENRIQUE BASTOS MELO",
+                    statusTexto: "Aguardando Pré-Proposta",
+                    corHex: "#3498db", 
+                    iconeUsuario: "fas fa-user",
+                    linkUrl: "#",
+                    liberado: false 
+                },
+                {
+                    nome: "BRUNO FERNANDES DE OLIVEIRA",
+                    statusTexto: "Aguardando Pré-Proposta",
+                    corHex: "#2ecc71", 
+                    iconeUsuario: "fas fa-user",
+                    linkUrl: "#",
+                    liberado: false 
+                },
+                {
+                    nome: "MATHEUS MAGALHÃES DA SILVA",
+                    statusTexto: "Aguardando Pré-Proposta",
+                    corHex: "#2ecc71", 
+                    iconeUsuario: "fas fa-user",
+                    linkUrl: "#",
+                    liberado: false 
+                },
+                {
+                    nome: "GABRIEL DA SILVEIRA FILHO",
+                    statusTexto: "Aguardando Pré-Proposta",
+                    corHex: "#2ecc71", 
+                    iconeUsuario: "fas fa-user",
+                    linkUrl: "#",
+                    liberado: false 
+                }
+            ];
+
+            const listaContainer = document.getElementById('process-list-container');
+            
+            candidatosAtivos.forEach(candidato => {
+                const isLocked = !candidato.liberado;
+                const corHexFinal = candidato.corHex || "#d4af37";
+                
+                const htmlBotao = `
+                    <a href="${candidato.linkUrl}" class="candidate-btn ${isLocked ? 'locked' : ''}" ${isLocked ? 'onclick="event.preventDefault()"' : ''}>
+                        <div class="cand-info">
+                            <div class="cand-icon ${isLocked ? 'locked-icon' : ''}"><i class="${candidato.iconeUsuario}"></i></div>
+                            <div>
+                                <span class="cand-name">${candidato.nome}</span>
+                                <div class="cand-status">
+                                    <span class="status-dot" style="background-color: ${corHexFinal}; box-shadow: 0 0 8px ${corHexFinal};"></span> 
+                                    ${candidato.statusTexto}
+                                </div>
+                            </div>
+                        </div>
+                        <i class="fas ${isLocked ? 'fa-lock' : 'fa-chevron-right'} arrow"></i>
+                    </a>
+                `;
+                listaContainer.insertAdjacentHTML('beforeend', htmlBotao);
+            });
+
+            /* --- LÓGICA DE LOGIN --- */
+            const correctPass = "imperial";
+            let tentativas = 0;
             const btnLogin = document.getElementById('btn-login');
             const passInput = document.getElementById('pass-input');
-            const errorMsg = document.getElementById('error-msg');
-            const tentativasSpan = document.getElementById('tentativas');
-            
             const overlay = document.getElementById('login-overlay');
             const content = document.getElementById('secretaria-content');
             const header = document.getElementById('secretaria-header');
             const footer = document.getElementById('secretaria-footer');
 
             function verificarSenha() {
-                // Captura exatamente o que foi digitado (só tirando espaços em branco do começo/fim)
-                const password = passInput.value.trim(); 
-                
-                if (password === correctPass) {
-                    liberarAcesso();
+                if (passInput.value.trim() === correctPass) {
+                    overlay.style.opacity = '0';
+                    setTimeout(() => {
+                        overlay.style.display = 'none';
+                        header.style.display = 'block';
+                        content.style.display = 'block';
+                        footer.style.display = 'block';
+                    }, 500);
                 } else {
                     tentativas++;
-                    tentativasSpan.textContent = tentativas;
-                    errorMsg.style.display = 'block';
+                    document.getElementById('tentativas').textContent = tentativas;
+                    document.getElementById('error-msg').style.display = 'block';
                     passInput.value = '';
-                    passInput.focus();
-
-                    if (tentativas >= maxTentativas) {
-                        ativarMatrix();
+                    if (tentativas >= 3) {
+                        document.body.classList.add('locked-mode');
+                        document.getElementById('system-lock-screen').classList.add('active');
+                        setTimeout(() => { window.location.href = "../index.html"; }, 3000);
                     }
                 }
             }
 
-            function liberarAcesso() {
-                overlay.style.opacity = '0';
-                setTimeout(() => {
-                    overlay.style.display = 'none';
-                    // Mostra o Menu, o Conteúdo e o Rodapé
-                    header.style.display = 'block';
-                    content.style.display = 'block';
-                    footer.style.display = 'block';
-                }, 500);
-            }
-
-            function ativarMatrix() {
-                document.body.className = 'matrix-mode';
-                passInput.disabled = true;
-                btnLogin.disabled = true;
-                setTimeout(() => {
-                    window.location.href = "../index.html"; // Joga pra raiz
-                }, 3000);
-            }
-
             btnLogin.addEventListener('click', verificarSenha);
-            passInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') verificarSenha();
-            });
+            passInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') verificarSenha(); });
 
             /* --- COOKIE BANNER --- */
-            const banner = document.getElementById('cookie-banner');
-            const acceptBtn = document.getElementById('accept-cookies');
-
             if (!localStorage.getItem('cookiesAccepted_264')) {
-                setTimeout(() => banner.classList.add('show'), 2000); 
+                setTimeout(() => document.getElementById('cookie-banner').classList.add('show'), 2000); 
             }
-
-            acceptBtn.addEventListener('click', () => {
+            document.getElementById('accept-cookies').addEventListener('click', () => {
                 localStorage.setItem('cookiesAccepted_264', 'true');
-                banner.classList.remove('show');
+                document.getElementById('cookie-banner').classList.remove('show');
             });
         });
     </script>
