@@ -35,19 +35,18 @@
 
         h1, h2, h3, .cinzel { font-family: 'Cinzel', serif; color: var(--gold); }
 
-        /* CANVAS FUNDO (Fundo transparente) */
-        #constellation-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; pointer-events: none; background: transparent; }
+        /* CANVAS FUNDO TOTALMENTE INTOCÁVEL */
+        #constellation-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; pointer-events: none !important; background: transparent; }
 
-        /* --- HEADER BÁSICO (APARECE APÓS LOGIN SEM PULAR) --- */
+        /* --- HEADER BÁSICO (LIVRE DE BUG - FORA DO MAIN CONTENT) --- */
         header#dossie-header { 
-            position: fixed; top: 0; left: 0; width: 100%; z-index: 100; padding: 15px 0; 
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; padding: 15px 0; 
             background: rgba(0, 12, 24, 0.95); backdrop-filter: blur(10px); 
             border-bottom: 1px solid rgba(212, 175, 55, 0.3);
-            display: flex; justify-content: center; align-items: center;
-            /* Inicia invisível para o FadeIn */
-            opacity: 0; pointer-events: none; transition: opacity 0.8s ease, visibility 0.8s;
+            display: none; justify-content: center; align-items: center;
+            opacity: 0; transition: opacity 0.8s ease; 
         }
-        header#dossie-header.visible { opacity: 1; pointer-events: auto; }
+        header#dossie-header.visible { opacity: 1; }
         
         .header-nav-inner { display: flex; justify-content: center; gap: 20px; align-items: center; max-width: 1200px; width: 100%; padding: 0 20px;}
         .nav-link { 
@@ -58,7 +57,7 @@
         }
         .nav-link:hover { background: var(--gold); color: #000; box-shadow: 0 0 15px var(--gold-shadow); }
 
-        /* --- POPUP SENHA CORRIGIDO PARA NÃO PULAR --- */
+        /* --- POPUP SENHA --- */
         #password-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
             background: rgba(0, 5, 10, 0.98); z-index: 9999; 
@@ -72,14 +71,15 @@
             width: 90%; max-width: 450px; 
             box-shadow: 0 0 60px rgba(212, 175, 55, 0.25); 
             animation: popIn 0.5s ease forwards; position: relative; overflow: hidden;
-            margin: auto;
+            margin: auto; z-index: 10000;
         }
         
+        /* O Brilho fantasma */
         .auth-box::after {
             content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
             background: linear-gradient(to bottom right, transparent, transparent, rgba(212, 175, 55, 0.1), transparent, transparent);
             transform: rotate(45deg); animation: shimmer 3s infinite;
-            pointer-events: none; /* Blinda contra clique acidental no brilho */
+            pointer-events: none !important; 
         }
 
         .auth-box i.fa-lock { font-size: 3rem; margin-bottom: 15px; color: var(--gold); position: relative; z-index: 2;}
@@ -90,7 +90,7 @@
         .auth-input {
             width: 100%; padding: 15px; font-size: 1rem; border-radius: 5px; border: 1px solid var(--gold);
             background: rgba(255,255,255,0.08); color: var(--gold); text-align: center; outline: none;
-            margin-bottom: 20px; letter-spacing: 4px; transition: 0.3s; position: relative; z-index: 5;
+            margin-bottom: 20px; letter-spacing: 4px; transition: 0.3s; position: relative; z-index: 10001; pointer-events: auto !important;
         }
         .auth-input:focus { background: rgba(255,255,255,0.15); box-shadow: 0 0 15px rgba(212,175,55,0.3); }
 
@@ -98,11 +98,11 @@
             display: block; width: 100%; padding: 12px 20px; background: linear-gradient(45deg, var(--gold), #bfa15f); 
             color: #000; font-family: 'Cinzel'; font-weight: bold; border: none; border-radius: 4px; 
             cursor: pointer; transition: transform 0.2s; text-transform: uppercase; letter-spacing: 2px; font-size: 1rem;
-            position: relative; z-index: 5; margin-bottom: 20px;
+            position: relative; z-index: 10001; pointer-events: auto !important; margin-bottom: 20px;
         }
         .auth-btn:hover { transform: scale(1.02); box-shadow: 0 0 15px var(--gold-shadow); }
 
-        .auth-links { display: flex; justify-content: center; gap: 15px; position: relative; z-index: 5; width: 100%;}
+        .auth-links { display: flex; justify-content: center; gap: 15px; position: relative; z-index: 10001; pointer-events: auto !important; width: 100%;}
         .btn-voltar {
             flex: 1; padding: 10px; background: transparent; border: 1px solid rgba(212, 175, 55, 0.5); border-radius: 4px;
             color: var(--gold); text-decoration: none; font-family: 'Cinzel'; font-size: 0.75rem;
@@ -116,9 +116,8 @@
         /* --- MAIN CONTENT (ARQUIVO) --- */
         #main-content {
             width: 100%; display: none; flex-direction: column; align-items: center; 
-            margin-top: 100px; flex: 1; opacity: 0; transition: opacity 1s ease;
+            margin-top: 100px; flex: 1; opacity: 0; transition: opacity 0.8s ease;
         }
-        /* Classe ativada via JS para o FadeIn */
         #main-content.visible { opacity: 1; }
 
         .container { 
@@ -145,25 +144,25 @@
         /* --- BUSCADOR APRIMORADO --- */
         .search-container { width: 100%; max-width: 800px; margin: 0 auto 40px; position: relative; z-index: 5; }
         .search-input {
-            width: 100%; padding: 15px 20px 15px 60px; /* Aumentado padding-left para não colar na lupa */
-            font-size: 1rem; border-radius: 50px; /* Mais arredondado como barra de busca */
+            width: 100%; padding: 15px 20px 15px 60px; 
+            font-size: 1rem; border-radius: 50px; 
             border: 1px solid rgba(212, 175, 55, 0.5); background: rgba(0, 20, 40, 0.6); 
             color: #fff; font-family: 'Lato', sans-serif; outline: none; transition: 0.3s;
             backdrop-filter: blur(5px);
-            position: relative; z-index: 1; /* Input na camada abaixo da lupa */
+            position: relative; z-index: 1; 
         }
         .search-input::placeholder { color: rgba(255, 255, 255, 0.5); font-style: italic; }
         .search-input:focus { border-color: var(--gold); box-shadow: 0 0 15px rgba(212, 175, 55, 0.3); background: rgba(0, 20, 40, 0.8); }
         .search-icon { 
             position: absolute; left: 25px; top: 50%; transform: translateY(-50%); 
             color: var(--gold); font-size: 1.3rem; pointer-events: none; opacity: 1;
-            z-index: 5; /* Lupa por cima da barra de busca */
+            z-index: 5; 
         }
 
         /* --- LISTA DE PROCESSOS ARQUIVADOS (3 POR LINHA) --- */
         .process-grid { 
             display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); /* Mágica para alinhar 3 lado a lado */
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
             gap: 20px; width: 100%; margin-bottom: 30px;
         }
 
@@ -219,7 +218,7 @@
                 linear-gradient(45deg, rgba(255,255,255,0.06) 25%, transparent 25%, transparent 75%, rgba(255,255,255,0.06) 75%, rgba(255,255,255,0.06)),
                 linear-gradient(45deg, rgba(255,255,255,0.06) 25%, transparent 25%, transparent 75%, rgba(255,255,255,0.06) 75%, rgba(255,255,255,0.06));
             background-size: 80px 80px; background-position: 0 0, 40px 40px;
-            padding: 80px 0 20px; border-top: 3px solid var(--gold); margin-top: auto; display: none;
+            padding: 80px 0 20px; border-top: 3px solid var(--gold); margin-top: auto;
         }
         footer::before {
             content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
@@ -229,13 +228,11 @@
         .footer-grid { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 40px; text-align: left; padding-bottom: 40px; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
         .footer-col h4 { color: var(--gold); font-family: 'Cinzel'; margin-bottom: 20px; font-size: 1.1rem; text-shadow: 0 2px 5px rgba(0,0,0,0.8);}
         
-        /* Ajuste Fino do Contato (Evita quebra feia do ícone) */
         .footer-contact p { margin-bottom: 12px; font-size: 0.9rem; color: #ddd; display: flex; align-items: flex-start; gap: 10px; text-shadow: 0 1px 3px rgba(0,0,0,0.9); line-height: 1.4; }
         .footer-contact i { color: var(--gold); margin-top: 3px; font-size: 1.1rem; width: 20px; text-align: center; flex-shrink: 0;}
         
-        /* Protege a cidade/estado para não quebrar em linhas isoladas no celular */
         .keep-together { white-space: nowrap; }
-        .mobile-break { display: none; } /* Oculto no desktop */
+        .mobile-break { display: none; } 
 
         .footer-social-center { text-align: center; }
         .social-btn { display: inline-flex; justify-content: center; align-items: center; width: 50px; height: 50px; border-radius: 50%; border: 1px solid rgba(212, 175, 55, 0.4); color: #fff; font-size: 1.3rem; margin: 0 10px; transition: 0.3s; text-decoration: none; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px);}
@@ -254,7 +251,6 @@
         
         @keyframes popIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
         @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
-        @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
         @keyframes shimmer { 0% { left: -50%; top: -50%; } 100% { left: 150%; top: 150%; } }
         @keyframes shake { 0% { transform: translate(1px, 1px) rotate(0deg); } 10% { transform: translate(-1px, -2px) rotate(-1deg); } 20% { transform: translate(-3px, 0px) rotate(1deg); } 30% { transform: translate(3px, 2px) rotate(0deg); } 40% { transform: translate(1px, -1px) rotate(1deg); } 50% { transform: translate(-1px, 2px) rotate(-1deg); } 60% { transform: translate(-3px, 1px) rotate(0deg); } 70% { transform: translate(3px, 1px) rotate(-1deg); } 80% { transform: translate(-1px, -1px) rotate(1deg); } 90% { transform: translate(1px, 2px) rotate(0deg); } 100% { transform: translate(1px, -2px) rotate(-1deg); } }
 
@@ -272,22 +268,20 @@
             .auth-box h2 { font-size: 1.3rem; }
             .cand-name-auth { font-size: 0.85rem; }
             
-            /* Ajuste dos botões de voltar no mobile */
-            .auth-links { flex-direction: column; gap: 8px; } 
+            .auth-links { flex-direction: row; gap: 10px; } 
+            .btn-voltar { padding: 10px 5px; font-size: 0.65rem; }
             
             .process-grid { grid-template-columns: 1fr; }
             .archive-btn { min-height: auto; padding: 20px;}
             .cand-name { font-size: 1rem; }
             
-            /* Buscador responsivo com lupa alinhada */
             .search-input { font-size: 0.9rem; padding-left: 45px; }
-            .search-icon { left: 18px; font-size: 1.1rem; }
+            .search-icon { left: 15px; font-size: 1.1rem; z-index: 5; }
 
-            /* Ajuste do Rodapé Fale Conosco para ficar alinhado à esquerda mas centralizado no bloco */
             .footer-grid { grid-template-columns: 1fr; text-align: center; gap: 40px;}
             .mobile-center-col { display: flex; flex-direction: column; align-items: center; }
             .footer-contact { text-align: left; display: inline-block; width: fit-content; max-width: 100%;}
-            .mobile-break { display: block; } /* Quebra a linha antes de Petrópolis só no celular */
+            .mobile-break { display: block; } 
             
             .footer-dev-right { align-items: center; }
             .copyright { flex-direction: column; gap: 10px; text-align: center; }
@@ -309,7 +303,7 @@
             <div id="error-msg" class="error-msg">Palavra Incorreta. Tentativas: <span id="tentativas">0</span>/3</div>
             
             <input type="password" id="passInput" class="auth-input" placeholder="••••••••" autocomplete="off">
-            <button class="auth-btn" id="btn-login">Desbloquear Arquivo</button>
+            <button class="auth-btn" id="btn-login" onclick="checkPassword()">Desbloquear Arquivo</button>
             
             <div class="auth-links">
                 <a href="../../index.html" class="btn-voltar"><i class="fas fa-home"></i> Início</a>
@@ -318,15 +312,14 @@
         </div>
     </div>
 
-    <div id="main-content">
-        
-        <header id="dossie-header">
-            <div class="header-nav-inner">
-                <a href="../../index.html" class="nav-link"><i class="fas fa-home"></i> <span>Início</span></a>
-                <a href="../index.html" class="nav-link"><i class="fas fa-folder"></i> <span>Secretaria</span></a>
-            </div>
-        </header>
+    <header id="dossie-header">
+        <div class="header-nav-inner">
+            <a href="../../index.html" class="nav-link"><i class="fas fa-home"></i> <span>Início</span></a>
+            <a href="../index.html" class="nav-link"><i class="fas fa-folder"></i> <span>Secretaria</span></a>
+        </div>
+    </header>
 
+    <div id="main-content">
         <canvas id="constellation-bg"></canvas>
 
         <div class="container">
@@ -347,8 +340,7 @@
                 <div id="no-results-msg"><i class="fas fa-search-minus" style="font-size: 2rem; margin-bottom: 10px; display:block;"></i>Nenhum processo encontrado.</div>
                 </div>
             
-            <button id="loadMoreBtn" style="display:none;">Carregar Mais Arquivos</button>
-
+            <button id="loadMoreBtn" onclick="loadMore()" style="display:none;">Carregar Mais Arquivos</button>
         </div>
 
         <footer id="secretaria-footer">
@@ -387,7 +379,6 @@
     <script>
         // =========================================================
         // BASE DE DADOS: ARQUIVO CENTRAL (15 Nomes Fictícios para teste)
-        // Configure o "status" e se deve "exibirCim" (true/false)
         // =========================================================
         const dadosProcessos = [
             {nome: "Ruan Pablo da Silva de Lima Santos", data: "28/03/2026", cim: "0245177", status: "Concluído", exibirCim: true},
@@ -412,7 +403,6 @@
         const loadBtn = document.getElementById('loadMoreBtn');
         const noResultsMsg = document.getElementById('no-results-msg');
 
-        // --- FUNÇÃO PARA RENDERIZAR A LISTA EM CARDS TRIPLOS ---
         function renderList() {
             const cards = listContainer.querySelectorAll('.js-process-card');
             cards.forEach(card => card.remove());
@@ -461,99 +451,98 @@
             loadBtn.style.display = visibleCount >= dadosProcessos.length ? "none" : "inline-block";
         }
 
-        // --- FUNÇÃO CARREGAR MAIS ---
         function loadMore() {
             visibleCount += 9; 
             renderList();
         }
 
-        // --- LÓGICA DE LOGIN DESACOMPLADA E BLINDADA ---
-        document.addEventListener('DOMContentLoaded', () => {
-            const btnLogin = document.getElementById('btn-login');
+        // --- LÓGICA DE LOGIN DESACOMPLADA ---
+        function checkPassword() {
             const passInput = document.getElementById('passInput');
-            const searchInput = document.getElementById('searchInput');
+            const pass = passInput.value.trim();
+            const correctPass = "imperial"; 
             
-            let tentativas = 0;
-            const maxTentativas = 3;
-
-            function checkPassword() {
-                const pass = passInput.value.trim();
-                const correctPass = "imperial"; 
+            if(pass === correctPass) {
+                const overlay = document.getElementById('password-overlay');
+                const main = document.getElementById('main-content');
+                const header = document.getElementById('dossie-header');
                 
-                if(pass === correctPass) {
-                    const overlay = document.getElementById('password-overlay');
-                    const main = document.getElementById('main-content');
-                    const header = document.getElementById('dossie-header');
-                    const footer = document.getElementById('secretaria-footer');
+                overlay.style.opacity = '0';
+                
+                setTimeout(() => {
+                    overlay.style.display = 'none';
+                    main.style.display = 'flex'; 
                     
-                    overlay.style.opacity = '0';
+                    void main.offsetWidth; 
+                    
+                    main.classList.add('visible');
+                    header.style.display = 'flex';
                     
                     setTimeout(() => {
-                        overlay.style.display = 'none';
-                        main.style.display = 'flex'; 
-                        footer.style.display = 'block';
-                        
-                        // Força redesenho do DOM
-                        void main.offsetWidth; 
-                        
-                        main.classList.add('visible');
-                        header.style.pointerEvents = 'auto';
                         header.classList.add('visible');
-                        
-                        renderList(); 
-                        initConstellations(); 
-                    }, 500);
-                } else {
-                    let tentativasSpan = document.getElementById('tentativas');
-                    tentativas++;
-                    tentativasSpan.innerText = tentativas;
-                    document.getElementById('error-msg').style.display = 'block';
-                    passInput.value = '';
-                    passInput.focus();
+                    }, 100);
                     
-                    if (tentativas >= maxTentativas) {
-                        document.body.className = 'matrix-mode';
-                        passInput.disabled = true;
-                        btnLogin.disabled = true;
-                        setTimeout(() => { window.location.href = "../../index.html"; }, 3000);
-                    }
+                    renderList(); 
+                    initConstellations(); 
+                }, 500);
+            } else {
+                let tentativasSpan = document.getElementById('tentativas');
+                let tentativas = parseInt(tentativasSpan.innerText);
+                tentativas++;
+                tentativasSpan.innerText = tentativas;
+                document.getElementById('error-msg').style.display = 'block';
+                passInput.value = '';
+                passInput.focus();
+                
+                if (tentativas >= 3) {
+                    document.body.className = 'matrix-mode';
+                    passInput.disabled = true;
+                    document.getElementById('btn-login').disabled = true;
+                    setTimeout(() => { window.location.href = "../../index.html"; }, 3000);
                 }
             }
+        }
 
-            btnLogin.addEventListener('click', checkPassword);
-            passInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') checkPassword();
-            });
+        document.addEventListener('DOMContentLoaded', () => {
+            const passInput = document.getElementById('passInput');
+            const searchInput = document.getElementById('searchInput');
 
-            // Lógica do Buscador
-            searchInput.addEventListener('keyup', () => {
-                let input = searchInput.value.toLowerCase();
-                let cards = document.getElementsByClassName('js-process-card');
-                let hasVisibleCard = false;
+            if(passInput) {
+                passInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') checkPassword();
+                });
+            }
 
-                if(input === "") {
-                    renderList(); 
-                    noResultsMsg.style.display = "none";
-                    return;
-                }
+            if(searchInput) {
+                searchInput.addEventListener('keyup', () => {
+                    let input = searchInput.value.toLowerCase();
+                    let cards = document.getElementsByClassName('js-process-card');
+                    let hasVisibleCard = false;
 
-                loadBtn.style.display = "none";
-
-                for (let i = 0; i < cards.length; i++) {
-                    let name = cards[i].querySelector('.cand-name').innerText.toLowerCase();
-                    let cim = cards[i].querySelector('.cim-num').innerText.toLowerCase();
-                    let status = cards[i].querySelector('.status-badge').innerText.toLowerCase();
-                    
-                    if (name.includes(input) || cim.includes(input) || status.includes(input)) {
-                        cards[i].style.display = "flex";
-                        hasVisibleCard = true;
-                    } else {
-                        cards[i].style.display = "none";
+                    if(input === "") {
+                        renderList(); 
+                        noResultsMsg.style.display = "none";
+                        return;
                     }
-                }
 
-                noResultsMsg.style.display = hasVisibleCard ? "none" : "block";
-            });
+                    loadBtn.style.display = "none";
+
+                    for (let i = 0; i < cards.length; i++) {
+                        let name = cards[i].querySelector('.cand-name').innerText.toLowerCase();
+                        let cim = cards[i].querySelector('.cim-num').innerText.toLowerCase();
+                        let status = cards[i].querySelector('.status-badge').innerText.toLowerCase();
+                        
+                        if (name.includes(input) || cim.includes(input) || status.includes(input)) {
+                            cards[i].style.display = "flex";
+                            hasVisibleCard = true;
+                        } else {
+                            cards[i].style.display = "none";
+                        }
+                    }
+
+                    noResultsMsg.style.display = hasVisibleCard ? "none" : "block";
+                });
+            }
         });
 
         /* --- CONSTELAÇÕES OTIMIZADAS PARA NÃO BLOQUEAR CLIQUES --- */
