@@ -27,7 +27,6 @@
         
         * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
         
-        /* Previne o overflow horizontal e esconde a página até carregar */
         body, html { 
             font-family: 'Lato', sans-serif; 
             color: var(--text-main); 
@@ -36,8 +35,6 @@
             width: 100%;
             line-height: 1.6; 
         }
-        body { opacity: 0; transition: opacity 0.5s ease-in; }
-        body.loaded { opacity: 1; }
 
         h1, h2, h3, .cinzel { font-family: 'Cinzel', serif; color: var(--gold); }
         
@@ -73,7 +70,6 @@
             font-size: 2.5rem; text-transform: uppercase; margin-bottom: 5px; 
             text-shadow: 0 2px 10px rgba(0,0,0,0.8); word-wrap: break-word;
         }
-        /* Ajuste elegante para o título "Galeria" no mobile */
         .title-mobile-only { display: none; }
         .title-desktop-only { display: inline; }
         .mobile-break { display: none; } 
@@ -101,9 +97,7 @@
         .search-icon { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); color: var(--gold); pointer-events: none; }
 
         /* --- GALERIA FLEX --- */
-        .gallery-wrapper {
-            display: flex; flex-wrap: wrap; justify-content: center; gap: 40px; width: 100%; box-sizing: border-box;
-        }
+        .gallery-wrapper { display: flex; flex-wrap: wrap; justify-content: center; gap: 40px; width: 100%; box-sizing: border-box; }
         
         .gallery-card {
             flex: 0 1 300px; max-width: 300px;
@@ -119,14 +113,10 @@
 
         /* FOTOS E OVERLAY DE ZOOM */
         .gallery-photo-container { 
-            width: 100%; 
-            /* Uso de aspect ratio para garantir que a foto sempre seja proporcional, não importa a tela */
-            aspect-ratio: 3/4; 
-            overflow: hidden; position: relative; cursor: pointer; 
+            width: 100%; aspect-ratio: 3/4; overflow: hidden; position: relative; cursor: pointer; 
         }
         .gallery-photo-container::after {
-            content: '\f00e'; /* Icone de Lupa (Zoom) */
-            font-family: 'Font Awesome 5 Free'; font-weight: 900;
+            content: '\f00e'; font-family: 'Font Awesome 5 Free'; font-weight: 900;
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.5);
             color: rgba(255,255,255,0.9); font-size: 3rem; opacity: 0; transition: 0.3s ease;
             text-shadow: 0 2px 15px #000; pointer-events: none; z-index: 2;
@@ -163,15 +153,7 @@
         }
         #image-modal.show { opacity: 1; visibility: visible; }
         
-        /* Modal Wrapper para alinhar imagem e botão */
-        .modal-wrapper {
-            position: relative;
-            max-width: 90%;
-            max-height: 90vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+        .modal-wrapper { position: relative; max-width: 90%; max-height: 90vh; display: flex; justify-content: center; align-items: center; }
 
         #modal-img { 
             max-width: 100%; max-height: 85vh; border: 3px solid var(--gold); border-radius: 8px; 
@@ -181,7 +163,7 @@
         }
         #image-modal.show #modal-img { transform: scale(1); }
         
-        /* Botão X 3D Moderno - Colado na imagem */
+        /* Botão X 3D Moderno */
         .close-3d {
             position: absolute; top: -15px; right: -15px; width: 45px; height: 45px; border-radius: 50%;
             background: linear-gradient(145deg, rgba(212,175,55,0.9), rgba(0,0,0,0.9));
@@ -201,17 +183,12 @@
             background-size: 80px 80px; background-position: 0 0, 40px 40px;
             padding: 80px 0 20px; border-top: 3px solid var(--gold); margin-top: auto; 
         }
-        footer::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(to bottom, rgba(0,12,24,0.9) 0%, rgba(0,0,0,0) 20%, rgba(0,0,0,0) 80%, rgba(0,0,0,0.95) 100%);
-            z-index: 0; pointer-events: none;
-        }
+        footer::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, rgba(0,12,24,0.9) 0%, rgba(0,0,0,0) 20%, rgba(0,0,0,0) 80%, rgba(0,0,0,0.95) 100%); z-index: 0; pointer-events: none; }
 
         .footer-grid { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 40px; text-align: left; padding-bottom: 40px; max-width: 1200px; margin: 0 auto; padding: 0 20px; width: 100%; box-sizing: border-box; }
         .footer-col h4 { color: var(--gold); font-family: 'Cinzel'; margin-bottom: 20px; font-size: 1.1rem; text-shadow: 0 2px 5px rgba(0,0,0,0.8);}
         .footer-contact p { margin-bottom: 12px; font-size: 0.9rem; color: #ddd; display: flex; align-items: flex-start; gap: 10px; text-shadow: 0 1px 3px rgba(0,0,0,0.9); line-height: 1.4; word-wrap: break-word; }
         .footer-contact i { color: var(--gold); margin-top: 3px; font-size: 1.1rem; width: 20px; text-align: center; flex-shrink: 0;}
-        
         .keep-together { white-space: nowrap; }
 
         .footer-social-center { text-align: center; }
@@ -225,12 +202,7 @@
         .copyright { position: relative; z-index: 1; font-size: 0.8rem; color: #ccc; padding-top: 20px; border-top: 1px solid rgba(212, 175, 55, 0.3); display: flex; justify-content: space-between; max-width: 1200px; margin: 0 auto; padding-left: 20px; padding-right: 20px; flex-wrap: wrap; text-shadow: 0 1px 2px #000; width: 100%; box-sizing: border-box; }
 
         /* LGPD COOKIE BANNER CORRIGIDO */
-        .cookie-banner {
-            position: fixed; bottom: 0; left: 0; width: 100%; transform: translateY(100%);
-            background: rgba(0, 12, 24, 0.98); border-top: 1px solid var(--gold);
-            padding: 20px; z-index: 9999; display: flex; justify-content: center; align-items: center; gap: 20px;
-            transition: transform 0.5s ease-in-out; box-shadow: 0 -5px 20px rgba(0,0,0,0.5); box-sizing: border-box;
-        }
+        .cookie-banner { position: fixed; bottom: 0; left: 0; width: 100%; transform: translateY(100%); background: rgba(0, 12, 24, 0.98); border-top: 1px solid var(--gold); padding: 20px; z-index: 9999; display: flex; justify-content: center; align-items: center; gap: 20px; transition: transform 0.5s ease-in-out; box-shadow: 0 -5px 20px rgba(0,0,0,0.5); box-sizing: border-box; }
         .cookie-banner.show { transform: translateY(0); }
         .cookie-text { font-size: 0.9rem; color: #ccc; max-width: 800px; word-wrap: break-word; }
         .cookie-btn { background: var(--gold); color: #000; border: none; padding: 10px 25px; font-weight: bold; cursor: pointer; border-radius: 4px; transition: 0.3s; white-space: nowrap; }
@@ -242,35 +214,28 @@
             .logo-img { height: 40px; }
             
             /* Ajuste Menu Mobile (Toggle) */
-            .nav-links {
-                position: fixed; top: 70px; right: -100%; width: 100%; height: calc(100vh - 70px);
-                background: rgba(0, 12, 24, 0.98); flex-direction: column; padding-top: 40px; transition: 0.4s ease-in-out;
-                justify-content: flex-start; z-index: 999; overflow-y: auto; overflow-x: hidden; gap: 25px;
-            }
+            .nav-links { position: fixed; top: 70px; right: -100%; width: 100%; height: calc(100vh - 70px); background: rgba(0, 12, 24, 0.98); flex-direction: column; padding-top: 40px; transition: 0.4s ease-in-out; justify-content: flex-start; z-index: 999; overflow-y: auto; overflow-x: hidden; gap: 25px; }
             .nav-links.active { right: 0; }
             .nav-link { padding: 8px 12px; font-size: 1rem; }
             .nav-link span { display: block; }
             .mobile-toggle { display: block; }
             
-            /* Título Inteligente no Mobile */
+            /* Título Quebrado no Mobile para "Galeria" e "Veneráveis Mestres" em uma linha mantida no nowrap */
             .gallery-title { font-size: 1.8rem; line-height: 1.3; }
             .title-mobile-only { display: block; }
             .title-desktop-only { display: none; }
+            .vm-mobile-text { white-space: nowrap; font-size: 1.4rem; } /* Força a ficar na mesma linha e ajusta o tamanho */
             
             .gallery-subtitle { font-size: 0.85rem; margin-bottom: 40px; line-height: 1.5; }
             .mobile-break { display: block; }
             .desktop-space { display: none; }
 
-            /* Ajuste para Galeria Mobile sem estourar laterais */
             .gallery-wrapper { gap: 30px; width: 100%; flex-direction: column; align-items: center;}
-            .gallery-card { width: 100%; max-width: 90%; }
-            /* Retirado tamanho fixo agressivo, utiliza aspect-ratio (3/4) */
+            .gallery-card { width: 100%; max-width: 360px; } 
 
-            /* Ajustes do Modal para não quebrar no celular */
             .modal-wrapper { max-width: 95%; }
             .close-3d { top: -10px; right: -10px; width: 35px; height: 35px; font-size: 1rem; }
 
-            /* Footer Secretaria copiado e responsivo */
             .footer-grid { grid-template-columns: 1fr; text-align: center; gap: 40px; padding: 0 15px; width: 100%; }
             .mobile-center-col { display: flex; flex-direction: column; align-items: center; width: 100%; }
             .footer-contact { text-align: left; display: inline-block; width: fit-content; max-width: 100%; }
@@ -299,8 +264,8 @@
             </div>
             <nav class="nav-links" id="nav-menu">
                 <a href="https://oimaginista.com/fraternidadeimperial/" class="nav-link"><i class="fas fa-home"></i> <span>Início</span></a>
-                <a href="../membro/index.html" class="nav-link"><i class="fas fa-users"></i> <span>A Loja</span></a>
-                <a href="../secretaria/index.html" class="nav-link btn-secretaria"><i class="fas fa-lock"></i> <span>Secretaria</span></a>
+                <a href="../membro/" class="nav-link"><i class="fas fa-users"></i> <span>A Loja</span></a>
+                <a href="../secretaria/" class="nav-link btn-secretaria"><i class="fas fa-lock"></i> <span>Secretaria</span></a>
             </nav>
             <button class="mobile-toggle" id="btn-mobile"><i class="fas fa-bars"></i></button>
         </div>
@@ -309,7 +274,7 @@
     <div class="main-container">
         <h1 class="gallery-title" data-aos="fade-down">
             <span class="title-desktop-only">Galeria dos Veneráveis Mestres</span>
-            <span class="title-mobile-only">Galeria<br>Veneráveis Mestres</span>
+            <span class="title-mobile-only">Galeria<br><span class="vm-mobile-text">Veneráveis Mestres</span></span>
         </h1>
         
         <span class="gallery-subtitle" data-aos="fade-up" data-aos-delay="100">
@@ -324,153 +289,7 @@
         </div>
 
         <div class="gallery-wrapper" id="gallery-grid">
-            
-            <div class="gallery-card current-vm" data-tilt data-aos="fade-up" data-aos-delay="200">
-                <div class="gallery-photo-container">
-                    <img src="../imagens/galeria/vm.webp" alt="Everton Almeida" class="gallery-photo">
-                </div>
-                <div class="gallery-info">
-                    <div class="pm-name">Ir. Everton Almeida</div>
-                    <span class="pm-title">Venerável Mestre</span>
-                    <div class="years-container">
-                        <span class="year-pill">2008 - 2009</span>
-                        <span class="year-pill active">2010 - 2011</span>
-                    </div>
-                </div>
             </div>
-
-            <div class="gallery-card" data-tilt data-aos="fade-up" data-aos-delay="300">
-                <div class="gallery-photo-container">
-                    <img src="../imagens/galeria/vm.webp" alt="Marcos Paulo" class="gallery-photo">
-                </div>
-                <div class="gallery-info">
-                    <div class="pm-name">Ir. Marcos Paulo</div>
-                    <span class="pm-title">Venerável Mestre</span>
-                    <div class="years-container">
-                        <span class="year-pill">2011 - 2012</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="gallery-card" data-tilt data-aos="fade-up" data-aos-delay="400">
-                <div class="gallery-photo-container">
-                    <img src="../imagens/galeria/vm.webp" alt="João Batista" class="gallery-photo">
-                </div>
-                <div class="gallery-info">
-                    <div class="pm-name">Ir. João Batista</div>
-                    <span class="pm-title">Venerável Mestre</span>
-                    <div class="years-container">
-                        <span class="year-pill">2012 - 2013</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="gallery-card" data-tilt data-aos="fade-up" data-aos-delay="500">
-                <div class="gallery-photo-container">
-                    <img src="../imagens/galeria/vm.webp" alt="Felipe Nunes" class="gallery-photo">
-                </div>
-                <div class="gallery-info">
-                    <div class="pm-name">Ir. Felipe Nunes</div>
-                    <span class="pm-title">Venerável Mestre</span>
-                    <div class="years-container">
-                        <span class="year-pill">2013 - 2014</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="gallery-card" data-tilt data-aos="fade-up">
-                <div class="gallery-photo-container">
-                    <img src="../imagens/galeria/vm.webp" alt="Pedro Henrique" class="gallery-photo">
-                </div>
-                <div class="gallery-info">
-                    <div class="pm-name">Ir. Pedro Henrique</div>
-                    <span class="pm-title">Venerável Mestre</span>
-                    <div class="years-container">
-                        <span class="year-pill">2014 - 2015</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="gallery-card" data-tilt data-aos="fade-up">
-                <div class="gallery-photo-container">
-                    <img src="../imagens/galeria/vm.webp" alt="Ricardo Oliveira" class="gallery-photo">
-                </div>
-                <div class="gallery-info">
-                    <div class="pm-name">Ir. Ricardo Oliveira</div>
-                    <span class="pm-title">Venerável Mestre</span>
-                    <div class="years-container">
-                        <span class="year-pill">2015 - 2016</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="gallery-card" data-tilt data-aos="fade-up">
-                <div class="gallery-photo-container">
-                    <img src="../imagens/galeria/vm.webp" alt="André Luiz" class="gallery-photo">
-                </div>
-                <div class="gallery-info">
-                    <div class="pm-name">Ir. André Luiz</div>
-                    <span class="pm-title">Venerável Mestre</span>
-                    <div class="years-container">
-                        <span class="year-pill">2016 - 2017</span>
-                        <span class="year-pill">2020 - 2021</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="gallery-card" data-tilt data-aos="fade-up">
-                <div class="gallery-photo-container">
-                    <img src="../imagens/galeria/vm.webp" alt="Fernando Costa" class="gallery-photo">
-                </div>
-                <div class="gallery-info">
-                    <div class="pm-name">Ir. Fernando Costa</div>
-                    <span class="pm-title">Venerável Mestre</span>
-                    <div class="years-container">
-                        <span class="year-pill">2018 - 2019</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="gallery-card" data-tilt data-aos="fade-up">
-                <div class="gallery-photo-container">
-                    <img src="../imagens/galeria/vm.webp" alt="Carlos Eduardo" class="gallery-photo">
-                </div>
-                <div class="gallery-info">
-                    <div class="pm-name">Ir. Carlos Eduardo</div>
-                    <span class="pm-title">Venerável Mestre</span>
-                    <div class="years-container">
-                        <span class="year-pill">2022 - 2023</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="gallery-card" data-tilt data-aos="fade-up">
-                <div class="gallery-photo-container">
-                    <img src="../imagens/galeria/vm.webp" alt="Roberto Mendes" class="gallery-photo">
-                </div>
-                <div class="gallery-info">
-                    <div class="pm-name">Ir. Roberto Mendes</div>
-                    <span class="pm-title">Venerável Mestre</span>
-                    <div class="years-container">
-                        <span class="year-pill">2023 - 2025</span>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="gallery-card current-vm" data-tilt data-tilt-glare data-tilt-max-glare="0.4" data-aos="zoom-in">
-                <div class="gallery-photo-container">
-                    <img src="../imagens/galeria/vm.webp" alt="Marcos Paulo" class="gallery-photo">
-                </div>
-                <div class="gallery-info">
-                    <div class="pm-name">Ir. Marcos Paulo</div>
-                    <span class="pm-title"><i class="fas fa-gavel"></i> Venerável Mestre Atual</span>
-                    <div class="years-container">
-                        <span class="year-pill active">2026 - 2027</span>
-                    </div>
-                </div>
-            </div>
-
-        </div>
     </div>
 
     <div id="image-modal">
@@ -523,23 +342,104 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            
-            // Exibe o body suavemente para evitar carregamento quebrado (FOUC)
-            setTimeout(() => {
-                document.body.classList.add('loaded');
-            }, 100);
 
-            // --- INICIA ANIMAÇÕES (AOS) ---
+            // --- LISTA DE VENERÁVEIS (Facilita a manutenção futura) ---
+            const veneraveis = [
+                { nome: "Everton Almeida", foto: "vm.webp", anos: ["2008 - 2009", "2010 - 2011"], atual: true },
+                { nome: "Ir. Marcos Paulo", foto: "vm.webp", anos: ["2011 - 2012"], atual: false },
+                { nome: "Ir. João Batista", foto: "vm.webp", anos: ["2012 - 2013"], atual: false },
+                { nome: "Ir. Felipe Nunes", foto: "vm.webp", anos: ["2013 - 2014"], atual: false },
+                { nome: "Ir. Pedro Henrique", foto: "vm.webp", anos: ["2014 - 2015"], atual: false },
+                { nome: "Ir. Ricardo Oliveira", foto: "vm.webp", anos: ["2015 - 2016"], atual: false },
+                { nome: "Ir. André Luiz", foto: "vm.webp", anos: ["2016 - 2017", "2020 - 2021"], atual: false },
+                { nome: "Ir. Fernando Costa", foto: "vm.webp", anos: ["2018 - 2019"], atual: false },
+                { nome: "Ir. Carlos Eduardo", foto: "vm.webp", anos: ["2022 - 2023"], atual: false },
+                { nome: "Ir. Roberto Mendes", foto: "vm.webp", anos: ["2023 - 2025"], atual: false },
+                { nome: "Ir. Marcos Paulo", foto: "vm.webp", anos: ["2026 - 2027"], atual: true }
+            ];
+
+            // Renderizar Galeria
+            const galleryGrid = document.getElementById('gallery-grid');
+            let delay = 100;
+
+            veneraveis.forEach((vm) => {
+                const isCurrent = vm.atual ? 'current-vm' : '';
+                const titleIcon = vm.atual ? '<i class="fas fa-gavel"></i> Venerável Mestre Atual' : 'Venerável Mestre';
+                const tiltGlare = vm.atual ? 'data-tilt-glare data-tilt-max-glare="0.4"' : '';
+                
+                let pillsHTML = '';
+                vm.anos.forEach((ano, index) => {
+                    const activeClass = vm.atual && index === vm.anos.length - 1 ? 'active' : '';
+                    pillsHTML += `<span class="year-pill ${activeClass}">${ano}</span>`;
+                });
+
+                const cardHTML = `
+                    <div class="gallery-card ${isCurrent}" data-tilt ${tiltGlare} data-aos="fade-up" data-aos-delay="${delay}">
+                        <div class="gallery-photo-container">
+                            <img src="../imagens/galeria/${vm.foto}" alt="${vm.nome}" class="gallery-photo">
+                        </div>
+                        <div class="gallery-info">
+                            <div class="pm-name">${vm.nome}</div>
+                            <span class="pm-title">${titleIcon}</span>
+                            <div class="years-container">
+                                ${pillsHTML}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                galleryGrid.insertAdjacentHTML('beforeend', cardHTML);
+                
+                // Evita que o delay fique alto demais e a página demore para carregar
+                delay += 50; 
+                if(delay > 400) delay = 100;
+            });
+
+            // Inicia AOS e Vanilla Tilt nos elementos dinâmicos
             AOS.init({ duration: 800, once: true });
-            
+            VanillaTilt.init(document.querySelectorAll(".gallery-card"));
+
+            // --- LÓGICA DO MODAL DE IMAGEM (Atrelado após renderizar) ---
+            const modal = document.getElementById('image-modal');
+            const modalImg = document.getElementById('modal-img');
+            const closeBtn = document.getElementById('modal-close');
+            const photoContainers = document.querySelectorAll('.gallery-photo-container');
+
+            photoContainers.forEach(container => {
+                container.addEventListener('click', () => {
+                    const imgElement = container.querySelector('.gallery-photo');
+                    if(imgElement) {
+                        modalImg.src = imgElement.src;
+                        modal.classList.add('show');
+                    }
+                });
+            });
+
+            closeBtn.addEventListener('click', () => {
+                modal.classList.remove('show');
+                setTimeout(() => { modalImg.src = ""; }, 400); 
+            });
+
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal || e.target.classList.contains('modal-wrapper')) {
+                    modal.classList.remove('show');
+                    setTimeout(() => { modalImg.src = ""; }, 400);
+                }
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === "Escape" && modal.classList.contains('show')) {
+                    modal.classList.remove('show');
+                    setTimeout(() => { modalImg.src = ""; }, 400);
+                }
+            });
+
             // --- SCRIPT DE BUSCA ---
             const searchInput = document.getElementById('gallery-search');
-            const galleryCards = document.querySelectorAll('.gallery-card');
+            const galleryCardsElements = document.querySelectorAll('.gallery-card');
 
             searchInput.addEventListener('input', (e) => {
                 const term = e.target.value.toLowerCase();
-
-                galleryCards.forEach(card => {
+                galleryCardsElements.forEach(card => {
                     const name = card.querySelector('.pm-name').textContent.toLowerCase();
                     const years = Array.from(card.querySelectorAll('.year-pill')).map(p => p.textContent.toLowerCase()).join(' ');
                     
@@ -580,51 +480,12 @@
                 });
             });
 
-            // --- LÓGICA DO MODAL DE IMAGEM ---
-            const modal = document.getElementById('image-modal');
-            const modalImg = document.getElementById('modal-img');
-            const closeBtn = document.getElementById('modal-close');
-            const photoContainers = document.querySelectorAll('.gallery-photo-container');
-
-            photoContainers.forEach(container => {
-                container.addEventListener('click', () => {
-                    const imgElement = container.querySelector('.gallery-photo');
-                    if(imgElement) {
-                        modalImg.src = imgElement.src;
-                        modal.classList.add('show');
-                    }
-                });
-            });
-
-            // Fechar ao clicar no X
-            closeBtn.addEventListener('click', () => {
-                modal.classList.remove('show');
-                setTimeout(() => { modalImg.src = ""; }, 400); // Limpa após animação
-            });
-
-            // Fechar ao clicar fora da imagem
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) {
-                    modal.classList.remove('show');
-                    setTimeout(() => { modalImg.src = ""; }, 400);
-                }
-            });
-
-            // Fechar ao apertar ESC
-            document.addEventListener('keydown', (e) => {
-                if (e.key === "Escape" && modal.classList.contains('show')) {
-                    modal.classList.remove('show');
-                    setTimeout(() => { modalImg.src = ""; }, 400);
-                }
-            });
-
             // --- COOKIE BANNER LOGIC ---
             const banner = document.getElementById('cookie-banner');
             const acceptBtn = document.getElementById('accept-cookies');
 
-            // Verifica se já aceitou
             if (!localStorage.getItem('cookiesAccepted_264')) {
-                setTimeout(() => banner.classList.add('show'), 1500); // Mostra após 1.5s
+                setTimeout(() => banner.classList.add('show'), 1500); 
             }
 
             acceptBtn.addEventListener('click', () => {
