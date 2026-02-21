@@ -73,7 +73,9 @@
             font-size: 2.5rem; text-transform: uppercase; margin-bottom: 5px; 
             text-shadow: 0 2px 10px rgba(0,0,0,0.8); word-wrap: break-word;
         }
-        /* Quebra de texto no mobile */
+        /* Ajuste elegante para o título "Galeria" no mobile */
+        .title-mobile-only { display: none; }
+        .title-desktop-only { display: inline; }
         .mobile-break { display: none; } 
         .desktop-space { display: inline; }
 
@@ -116,7 +118,12 @@
         .gallery-card.current-vm .gallery-photo { filter: none; } 
 
         /* FOTOS E OVERLAY DE ZOOM */
-        .gallery-photo-container { width: 100%; height: 320px; overflow: hidden; position: relative; cursor: pointer; }
+        .gallery-photo-container { 
+            width: 100%; 
+            /* Uso de aspect ratio para garantir que a foto sempre seja proporcional, não importa a tela */
+            aspect-ratio: 3/4; 
+            overflow: hidden; position: relative; cursor: pointer; 
+        }
         .gallery-photo-container::after {
             content: '\f00e'; /* Icone de Lupa (Zoom) */
             font-family: 'Font Awesome 5 Free'; font-weight: 900;
@@ -126,7 +133,7 @@
         }
         .gallery-card:hover .gallery-photo-container::after { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 
-        .gallery-photo { width: 100%; height: 100%; object-fit: cover; object-position: top center; filter: sepia(100%) grayscale(80%) contrast(1.1); transition: 0.6s; }
+        .gallery-photo { width: 100%; height: 100%; object-fit: cover; object-position: top center; filter: sepia(100%) grayscale(80%) contrast(1.1); transition: 0.6s; display: block; }
         .gallery-card:hover .gallery-photo { filter: sepia(0%) grayscale(0%) contrast(1); transform: scale(1.05); }
 
         .gallery-info { 
@@ -156,24 +163,34 @@
         }
         #image-modal.show { opacity: 1; visibility: visible; }
         
+        /* Modal Wrapper para alinhar imagem e botão */
+        .modal-wrapper {
+            position: relative;
+            max-width: 90%;
+            max-height: 90vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
         #modal-img { 
-            max-width: 90%; max-height: 85vh; border: 3px solid var(--gold); border-radius: 8px; 
+            max-width: 100%; max-height: 85vh; border: 3px solid var(--gold); border-radius: 8px; 
             box-shadow: 0 10px 40px rgba(0,0,0,0.8), 0 0 30px rgba(212,175,55,0.3); 
             transform: scale(0.9); transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
             object-fit: contain; 
         }
         #image-modal.show #modal-img { transform: scale(1); }
         
-        /* Botão X 3D Moderno */
+        /* Botão X 3D Moderno - Colado na imagem */
         .close-3d {
-            position: absolute; top: 25px; right: 30px; width: 50px; height: 50px; border-radius: 50%;
-            background: linear-gradient(145deg, rgba(212,175,55,0.2), rgba(0,0,0,0.8));
-            border: 1px solid var(--gold); color: var(--gold); display: flex; align-items: center; justify-content: center;
-            font-size: 1.5rem; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.5), inset 0 2px 5px rgba(255,255,255,0.2);
+            position: absolute; top: -15px; right: -15px; width: 45px; height: 45px; border-radius: 50%;
+            background: linear-gradient(145deg, rgba(212,175,55,0.9), rgba(0,0,0,0.9));
+            border: 2px solid var(--gold); color: #fff; display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.8), inset 0 2px 5px rgba(255,255,255,0.3);
             transition: all 0.3s; z-index: 100000;
         }
-        .close-3d:hover { transform: translateY(-3px) rotate(90deg); box-shadow: 0 8px 20px rgba(0,0,0,0.7), 0 0 15px var(--gold-shadow), inset 0 2px 5px rgba(255,255,255,0.4); color: #fff; background: var(--gold); }
-        .close-3d:active { transform: translateY(2px); box-shadow: 0 2px 5px rgba(0,0,0,0.8); }
+        .close-3d:hover { transform: translateY(-3px) rotate(90deg); box-shadow: 0 8px 20px rgba(0,0,0,0.9), 0 0 15px var(--gold-shadow), inset 0 2px 5px rgba(255,255,255,0.5); color: #000; background: var(--gold); }
+        .close-3d:active { transform: translateY(2px); box-shadow: 0 2px 5px rgba(0,0,0,0.9); }
 
         /* --- FOOTER COMPLETO --- */
         footer { 
@@ -235,20 +252,23 @@
             .nav-link span { display: block; }
             .mobile-toggle { display: block; }
             
-            /* Título Quebrado no Mobile */
+            /* Título Inteligente no Mobile */
             .gallery-title { font-size: 1.8rem; line-height: 1.3; }
-            .gallery-title-break { display: block; } /* Nova classe para quebrar o título principal no mobile */
+            .title-mobile-only { display: block; }
+            .title-desktop-only { display: none; }
+            
             .gallery-subtitle { font-size: 0.85rem; margin-bottom: 40px; line-height: 1.5; }
             .mobile-break { display: block; }
             .desktop-space { display: none; }
 
+            /* Ajuste para Galeria Mobile sem estourar laterais */
             .gallery-wrapper { gap: 30px; width: 100%; flex-direction: column; align-items: center;}
-            .gallery-card { width: 100%; max-width: 360px; } /* Aumentado max-width para dar mais destaque */
-            /* Ajuste de altura da foto para não cortar no celular */
-            .gallery-photo-container { height: 400px; } /* Altura maior para acompanhar a largura */
+            .gallery-card { width: 100%; max-width: 90%; }
+            /* Retirado tamanho fixo agressivo, utiliza aspect-ratio (3/4) */
 
-            /* Modal Mobile */
-            .close-3d { top: 15px; right: 15px; width: 40px; height: 40px; font-size: 1.2rem; }
+            /* Ajustes do Modal para não quebrar no celular */
+            .modal-wrapper { max-width: 95%; }
+            .close-3d { top: -10px; right: -10px; width: 35px; height: 35px; font-size: 1rem; }
 
             /* Footer Secretaria copiado e responsivo */
             .footer-grid { grid-template-columns: 1fr; text-align: center; gap: 40px; padding: 0 15px; width: 100%; }
@@ -261,11 +281,6 @@
 
             .cookie-banner { flex-direction: column; text-align: center; padding: 20px; }
             .cookie-btn { width: 100%; margin-top: 10px; }
-        }
-        
-        /* Oculta o <br> do título principal no desktop */
-        @media (min-width: 901px) {
-            .gallery-title-break { display: none; }
         }
     </style>
 </head>
@@ -292,7 +307,10 @@
     </header>
 
     <div class="main-container">
-        <h1 class="gallery-title" data-aos="fade-down">Galeria<br class="gallery-title-break"><span class="desktop-space"> </span>dos Veneráveis Mestres</h1>
+        <h1 class="gallery-title" data-aos="fade-down">
+            <span class="title-desktop-only">Galeria dos Veneráveis Mestres</span>
+            <span class="title-mobile-only">Galeria<br>Veneráveis Mestres</span>
+        </h1>
         
         <span class="gallery-subtitle" data-aos="fade-up" data-aos-delay="100">
             A∴ R∴ L∴ M∴<span class="desktop-space"> </span><br class="mobile-break">
@@ -456,8 +474,10 @@
     </div>
 
     <div id="image-modal">
-        <button id="modal-close" class="close-3d"><i class="fas fa-times"></i></button>
-        <img id="modal-img" src="" alt="Venerável em Destaque">
+        <div class="modal-wrapper">
+            <button id="modal-close" class="close-3d"><i class="fas fa-times"></i></button>
+            <img id="modal-img" src="" alt="Venerável em Destaque">
+        </div>
     </div>
 
     <footer id="secretaria-footer">
