@@ -81,17 +81,17 @@
             display: none; flex: 1; 
         }
         
-        /* Logo e Título com tamanho otimizado para não empurrar a tela */
         .brasao-container {
-            width: 140px; height: 140px; margin: 0 auto 20px; border-radius: 50%;
+            width: 130px; height: 130px; margin: 0 auto 20px; border-radius: 50%; /* Diminuído */
             box-shadow: 0 0 60px rgba(212, 175, 55, 0.3); animation: float 6s ease-in-out infinite;
             background: rgba(0,0,0,0.3); padding: 10px; border: 1px solid rgba(212, 175, 55, 0.3);
         }
         .brasao-img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; border: 4px solid var(--gold); }
 
+        /* TÍTULO PADRONIZADO (Home / Galeria / Membros) */
         .page-title { 
             font-family: 'Cinzel', serif;
-            font-size: 2.8rem; /* Tamanho harmonioso */
+            font-size: 2.8rem; /* Tamanho harmonioso no desktop */
             line-height: 1.2; 
             letter-spacing: 2px; 
             margin-bottom: 5px; 
@@ -101,7 +101,7 @@
             filter: drop-shadow(0 4px 10px rgba(0,0,0,0.6));
             text-transform: uppercase;
         }
-        .page-number { font-size: 1.5rem; display: block; margin-top: 5px; }
+        .page-number { font-size: 1.5rem; display: block; margin-top: 5px; } /* Classe específica para o número */
         .no-wrap { white-space: nowrap; }
         
         .subtitle { font-family: 'Lato', sans-serif; letter-spacing: 3px; font-size: 0.9rem; opacity: 0.8; margin-bottom: 30px; text-transform: uppercase; color: var(--gold-light); }
@@ -122,19 +122,21 @@
         /* --- LISTA DE PROCESSOS (GRID AUTOMÁTICO PARA 3 COLUNAS) --- */
         .process-list { 
             display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); /* Auto ajuste das colunas */
             gap: 15px; width: 100%; margin-bottom: 20px;
-            /* Garante que o grid alinhe os itens à esquerda se houver menos de 3 na linha */
-            justify-content: start; 
+            justify-content: center; /* Centraliza o grid se houver poucos itens */
         }
 
+        /* O botão do candidato agora tem um width de 100% dentro da coluna, mas com um max-width para não ficar gigante na busca */
         .candidate-btn {
             display: flex; align-items: center; justify-content: space-between; padding: 15px 20px; 
             border: 1px solid rgba(212, 175, 55, 0.4); background: linear-gradient(45deg, rgba(0, 42, 82, 0.6), rgba(0, 20, 40, 0.9)); 
             color: var(--gold-light); text-decoration: none; border-radius: 8px;
             transition: all 0.3s; backdrop-filter: blur(5px); box-shadow: 0 5px 15px rgba(0,0,0,0.3);
             position: relative; overflow: hidden;
-            max-width: 100%; /* Garante que o botão não estique demais */
+            width: 100%; box-sizing: border-box;
+            max-width: 400px; /* Limite de largura para não ficar desproporcional na busca isolada */
+            margin: 0 auto; /* Centraliza dentro do grid */
         }
         .candidate-btn:hover:not(.locked) { background: rgba(0, 42, 82, 0.9); transform: translateY(-3px); border-color: var(--gold); box-shadow: 0 10px 25px rgba(212, 175, 55, 0.2); }
         .candidate-btn.locked { opacity: 0.8; cursor: default; }
@@ -146,8 +148,10 @@
         .cand-icon.locked-icon { color: #888; }
         
         .cand-text-group { display: flex; flex-direction: column; overflow: hidden; flex: 1; min-width: 0; }
-        .cand-name { font-size: 0.95rem; font-weight: bold; font-family: 'Lato', sans-serif; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; width: 100%; }
-        .cand-status { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1px; opacity: 0.8; margin-top: 3px; font-family: 'Lato', sans-serif; display: flex; align-items: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        
+        /* AQUI A MÁGICA DO TEXTO RESPONSIVO: o white-space fica normal para quebrar linha se for muito grande */
+        .cand-name { font-size: 0.95rem; font-weight: bold; font-family: 'Lato', sans-serif; color: #fff; white-space: normal; word-wrap: break-word; line-height: 1.2; margin-bottom: 3px;}
+        .cand-status { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1px; opacity: 0.8; font-family: 'Lato', sans-serif; display: flex; align-items: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
         .arrow { font-size: 0.9rem; opacity: 0.5; transition: transform 0.3s; flex-shrink: 0; margin-left: 10px; }
         .candidate-btn:not(.locked):hover .arrow { transform: translateX(5px); opacity: 1; color: var(--gold); }
@@ -163,10 +167,11 @@
         }
         .btn-load-more:hover { background: var(--gold); color: #000; box-shadow: 0 0 15px var(--gold-shadow); }
 
-        /* Botão Extra - Histórico Discreto (CORRIGIDO) */
+        /* Botão Extra - Histórico Discreto (CORRIGIDO PARA FICAR MENOR E NÃO TRACEJADO FEIO) */
+        .btn-history-container { width: 100%; display: flex; justify-content: center; margin-top: 30px; }
         .btn-history {
             display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-            margin-top: 25px; padding: 10px 20px; border-radius: 4px;
+            padding: 10px 20px; border-radius: 4px;
             background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(212, 175, 55, 0.3); 
             color: rgba(212, 175, 55, 0.8); text-decoration: none; font-family: 'Lato', sans-serif; 
             letter-spacing: 1px; transition: 0.3s; font-size: 0.85rem; text-transform: uppercase; font-weight: bold;
@@ -289,9 +294,9 @@
             
             p.subtitle { font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 25px; }
             
-            /* No celular, volta a 1 coluna e ajusta paddings para caber melhor */
+            /* No celular, volta a 1 coluna */
             .process-list { grid-template-columns: 1fr; gap: 10px; }
-            .candidate-btn { padding: 12px 15px; }
+            .candidate-btn { padding: 12px 15px; max-width: 100%; } /* Garante que o card ocupe a tela toda no mobile */
             
             /* Ajuste Header e Menu Mobile (Toggle) */
             .header-inner { padding: 0 15px; flex-wrap: nowrap; justify-content: space-between; }
@@ -392,9 +397,11 @@
         
         <button id="btn-load-more" class="btn-load-more">Ver Mais Processos <i class="fas fa-chevron-down" style="margin-left: 5px;"></i></button>
 
-        <a href="arquivados/" class="btn-history">
-            <i class="fas fa-folder-open"></i> Histórico de Processos Concluídos
-        </a>
+        <div class="btn-history-container">
+            <a href="arquivados/" class="btn-history">
+                <i class="fas fa-folder-open"></i> Histórico de Processos Concluídos
+            </a>
+        </div>
 
         <div style="margin-top: 40px; font-size: 0.7rem; opacity: 0.5; font-family: 'Lato'; letter-spacing: 2px;">
             <i class="fas fa-shield-alt"></i> AMBIENTE SEGURO E CRIPTOGRAFADO
@@ -498,7 +505,7 @@
                             <i class="fas ${isLocked ? 'fa-lock' : 'fa-chevron-right'} arrow"></i>
                         </a>
                     `;
-                    // Alteração crucial aqui: ao fazer a busca, exibe os cards usando 'flex'
+                    // Exibe os cards usando 'flex'
                     if (!isHidden) {
                         listaContainer.insertAdjacentHTML('beforeend', htmlBotao);
                     } else {
