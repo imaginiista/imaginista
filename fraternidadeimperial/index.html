@@ -156,6 +156,9 @@
         .info-item { display: flex; align-items: flex-start; gap: 15px; margin-bottom: 25px; word-wrap: break-word; }
         .info-item i { color: var(--gold); font-size: 1.3rem; margin-top: 5px; min-width: 25px; }
         
+        .btn-wpp { color: #000; background: var(--gold); text-decoration: none; padding: 12px 25px; font-weight: bold; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; gap: 10px; transition: 0.3s; margin-top: 10px; }
+        .btn-wpp:hover { background: #fff; box-shadow: 0 0 15px var(--gold-shadow); }
+
         .map-area { width: 100%; max-width: 100%; overflow: hidden; border-radius: 8px; border: 1px solid var(--gold); box-sizing: border-box; display: flex; flex-direction: column;}
         .map-frame { width: 100%; height: 100%; min-height: 350px; border: none; filter: grayscale(20%); transition: 0.3s; display: block; flex-grow: 1; }
         .map-frame:hover { filter: grayscale(0%); }
@@ -227,7 +230,8 @@
             .nav-menu ul { flex-direction: column; gap: 25px; width: 100%; align-items: center; }
             .mobile-toggle { display: block; margin-left: 5px; }
 
-            .hero h1 { font-size: 1.8rem; } /* Tamanho ajustado para caber na tela do celular */
+            /* Ajuste crucial para o título no mobile com fonte baseada na largura da tela */
+            .hero h1 { font-size: 8vw; } 
             .gadu-text { font-size: 0.75rem; letter-spacing: 2px; }
             
             /* Novo texto de destaque no mobile */
@@ -252,10 +256,16 @@
 
             .faq-question { font-size: 0.95rem; padding: 15px; }
 
-            /* --- CONTATO MOBILE: OCULTA TEXTO, MOSTRA MAPA E BOTÕES --- */
+            /* --- CONTATO MOBILE: OCULTA TEXTO E MOSTRA MAPA/BOTÕES --- */
             .contact-container { grid-template-columns: 1fr; padding: 20px; width: 100%; gap: 20px; }
-            .contact-info { display: none; /* Oculta endereço no mobile */ }
             
+            /* Desta vez NÃO ocultaremos a div .contact-info, assim o botão Whatsapp aparece */
+            .contact-info { display: flex; flex-direction: column; align-items: center; text-align: center; margin-bottom: 20px; }
+            /* Escondemos as infos textuais mas mantemos o layout da caixa */
+            .contact-info h3, .contact-info .info-item { display: none; }
+            
+            .btn-map-container { display: none; } /* Esconde o contêiner de mapas do desktop */
+
             .map-area { min-height: 300px; padding: 15px; display: flex; flex-direction: column; gap: 15px; background: rgba(0,0,0,0.3);}
             .map-frame { min-height: 250px; width: 100%; border-radius: 4px; margin-bottom: 0; }
             
@@ -417,6 +427,10 @@
                         <i class="fas fa-envelope"></i>
                         <span>secretaria@fraternidadeimperial264.com.br</span>
                     </div>
+                    
+                    <a href="https://wa.me/5521983340089" target="_blank" class="btn-wpp">
+                        <i class="fab fa-whatsapp" style="font-size: 1.5rem; margin: 0; color: #000;"></i> Fale Conosco
+                    </a>
                     
                     <div class="btn-map-container">
                         <a href="https://ul.waze.com/ul?place=EkVSLiBOYWlyIFRlZsOpLCAzMjAgLSBRdWl0YW5kaW5oYSwgUGV0csOzcG9saXMgLSBSSiwgMjU2NTAtMzAwLCBCcmF6aWwiMRIvChQKEgnTeoLBGgmZABFG21QZBKl3qhDAAioUChIJAy103BoJmQAR_tz56QDwYhg&ll=-22.53576410%2C-43.22511110&navigate=yes&utm_campaign=waze_website&utm_source=waze_website&utm_medium=lm_share_location" target="_blank" class="btn-map">
