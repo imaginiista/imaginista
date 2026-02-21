@@ -38,15 +38,15 @@
         /* CANVAS FUNDO TOTALMENTE INTOCÁVEL */
         #constellation-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; pointer-events: none !important; background: transparent; }
 
-        /* --- HEADER BÁSICO (LIVRE DE BUG - FORA DO MAIN CONTENT) --- */
+        /* --- HEADER BÁSICO (APARECE APÓS LOGIN SEM PULAR) --- */
         header#dossie-header { 
             position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; padding: 15px 0; 
             background: rgba(0, 12, 24, 0.95); backdrop-filter: blur(10px); 
             border-bottom: 1px solid rgba(212, 175, 55, 0.3);
-            display: none; justify-content: center; align-items: center;
-            opacity: 0; transition: opacity 0.8s ease; 
+            display: flex; justify-content: center; align-items: center;
+            opacity: 0; pointer-events: none; transition: opacity 0.8s ease; 
         }
-        header#dossie-header.visible { opacity: 1; }
+        header#dossie-header.visible { opacity: 1; pointer-events: auto; }
         
         .header-nav-inner { display: flex; justify-content: center; gap: 20px; align-items: center; max-width: 1200px; width: 100%; padding: 0 20px;}
         .nav-link { 
@@ -74,7 +74,6 @@
             margin: auto; z-index: 10000;
         }
         
-        /* O Brilho fantasma */
         .auth-box::after {
             content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
             background: linear-gradient(to bottom right, transparent, transparent, rgba(212, 175, 55, 0.1), transparent, transparent);
@@ -117,6 +116,7 @@
         #main-content {
             width: 100%; display: none; flex-direction: column; align-items: center; 
             margin-top: 100px; flex: 1; opacity: 0; transition: opacity 0.8s ease;
+            /* REMOVIDO: filter: blur(20px); para evitar que a tela fique opaca */
         }
         #main-content.visible { opacity: 1; }
 
@@ -144,7 +144,7 @@
         /* --- BUSCADOR APRIMORADO --- */
         .search-container { width: 100%; max-width: 800px; margin: 0 auto 40px; position: relative; z-index: 5; }
         .search-input {
-            width: 100%; padding: 15px 20px 15px 60px; 
+            width: 100%; padding: 15px 20px 15px 60px; /* Espaço pro ícone */
             font-size: 1rem; border-radius: 50px; 
             border: 1px solid rgba(212, 175, 55, 0.5); background: rgba(0, 20, 40, 0.6); 
             color: #fff; font-family: 'Lato', sans-serif; outline: none; transition: 0.3s;
@@ -156,7 +156,7 @@
         .search-icon { 
             position: absolute; left: 25px; top: 50%; transform: translateY(-50%); 
             color: var(--gold); font-size: 1.3rem; pointer-events: none; opacity: 1;
-            z-index: 5; 
+            z-index: 5; /* Lupa por cima da barra */
         }
 
         /* --- LISTA DE PROCESSOS ARQUIVADOS (3 POR LINHA) --- */
@@ -218,7 +218,7 @@
                 linear-gradient(45deg, rgba(255,255,255,0.06) 25%, transparent 25%, transparent 75%, rgba(255,255,255,0.06) 75%, rgba(255,255,255,0.06)),
                 linear-gradient(45deg, rgba(255,255,255,0.06) 25%, transparent 25%, transparent 75%, rgba(255,255,255,0.06) 75%, rgba(255,255,255,0.06));
             background-size: 80px 80px; background-position: 0 0, 40px 40px;
-            padding: 80px 0 20px; border-top: 3px solid var(--gold); margin-top: auto;
+            padding: 80px 0 20px; border-top: 3px solid var(--gold); margin-top: auto; display: none;
         }
         footer::before {
             content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
@@ -244,6 +244,20 @@
         
         .copyright { position: relative; z-index: 1; font-size: 0.8rem; color: #ccc; padding-top: 20px; border-top: 1px solid rgba(212, 175, 55, 0.3); display: flex; justify-content: space-between; max-width: 1200px; margin: 0 auto; padding-left: 20px; padding-right: 20px; flex-wrap: wrap; text-shadow: 0 1px 2px #000; }
 
+        /* --- LGPD COOKIE BANNER --- */
+        .cookie-banner {
+            position: fixed; bottom: -100px; left: 0; width: 100%;
+            background: rgba(0, 12, 24, 0.98); border-top: 1px solid var(--gold);
+            padding: 20px; z-index: 9999; display: flex; justify-content: center; align-items: center; gap: 20px;
+            transition: bottom 0.5s ease-in-out; box-shadow: 0 -5px 20px rgba(0,0,0,0.5);
+            font-family: 'Lato', sans-serif;
+        }
+        .cookie-banner.show { bottom: 0; }
+        .cookie-text { font-size: 0.9rem; color: #ccc; max-width: 800px; text-align: center;}
+        .cookie-btn { background: var(--gold); color: #000; border: none; padding: 10px 25px; font-weight: bold; cursor: pointer; border-radius: 4px; transition: 0.3s; text-transform: uppercase; font-size: 0.85rem;}
+        .cookie-btn:hover { background: #fff; }
+
+
         /* --- EFEITO MATRIX --- */
         body.matrix-mode { background: #000 !important; color: #0f0 !important; font-family: monospace !important; animation: shake 0.5s infinite; }
         body.matrix-mode * { display: none !important; }
@@ -251,6 +265,7 @@
         
         @keyframes popIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
         @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
         @keyframes shimmer { 0% { left: -50%; top: -50%; } 100% { left: 150%; top: 150%; } }
         @keyframes shake { 0% { transform: translate(1px, 1px) rotate(0deg); } 10% { transform: translate(-1px, -2px) rotate(-1deg); } 20% { transform: translate(-3px, 0px) rotate(1deg); } 30% { transform: translate(3px, 2px) rotate(0deg); } 40% { transform: translate(1px, -1px) rotate(1deg); } 50% { transform: translate(-1px, 2px) rotate(-1deg); } 60% { transform: translate(-3px, 1px) rotate(0deg); } 70% { transform: translate(3px, 1px) rotate(-1deg); } 80% { transform: translate(-1px, -1px) rotate(1deg); } 90% { transform: translate(1px, 2px) rotate(0deg); } 100% { transform: translate(1px, -2px) rotate(-1deg); } }
 
@@ -286,6 +301,9 @@
             .footer-dev-right { align-items: center; }
             .copyright { flex-direction: column; gap: 10px; text-align: center; }
             
+            .cookie-banner { flex-direction: column; padding: 15px; text-align: center;}
+            .cookie-btn { width: 100%; padding: 12px;}
+
             body.matrix-mode::before { font-size: 1.2rem; }
             #main-content { margin-top: 80px; }
         }
@@ -312,14 +330,15 @@
         </div>
     </div>
 
-    <header id="dossie-header">
-        <div class="header-nav-inner">
-            <a href="../../index.html" class="nav-link"><i class="fas fa-home"></i> <span>Início</span></a>
-            <a href="../index.html" class="nav-link"><i class="fas fa-folder"></i> <span>Secretaria</span></a>
-        </div>
-    </header>
-
     <div id="main-content">
+        
+        <header id="dossie-header">
+            <div class="header-nav-inner">
+                <a href="../../index.html" class="nav-link"><i class="fas fa-home"></i> <span>Início</span></a>
+                <a href="../index.html" class="nav-link"><i class="fas fa-folder"></i> <span>Secretaria</span></a>
+            </div>
+        </header>
+
         <canvas id="constellation-bg"></canvas>
 
         <div class="container">
@@ -341,6 +360,7 @@
                 </div>
             
             <button id="loadMoreBtn" onclick="loadMore()" style="display:none;">Carregar Mais Arquivos</button>
+
         </div>
 
         <footer id="secretaria-footer">
@@ -376,9 +396,18 @@
 
     </div>
 
+    <div id="cookie-banner" class="cookie-banner">
+        <div class="cookie-text">
+            Este site utiliza cookies para garantir a segurança e funcionalidade da Secretaria. 
+            Ao continuar, você concorda com nossa <a href="#" style="color:var(--gold); text-decoration: underline;">Política de Privacidade</a>.
+        </div>
+        <button id="accept-cookies" class="cookie-btn">Entendido</button>
+    </div>
+
     <script>
         // =========================================================
         // BASE DE DADOS: ARQUIVO CENTRAL (15 Nomes Fictícios para teste)
+        // Configure o "status" e se deve "exibirCim" (true/false)
         // =========================================================
         const dadosProcessos = [
             {nome: "Ruan Pablo da Silva de Lima Santos", data: "28/03/2026", cim: "0245177", status: "Concluído", exibirCim: true},
@@ -403,6 +432,7 @@
         const loadBtn = document.getElementById('loadMoreBtn');
         const noResultsMsg = document.getElementById('no-results-msg');
 
+        // --- FUNÇÃO PARA RENDERIZAR A LISTA EM CARDS TRIPLOS ---
         function renderList() {
             const cards = listContainer.querySelectorAll('.js-process-card');
             cards.forEach(card => card.remove());
@@ -451,68 +481,89 @@
             loadBtn.style.display = visibleCount >= dadosProcessos.length ? "none" : "inline-block";
         }
 
+        // --- FUNÇÃO CARREGAR MAIS ---
         function loadMore() {
             visibleCount += 9; 
             renderList();
         }
 
-        // --- LÓGICA DE LOGIN DESACOMPLADA ---
-        function checkPassword() {
-            const passInput = document.getElementById('passInput');
-            const pass = passInput.value.trim();
-            const correctPass = "imperial"; 
-            
-            if(pass === correctPass) {
-                const overlay = document.getElementById('password-overlay');
-                const main = document.getElementById('main-content');
-                const header = document.getElementById('dossie-header');
-                
-                overlay.style.opacity = '0';
-                
-                setTimeout(() => {
-                    overlay.style.display = 'none';
-                    main.style.display = 'flex'; 
-                    
-                    void main.offsetWidth; 
-                    
-                    main.classList.add('visible');
-                    header.style.display = 'flex';
-                    
-                    setTimeout(() => {
-                        header.classList.add('visible');
-                    }, 100);
-                    
-                    renderList(); 
-                    initConstellations(); 
-                }, 500);
-            } else {
-                let tentativasSpan = document.getElementById('tentativas');
-                let tentativas = parseInt(tentativasSpan.innerText);
-                tentativas++;
-                tentativasSpan.innerText = tentativas;
-                document.getElementById('error-msg').style.display = 'block';
-                passInput.value = '';
-                passInput.focus();
-                
-                if (tentativas >= 3) {
-                    document.body.className = 'matrix-mode';
-                    passInput.disabled = true;
-                    document.getElementById('btn-login').disabled = true;
-                    setTimeout(() => { window.location.href = "../../index.html"; }, 3000);
-                }
-            }
-        }
-
+        // --- LÓGICA DE LOGIN DESACOMPLADA E BLINDADA ---
         document.addEventListener('DOMContentLoaded', () => {
+            const btnLogin = document.getElementById('btn-login');
             const passInput = document.getElementById('passInput');
             const searchInput = document.getElementById('searchInput');
+            
+            /* Lógica Cookies */
+            const banner = document.getElementById('cookie-banner');
+            const acceptBtn = document.getElementById('accept-cookies');
+            if (!localStorage.getItem('cookiesAccepted_264')) {
+                setTimeout(() => banner.classList.add('show'), 2000); 
+            }
+            acceptBtn.addEventListener('click', () => {
+                localStorage.setItem('cookiesAccepted_264', 'true');
+                banner.classList.remove('show');
+            });
 
+
+            let tentativas = 0;
+            const maxTentativas = 3;
+
+            function checkPassword() {
+                const pass = passInput.value.trim();
+                const correctPass = "imperial"; 
+                
+                if(pass === correctPass) {
+                    const overlay = document.getElementById('password-overlay');
+                    const main = document.getElementById('main-content');
+                    const header = document.getElementById('dossie-header');
+                    const footer = document.getElementById('secretaria-footer');
+                    
+                    overlay.style.opacity = '0';
+                    
+                    setTimeout(() => {
+                        overlay.style.display = 'none';
+                        main.style.display = 'flex'; 
+                        footer.style.display = 'block';
+                        
+                        // Força redesenho do DOM
+                        void main.offsetWidth; 
+                        
+                        main.classList.add('visible');
+                        
+                        // Garante que o header fique no topo e clicável
+                        header.style.display = 'flex';
+                        setTimeout(() => {
+                            header.classList.add('visible');
+                        }, 100);
+                        
+                        renderList(); 
+                        initConstellations(); 
+                    }, 500);
+                } else {
+                    let tentativasSpan = document.getElementById('tentativas');
+                    tentativas++;
+                    tentativasSpan.innerText = tentativas;
+                    document.getElementById('error-msg').style.display = 'block';
+                    passInput.value = '';
+                    passInput.focus();
+                    
+                    if (tentativas >= maxTentativas) {
+                        document.body.className = 'matrix-mode';
+                        passInput.disabled = true;
+                        btnLogin.disabled = true;
+                        setTimeout(() => { window.location.href = "../../index.html"; }, 3000);
+                    }
+                }
+            }
+
+            if(btnLogin) btnLogin.addEventListener('click', checkPassword);
             if(passInput) {
                 passInput.addEventListener('keypress', (e) => {
                     if (e.key === 'Enter') checkPassword();
                 });
             }
 
+            // Lógica do Buscador
             if(searchInput) {
                 searchInput.addEventListener('keyup', () => {
                     let input = searchInput.value.toLowerCase();
