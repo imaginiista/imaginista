@@ -259,23 +259,42 @@
         .cookie-btn { background: var(--gold); color: #000; border: none; padding: 12px 25px; font-weight: bold; cursor: pointer; border-radius: 4px; transition: 0.3s; text-transform: uppercase; font-size: 0.85rem;}
         .cookie-btn:hover { background: #fff; }
 
-
-        /* --- EFEITO MATRIX --- */
-        body.matrix-mode { background: #000 !important; color: #0f0 !important; font-family: monospace !important; overflow: hidden !important; }
-        body.matrix-mode * { display: none !important; }
-        body.matrix-mode::before { 
-            content: 'ACESSO NEGADO. VIOLAÇÃO DE SEGURANÇA DETECTADA. REDIRECIONANDO...'; 
-            display: flex !important; justify-content: center; align-items: center; 
-            position: fixed; top: -10px; left: -10px; width: calc(100% + 20px); height: calc(100vh + 20px); 
-            font-size: 2rem; color: #f00; text-align: center; padding: 20px; z-index: 9999; background: #000;
-            animation: shake 0.5s infinite; 
+        /* --- TELA DE BLOQUEIO DO SISTEMA --- */
+        #system-lock-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #000; color: #0f0; font-family: 'Courier New', Courier, monospace;
+            display: none; flex-direction: column; justify-content: center; align-items: center;
+            z-index: 100000; padding: 20px; text-align: center;
+            overflow: hidden;
         }
+
+        #system-lock-screen.active {
+            display: flex;
+            animation: glitch-anim 0.2s linear infinite;
+        }
+
+        .lock-title { font-size: 2rem; color: #f00; margin-bottom: 20px; text-transform: uppercase; font-weight: bold; }
+        .lock-text { font-size: 1rem; color: #0f0; margin-bottom: 10px; }
+        .lock-progress { width: 80%; max-width: 300px; height: 15px; border: 1px solid #0f0; margin-top: 20px; position: relative; }
+        .lock-progress-bar { height: 100%; background: #f00; width: 0%; animation: fill-bar 3s linear forwards; }
+
+        @keyframes glitch-anim {
+            0% { transform: translate(0) }
+            20% { transform: translate(-2px, 1px) }
+            40% { transform: translate(-1px, -1px) }
+            60% { transform: translate(2px, 1px) }
+            80% { transform: translate(1px, -1px) }
+            100% { transform: translate(0) }
+        }
+
+        @keyframes fill-bar { to { width: 100%; } }
+        /* Esconde o resto do site quando a tela de bloqueio estiver ativa */
+        body.locked-mode > *:not(#system-lock-screen) { display: none !important; }
         
         @keyframes popIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
         @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
         @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
         @keyframes shimmer { 0% { left: -50%; top: -50%; } 100% { left: 150%; top: 150%; } }
-        @keyframes shake { 0% { transform: translate(1px, 1px) rotate(0deg); } 10% { transform: translate(-1px, -2px) rotate(-1deg); } 20% { transform: translate(-3px, 0px) rotate(1deg); } 30% { transform: translate(3px, 2px) rotate(0deg); } 40% { transform: translate(1px, -1px) rotate(1deg); } 50% { transform: translate(-1px, 2px) rotate(-1deg); } 60% { transform: translate(-3px, 1px) rotate(0deg); } 70% { transform: translate(3px, 1px) rotate(-1deg); } 80% { transform: translate(-1px, -1px) rotate(1deg); } 90% { transform: translate(1px, 2px) rotate(0deg); } 100% { transform: translate(1px, -2px) rotate(-1deg); } }
 
         /* --- RESPONSIVIDADE MOBILE --- */
         @media (max-width: 768px) {
@@ -312,12 +331,24 @@
             .cookie-banner { flex-direction: column; padding: 20px 15px 30px 15px; }
             .cookie-btn { width: 100%; padding: 15px; font-size: 1rem; }
 
-            body.matrix-mode::before { font-size: 1.2rem; }
             #main-content { margin-top: 80px; }
+            
+            /* Ajustes da tela hacker no mobile */
+            .lock-title { font-size: 1.5rem; }
+            .lock-text { font-size: 0.85rem; }
         }
     </style>
 </head>
 <body>
+
+    <div id="system-lock-screen">
+        <div class="lock-title">VIOLAÇÃO DE SEGURANÇA</div>
+        <div class="lock-text">ACESSO NEGADO. TENTATIVAS ESGOTADAS.</div>
+        <div class="lock-text">RASTREANDO IP E REDIRECIONANDO...</div>
+        <div class="lock-progress">
+            <div class="lock-progress-bar"></div>
+        </div>
+    </div>
 
     <div id="password-overlay">
         <div class="auth-box">
@@ -548,7 +579,9 @@
                     passInput.focus();
                     
                     if (tentativas >= maxTentativas) {
-                        document.body.className = 'matrix-mode';
+                        // NOVO CÓDIGO DE BLOQUEIO
+                        document.body.classList.add('locked-mode'); // Esconde o resto do site
+                        document.getElementById('system-lock-screen').classList.add('active'); // Mostra a tela hacker
                         passInput.disabled = true;
                         btnLogin.disabled = true;
                         setTimeout(() => { window.location.href = "../../index.html"; }, 3000);
