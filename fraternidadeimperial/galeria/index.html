@@ -26,20 +26,34 @@
         }
         
         * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
-        body { font-family: 'Lato', sans-serif; color: var(--text-main); background-color: var(--blue-deep); overflow-x: hidden; line-height: 1.6; }
+        
+        /* Previne o overflow horizontal e esconde a página até carregar */
+        body, html { 
+            font-family: 'Lato', sans-serif; 
+            color: var(--text-main); 
+            background-color: var(--blue-deep); 
+            overflow-x: hidden; 
+            width: 100%;
+            line-height: 1.6; 
+        }
+        body { opacity: 0; transition: opacity 0.5s ease-in; }
+        body.loaded { opacity: 1; }
+
         h1, h2, h3, .cinzel { font-family: 'Cinzel', serif; color: var(--gold); }
         
         /* BACKGROUND */
-        .video-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; opacity: 0.3; }
-        .bg-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at center, rgba(0,12,24,0.7) 0%, rgba(0,12,24,0.98) 90%); z-index: -1; }
-        #constellation-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+        .video-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -3; opacity: 0.3; }
+        .bg-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at center, rgba(0,12,24,0.7) 0%, rgba(0,12,24,0.98) 90%); z-index: -2; }
+        #constellation-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
 
         /* HEADER */
         header { position: fixed; width: 100%; top: 0; z-index: 1000; padding: 15px 0; background: rgba(0, 12, 24, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(212, 175, 55, 0.3); }
-        .header-inner { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
-        .logo-img { height: 50px; width: auto; transition: 0.3s;}
+        .header-inner { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 0 20px; width: 100%; box-sizing: border-box;}
+        .logo-group { display: flex; align-items: center; }
+        .logo-img { height: 50px; width: auto; transition: 0.3s; filter: drop-shadow(0 0 5px rgba(0,0,0,0.5));}
+        .logo-img:hover { transform: scale(1.1); filter: drop-shadow(0 0 15px var(--gold-shadow)); }
         
-        .nav-links { display: flex; gap: 20px; }
+        .nav-links { display: flex; gap: 20px; align-items: center; margin: 0; padding: 0; list-style: none; }
         .nav-link { 
             color: #fff; text-decoration: none; font-family: 'Cinzel'; text-transform: uppercase; 
             font-size: 0.85rem; letter-spacing: 1px; transition: 0.3s; 
@@ -49,169 +63,159 @@
         .nav-link:hover { background: var(--gold); color: #000; box-shadow: 0 0 15px var(--gold-shadow); }
         .btn-secretaria { background: rgba(212, 175, 55, 0.1); color: var(--gold); border-color: var(--gold); }
         .btn-secretaria:hover { background: var(--gold); color: #000; }
+        .mobile-toggle { display: none; font-size: 1.8rem; color: var(--gold); background: none; border: none; cursor: pointer; }
 
         /* MAIN CONTAINER */
-        .main-container { max-width: 1200px; margin: 0 auto; padding: 140px 20px 80px; text-align: center; position: relative; z-index: 2; }
+        .main-container { max-width: 1200px; margin: 0 auto; padding: 140px 20px 80px; text-align: center; position: relative; z-index: 2; width: 100%; box-sizing: border-box;}
+        
         /* --- TÍTULOS DA GALERIA --- */
-.gallery-title { 
-    font-size: 2.5rem; text-transform: uppercase; margin-bottom: 5px; 
-    text-shadow: 0 2px 10px rgba(0,0,0,0.8); 
-}
+        .gallery-title { 
+            font-size: 2.5rem; text-transform: uppercase; margin-bottom: 5px; 
+            text-shadow: 0 2px 10px rgba(0,0,0,0.8); word-wrap: break-word;
+        }
+        /* Quebra de texto no mobile */
+        .mobile-break { display: none; } 
+        .desktop-space { display: inline; }
 
-.gallery-subtitle {
-    display: block;
-    font-family: 'Cinzel', serif;
-    color: var(--gold-light);
-    font-size: 1.1rem;
-    letter-spacing: 3px;
-    margin-bottom: 60px;
-    text-shadow: 0 2px 5px rgba(0,0,0,0.8);
-}
-
-/* Linha dourada com degradê super elegante abaixo do nome da loja */
-.gallery-subtitle::after {
-    content: ''; 
-    display: block; 
-    width: 120px; 
-    height: 2px;
-    background: linear-gradient(90deg, transparent, var(--gold), transparent);
-    margin: 15px auto 0;
-}
+        .gallery-subtitle {
+            display: block; font-family: 'Cinzel', serif; color: var(--gold-light);
+            font-size: 1.1rem; letter-spacing: 3px; margin-bottom: 60px; text-shadow: 0 2px 5px rgba(0,0,0,0.8); word-wrap: break-word;
+        }
+        .gallery-subtitle::after {
+            content: ''; display: block; width: 120px; height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            margin: 15px auto 0;
+        }
         
         /* BUSCA RÁPIDA */
-        .search-wrapper { margin-bottom: 60px; position: relative; max-width: 500px; margin-left: auto; margin-right: auto; }
+        .search-wrapper { margin-bottom: 60px; position: relative; max-width: 500px; margin-left: auto; margin-right: auto; width: 100%; }
         .search-input {
             width: 100%; padding: 15px 50px 15px 20px; border-radius: 50px;
             background: rgba(255, 255, 255, 0.05); border: 1px solid var(--gold);
             color: #fff; font-family: 'Lato'; font-size: 1rem; outline: none; transition: 0.3s;
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(5px); box-sizing: border-box;
         }
         .search-input:focus { background: rgba(255, 255, 255, 0.1); box-shadow: 0 0 20px rgba(212, 175, 55, 0.2); }
         .search-icon { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); color: var(--gold); pointer-events: none; }
 
         /* --- GALERIA FLEX --- */
         .gallery-wrapper {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 40px;
+            display: flex; flex-wrap: wrap; justify-content: center; gap: 40px; width: 100%; box-sizing: border-box;
         }
         
         .gallery-card {
-            /* Tamanho Uniforme e Elegante */
-            flex: 0 1 300px; 
-            max-width: 300px;
+            flex: 0 1 300px; max-width: 300px;
             background: rgba(0,0,0,0.4); border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 8px;
             padding: 0; overflow: hidden; position: relative; display: flex; flex-direction: column;
-            
-            /* Preparação para 3D Tilt */
-            transform-style: preserve-3d;
-            transform: perspective(1000px);
-            transition: transform 0.1s; 
+            transform-style: preserve-3d; transform: perspective(1000px); transition: transform 0.1s; 
+            width: 100%; box-sizing: border-box;
         }
 
-        /* CARD ATUAL (DESTAQUE VISUAL SUTIL) */
-        .gallery-card.current-vm {
-            border: 2px solid var(--gold); 
-            box-shadow: 0 0 30px rgba(212, 175, 55, 0.25);
-        }
+        .gallery-card.current-vm { border: 2px solid var(--gold); box-shadow: 0 0 30px rgba(212, 175, 55, 0.25); }
         .gallery-card.current-vm .pm-title { color: #fff; font-weight: 800; text-shadow: 0 0 10px var(--gold); }
-        .gallery-card.current-vm .gallery-photo { filter: none; } /* Foto sempre colorida */
+        .gallery-card.current-vm .gallery-photo { filter: none; } 
 
-        /* FOTO */
         .gallery-photo-container { width: 100%; height: 320px; overflow: hidden; position: relative; }
         .gallery-photo { width: 100%; height: 100%; object-fit: cover; filter: sepia(100%) grayscale(80%) contrast(1.1); transition: 0.6s; }
-        /* No hover, a foto ganha cor */
         .gallery-card:hover .gallery-photo { filter: sepia(0%) grayscale(0%) contrast(1); transform: scale(1.05); }
 
-        /* INFO */
         .gallery-info { 
             padding: 20px; text-align: center; border-top: 3px solid var(--gold); 
             background: rgba(0, 12, 24, 0.95); flex-grow: 1; 
             display: flex; flex-direction: column; justify-content: center; gap: 8px; 
-            transform: translateZ(20px); 
+            transform: translateZ(20px); box-sizing: border-box;
         }
         .pm-name { font-family: 'Cinzel'; font-size: 1.2rem; color: #fff; line-height: 1.3; font-weight: 700; }
         .pm-title { color: var(--gold); text-transform: uppercase; font-size: 0.75rem; letter-spacing: 2px; opacity: 0.8; display: flex; align-items: center; justify-content: center; gap: 8px; }
 
-        /* PILLS DE DATA */
         .years-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 5px; }
-        .year-pill {
-            background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(212, 175, 55, 0.4); color: #ccc;
-            padding: 4px 12px; border-radius: 50px; font-size: 0.85rem; font-family: 'Lato'; font-weight: bold;
-            transition: 0.3s;
-        }
+        .year-pill { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(212, 175, 55, 0.4); color: #ccc; padding: 4px 12px; border-radius: 50px; font-size: 0.85rem; font-family: 'Lato'; font-weight: bold; transition: 0.3s; }
         
-        /* Pill Ativa (Gestão Atual) */
-        .year-pill.active { 
-            background: var(--gold); color: #000; border-color: var(--gold); 
-            box-shadow: 0 0 10px var(--gold-shadow); animation: pulse 2s infinite;
-        }
-        
+        .year-pill.active { background: var(--gold); color: #000; border-color: var(--gold); box-shadow: 0 0 10px var(--gold-shadow); animation: pulse 2s infinite; }
         @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(212, 175, 55, 0); } 100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); } }
 
         .gallery-card:hover .year-pill { border-color: var(--gold); color: #fff; }
         .gallery-card:hover .year-pill.active { color: #000; }
 
-        /* --- FOOTER (PAVIMENTO MOSAICO NÍTIDO) --- */
+        /* --- FOOTER COMPLETO --- */
         footer { 
-            position: relative;
-            background-color: #02050a; /* Fundo base escuro */
-            /* Padrão Xadrez Maçônico - Opacidade ajustada para 8% (0.08) para ficar nítido */
+            position: relative; width: 100%; background-color: #02050a; 
             background-image: 
                 linear-gradient(45deg, rgba(255,255,255,0.06) 25%, transparent 25%, transparent 75%, rgba(255,255,255,0.06) 75%, rgba(255,255,255,0.06)),
                 linear-gradient(45deg, rgba(255,255,255,0.06) 25%, transparent 25%, transparent 75%, rgba(255,255,255,0.06) 75%, rgba(255,255,255,0.06));
-            background-size: 80px 80px; /* Tamanho do quadrado (40px cada cor) */
-            background-position: 0 0, 40px 40px;
-            padding: 80px 0 20px; 
-            border-top: 3px solid var(--gold); 
-            margin-top: auto; 
+            background-size: 80px 80px; background-position: 0 0, 40px 40px;
+            padding: 80px 0 20px; border-top: 3px solid var(--gold); margin-top: auto; 
         }
-
-        /* Degradê suave apenas nas bordas (topo/baixo) para mesclar, sem esconder o meio */
         footer::before {
             content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(to bottom, rgba(0,12,24,0.9) 0%, rgba(0,0,0,0) 30%, rgba(0,0,0,0) 70%, rgba(0,0,0,0.95) 100%);
-            z-index: 0;
-            pointer-events: none;
+            background: linear-gradient(to bottom, rgba(0,12,24,0.9) 0%, rgba(0,0,0,0) 20%, rgba(0,0,0,0) 80%, rgba(0,0,0,0.95) 100%);
+            z-index: 0; pointer-events: none;
         }
 
-        .footer-grid { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 40px; text-align: left; padding-bottom: 40px; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .footer-grid { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 40px; text-align: left; padding-bottom: 40px; max-width: 1200px; margin: 0 auto; padding: 0 20px; width: 100%; box-sizing: border-box; }
         .footer-col h4 { color: var(--gold); font-family: 'Cinzel'; margin-bottom: 20px; font-size: 1.1rem; text-shadow: 0 2px 5px rgba(0,0,0,0.8);}
-        .footer-contact p { margin-bottom: 10px; font-size: 0.9rem; color: #eee; display: flex; gap: 10px; text-shadow: 0 1px 3px rgba(0,0,0,0.9); }
-        .footer-contact i { color: var(--gold); margin-top: 4px; }
+        .footer-contact p { margin-bottom: 12px; font-size: 0.9rem; color: #ddd; display: flex; align-items: flex-start; gap: 10px; text-shadow: 0 1px 3px rgba(0,0,0,0.9); line-height: 1.4; word-wrap: break-word; }
+        .footer-contact i { color: var(--gold); margin-top: 3px; font-size: 1.1rem; width: 20px; text-align: center; flex-shrink: 0;}
+        
+        .keep-together { white-space: nowrap; }
+
         .footer-social-center { text-align: center; }
         .social-btn { display: inline-flex; justify-content: center; align-items: center; width: 50px; height: 50px; border-radius: 50%; border: 1px solid rgba(212, 175, 55, 0.4); color: #fff; font-size: 1.3rem; margin: 0 10px; transition: 0.3s; text-decoration: none; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px);}
         .social-btn:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-5px); box-shadow: 0 0 15px var(--gold-shadow); background: rgba(0,0,0,0.9);}
+        
         .footer-dev-right { text-align: right; display: flex; flex-direction: column; align-items: flex-end; justify-content: center; }
-        .dev-logo { width: 100px; filter: grayscale(100%) brightness(200%); opacity: 0.8; transition: 0.3s; cursor: pointer; }
+        .dev-logo { width: 120px; filter: grayscale(100%) brightness(200%); opacity: 0.8; transition: 0.3s; cursor: pointer; max-width: 100%; height: auto; }
         .dev-logo:hover { filter: grayscale(0%) brightness(100%); opacity: 1; }
-        .copyright { position: relative; z-index: 1; font-size: 0.8rem; color: #aaa; padding-top: 20px; border-top: 1px solid rgba(212, 175, 55, 0.3); display: flex; justify-content: space-between; max-width: 1200px; margin: 0 auto; padding-left: 20px; padding-right: 20px; flex-wrap: wrap; text-shadow: 0 1px 2px #000; }
+        
+        .copyright { position: relative; z-index: 1; font-size: 0.8rem; color: #ccc; padding-top: 20px; border-top: 1px solid rgba(212, 175, 55, 0.3); display: flex; justify-content: space-between; max-width: 1200px; margin: 0 auto; padding-left: 20px; padding-right: 20px; flex-wrap: wrap; text-shadow: 0 1px 2px #000; width: 100%; box-sizing: border-box; }
 
         /* LGPD COOKIE BANNER */
         .cookie-banner {
-            position: fixed; bottom: -100px; left: 0; width: 100%;
+            position: fixed; bottom: 0; left: 0; width: 100%; transform: translateY(100%);
             background: rgba(0, 12, 24, 0.98); border-top: 1px solid var(--gold);
             padding: 20px; z-index: 9999; display: flex; justify-content: center; align-items: center; gap: 20px;
-            transition: bottom 0.5s ease-in-out; box-shadow: 0 -5px 20px rgba(0,0,0,0.5);
+            transition: transform 0.5s ease-in-out; box-shadow: 0 -5px 20px rgba(0,0,0,0.5); box-sizing: border-box;
         }
-        .cookie-banner.show { bottom: 0; }
-        .cookie-text { font-size: 0.9rem; color: #ccc; max-width: 800px; }
-        .cookie-btn {
-            background: var(--gold); color: #000; border: none; padding: 10px 25px;
-            font-weight: bold; cursor: pointer; border-radius: 4px; transition: 0.3s;
-        }
+        .cookie-banner.show { transform: translateY(0); }
+        .cookie-text { font-size: 0.9rem; color: #ccc; max-width: 800px; word-wrap: break-word; }
+        .cookie-btn { background: var(--gold); color: #000; border: none; padding: 10px 25px; font-weight: bold; cursor: pointer; border-radius: 4px; transition: 0.3s; white-space: nowrap; }
         .cookie-btn:hover { background: #fff; }
 
         @media (max-width: 900px) {
-            .footer-grid { grid-template-columns: 1fr; text-align: center; }
-            .footer-dev-right { align-items: center; margin-top: 20px; }
-            .footer-contact p { justify-content: center; }
-            .gallery-card { width: 100%; max-width: 320px; } /* Ajuste responsivo do card */
-            .nav-links { gap: 10px; }
-            .nav-link span { display: none; } /* Esconde texto no mobile */
-            .copyright { flex-direction: column; gap: 10px; text-align: center; }
-            .cookie-banner { flex-direction: column; text-align: center; padding: 30px 20px; }
+            .header-inner { padding: 0 15px; }
+            .logo-img { height: 40px; }
+            
+            /* Ajuste Menu Mobile (Toggle) */
+            .nav-links {
+                position: fixed; top: 70px; right: -100%; width: 100%; height: calc(100vh - 70px);
+                background: rgba(0, 12, 24, 0.98); flex-direction: column; padding-top: 40px; transition: 0.4s ease-in-out;
+                justify-content: flex-start; z-index: 999; overflow-y: auto; overflow-x: hidden; gap: 25px;
+            }
+            .nav-links.active { right: 0; }
+            .nav-link { padding: 8px 12px; font-size: 1rem; }
+            .nav-link span { display: block; }
+            .mobile-toggle { display: block; }
+            
+            /* Título Quebrado no Mobile */
+            .gallery-title { font-size: 1.8rem; line-height: 1.3; }
+            .gallery-subtitle { font-size: 0.85rem; margin-bottom: 40px; line-height: 1.5; }
+            .mobile-break { display: block; }
+            .desktop-space { display: none; }
+
+            .gallery-wrapper { gap: 30px; width: 100%; flex-direction: column; align-items: center;}
+            .gallery-card { width: 100%; max-width: 320px; }
+
+            /* Footer Secretaria copiado e responsivo */
+            .footer-grid { grid-template-columns: 1fr; text-align: center; gap: 40px; padding: 0 15px; width: 100%; }
+            .mobile-center-col { display: flex; flex-direction: column; align-items: center; width: 100%; }
+            .footer-contact { text-align: left; display: inline-block; width: fit-content; max-width: 100%; }
+            .footer-contact p { justify-content: flex-start; }
+            .mobile-break { display: block; } 
+            .footer-dev-right { align-items: center; }
+            .copyright { flex-direction: column; gap: 10px; text-align: center; padding: 20px 10px; width: 100%; }
+
+            .cookie-banner { flex-direction: column; text-align: center; padding: 20px; }
+            .cookie-btn { width: 100%; margin-top: 10px; }
         }
     </style>
 </head>
@@ -225,24 +229,29 @@
 
     <header>
         <div class="header-inner">
-            <div class="logo-group"><img src="../imagens/264.webp" alt="Brasão 264" class="logo-img"></div>
-            <nav class="nav-links">
-                <a href="../index.html" class="nav-link"><i class="fas fa-home"></i> <span>Início</span></a>
+            <div class="logo-group">
+                <a href="https://oimaginista.com/fraternidadeimperial/"><img src="../imagens/264.webp" alt="Brasão 264" class="logo-img"></a>
+            </div>
+            <nav class="nav-links" id="nav-menu">
+                <a href="https://oimaginista.com/fraternidadeimperial/" class="nav-link"><i class="fas fa-home"></i> <span>Início</span></a>
                 <a href="../membro/index.html" class="nav-link"><i class="fas fa-users"></i> <span>A Loja</span></a>
                 <a href="../secretaria/index.html" class="nav-link btn-secretaria"><i class="fas fa-lock"></i> <span>Secretaria</span></a>
             </nav>
+            <button class="mobile-toggle" id="btn-mobile"><i class="fas fa-bars"></i></button>
         </div>
     </header>
 
-<div class="main-container">
-    
-    <h1 class="gallery-title" data-aos="fade-down">Galeria dos Veneráveis Mestres</h1>
-    <span class="gallery-subtitle" data-aos="fade-up" data-aos-delay="100">A∴ R∴ L∴ M∴ Fraternidade Imperial Nº 264</span>
-    
-    <div class="search-wrapper" data-aos="fade-up" data-aos-delay="200">
-        <input type="text" id="gallery-search" class="search-input" placeholder="Buscar Venerável ou Ano...">
-        <i class="fas fa-search search-icon"></i>
-    </div>
+    <div class="main-container">
+        <h1 class="gallery-title" data-aos="fade-down">Galeria dos Veneráveis Mestres</h1>
+        
+        <span class="gallery-subtitle" data-aos="fade-up" data-aos-delay="100">
+            A∴ R∴ L∴ M∴<br class="mobile-break"><span class="desktop-space"> </span>Fraternidade Imperial<br class="mobile-break"><span class="desktop-space"> </span>Nº 264
+        </span>
+        
+        <div class="search-wrapper" data-aos="fade-up" data-aos-delay="200">
+            <input type="text" id="gallery-search" class="search-input" placeholder="Buscar Venerável ou Ano...">
+            <i class="fas fa-search search-icon"></i>
+        </div>
 
         <div class="gallery-wrapper" id="gallery-grid">
             
@@ -254,7 +263,7 @@
                     <div class="pm-name">Ir. Everton Almeida</div>
                     <span class="pm-title">Venerável Mestre</span>
                     <div class="years-container">
-					    <span class="year-pill">2008 - 2009</span>
+                        <span class="year-pill">2008 - 2009</span>
                         <span class="year-pill active">2010 - 2011</span>
                     </div>
                 </div>
@@ -394,31 +403,32 @@
         </div>
     </div>
 
-    <footer>
+    <footer id="secretaria-footer">
         <div class="footer-grid">
-            <div class="footer-col">
+            <div class="footer-col mobile-center-col">
                 <h4>Fale Conosco</h4>
                 <div class="footer-contact">
-                    <p><i class="fas fa-map-pin"></i> Rua Nair Tefé, 320 - Quitandinha, Petrópolis - RJ</p>
-                    <p><i class="fas fa-clock"></i> Reuniões: Sábados (Quinzenalmente) às 10h</p>
-                    <p><i class="fas fa-envelope"></i> secretaria@fraternidadeimperial264.com.br</p>
+                    <p><i class="fas fa-map-pin"></i> <span>Rua Nair Tefé, 320 - Quitandinha, <br class="mobile-break"><span class="keep-together">Petrópolis - RJ</span></span></p>
+                    <p><i class="fas fa-clock"></i> <span>Reuniões: Sábados (Quinzenalmente) às 10h</span></p>
+                    <p><i class="fas fa-envelope"></i> <span>secretaria@fraternidadeimperial264.com.br</span></p>
                 </div>
             </div>
             <div class="footer-col footer-social-center">
                 <h4>Redes Sociais</h4>
                 <div class="social-icons">
-                    <a href="https://www.instagram.com/fraternidadeimperial264" target="_blank" class="social-btn"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="social-btn"><i class="fab fa-youtube"></i></a>
+                    <a href="https://www.instagram.com/fraternidadeimperial264" target="_blank" class="social-btn" title="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-btn" title="YouTube (Em breve)"><i class="fab fa-youtube"></i></a>
                 </div>
             </div>
             <div class="footer-col footer-dev-right">
                 <span style="font-size:0.8rem; color:#aaa; margin-bottom:5px; text-shadow: 0 1px 2px #000;">Desenvolvido por:</span>
-                <img src="../logo.png" alt="O Imaginista" class="dev-logo" onclick="window.open('https://oimaginista.com', '_blank')">
+                <a href="https://oimaginista.com" target="_blank">
+                    <img src="../imagens/logo.png" alt="O Imaginista" class="dev-logo" onerror="this.src='../logo.png'">
+                </a>
             </div>
         </div>
-        
         <div class="copyright">
-            <span>© 2025 A∴ R∴ L∴ M∴ Fraternidade Imperial Nº 264. Todos os direitos reservados.</span>
+            <span>© 2026 A∴ R∴ L∴ M∴ Fraternidade Imperial Nº 264. Todos os direitos reservados.</span>
             <span>CNPJ: 00.000.000/0000-00</span>
         </div>
     </footer>
@@ -437,6 +447,11 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             
+            // Exibe o body suavemente para evitar carregamento quebrado (FOUC)
+            setTimeout(() => {
+                document.body.classList.add('loaded');
+            }, 100);
+
             // --- INICIA ANIMAÇÕES (AOS) ---
             AOS.init({ duration: 800, once: true });
             
@@ -457,6 +472,33 @@
                     } else {
                         card.style.display = "none";
                         card.style.opacity = "0";
+                    }
+                });
+            });
+
+            // --- MENU MOBILE TOGGLE LOGIC ---
+            const btnMobile = document.getElementById('btn-mobile');
+            const navMenu = document.getElementById('nav-menu');
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            if (btnMobile) {
+                btnMobile.addEventListener('click', () => {
+                    navMenu.classList.toggle('active');
+                    const icon = btnMobile.querySelector('i');
+                    icon.classList.toggle('fa-bars');
+                    icon.classList.toggle('fa-times');
+                });
+            }
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    if(window.innerWidth <= 900) {
+                        navMenu.classList.remove('active');
+                        if (btnMobile) {
+                            const icon = btnMobile.querySelector('i');
+                            icon.classList.add('fa-bars');
+                            icon.classList.remove('fa-times');
+                        }
                     }
                 });
             });

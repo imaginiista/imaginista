@@ -71,8 +71,11 @@
         
         /* Ajuste do Título Desktop x Mobile */
         .page-title { font-size: 2.5rem; text-transform: uppercase; margin-bottom: 5px; text-shadow: 0 2px 10px rgba(0,0,0,0.8); }
-        .title-mobile-break { display: none; } /* Oculto no Desktop */
         
+        /* Classes auxiliares para quebra de texto inteligente */
+        .mobile-break { display: none; } 
+        .desktop-space { display: inline; }
+
         .gallery-subtitle {
             display: block; font-family: 'Cinzel', serif; color: var(--gold-light);
             font-size: 1.1rem; letter-spacing: 3px; margin-bottom: 60px; text-shadow: 0 2px 5px rgba(0,0,0,0.8); word-wrap: break-word;
@@ -148,7 +151,6 @@
         .footer-contact i { color: var(--gold); margin-top: 3px; font-size: 1.1rem; width: 20px; text-align: center; flex-shrink: 0;}
         
         .keep-together { white-space: nowrap; }
-        .mobile-break { display: none; } 
 
         .footer-social-center { text-align: center; }
         .social-btn { display: inline-flex; justify-content: center; align-items: center; width: 50px; height: 50px; border-radius: 50%; border: 1px solid rgba(212, 175, 55, 0.4); color: #fff; font-size: 1.3rem; margin: 0 10px; transition: 0.3s; text-decoration: none; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px);}
@@ -188,9 +190,10 @@
             .nav-link span { display: block; } /* Mostrar texto no mobile */
             .mobile-toggle { display: block; }
             
-            /* QUEBRA DE TÍTULO PARA MOBILE (3 LINHAS) */
-            .page-title { font-size: 1.6rem; line-height: 1.5; text-align: center; }
-            .title-mobile-break { display: block; } 
+            /* Título Quebrado em 3 Linhas no Mobile */
+            .page-title { font-size: 1.7rem; line-height: 1.4; }
+            .mobile-break { display: block; }
+            .desktop-space { display: none; }
             
             .gallery-subtitle { font-size: 0.85rem; margin-bottom: 40px; }
 
@@ -209,7 +212,6 @@
             .mobile-center-col { display: flex; flex-direction: column; align-items: center; width: 100%; }
             .footer-contact { text-align: left; display: inline-block; width: fit-content; max-width: 100%; }
             .footer-contact p { justify-content: flex-start; }
-            .mobile-break { display: block; } 
             .footer-dev-right { align-items: center; }
             .copyright { flex-direction: column; gap: 10px; text-align: center; padding: 20px 10px; width: 100%; }
 
@@ -242,9 +244,7 @@
 
     <div class="main-container">
         <h1 class="page-title" data-aos="fade-down">
-            A∴ R∴ L∴ M∴<br class="title-mobile-break"> 
-            Fraternidade Imperial<br class="title-mobile-break"> 
-            Nº 264
+            A∴ R∴ L∴ M∴<br class="mobile-break"><span class="desktop-space"> </span>Fraternidade Imperial<br class="mobile-break"><span class="desktop-space"> </span>Nº 264
         </h1>
         <span class="gallery-subtitle" data-aos="fade-up" data-aos-delay="100">Administração 2025 - 2026</span>
 
@@ -328,7 +328,7 @@
                 <img src="../imagens/adm/mm.webp" alt="Roberto Dias" class="member-photo">
                 <div class="member-name">Ir. Roberto Dias</div>
                 <div class="role-container">
-                    <i class="fas fa-hiking role-icon"></i> <div class="member-role">M. de Cerimônias</div>
+                    <i class="fas fa-hiking role-icon"></i> <div class="member-role">Mestre de Cerimônias</div>
                 </div>
                 <div class="member-degree">Mestre Maçom</div>
             </div>
@@ -417,9 +417,8 @@
             const banner = document.getElementById('cookie-banner');
             const acceptBtn = document.getElementById('accept-cookies');
 
-            // Verifica se já aceitou
             if (!localStorage.getItem('cookiesAccepted_264')) {
-                setTimeout(() => banner.classList.add('show'), 1500); // Mostra após 1.5s
+                setTimeout(() => banner.classList.add('show'), 1500); 
             }
 
             acceptBtn.addEventListener('click', () => {
