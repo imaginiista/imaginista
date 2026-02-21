@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A∴ R∴ L∴ S∴ Fraternidade Imperial Nº 264 | Rito Brasileiro</title>
+    <title>Fraternidade Imperial Nº 264</title>
     <meta name="description" content="Site oficial da Loja Maçônica Fraternidade Imperial nº 264. Oriente de Petrópolis.">
     <meta name="theme-color" content="#000c18">
     
@@ -75,7 +75,7 @@
 
         .hero h1 { font-size: 3.5rem; line-height: 1.2; margin-bottom: 15px; text-shadow: 0 4px 10px rgba(0,0,0,0.8); background: linear-gradient(to bottom, #fff, #d4af37); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         
-        /* PIRÂMIDE DO LEMA (ESTRUTURA INTELIGENTE PARA DESKTOP/MOBILE) */
+        /* PIRÂMIDE DO LEMA */
         .motto { font-size: 1.2rem; letter-spacing: 4px; text-transform: uppercase; color: #ccc; margin-bottom: 20px; text-shadow: 0 2px 5px #000; }
         .motto-desktop { display: inline; }
         .motto-mobile { display: none; }
@@ -125,7 +125,7 @@
         .btn-more-faq { display: block; margin: 20px auto 0; background: transparent; border: 1px solid var(--gold); color: var(--gold); padding: 15px 40px; font-family: 'Cinzel'; cursor: pointer; transition: 0.3s; letter-spacing: 2px; text-transform: uppercase; font-weight: bold; position: relative; z-index: 10; text-align: center; max-width: 100%; }
         .btn-more-faq:hover { background: var(--gold); color: #000; box-shadow: 0 0 15px var(--gold-shadow); }
 
-        /* --- CONTATO E MAPA --- */
+        /* --- CONTATO E MAPA (DESKTOP) --- */
         .contact-container { 
             display: grid; grid-template-columns: 1fr 1.5fr; gap: 40px; background: rgba(0, 12, 24, 0.6); 
             border: 1px solid rgba(255,255,255,0.1); padding: 40px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.4); 
@@ -136,13 +136,17 @@
         .info-item { display: flex; align-items: flex-start; gap: 15px; margin-bottom: 25px; word-wrap: break-word; }
         .info-item i { color: var(--gold); font-size: 1.3rem; margin-top: 5px; min-width: 25px; }
         
-        .map-area { width: 100%; max-width: 100%; overflow: hidden; border-radius: 8px; border: 1px solid var(--gold); box-sizing: border-box;}
-        .map-frame { width: 100%; height: 100%; min-height: 350px; border: none; filter: grayscale(20%); transition: 0.3s; display: block; }
+        .map-area { width: 100%; max-width: 100%; overflow: hidden; border-radius: 8px; border: 1px solid var(--gold); box-sizing: border-box; display: flex; flex-direction: column;}
+        .map-frame { width: 100%; height: 100%; min-height: 350px; border: none; filter: grayscale(20%); transition: 0.3s; display: block; flex-grow: 1; }
         .map-frame:hover { filter: grayscale(0%); }
         
+        /* Botões de Mapa Desktop */
         .btn-map-container { margin-top: 40px; display: flex; flex-direction: column; align-items: flex-start; width: 100%; gap: 10px; }
         .btn-map { color: #fff; text-decoration: none; border: 1px solid rgba(255,255,255,0.3); padding: 12px 20px; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; gap: 10px; transition: 0.3s; background: rgba(0,0,0,0.3); width: auto; max-width: 100%; text-align: center; }
         .btn-map:hover { background: var(--gold); color: #000; border-color: var(--gold); }
+        
+        /* Ocultar a versão mobile dos botões no desktop */
+        .mobile-map-buttons { display: none; }
 
         /* --- FOOTER ATUALIZADO --- */
         footer { 
@@ -205,7 +209,7 @@
             .hero h1 { font-size: 2.2rem; }
             .gadu-text { font-size: 0.75rem; letter-spacing: 2px; }
             
-            /* A Pirâmide na Frase no Mobile (Exibe Mobile, Esconde Desktop) */
+            /* A Pirâmide na Frase no Mobile */
             .motto { font-size: 0.85rem; letter-spacing: 2px; line-height: 1.8; text-align: center; }
             .motto-desktop { display: none; }
             .motto-mobile { display: block; }
@@ -223,13 +227,17 @@
 
             .faq-question { font-size: 0.95rem; padding: 15px; }
 
-            /* --- CONTATO MOBILE: OCULTA TEXTO, MOSTRA SÓ MAPA E BOTÕES --- */
+            /* --- CONTATO MOBILE: OCULTA TEXTO, MOSTRA MAPA E BOTÕES --- */
             .contact-container { grid-template-columns: 1fr; padding: 20px; width: 100%; gap: 20px; }
-            .contact-info { display: none; /* Oculta endereços no mobile */ }
+            .contact-info { display: none; /* Oculta endereço no mobile */ }
             
-            .map-area { min-height: 300px; }
-            .map-frame { min-height: 300px; }
+            .map-area { min-height: 300px; padding: 15px; display: flex; flex-direction: column; gap: 15px; background: rgba(0,0,0,0.3);}
+            .map-frame { min-height: 250px; width: 100%; border-radius: 4px; margin-bottom: 0; }
             
+            /* Mostra os botões abaixo do mapa */
+            .mobile-map-buttons { display: flex; flex-direction: column; width: 100%; gap: 10px; }
+            .mobile-map-buttons .btn-map { width: 100%; margin: 0; max-width: 100%; font-size: 0.9rem;}
+
             /* Footer Secretaria copiado e responsivo */
             .footer-grid { grid-template-columns: 1fr; text-align: center; gap: 40px; padding: 0 15px; }
             .mobile-center-col { display: flex; flex-direction: column; align-items: center; }
@@ -245,15 +253,6 @@
             .floating-actions { bottom: 20px; right: 20px; }
             .float-btn { width: 40px; height: 40px; font-size: 1rem; }
         }
-
-        /* Oculta os botões mobile extras no desktop */
-        @media (min-width: 901px) {
-            .mobile-map-buttons { display: none; }
-        }
-
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateX(-50%) translateY(0);} 40% {transform: translateX(-50%) translateY(-10px);} 60% {transform: translateX(-50%) translateY(-5px);} }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
@@ -305,10 +304,10 @@
                 <span class="motto-top">Liberdade Igualdade</span> 
                 <span class="motto-bot">Fraternidade</span>
             </p>
-            
+            <br>
             <div class="hero-badge">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Flag_of_Brazil.svg/64px-Flag_of_Brazil.svg.png" alt="Brasil" class="flag-icon">
-                <span style="font-family: 'Cinzel'; font-size: 0.95rem; color: #fff; margin-left: 10px;">Rito Brasileiro</span>
+                <span style="font-family: 'Cinzel'; font-size: 0.95rem; color: #fff;">Rito Brasileiro</span>
             </div>
             
             <div>
@@ -406,6 +405,7 @@
                 
                 <div class="map-area">
                     <iframe class="map-frame" src="https://maps.google.com/maps?q=Rua%20Nair%20Tef%C3%A9%2C%20320%20-%20Quitandinha%2C%20Petr%C3%B3polis%20-%20RJ&t=&z=15&ie=UTF8&iwloc=&output=embed" allowfullscreen="" loading="lazy"></iframe>
+                    
                     <div class="mobile-map-buttons">
                         <a href="https://waze.com/ul?q=Rua+Nair+Tefe+320+Petropolis" target="_blank" class="btn-map">
                             <i class="fab fa-waze"></i> Ir com Waze
