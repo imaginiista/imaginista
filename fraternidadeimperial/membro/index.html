@@ -37,11 +37,12 @@
         /* HEADER */
         header { position: fixed; width: 100%; top: 0; z-index: 1000; padding: 15px 0; background: rgba(0, 12, 24, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(212, 175, 55, 0.3); }
         .header-inner { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 0 20px; width: 100%; box-sizing: border-box; }
+        .logo-group { display: flex; align-items: center; }
         .logo-img { height: 50px; width: auto; transition: 0.3s; filter: drop-shadow(0 0 5px rgba(0,0,0,0.5));}
         .logo-img:hover { transform: scale(1.1); filter: drop-shadow(0 0 15px var(--gold-shadow)); }
         
         /* MENU NAV */
-        .nav-links { display: flex; gap: 20px; align-items: center; }
+        .nav-links { display: flex; gap: 20px; align-items: center; margin: 0; padding: 0; list-style: none; }
         .nav-link { 
             color: #fff; text-decoration: none; font-family: 'Cinzel'; text-transform: uppercase; 
             font-size: 0.85rem; letter-spacing: 1px; transition: 0.3s; 
@@ -51,6 +52,7 @@
         .nav-link:hover { background: var(--gold); color: #000; box-shadow: 0 0 15px var(--gold-shadow); }
         .btn-secretaria { background: rgba(212, 175, 55, 0.1); color: var(--gold); border-color: var(--gold); }
         .btn-secretaria:hover { background: var(--gold); color: #000; }
+        .mobile-toggle { display: none; font-size: 1.8rem; color: var(--gold); background: none; border: none; cursor: pointer; }
 
         /* MAIN CONTAINER E TÍTULOS */
         .main-container { max-width: 1200px; margin: 0 auto; padding: 140px 20px 80px; text-align: center; position: relative; z-index: 2; width: 100%; box-sizing: border-box; }
@@ -158,9 +160,18 @@
 
         @media (max-width: 900px) {
             .header-inner { padding: 0 15px; }
-            .nav-links { gap: 10px; }
-            .nav-link { padding: 8px 12px; }
-            .nav-link span { display: none; } /* Esconde texto no mobile, mantem icone */
+            .logo-img { height: 40px; }
+            
+            /* Ajuste Menu Mobile (Toggle) */
+            .nav-links {
+                position: fixed; top: 70px; right: -100%; width: 100%; height: calc(100vh - 70px);
+                background: rgba(0, 12, 24, 0.98); flex-direction: column; padding-top: 40px; transition: 0.4s ease-in-out;
+                justify-content: flex-start; z-index: 999; overflow-y: auto; overflow-x: hidden; gap: 25px;
+            }
+            .nav-links.active { right: 0; }
+            .nav-link { padding: 8px 12px; font-size: 1rem; }
+            .nav-link span { display: block; } /* Mostrar texto no mobile */
+            .mobile-toggle { display: block; }
             
             .page-title { font-size: 1.8rem; }
             .gallery-subtitle { font-size: 0.85rem; margin-bottom: 40px; }
@@ -198,12 +209,15 @@
 
     <header>
         <div class="header-inner">
-            <div class="logo-group"><img src="../imagens/264.webp" alt="Brasão 264" class="logo-img"></div>
-            <nav class="nav-links">
+            <div class="logo-group">
+                <a href="https://oimaginista.com/fraternidadeimperial/"><img src="../imagens/264.webp" alt="Brasão 264" class="logo-img"></a>
+            </div>
+            <nav class="nav-links" id="nav-menu">
                 <a href="https://oimaginista.com/fraternidadeimperial/" class="nav-link"><i class="fas fa-home"></i> <span>Início</span></a>
-                <a href="../galeria/" class="nav-link"><i class="fas fa-portrait"></i> <span>Galeria</span></a>
-                <a href="../secretaria/" class="nav-link btn-secretaria"><i class="fas fa-lock"></i> <span>Secretaria</span></a>
+                <a href="../galeria/index.html" class="nav-link"><i class="fas fa-portrait"></i> <span>Galeria</span></a>
+                <a href="../secretaria/index.html" class="nav-link btn-secretaria"><i class="fas fa-lock"></i> <span>Secretaria</span></a>
             </nav>
+            <button class="mobile-toggle" id="btn-mobile"><i class="fas fa-bars"></i></button>
         </div>
     </header>
 
@@ -344,6 +358,33 @@
             // --- INICIA ANIMAÇÕES (AOS) ---
             AOS.init({ duration: 800, once: true });
 
+            // --- MENU MOBILE TOGGLE LOGIC ---
+            const btnMobile = document.getElementById('btn-mobile');
+            const navMenu = document.getElementById('nav-menu');
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            if (btnMobile) {
+                btnMobile.addEventListener('click', () => {
+                    navMenu.classList.toggle('active');
+                    const icon = btnMobile.querySelector('i');
+                    icon.classList.toggle('fa-bars');
+                    icon.classList.toggle('fa-times');
+                });
+            }
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    if(window.innerWidth <= 900) {
+                        navMenu.classList.remove('active');
+                        if (btnMobile) {
+                            const icon = btnMobile.querySelector('i');
+                            icon.classList.add('fa-bars');
+                            icon.classList.remove('fa-times');
+                        }
+                    }
+                });
+            });
+
             // --- COOKIE BANNER LOGIC ---
             const banner = document.getElementById('cookie-banner');
             const acceptBtn = document.getElementById('accept-cookies');
@@ -358,14 +399,67 @@
                 banner.classList.remove('show');
             });
 
-            // --- PARTICLES ---
+            // --- PARTICLES (CONSTELAÇÃO CORRIGIDA) ---
             const canvas = document.getElementById('constellation-canvas');
             const ctx = canvas.getContext('2d');
             let width, height, stars = [];
-            function resize() { width = window.innerWidth; height = window.innerHeight; canvas.width = width; canvas.height = height; initStars(); }
-            function initStars() { stars = []; const numStars = Math.floor(width * height / 15000); for(let i=0; i<numStars; i++) { stars.push({ x: Math.random() * width, y: Math.random() * height, r: Math.random() * 2, vx: (Math.random() - 0.5) * 0.2, vy: (Math.random() - 0.5) * 0.2 }); } }
-            function draw() { ctx.clearRect(0, 0, width, height); const starColor = "rgba(255, 255, 255, 0.7)"; const lineColor = "rgba(255, 255, 255, 0.15)"; for(let i=0; i<stars.length; i++) { let s = stars[i]; s.x += s.vx; s.y += s.vy; if(s.x < 0) s.x = width; if(s.x > width) s.x = 0; if(s.y < 0) s.y = height; if(s.y > height) s.y = 0; ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2); ctx.fillStyle = starColor; ctx.fill(); for(let j=i+1; j<stars.length; j++) { let s2 = stars[j]; let dist = Math.sqrt((s.x - s2.x)**2 + (s.y - s2.y)**2); if(dist < 110) { ctx.beginPath(); ctx.moveTo(s.x, s.y); ctx.lineTo(s2.x, s2.y); ctx.lineWidth = 1 - (dist / 110); ctx.strokeStyle = lineColor; ctx.stroke(); } } } requestAnimationFrame(draw); }
-            window.addEventListener('resize', resize); resize(); draw();
+            
+            function resize() { 
+                width = window.innerWidth; 
+                height = window.innerHeight; 
+                canvas.width = width; 
+                canvas.height = height; 
+                initStars(); 
+            }
+            
+            function initStars() { 
+                stars = []; 
+                const numStars = Math.floor(width * height / 15000); 
+                for(let i=0; i<numStars; i++) { 
+                    stars.push({ 
+                        x: Math.random() * width, 
+                        y: Math.random() * height, 
+                        r: Math.random() * 2, 
+                        vx: (Math.random() - 0.5) * 0.2, 
+                        vy: (Math.random() - 0.5) * 0.2 
+                    }); 
+                } 
+            }
+            
+            function draw() { 
+                ctx.clearRect(0, 0, width, height); 
+                const starColor = "rgba(255, 255, 255, 0.7)"; 
+                const lineColor = "rgba(255, 255, 255, 0.15)"; 
+                
+                for(let i=0; i<stars.length; i++) { 
+                    let s = stars[i]; 
+                    s.x += s.vx; s.y += s.vy; 
+                    if(s.x < 0) s.x = width; if(s.x > width) s.x = 0; 
+                    if(s.y < 0) s.y = height; if(s.y > height) s.y = 0; 
+                    
+                    ctx.beginPath(); 
+                    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2); 
+                    ctx.fillStyle = starColor; 
+                    ctx.fill(); 
+                    
+                    for(let j=i+1; j<stars.length; j++) { 
+                        let s2 = stars[j]; 
+                        let dist = Math.sqrt((s.x - s2.x)**2 + (s.y - s2.y)**2); 
+                        if(dist < 110) { 
+                            ctx.beginPath(); 
+                            ctx.moveTo(s.x, s.y); 
+                            ctx.lineTo(s2.x, s2.y); 
+                            ctx.lineWidth = 1 - (dist / 110); 
+                            ctx.strokeStyle = lineColor; 
+                            ctx.stroke(); 
+                        } 
+                    } 
+                } 
+                requestAnimationFrame(draw); 
+            }
+            window.addEventListener('resize', resize); 
+            resize(); 
+            draw();
         });
     </script>
 </body>
