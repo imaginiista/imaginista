@@ -50,6 +50,7 @@
         header { position: fixed; width: 100%; top: 0; z-index: 1000; transition: all 0.4s ease-in-out; padding: 15px 0; background: transparent; }
         header.scrolled { background: rgba(0, 12, 24, 0.95); backdrop-filter: blur(15px); padding: 10px 0; border-bottom: 1px solid rgba(212, 175, 55, 0.3); box-shadow: 0 0 20px rgba(0, 0, 0, 0.8), 0 0 10px rgba(212, 175, 55, 0.2); }
         .header-inner { display: flex; justify-content: space-between; align-items: center; }
+        .logo-group { display: flex; align-items: center; }
         .logo-img { height: 60px; width: auto; transition: transform 0.3s; filter: drop-shadow(0 0 5px rgba(0,0,0,0.5)); }
         .logo-img:hover { transform: scale(1.1); filter: drop-shadow(0 0 15px var(--gold-shadow)); }
         
@@ -97,7 +98,7 @@
         .section-title { font-size: 2.2rem; text-transform: uppercase; letter-spacing: 3px; display: inline-block; position: relative; padding-bottom: 15px; margin-bottom: 30px; }
         .section-title::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 80px; height: 3px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
 
-        /* --- FAQ CORRIGIDO --- */
+        /* --- FAQ --- */
         .faq-wrapper {
             max-height: 480px;
             overflow: hidden;
@@ -105,7 +106,7 @@
             position: relative;
         }
         .faq-wrapper.expanded {
-            max-height: 3000px; /* Garante espaço para todas abertas */
+            max-height: 3000px; 
         }
         
         .faq-wrapper::after {
@@ -127,7 +128,6 @@
         .faq-question:hover { background: rgba(255,255,255,0.05); color: var(--gold); }
         .faq-item.active .faq-question i { transform: rotate(180deg); color: var(--gold); }
 
-        /* A MÁGICA PARA NÃO CORTAR O TEXTO: Grid Layout */
         .faq-answer { 
             display: grid; 
             grid-template-rows: 0fr; 
@@ -135,15 +135,15 @@
             background: rgba(0,0,0,0.3); color: #ccc; opacity: 0; 
         }
         .faq-answer > div {
-            overflow: hidden; /* Importante para o Grid não vazar */
-            padding: 0 25px; /* Padding no filho, não no pai grid */
+            overflow: hidden; 
+            padding: 0 25px; 
         }
         .faq-answer.open { 
             grid-template-rows: 1fr; 
             opacity: 1; 
         }
         .faq-answer.open > div {
-            padding: 20px 25px; /* Adiciona respiro interno só quando aberto */
+            padding: 20px 25px; 
         }
 
         .hidden-faq { display: none; }
@@ -165,9 +165,9 @@
         .btn-map { color: #fff; text-decoration: none; border: 1px solid rgba(255,255,255,0.3); padding: 12px 25px; border-radius: 4px; display: inline-flex; align-items: center; gap: 10px; margin: 10px 10px 10px 0; transition: 0.3s; background: rgba(0,0,0,0.3); }
         .btn-map:hover { background: var(--gold); color: #000; border-color: var(--gold); }
 
-        /* --- FOOTER PADRÃO MOSAICO --- */
+        /* --- FOOTER ATUALIZADO IGUAL SECRETARIA/ARQUIVADOS --- */
         footer { 
-            position: relative;
+            position: relative; width: 100%;
             background-color: #02050a; 
             background-image: 
                 linear-gradient(45deg, rgba(255,255,255,0.06) 25%, transparent 25%, transparent 75%, rgba(255,255,255,0.06) 75%, rgba(255,255,255,0.06)),
@@ -186,17 +186,23 @@
 
         .footer-grid { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 40px; text-align: left; padding-bottom: 40px; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
         .footer-col h4 { color: var(--gold); font-family: 'Cinzel'; margin-bottom: 20px; font-size: 1.1rem; text-shadow: 0 2px 5px rgba(0,0,0,0.8);}
-        .footer-contact p { margin-bottom: 10px; font-size: 0.9rem; color: #ddd; display: flex; gap: 10px; text-shadow: 0 1px 3px rgba(0,0,0,0.9); }
-        .footer-contact i { color: var(--gold); margin-top: 4px; }
+        .footer-contact p { margin-bottom: 12px; font-size: 0.9rem; color: #ddd; display: flex; align-items: flex-start; gap: 10px; text-shadow: 0 1px 3px rgba(0,0,0,0.9); line-height: 1.4; }
+        .footer-contact i { color: var(--gold); margin-top: 3px; font-size: 1.1rem; width: 20px; text-align: center; flex-shrink: 0;}
+        
+        .keep-together { white-space: nowrap; }
+        .mobile-break { display: none; } 
+
         .footer-social-center { text-align: center; }
         .social-btn { display: inline-flex; justify-content: center; align-items: center; width: 50px; height: 50px; border-radius: 50%; border: 1px solid rgba(212, 175, 55, 0.4); color: #fff; font-size: 1.3rem; margin: 0 10px; transition: 0.3s; text-decoration: none; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px);}
         .social-btn:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-5px); box-shadow: 0 0 15px var(--gold-shadow); background: rgba(0,0,0,0.9);}
+        
         .footer-dev-right { text-align: right; display: flex; flex-direction: column; align-items: flex-end; justify-content: center; }
-        .dev-logo { width: 100px; filter: grayscale(100%) brightness(200%); opacity: 0.8; transition: 0.3s; cursor: pointer; }
+        .dev-logo { width: 120px; filter: grayscale(100%) brightness(200%); opacity: 0.8; transition: 0.3s; cursor: pointer; }
         .dev-logo:hover { filter: grayscale(0%) brightness(100%); opacity: 1; }
+        
         .copyright { position: relative; z-index: 1; font-size: 0.8rem; color: #ccc; padding-top: 20px; border-top: 1px solid rgba(212, 175, 55, 0.3); display: flex; justify-content: space-between; max-width: 1200px; margin: 0 auto; padding-left: 20px; padding-right: 20px; flex-wrap: wrap; text-shadow: 0 1px 2px #000; }
 
-        /* --- BOTÕES FLUTUANTES (DISCRETOS E ELEGANTES) --- */
+        /* --- BOTÕES FLUTUANTES --- */
         .floating-actions {
             position: fixed; bottom: 30px; right: 30px;
             display: flex; flex-direction: column; gap: 15px;
@@ -223,12 +229,13 @@
 
         /* --- LGPD COOKIE BANNER --- */
         .cookie-banner {
-            position: fixed; bottom: -100px; left: 0; width: 100%;
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            transform: translateY(100%);
             background: rgba(0, 12, 24, 0.98); border-top: 1px solid var(--gold);
             padding: 20px; z-index: 9999; display: flex; justify-content: center; align-items: center; gap: 20px;
-            transition: bottom 0.5s ease-in-out; box-shadow: 0 -5px 20px rgba(0,0,0,0.5);
+            transition: transform 0.5s ease-in-out; box-shadow: 0 -5px 20px rgba(0,0,0,0.5);
         }
-        .cookie-banner.show { bottom: 0; }
+        .cookie-banner.show { transform: translateY(0); }
         .cookie-text { font-size: 0.9rem; color: #ccc; max-width: 800px; }
         .cookie-btn {
             background: var(--gold); color: #000; border: none; padding: 10px 25px;
@@ -236,23 +243,47 @@
         }
         .cookie-btn:hover { background: #fff; }
 
-        /* --- RESPONSIVO --- */
+        /* --- RESPONSIVO CORRIGIDO --- */
         @media (max-width: 900px) {
-            .header-inner { padding: 0 15px; }
+            /* Header adjustments for smaller screens so logos don't overflow */
+            .header-inner { padding: 0 15px; flex-wrap: nowrap; }
+            .logo-img { height: 38px; } /* Evita quebra de linha no menu mobile */
+            .logo-group a { margin-right: 5px !important; }
+            
             .nav-menu {
-                position: fixed; top: 90px; right: -100%; width: 100%; height: 100vh;
-                background: rgba(0, 12, 24, 0.98); flex-direction: column; padding-top: 40px; transition: 0.4s;
-                justify-content: flex-start;
+                position: fixed; top: 70px; right: -100%; width: 100%; height: calc(100vh - 70px);
+                background: rgba(0, 12, 24, 0.98); flex-direction: column; padding-top: 40px; transition: 0.4s ease-in-out;
+                justify-content: flex-start; z-index: 999;
             }
             .nav-menu.active { right: 0; }
-            .nav-menu ul { flex-direction: column; gap: 30px; }
-            .mobile-toggle { display: block; }
-            .hero h1 { font-size: 2.2rem; }
-            .contact-container, .footer-grid { grid-template-columns: 1fr; text-align: center; }
-            .footer-dev-right { align-items: center; margin-top: 20px; }
-            .footer-contact p { justify-content: center; }
-            .logo-img { height: 45px; }
+            .nav-menu ul { flex-direction: column; gap: 25px; }
+            .mobile-toggle { display: block; margin-left: 5px; }
+            
+            /* Typography reductions for mobile fitting */
+            .hero h1 { font-size: 2rem; }
+            .hero p { font-size: 0.95rem; }
+            .gadu-text { font-size: 0.8rem; letter-spacing: 2px; }
+            
+            /* Fix History container pushing boundaries */
+            .history-box { padding: 25px 20px; }
+            .history-box p { font-size: 0.95rem; text-indent: 15px; }
+            .history-stats { flex-direction: column; gap: 15px; }
+            .stat-item { min-width: 100%; }
+
+            /* Fix contact & maps */
+            .contact-container { grid-template-columns: 1fr; padding: 20px; text-align: center; }
+            .info-item { justify-content: center; text-align: left; }
+            .map-frame { min-height: 250px; }
+            
+            /* Footer adjustments to match Secretaria */
+            .footer-grid { grid-template-columns: 1fr; text-align: center; gap: 40px;}
+            .mobile-center-col { display: flex; flex-direction: column; align-items: center; }
+            .footer-contact { text-align: left; display: inline-block; width: fit-content; max-width: 100%;}
+            .mobile-break { display: block; } 
+            .footer-dev-right { align-items: center; }
             .copyright { flex-direction: column; gap: 10px; text-align: center; }
+            
+            /* General fixes */
             .cookie-banner { flex-direction: column; text-align: center; padding: 30px 20px; }
             .floating-actions { bottom: 20px; right: 20px; }
             .float-btn { width: 40px; height: 40px; font-size: 1rem; }
@@ -283,9 +314,9 @@
                     <li><a href="#historia" class="nav-link"><i class="fas fa-scroll"></i> <span>História</span></a></li> 
                     <li><a href="#faq" class="nav-link"><i class="fas fa-question-circle"></i> <span>FAQ</span></a></li>
                     <li><a href="#contato" class="nav-link"><i class="fas fa-envelope"></i> <span>Contato</span></a></li>
-                    <li><a href="membro/index.html" class="nav-link"><i class="fas fa-users"></i> <span>A Loja</span></a></li> 
+                    <li><a href="membro/" class="nav-link"><i class="fas fa-users"></i> <span>A Loja</span></a></li> 
                     <li><a href="galeria/" class="nav-link"><i class="fas fa-portrait"></i> <span>Galeria</span></a></li>
-                    <li><a href="secretaria/index.html" class="nav-link btn-secretaria"><i class="fas fa-lock"></i> <span>Secretaria</span></a></li>
+                    <li><a href="secretaria/" class="nav-link btn-secretaria"><i class="fas fa-lock"></i> <span>Secretaria</span></a></li>
                 </ul>
             </nav>
 
@@ -410,14 +441,14 @@
         </div>
     </section>
 
-    <footer>
+    <footer id="secretaria-footer">
         <div class="footer-grid">
-            <div class="footer-col">
+            <div class="footer-col mobile-center-col">
                 <h4>Fale Conosco</h4>
                 <div class="footer-contact">
-                    <p><i class="fas fa-map-pin"></i> Rua Nair Tefé, 320 - Quitandinha, Petrópolis - RJ</p>
-                    <p><i class="fas fa-clock"></i> Reuniões: Sábados (Quinzenalmente) às 10h</p>
-                    <p><i class="fas fa-envelope"></i> secretaria@fraternidadeimperial264.com.br</p>
+                    <p><i class="fas fa-map-pin"></i> <span>Rua Nair Tefé, 320 - Quitandinha, <br class="mobile-break"><span class="keep-together">Petrópolis - RJ</span></span></p>
+                    <p><i class="fas fa-clock"></i> <span>Reuniões: Sábados (Quinzenalmente) às 10h</span></p>
+                    <p><i class="fas fa-envelope"></i> <span>secretaria@fraternidadeimperial264.com.br</span></p>
                 </div>
             </div>
             <div class="footer-col footer-social-center">
@@ -429,12 +460,13 @@
             </div>
             <div class="footer-col footer-dev-right">
                 <span style="font-size:0.8rem; color:#aaa; margin-bottom:5px; text-shadow: 0 1px 2px #000;">Desenvolvido por:</span>
-                <img src="logo.png" alt="O Imaginista" class="dev-logo" onclick="window.open('https://oimaginista.com', '_blank')">
+                <a href="https://oimaginista.com" target="_blank">
+                    <img src="imagens/logo.png" alt="O Imaginista" class="dev-logo" onerror="this.src='logo.png'">
+                </a>
             </div>
         </div>
-
         <div class="copyright">
-            <span>© 2025 A∴ R∴ L∴ M∴ Fraternidade Imperial Nº 264. Todos os direitos reservados.</span>
+            <span>© 2026 A∴ R∴ L∴ M∴ Fraternidade Imperial Nº 264. Todos os direitos reservados.</span>
             <span>CNPJ: 00.000.000/0000-00</span>
         </div>
     </footer>
