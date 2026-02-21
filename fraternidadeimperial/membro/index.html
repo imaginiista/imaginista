@@ -69,13 +69,13 @@
         /* MAIN CONTAINER E TÍTULOS */
         .main-container { max-width: 1200px; margin: 0 auto; padding: 140px 20px 80px; text-align: center; position: relative; z-index: 2; width: 100%; box-sizing: border-box; }
         
-        /* Título Responsivo */
-        .page-title { font-size: 2.5rem; text-transform: uppercase; margin-bottom: 5px; text-shadow: 0 2px 10px rgba(0,0,0,0.8); word-wrap: break-word;}
-        .title-mobile-break { display: none; }
+        /* Ajuste do Título Desktop x Mobile */
+        .page-title { font-size: 2.5rem; text-transform: uppercase; margin-bottom: 5px; text-shadow: 0 2px 10px rgba(0,0,0,0.8); }
+        .title-mobile-break { display: none; } /* Oculto no Desktop */
         
         .gallery-subtitle {
             display: block; font-family: 'Cinzel', serif; color: var(--gold-light);
-            font-size: 1.1rem; letter-spacing: 3px; margin-bottom: 60px; text-shadow: 0 2px 5px rgba(0,0,0,0.8);
+            font-size: 1.1rem; letter-spacing: 3px; margin-bottom: 60px; text-shadow: 0 2px 5px rgba(0,0,0,0.8); word-wrap: break-word;
         }
         .gallery-subtitle::after {
             content: ''; display: block; width: 120px; height: 2px;
@@ -185,12 +185,12 @@
             }
             .nav-links.active { right: 0; }
             .nav-link { padding: 8px 12px; font-size: 1rem; }
-            .nav-link span { display: block; }
+            .nav-link span { display: block; } /* Mostrar texto no mobile */
             .mobile-toggle { display: block; }
             
-            /* QUEBRA DE TÍTULO PARA MOBILE */
-            .page-title { font-size: 1.8rem; line-height: 1.4; display: flex; flex-direction: column; align-items: center; justify-content: center;}
-            .title-mobile-break { display: block; height: 5px; } 
+            /* QUEBRA DE TÍTULO PARA MOBILE (3 LINHAS) */
+            .page-title { font-size: 1.6rem; line-height: 1.5; text-align: center; }
+            .title-mobile-break { display: block; } 
             
             .gallery-subtitle { font-size: 0.85rem; margin-bottom: 40px; }
 
@@ -242,7 +242,9 @@
 
     <div class="main-container">
         <h1 class="page-title" data-aos="fade-down">
-            A∴ R∴ L∴ M∴ <span class="title-mobile-break"></span> Fraternidade Imperial <span class="title-mobile-break"></span> Nº 264
+            A∴ R∴ L∴ M∴<br class="title-mobile-break"> 
+            Fraternidade Imperial<br class="title-mobile-break"> 
+            Nº 264
         </h1>
         <span class="gallery-subtitle" data-aos="fade-up" data-aos-delay="100">Administração 2025 - 2026</span>
 
@@ -425,7 +427,7 @@
                 banner.classList.remove('show');
             });
 
-            // --- PARTICLES (CONSTELAÇÃO) ---
+            // --- PARTICLES (CONSTELAÇÃO CORRIGIDA) ---
             const canvas = document.getElementById('constellation-canvas');
             const ctx = canvas.getContext('2d');
             let width, height, stars = [];
