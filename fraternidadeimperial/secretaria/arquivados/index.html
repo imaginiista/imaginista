@@ -35,19 +35,19 @@
 
         h1, h2, h3, .cinzel { font-family: 'Cinzel', serif; color: var(--gold); }
 
-        /* CANVAS FUNDO */
+        /* CANVAS FUNDO (Fundo transparente) */
         #constellation-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; pointer-events: none; background: transparent; }
 
-        /* --- HEADER BÁSICO (ANIMAÇÃO SUAVE, SEM PULO) --- */
+        /* --- HEADER BÁSICO (APARECE APÓS LOGIN SEM PULAR) --- */
         header#dossie-header { 
             position: fixed; top: 0; left: 0; width: 100%; z-index: 100; padding: 15px 0; 
             background: rgba(0, 12, 24, 0.95); backdrop-filter: blur(10px); 
             border-bottom: 1px solid rgba(212, 175, 55, 0.3);
             display: flex; justify-content: center; align-items: center;
             /* Inicia invisível para o FadeIn */
-            opacity: 0; visibility: hidden; transition: opacity 0.8s ease, visibility 0.8s;
+            opacity: 0; pointer-events: none; transition: opacity 0.8s ease, visibility 0.8s;
         }
-        header#dossie-header.visible { opacity: 1; visibility: visible; }
+        header#dossie-header.visible { opacity: 1; pointer-events: auto; }
         
         .header-nav-inner { display: flex; justify-content: center; gap: 20px; align-items: center; max-width: 1200px; width: 100%; padding: 0 20px;}
         .nav-link { 
@@ -58,12 +58,12 @@
         }
         .nav-link:hover { background: var(--gold); color: #000; box-shadow: 0 0 15px var(--gold-shadow); }
 
-        /* --- POPUP SENHA --- */
+        /* --- POPUP SENHA CORRIGIDO PARA NÃO PULAR --- */
         #password-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
             background: rgba(0, 5, 10, 0.98); z-index: 9999; 
             display: flex; justify-content: center; align-items: center;
-            transition: opacity 0.6s ease; backdrop-filter: blur(10px);
+            transition: opacity 0.5s ease; backdrop-filter: blur(10px);
         }
         
         .auth-box {
@@ -72,6 +72,7 @@
             width: 90%; max-width: 450px; 
             box-shadow: 0 0 60px rgba(212, 175, 55, 0.25); 
             animation: popIn 0.5s ease forwards; position: relative; overflow: hidden;
+            margin: auto;
         }
         
         .auth-box::after {
@@ -141,22 +142,28 @@
         
         .subtitle { font-family: 'Lato', sans-serif; letter-spacing: 3px; font-size: 0.9rem; opacity: 0.8; margin-bottom: 40px; text-transform: uppercase; color: var(--gold-light); }
 
-        /* --- BUSCADOR --- */
-        .search-container { width: 100%; max-width: 800px; margin: 0 auto 40px; position: relative; }
+        /* --- BUSCADOR APRIMORADO --- */
+        .search-container { width: 100%; max-width: 800px; margin: 0 auto 40px; position: relative; z-index: 5; }
         .search-input {
-            width: 100%; padding: 15px 20px 15px 50px; font-size: 1rem; border-radius: 8px; 
+            width: 100%; padding: 15px 20px 15px 60px; /* Aumentado padding-left para não colar na lupa */
+            font-size: 1rem; border-radius: 50px; /* Mais arredondado como barra de busca */
             border: 1px solid rgba(212, 175, 55, 0.5); background: rgba(0, 20, 40, 0.6); 
             color: #fff; font-family: 'Lato', sans-serif; outline: none; transition: 0.3s;
             backdrop-filter: blur(5px);
+            position: relative; z-index: 1; /* Input na camada abaixo da lupa */
         }
-        .search-input::placeholder { color: rgba(255, 255, 255, 0.4); }
+        .search-input::placeholder { color: rgba(255, 255, 255, 0.5); font-style: italic; }
         .search-input:focus { border-color: var(--gold); box-shadow: 0 0 15px rgba(212, 175, 55, 0.3); background: rgba(0, 20, 40, 0.8); }
-        .search-icon { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: var(--gold); font-size: 1.2rem; pointer-events: none; opacity: 0.8;}
+        .search-icon { 
+            position: absolute; left: 25px; top: 50%; transform: translateY(-50%); 
+            color: var(--gold); font-size: 1.3rem; pointer-events: none; opacity: 1;
+            z-index: 5; /* Lupa por cima da barra de busca */
+        }
 
         /* --- LISTA DE PROCESSOS ARQUIVADOS (3 POR LINHA) --- */
         .process-grid { 
             display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); /* Mágica para alinhar 3 lado a lado */
             gap: 20px; width: 100%; margin-bottom: 30px;
         }
 
@@ -174,6 +181,7 @@
         .cand-info { width: 100%; }
         .card-header-row { display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 15px;}
         
+        /* Box do CIM / Status */
         .cim-box { background: rgba(212, 175, 55, 0.15); border: 1px solid var(--gold); border-radius: 6px; padding: 6px 12px; text-align: center; }
         .cim-box.negado { background: rgba(204, 0, 0, 0.1); border-color: #cc0000; }
         
@@ -195,7 +203,7 @@
 
         /* PAGINAÇÃO */
         #loadMoreBtn { 
-            display: none; margin: 20px auto 50px; padding: 15px 40px; 
+            display: inline-block; margin: 20px auto 50px; padding: 15px 40px; 
             background: rgba(212, 175, 55, 0.1); border: 1px solid var(--gold); color: var(--gold); 
             font-family: 'Cinzel'; font-weight: bold; letter-spacing: 2px; cursor: pointer; 
             transition: 0.3s; border-radius: 4px; text-transform: uppercase; font-size: 0.9rem;
@@ -221,9 +229,14 @@
         .footer-grid { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 40px; text-align: left; padding-bottom: 40px; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
         .footer-col h4 { color: var(--gold); font-family: 'Cinzel'; margin-bottom: 20px; font-size: 1.1rem; text-shadow: 0 2px 5px rgba(0,0,0,0.8);}
         
+        /* Ajuste Fino do Contato (Evita quebra feia do ícone) */
         .footer-contact p { margin-bottom: 12px; font-size: 0.9rem; color: #ddd; display: flex; align-items: flex-start; gap: 10px; text-shadow: 0 1px 3px rgba(0,0,0,0.9); line-height: 1.4; }
-        .footer-contact i { color: var(--gold); margin-top: 3px; font-size: 1.1rem; width: 20px; text-align: center; }
+        .footer-contact i { color: var(--gold); margin-top: 3px; font-size: 1.1rem; width: 20px; text-align: center; flex-shrink: 0;}
         
+        /* Protege a cidade/estado para não quebrar em linhas isoladas no celular */
+        .keep-together { white-space: nowrap; }
+        .mobile-break { display: none; } /* Oculto no desktop */
+
         .footer-social-center { text-align: center; }
         .social-btn { display: inline-flex; justify-content: center; align-items: center; width: 50px; height: 50px; border-radius: 50%; border: 1px solid rgba(212, 175, 55, 0.4); color: #fff; font-size: 1.3rem; margin: 0 10px; transition: 0.3s; text-decoration: none; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px);}
         .social-btn:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-5px); box-shadow: 0 0 15px var(--gold-shadow); background: rgba(0,0,0,0.9);}
@@ -259,13 +272,23 @@
             .auth-box h2 { font-size: 1.3rem; }
             .cand-name-auth { font-size: 0.85rem; }
             
+            /* Ajuste dos botões de voltar no mobile */
+            .auth-links { flex-direction: column; gap: 8px; } 
+            
             .process-grid { grid-template-columns: 1fr; }
-            .archive-btn { min-height: auto; }
+            .archive-btn { min-height: auto; padding: 20px;}
             .cand-name { font-size: 1rem; }
             
+            /* Buscador responsivo com lupa alinhada */
+            .search-input { font-size: 0.9rem; padding-left: 45px; }
+            .search-icon { left: 18px; font-size: 1.1rem; }
+
+            /* Ajuste do Rodapé Fale Conosco para ficar alinhado à esquerda mas centralizado no bloco */
             .footer-grid { grid-template-columns: 1fr; text-align: center; gap: 40px;}
             .mobile-center-col { display: flex; flex-direction: column; align-items: center; }
             .footer-contact { text-align: left; display: inline-block; width: fit-content; max-width: 100%;}
+            .mobile-break { display: block; } /* Quebra a linha antes de Petrópolis só no celular */
+            
             .footer-dev-right { align-items: center; }
             .copyright { flex-direction: column; gap: 10px; text-align: center; }
             
@@ -333,7 +356,7 @@
                 <div class="footer-col mobile-center-col">
                     <h4>Fale Conosco</h4>
                     <div class="footer-contact">
-                        <p><i class="fas fa-map-pin"></i> <span>Rua Nair Tefé, 320 - Quitandinha, Petrópolis - RJ</span></p>
+                        <p><i class="fas fa-map-pin"></i> <span>Rua Nair Tefé, 320 - Quitandinha, <br class="mobile-break"><span class="keep-together">Petrópolis - RJ</span></span></p>
                         <p><i class="fas fa-clock"></i> <span>Reuniões: Sábados (Quinzenalmente) às 10h</span></p>
                         <p><i class="fas fa-envelope"></i> <span>secretaria@fraternidadeimperial264.com.br</span></p>
                     </div>
@@ -348,7 +371,7 @@
                 <div class="footer-col footer-dev-right">
                     <span style="font-size:0.8rem; color:#aaa; margin-bottom:5px; text-shadow: 0 1px 2px #000;">Desenvolvido por:</span>
                     <a href="https://oimaginista.com" target="_blank">
-                        <img src="../../imagens/logo.webp" alt="O Imaginista" class="dev-logo" onerror="this.src='../../logo.png'">
+                        <img src="../../imagens/logo.png" alt="O Imaginista" class="dev-logo" onerror="this.src='../../logo.png'">
                     </a>
                 </div>
             </div>
@@ -435,15 +458,13 @@
                 listContainer.appendChild(card);
             });
 
-            loadBtn.style.display = visibleCount >= dadosProcessos.length ? "none" : "block";
+            loadBtn.style.display = visibleCount >= dadosProcessos.length ? "none" : "inline-block";
         }
 
         // --- FUNÇÃO CARREGAR MAIS ---
-        if(loadBtn) {
-            loadBtn.addEventListener('click', () => {
-                visibleCount += 9; 
-                renderList();
-            });
+        function loadMore() {
+            visibleCount += 9; 
+            renderList();
         }
 
         // --- LÓGICA DE LOGIN DESACOMPLADA E BLINDADA ---
@@ -472,12 +493,16 @@
                         main.style.display = 'flex'; 
                         footer.style.display = 'block';
                         
-                        main.classList.add('visible'); // Classe ativa o fade-in via CSS
+                        // Força redesenho do DOM
+                        void main.offsetWidth; 
+                        
+                        main.classList.add('visible');
+                        header.style.pointerEvents = 'auto';
                         header.classList.add('visible');
                         
                         renderList(); 
                         initConstellations(); 
-                    }, 600);
+                    }, 500);
                 } else {
                     let tentativasSpan = document.getElementById('tentativas');
                     tentativas++;
@@ -531,7 +556,7 @@
             });
         });
 
-        /* --- CONSTELAÇÕES --- */
+        /* --- CONSTELAÇÕES OTIMIZADAS PARA NÃO BLOQUEAR CLIQUES --- */
         function initConstellations() {
             const canvas = document.getElementById('constellation-bg');
             if(!canvas) return;
