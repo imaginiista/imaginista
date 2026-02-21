@@ -74,6 +74,7 @@
             margin: auto; z-index: 10000;
         }
         
+        /* O Brilho fantasma */
         .auth-box::after {
             content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
             background: linear-gradient(to bottom right, transparent, transparent, rgba(212, 175, 55, 0.1), transparent, transparent);
@@ -101,6 +102,7 @@
         }
         .auth-btn:hover { transform: scale(1.02); box-shadow: 0 0 15px var(--gold-shadow); }
 
+        /* Links de Login Organizados */
         .auth-links { display: flex; justify-content: center; gap: 15px; position: relative; z-index: 10001; pointer-events: auto !important; width: 100%;}
         .btn-voltar {
             flex: 1; padding: 10px; background: transparent; border: 1px solid rgba(212, 175, 55, 0.5); border-radius: 4px;
@@ -116,7 +118,6 @@
         #main-content {
             width: 100%; display: none; flex-direction: column; align-items: center; 
             margin-top: 100px; flex: 1; opacity: 0; transition: opacity 0.8s ease;
-            /* REMOVIDO: filter: blur(20px); para evitar que a tela fique opaca */
         }
         #main-content.visible { opacity: 1; }
 
@@ -244,10 +245,9 @@
         
         .copyright { position: relative; z-index: 1; font-size: 0.8rem; color: #ccc; padding-top: 20px; border-top: 1px solid rgba(212, 175, 55, 0.3); display: flex; justify-content: space-between; max-width: 1200px; margin: 0 auto; padding-left: 20px; padding-right: 20px; flex-wrap: wrap; text-shadow: 0 1px 2px #000; }
 
-/* --- LGPD COOKIE BANNER --- */
+        /* --- LGPD COOKIE BANNER --- */
         .cookie-banner {
             position: fixed; bottom: 0; left: 0; width: 100%;
-            /* Substituímos o -100px por translateY para esconder 100% independentemente da altura */
             transform: translateY(100%); 
             background: rgba(0, 12, 24, 0.98); border-top: 1px solid var(--gold);
             padding: 20px; z-index: 9999; display: flex; justify-content: center; align-items: center; gap: 20px;
@@ -303,7 +303,6 @@
             .footer-dev-right { align-items: center; }
             .copyright { flex-direction: column; gap: 10px; text-align: center; }
             
-/* Espaço extra embaixo (30px) para não colar na barra nativa do celular */
             .cookie-banner { flex-direction: column; padding: 20px 15px 30px 15px; }
             .cookie-btn { width: 100%; padding: 15px; font-size: 1rem; }
 
@@ -333,15 +332,14 @@
         </div>
     </div>
 
-    <div id="main-content">
-        
-        <header id="dossie-header">
-            <div class="header-nav-inner">
-                <a href="../../index.html" class="nav-link"><i class="fas fa-home"></i> <span>Início</span></a>
-                <a href="../index.html" class="nav-link"><i class="fas fa-folder"></i> <span>Secretaria</span></a>
-            </div>
-        </header>
+    <header id="dossie-header">
+        <div class="header-nav-inner">
+            <a href="../../index.html" class="nav-link"><i class="fas fa-home"></i> <span>Início</span></a>
+            <a href="../index.html" class="nav-link"><i class="fas fa-folder"></i> <span>Secretaria</span></a>
+        </div>
+    </header>
 
+    <div id="main-content">
         <canvas id="constellation-bg"></canvas>
 
         <div class="container">
@@ -360,10 +358,9 @@
             
             <div class="process-grid" id="process-list">
                 <div id="no-results-msg"><i class="fas fa-search-minus" style="font-size: 2rem; margin-bottom: 10px; display:block;"></i>Nenhum processo encontrado.</div>
-                </div>
+            </div>
             
             <button id="loadMoreBtn" onclick="loadMore()" style="display:none;">Carregar Mais Arquivos</button>
-
         </div>
 
         <footer id="secretaria-footer">
@@ -396,7 +393,6 @@
                 <span>CNPJ: 00.000.000/0000-00</span>
             </div>
         </footer>
-
     </div>
 
     <div id="cookie-banner" class="cookie-banner">
@@ -408,26 +404,22 @@
     </div>
 
     <script>
-        // =========================================================
-        // BASE DE DADOS: ARQUIVO CENTRAL (15 Nomes Fictícios para teste)
-        // Configure o "status" e se deve "exibirCim" (true/false)
-        // =========================================================
         const dadosProcessos = [
-            {nome: "Ruan Pablo da Silva de Lima Santos", data: "28/03/2026", cim: "0245177", status: "Concluído", exibirCim: true},
-            {nome: "Jefferson Alencar de Souza", data: "15/12/2025", cim: "0245178", status: "Concluído", exibirCim: true},
-            {nome: "Marcos Vinícius Oliveira", data: "10/01/2026", cim: "ARQUIVADO", status: "Desistência", exibirCim: false},
-            {nome: "Ricardo Ferreira da Costa", data: "05/11/2025", cim: "0245180", status: "Concluído", exibirCim: true},
-            {nome: "Claudio Roberto Mendes", data: "20/09/2025", cim: "NEGADO", status: "Negado", exibirCim: false},
-            {nome: "Fábio de Andrade Lima", data: "18/08/2025", cim: "0245182", status: "Concluído", exibirCim: true},
-            {nome: "Sérgio Murilo Peixoto", data: "10/07/2025", cim: "0245183", status: "Concluído", exibirCim: true},
-            {nome: "Gustavo Henrique Duarte", data: "02/06/2025", cim: "ARQUIVADO", status: "Desistência", exibirCim: false},
-            {nome: "Thiago Braga de Matos", data: "15/05/2025", cim: "0245185", status: "Concluído", exibirCim: true},
-            {nome: "André Luiz Guimarães", data: "30/04/2025", cim: "0245186", status: "Concluído", exibirCim: true},
-            {nome: "Paulo Roberto de Souza", data: "22/03/2025", cim: "0245187", status: "Concluído", exibirCim: true},
-            {nome: "Luciano Barbosa da Silva", data: "10/02/2025", cim: "NEGADO", status: "Negado", exibirCim: false},
-            {nome: "Otávio Augusto Valente", data: "28/01/2025", cim: "0245189", status: "Concluído", exibirCim: true},
-            {nome: "Rodrigo Antunes de Oliveira", data: "15/12/2024", cim: "0245190", status: "Concluído", exibirCim: true},
-            {nome: "Fernando José de Almeida", data: "05/11/2024", cim: "0245191", status: "Concluído", exibirCim: true}
+            {nome: "Ruan Pablo da Silva de Lima Santos", data: "28/03/2026", cim: "0245177", pasta: "0245177", status: "Concluído", exibirCim: true},
+            {nome: "Jefferson Alencar de Souza", data: "15/12/2025", cim: "0245178", pasta: "0245178", status: "Concluído", exibirCim: true},
+            {nome: "Marcos Vinícius Oliveira", data: "10/01/2026", cim: "ARQUIVADO", pasta: "mvo", status: "Desistência", exibirCim: false},
+            {nome: "Ricardo Ferreira da Costa", data: "05/11/2025", cim: "0245180", pasta: "0245180", status: "Concluído", exibirCim: true},
+            {nome: "Claudio Roberto Mendes", data: "20/09/2025", cim: "NEGADO", pasta: "crm", status: "Negado", exibirCim: false},
+            {nome: "Fábio de Andrade Lima", data: "18/08/2025", cim: "0245182", pasta: "0245182", status: "Concluído", exibirCim: true},
+            {nome: "Sérgio Murilo Peixoto", data: "10/07/2025", cim: "0245183", pasta: "0245183", status: "Concluído", exibirCim: true},
+            {nome: "Gustavo Henrique Duarte", data: "02/06/2025", cim: "ARQUIVADO", pasta: "ghd", status: "Desistência", exibirCim: false},
+            {nome: "Thiago Braga de Matos", data: "15/05/2025", cim: "0245185", pasta: "0245185", status: "Concluído", exibirCim: true},
+            {nome: "André Luiz Guimarães", data: "30/04/2025", cim: "0245186", pasta: "0245186", status: "Concluído", exibirCim: true},
+            {nome: "Paulo Roberto de Souza", data: "22/03/2025", cim: "0245187", pasta: "0245187", status: "Concluído", exibirCim: true},
+            {nome: "Luciano Barbosa da Silva", data: "10/02/2025", cim: "NEGADO", pasta: "lbs", status: "Negado", exibirCim: false},
+            {nome: "Otávio Augusto Valente", data: "28/01/2025", cim: "0245189", pasta: "0245189", status: "Concluído", exibirCim: true},
+            {nome: "Rodrigo Antunes de Oliveira", data: "15/12/2024", cim: "0245190", pasta: "0245190", status: "Concluído", exibirCim: true},
+            {nome: "Fernando José de Almeida", data: "05/11/2024", cim: "0245191", pasta: "0245191", status: "Concluído", exibirCim: true}
         ];
 
         let visibleCount = 6; 
@@ -435,7 +427,6 @@
         const loadBtn = document.getElementById('loadMoreBtn');
         const noResultsMsg = document.getElementById('no-results-msg');
 
-        // --- FUNÇÃO PARA RENDERIZAR A LISTA EM CARDS TRIPLOS ---
         function renderList() {
             const cards = listContainer.querySelectorAll('.js-process-card');
             cards.forEach(card => card.remove());
@@ -444,7 +435,7 @@
                 const isConcluido = p.status === "Concluído";
                 const card = document.createElement('a');
                 
-                const pastaLink = isConcluido ? `../processos/${p.cim}/` : `#`; 
+                const pastaLink = p.pasta ? `../processos/${p.pasta}/` : `#`; 
                 
                 card.href = pastaLink;
                 card.className = "archive-btn js-process-card";
@@ -458,7 +449,9 @@
                 const tagClass = isConcluido ? "status-badge st-success" : "status-badge st-denied";
                 const dateLabel = isConcluido ? "Iniciado em:" : "Encerrado em:";
                 const labelCIMTexto = p.exibirCim ? "CIM" : "PROCESSO";
-                const lockIcon = isConcluido ? "" : `<i class="fas fa-lock" style="color:#cc0000;"></i>`;
+                
+                const showArrow = p.pasta ? true : false;
+                const lockIcon = !isConcluido && !showArrow ? `<i class="fas fa-lock" style="color:#cc0000;"></i>` : ``;
 
                 card.style.cssText += borderStyle;
 
@@ -476,7 +469,7 @@
                         <div class="${tagClass}">Processo ${p.status}</div>
                         <span class="date-info"><i class="${iconClass}"></i> ${dateLabel} ${p.data}</span>
                     </div>
-                    <i class="fas fa-arrow-right arrow-bottom" style="${isConcluido ? '' : 'display:none;'}"></i>
+                    <i class="fas fa-arrow-right arrow-bottom" style="${showArrow ? '' : 'display:none;'}"></i>
                 `;
                 listContainer.appendChild(card);
             });
@@ -484,34 +477,34 @@
             loadBtn.style.display = visibleCount >= dadosProcessos.length ? "none" : "inline-block";
         }
 
-        // --- FUNÇÃO CARREGAR MAIS ---
-        function loadMore() {
+        // Deixado globalmente para o onClick funcionar garantidamente
+        window.loadMore = function() {
             visibleCount += 9; 
             renderList();
         }
 
-        // --- LÓGICA DE LOGIN DESACOMPLADA E BLINDADA ---
         document.addEventListener('DOMContentLoaded', () => {
             const btnLogin = document.getElementById('btn-login');
             const passInput = document.getElementById('passInput');
             const searchInput = document.getElementById('searchInput');
-            
+
             /* Lógica Cookies */
             const banner = document.getElementById('cookie-banner');
             const acceptBtn = document.getElementById('accept-cookies');
             if (!localStorage.getItem('cookiesAccepted_264')) {
                 setTimeout(() => banner.classList.add('show'), 2000); 
             }
-            acceptBtn.addEventListener('click', () => {
-                localStorage.setItem('cookiesAccepted_264', 'true');
-                banner.classList.remove('show');
-            });
-
+            if(acceptBtn){
+                acceptBtn.addEventListener('click', () => {
+                    localStorage.setItem('cookiesAccepted_264', 'true');
+                    banner.classList.remove('show');
+                });
+            }
 
             let tentativas = 0;
             const maxTentativas = 3;
 
-            function checkPassword() {
+            window.checkPassword = function() {
                 const pass = passInput.value.trim();
                 const correctPass = "imperial"; 
                 
@@ -528,12 +521,10 @@
                         main.style.display = 'flex'; 
                         footer.style.display = 'block';
                         
-                        // Força redesenho do DOM
                         void main.offsetWidth; 
                         
                         main.classList.add('visible');
                         
-                        // Garante que o header fique no topo e clicável
                         header.style.display = 'flex';
                         setTimeout(() => {
                             header.classList.add('visible');
@@ -559,14 +550,12 @@
                 }
             }
 
-            if(btnLogin) btnLogin.addEventListener('click', checkPassword);
             if(passInput) {
                 passInput.addEventListener('keypress', (e) => {
                     if (e.key === 'Enter') checkPassword();
                 });
             }
 
-            // Lógica do Buscador
             if(searchInput) {
                 searchInput.addEventListener('keyup', () => {
                     let input = searchInput.value.toLowerCase();
@@ -599,7 +588,7 @@
             }
         });
 
-        /* --- CONSTELAÇÕES OTIMIZADAS PARA NÃO BLOQUEAR CLIQUES --- */
+        /* --- CONSTELAÇÕES --- */
         function initConstellations() {
             const canvas = document.getElementById('constellation-bg');
             if(!canvas) return;
