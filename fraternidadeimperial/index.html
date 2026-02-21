@@ -90,6 +90,10 @@
 
         .hero h1 { font-size: 3.5rem; line-height: 1.2; margin-bottom: 15px; text-shadow: 0 4px 10px rgba(0,0,0,0.8); background: linear-gradient(to bottom, #fff, #d4af37); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         
+        /* ESTILO PARA O NOVO TEXTO DE DESTAQUE */
+        .texto-destaque { font-family: 'Cinzel', serif; font-size: 1.6rem; color: var(--gold); text-transform: uppercase; text-shadow: 0 2px 5px rgba(0,0,0,0.8); margin-bottom: 20px; letter-spacing: 3px; text-align: center; }
+        .texto-destaque span { display: inline; }
+
         /* PIRÂMIDE DO LEMA */
         .motto { font-size: 1.2rem; letter-spacing: 4px; text-transform: uppercase; color: #ccc; margin-bottom: 20px; text-shadow: 0 2px 5px #000; }
         .motto-desktop { display: inline; }
@@ -170,7 +174,7 @@
                 linear-gradient(45deg, rgba(255,255,255,0.06) 25%, transparent 25%, transparent 75%, rgba(255,255,255,0.06) 75%, rgba(255,255,255,0.06)),
                 linear-gradient(45deg, rgba(255,255,255,0.06) 25%, transparent 25%, transparent 75%, rgba(255,255,255,0.06) 75%, rgba(255,255,255,0.06));
             background-size: 80px 80px; background-position: 0 0, 40px 40px;
-            padding: 80px 0 20px; border-top: 3px solid var(--gold); margin-top: auto; display: none;
+            padding: 80px 0 20px; border-top: 3px solid var(--gold); margin-top: auto;
         }
         footer::before {
             content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
@@ -224,6 +228,10 @@
 
             .hero h1 { font-size: 2.2rem; }
             .gadu-text { font-size: 0.75rem; letter-spacing: 2px; }
+            
+            /* Novo texto de destaque no mobile */
+            .texto-destaque { font-size: 1.2rem; letter-spacing: 2px; }
+            .texto-destaque span { display: block; margin-top: 5px; }
             
             /* A Pirâmide na Frase no Mobile */
             .motto { font-size: 0.85rem; letter-spacing: 2px; line-height: 1.8; text-align: center; }
@@ -315,14 +323,11 @@
             
             <h1>A∴ R∴ L∴ M∴<br>Fraternidade Imperial <span>Nº 264</span></h1>
 			
-			<p class="motto motto-mobile">
-                <span class="motto-top">A∴ R∴ L∴ M∴</span> 
-                <span class="motto-bot">Fraternidade Imperial Nº 264</span>
+            <p class="texto-destaque">
+                <span>A∴ R∴ L∴ M∴</span> 
+                <span>Fraternidade Imperial Nº 264</span>
             </p>
 			
-			
-			
-            
             <p class="motto motto-desktop">Liberdade, Igualdade e Fraternidade</p>
             <p class="motto motto-mobile">
                 <span class="motto-top">Liberdade Igualdade</span> 
