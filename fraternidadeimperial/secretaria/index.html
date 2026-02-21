@@ -11,6 +11,21 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
 
+	<link rel="icon" type="image/png" href="../favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/svg+xml" href="../favicon/favicon.svg">
+    <link rel="shortcut icon" href="../favicon/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="../favicon/apple-touch-icon.png">
+    <meta name="theme-color" content="#0a2a24">
+	
+    <meta property="og:title" content="A∴ R∴ L∴ M∴ Fraternidade Imperial Nº 264"> 
+    <meta property="og:description" content="No coração da Cidade Imperial, a luz da fraternidade se ergue como símbolo de união, sabedoria e continuidade espiritual.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://oimaginista.com/fraternidadeimperial/">
+    <meta property="og:image" content="https://oimaginista.com/favicon/web-app-manifest-512x512.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="512">
+    <meta property="og:image:height" content="512">
+
     <style>
         :root {
             --gold: #d4af37;
@@ -40,8 +55,13 @@
             background: rgba(0, 12, 24, 0.95); backdrop-filter: blur(10px); 
             border-bottom: 1px solid rgba(212, 175, 55, 0.3); 
         }
-        .header-inner { display: flex; justify-content: center; gap: 20px; align-items: center; max-width: 1200px; margin: 0 auto; padding: 0 20px;}
+        .header-inner { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 0 20px; width: 100%; box-sizing: border-box;}
         
+        .logo-group { display: flex; align-items: center; }
+        .logo-img { height: 50px; width: auto; transition: 0.3s; filter: drop-shadow(0 0 5px rgba(0,0,0,0.5));}
+        .logo-img:hover { transform: scale(1.1); filter: drop-shadow(0 0 15px var(--gold-shadow)); }
+
+        .nav-links { display: flex; gap: 20px; align-items: center; margin: 0; padding: 0; list-style: none; }
         .nav-link { 
             color: #fff; text-decoration: none; font-family: 'Cinzel'; text-transform: uppercase; 
             font-size: 0.85rem; letter-spacing: 1px; transition: 0.3s; 
@@ -51,6 +71,7 @@
         .nav-link:hover { background: var(--gold); color: #000; box-shadow: 0 0 15px var(--gold-shadow); }
         .btn-active { background: rgba(212, 175, 55, 0.1); color: var(--gold); border-color: var(--gold); }
         .btn-active:hover { background: var(--gold); color: #000; }
+        .mobile-toggle { display: none; font-size: 1.8rem; color: var(--gold); background: none; border: none; cursor: pointer; }
 
         /* --- CONTAINER PRINCIPAL (SECRETARIA) --- */
         .container { 
@@ -83,6 +104,7 @@
             font-size: 1.6rem; 
             white-space: nowrap;
         }
+        .no-wrap { white-space: nowrap; }
         
         .subtitle { font-family: 'Lato', sans-serif; letter-spacing: 3px; font-size: 0.9rem; opacity: 0.8; margin-bottom: 40px; text-transform: uppercase; color: var(--gold-light); }
 
@@ -202,7 +224,7 @@
         .footer-contact i { color: var(--gold); margin-top: 3px; font-size: 1.1rem; width: 20px; text-align: center; flex-shrink: 0;}
         
         .keep-together { white-space: nowrap; }
-        .mobile-break { display: none; } 
+        .mobile-break-footer { display: none; } 
 
         .footer-social-center { text-align: center; }
         .social-btn { display: inline-flex; justify-content: center; align-items: center; width: 50px; height: 50px; border-radius: 50%; border: 1px solid rgba(212, 175, 55, 0.4); color: #fff; font-size: 1.3rem; margin: 0 10px; transition: 0.3s; text-decoration: none; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px);}
@@ -229,18 +251,35 @@
         @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
         @keyframes starMove { from { background-position: 0 0; } to { background-position: 1000px 1000px; } }
         
-        @media (max-width: 768px) {
+        @media (max-width: 900px) {
             .brasao-container { width: 140px; height: 140px; margin-bottom: 20px; } 
-            .page-title { font-size: 1.5rem; margin-bottom: 5px; } 
-            .page-title span { font-size: 1.1rem; }
+            
+            /* Título com mesma formatação da Home no Mobile */
+            .page-title { font-size: 6vw; line-height: 1.3; margin-bottom: 5px; } 
+            .page-title span { font-size: 1.1rem; display: block; margin-top: 5px; }
+            
             p.subtitle { font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 30px; }
             .candidate-btn { padding: 15px; }
-            .header-inner { flex-wrap: wrap; gap: 8px; padding: 0 10px; justify-content: center;}
-            .nav-link { font-size: 0.7rem; padding: 6px 10px; }
+            
+            /* Ajuste Header e Menu Mobile (Toggle) */
+            .header-inner { padding: 0 15px; flex-wrap: nowrap; justify-content: space-between; }
+            .logo-img { height: 40px; }
+            
+            .nav-links {
+                position: fixed; top: 70px; right: -100%; width: 100%; height: calc(100vh - 70px);
+                background: rgba(0, 12, 24, 0.98); flex-direction: column; padding-top: 40px; transition: 0.4s ease-in-out;
+                justify-content: flex-start; z-index: 999; overflow-y: auto; overflow-x: hidden; gap: 25px;
+            }
+            .nav-links.active { right: 0; }
+            .nav-link { padding: 8px 12px; font-size: 1rem; width: auto; justify-content: center; }
+            .nav-link span { display: block; }
+            .mobile-toggle { display: block; margin-left: 5px; }
+
             .footer-grid { grid-template-columns: 1fr; text-align: center; gap: 40px;}
             .mobile-center-col { display: flex; flex-direction: column; align-items: center; }
             .footer-contact { text-align: left; display: inline-block; width: fit-content; max-width: 100%;}
-            .mobile-break { display: block; } 
+            
+            .mobile-break-footer { display: block; } 
             
             .footer-dev-right { align-items: center; }
             .copyright { flex-direction: column; gap: 10px; text-align: center; }
@@ -267,9 +306,11 @@
 
     <div id="login-overlay">
         <div class="login-box">
-            <i class="fas fa-lock" style="font-size: 3rem; color:var(--gold); margin-bottom:20px"></i>
-            <h2>Acesso Restrito</h2>
-            <p style="font-family: 'Lato'; color: #ccc; font-size: 0.9rem; margin-bottom: 20px;">Insira a Palavra de Passe para acessar a Secretaria.</p>
+            <i class="fas fa-feather-alt role-icon " style="font-size: 3rem; color:var(--gold); margin-bottom:20px"></i>
+			<h1>Secretaria</h1><br>
+            <h2>Acesso Restrito <i class="fas fa-lock" style="font-size: 0.98rem; color:var(--gold); margin-bottom:20px"></i></h2>
+			
+            <p style="font-family: 'Lato'; color: #ccc; font-size: 0.9rem; margin-bottom: 20px;">Insira a Palavra de Passe para acessar a secretaria.</p>
             <div id="error-msg" class="error-msg">Palavra Incorreta. Tentativas: <span id="tentativas">0</span>/3</div>
             <input type="password" id="pass-input" class="login-input" placeholder="••••••••" autocomplete="off">
             <button id="btn-login" class="login-btn">Entrar</button>
@@ -279,10 +320,16 @@
 
     <header id="secretaria-header" style="display:none;">
         <div class="header-inner">
-            <a href="https://oimaginista.com/fraternidadeimperial/" class="nav-link"><i class="fas fa-home"></i> <span>Início</span></a>
-            <a href="../membro/" class="nav-link"><i class="fas fa-users"></i> <span>A Loja</span></a>
-            <a href="../galeria/" class="nav-link"><i class="fas fa-portrait"></i> <span>Galeria</span></a>
-            <a href="arquivados/" class="nav-link"><i class="fas fa-folder-open"></i> <span>Histórico</span></a>
+            <div class="logo-group">
+                <a href="https://oimaginista.com/fraternidadeimperial/"><img src="../imagens/264.webp" alt="Brasão 264" class="logo-img"></a>
+            </div>
+            <nav class="nav-links" id="nav-menu">
+                <a href="https://oimaginista.com/fraternidadeimperial/" class="nav-link"><i class="fas fa-home"></i> <span>Início</span></a>
+                <a href="../membro/" class="nav-link"><i class="fas fa-users"></i> <span>A Loja</span></a>
+                <a href="../galeria/" class="nav-link"><i class="fas fa-portrait"></i> <span>Galeria</span></a>
+                <a href="arquivados/" class="nav-link"><i class="fas fa-folder-open"></i> <span>Histórico</span></a>
+            </nav>
+            <button class="mobile-toggle" id="btn-mobile"><i class="fas fa-bars"></i></button>
         </div>
     </header>
 
@@ -292,7 +339,9 @@
         <div class="brasao-container">
             <img src="../imagens/264.webp" alt="Brasão 264" class="brasao-img" onerror="this.src='../264.jpg'">
         </div>
-        <h1 class="page-title">A∴ R∴ L∴ M∴<br>Fraternidade Imperial <span>Nº 264</span></h1>
+        
+        <h1 class="page-title">A∴ R∴ L∴ M∴<br><span class="no-wrap">Fraternidade Imperial</span><br><span>Nº 264</span></h1>
+        
         <p class="subtitle">Secretaria Digital</p>
         
         <div class="process-list" id="process-list-container">
@@ -313,7 +362,7 @@
                 <div class="footer-col mobile-center-col">
                     <h4>Fale Conosco</h4>
                     <div class="footer-contact">
-                        <p><i class="fas fa-map-pin"></i> <span>Rua Nair Tefé, 320 - Quitandinha, <br class="mobile-break"><span class="keep-together">Petrópolis - RJ</span></span></p>
+                        <p><i class="fas fa-map-pin"></i> <span>Rua Nair Tefé, 320 - Quitandinha, <br class="mobile-break-footer"><span class="keep-together">Petrópolis - RJ</span></span></p>
                         <p><i class="fas fa-clock"></i> <span>Reuniões: Sábados (Quinzenalmente) às 10h</span></p>
                         <p><i class="fas fa-envelope"></i> <span>secretaria@fraternidadeimperial264.com.br</span></p>
                     </div>
@@ -333,7 +382,7 @@
             </div>
         </div>
             <div class="copyright">
-                <span>© 2026 A∴ R∴ L∴ M∴ Fraternidade Imperial Nº 264. Todos os direitos reservados.</span>
+                <span>© 2026 A∴ R∴ L∴ M∴ Fraternidade Imperial Nº 264. <br class="mobile-break-footer">Todos os direitos reservados.</span>
                 <span>CNPJ: 00.000.000/0000-00</span>
             </div>
         </footer>
@@ -343,7 +392,7 @@
             Este site utiliza cookies para garantir a segurança e funcionalidade da Secretaria. 
             Ao continuar, você concorda com nossa <a href="#" style="color:var(--gold); text-decoration: underline;">Política de Privacidade</a>.
         </div>
-        <button id="accept-cookies" class="cookie-btn">Entendido</button>
+        <button id="accept-cookies" class="cookie-btn">Aceitar e Fechar</button>
     </div>
 
     <script>
@@ -453,6 +502,33 @@
 
             btnLogin.addEventListener('click', verificarSenha);
             passInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') verificarSenha(); });
+
+            /* --- MENU MOBILE TOGGLE LOGIC --- */
+            const btnMobile = document.getElementById('btn-mobile');
+            const navMenu = document.getElementById('nav-menu');
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            if (btnMobile) {
+                btnMobile.addEventListener('click', () => {
+                    navMenu.classList.toggle('active');
+                    const icon = btnMobile.querySelector('i');
+                    icon.classList.toggle('fa-bars');
+                    icon.classList.toggle('fa-times');
+                });
+            }
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    if(window.innerWidth <= 900) {
+                        navMenu.classList.remove('active');
+                        if (btnMobile) {
+                            const icon = btnMobile.querySelector('i');
+                            icon.classList.add('fa-bars');
+                            icon.classList.remove('fa-times');
+                        }
+                    }
+                });
+            });
 
             /* --- COOKIE BANNER --- */
             if (!localStorage.getItem('cookiesAccepted_264')) {
