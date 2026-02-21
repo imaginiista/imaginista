@@ -124,6 +124,8 @@
             display: grid; 
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
             gap: 15px; width: 100%; margin-bottom: 20px;
+            /* Garante que o grid alinhe os itens à esquerda se houver menos de 3 na linha */
+            justify-content: start; 
         }
 
         .candidate-btn {
@@ -132,6 +134,7 @@
             color: var(--gold-light); text-decoration: none; border-radius: 8px;
             transition: all 0.3s; backdrop-filter: blur(5px); box-shadow: 0 5px 15px rgba(0,0,0,0.3);
             position: relative; overflow: hidden;
+            max-width: 100%; /* Garante que o botão não estique demais */
         }
         .candidate-btn:hover:not(.locked) { background: rgba(0, 42, 82, 0.9); transform: translateY(-3px); border-color: var(--gold); box-shadow: 0 10px 25px rgba(212, 175, 55, 0.2); }
         .candidate-btn.locked { opacity: 0.8; cursor: default; }
@@ -160,15 +163,15 @@
         }
         .btn-load-more:hover { background: var(--gold); color: #000; box-shadow: 0 0 15px var(--gold-shadow); }
 
-        /* Botão Extra - Histórico Discreto */
+        /* Botão Extra - Histórico Discreto (CORRIGIDO) */
         .btn-history {
             display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-            margin-top: 25px; padding: 8px 15px; border-radius: 4px;
-            background: transparent; border: none; border-bottom: 1px dashed rgba(212, 175, 55, 0.4); 
-            color: rgba(212, 175, 55, 0.7); text-decoration: none; font-family: 'Lato', sans-serif; 
-            letter-spacing: 1px; transition: 0.3s; font-size: 0.85rem; text-transform: uppercase;
+            margin-top: 25px; padding: 10px 20px; border-radius: 4px;
+            background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(212, 175, 55, 0.3); 
+            color: rgba(212, 175, 55, 0.8); text-decoration: none; font-family: 'Lato', sans-serif; 
+            letter-spacing: 1px; transition: 0.3s; font-size: 0.85rem; text-transform: uppercase; font-weight: bold;
         }
-        .btn-history:hover { color: var(--gold); border-bottom-color: var(--gold); }
+        .btn-history:hover { color: var(--gold); border-color: var(--gold); background: rgba(212, 175, 55, 0.1); box-shadow: 0 0 10px rgba(212, 175, 55, 0.2); }
 
         .bg-particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-image: url('https://www.transparenttextures.com/patterns/stardust.png'); opacity: 0.4; z-index: 1; pointer-events: none; animation: starMove 100s linear infinite; }
 
@@ -448,7 +451,12 @@
                 { nome: "BRUNO FERNANDES DE OLIVEIRA", statusTexto: "Aguardando Pré-Proposta", corHex: "#2ecc71", iconeUsuario: "fas fa-user", linkUrl: "#", liberado: false },
                 { nome: "MATHEUS MAGALHÃES DA SILVA", statusTexto: "Aguardando Pré-Proposta", corHex: "#2ecc71", iconeUsuario: "fas fa-user", linkUrl: "#", liberado: false },
                 { nome: "GABRIEL DA SILVEIRA FILHO", statusTexto: "Aguardando Pré-Proposta", corHex: "#2ecc71", iconeUsuario: "fas fa-user", linkUrl: "#", liberado: false },
-                // Você pode adicionar mais processos copiando a linha acima. Eles se ajustarão automaticamente.
+                // --- NOVOS CANDIDATOS FICTÍCIOS PARA TESTAR O GRID ---
+                { nome: "JULIO CESAR DE ALMEIDA", statusTexto: "Sindicância", corHex: "#9b59b6", iconeUsuario: "fas fa-user-tie", linkUrl: "#", liberado: false },
+                { nome: "MARCELO AUGUSTO FERREIRA", statusTexto: "Votação", corHex: "#e74c3c", iconeUsuario: "fas fa-user-shield", linkUrl: "#", liberado: false },
+                { nome: "RODRIGO TEIXEIRA LIMA", statusTexto: "Aguardando Iniciação", corHex: "#34495e", iconeUsuario: "fas fa-user-graduate", linkUrl: "#", liberado: false },
+                { nome: "VITOR HUGO SOARES", statusTexto: "Entrega de Documentos", corHex: "#f1c40f", iconeUsuario: "fas fa-user-secret", linkUrl: "#", liberado: false },
+                { nome: "LEONARDO CAVALCANTI DE ALBUQUERQUE RIBEIRO", statusTexto: "Aguardando Pré-Proposta", corHex: "#3498db", iconeUsuario: "fas fa-user", linkUrl: "#", liberado: false }
             ];
 
             const listaContainer = document.getElementById('process-list-container');
@@ -490,7 +498,14 @@
                             <i class="fas ${isLocked ? 'fa-lock' : 'fa-chevron-right'} arrow"></i>
                         </a>
                     `;
-                    listaContainer.insertAdjacentHTML('beforeend', htmlBotao);
+                    // Alteração crucial aqui: ao fazer a busca, exibe os cards usando 'flex'
+                    if (!isHidden) {
+                        listaContainer.insertAdjacentHTML('beforeend', htmlBotao);
+                    } else {
+                         // Insere o html, mas oculto, para a lógica de "ver mais" funcionar
+                         listaContainer.insertAdjacentHTML('beforeend', htmlBotao);
+                    }
+                    
                 });
 
                 // Controle do botão "Ver Mais"
@@ -520,6 +535,14 @@
             btnLoadMore.addEventListener('click', () => {
                 currentVisibleItems += ITEMS_PER_PAGE;
                 renderCandidatos();
+                
+                // Força a exibição dos itens que estavam ocultos usando display flex
+                const hiddenItems = listaContainer.querySelectorAll('.candidate-btn[style="display: none;"]');
+                hiddenItems.forEach((item, i) => {
+                    if (i < ITEMS_PER_PAGE) {
+                        item.style.display = 'flex';
+                    }
+                });
             });
 
             /* --- LÓGICA DE LOGIN --- */
