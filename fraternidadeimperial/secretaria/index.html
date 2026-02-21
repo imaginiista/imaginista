@@ -181,7 +181,7 @@
         @keyframes fill-bar { to { width: 100%; } }
         body.locked-mode > *:not(#system-lock-screen) { display: none !important; }
 
-        /* --- FOOTER PADRÃO MOSAICO (MESMO DA ABA ARQUIVADOS) --- */
+        /* --- FOOTER PADRÃO MOSAICO --- */
         footer { 
             position: relative; width: 100%; background-color: #02050a; 
             background-image: 
@@ -197,14 +197,21 @@
         }
         .footer-grid { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 40px; text-align: left; padding-bottom: 40px; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
         .footer-col h4 { color: var(--gold); font-family: 'Cinzel'; margin-bottom: 20px; font-size: 1.1rem; text-shadow: 0 2px 5px rgba(0,0,0,0.8);}
+        
         .footer-contact p { margin-bottom: 12px; font-size: 0.9rem; color: #ddd; display: flex; align-items: flex-start; gap: 10px; text-shadow: 0 1px 3px rgba(0,0,0,0.9); line-height: 1.4; }
         .footer-contact i { color: var(--gold); margin-top: 3px; font-size: 1.1rem; width: 20px; text-align: center; flex-shrink: 0;}
+        
+        .keep-together { white-space: nowrap; }
+        .mobile-break { display: none; } 
+
         .footer-social-center { text-align: center; }
         .social-btn { display: inline-flex; justify-content: center; align-items: center; width: 50px; height: 50px; border-radius: 50%; border: 1px solid rgba(212, 175, 55, 0.4); color: #fff; font-size: 1.3rem; margin: 0 10px; transition: 0.3s; text-decoration: none; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px);}
-        .social-btn:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-5px); box-shadow: 0 0 15px var(--gold-shadow); }
+        .social-btn:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-5px); box-shadow: 0 0 15px var(--gold-shadow); background: rgba(0,0,0,0.9);}
+        
         .footer-dev-right { text-align: right; display: flex; flex-direction: column; align-items: flex-end; justify-content: center; }
         .dev-logo { width: 120px; filter: grayscale(100%) brightness(200%); opacity: 0.8; transition: 0.3s; cursor: pointer; }
         .dev-logo:hover { filter: grayscale(0%) brightness(100%); opacity: 1; }
+        
         .copyright { position: relative; z-index: 1; font-size: 0.8rem; color: #ccc; padding-top: 20px; border-top: 1px solid rgba(212, 175, 55, 0.3); display: flex; justify-content: space-between; max-width: 1200px; margin: 0 auto; padding-left: 20px; padding-right: 20px; flex-wrap: wrap; text-shadow: 0 1px 2px #000; }
 
         /* --- LGPD COOKIE BANNER --- */
@@ -291,37 +298,41 @@
         </div>
     </div>
 
-    <footer id="secretaria-footer">
-        <div class="footer-grid">
-            <div class="footer-col">
-                <h4>Fale Conosco</h4>
-                <div class="footer-contact">
-                    <p><i class="fas fa-map-pin"></i> <span>Rua Nair Tefé, 320 - Quitandinha, Petrópolis - RJ</span></p>
-                    <p><i class="fas fa-clock"></i> <span>Reuniões: Sábados (Quinzenalmente) às 10h</span></p>
-                    <p><i class="fas fa-envelope"></i> <span>secretaria@fraternidadeimperial264.com.br</span></p>
+        <footer id="secretaria-footer">
+            <div class="footer-grid">
+                <div class="footer-col mobile-center-col">
+                    <h4>Fale Conosco</h4>
+                    <div class="footer-contact">
+                        <p><i class="fas fa-map-pin"></i> <span>Rua Nair Tefé, 320 - Quitandinha, <br class="mobile-break"><span class="keep-together">Petrópolis - RJ</span></span></p>
+                        <p><i class="fas fa-clock"></i> <span>Reuniões: Sábados (Quinzenalmente) às 10h</span></p>
+                        <p><i class="fas fa-envelope"></i> <span>secretaria@fraternidadeimperial264.com.br</span></p>
+                    </div>
                 </div>
-            </div>
-            <div class="footer-col footer-social-center">
-                <h4>Redes Sociais</h4>
-                <div class="social-icons">
-                    <a href="https://www.instagram.com/fraternidadeimperial264" target="_blank" class="social-btn"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="social-btn" title="YouTube (Em breve)"><i class="fab fa-youtube"></i></a>
+                <div class="footer-col footer-social-center">
+                    <h4>Redes Sociais</h4>
+                    <div class="social-icons">
+                        <a href="https://www.instagram.com/fraternidadeimperial264" target="_blank" class="social-btn" title="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-btn" title="YouTube (Em breve)"><i class="fab fa-youtube"></i></a>
+                    </div>
                 </div>
-            </div>
-            <div class="footer-col footer-dev-right">
-                <span style="font-size:0.8rem; color:#aaa; margin-bottom:5px; text-shadow: 0 1px 2px #000;">Desenvolvido por:</span>
-                <a href="https://oimaginista.com" target="_blank">
-                    <img src="../logo.png" alt="O Imaginista" class="dev-logo">
+                 <div class="footer-col footer-dev-right">
+                    <span style="font-size:0.8rem; color:#aaa; margin-bottom:5px; text-shadow: 0 1px 2px #000;">Desenvolvido por:</span>
+                    <a href="https://oimaginista.com" target="_blank">
+                    <img src="../imagens/logo.png" alt="O Imaginista" class="dev-logo" onerror="this.src='../imagens/logo.png'">
                 </a>
             </div>
         </div>
-        <div class="copyright">
-            <span>© 2025 A∴ R∴ L∴ M∴ Fraternidade Imperial Nº 264. Todos os direitos reservados.</span>
-        </div>
-    </footer>
+            <div class="copyright">
+                <span>© 2026 A∴ R∴ L∴ M∴ Fraternidade Imperial Nº 264. Todos os direitos reservados.</span>
+                <span>CNPJ: 00.000.000/0000-00</span>
+            </div>
+        </footer>
 
     <div id="cookie-banner" class="cookie-banner">
-        <div class="cookie-text">Este site utiliza cookies para garantir a segurança e funcionalidade da Secretaria. Ao continuar, você concorda.</div>
+        <div class="cookie-text">
+            Este site utiliza cookies para garantir a segurança e funcionalidade da Secretaria. 
+            Ao continuar, você concorda com nossa <a href="#" style="color:var(--gold); text-decoration: underline;">Política de Privacidade</a>.
+        </div>
         <button id="accept-cookies" class="cookie-btn">Entendido</button>
     </div>
 
