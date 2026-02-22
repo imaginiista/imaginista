@@ -74,7 +74,7 @@
         .btn-active:hover { background: var(--gold); color: #000; }
         .mobile-toggle { display: none; font-size: 1.8rem; color: var(--gold); background: none; border: none; cursor: pointer; }
 
-        /* --- CONTAINER PRINCIPAL (SECRETARIA) --- */
+        /* --- CONTAINER PRINCIPAL --- */
         .container { 
             text-align: center; animation: fadeIn 2s ease; position: relative; z-index: 2; 
             width: 100%; max-width: 1200px; 
@@ -83,63 +83,62 @@
         }
         
         .brasao-container {
-            width: 130px; height: 130px; margin: 0 auto 20px; border-radius: 50%;
+            width: 120px; height: 120px; margin: 0 auto 20px; border-radius: 50%;
             box-shadow: 0 0 60px rgba(212, 175, 55, 0.3); animation: float 6s ease-in-out infinite;
             background: rgba(0,0,0,0.3); padding: 10px; border: 1px solid rgba(212, 175, 55, 0.3);
         }
         .brasao-img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; border: 4px solid var(--gold); }
 
-        /* --- TÍTULO REFORMULADO (VISUAL IMAGEM + ANIMAÇÃO SHIMMER) --- */
+        /* --- TÍTULO REFINADO COM EFEITO GLOW SUAVE --- */
         .page-title { 
             font-family: 'Cinzel', serif;
             text-align: center;
             margin-bottom: 5px; 
             text-transform: uppercase;
-            line-height: 1.2;
-            filter: drop-shadow(0 4px 10px rgba(0,0,0,0.6));
+            line-height: 1.3;
         }
         
         .title-line1 { 
             font-size: 1.8rem; 
             letter-spacing: 6px; 
-            color: #e2e8f0; /* Cor levemente prateada/branca */
+            color: #e2e8f0;
             display: block; 
             margin-bottom: 5px;
-            text-shadow: 0 2px 5px #000;
+            /* Glow suave e limpo */
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.3); 
         }
         
         .title-line2 { 
-            font-size: 3.2rem; 
+            font-size: 3.5rem; /* Destaque principal */
             letter-spacing: 2px; 
             white-space: nowrap; 
             display: block; 
             margin-bottom: 5px;
             
-            /* Efeito Metálico Ouro */
-            background: linear-gradient(to bottom, #f9eeb6 0%, #d4af37 50%, #8a6308 100%);
+            /* Gradiente Ouro Elegante */
+            background: linear-gradient(to bottom, #fff6d9 0%, #d4af37 50%, #b8860b 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            /* Sombra sutil para destacar o ouro sem sujar */
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8));
         }
 
         .title-line3 { 
-            font-size: 2.2rem; 
+            font-size: 2rem; 
             letter-spacing: 4px; 
             display: block; 
             color: var(--gold);
-            text-shadow: 0 2px 5px rgba(0,0,0,0.8);
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
         }
 
-        /* Efeito de Brilho Dinâmico e Luxuoso passando pelo nome */
+        /* Animação de brilho luxuoso e discreto na linha principal */
         .premium-shimmer .title-line2 {
-            background: linear-gradient(90deg, #d4af37 0%, #fff6d9 25%, #d4af37 50%, #8a6308 75%, #d4af37 100%);
-            background-size: 200% auto;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: shine 5s linear infinite;
+            animation: elegant-glow 4s infinite alternate;
         }
 
-        @keyframes shine {
-            to { background-position: 200% center; }
+        @keyframes elegant-glow {
+            0% { filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8)) drop-shadow(0 0 2px rgba(212,175,55,0.2)); }
+            100% { filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8)) drop-shadow(0 0 12px rgba(212,175,55,0.6)); }
         }
         
         .subtitle { font-family: 'Lato', sans-serif; letter-spacing: 3px; font-size: 0.9rem; opacity: 0.8; margin-bottom: 30px; text-transform: uppercase; color: var(--gold-light); }
@@ -157,19 +156,19 @@
 
         .section-title { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; color: rgba(255,255,255,0.4); margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; font-family: 'Lato', sans-serif; }
 
-        /* --- LISTA DE PROCESSOS (FLEXBOX SEGURO - NÃO ESTICA) --- */
+        /* --- LISTA DE PROCESSOS --- */
         .process-list { 
             display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; 
             width: 100%; margin-bottom: 20px;
         }
 
         .candidate-btn {
-            flex: 0 1 350px; /* Impede que ele estique se estiver sozinho na tela */
+            flex: 0 1 350px; /* Tamanho base, não estica ao infinito */
             display: flex; align-items: center; justify-content: space-between; padding: 15px 20px; 
             border: 1px solid rgba(212, 175, 55, 0.4); background: linear-gradient(45deg, rgba(0, 42, 82, 0.6), rgba(0, 20, 40, 0.9)); 
             color: var(--gold-light); text-decoration: none; border-radius: 8px;
             transition: all 0.3s; backdrop-filter: blur(5px); box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            position: relative; overflow: hidden; box-sizing: border-box; width: 100%; max-width: 100%;
+            position: relative; overflow: hidden; box-sizing: border-box; width: 100%;
         }
         .candidate-btn:hover:not(.locked) { background: rgba(0, 42, 82, 0.9); transform: translateY(-3px); border-color: var(--gold); box-shadow: 0 10px 25px rgba(212, 175, 55, 0.2); }
         .candidate-btn.locked { opacity: 0.8; cursor: default; }
@@ -181,8 +180,9 @@
         .cand-icon.locked-icon { color: #888; }
         
         .cand-text-group { display: flex; flex-direction: column; overflow: hidden; flex: 1; min-width: 0; }
-        .cand-name { font-size: 0.95rem; font-weight: bold; font-family: 'Lato', sans-serif; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; width: 100%; }
-        .cand-status { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1px; opacity: 0.8; margin-top: 3px; font-family: 'Lato', sans-serif; display: flex; align-items: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        
+        .cand-name { font-size: 0.95rem; font-weight: bold; font-family: 'Lato', sans-serif; color: #fff; white-space: normal; word-wrap: break-word; line-height: 1.2; margin-bottom: 3px;}
+        .cand-status { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1px; opacity: 0.8; font-family: 'Lato', sans-serif; display: flex; align-items: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
         .arrow { font-size: 0.9rem; opacity: 0.5; transition: transform 0.3s; flex-shrink: 0; margin-left: 10px; }
         .candidate-btn:not(.locked):hover .arrow { transform: translateX(5px); opacity: 1; color: var(--gold); }
@@ -198,21 +198,21 @@
         }
         .btn-load-more:hover { background: var(--gold); color: #000; box-shadow: 0 0 15px var(--gold-shadow); }
 
-        /* Botão Extra - Histórico (TRACEJADO ELEGANTE) */
+        /* Botão Histórico Tracejado */
         .btn-history-container { width: 100%; display: flex; justify-content: center; margin-top: 30px; }
         .btn-history {
             display: inline-flex; align-items: center; justify-content: center; gap: 10px;
             padding: 12px 25px; border-radius: 8px;
             background: rgba(0,0,0,0.4); 
-            border: 1px dashed var(--gold); /* Tracejado garantido */
+            border: 1px dashed var(--gold); /* Tracejado Restaurado */
             color: var(--gold); text-decoration: none; font-family: 'Cinzel'; font-weight: bold; letter-spacing: 1px; 
             transition: 0.3s; font-size: 0.85rem; text-transform: uppercase;
         }
         .btn-history:hover { 
-            background: rgba(212, 175, 55, 0.1); /* Brilho interno suave */
+            background: rgba(212, 175, 55, 0.1); 
             color: #fff; 
             box-shadow: 0 0 15px var(--gold-shadow); 
-            /* A borda continua dashed (tracejada), sem virar linha reta */
+            /* Mantém a borda dashed no hover, apenas muda o brilho interno */
         }
 
         .bg-particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-image: url('https://www.transparenttextures.com/patterns/stardust.png'); opacity: 0.4; z-index: 1; pointer-events: none; animation: starMove 100s linear infinite; }
@@ -325,16 +325,16 @@
         @media (max-width: 900px) {
             .brasao-container { width: 100px; height: 100px; margin-bottom: 15px; } 
             
-            /* Título com tamanho flexível para não cortar e com mesma formatação da Imagem */
-            .title-line1 { font-size: 4vw; letter-spacing: 3px; }
-            .title-line2 { font-size: 5.5vw; letter-spacing: 1px; white-space: nowrap; } /* O segredo do não-corte é esse 5.5vw */
-            .title-line3 { font-size: 5vw; letter-spacing: 2px; }
+            /* Título Inteligente no Mobile: Evita cortes mudando de nowrap para normal se faltar espaço */
+            .title-line1 { font-size: 1.2rem; letter-spacing: 3px; }
+            .title-line2 { font-size: 8vw; letter-spacing: 1px; white-space: normal; word-wrap: break-word; line-height: 1.2; }
+            .title-line3 { font-size: 1.5rem; letter-spacing: 2px; }
             
             p.subtitle { font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 25px; }
             
-            /* No celular, os processos ficam com 100% de largura contida */
+            /* No celular, volta a 1 coluna */
             .process-list { flex-direction: column; align-items: center; gap: 10px; }
-            .candidate-btn { padding: 12px 15px; width: 100%; max-width: 100%; } 
+            .candidate-btn { width: 100%; max-width: 100%; padding: 12px 15px; } 
             
             /* Ajuste Header e Menu Mobile (Toggle) */
             .header-inner { padding: 0 15px; flex-wrap: nowrap; justify-content: space-between; }
