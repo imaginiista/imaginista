@@ -8,6 +8,21 @@
     <meta name="theme-color" content="#001529">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <link rel="icon" type="image/png" href="../../../favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/svg+xml" href="../../../favicon/favicon.svg">
+    <link rel="shortcut icon" href="../../../favicon/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="../../../favicon/apple-touch-icon.png">
+    <meta name="theme-color" content="#0a2a24">
+    
+    <meta property="og:title" content="A∴ R∴ L∴ M∴ Fraternidade Imperial Nº 264"> 
+    <meta property="og:description" content="No coração da Cidade Imperial, a luz da fraternidade se ergue como símbolo de união, sabedoria e continuidade espiritual.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://oimaginista.com/fraternidadeimperial/">
+    <meta property="og:image" content="https://oimaginista.com/favicon/web-app-manifest-512x512.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="512">
+    <meta property="og:image:height" content="512">
 
     <style>
         :root {
@@ -205,9 +220,11 @@
         #cim-display-container strong { color: var(--royal-blue); font-size: 0.7rem; letter-spacing: 1px;}
         #cim-display-container span { display: block; color: #2e7d32; font-size: 1.2rem; font-weight: 900; letter-spacing: 2px;}
 
-        /* CAMPO DE PROCESSO NEGADO / ARQUIVADO */
+        /* CAMPO DE PROCESSO NEGADO / ARQUIVADO - CORRIGIDO PARA EVITAR QUEBRA DO GRID */
         #status-alert-container { 
-            display: none; grid-column: span 3; background: rgba(200, 0, 0, 0.08); 
+            display: none; 
+            grid-column: 1 / -1; /* Força ocupar 100% da largura, evitando empurrar elementos */
+            background: rgba(200, 0, 0, 0.08); 
             padding: 15px; border-radius: 6px; border-left: 4px solid #cc0000; margin-top: 5px; 
         }
 
@@ -234,6 +251,10 @@
 
         .p-step.denied .p-circle { background: #cc0000; border-color: #cc0000; color: white; }
         .p-step.denied .p-label { color: #cc0000; font-weight: 800; }
+        
+        /* Nova Classe para Desistência na Timeline */
+        .p-step.desistencia .p-circle { background: #b86b00; border-color: #b86b00; color: white; }
+        .p-step.desistencia .p-label { color: #b86b00; font-weight: 800; }
 
         /* VISUALIZADOR PDF */
         .pdf-viewer-section { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: var(--shadow-hdr); margin-bottom: 40px; border: 1px solid #ddd; }
@@ -383,7 +404,7 @@
             <div class="header-nav-inner">
                 <a href="../../../index.html" class="nav-link"><i class="fas fa-home"></i> <span>Início</span></a>
                 <a href="../../index.html" class="nav-link"><i class="fas fa-folder"></i> <span>Secretaria</span></a>
-				<a href="../../arquivados/" class="nav-link"><i class="fas fa-folder-open"></i> <span>Histórico</span></a>
+                <a href="../../arquivados/" class="nav-link"><i class="fas fa-folder-open"></i> <span>Histórico</span></a>
             </div>
         </header>
 
@@ -402,7 +423,7 @@
         <div class="container">
             <div class="dossier-header">
                <div class="header-logos">
-			    <img src="../../../imagens/264.webp" alt="Loja 264" class="logo-loja" onerror="this.src='../../../imagens/264.jpg'">
+                <img src="../../../imagens/264.webp" alt="Loja 264" class="logo-loja" onerror="this.src='../../../imagens/264.jpg'">
                 <img src="../../../imagens/glmerj.webp" alt="GLMERJ" class="logo-glmerj" onerror="this.src='../../../glmerj.png'">
             </div>
                 <span class="header-title-prefix">A∴ R∴ L∴ M∴</span>
@@ -474,9 +495,9 @@
 
                         <div id="status-alert-container">
                             <div style="display: flex; gap: 15px; align-items: flex-start;">
-                                <i class="fas fa-exclamation-triangle" style="font-size: 1.5rem; color: #cc0000; margin-top: 5px;"></i>
+                                <i class="fas fa-exclamation-triangle" style="font-size: 1.5rem; margin-top: 5px;"></i>
                                 <div>
-                                    <strong style="color: #cc0000; font-size: 0.9rem;" id="alert-title">PROCESSO ARQUIVADO</strong><br>
+                                    <strong style="font-size: 0.9rem;" id="alert-title">PROCESSO ARQUIVADO</strong><br>
                                     <span style="color: #333; font-size: 0.85rem;" id="alert-reason">Motivo: ...</span><br>
                                     <span style="color: #777; font-size: 0.75rem; display: block; margin-top: 5px;" id="alert-resp">Responsável: ...</span>
                                 </div>
@@ -498,7 +519,7 @@
                     <div class="p-step" id="step-3"><div class="p-circle"><i class="fas fa-folder-open"></i></div><div class="p-label">Entrega Docs</div></div>
                     <div class="p-step" id="step-4"><div class="p-circle"><i class="fas fa-search"></i></div><div class="p-label">Verificação</div></div>
                     <div class="p-step" id="step-5"><div class="p-circle"><i class="fas fa-user-tie"></i></div><div class="p-label">Sindicância</div></div>
-                    <div class="p-step" id="step-6"><div class="p-circle"><i class="fas fa-home"></i></div><div class="p-label">Sindicância Lar</div></div>
+                    <div class="p-step" id="step-6"><div class="p-circle"><i class="fas fa-home"></i></div><div class="p-label">Sind. Familiar</div></div>
                     <div class="p-step" id="step-7"><div class="p-circle"><i class="fas fa-landmark"></i></div><div class="p-label">GLMERJ</div></div>
                     <div class="p-step" id="step-8"><div class="p-circle"><i class="fas fa-gavel"></i></div><div class="p-label">Iniciação</div></div>
                 </div>
@@ -533,6 +554,8 @@
                     <a href="docs/2024-07 - CNH-e.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
                     <a href="docs/2024-07 - CNH-e.pdf" download class="btn-mini btn-down">Baixar</a>
                 </div>
+
+
                 <div class="doc-card">
                     <div class="doc-icon"><i class="fas fa-map-marked-alt"></i></div>
                     <div class="doc-name">Comprovante de Residência</div>
@@ -540,6 +563,7 @@
                     <a href="docs/2026.01 - COMPROVANTE DE RESIDÊNCIA.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
                     <a href="docs/2026.01 - COMPROVANTE DE RESIDÊNCIA.pdf" download class="btn-mini btn-down">Baixar</a>
                 </div>
+
                 <div class="doc-card">
                     <div class="doc-icon"><i class="fas fa-receipt"></i></div>
                     <div class="doc-name">Contracheque</div>
@@ -632,7 +656,7 @@
         const processStatus = "negado"; 
         
         // 3. Informações de Conclusão / Arquivamento
-        const finalDate = "21/02/2026"; // Data de Iniciação OU Data do Arquivamento
+        const finalDate = "28/02/2026"; // Data de Iniciação OU Data do Arquivamento
         const cimNumber = "0245177"; // Número do CIM (se for iniciado)
         const statusResponsible = "V∴ M∴ Everton Almeida"; // Quem assinou a recusa/desistência
         const statusReason = "Indeferimento de Documentação."; // Motivo do arquivamento
@@ -767,29 +791,37 @@
 
             } else if (processStatus === "negado" || processStatus === "desistencia") {
                 // NEGADO OU DESISTÊNCIA
-                badge.innerText = processStatus === "negado" ? "PROCESSO NEGADO" : "DESISTÊNCIA";
-                badge.style.background = '#cc0000'; // Vermelho
+                let isDesistencia = processStatus === "desistencia";
+                
+                badge.innerText = isDesistencia ? "DESISTÊNCIA" : "PROCESSO NEGADO";
+                badge.style.background = isDesistencia ? '#b86b00' : '#cc0000'; 
                 badge.style.color = '#fff';
-                badge.style.borderColor = '#880000';
+                badge.style.borderColor = isDesistencia ? '#d48100' : '#880000';
 
-                // Troca a caixa de data pela caixa de alerta
+                // Troca a caixa de data pela caixa de alerta unificada e alinhada
                 defaultDateBox.style.display = "none";
-                alertBox.style.display = "block";
+                alertBox.style.display = "block"; // Funciona perfeito com o grid-column 1 / -1
+                
+                // Aplicar cores corretas no alerta dependendo se é Desistência ou Negado
+                alertBox.style.backgroundColor = isDesistencia ? 'rgba(184, 107, 0, 0.08)' : 'rgba(200, 0, 0, 0.08)';
+                alertBox.style.borderLeftColor = isDesistencia ? '#b86b00' : '#cc0000';
+                document.getElementById('alert-title').style.color = isDesistencia ? '#b86b00' : '#cc0000';
+                document.querySelector('#status-alert-container i').style.color = isDesistencia ? '#b86b00' : '#cc0000';
 
-                document.getElementById('alert-title').innerText = processStatus === "negado" ? "PROCESSO NEGADO E ARQUIVADO" : "DESISTÊNCIA DO CANDIDATO";
+                document.getElementById('alert-title').innerText = isDesistencia ? "DESISTÊNCIA DO CANDIDATO" : "PROCESSO NEGADO E ARQUIVADO";
                 document.getElementById('alert-reason').innerText = "Motivo: " + statusReason;
                 document.getElementById('alert-resp').innerText = "Despacho por: " + statusResponsible + " em " + finalDate;
 
-                // Para a barra de progresso onde parou e pinta de vermelho
+                // Para a barra de progresso onde parou e pinta com a cor correspondente
                 const percent = ((currentStep-1) / 7) * 100;
                 progLine.style.width = percent + "%";
-                progLine.style.backgroundColor = "#cc0000";
+                progLine.style.backgroundColor = isDesistencia ? "#b86b00" : "#cc0000";
                 progLine.style.backgroundImage = "none"; // Tira as listras animadas
 
                 for(let i=1; i<=8; i++) {
                     const el = document.getElementById(`step-${i}`);
                     if(i < currentStep) el.className = "p-step completed";
-                    else if(i === currentStep) el.className = "p-step denied"; // Cria classe vermelha no CSS
+                    else if(i === currentStep) el.className = isDesistencia ? "p-step desistencia" : "p-step denied";
                     else el.className = "p-step";
                 }
 
