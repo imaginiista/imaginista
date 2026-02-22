@@ -73,7 +73,7 @@
         .btn-active:hover { background: var(--gold); color: #000; }
         .mobile-toggle { display: none; font-size: 1.8rem; color: var(--gold); background: none; border: none; cursor: pointer; }
 
-        /* --- CONTAINER PRINCIPAL (SECRETARIA) --- */
+        /* --- CONTAINER PRINCIPAL --- */
         .container { 
             text-align: center; animation: fadeIn 2s ease; position: relative; z-index: 2; 
             width: 100%; max-width: 1200px; 
@@ -82,28 +82,29 @@
         }
         
         .brasao-container {
-            width: 130px; height: 130px; margin: 0 auto 20px; border-radius: 50%;
+            width: 140px; height: 140px; margin: 0 auto 20px; border-radius: 50%;
             box-shadow: 0 0 60px rgba(212, 175, 55, 0.3); animation: float 6s ease-in-out infinite;
             background: rgba(0,0,0,0.3); padding: 10px; border: 1px solid rgba(212, 175, 55, 0.3);
         }
         .brasao-img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; border: 4px solid var(--gold); }
 
-        /* TÍTULO PADRONIZADO E CORRIGIDO */
+        /* --- TÍTULO IDÊNTICO À HOME --- */
         .page-title { 
             font-family: 'Cinzel', serif;
-            font-size: 3.5rem;
+            font-size: 3.5rem; 
             line-height: 1.2; 
-            letter-spacing: 2px; 
             margin-bottom: 5px; 
-            background: linear-gradient(to bottom, #fff, #d4af37);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 4px 10px rgba(0,0,0,0.6));
-            text-transform: uppercase;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.8); 
+            background: linear-gradient(to bottom, #fff, #d4af37); 
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent; 
         }
-        /* Somente o número tem essa classe para não afetar o "Fraternidade Imperial" */
-        .page-number { font-size: 1.6rem; display: block; margin-top: 5px; } 
-        .no-wrap { white-space: nowrap; }
+        .texto-destaque { 
+            font-family: 'Cinzel', serif; font-size: 1.6rem; color: var(--gold); 
+            text-transform: uppercase; text-shadow: 0 2px 5px rgba(0,0,0,0.8); 
+            margin-bottom: 20px; letter-spacing: 3px; text-align: center; 
+        }
+        .texto-destaque span { display: inline; }
         
         .subtitle { font-family: 'Lato', sans-serif; letter-spacing: 3px; font-size: 0.9rem; opacity: 0.8; margin-bottom: 30px; text-transform: uppercase; color: var(--gold-light); }
 
@@ -120,39 +121,46 @@
 
         .section-title { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; color: rgba(255,255,255,0.4); margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; font-family: 'Lato', sans-serif; }
 
-        /* --- LISTA DE PROCESSOS (USANDO FLEX PARA NÃO ESTICAR NA BUSCA) --- */
+        /* --- LISTA DE PROCESSOS (GRID SEGURO) --- */
         .process-list { 
-            display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; 
-            width: 100%; margin-bottom: 20px;
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
+            gap: 15px; width: 100%; margin-bottom: 20px;
+            /* Se houver apenas 1 resultado, não o deixa ocupar 100% da tela */
+            justify-content: center; 
+        }
+        
+        /* Ajuste fino: os itens do grid não devem passar de um certo tamanho */
+        .process-list > * {
+             max-width: 450px;
+             margin: 0 auto;
+             width: 100%;
         }
 
         .candidate-btn {
-            flex: 0 1 350px; /* Tamanho ideal do card. Encolhe se faltar espaço, mas não estica mais que 350px */
-            display: flex; align-items: center; justify-content: space-between; padding: 15px 20px; 
+            display: flex; align-items: center; justify-content: space-between; padding: 20px; 
             border: 1px solid rgba(212, 175, 55, 0.4); background: linear-gradient(45deg, rgba(0, 42, 82, 0.6), rgba(0, 20, 40, 0.9)); 
             color: var(--gold-light); text-decoration: none; border-radius: 8px;
             transition: all 0.3s; backdrop-filter: blur(5px); box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            position: relative; overflow: hidden; max-width: 100%;
+            position: relative; overflow: hidden; box-sizing: border-box; width: 100%;
         }
         .candidate-btn:hover:not(.locked) { background: rgba(0, 42, 82, 0.9); transform: translateY(-3px); border-color: var(--gold); box-shadow: 0 10px 25px rgba(212, 175, 55, 0.2); }
         .candidate-btn.locked { opacity: 0.8; cursor: default; }
         .candidate-btn.locked:hover { transform: none; box-shadow: 0 5px 15px rgba(0,0,0,0.3); border-color: rgba(212, 175, 55, 0.4); background: linear-gradient(45deg, rgba(0, 42, 82, 0.6), rgba(0, 20, 40, 0.9));}
 
-        /* Estrutura para não quebrar botões no mobile (uso de min-width e text-overflow) */
-        .cand-info { text-align: left; display: flex; align-items: center; gap: 15px; flex-grow: 1; min-width: 0; }
+        .cand-info { text-align: left; display: flex; align-items: center; gap: 15px; flex: 1; min-width: 0; } /* min-width 0 é vital para o truncate funcionar */
         .cand-icon { font-size: 1.5rem; color: var(--gold); width: 30px; text-align: center; flex-shrink: 0; }
         .cand-icon.locked-icon { color: #888; }
         
-        .cand-text-group { display: flex; flex-direction: column; overflow: hidden; flex: 1; min-width: 0; }
-        
-        .cand-name { font-size: 0.95rem; font-weight: bold; font-family: 'Lato', sans-serif; color: #fff; white-space: normal; word-wrap: break-word; line-height: 1.2; margin-bottom: 3px;}
-        .cand-status { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1px; opacity: 0.8; font-family: 'Lato', sans-serif; display: flex; align-items: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .cand-text-group { display: flex; flex-direction: column; overflow: hidden; flex: 1; }
+        .cand-name { font-size: 1rem; font-weight: bold; display: block; font-family: 'Lato', sans-serif; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .cand-status { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1px; opacity: 0.8; margin-top: 3px; font-family: 'Lato', sans-serif; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: flex; align-items: center;}
 
-        .arrow { font-size: 0.9rem; opacity: 0.5; transition: transform 0.3s; flex-shrink: 0; margin-left: 10px; }
+        .arrow { font-size: 0.9rem; opacity: 0.5; transition: transform 0.3s; flex-shrink: 0; margin-left: 10px;}
         .candidate-btn:not(.locked):hover .arrow { transform: translateX(5px); opacity: 1; color: var(--gold); }
 
         .status-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 5px; flex-shrink: 0; }
-        
+
         /* Botão Carregar Mais */
         .btn-load-more {
             display: none; 
@@ -162,16 +170,16 @@
         }
         .btn-load-more:hover { background: var(--gold); color: #000; box-shadow: 0 0 15px var(--gold-shadow); }
 
-        /* Botão Extra - Histórico Discreto com Tracejado Contido */
+        /* Botão Extra - Histórico Discreto e Centralizado */
         .btn-history-container { width: 100%; display: flex; justify-content: center; margin-top: 30px; }
         .btn-history {
-            display: inline-flex; align-items: center; justify-content: center; gap: 10px;
-            padding: 12px 25px; border-radius: 8px;
-            background: rgba(0,0,0,0.4); border: 1px dashed var(--gold); color: var(--gold); 
-            text-decoration: none; font-family: 'Cinzel'; font-weight: bold; letter-spacing: 1px; 
-            transition: 0.3s; font-size: 0.85rem; text-transform: uppercase;
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+            padding: 10px 20px; border-radius: 4px;
+            background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(212, 175, 55, 0.3); 
+            color: rgba(212, 175, 55, 0.8); text-decoration: none; font-family: 'Lato', sans-serif; 
+            letter-spacing: 1px; transition: 0.3s; font-size: 0.85rem; text-transform: uppercase; font-weight: bold;
         }
-        .btn-history:hover { background: var(--gold); color: #000; box-shadow: 0 0 15px var(--gold-shadow); border-style: solid; }
+        .btn-history:hover { color: var(--gold); border-color: var(--gold); background: rgba(212, 175, 55, 0.1); box-shadow: 0 0 10px rgba(212, 175, 55, 0.2); }
 
         .bg-particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-image: url('https://www.transparenttextures.com/patterns/stardust.png'); opacity: 0.4; z-index: 1; pointer-events: none; animation: starMove 100s linear infinite; }
 
@@ -283,15 +291,17 @@
         @media (max-width: 900px) {
             .brasao-container { width: 100px; height: 100px; margin-bottom: 15px; } 
             
-            /* Título perfeitamente ajustado e garantido contra quebra indevida */
-            .page-title { font-size: 6.5vw; line-height: 1.3; margin-bottom: 5px; } 
-            .page-number { font-size: 1.1rem; display: block; margin-top: 5px; }
+            /* Título com mesma formatação da Home no Mobile corrigido */
+            .page-title { font-size: 2.2rem; } 
+            .texto-destaque { font-size: 1.2rem; letter-spacing: 2px; }
+            .texto-destaque span { display: block; margin-top: 5px; }
             
             p.subtitle { font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 25px; }
             
-            /* Processos no mobile voltam a ser coluna única com flexbox */
-            .process-list { flex-direction: column; align-items: center; gap: 10px; }
-            .candidate-btn { width: 100%; max-width: 400px; padding: 12px 15px; } 
+            /* Processos no mobile voltam a ser coluna única com paddings melhores */
+            .process-list { grid-template-columns: 1fr; gap: 10px; }
+            .candidate-btn { padding: 12px 15px; } 
+            .cand-name { font-size: 0.9rem; }
             
             /* Ajuste Header e Menu Mobile (Toggle) */
             .header-inner { padding: 0 15px; flex-wrap: nowrap; justify-content: space-between; }
@@ -319,8 +329,6 @@
             .cookie-banner { flex-direction: column; padding: 20px 15px 30px 15px; }
             .cookie-btn { width: 100%; padding: 15px; font-size: 1rem; }
 
-            #main-content { margin-top: 80px; }
-            
             /* Ajustes da tela hacker no mobile */
             .lock-title { font-size: 1.5rem; }
             .lock-text { font-size: 0.85rem; }
@@ -372,11 +380,11 @@
             <img src="../imagens/264.webp" alt="Brasão 264" class="brasao-img" onerror="this.src='../264.jpg'">
         </div>
         
-        <h1 class="page-title">
-            A∴ R∴ L∴ M∴<br>
-            <span class="no-wrap">Fraternidade Imperial</span><br>
-            <span class="page-number">Nº 264</span>
-        </h1>
+        <h1 class="page-title">A∴ R∴ L∴ M∴</h1>
+        <p class="texto-destaque">
+            <span>Fraternidade Imperial</span> 
+            <span>Nº 264</span>
+        </p>
         
         <p class="subtitle">Secretaria Digital</p>
         
@@ -485,29 +493,25 @@
                     const corHexFinal = candidato.corHex || "#d4af37";
                     const isHidden = index >= currentVisibleItems ? 'style="display: none;"' : '';
                     
+                    // Atenção ao estilo "display: flex" no elemento principal quando não estiver oculto
                     const htmlBotao = `
-                        <a href="${candidato.linkUrl}" class="candidate-btn process-item ${isLocked ? 'locked' : ''}" ${isLocked ? 'onclick="event.preventDefault()"' : ''} ${isHidden} data-index="${index}">
-                            <div class="cand-info">
-                                <div class="cand-icon ${isLocked ? 'locked-icon' : ''}"><i class="${candidato.iconeUsuario}"></i></div>
-                                <div class="cand-text-group">
-                                    <span class="cand-name" title="${candidato.nome}">${candidato.nome}</span>
-                                    <div class="cand-status" title="${candidato.statusTexto}">
-                                        <span class="status-dot" style="background-color: ${corHexFinal}; box-shadow: 0 0 8px ${corHexFinal};"></span> 
-                                        ${candidato.statusTexto}
+                        <div style="${isHidden ? 'display: none;' : 'display: block; width: 100%;'}">
+                            <a href="${candidato.linkUrl}" class="candidate-btn process-item ${isLocked ? 'locked' : ''}" ${isLocked ? 'onclick="event.preventDefault()"' : ''} data-index="${index}">
+                                <div class="cand-info">
+                                    <div class="cand-icon ${isLocked ? 'locked-icon' : ''}"><i class="${candidato.iconeUsuario}"></i></div>
+                                    <div class="cand-text-group">
+                                        <span class="cand-name" title="${candidato.nome}">${candidato.nome}</span>
+                                        <div class="cand-status" title="${candidato.statusTexto}">
+                                            <span class="status-dot" style="background-color: ${corHexFinal}; box-shadow: 0 0 8px ${corHexFinal};"></span> 
+                                            ${candidato.statusTexto}
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <i class="fas ${isLocked ? 'fa-lock' : 'fa-chevron-right'} arrow"></i>
-                        </a>
+                                <i class="fas ${isLocked ? 'fa-lock' : 'fa-chevron-right'} arrow"></i>
+                            </a>
+                        </div>
                     `;
-                    // Exibe os cards flexíveis
-                    if (!isHidden) {
-                        listaContainer.insertAdjacentHTML('beforeend', htmlBotao);
-                    } else {
-                         // Insere o html, mas oculto, para a lógica de "ver mais" funcionar
-                         listaContainer.insertAdjacentHTML('beforeend', htmlBotao);
-                    }
-                    
+                    listaContainer.insertAdjacentHTML('beforeend', htmlBotao);
                 });
 
                 // Controle do botão "Ver Mais"
@@ -519,7 +523,7 @@
                 
                 // Mensagem de nenhum resultado
                 if (filtrados.length === 0) {
-                     listaContainer.innerHTML = '<p style="color: #888; font-size: 0.9rem; width: 100%; text-align: center;">Nenhum processo encontrado com esses termos.</p>';
+                     listaContainer.innerHTML = '<p style="color: #888; font-size: 0.9rem; grid-column: 1 / -1;">Nenhum processo encontrado com esses termos.</p>';
                 }
             }
 
@@ -537,14 +541,6 @@
             btnLoadMore.addEventListener('click', () => {
                 currentVisibleItems += ITEMS_PER_PAGE;
                 renderCandidatos();
-                
-                // Força a exibição dos itens que estavam ocultos usando display flex
-                const hiddenItems = listaContainer.querySelectorAll('.candidate-btn[style="display: none;"]');
-                hiddenItems.forEach((item, i) => {
-                    if (i < ITEMS_PER_PAGE) {
-                        item.style.display = 'flex';
-                    }
-                });
             });
 
             /* --- LÓGICA DE LOGIN --- */
