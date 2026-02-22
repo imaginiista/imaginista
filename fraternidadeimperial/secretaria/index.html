@@ -92,20 +92,20 @@
         /* --- TÍTULO COM TAMANHO UNIFICADO E ANIMAÇÃO PREMIUM --- */
         .page-title { 
             font-family: 'Cinzel', serif;
-            font-size: 2.6rem; /* Tamanho unificado no desktop */
+            font-size: 2.1rem; /* Tamanho unificado no desktop */
             line-height: 1.3; 
-            letter-spacing: 2px; 
+            letter-spacing: 5px; 
             margin-bottom: 5px; 
             text-transform: uppercase;
             /* Degradê base */
-            background: linear-gradient(45deg, #d4af37, #fff, #5e0b15, #d4af37);
+            background: linear-gradient(45deg, #d4af37, #fff, #5c0a0a, #d4af37, hsl(260, 100%, 44%)); /* COR DESTAQUE LOJA */
             background-size: 300% 300%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             /* Sombra suave fixa */
             filter: drop-shadow(0 2px 5px rgba(0,0,0,0.8));
             /* A Animação de cor (Shimmer Bordo/Ouro) */
-            animation: premium-color-shift 6s ease infinite;
+            animation: premium-color-shift 15s ease infinite; /* TEMPO DO EFEITO LOJA */
         }
 
         /* Garante que os spans herdem o tamanho do h1 para ficarem todos iguais */
@@ -407,15 +407,16 @@
     <div class="bg-particles"></div>
     
     <div class="container" id="secretaria-content">
-        <div class="brasao-container">
-            <img src="../imagens/264.webp" alt="Brasão 264" class="brasao-img" onerror="this.src='../264.jpg'">
-        </div>
-        
+
         <h1 class="page-title">
             <span>A∴ R∴ L∴ M∴</span><br>
             <span class="no-wrap">Fraternidade Imperial</span><br>
             <span class="page-number">Nº 264</span>
         </h1>
+		
+		        <div class="brasao-container">
+            <img src="../imagens/264.webp" alt="Brasão 264" class="brasao-img" onerror="this.src='../264.jpg'">
+        </div>
         
         <p class="subtitle">Secretaria Digital</p>
         
