@@ -31,7 +31,6 @@
             --gold: #d4af37;
             --gold-light: #f3e5ab;
             --royal-blue: #002a52;
-            --bordo: #5e0b15;
             --gold-shadow: rgba(212, 175, 55, 0.5);
             --blue-deep: #000c18;
             --text-main: #e2e8f0;
@@ -46,7 +45,7 @@
             display: flex; flex-direction: column; align-items: center;
             color: var(--text-main); font-family: 'Lato', sans-serif;
             overflow-x: hidden;
-            width: 100%; /* Correção vital: Impede a rolagem horizontal */
+            width: 100%; /* Garante que não haja rolagem horizontal */
         }
 
         h1, h2, h3, .cinzel { font-family: 'Cinzel', serif; color: var(--gold); }
@@ -81,7 +80,6 @@
             width: 100%; max-width: 1200px; 
             padding: 20px; margin-top: 100px; 
             display: none; flex: 1; 
-            box-sizing: border-box;
         }
         
         .brasao-container {
@@ -91,32 +89,29 @@
         }
         .brasao-img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; border: 4px solid var(--gold); }
 
-        /* --- TÍTULO PREMIUM COLORS (BRILHO BORDÔ E OURO) --- */
+        /* --- TÍTULO SEGURO, UNIFICADO E COM GLOW --- */
         .page-title { 
             font-family: 'Cinzel', serif;
-            text-align: center;
+            font-size: 2.6rem; /* Reduzido no desktop para elegância */
+            line-height: 1.3; 
+            letter-spacing: 2px; 
             margin-bottom: 5px; 
-            text-transform: uppercase;
-            line-height: 1.3;
-            /* Cor base ouro metálico */
-            background: linear-gradient(to right, #d4af37 0%, #f9eeb6 50%, #d4af37 100%);
+            background: linear-gradient(to bottom, #fff, #d4af37);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            animation: title-glow-premium 3s infinite alternate; 
+            text-transform: uppercase;
+            animation: title-glow 3s infinite alternate; 
         }
-
-        /* Todas as linhas do mesmo tamanho no Desktop */
-        .t-line1, .t-line2, .t-line3 { 
-            font-size: 2.8rem; 
-            letter-spacing: 3px; 
-            display: block; 
+        /* Garante que todas as linhas (spans) tenham o exato mesmo tamanho */
+        .page-title span { 
+            font-size: 1em; 
+            display: inline-block;
         }
-        .t-line2 { font-weight: 700; } /* Dá peso visual sem aumentar a fonte */
+        .no-wrap { white-space: nowrap; }
 
-        /* Animação que alterna sombra Ouro e sombra Bordô */
-        @keyframes title-glow-premium {
-            0% { filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8)) drop-shadow(0 0 8px rgba(212,175,55,0.4)); }
-            100% { filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8)) drop-shadow(0 0 18px rgba(168, 26, 42, 0.8)); }
+        @keyframes title-glow {
+            0% { filter: drop-shadow(0 4px 10px rgba(0,0,0,0.8)); }
+            100% { filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.6)) drop-shadow(0 4px 10px rgba(0,0,0,0.8)); }
         }
         
         .subtitle { font-family: 'Lato', sans-serif; letter-spacing: 3px; font-size: 0.9rem; opacity: 0.8; margin-bottom: 30px; text-transform: uppercase; color: var(--gold-light); }
@@ -134,43 +129,41 @@
 
         .section-title { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; color: rgba(255,255,255,0.4); margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; font-family: 'Lato', sans-serif; }
 
-        /* --- LISTA DE PROCESSOS (GRID 3 COLUNAS) --- */
+        /* --- LISTA DE PROCESSOS (GRID SEGURO) --- */
         .process-list { 
             display: grid; 
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
             gap: 15px; width: 100%; margin-bottom: 20px;
-            justify-content: center; 
+            justify-content: center; /* Evita esticamento solitário */
         }
 
         .candidate-btn {
-            display: flex; align-items: flex-start; justify-content: space-between; padding: 15px 20px; 
+            display: flex; align-items: center; justify-content: space-between; padding: 15px 20px; 
             border: 1px solid rgba(212, 175, 55, 0.4); background: linear-gradient(45deg, rgba(0, 42, 82, 0.6), rgba(0, 20, 40, 0.9)); 
             color: var(--gold-light); text-decoration: none; border-radius: 8px;
             transition: all 0.3s; backdrop-filter: blur(5px); box-shadow: 0 5px 15px rgba(0,0,0,0.3);
             position: relative; overflow: hidden; box-sizing: border-box;
-            width: 100%; max-width: 400px; justify-self: center; /* Impede o botão de esticar na busca */
-            min-height: 80px; /* Garante que o botão tenha um tamanho decente */
+            width: 100%; max-width: 400px; justify-self: center; /* Trava de tamanho */
         }
         
         .candidate-btn:hover:not(.locked) { background: rgba(0, 42, 82, 0.9); transform: translateY(-3px); border-color: var(--gold); box-shadow: 0 10px 25px rgba(212, 175, 55, 0.2); }
         .candidate-btn.locked { opacity: 0.8; cursor: default; }
         .candidate-btn.locked:hover { transform: none; box-shadow: 0 5px 15px rgba(0,0,0,0.3); border-color: rgba(212, 175, 55, 0.4); background: linear-gradient(45deg, rgba(0, 42, 82, 0.6), rgba(0, 20, 40, 0.9));}
 
-        /* Estrutura para os nomes QUEBRAREM LINHA sem cortar */
-        .cand-info { text-align: left; display: flex; align-items: flex-start; gap: 15px; flex: 1; min-width: 0; }
-        .cand-icon { font-size: 1.5rem; color: var(--gold); width: 30px; text-align: center; flex-shrink: 0; margin-top: 2px;}
+        /* Estrutura flexível para textos */
+        .cand-info { text-align: left; display: flex; align-items: center; gap: 15px; flex: 1; min-width: 0; }
+        .cand-icon { font-size: 1.5rem; color: var(--gold); width: 30px; text-align: center; flex-shrink: 0; }
         .cand-icon.locked-icon { color: #888; }
         
-        .cand-text-group { display: flex; flex-direction: column; flex: 1; min-width: 0; }
-        
-        /* A MÁGICA: Quebra de linha ativada! Adeus reticências. */
-        .cand-name { font-size: 0.95rem; font-weight: bold; font-family: 'Lato', sans-serif; color: #fff; white-space: normal; word-wrap: break-word; line-height: 1.3; margin-bottom: 5px; }
-        .cand-status { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; opacity: 0.8; font-family: 'Lato', sans-serif; white-space: normal; word-wrap: break-word; display: flex; align-items: center; line-height: 1.2;}
+        .cand-text-group { display: flex; flex-direction: column; overflow: hidden; flex: 1; min-width: 0; }
+        /* Nomes grandes quebram linha em vez de sumir com os três pontinhos */
+        .cand-name { font-size: 0.95rem; font-weight: bold; font-family: 'Lato', sans-serif; color: #fff; white-space: normal; word-wrap: break-word; line-height: 1.2; margin-bottom: 3px;}
+        .cand-status { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1px; opacity: 0.8; font-family: 'Lato', sans-serif; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: flex; align-items: center; }
 
-        .arrow { font-size: 1rem; opacity: 0.5; transition: transform 0.3s; flex-shrink: 0; margin-left: 10px; align-self: center;}
+        .arrow { font-size: 0.9rem; opacity: 0.5; transition: transform 0.3s; flex-shrink: 0; margin-left: 10px; }
         .candidate-btn:not(.locked):hover .arrow { transform: translateX(5px); opacity: 1; color: var(--gold); }
 
-        .status-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 6px; flex-shrink: 0; }
+        .status-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 5px; flex-shrink: 0; }
         
         /* Botão Carregar Mais */
         .btn-load-more {
@@ -181,21 +174,21 @@
         }
         .btn-load-more:hover { background: var(--gold); color: #000; box-shadow: 0 0 15px var(--gold-shadow); }
 
-        /* Botão Extra - Histórico (TRACEJADO GROSSO E CLARO) */
+        /* Botão Extra - Histórico (TRACEJADO CONTIDO E CENTRALIZADO) */
         .btn-history-container { width: 100%; display: flex; justify-content: center; margin-top: 30px; }
         .btn-history {
             display: inline-flex; align-items: center; justify-content: center; gap: 8px;
             padding: 12px 25px; border-radius: 8px;
-            background: rgba(0,0,0,0.5); 
-            border: 2px dashed var(--gold); /* Tracejado bem marcado */
+            background: rgba(0,0,0,0.4); 
+            border: 1px dashed var(--gold); /* Tracejado garantido */
             color: var(--gold); text-decoration: none; font-family: 'Cinzel'; font-weight: bold; letter-spacing: 1px; 
             transition: 0.3s; font-size: 0.85rem; text-transform: uppercase;
         }
         .btn-history:hover { 
-            background: rgba(212, 175, 55, 0.15); 
+            background: rgba(212, 175, 55, 0.1); 
             color: #fff; 
             box-shadow: 0 0 15px var(--gold-shadow); 
-            border-style: solid; 
+            border-style: solid; /* Fica sólido apenas no hover */
         }
 
         .bg-particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-image: url('https://www.transparenttextures.com/patterns/stardust.png'); opacity: 0.4; z-index: 1; pointer-events: none; animation: starMove 100s linear infinite; }
@@ -301,28 +294,18 @@
         .cookie-text { font-size: 0.9rem; color: #ccc; max-width: 800px; text-align: center; line-height: 1.4;}
         .cookie-btn { background: var(--gold); color: #000; border: none; padding: 12px 25px; font-weight: bold; cursor: pointer; border-radius: 4px; transition: 0.3s; }
 
-        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-15px); } 100% { transform: translateY(0px); } }
-        @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
-        @keyframes starMove { from { background-position: 0 0; } to { background-position: 1000px 1000px; } }
-        
         @media (max-width: 900px) {
             .brasao-container { width: 100px; height: 100px; margin-bottom: 15px; } 
             
-            /* TÍTULO MOBILE: Quebra inteligentemente se não couber, sem cortar */
-            .page-title { line-height: 1.3; margin-bottom: 15px; } 
-            .t-line1, .t-line2, .t-line3 { 
-                font-size: 1.8rem; /* Tamanho harmonioso que cabe sem estourar */
-                white-space: normal; /* Permite quebrar a linha livremente */
-                word-wrap: break-word; 
-                display: block; 
-                letter-spacing: 1px;
-            }
+            /* TÍTULO MOBILE: Proporcional, seguro e garantido sem corte */
+            .page-title { font-size: 5vw; line-height: 1.4; margin-bottom: 15px; } 
+            .page-title span { display: inline-block; margin-top: 3px; }
             
             p.subtitle { font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 25px; }
             
-            /* No celular, os processos ficam com 100% de largura contida */
+            /* Processos no mobile voltam a ser coluna única. Paddings arrumados */
             .process-list { grid-template-columns: 1fr; gap: 10px; width: 100%; box-sizing: border-box; }
-            .candidate-btn { padding: 15px; width: 100%; max-width: 100%; box-sizing: border-box;} 
+            .candidate-btn { padding: 12px 15px; width: 100%; max-width: 100%; } 
             
             /* Ajuste Header e Menu Mobile (Toggle) */
             .header-inner { padding: 0 15px; flex-wrap: nowrap; justify-content: space-between; }
@@ -345,7 +328,7 @@
             .mobile-break-footer { display: block; } 
             
             .footer-dev-right { align-items: center; }
-            .copyright { flex-direction: column; gap: 10px; text-align: center; width: 100%; padding: 20px 10px; box-sizing: border-box; }
+            .copyright { flex-direction: column; gap: 10px; text-align: center; }
             
             .cookie-banner { flex-direction: column; padding: 20px 15px 30px 15px; }
             .cookie-btn { width: 100%; padding: 15px; font-size: 1rem; }
@@ -398,9 +381,9 @@
         </div>
         
         <h1 class="page-title animated-glow">
-            <span class="t-line1">A∴ R∴ L∴ M∴</span>
-            <span class="t-line2">Fraternidade Imperial</span>
-            <span class="t-line3">Nº 264</span>
+            <span>A∴ R∴ L∴ M∴</span><br>
+            <span class="no-wrap">Fraternidade Imperial</span><br>
+            <span>Nº 264</span>
         </h1>
         
         <p class="subtitle">Secretaria Digital</p>
@@ -509,10 +492,10 @@
                     const isLocked = !candidato.liberado;
                     const corHexFinal = candidato.corHex || "#d4af37";
                     // Esconde via display none os itens que excedem o limite
-                    const isHiddenStyle = index >= currentVisibleItems ? 'display: none;' : '';
+                    const displayStyle = index >= currentVisibleItems ? 'display: none;' : '';
                     
                     const htmlBotao = `
-                        <a href="${candidato.linkUrl}" class="candidate-btn process-item ${isLocked ? 'locked' : ''}" style="${isHiddenStyle}" ${isLocked ? 'onclick="event.preventDefault()"' : ''} data-index="${index}">
+                        <a href="${candidato.linkUrl}" class="candidate-btn process-item ${isLocked ? 'locked' : ''}" style="${displayStyle}" ${isLocked ? 'onclick="event.preventDefault()"' : ''} data-index="${index}">
                             <div class="cand-info">
                                 <div class="cand-icon ${isLocked ? 'locked-icon' : ''}"><i class="${candidato.iconeUsuario}"></i></div>
                                 <div class="cand-text-group">
