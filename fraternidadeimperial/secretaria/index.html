@@ -45,7 +45,6 @@
             display: flex; flex-direction: column; align-items: center;
             color: var(--text-main); font-family: 'Lato', sans-serif;
             overflow-x: hidden;
-            width: 100vw;
         }
 
         h1, h2, h3, .cinzel { font-family: 'Cinzel', serif; color: var(--gold); }
@@ -74,7 +73,7 @@
         .btn-active:hover { background: var(--gold); color: #000; }
         .mobile-toggle { display: none; font-size: 1.8rem; color: var(--gold); background: none; border: none; cursor: pointer; }
 
-        /* --- CONTAINER PRINCIPAL (SECRETARIA) --- */
+        /* --- CONTAINER PRINCIPAL --- */
         .container { 
             text-align: center; animation: fadeIn 2s ease; position: relative; z-index: 2; 
             width: 100%; max-width: 1200px; 
@@ -89,7 +88,7 @@
         }
         .brasao-img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; border: 4px solid var(--gold); }
 
-        /* --- TÍTULO SEGURO E COM BRILHO SUTIL --- */
+        /* --- TÍTULO SEGURO E ANIMADO --- */
         .page-title { 
             font-family: 'Cinzel', serif;
             font-size: 3.5rem; 
@@ -100,16 +99,15 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-transform: uppercase;
-            animation: gold-glow 4s infinite alternate; /* Efeito Premium Adicionado Aqui */
+            animation: title-glow 3s infinite alternate; /* O Efeito de Brilho Pulse Elegante */
         }
-        
-        @keyframes gold-glow {
-            0% { filter: drop-shadow(0 4px 10px rgba(0,0,0,0.8)) drop-shadow(0 0 2px rgba(212,175,55,0.1)); }
-            100% { filter: drop-shadow(0 4px 10px rgba(0,0,0,0.8)) drop-shadow(0 0 15px rgba(212,175,55,0.7)); }
-        }
-
-        .page-title span:not(.no-wrap) { font-size: 1.6rem; }
+        .page-number { font-size: 1.6rem; display: block; margin-top: 5px; }
         .no-wrap { white-space: nowrap; }
+
+        @keyframes title-glow {
+            0% { filter: drop-shadow(0 4px 10px rgba(0,0,0,0.8)); }
+            100% { filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.6)) drop-shadow(0 4px 10px rgba(0,0,0,0.8)); }
+        }
         
         .subtitle { font-family: 'Lato', sans-serif; letter-spacing: 3px; font-size: 0.9rem; opacity: 0.8; margin-bottom: 30px; text-transform: uppercase; color: var(--gold-light); }
 
@@ -126,12 +124,12 @@
 
         .section-title { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; color: rgba(255,255,255,0.4); margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; font-family: 'Lato', sans-serif; }
 
-        /* --- LISTA DE PROCESSOS (GRID SEGURO 3 COLUNAS) --- */
+        /* --- LISTA DE PROCESSOS (GRID SEGURO) --- */
         .process-list { 
             display: grid; 
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
             gap: 15px; width: 100%; margin-bottom: 20px;
-            justify-content: center; 
+            justify-content: center; /* Impede esticamento se houver apenas 1 resultado */
         }
 
         .candidate-btn {
@@ -140,21 +138,19 @@
             color: var(--gold-light); text-decoration: none; border-radius: 8px;
             transition: all 0.3s; backdrop-filter: blur(5px); box-shadow: 0 5px 15px rgba(0,0,0,0.3);
             position: relative; overflow: hidden; box-sizing: border-box;
-            
-            /* Trava de segurança para a busca não esticar o botão */
-            width: 100%; max-width: 400px; justify-self: center; 
+            width: 100%; max-width: 400px; justify-self: center; /* Garante que o card fique comportado */
         }
         
         .candidate-btn:hover:not(.locked) { background: rgba(0, 42, 82, 0.9); transform: translateY(-3px); border-color: var(--gold); box-shadow: 0 10px 25px rgba(212, 175, 55, 0.2); }
         .candidate-btn.locked { opacity: 0.8; cursor: default; }
         .candidate-btn.locked:hover { transform: none; box-shadow: 0 5px 15px rgba(0,0,0,0.3); border-color: rgba(212, 175, 55, 0.4); background: linear-gradient(45deg, rgba(0, 42, 82, 0.6), rgba(0, 20, 40, 0.9));}
 
-        /* Estrutura para não quebrar textos no mobile */
+        /* Estrutura para não quebrar textos longos */
         .cand-info { text-align: left; display: flex; align-items: center; gap: 15px; flex: 1; min-width: 0; }
         .cand-icon { font-size: 1.5rem; color: var(--gold); width: 30px; text-align: center; flex-shrink: 0; }
         .cand-icon.locked-icon { color: #888; }
         
-        .cand-text-group { display: flex; flex-direction: column; overflow: hidden; flex: 1; }
+        .cand-text-group { display: flex; flex-direction: column; overflow: hidden; flex: 1; min-width: 0; }
         .cand-name { font-size: 0.95rem; font-weight: bold; font-family: 'Lato', sans-serif; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; width: 100%; }
         .cand-status { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1px; opacity: 0.8; margin-top: 3px; font-family: 'Lato', sans-serif; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: flex; align-items: center; }
 
@@ -173,22 +169,16 @@
         .btn-load-more:hover { background: var(--gold); color: #000; box-shadow: 0 0 15px var(--gold-shadow); }
 
         /* Botão Extra - Histórico (TRACEJADO CONTIDO E CENTRALIZADO) */
+        .btn-history-container { width: 100%; display: flex; justify-content: center; margin-top: 30px; }
         .btn-history {
             display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-            margin: 30px auto 0; /* Margem top e auto para centralizar */
             padding: 12px 25px; border-radius: 8px;
             background: rgba(0,0,0,0.4); 
-            border: 1px dashed var(--gold); 
+            border: 1px dashed var(--gold); /* Tracejado mantido aqui */
             color: var(--gold); text-decoration: none; font-family: 'Cinzel'; font-weight: bold; letter-spacing: 1px; 
             transition: 0.3s; font-size: 0.85rem; text-transform: uppercase;
-            max-width: fit-content; /* Garante que ocupe só o tamanho do texto */
         }
-        .btn-history:hover { 
-            background: rgba(212, 175, 55, 0.1); 
-            color: #fff; 
-            box-shadow: 0 0 15px var(--gold-shadow); 
-            border-style: solid; /* Fica sólido só ao passar o mouse */
-        }
+        .btn-history:hover { background: rgba(212, 175, 55, 0.1); border-color: var(--gold); color: #fff; box-shadow: 0 0 15px var(--gold-shadow); border-style: solid; }
 
         .bg-particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-image: url('https://www.transparenttextures.com/patterns/stardust.png'); opacity: 0.4; z-index: 1; pointer-events: none; animation: starMove 100s linear infinite; }
 
@@ -300,14 +290,14 @@
         @media (max-width: 900px) {
             .brasao-container { width: 100px; height: 100px; margin-bottom: 15px; } 
             
-            /* TÍTULO MOBILE: Proporcional, seguro e sem cortes na tela */
+            /* TÍTULO MOBILE: Proporcional, seguro e sem cortes na tela usando o html original */
             .page-title { font-size: 6.5vw; line-height: 1.3; margin-bottom: 5px; } 
-            .page-title span:not(.no-wrap) { font-size: 1.1rem; display: block; margin-top: 5px; }
+            .page-number { font-size: 1.1rem; display: block; margin-top: 5px; }
             
             p.subtitle { font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 25px; }
             
-            /* No celular, volta a 1 coluna e ajusta paddings para não quebrar a tela */
-            .process-list { grid-template-columns: 1fr; gap: 10px; width: 100%; padding: 0 10px; box-sizing: border-box;}
+            /* CORREÇÃO DO CARD NO MOBILE: 1 Coluna perfeitamente enquadrada */
+            .process-list { grid-template-columns: 1fr; gap: 10px; width: 100%; box-sizing: border-box; }
             .candidate-btn { padding: 12px 15px; width: 100%; max-width: 100%; } 
             .cand-name { font-size: 0.9rem; }
             
@@ -390,7 +380,7 @@
             <img src="../imagens/264.webp" alt="Brasão 264" class="brasao-img" onerror="this.src='../264.jpg'">
         </div>
         
-        <h1 class="page-title">
+        <h1 class="page-title animated-glow">
             A∴ R∴ L∴ M∴<br>
             <span class="no-wrap">Fraternidade Imperial</span><br>
             <span class="page-number">Nº 264</span>
@@ -410,9 +400,11 @@
         
         <button id="btn-load-more" class="btn-load-more">Ver Mais Processos <i class="fas fa-chevron-down" style="margin-left: 5px;"></i></button>
 
-        <a href="arquivados/" class="btn-history">
-            <i class="fas fa-folder-open"></i> Histórico de Processos Concluídos
-        </a>
+        <div class="btn-history-container">
+            <a href="arquivados/" class="btn-history">
+                <i class="fas fa-folder-open"></i> Histórico de Processos Concluídos
+            </a>
+        </div>
 
         <div style="margin-top: 40px; font-size: 0.7rem; opacity: 0.5; font-family: 'Lato'; letter-spacing: 2px;">
             <i class="fas fa-shield-alt"></i> AMBIENTE SEGURO E CRIPTOGRAFADO
@@ -500,9 +492,8 @@
                     const isLocked = !candidato.liberado;
                     const corHexFinal = candidato.corHex || "#d4af37";
                     // Esconde via display none os itens que excedem o limite
-                    const displayStyle = index >= currentVisibleItems ? 'display: none;' : '';
+                    const displayStyle = index >= currentVisibleItems ? 'display: none;' : 'display: flex;';
                     
-                    // Atenção ao estilo da âncora para funcionar no display: grid
                     const htmlBotao = `
                         <a href="${candidato.linkUrl}" class="candidate-btn process-item ${isLocked ? 'locked' : ''}" style="${displayStyle}" ${isLocked ? 'onclick="event.preventDefault()"' : ''} data-index="${index}">
                             <div class="cand-info">
