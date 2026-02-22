@@ -212,8 +212,8 @@
                 radial-gradient(2px 2px at 190px 160px, var(--gold-light), rgba(0,0,0,0));
             background-repeat: repeat;
             background-size: 200px 200px; 
-            opacity: 0.6; 
-            animation: starMove 150s linear infinite; 
+            opacity: 0.7; 
+            animation: starMove 700s linear infinite; /* VELOCIDADE DO PRIMEIRO PONTO */
         }
         
         /* Segunda camada para criar profundidade e movimento cruzado */
@@ -228,7 +228,7 @@
             background-size: 250px 250px;
             opacity: 0.4; 
             transform: scale(1.2) rotate(15deg); 
-            animation: starMove 200s linear infinite reverse; 
+            animation: starMove 200s linear infinite reverse;  /* VELOCIDADE DO SEGUNDO PONTO */
         }
 
         @keyframes starMove {
@@ -300,7 +300,9 @@
 
         /* --- FOOTER PADRÃO MOSAICO --- */
         footer { 
-            position: relative; width: 100%; background-color: #02050a; 
+            position: relative; 
+			z-index: 10; /* PARA NÃO QUEBRAR ESTRELAS NO RODAPÉ */
+			width: 100%; background-color: #02050a; 
             background-image: 
                 linear-gradient(45deg, rgba(255,255,255,0.06) 25%, transparent 25%, transparent 75%, rgba(255,255,255,0.06) 75%, rgba(255,255,255,0.06)),
                 linear-gradient(45deg, rgba(255,255,255,0.06) 25%, transparent 25%, transparent 75%, rgba(255,255,255,0.06) 75%, rgba(255,255,255,0.06));
