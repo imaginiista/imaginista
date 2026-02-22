@@ -3,18 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Secretaria 264</title>
+    <title>Fraternidade Imperial Nº 264</title>
+    <meta name="description" content="Site oficial da Loja Maçônica Fraternidade Imperial nº 264. Oriente de Petrópolis.">
+    <meta name="theme-color" content="#000c18">
     
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="X-XSS-Protection" content="1; mode=block">
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
-
-	<link rel="icon" type="image/png" href="../favicon/favicon-96x96.png" sizes="96x96">
-    <link rel="icon" type="image/svg+xml" href="../favicon/favicon.svg">
-    <link rel="shortcut icon" href="../favicon/favicon.ico">
-    <link rel="apple-touch-icon" sizes="180x180" href="../favicon/apple-touch-icon.png">
+	
+	<link rel="icon" type="image/png" href="favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/svg+xml" href="favicon/favicon.svg">
+    <link rel="shortcut icon" href="favicon/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
     <meta name="theme-color" content="#0a2a24">
 	
     <meta property="og:title" content="A∴ R∴ L∴ M∴ Fraternidade Imperial Nº 264"> 
@@ -25,224 +28,148 @@
     <meta property="og:image:type" content="image/png">
     <meta property="og:image:width" content="512">
     <meta property="og:image:height" content="512">
-
+	
     <style>
         :root {
             --gold: #d4af37;
-            --gold-light: #f3e5ab;
-            --royal-blue: #002a52;
+            --gold-light: #f9eeb6;
             --gold-shadow: rgba(212, 175, 55, 0.5);
             --blue-deep: #000c18;
+            --blue-royal: #001a33;
             --text-main: #e2e8f0;
+            --glass: rgba(255, 255, 255, 0.05);
         }
 
+        /* --- RESET & BASE --- */
         * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
-
-        body {
-            margin: 0; padding: 0; 
-            min-height: 100vh;
-            background: radial-gradient(circle at center, #002a52 0%, #000c18 100%);
-            display: flex; flex-direction: column; align-items: center;
-            color: var(--text-main); font-family: 'Lato', sans-serif;
+        
+        body, html {
+            font-family: 'Lato', sans-serif;
+            color: var(--text-main);
+            background-color: var(--blue-deep);
             overflow-x: hidden;
-            width: 100vw;
+            width: 100%;
+            line-height: 1.6;
         }
 
         h1, h2, h3, .cinzel { font-family: 'Cinzel', serif; color: var(--gold); }
+        .text-gold { color: var(--gold); }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; width: 100%; box-sizing: border-box; }
+        section { padding: 80px 0; position: relative; z-index: 2; width: 100%; overflow: hidden; }
 
-        /* --- HEADER BÁSICO E PADRONIZADO --- */
-        header { 
-            position: fixed; width: 100%; top: 0; z-index: 100; padding: 15px 0; 
-            background: rgba(0, 12, 24, 0.95); backdrop-filter: blur(10px); 
-            border-bottom: 1px solid rgba(212, 175, 55, 0.3); 
-        }
-        .header-inner { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 0 20px; width: 100%; box-sizing: border-box;}
-        
+        /* --- BACKGROUND ANIMADO --- */
+        .video-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -3; opacity: 0.3; }
+        .bg-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at center, rgba(0,12,24,0.5) 0%, rgba(0,12,24,0.98) 90%); z-index: -2; }
+        #constellation-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+
+        /* --- HEADER PREMIUM "MAGIA" --- */
+        header { position: fixed; width: 100%; top: 0; z-index: 1000; transition: all 0.4s ease-in-out; padding: 15px 0; background: transparent; }
+        header.scrolled { background: rgba(0, 12, 24, 0.95); backdrop-filter: blur(15px); padding: 10px 0; border-bottom: 1px solid rgba(212, 175, 55, 0.3); box-shadow: 0 0 20px rgba(0, 0, 0, 0.8), 0 0 10px rgba(212, 175, 55, 0.2); }
+        .header-inner { display: flex; justify-content: space-between; align-items: center; width: 100%; }
         .logo-group { display: flex; align-items: center; }
-        .logo-img { height: 50px; width: auto; transition: 0.3s; filter: drop-shadow(0 0 5px rgba(0,0,0,0.5));}
+        .logo-img { height: 60px; width: auto; transition: transform 0.3s; filter: drop-shadow(0 0 5px rgba(0,0,0,0.5)); }
         .logo-img:hover { transform: scale(1.1); filter: drop-shadow(0 0 15px var(--gold-shadow)); }
+        
+        /* Menu Links */
+        .nav-menu ul { display: flex; list-style: none; gap: 20px; align-items: center; margin: 0; padding: 0; }
+        .nav-link { color: #fff; text-decoration: none; font-family: 'Cinzel', serif; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; position: relative; padding: 5px 0; transition: 0.3s; display: flex; align-items: center; gap: 6px; }
+        .nav-link:hover { color: var(--gold); text-shadow: 0 0 8px var(--gold-shadow); }
+        .nav-link::after { content: ''; position: absolute; width: 0; height: 1px; bottom: 0; left: 0; background: var(--gold); transition: 0.3s; box-shadow: 0 0 5px var(--gold); }
+        .nav-link:hover::after { width: 100%; }
 
-        .nav-links { display: flex; gap: 20px; align-items: center; margin: 0; padding: 0; list-style: none; }
-        .nav-link { 
-            color: #fff; text-decoration: none; font-family: 'Cinzel'; text-transform: uppercase; 
-            font-size: 0.85rem; letter-spacing: 1px; transition: 0.3s; 
-            display: flex; align-items: center; gap: 8px; 
-            border: 1px solid var(--gold); padding: 8px 20px; border-radius: 4px;
-        }
-        .nav-link:hover { background: var(--gold); color: #000; box-shadow: 0 0 15px var(--gold-shadow); }
-        .btn-active { background: rgba(212, 175, 55, 0.1); color: var(--gold); border-color: var(--gold); }
-        .btn-active:hover { background: var(--gold); color: #000; }
+        .btn-secretaria { border: 1px solid var(--gold); padding: 8px 15px; border-radius: 4px; background: rgba(212, 175, 55, 0.1); color: var(--gold); font-weight: bold; transition: 0.3s; }
+        .btn-secretaria:hover { background: var(--gold); color: #000; box-shadow: 0 0 20px var(--gold-shadow); }
+        .btn-secretaria::after { display: none; } 
         .mobile-toggle { display: none; font-size: 1.8rem; color: var(--gold); background: none; border: none; cursor: pointer; }
 
-        /* --- CONTAINER PRINCIPAL --- */
-        .container { 
-            text-align: center; animation: fadeIn 2s ease; position: relative; z-index: 2; 
-            width: 100%; max-width: 1200px; 
-            padding: 20px; margin-top: 100px; 
-            display: none; flex: 1; 
-        }
+        /* --- HERO SECTION --- */
+        .hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; padding-top: 100px; width: 100%; position: relative; z-index: 2; }
+        .hero-content { animation: fadeIn 2s ease; max-width: 1000px; padding: 0 20px; width: 100%; box-sizing: border-box; }
+        .gadu-text { font-family: 'Cinzel', serif; font-size: 1rem; color: #fff; letter-spacing: 4px; margin-bottom: 30px; text-transform: uppercase; opacity: 0.8; text-shadow: 0 2px 5px rgba(0,0,0,1); position: relative; display: inline-block; word-wrap: break-word; }
+        .gadu-text::after { content: ''; display: block; width: 40px; height: 1px; background: var(--gold); margin: 10px auto 0; }
+
+        .hero h1 { font-size: 3.5rem; line-height: 1.2; margin-bottom: 15px; text-shadow: 0 4px 10px rgba(0,0,0,0.8); background: linear-gradient(to bottom, #fff, #d4af37); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .no-wrap { white-space: nowrap; }
         
-        .brasao-container {
-            width: 120px; height: 120px; margin: 0 auto 20px; border-radius: 50%;
-            box-shadow: 0 0 60px rgba(212, 175, 55, 0.3); animation: float 6s ease-in-out infinite;
-            background: rgba(0,0,0,0.3); padding: 10px; border: 1px solid rgba(212, 175, 55, 0.3);
-        }
-        .brasao-img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; border: 4px solid var(--gold); }
+        /* ESTILO PARA O NOVO TEXTO DE DESTAQUE */
+        .texto-destaque { font-family: 'Cinzel', serif; font-size: 1.6rem; color: var(--gold); text-transform: uppercase; text-shadow: 0 2px 5px rgba(0,0,0,0.8); margin-bottom: 20px; letter-spacing: 3px; text-align: center; }
+        .texto-destaque span { display: inline; }
 
-        /* --- TÍTULO REFORMULADO (ANIMAÇÃO UX E PROPORÇÃO EXATA) --- */
-        .page-title { 
-            font-family: 'Cinzel', serif;
-            text-align: center;
-            margin-bottom: 5px; 
-            background: linear-gradient(to bottom, #ffffff 0%, #d4af37 60%, #8a6308 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-transform: uppercase;
-            line-height: 1.2;
-        }
-        .title-line1 { font-size: 2.2rem; letter-spacing: 4px; }
-        .title-line2 { font-size: 2.5rem; letter-spacing: 2px; white-space: nowrap; }
-        .title-line3 { font-size: 1.8rem; letter-spacing: 2px; display: block; margin-top: 5px; }
+        /* PIRÂMIDE DO LEMA */
+        .motto { font-size: 1.2rem; letter-spacing: 4px; text-transform: uppercase; color: #ccc; margin-bottom: 20px; text-shadow: 0 2px 5px #000; }
+        .motto-desktop { display: inline; }
+        .motto-mobile { display: none; }
+
+        .hero-badge { display: inline-flex; align-items: center; justify-content: center; gap: 10px; background: linear-gradient(90deg, rgba(0,0,0,0.8), rgba(20,40,60,0.8)); padding: 10px 25px; border-radius: 50px; border: 1px solid rgba(212, 175, 55, 0.3); margin-top: 10px; margin-bottom: 40px; box-shadow: 0 0 15px rgba(0,0,0,0.5); flex-wrap: wrap; max-width: 100%; box-sizing: border-box; }
+        .flag-icon { width: 24px; height: auto; border-radius: 2px; }
+
+        .btn-hero { color: var(--gold); text-decoration: none; border: 1px solid var(--gold); padding: 12px 30px; font-size: 1rem; display: inline-block; margin-top: 10px; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; background: rgba(0,0,0,0.4); text-align: center; }
+        .btn-hero:hover { background: var(--gold); color: #000; box-shadow: 0 0 20px var(--gold-shadow); }
+
+        .scroll-down { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); color: var(--gold); animation: bounce 2s infinite; font-size: 1.5rem; cursor: pointer; }
+
+        /* --- HISTÓRIA --- */
+        .history-box { background: rgba(0, 12, 24, 0.85); padding: 50px; border-radius: 8px; border: 1px solid rgba(212,175,55,0.2); box-shadow: 0 10px 40px rgba(0,0,0,0.6); text-align: justify; position: relative; width: 100%; box-sizing: border-box; }
+        .history-box::before, .history-box::after { content: ''; position: absolute; width: 30px; height: 30px; border: 2px solid var(--gold); transition: 0.3s; }
+        .history-box::before { top: -1px; left: -1px; border-right: 0; border-bottom: 0; }
+        .history-box::after { bottom: -1px; right: -1px; border-left: 0; border-top: 0; }
+        .history-box p { margin-bottom: 20px; text-indent: 30px; font-size: 1.05rem; }
+
+        .history-stats { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 20px; margin-top: 40px; padding-top: 30px; border-top: 1px solid rgba(212,175,55,0.3); width: 100%; box-sizing: border-box; }
+        .stat-item { text-align: center; flex: 1; min-width: 200px; background: rgba(255,255,255,0.03); padding: 15px; border-radius: 6px; box-sizing: border-box; }
+        .stat-label { display: block; color: var(--gold); font-family: 'Cinzel'; font-size: 0.9rem; margin-bottom: 5px; }
+        .stat-value { font-weight: bold; color: #fff; font-size: 1.1rem; }
+
+        .section-title { font-size: 2.2rem; text-transform: uppercase; letter-spacing: 3px; display: inline-block; position: relative; padding-bottom: 15px; margin-bottom: 30px; text-align: center; width: 100%; word-wrap: break-word; }
+        .section-title::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 80px; height: 3px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+
+        /* --- FAQ --- */
+        .faq-wrapper { max-height: 480px; overflow: hidden; transition: max-height 0.8s ease-in-out; position: relative; width: 100%; }
+        .faq-wrapper.expanded { max-height: 3000px; }
+        .faq-wrapper::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 80px; background: linear-gradient(to bottom, transparent, var(--blue-deep)); transition: opacity 0.5s; }
+        .faq-wrapper.expanded::after { opacity: 0; pointer-events: none; }
+
+        .faq-item { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); margin-bottom: 8px; border-radius: 6px; overflow: hidden; transition: 0.3s; width: 100%; box-sizing: border-box; }
+        .faq-question { width: 100%; padding: 20px; text-align: left; background: linear-gradient(90deg, rgba(0,0,0,0.2), transparent); border: none; color: #e0e0e0; font-family: 'Lato'; font-weight: bold; font-size: 1.05rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: 0.3s; box-sizing: border-box; }
+        .faq-question span { padding-right: 15px; }
+        .faq-question:hover { background: rgba(255,255,255,0.05); color: var(--gold); }
+        .faq-item.active .faq-question i { transform: rotate(180deg); color: var(--gold); }
+
+        .faq-answer { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.4s ease, opacity 0.4s ease; background: rgba(0,0,0,0.3); color: #ccc; opacity: 0; }
+        .faq-answer > div { overflow: hidden; padding: 0 25px; box-sizing: border-box; }
+        .faq-answer.open { grid-template-rows: 1fr; opacity: 1; }
+        .faq-answer.open > div { padding: 20px 25px; }
+
+        .hidden-faq { display: none; }
         
-        /* Efeito de Brilho UX/UI */
-        .animated-glow {
-            animation: gold-pulse 3s infinite alternate;
+        .btn-more-faq { display: block; margin: 20px auto 0; background: transparent; border: 1px solid var(--gold); color: var(--gold); padding: 15px 40px; font-family: 'Cinzel'; cursor: pointer; transition: 0.3s; letter-spacing: 2px; text-transform: uppercase; font-weight: bold; position: relative; z-index: 10; text-align: center; max-width: 100%; }
+        .btn-more-faq:hover { background: var(--gold); color: #000; box-shadow: 0 0 15px var(--gold-shadow); }
+
+        /* --- CONTATO E MAPA (DESKTOP) --- */
+        .contact-container { 
+            display: grid; grid-template-columns: 1fr 1.5fr; gap: 40px; background: rgba(0, 12, 24, 0.6); 
+            border: 1px solid rgba(255,255,255,0.1); padding: 40px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.4); 
+            width: 100%; box-sizing: border-box; overflow: hidden;
         }
-        @keyframes gold-pulse {
-            0% { filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8)) drop-shadow(0 0 2px rgba(212,175,55,0.2)); }
-            100% { filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8)) drop-shadow(0 0 15px rgba(212,175,55,0.8)); }
-        }
+        .contact-info { width: 100%; box-sizing: border-box; }
+        .contact-info h3 { font-size: 1.5rem; margin-bottom: 25px; color: var(--gold); border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; word-wrap: break-word; }
+        .info-item { display: flex; align-items: flex-start; gap: 15px; margin-bottom: 25px; word-wrap: break-word; }
+        .info-item i { color: var(--gold); font-size: 1.3rem; margin-top: 5px; min-width: 25px; }
         
-        .subtitle { font-family: 'Lato', sans-serif; letter-spacing: 3px; font-size: 0.9rem; opacity: 0.8; margin-bottom: 30px; text-transform: uppercase; color: var(--gold-light); }
+        .btn-wpp { color: #000; background: var(--gold); text-decoration: none; padding: 12px 25px; font-weight: bold; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; gap: 10px; transition: 0.3s; margin-top: 10px; }
+        .btn-wpp:hover { background: #fff; box-shadow: 0 0 15px var(--gold-shadow); }
 
-        /* BUSCA RÁPIDA DE PROCESSOS */
-        .search-wrapper { margin-bottom: 25px; position: relative; max-width: 500px; margin-left: auto; margin-right: auto; width: 100%; }
-        .search-input {
-            width: 100%; padding: 12px 50px 12px 20px; border-radius: 50px;
-            background: rgba(255, 255, 255, 0.05); border: 1px solid var(--gold);
-            color: #fff; font-family: 'Lato'; font-size: 0.95rem; outline: none; transition: 0.3s;
-            backdrop-filter: blur(5px); box-sizing: border-box;
-        }
-        .search-input:focus { background: rgba(255, 255, 255, 0.1); box-shadow: 0 0 20px rgba(212, 175, 55, 0.2); }
-        .search-icon { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); color: var(--gold); pointer-events: none; }
-
-        .section-title { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; color: rgba(255,255,255,0.4); margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; font-family: 'Lato', sans-serif; }
-
-        /* --- LISTA DE PROCESSOS (GRID SEGURO 3 COLUNAS) --- */
-        .process-list { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
-            gap: 15px; width: 100%; margin-bottom: 20px;
-            justify-content: center; 
-        }
-
-        /* Garantindo o tamanho do card pesquisado isolado */
-        .candidate-btn {
-            display: flex; align-items: center; justify-content: space-between; padding: 15px 20px; 
-            border: 1px solid rgba(212, 175, 55, 0.4); background: linear-gradient(45deg, rgba(0, 42, 82, 0.6), rgba(0, 20, 40, 0.9)); 
-            color: var(--gold-light); text-decoration: none; border-radius: 8px;
-            transition: all 0.3s; backdrop-filter: blur(5px); box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            position: relative; overflow: hidden; box-sizing: border-box;
-            width: 100%; max-width: 400px; margin: 0 auto;
-        }
-        .candidate-btn:hover:not(.locked) { background: rgba(0, 42, 82, 0.9); transform: translateY(-3px); border-color: var(--gold); box-shadow: 0 10px 25px rgba(212, 175, 55, 0.2); }
-        .candidate-btn.locked { opacity: 0.8; cursor: default; }
-        .candidate-btn.locked:hover { transform: none; box-shadow: 0 5px 15px rgba(0,0,0,0.3); border-color: rgba(212, 175, 55, 0.4); background: linear-gradient(45deg, rgba(0, 42, 82, 0.6), rgba(0, 20, 40, 0.9));}
-
-        /* Estrutura para não quebrar botões no mobile */
-        .cand-info { text-align: left; display: flex; align-items: center; gap: 15px; flex: 1; min-width: 0; }
-        .cand-icon { font-size: 1.5rem; color: var(--gold); width: 30px; text-align: center; flex-shrink: 0; }
-        .cand-icon.locked-icon { color: #888; }
+        .map-area { width: 100%; max-width: 100%; overflow: hidden; border-radius: 8px; border: 1px solid var(--gold); box-sizing: border-box; display: flex; flex-direction: column;}
+        .map-frame { width: 100%; height: 100%; min-height: 350px; border: none; filter: grayscale(20%); transition: 0.3s; display: block; flex-grow: 1; }
+        .map-frame:hover { filter: grayscale(0%); }
         
-        .cand-text-group { display: flex; flex-direction: column; overflow: hidden; flex: 1; }
+        /* Botões de Mapa Desktop */
+        .btn-map-container { margin-top: 40px; display: flex; flex-direction: column; align-items: flex-start; width: 100%; gap: 10px; }
+        .btn-map { color: #fff; text-decoration: none; border: 1px solid rgba(255,255,255,0.3); padding: 12px 20px; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; gap: 10px; transition: 0.3s; background: rgba(0,0,0,0.3); width: auto; max-width: 100%; text-align: center; }
+        .btn-map:hover { background: var(--gold); color: #000; border-color: var(--gold); }
         
-        .cand-name { font-size: 0.95rem; font-weight: bold; font-family: 'Lato', sans-serif; color: #fff; white-space: normal; word-wrap: break-word; line-height: 1.2; margin-bottom: 3px;}
-        .cand-status { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1px; opacity: 0.8; font-family: 'Lato', sans-serif; display: flex; align-items: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-
-        .arrow { font-size: 0.9rem; opacity: 0.5; transition: transform 0.3s; flex-shrink: 0; margin-left: 10px;}
-        .candidate-btn:not(.locked):hover .arrow { transform: translateX(5px); opacity: 1; color: var(--gold); }
-
-        .status-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 5px; flex-shrink: 0; }
-        
-        /* Botão Carregar Mais */
-        .btn-load-more {
-            display: none; 
-            margin: 0 auto; background: transparent; border: 1px solid var(--gold); color: var(--gold); 
-            padding: 10px 30px; font-family: 'Cinzel'; cursor: pointer; border-radius: 4px; transition: 0.3s; 
-            letter-spacing: 1px; text-transform: uppercase; font-weight: bold; font-size: 0.85rem;
-        }
-        .btn-load-more:hover { background: var(--gold); color: #000; box-shadow: 0 0 15px var(--gold-shadow); }
-
-        /* --- Botão Extra (Histórico) TRACEJADO E DISCRETO --- */
-        .btn-history-container { width: 100%; display: flex; justify-content: center; margin-top: 30px; }
-        .btn-history {
-            display: inline-flex; align-items: center; justify-content: center; gap: 10px;
-            padding: 12px 25px; border-radius: 8px;
-            background: rgba(0,0,0,0.4); 
-            border: 1px dashed var(--gold); /* Tracejado Restaurado */
-            color: var(--gold); text-decoration: none; font-family: 'Cinzel'; font-weight: bold; letter-spacing: 1px; 
-            transition: 0.3s; font-size: 0.85rem; text-transform: uppercase;
-        }
-        .btn-history:hover { background: var(--gold); color: #000; box-shadow: 0 0 15px var(--gold-shadow); border-style: solid; }
-
-        .bg-particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-image: url('https://www.transparenttextures.com/patterns/stardust.png'); opacity: 0.4; z-index: 1; pointer-events: none; animation: starMove 100s linear infinite; }
-
-        /* --- SISTEMA DE LOGIN --- */
-        #login-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 12, 24, 0.95); backdrop-filter: blur(10px);
-            z-index: 2000; display: flex; flex-direction: column; align-items: center; justify-content: center;
-            transition: opacity 0.5s;
-        }
-        .login-box {
-            background: rgba(0, 0, 0, 0.8); border: 1px solid var(--gold);
-            padding: 40px; border-radius: 8px; text-align: center; box-shadow: 0 0 30px rgba(212, 175, 55, 0.2);
-            width: 90%; max-width: 400px;
-        }
-        .login-box i.fa-lock { font-size: 3rem; margin-bottom: 20px; color: var(--gold); }
-        .login-box h2 { font-family: 'Cinzel'; font-size: 1.5rem; margin-bottom: 20px; color: var(--gold); }
-        
-        .login-input {
-            width: 100%; padding: 15px; background: rgba(255,255,255,0.1); border: 1px solid rgba(212,175,55,0.5);
-            color: #fff; font-family: 'Lato'; font-size: 1rem; border-radius: 4px; margin-bottom: 20px;
-            outline: none; text-align: center; letter-spacing: 5px;
-        }
-        .login-input:focus { border-color: var(--gold); box-shadow: 0 0 10px var(--gold-shadow); }
-        
-        .login-btn {
-            background: var(--gold); color: #000; font-family: 'Cinzel'; font-weight: bold;
-            padding: 12px 30px; border: none; border-radius: 4px; cursor: pointer; transition: 0.3s;
-            width: 100%; font-size: 1.1rem; text-transform: uppercase; margin-bottom: 15px;
-        }
-        .login-btn:hover { background: #fff; box-shadow: 0 0 15px var(--gold-shadow); }
-        
-        .btn-voltar-inicio {
-            display: inline-flex; justify-content: center; align-items: center; gap: 8px;
-            width: 100%; padding: 12px;
-            background: transparent; border: 1px solid rgba(212, 175, 55, 0.5); border-radius: 4px;
-            color: var(--gold); text-decoration: none; font-family: 'Cinzel'; font-size: 0.8rem;
-            transition: 0.3s; text-transform: uppercase; letter-spacing: 1px;
-        }
-        .btn-voltar-inicio:hover { background: rgba(212, 175, 55, 0.1); border-color: var(--gold); }
-
-        .error-msg { color: #ff4c4c; font-family: 'Lato'; font-size: 0.85rem; margin-bottom: 15px; display: none; height: 20px; }
-
-        /* --- TELA DE BLOQUEIO DO SISTEMA (ESTILO HACKER) --- */
-        #system-lock-screen {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #000; color: #0f0; font-family: 'Courier New', Courier, monospace;
-            display: none; flex-direction: column; justify-content: center; align-items: center;
-            z-index: 100000; padding: 20px; text-align: center; overflow: hidden;
-        }
-        #system-lock-screen.active { display: flex; animation: glitch-anim 0.2s linear infinite; }
-        .lock-title { font-size: 2rem; color: #f00; margin-bottom: 20px; text-transform: uppercase; font-weight: bold; }
-        .lock-text { font-size: 1rem; color: #0f0; margin-bottom: 10px; }
-        .lock-progress { width: 80%; max-width: 300px; height: 15px; border: 1px solid #0f0; margin-top: 20px; position: relative; }
-        .lock-progress-bar { height: 100%; background: #f00; width: 0%; animation: fill-bar 3s linear forwards; }
-
-        @keyframes glitch-anim { 0%, 100% { transform: translate(0) } 20% { transform: translate(-2px, 1px) } 40% { transform: translate(-1px, -1px) } 80% { transform: translate(1px, -1px) } }
-        @keyframes fill-bar { to { width: 100%; } }
-        body.locked-mode > *:not(#system-lock-screen) { display: none !important; }
+        /* Ocultar a versão mobile dos botões no desktop */
+        .mobile-map-buttons { display: none; }
 
         /* --- FOOTER PADRÃO MOSAICO --- */
         footer { 
@@ -251,7 +178,7 @@
                 linear-gradient(45deg, rgba(255,255,255,0.06) 25%, transparent 25%, transparent 75%, rgba(255,255,255,0.06) 75%, rgba(255,255,255,0.06)),
                 linear-gradient(45deg, rgba(255,255,255,0.06) 25%, transparent 25%, transparent 75%, rgba(255,255,255,0.06) 75%, rgba(255,255,255,0.06));
             background-size: 80px 80px; background-position: 0 0, 40px 40px;
-            padding: 80px 0 20px; border-top: 3px solid var(--gold); margin-top: auto; display: none;
+            padding: 80px 0 20px; border-top: 3px solid var(--gold); margin-top: auto;
         }
         footer::before {
             content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
@@ -265,7 +192,7 @@
         .footer-contact i { color: var(--gold); margin-top: 3px; font-size: 1.1rem; width: 20px; text-align: center; flex-shrink: 0;}
         
         .keep-together { white-space: nowrap; }
-        .mobile-break-footer { display: none; } 
+        .mobile-break { display: none; } 
 
         .footer-social-center { text-align: center; }
         .social-btn { display: inline-flex; justify-content: center; align-items: center; width: 50px; height: 50px; border-radius: 50%; border: 1px solid rgba(212, 175, 55, 0.4); color: #fff; font-size: 1.3rem; margin: 0 10px; transition: 0.3s; text-decoration: none; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px);}
@@ -277,142 +204,268 @@
         
         .copyright { position: relative; z-index: 1; font-size: 0.8rem; color: #ccc; padding-top: 20px; border-top: 1px solid rgba(212, 175, 55, 0.3); display: flex; justify-content: space-between; max-width: 1200px; margin: 0 auto; padding-left: 20px; padding-right: 20px; flex-wrap: wrap; text-shadow: 0 1px 2px #000; }
 
-        /* --- LGPD COOKIE BANNER --- */
-        .cookie-banner {
-            position: fixed; bottom: 0; left: 0; width: 100%; transform: translateY(100%); 
-            background: rgba(0, 12, 24, 0.98); border-top: 1px solid var(--gold);
-            padding: 20px; z-index: 9999; display: flex; justify-content: center; align-items: center; gap: 20px;
-            transition: transform 0.5s ease-in-out; box-shadow: 0 -5px 20px rgba(0,0,0,0.5); font-family: 'Lato', sans-serif;
-        }
-        .cookie-banner.show { transform: translateY(0); }
-        .cookie-text { font-size: 0.9rem; color: #ccc; max-width: 800px; text-align: center; line-height: 1.4;}
-        .cookie-btn { background: var(--gold); color: #000; border: none; padding: 12px 25px; font-weight: bold; cursor: pointer; border-radius: 4px; transition: 0.3s; }
 
+        /* --- BOTÕES FLUTUANTES --- */
+        .floating-actions { position: fixed; bottom: 30px; right: 30px; display: flex; flex-direction: column; gap: 15px; z-index: 998; transition: opacity 0.4s, visibility 0.4s; opacity: 0; visibility: hidden; }
+        .floating-actions.show { opacity: 1; visibility: visible; }
+        .float-btn { width: 45px; height: 45px; border-radius: 50%; background: rgba(0, 12, 24, 0.6); border: 1px solid rgba(212, 175, 55, 0.5); color: var(--gold); font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.5); transition: 0.3s; backdrop-filter: blur(5px); }
+        .float-btn:hover { background: var(--gold); color: #000; border-color: var(--gold); box-shadow: 0 0 15px var(--gold-shadow); transform: translateY(-5px); }
+
+        /* --- LGPD COOKIE BANNER CORRIGIDO --- */
+        .cookie-banner { position: fixed; bottom: 0; left: 0; width: 100%; transform: translateY(100%); background: rgba(0, 12, 24, 0.98); border-top: 1px solid var(--gold); padding: 20px; z-index: 9999; display: flex; justify-content: center; align-items: center; gap: 20px; transition: transform 0.5s ease-in-out; box-shadow: 0 -5px 20px rgba(0,0,0,0.5); box-sizing: border-box; }
+        .cookie-banner.show { transform: translateY(0); }
+        .cookie-text { font-size: 0.9rem; color: #ccc; max-width: 800px; word-wrap: break-word; }
+        .cookie-btn { background: var(--gold); color: #000; border: none; padding: 12px 25px; font-weight: bold; cursor: pointer; border-radius: 4px; transition: 0.3s; white-space: nowrap; }
+        .cookie-btn:hover { background: #fff; }
+
+        /* --- RESPONSIVO TOTAL MOBILE --- */
         @media (max-width: 900px) {
-            .brasao-container { width: 100px; height: 100px; margin-bottom: 15px; } 
-            
-            /* Ajuste de Título Anti-Quebra Mobile */
-            .title-line1 { font-size: 1.5rem; letter-spacing: 2px; }
-            .title-line2 { font-size: 6.5vw; letter-spacing: 1px; white-space: nowrap; }
-            .title-line3 { font-size: 1.2rem; }
-            
-            p.subtitle { font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 25px; }
-            
-            /* No celular, volta a 1 coluna com width seguro */
-            .process-list { grid-template-columns: 1fr; gap: 10px; }
-            .candidate-btn { padding: 12px 15px; width: 100%; max-width: 100%; } 
-            .cand-name { font-size: 0.9rem; }
-            
-            /* Ajuste Header e Menu Mobile (Toggle) */
             .header-inner { padding: 0 15px; flex-wrap: nowrap; justify-content: space-between; }
+            .logo-group { gap: 10px; }
             .logo-img { height: 40px; }
-            
-            .nav-links {
-                position: fixed; top: 70px; right: -100%; width: 100%; height: calc(100vh - 70px);
-                background: rgba(0, 12, 24, 0.98); flex-direction: column; padding-top: 40px; transition: 0.4s ease-in-out;
-                justify-content: flex-start; z-index: 999; overflow-y: auto; overflow-x: hidden; gap: 25px;
-            }
-            .nav-links.active { right: 0; }
-            .nav-link { padding: 8px 12px; font-size: 1rem; width: auto; justify-content: center; }
-            .nav-link span { display: block; }
+            .logo-group a { margin-right: 0 !important; }
+
+            .nav-menu { position: fixed; top: 70px; right: -100%; width: 100%; height: calc(100vh - 70px); background: rgba(0, 12, 24, 0.98); flex-direction: column; padding-top: 40px; transition: 0.4s ease-in-out; justify-content: flex-start; z-index: 999; overflow-y: auto; overflow-x: hidden; }
+            .nav-menu.active { right: 0; }
+            .nav-menu ul { flex-direction: column; gap: 25px; width: 100%; align-items: center; }
             .mobile-toggle { display: block; margin-left: 5px; }
 
-            .footer-grid { grid-template-columns: 1fr; text-align: center; gap: 40px;}
+            /* Ajuste crucial para o título no mobile com fonte baseada na largura da tela */
+            .hero h1 { font-size: 6vw; line-height: 1.3; } 
+            .gadu-text { font-size: 0.75rem; letter-spacing: 2px; }
+            
+            /* Novo texto de destaque no mobile */
+            .texto-destaque { font-size: 1.2rem; letter-spacing: 2px; }
+            .texto-destaque span { display: block; margin-top: 5px; }
+            
+            /* A Pirâmide na Frase no Mobile */
+            .motto { font-size: 0.85rem; letter-spacing: 2px; line-height: 1.8; text-align: center; }
+            .motto-desktop { display: none; }
+            .motto-mobile { display: block; }
+            .motto-mobile span { display: block; }
+            .motto-bot { color: var(--gold); font-weight: bold; margin-top: 5px; }
+
+            .hero-badge { padding: 8px 15px; margin-bottom: 20px; }
+            .btn-hero { font-size: 0.85rem; padding: 10px 20px; }
+
+            .history-box { padding: 25px 20px; width: 100%; }
+            .history-box p { font-size: 0.95rem; text-indent: 15px; }
+            .history-stats { flex-direction: column; gap: 15px; }
+            .stat-item { min-width: 100%; width: 100%; }
+            .section-title { font-size: 1.6rem; }
+
+            .faq-question { font-size: 0.95rem; padding: 15px; }
+
+            /* --- CONTATO MOBILE: OCULTA TEXTO E MOSTRA MAPA/BOTÕES --- */
+            .contact-container { grid-template-columns: 1fr; padding: 20px; width: 100%; gap: 20px; }
+            
+            /* Mantemos o flex para alinhar o botão, mas escondemos o endereço escrito */
+            .contact-info { display: flex; flex-direction: column; align-items: center; text-align: center; margin-bottom: 10px; width: 100%; }
+            .contact-info h3, .contact-info .info-item { display: none; }
+            
+            /* O Botão WPP no Mobile fica do mesmo tamanho dos botões de mapa */
+            .btn-wpp { width: 100%; margin-top: 0; font-size: 1rem; }
+            
+            .btn-map-container { display: none; } /* Esconde o contêiner de mapas do desktop */
+
+            .map-area { min-height: 300px; padding: 15px; display: flex; flex-direction: column; gap: 15px; background: rgba(0,0,0,0.3);}
+            .map-frame { min-height: 250px; width: 100%; border-radius: 4px; margin-bottom: 0; }
+            
+            /* Mostra os botões abaixo do mapa */
+            .mobile-map-buttons { display: flex; flex-direction: column; width: 100%; gap: 10px; }
+            .mobile-map-buttons .btn-map { width: 100%; margin: 0; max-width: 100%; font-size: 0.9rem;}
+
+            /* Footer Secretaria copiado e responsivo */
+            .footer-grid { grid-template-columns: 1fr; text-align: center; gap: 40px; padding: 0 15px; }
             .mobile-center-col { display: flex; flex-direction: column; align-items: center; }
-            .footer-contact { text-align: left; display: inline-block; width: fit-content; max-width: 100%;}
-            
-            .mobile-break-footer { display: block; } 
-            
+            .footer-contact { text-align: left; display: inline-block; width: fit-content; max-width: 100%; }
+            .footer-contact p { justify-content: flex-start; }
+            .mobile-break { display: block; } 
             .footer-dev-right { align-items: center; }
-            .copyright { flex-direction: column; gap: 10px; text-align: center; }
-            
-            .cookie-banner { flex-direction: column; padding: 20px 15px 30px 15px; }
-            .cookie-btn { width: 100%; padding: 15px; font-size: 1rem; }
+            .copyright { flex-direction: column; gap: 10px; text-align: center; padding: 20px 10px; }
+
+            .cookie-banner { flex-direction: column; text-align: center; padding: 20px; }
+            .cookie-btn { width: 100%; margin-top: 10px; }
+
+            .floating-actions { bottom: 20px; right: 20px; }
+            .float-btn { width: 40px; height: 40px; font-size: 1rem; }
         }
     </style>
 </head>
 <body>
 
-    <div id="system-lock-screen">
-        <div class="lock-title">VIOLAÇÃO DE SEGURANÇA</div>
-        <div class="lock-text">ACESSO NEGADO. TENTATIVAS ESGOTADAS.</div>
-        <div class="lock-text">RASTREANDO IP E REDIRECIONANDO...</div>
-        <div class="lock-progress"><div class="lock-progress-bar"></div></div>
-    </div>
+    <video autoplay muted loop playsinline class="video-bg">
+        <source src="https://static.videezy.com/system/resources/previews/000/004/199/original/Nebula_Blue_GK_1.mp4" type="video/mp4">
+    </video>
+    <div class="bg-overlay"></div>
+    <canvas id="constellation-canvas"></canvas>
 
-    <div id="login-overlay">
-        <div class="login-box">
-            <i class="fas fa-feather-alt role-icon " style="font-size: 3rem; color:var(--gold); margin-bottom:20px"></i>
-			<h1>Secretaria</h1><br>
-            <h2>Acesso Restrito <i class="fas fa-lock" style="font-size: 0.98rem; color:var(--gold); margin-bottom:20px"></i></h2>
-			
-            <p style="font-family: 'Lato'; color: #ccc; font-size: 0.9rem; margin-bottom: 20px;">Insira a Palavra de Passe para acessar a secretaria.</p>
-            <div id="error-msg" class="error-msg">Palavra Incorreta. Tentativas: <span id="tentativas">0</span>/3</div>
-            <input type="password" id="pass-input" class="login-input" placeholder="••••••••" autocomplete="off">
-            <button id="btn-login" class="login-btn">Entrar</button>
-            <a href="https://oimaginista.com/fraternidadeimperial/" class="btn-voltar-inicio"><i class="fas fa-home"></i> Fraternidade Imperial</a>
-        </div>
-    </div>
-
-    <header id="secretaria-header" style="display:none;">
-        <div class="header-inner">
+    <header id="main-header">
+        <div class="container header-inner">
             <div class="logo-group">
-                <a href="https://oimaginista.com/fraternidadeimperial/"><img src="../imagens/264.webp" alt="Brasão 264" class="logo-img"></a>
+                <img src="imagens/264.webp" alt="Brasão 264" class="logo-img">
             </div>
-            <nav class="nav-links" id="nav-menu">
-                <a href="https://oimaginista.com/fraternidadeimperial/" class="nav-link"><i class="fas fa-home"></i> <span>Início</span></a>
-                <a href="../membro/" class="nav-link"><i class="fas fa-users"></i> <span>A Loja</span></a>
-                <a href="../galeria/" class="nav-link"><i class="fas fa-portrait"></i> <span>Galeria</span></a>
-                <a href="arquivados/" class="nav-link"><i class="fas fa-folder-open"></i> <span>Histórico</span></a>
+
+            <nav class="nav-menu" id="nav-menu">
+                <ul>
+                    <li><a href="#inicio" class="nav-link"><i class="fas fa-home"></i> <span>Início</span></a></li>
+                    <li><a href="#historia" class="nav-link"><i class="fas fa-scroll"></i> <span>História</span></a></li> 
+                    <li><a href="#faq" class="nav-link"><i class="fas fa-question-circle"></i> <span>FAQ</span></a></li>
+                    <li><a href="#contato" class="nav-link"><i class="fas fa-envelope"></i> <span>Contato</span></a></li>
+                    <li><a href="adm/" class="nav-link"><i class="fas fa-users"></i> <span>A Loja</span></a></li> 
+                    <li><a href="galeria/" class="nav-link"><i class="fas fa-portrait"></i> <span>Galeria</span></a></li>
+                    <li><a href="secretaria/" class="nav-link btn-secretaria"><i class="fas fa-lock"></i> <span>Secretaria</span></a></li>
+                </ul>
             </nav>
-            <button class="mobile-toggle" id="btn-mobile"><i class="fas fa-bars"></i></button>
+
+            <div class="logo-group">
+                <a href="https://www.glmerj.org.br/" target="_blank" title="GLMERJ" style="margin-right: 10px;">
+                    <img src="imagens/glmerj.webp" alt="GLMERJ" class="logo-img">
+                </a>
+                <a href="https://www.supremoconclavedobrasil.com.br/" target="_blank" title="Supremo Conclave">
+                    <img src="imagens/orbi.webp" alt="Supremo Conclave" class="logo-img">
+                </a>
+                <button class="mobile-toggle" id="btn-mobile"><i class="fas fa-bars"></i></button>
+            </div>
         </div>
     </header>
 
-    <div class="bg-particles"></div>
-    
-    <div class="container" id="secretaria-content">
-        <div class="brasao-container">
-            <img src="../imagens/264.webp" alt="Brasão 264" class="brasao-img" onerror="this.src='../264.jpg'">
-        </div>
-        
-        <h1 class="page-title animated-glow">
-            <span class="title-line1">A∴ R∴ L∴ M∴</span><br>
-            <span class="title-line2">Fraternidade Imperial</span><br>
-            <span class="title-line3">Nº 264</span>
-        </h1>
-        
-        <p class="subtitle">Secretaria Digital</p>
-        
-        <div class="search-wrapper">
-            <input type="text" id="process-search" class="search-input" placeholder="Buscar candidato ou status...">
-            <i class="fas fa-search search-icon"></i>
-        </div>
-
-        <div class="section-title">Processos de Iniciação Ativos</div>
-        
-        <div class="process-list" id="process-list-container">
+    <section id="inicio" class="hero">
+        <div class="hero-content">
+            <div class="gadu-text">À Glória do Supremo Arquiteto do Universo</div>
+            
+            <h1>A∴ R∴ L∴ M∴<br><span class="no-wrap">Fraternidade Imperial</span><br><span>Nº 264</span></h1>
+			
+            <p class="motto motto-desktop">Liberdade, Igualdade e Fraternidade</p>
+            <p class="motto motto-mobile">
+                <span class="motto-top">Liberdade Igualdade</span> 
+                <span class="motto-bot">Fraternidade</span>
+            </p>
+           <br>
+            <div class="hero-badge">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Flag_of_Brazil.svg/64px-Flag_of_Brazil.svg.png" alt="Brasil" class="flag-icon">
+                <span style="font-family: 'Cinzel'; font-size: 0.95rem; color: #fff;">Rito Brasileiro</span>
             </div>
-        
-        <button id="btn-load-more" class="btn-load-more">Ver Mais Processos <i class="fas fa-chevron-down" style="margin-left: 5px;"></i></button>
-
-        <div class="btn-history-container">
-            <a href="arquivados/" class="btn-history">
-                <i class="fas fa-folder-open"></i> Histórico de Processos Concluídos
-            </a>
+            
+            <div>
+                <a href="#historia" class="btn-hero">Conheça Nossa História</a>
+            </div>
         </div>
+        <a href="#historia" class="scroll-down"><i class="fas fa-chevron-down"></i></a>
+    </section>
 
-        <div style="margin-top: 40px; font-size: 0.7rem; opacity: 0.5; font-family: 'Lato'; letter-spacing: 2px;">
-            <i class="fas fa-shield-alt"></i> AMBIENTE SEGURO E CRIPTOGRAFADO
+    <section id="historia">
+        <div class="container">
+            <div class="section-header" style="text-align: center;">
+                <h2 class="section-title">Nossa Coluna</h2>
+            </div>
+            <div class="history-box">
+                <p>A <strong>Augusta e Respeitável Loja Maçônica Fraternidade Imperial nº 264</strong> foi fundada em 6 de setembro de 2025, em Petrópolis - RJ, jurisdicionada à Grande Loja Maçônica do Estado do Rio de Janeiro (GLMERJ). A loja fortalece o Rito Brasileiro no Oriente de Petrópolis e realiza atividades maçônicas regulares.</p>
+
+                <p>No coração da Cidade Imperial, Petrópolis, foi celebrada no dia 06 de setembro de 2025, uma manhã memorável para a Maçonaria brasileira: a fundação da Loja Maçônica Fraternidade Imperial, jurisdicionada à Grande Loja Maçônica do Estado do Rio de Janeiro (GLMERJ) e dedicada ao Rito Brasileiro. A cerimônia solene marcou não apenas o nascimento de uma nova Oficina, mas também o fortalecimento dos laços entre a GLMERJ e o Supremo Conclave do Brasil, guardião do Rito Brasileiro.</p>
+
+                <p>Na ocasião, o Irmão Everton Almeida foi instalado e empossado como Venerável Mestre da Loja pelo Sereníssimo Grão-Mestre da GLMERJ, José Ricardo Salgueiro de Castro, em cerimônia que contou com a presença ilustre da comitiva do Supremo Conclave do Brasil, representando o Soberano Grande Primaz, Irmão Juliano Coelho Braga.</p>
+
+                <p>Em gesto simbólico de união e reconhecimento mútuo, foi entregue ao Sereníssimo Grão-Mestre uma placa comemorativa celebrando a integração entre a GLMERJ e o Supremo Conclave do Brasil. Além disso, a Loja Fraternidade Imperial recebeu um certificado especial em homenagem aos 110 anos do Supremo Conclave do Rito Brasileiro — um tributo à tradição, à história e à continuidade dos valores maçônicos.</p>
+
+                <p>A cerimônia foi abrilhantada pela presença de autoridades maçônicas de destaque, como o Grande Secretário Flavio Gueiros, o Grande Secretário de Relações Exteriores Felipe DePaulo, o Grande Tesoureiro Alex Rocha e o Venerável Mestre da Loja Barão de Mauá Alexandre Eduardo Costa, reforçando o prestígio e a relevância do evento para a Maçonaria nacional.</p>
+
+                <p>Em sinal de gratidão e respeito, a Loja Fraternidade Imperial prestou uma homenagem especial ao Supremo Conclave, recebida com emoção pelo Irmão Flavio Gueiros, reafirmando o compromisso fraterno e a missão compartilhada de expansão e fortalecimento do Rito Brasileiro.</p>
+
+                <p>Este momento representa uma vitória significativa para o Rito Brasileiro, que avança com firmeza e dignidade em Oficinas Simbólicas sob a égide da GLMERJ, reafirmando sua presença e relevância no cenário maçônico do país.</p>
+
+                <div class="history-stats">
+                    <div class="stat-item">
+                        <span class="stat-label">Fundação</span>
+                        <div class="stat-value">06 de Setembro de 2025</div>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Venerável Mestre</span>
+                        <div class="stat-value">Everton Almeida</div>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Jurisdição</span>
+                        <div class="stat-value">GLMERJ</div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
+    </section>
+
+    <section id="faq">
+        <div class="container" style="max-width: 900px;">
+            <div class="section-header" style="text-align: center;">
+                <h2 class="section-title">Perguntas Frequentes</h2>
+            </div>
+            
+            <div id="faq-container" class="faq-wrapper">
+                </div>
+            
+            <button id="btn-toggle-faq" class="btn-more-faq">Ver Todas as Perguntas</button>
+        </div>
+    </section>
+
+    <section id="contato">
+        <div class="container">
+            <div class="section-header" style="text-align: center;">
+                <h2 class="section-title">
+                    <span class="motto-desktop">Localização & Contato</span>
+                    <span class="motto-mobile">Fale Conosco</span>
+                </h2>
+            </div>
+            
+            <div class="contact-container">
+                <div class="contact-info">
+                    <h3>Oriente de Petrópolis</h3>
+                    <div class="info-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Rua Nair Tefé, 320 - Quitandinha, Petrópolis - RJ, 25650-300</span>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-clock"></i>
+                        <span>Reuniões: Sábados (Quinzenalmente) às 10h</span>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>secretaria@fraternidadeimperial264.com.br</span>
+                    </div>
+                    
+                    <a href="https://wa.me/5521983340089" target="_blank" class="btn-wpp">
+                        <i class="fab fa-whatsapp" style="font-size: 1.5rem; margin: 0; color: #000;"></i> Fraternidade Imperial
+                    </a>
+                    
+                    <div class="btn-map-container">
+                        <a href="https://ul.waze.com/ul?place=EkVSLiBOYWlyIFRlZsOpLCAzMjAgLSBRdWl0YW5kaW5oYSwgUGV0csOzcG9saXMgLSBSSiwgMjU2NTAtMzAwLCBCcmF6aWwiMRIvChQKEgnTeoLBGgmZABFG21QZBKl3qhDAAioUChIJAy103BoJmQAR_tz56QDwYhg&ll=-22.53576410%2C-43.22511110&navigate=yes&utm_campaign=waze_website&utm_source=waze_website&utm_medium=lm_share_location" target="_blank" class="btn-map">
+                            <i class="fab fa-waze"></i> Ir com Waze
+                        </a>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Rua+Nair+Tefe+320+Petropolis+RJ" target="_blank" class="btn-map">
+                            <i class="fas fa-map-marked-alt"></i> Google Maps
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="map-area">
+                    <iframe class="map-frame" src="https://maps.google.com/maps?q=Rua%20Nair%20Tef%C3%A9%2C%20320%20-%20Quitandinha%2C%20Petr%C3%B3polis%20-%20RJ&t=&z=15&ie=UTF8&iwloc=&output=embed" allowfullscreen="" loading="lazy"></iframe>
+                    
+                    <div class="mobile-map-buttons">
+                        <a href="https://ul.waze.com/ul?place=EkVSLiBOYWlyIFRlZsOpLCAzMjAgLSBRdWl0YW5kaW5oYSwgUGV0csOzcG9saXMgLSBSSiwgMjU2NTAtMzAwLCBCcmF6aWwiMRIvChQKEgnTeoLBGgmZABFG21QZBKl3qhDAAioUChIJAy103BoJmQAR_tz56QDwYhg&ll=-22.53576410%2C-43.22511110&navigate=yes&utm_campaign=waze_website&utm_source=waze_website&utm_medium=lm_share_location" target="_blank" class="btn-map">
+                            <i class="fab fa-waze"></i> Ir com Waze
+                        </a>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Rua+Nair+Tefe+320+Petropolis+RJ" target="_blank" class="btn-map">
+                            <i class="fas fa-map-marked-alt"></i> Google Maps
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
         <footer id="secretaria-footer">
             <div class="footer-grid">
                 <div class="footer-col mobile-center-col">
                     <h4>Fale Conosco</h4>
                     <div class="footer-contact">
-                        <p><i class="fas fa-map-pin"></i> <span>Rua Nair Tefé, 320 - Quitandinha, <br class="mobile-break-footer"><span class="keep-together">Petrópolis - RJ</span></span></p>
+                        <p><i class="fas fa-map-pin"></i> <span>Rua Nair Tefé, 320 - Quitandinha, <br class="mobile-break"><span class="keep-together">Petrópolis - RJ</span></span></p>
                         <p><i class="fas fa-clock"></i> <span>Reuniões: Sábados (Quinzenalmente) às 10h</span></p>
                         <p><i class="fas fa-envelope"></i> <span>secretaria@fraternidadeimperial264.com.br</span></p>
                     </div>
@@ -424,20 +477,31 @@
                         <a href="#" class="social-btn" title="YouTube (Em breve)"><i class="fab fa-youtube"></i></a>
                     </div>
                 </div>
-                 <div class="footer-col footer-dev-right">
+				
+				
+                  <div class="footer-col footer-dev-right">
                     <span style="font-size:0.8rem; color:#aaa; margin-bottom:5px; text-shadow: 0 1px 2px #000;">Desenvolvido por:</span>
                     <a href="https://oimaginista.com" target="_blank">
-                    <img src="../imagens/logo.png" alt="O Imaginista" class="dev-logo" onerror="this.src='../imagens/logo.png'">
+                    <img src="imagens/logo.png" alt="O Imaginista" class="dev-logo" onerror="this.src='logo.png'">
                 </a>
             </div>
         </div>
             <div class="copyright">
-                <span>© 2026 A∴ R∴ L∴ M∴ Fraternidade Imperial Nº 264. <br class="mobile-break-footer">Todos os direitos reservados.</span>
+                <span>© 2026 A∴ R∴ L∴ M∴ Fraternidade Imperial Nº 264. <br class="mobile-break">Todos os direitos reservados.</span>
                 <span>CNPJ: 00.000.000/0000-00</span>
             </div>
         </footer>
 
-    <div id="cookie-banner" class="cookie-banner">
+    <div class="floating-actions" id="floating-actions">
+        <button class="float-btn" id="btn-share" title="Compartilhar">
+            <i class="fas fa-share-alt"></i>
+        </button>
+        <button class="float-btn" id="btn-back-top" title="Voltar ao Topo">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+    </div>
+
+       <div id="cookie-banner" class="cookie-banner">
         <div class="cookie-text">
             Este site utiliza cookies para garantir a segurança e funcionalidade da Secretaria. 
             Ao continuar, você concorda com nossa <a href="#" style="color:var(--gold); text-decoration: underline;">Política de Privacidade</a>.
@@ -448,166 +512,225 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
 
-            /* ========================================================
-               LISTA DE CANDIDATOS (EDITE AQUI COM CORES HEXADECIMAIS)
-            ======================================================== */
-            const candidatosAtivos = [
-                { nome: "RUAN PABLO DA SILVA DE LIMA SANTOS", statusTexto: "Entrega de Documentos", corHex: "#f1c40f", iconeUsuario: "fas fa-user-secret", linkUrl: "processos/rpsls/", liberado: true },
-                { nome: "CARLOS HENRIQUE BASTOS MELO", statusTexto: "Aguardando Pré-Proposta", corHex: "#3498db", iconeUsuario: "fas fa-user", linkUrl: "#", liberado: false },
-                { nome: "BRUNO FERNANDES DE OLIVEIRA", statusTexto: "Aguardando Pré-Proposta", corHex: "#2ecc71", iconeUsuario: "fas fa-user", linkUrl: "#", liberado: false },
-                { nome: "MATHEUS MAGALHÃES DA SILVA", statusTexto: "Aguardando Pré-Proposta", corHex: "#2ecc71", iconeUsuario: "fas fa-user", linkUrl: "#", liberado: false },
-                { nome: "GABRIEL DA SILVEIRA FILHO", statusTexto: "Aguardando Pré-Proposta", corHex: "#2ecc71", iconeUsuario: "fas fa-user", linkUrl: "#", liberado: false },
-                // --- NOVOS CANDIDATOS FICTÍCIOS PARA TESTAR O GRID ---
-                { nome: "JULIO CESAR DE ALMEIDA", statusTexto: "Sindicância", corHex: "#9b59b6", iconeUsuario: "fas fa-user-tie", linkUrl: "#", liberado: false },
-                { nome: "MARCELO AUGUSTO FERREIRA", statusTexto: "Votação", corHex: "#e74c3c", iconeUsuario: "fas fa-user-shield", linkUrl: "#", liberado: false },
-                { nome: "RODRIGO TEIXEIRA LIMA", statusTexto: "Aguardando Iniciação", corHex: "#34495e", iconeUsuario: "fas fa-user-graduate", linkUrl: "#", liberado: false },
-                { nome: "VITOR HUGO SOARES", statusTexto: "Entrega de Documentos", corHex: "#f1c40f", iconeUsuario: "fas fa-user-secret", linkUrl: "#", liberado: false },
-                { nome: "LEONARDO CAVALCANTI DE ALBUQUERQUE RIBEIRO", statusTexto: "Aguardando Pré-Proposta", corHex: "#3498db", iconeUsuario: "fas fa-user", linkUrl: "#", liberado: false }
-            ];
-
-            const listaContainer = document.getElementById('process-list-container');
-            const searchInput = document.getElementById('process-search');
-            const btnLoadMore = document.getElementById('btn-load-more');
+            /* --- 0. HEADER MAGIC E FLOATING BUTTONS --- */
+            const header = document.getElementById('main-header');
+            const floatingActions = document.getElementById('floating-actions');
             
-            const ITEMS_PER_PAGE = 6; // Carrega 6 de cada vez (2 linhas de 3 no computador)
-            let currentVisibleItems = ITEMS_PER_PAGE;
-            let currentSearchTerm = "";
-
-            // Função para renderizar os botões baseada na busca e limite
-            function renderCandidatos() {
-                listaContainer.innerHTML = '';
-                
-                // Filtra os candidatos pelo termo de busca
-                const filtrados = candidatosAtivos.filter(c => {
-                    const termo = currentSearchTerm.toLowerCase();
-                    return c.nome.toLowerCase().includes(termo) || c.statusTexto.toLowerCase().includes(termo);
-                });
-
-                // Renderiza até o limite atual
-                filtrados.forEach((candidato, index) => {
-                    const isLocked = !candidato.liberado;
-                    const corHexFinal = candidato.corHex || "#d4af37";
-                    // Esconde via display none os itens que excedem o limite
-                    const displayStyle = index >= currentVisibleItems ? 'display: none;' : 'display: flex;';
-                    
-                    // Atenção: A âncora DEVE ter style="display: flex;" para não quebrar o layout quando revelada pela busca
-                    const htmlBotao = `
-                        <a href="${candidato.linkUrl}" class="candidate-btn process-item ${isLocked ? 'locked' : ''}" style="${displayStyle}" ${isLocked ? 'onclick="event.preventDefault()"' : ''} data-index="${index}">
-                            <div class="cand-info">
-                                <div class="cand-icon ${isLocked ? 'locked-icon' : ''}"><i class="${candidato.iconeUsuario}"></i></div>
-                                <div class="cand-text-group">
-                                    <span class="cand-name" title="${candidato.nome}">${candidato.nome}</span>
-                                    <div class="cand-status" title="${candidato.statusTexto}">
-                                        <span class="status-dot" style="background-color: ${corHexFinal}; box-shadow: 0 0 8px ${corHexFinal};"></span> 
-                                        ${candidato.statusTexto}
-                                    </div>
-                                </div>
-                            </div>
-                            <i class="fas ${isLocked ? 'fa-lock' : 'fa-chevron-right'} arrow"></i>
-                        </a>
-                    `;
-                    listaContainer.insertAdjacentHTML('beforeend', htmlBotao);
-                });
-
-                // Controle do botão "Ver Mais"
-                if (filtrados.length > currentVisibleItems) {
-                    btnLoadMore.style.display = 'block';
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    header.classList.add('scrolled');
                 } else {
-                    btnLoadMore.style.display = 'none';
+                    header.classList.remove('scrolled');
                 }
                 
-                // Mensagem de nenhum resultado
-                if (filtrados.length === 0) {
-                     listaContainer.innerHTML = '<p style="color: #888; font-size: 0.9rem; grid-column: 1 / -1;">Nenhum processo encontrado com esses termos.</p>';
+                if (window.scrollY > 300) {
+                    floatingActions.classList.add('show');
+                } else {
+                    floatingActions.classList.remove('show');
+                }
+            });
+
+            /* --- BOTÕES FLUTUANTES (AÇÕES) --- */
+            document.getElementById('btn-back-top').addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+
+            document.getElementById('btn-share').addEventListener('click', async () => {
+                const shareData = {
+                    title: 'A∴ R∴ L∴ S∴ Fraternidade Imperial Nº 264',
+                    text: 'Conheça a Loja Maçônica Fraternidade Imperial nº 264 - Oriente de Petrópolis.',
+                    url: window.location.href
+                };
+                try {
+                    if (navigator.share) {
+                        await navigator.share(shareData);
+                    } else {
+                        navigator.clipboard.writeText(window.location.href);
+                        alert('Link copiado para a área de transferência!');
+                    }
+                } catch (err) {
+                    console.error('Erro ao compartilhar:', err);
+                }
+            });
+
+            /* --- COOKIE BANNER LOGIC --- */
+            const banner = document.getElementById('cookie-banner');
+            const acceptBtn = document.getElementById('accept-cookies');
+
+            if (!localStorage.getItem('cookiesAccepted_264')) {
+                setTimeout(() => banner.classList.add('show'), 1500); 
+            }
+
+            acceptBtn.addEventListener('click', () => {
+                localStorage.setItem('cookiesAccepted_264', 'true');
+                banner.classList.remove('show');
+            });
+
+            /* --- 1. CONSTELAÇÕES --- */
+            const canvas = document.getElementById('constellation-canvas');
+            const ctx = canvas.getContext('2d');
+            let width, height, stars = [];
+
+            function resize() {
+                width = window.innerWidth;
+                height = window.innerHeight;
+                canvas.width = width;
+                canvas.height = height;
+                initStars();
+            }
+
+            function initStars() {
+                stars = [];
+                const numStars = Math.floor(width * height / 18000); 
+                for(let i=0; i<numStars; i++) {
+                    stars.push({
+                        x: Math.random() * width,
+                        y: Math.random() * height,
+                        r: Math.random() * 2,
+                        vx: (Math.random() - 0.5) * 0.2, 
+                        vy: (Math.random() - 0.5) * 0.2
+                    });
                 }
             }
 
-            // Inicia a renderização
-            renderCandidatos();
+            function draw() {
+                ctx.clearRect(0, 0, width, height);
+                const starColor = "rgba(255, 255, 255, 0.7)";
+                const lineColor = "rgba(255, 255, 255, 0.15)";
 
-            // Evento da barra de busca
-            searchInput.addEventListener('input', (e) => {
-                currentSearchTerm = e.target.value;
-                currentVisibleItems = ITEMS_PER_PAGE; // Reseta a paginação ao buscar
-                renderCandidatos();
-            });
+                for(let i=0; i<stars.length; i++) {
+                    let s = stars[i];
+                    s.x += s.vx; s.y += s.vy;
+                    if(s.x < 0) s.x = width; if(s.x > width) s.x = 0;
+                    if(s.y < 0) s.y = height; if(s.y > height) s.y = 0;
 
-            // Evento do botão Carregar Mais
-            btnLoadMore.addEventListener('click', () => {
-                currentVisibleItems += ITEMS_PER_PAGE;
-                renderCandidatos();
-            });
+                    ctx.beginPath();
+                    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+                    ctx.fillStyle = starColor;
+                    ctx.fill();
 
-            /* --- LÓGICA DE LOGIN --- */
-            const correctPass = "imperial";
-            let tentativas = 0;
-            const btnLogin = document.getElementById('btn-login');
-            const passInput = document.getElementById('pass-input');
-            const overlay = document.getElementById('login-overlay');
-            const content = document.getElementById('secretaria-content');
-            const header = document.getElementById('secretaria-header');
-            const footer = document.getElementById('secretaria-footer');
-
-            function verificarSenha() {
-                if (passInput.value.trim() === correctPass) {
-                    overlay.style.opacity = '0';
-                    setTimeout(() => {
-                        overlay.style.display = 'none';
-                        header.style.display = 'block';
-                        content.style.display = 'flex';
-                        content.style.flexDirection = 'column';
-                        footer.style.display = 'block';
-                    }, 500);
-                } else {
-                    tentativas++;
-                    document.getElementById('tentativas').textContent = tentativas;
-                    document.getElementById('error-msg').style.display = 'block';
-                    passInput.value = '';
-                    if (tentativas >= 3) {
-                        document.body.classList.add('locked-mode');
-                        document.getElementById('system-lock-screen').classList.add('active');
-                        setTimeout(() => { window.location.href = "https://oimaginista.com/fraternidadeimperial/"; }, 3000);
+                    for(let j=i+1; j<stars.length; j++) {
+                        let s2 = stars[j];
+                        let dist = Math.sqrt((s.x - s2.x)**2 + (s.y - s2.y)**2);
+                        if(dist < 110) {
+                            ctx.beginPath();
+                            ctx.moveTo(s.x, s.y);
+                            ctx.lineTo(s2.x, s2.y);
+                            ctx.lineWidth = 1 - (dist / 110);
+                            ctx.strokeStyle = lineColor;
+                            ctx.stroke();
+                        }
                     }
                 }
+                requestAnimationFrame(draw);
             }
 
-            btnLogin.addEventListener('click', verificarSenha);
-            passInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') verificarSenha(); });
+            window.addEventListener('resize', resize);
+            resize();
+            draw();
+            
+            /* --- 2. FAQ LOGIC --- */
+            const faqData = [
+                { q: "Posso ser maçom? Como posso ingressar?", a: "Sim, desde que você atenda a alguns requisitos: acreditar em um Criador, ser homem livre e de bons costumes, ter uma profissão ou ofício honrado e estar consciente de seus deveres para com a pátria, a família e a sociedade." },
+                { q: "A Maçonaria é uma religião?", a: "Não. A Maçonaria é uma sociedade que busca unir os homens em fraternidade, acolhendo pessoas de todos os credos religiosos." },
+                { q: "A Maçonaria é religiosa?", a: "Sim, no sentido de reconhecer a existência de um Criador, mas sem se vincular a dogmas específicos." },
+                { q: "Preciso abandonar minha religião?", a: "Não. A Maçonaria aceita homens de qualquer religião, desde que acreditem em um Criador." },
+                { q: "Quais são os princípios da Maçonaria?", a: "Liberdade dos indivíduos e grupos. Igualdade de direitos e obrigações. Fraternidade universal entre todos os homens." },
+                { q: "Qual é o lema da Maçonaria?", a: "Ciência – Justiça – Trabalho. Ciência para esclarecer, Justiça para equilibrar e Trabalho para dignificar." },
+                { q: "Qual é o objetivo da Maçonaria?", a: "Investigar a verdade, examinar a moral e praticar as virtudes." },
+                { q: "O que a Maçonaria entende por moral?", a: "Uma ciência baseada no entendimento humano, que ensina nossos deveres e o uso correto dos nossos direitos." },
+                { q: "O que a Maçonaria entende por virtude?", a: "A força de fazer o bem em seu sentido mais amplo, cumprindo deveres para com a sociedade e a família." },
+                { q: "O que a Maçonaria entende por dever?", a: "Respeitar os direitos dos indivíduos e da sociedade, resumido em: respeito a Deus, amor ao próximo e dedicação à família." },
+                { q: "A Maçonaria é tolerante?", a: "Sim. Respeita opiniões políticas e crenças religiosas, rejeitando privilégios e exclusões." },
+                { q: "O que a Maçonaria combate?", a: "Ignorância, superstição, fanatismo, orgulho, vício, discórdia e privilégios." },
+                { q: "A Maçonaria é uma sociedade secreta?", a: "Não. Sua existência é pública e reconhecida. O que se mantém reservado são os sinais de reconhecimento entre maçons." },
+                { q: "Quais foram as principais obras no Brasil?", a: "Participação ativa na Independência, na Abolição da Escravatura e na Proclamação da República." },
+                { q: "Como posso me tornar maçom?", a: "Procurando uma Loja Maçônica regular e manifestando interesse. O processo inclui entrevistas e sindicância." },
+                { q: "Preciso ser convidado?", a: "Não necessariamente. Você pode procurar uma Loja e se apresentar como candidato." },
+                { q: "O ingresso é rápido?", a: "Não. O processo é cuidadoso e pode levar meses." }
+            ];
 
-            /* --- MENU MOBILE TOGGLE LOGIC --- */
+            const faqContainer = document.getElementById('faq-container');
+            const btnMoreFaq = document.getElementById('btn-toggle-faq');
+            let isExpanded = false;
+
+            function renderFAQ() {
+                faqContainer.innerHTML = '';
+                faqData.forEach((item, index) => {
+                    const isHidden = (index > 6 && !isExpanded) ? 'hidden-faq' : '';
+                    const html = `
+                        <div class="faq-item ${isHidden}">
+                            <button class="faq-question">
+                                <span>${index + 1}. ${item.q}</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="faq-answer">
+                                <div><p>${item.a}</p></div>
+                            </div>
+                        </div>`;
+                    faqContainer.innerHTML += html;
+                });
+                attachAccordionEvents();
+            }
+
+            function attachAccordionEvents() {
+                document.querySelectorAll('.faq-question').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const item = btn.parentElement;
+                        const answer = btn.nextElementSibling;
+                        
+                        document.querySelectorAll('.faq-item').forEach(other => {
+                            if(other !== item) {
+                                other.classList.remove('active');
+                                oldAnswer = other.querySelector('.faq-answer');
+                                if(oldAnswer) oldAnswer.classList.remove('open');
+                            }
+                        });
+                        
+                        item.classList.toggle('active');
+                        answer.classList.toggle('open');
+                    });
+                });
+            }
+
+            btnMoreFaq.addEventListener('click', () => {
+                isExpanded = !isExpanded;
+                if(isExpanded) {
+                    faqContainer.classList.add('expanded');
+                    btnMoreFaq.innerHTML = "Recolher Perguntas <i class='fas fa-arrow-up' style='margin-left:8px;'></i>";
+                } else {
+                    faqContainer.classList.remove('expanded');
+                    btnMoreFaq.innerHTML = "Ver Todas as Perguntas <i class='fas fa-arrow-down' style='margin-left:8px;'></i>";
+                    setTimeout(() => {
+                        document.getElementById('faq').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }, 300);
+                }
+                renderFAQ();
+            });
+
+            renderFAQ();
+
+            /* --- 3. MENU MOBILE CORRIGIDO --- */
             const btnMobile = document.getElementById('btn-mobile');
             const navMenu = document.getElementById('nav-menu');
             const navLinks = document.querySelectorAll('.nav-link');
             
-            if (btnMobile) {
-                btnMobile.addEventListener('click', () => {
-                    navMenu.classList.toggle('active');
-                    const icon = btnMobile.querySelector('i');
-                    icon.classList.toggle('fa-bars');
-                    icon.classList.toggle('fa-times');
-                });
-            }
+            btnMobile.addEventListener('click', () => {
+                navMenu.classList.toggle('active');
+                const icon = btnMobile.querySelector('i');
+                icon.classList.toggle('fa-bars');
+                icon.classList.toggle('fa-times');
+            });
 
             navLinks.forEach(link => {
                 link.addEventListener('click', () => {
                     if(window.innerWidth <= 900) {
                         navMenu.classList.remove('active');
-                        if (btnMobile) {
-                            const icon = btnMobile.querySelector('i');
-                            icon.classList.add('fa-bars');
-                            icon.classList.remove('fa-times');
-                        }
+                        const icon = btnMobile.querySelector('i');
+                        icon.classList.add('fa-bars');
+                        icon.classList.remove('fa-times');
                     }
                 });
-            });
-
-            /* --- COOKIE BANNER --- */
-            if (!localStorage.getItem('cookiesAccepted_264')) {
-                setTimeout(() => document.getElementById('cookie-banner').classList.add('show'), 2000); 
-            }
-            document.getElementById('accept-cookies').addEventListener('click', () => {
-                localStorage.setItem('cookiesAccepted_264', 'true');
-                document.getElementById('cookie-banner').classList.remove('show');
             });
         });
     </script>
