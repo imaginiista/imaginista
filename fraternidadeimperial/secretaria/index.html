@@ -74,7 +74,7 @@
         .btn-active:hover { background: var(--gold); color: #000; }
         .mobile-toggle { display: none; font-size: 1.8rem; color: var(--gold); background: none; border: none; cursor: pointer; }
 
-        /* --- CONTAINER PRINCIPAL --- */
+        /* --- CONTAINER PRINCIPAL (SECRETARIA) --- */
         .container { 
             text-align: center; animation: fadeIn 2s ease; position: relative; z-index: 2; 
             width: 100%; max-width: 1200px; 
@@ -83,63 +83,33 @@
         }
         
         .brasao-container {
-            width: 120px; height: 120px; margin: 0 auto 20px; border-radius: 50%;
+            width: 130px; height: 130px; margin: 0 auto 20px; border-radius: 50%;
             box-shadow: 0 0 60px rgba(212, 175, 55, 0.3); animation: float 6s ease-in-out infinite;
             background: rgba(0,0,0,0.3); padding: 10px; border: 1px solid rgba(212, 175, 55, 0.3);
         }
         .brasao-img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; border: 4px solid var(--gold); }
 
-        /* --- TÍTULO REFINADO COM EFEITO GLOW SUAVE --- */
+        /* --- TÍTULO SEGURO E ANIMADO --- */
         .page-title { 
             font-family: 'Cinzel', serif;
             text-align: center;
             margin-bottom: 5px; 
-            text-transform: uppercase;
-            line-height: 1.3;
-        }
-        
-        .title-line1 { 
-            font-size: 1.8rem; 
-            letter-spacing: 6px; 
-            color: #e2e8f0;
-            display: block; 
-            margin-bottom: 5px;
-            /* Glow suave e limpo */
-            text-shadow: 0 0 8px rgba(255, 255, 255, 0.3); 
-        }
-        
-        .title-line2 { 
-            font-size: 3.5rem; /* Destaque principal */
-            letter-spacing: 2px; 
-            white-space: nowrap; 
-            display: block; 
-            margin-bottom: 5px;
-            
-            /* Gradiente Ouro Elegante */
-            background: linear-gradient(to bottom, #fff6d9 0%, #d4af37 50%, #b8860b 100%);
+            background: linear-gradient(to bottom, #fff, #d4af37);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            /* Sombra sutil para destacar o ouro sem sujar */
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8));
+            text-transform: uppercase;
+            line-height: 1.2;
+            animation: title-glow 3s infinite alternate; /* O Efeito de Brilho Pulse */
         }
 
-        .title-line3 { 
-            font-size: 2rem; 
-            letter-spacing: 4px; 
-            display: block; 
-            color: var(--gold);
-            text-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
+        @keyframes title-glow {
+            0% { filter: drop-shadow(0 4px 10px rgba(0,0,0,0.8)); }
+            100% { filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.6)) drop-shadow(0 4px 10px rgba(0,0,0,0.8)); }
         }
 
-        /* Animação de brilho luxuoso e discreto na linha principal */
-        .premium-shimmer .title-line2 {
-            animation: elegant-glow 4s infinite alternate;
-        }
-
-        @keyframes elegant-glow {
-            0% { filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8)) drop-shadow(0 0 2px rgba(212,175,55,0.2)); }
-            100% { filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8)) drop-shadow(0 0 12px rgba(212,175,55,0.6)); }
-        }
+        .t-line1 { font-size: 2rem; letter-spacing: 4px; }
+        .t-line2 { font-size: 3.5rem; letter-spacing: 2px; white-space: nowrap; }
+        .t-line3 { font-size: 1.5rem; letter-spacing: 2px; display: block; margin-top: 5px; }
         
         .subtitle { font-family: 'Lato', sans-serif; letter-spacing: 3px; font-size: 0.9rem; opacity: 0.8; margin-bottom: 30px; text-transform: uppercase; color: var(--gold-light); }
 
@@ -156,33 +126,38 @@
 
         .section-title { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; color: rgba(255,255,255,0.4); margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; font-family: 'Lato', sans-serif; }
 
-        /* --- LISTA DE PROCESSOS --- */
+        /* --- LISTA DE PROCESSOS (GRID SEGURO 3 COLUNAS) --- */
         .process-list { 
-            display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; 
-            width: 100%; margin-bottom: 20px;
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
+            gap: 15px; width: 100%; margin-bottom: 20px;
+            justify-content: center; 
         }
 
+        /* Garantindo o tamanho do card pesquisado isolado */
         .candidate-btn {
-            flex: 0 1 350px; /* Tamanho base, não estica ao infinito */
             display: flex; align-items: center; justify-content: space-between; padding: 15px 20px; 
             border: 1px solid rgba(212, 175, 55, 0.4); background: linear-gradient(45deg, rgba(0, 42, 82, 0.6), rgba(0, 20, 40, 0.9)); 
             color: var(--gold-light); text-decoration: none; border-radius: 8px;
             transition: all 0.3s; backdrop-filter: blur(5px); box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            position: relative; overflow: hidden; box-sizing: border-box; width: 100%;
+            position: relative; overflow: hidden; box-sizing: border-box;
+            
+            /* A MAGIA QUE IMPEDE O BOTÃO DE FICAR GIGANTE NA BUSCA: */
+            width: 100%; max-width: 400px; justify-self: center; 
         }
+        
         .candidate-btn:hover:not(.locked) { background: rgba(0, 42, 82, 0.9); transform: translateY(-3px); border-color: var(--gold); box-shadow: 0 10px 25px rgba(212, 175, 55, 0.2); }
         .candidate-btn.locked { opacity: 0.8; cursor: default; }
         .candidate-btn.locked:hover { transform: none; box-shadow: 0 5px 15px rgba(0,0,0,0.3); border-color: rgba(212, 175, 55, 0.4); background: linear-gradient(45deg, rgba(0, 42, 82, 0.6), rgba(0, 20, 40, 0.9));}
 
-        /* Estrutura para não quebrar botões no mobile */
+        /* Estrutura para não quebrar textos no mobile */
         .cand-info { text-align: left; display: flex; align-items: center; gap: 15px; flex: 1; min-width: 0; }
         .cand-icon { font-size: 1.5rem; color: var(--gold); width: 30px; text-align: center; flex-shrink: 0; }
         .cand-icon.locked-icon { color: #888; }
         
         .cand-text-group { display: flex; flex-direction: column; overflow: hidden; flex: 1; min-width: 0; }
-        
-        .cand-name { font-size: 0.95rem; font-weight: bold; font-family: 'Lato', sans-serif; color: #fff; white-space: normal; word-wrap: break-word; line-height: 1.2; margin-bottom: 3px;}
-        .cand-status { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1px; opacity: 0.8; font-family: 'Lato', sans-serif; display: flex; align-items: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .cand-name { font-size: 0.95rem; font-weight: bold; font-family: 'Lato', sans-serif; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; width: 100%; }
+        .cand-status { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1px; opacity: 0.8; margin-top: 3px; font-family: 'Lato', sans-serif; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: flex; align-items: center; }
 
         .arrow { font-size: 0.9rem; opacity: 0.5; transition: transform 0.3s; flex-shrink: 0; margin-left: 10px; }
         .candidate-btn:not(.locked):hover .arrow { transform: translateX(5px); opacity: 1; color: var(--gold); }
@@ -198,22 +173,17 @@
         }
         .btn-load-more:hover { background: var(--gold); color: #000; box-shadow: 0 0 15px var(--gold-shadow); }
 
-        /* Botão Histórico Tracejado */
+        /* Botão Extra - Histórico Discreto e Tracejado */
         .btn-history-container { width: 100%; display: flex; justify-content: center; margin-top: 30px; }
         .btn-history {
-            display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
             padding: 12px 25px; border-radius: 8px;
-            background: rgba(0,0,0,0.4); 
-            border: 1px dashed var(--gold); /* Tracejado Restaurado */
+            background: transparent; 
+            border: 1px dashed var(--gold); /* Tracejado mantido */
             color: var(--gold); text-decoration: none; font-family: 'Cinzel'; font-weight: bold; letter-spacing: 1px; 
             transition: 0.3s; font-size: 0.85rem; text-transform: uppercase;
         }
-        .btn-history:hover { 
-            background: rgba(212, 175, 55, 0.1); 
-            color: #fff; 
-            box-shadow: 0 0 15px var(--gold-shadow); 
-            /* Mantém a borda dashed no hover, apenas muda o brilho interno */
-        }
+        .btn-history:hover { background: rgba(212, 175, 55, 0.1); border-color: var(--gold); color: #fff; box-shadow: 0 0 15px var(--gold-shadow); border-style: solid; }
 
         .bg-particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-image: url('https://www.transparenttextures.com/patterns/stardust.png'); opacity: 0.4; z-index: 1; pointer-events: none; animation: starMove 100s linear infinite; }
 
@@ -325,16 +295,18 @@
         @media (max-width: 900px) {
             .brasao-container { width: 100px; height: 100px; margin-bottom: 15px; } 
             
-            /* Título Inteligente no Mobile: Evita cortes mudando de nowrap para normal se faltar espaço */
-            .title-line1 { font-size: 1.2rem; letter-spacing: 3px; }
-            .title-line2 { font-size: 8vw; letter-spacing: 1px; white-space: normal; word-wrap: break-word; line-height: 1.2; }
-            .title-line3 { font-size: 1.5rem; letter-spacing: 2px; }
+            /* TÍTULO MOBILE: Proporcional, seguro e sem cortes na tela */
+            .t-line1 { font-size: 1.2rem; letter-spacing: 2px; }
+            .t-line2 { font-size: 5.5vw; letter-spacing: 1px; } /* O 5.5vw garante que caiba no S24 sem estourar */
+            .t-line3 { font-size: 1.1rem; }
             
             p.subtitle { font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 25px; }
             
-            /* No celular, volta a 1 coluna */
-            .process-list { flex-direction: column; align-items: center; gap: 10px; }
-            .candidate-btn { width: 100%; max-width: 100%; padding: 12px 15px; } 
+            /* CORREÇÃO DO CARD NO MOBILE: Impede de quebrar o layout e criar rolagem horizontal */
+            .process-list { display: flex; flex-direction: column; align-items: center; gap: 10px; width: 100%; box-sizing: border-box; padding: 0 10px; }
+            .candidate-btn { padding: 12px 15px; width: 100%; max-width: 100%; box-sizing: border-box; } 
+            .cand-info { min-width: 0; }
+            .cand-text-group { min-width: 0; }
             
             /* Ajuste Header e Menu Mobile (Toggle) */
             .header-inner { padding: 0 15px; flex-wrap: nowrap; justify-content: space-between; }
@@ -350,14 +322,14 @@
             .nav-link span { display: block; }
             .mobile-toggle { display: block; margin-left: 5px; }
 
-            .footer-grid { grid-template-columns: 1fr; text-align: center; gap: 40px;}
+            .footer-grid { grid-template-columns: 1fr; text-align: center; gap: 40px; width: 100%; box-sizing: border-box; padding: 0 15px;}
             .mobile-center-col { display: flex; flex-direction: column; align-items: center; }
             .footer-contact { text-align: left; display: inline-block; width: fit-content; max-width: 100%;}
             
             .mobile-break-footer { display: block; } 
             
             .footer-dev-right { align-items: center; }
-            .copyright { flex-direction: column; gap: 10px; text-align: center; }
+            .copyright { flex-direction: column; gap: 10px; text-align: center; width: 100%; box-sizing: border-box;}
             
             .cookie-banner { flex-direction: column; padding: 20px 15px 30px 15px; }
             .cookie-btn { width: 100%; padding: 15px; font-size: 1rem; }
@@ -409,10 +381,10 @@
             <img src="../imagens/264.webp" alt="Brasão 264" class="brasao-img" onerror="this.src='../264.jpg'">
         </div>
         
-        <h1 class="page-title premium-shimmer">
-            <span class="title-line1">A∴ R∴ L∴ M∴</span>
-            <span class="title-line2">Fraternidade Imperial</span>
-            <span class="title-line3">Nº 264</span>
+        <h1 class="page-title animated-glow">
+            <span class="t-line1">A∴ R∴ L∴ M∴</span><br>
+            <span class="t-line2">Fraternidade Imperial</span><br>
+            <span class="t-line3">Nº 264</span>
         </h1>
         
         <p class="subtitle">Secretaria Digital</p>
@@ -490,7 +462,6 @@
                 { nome: "BRUNO FERNANDES DE OLIVEIRA", statusTexto: "Aguardando Pré-Proposta", corHex: "#2ecc71", iconeUsuario: "fas fa-user", linkUrl: "#", liberado: false },
                 { nome: "MATHEUS MAGALHÃES DA SILVA", statusTexto: "Aguardando Pré-Proposta", corHex: "#2ecc71", iconeUsuario: "fas fa-user", linkUrl: "#", liberado: false },
                 { nome: "GABRIEL DA SILVEIRA FILHO", statusTexto: "Aguardando Pré-Proposta", corHex: "#2ecc71", iconeUsuario: "fas fa-user", linkUrl: "#", liberado: false },
-                
                 // --- NOVOS CANDIDATOS FICTÍCIOS PARA TESTAR O GRID ---
                 { nome: "JULIO CESAR DE ALMEIDA", statusTexto: "Sindicância", corHex: "#9b59b6", iconeUsuario: "fas fa-user-tie", linkUrl: "#", liberado: false },
                 { nome: "MARCELO AUGUSTO FERREIRA", statusTexto: "Votação", corHex: "#e74c3c", iconeUsuario: "fas fa-user-shield", linkUrl: "#", liberado: false },
@@ -522,7 +493,7 @@
                     const isLocked = !candidato.liberado;
                     const corHexFinal = candidato.corHex || "#d4af37";
                     // Esconde via display none os itens que excedem o limite
-                    const displayStyle = index >= currentVisibleItems ? 'display: none;' : 'display: flex;';
+                    const displayStyle = index >= currentVisibleItems ? 'display: none;' : '';
                     
                     const htmlBotao = `
                         <a href="${candidato.linkUrl}" class="candidate-btn process-item ${isLocked ? 'locked' : ''}" style="${displayStyle}" ${isLocked ? 'onclick="event.preventDefault()"' : ''} data-index="${index}">
