@@ -10,6 +10,21 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <link rel="icon" type="image/png" href="../../favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/svg+xml" href="../../favicon/favicon.svg">
+    <link rel="shortcut icon" href="../../favicon/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="../../favicon/apple-touch-icon.png">
+    <meta name="theme-color" content="#0a2a24">
+    
+    <meta property="og:title" content="A∴ R∴ L∴ M∴ Fraternidade Imperial Nº 264"> 
+    <meta property="og:description" content="No coração da Cidade Imperial, a luz da fraternidade se ergue como símbolo de união, sabedoria e continuidade espiritual.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://oimaginista.com/fraternidadeimperial/">
+    <meta property="og:image" content="https://oimaginista.com/favicon/web-app-manifest-512x512.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="512">
+    <meta property="og:image:height" content="512">
 
     <style>
         :root {
@@ -113,7 +128,6 @@
 
         .error-msg { color: #ff4c4c; font-family: 'Lato'; font-size: 0.85rem; margin-bottom: 15px; display: none; height: 20px; position: relative; z-index: 5;}
 
-
         /* --- MAIN CONTENT (ARQUIVO) --- */
         #main-content {
             width: 100%; display: none; flex-direction: column; align-items: center; 
@@ -127,20 +141,45 @@
         }
         
         .brasao-container {
-            width: 160px; height: 160px; margin: 0 auto 20px; border-radius: 50%;
+            width: 120px; height: 120px; margin: 0 auto 35px; border-radius: 50%;
             box-shadow: 0 0 40px rgba(212, 175, 55, 0.3); animation: float 6s ease-in-out infinite;
             background: rgba(0,0,0,0.3); padding: 10px; border: 1px solid rgba(212, 175, 55, 0.3);
         }
         .brasao-img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; border: 3px solid var(--gold); }
 
+        /* --- TÍTULO COM TAMANHO UNIFICADO E ANIMAÇÃO PREMIUM --- */
         .page-title { 
-            font-family: 'Cinzel', serif; font-size: 2.2rem; line-height: 1.2; letter-spacing: 2px; margin-bottom: 5px; 
-            background: linear-gradient(to bottom, #fff, #d4af37); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 4px 10px rgba(0,0,0,0.6));
+            font-family: 'Cinzel', serif;
+            font-size: 2.1rem; /* Tamanho unificado no desktop */
+            line-height: 1.3; 
+            letter-spacing: 2px; 
+            margin-bottom: 5px; 
+            text-transform: uppercase;
+            /* Degradê base */
+            background: linear-gradient(45deg, #d4af37, #fff, #5c0a0a, #d4af37, hsl(260, 100%, 44%));
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            /* Sombra suave fixa */
+            filter: drop-shadow(0 2px 5px rgba(0,0,0,0.8));
+            /* A Animação de cor (Shimmer Bordo/Ouro) */
+            animation: premium-color-shift 15s ease infinite; 
         }
-        .page-title span { font-size: 1.6rem; white-space: nowrap; }
+
+        /* Garante que os spans herdem o tamanho do h1 para ficarem todos iguais */
+        .page-title span {
+            font-size: 1em;
+            display: inline-block;
+        }
+        .no-wrap { white-space: nowrap; }
+
+        @keyframes premium-color-shift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
         
-        .subtitle { font-family: 'Lato', sans-serif; letter-spacing: 3px; font-size: 0.9rem; opacity: 0.8; margin-bottom: 40px; text-transform: uppercase; color: var(--gold-light); }
+        .subtitle { font-family: 'Lato', sans-serif; letter-spacing: 3px; font-size: 1.3rem; opacity: 0.8; margin-bottom: 40px; text-transform: uppercase; color: var(--gold-light); }
 
         /* --- BUSCADOR APRIMORADO --- */
         .search-container { width: 100%; max-width: 800px; margin: 0 auto 40px; position: relative; z-index: 5; }
@@ -184,18 +223,23 @@
         /* Box do CIM / Status */
         .cim-box { background: rgba(212, 175, 55, 0.15); border: 1px solid var(--gold); border-radius: 6px; padding: 6px 12px; text-align: center; }
         .cim-box.negado { background: rgba(204, 0, 0, 0.1); border-color: #cc0000; }
+        .cim-box.desistencia { background: rgba(184, 107, 0, 0.1); border-color: #b86b00; } /* NOVA COR TOP BOX */
         
         .cim-label { font-size: 0.55rem; color: var(--gold); display: block; letter-spacing: 2px; text-transform: uppercase;}
         .cim-label.negado { color: #cc0000; }
+        .cim-label.desistencia { color: #b86b00; } /* NOVA COR TOP BOX */
         
         .cim-num { font-size: 1rem; font-family: 'Cinzel'; font-weight: bold; color: #fff; letter-spacing: 1px;}
         .cim-num.negado { font-size: 0.8rem; color: #ff6666; font-family: 'Lato';}
+        .cim-num.desistencia { font-size: 0.8rem; color: #ffaa33; font-family: 'Lato';} /* NOVA COR TOP BOX */
 
         .cand-name { font-size: 1.1rem; font-weight: bold; display: block; font-family: 'Lato', sans-serif; letter-spacing: 1px; color: var(--gold-light); line-height: 1.3; margin-bottom: 10px;}
         
+        /* --- CORES DOS STATUS --- */
         .status-badge { display: inline-block; padding: 4px 10px; border-radius: 4px; font-size: 0.65rem; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; margin-top: 5px; }
         .st-success { background: #1b5e20; color: #fff; border: 1px solid #2e7d32; }
         .st-denied { background: #880000; color: #fff; border: 1px solid #cc0000; }
+        .st-desistencia { background: #b86b00; color: #fff; border: 1px solid #d48100; } /* Laranja para desistência */
 
         .date-info { font-size: 0.8rem; color: #aaa; display: block; margin-top: 5px;}
         .arrow-bottom { align-self: flex-end; font-size: 1.2rem; opacity: 0.5; transition: transform 0.3s; color: var(--gold); margin-top: 10px;}
@@ -214,7 +258,7 @@
 
         /* --- FOOTER PADRÃO MOSAICO --- */
         footer { 
-            position: relative; width: 100%; background-color: #02050a; 
+            position: relative; z-index: 10; width: 100%; background-color: #02050a; 
             background-image: 
                 linear-gradient(45deg, rgba(255,255,255,0.06) 25%, transparent 25%, transparent 75%, rgba(255,255,255,0.06) 75%, rgba(255,255,255,0.06)),
                 linear-gradient(45deg, rgba(255,255,255,0.06) 25%, transparent 25%, transparent 75%, rgba(255,255,255,0.06) 75%, rgba(255,255,255,0.06));
@@ -299,8 +343,11 @@
         /* --- RESPONSIVIDADE MOBILE --- */
         @media (max-width: 768px) {
             .brasao-container { width: 120px; height: 120px; margin-bottom: 20px; } 
-            .page-title { font-size: 1.5rem; margin-bottom: 5px; } 
-            .page-title span { font-size: 1.1rem; }
+            
+            /* TÍTULO MOBILE: Mesmo tamanho (5.5vw) para as três linhas. Cabe perfeito sem cortar. */
+            .page-title { line-height: 1.4; margin-bottom: 15px; font-size: 5.5vw; } 
+            .page-title span { font-size: 1em; } 
+            
             .subtitle { font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 30px; }
             
             .header-nav-inner { gap: 10px; }
@@ -359,7 +406,7 @@
             
             <div id="error-msg" class="error-msg">Palavra Incorreta. Tentativas: <span id="tentativas">0</span>/3</div>
             
-            <input type="password" id="passInput" class="auth-input" placeholder="••••••••" autocomplete="off">
+            <input type="password" id="passInput" class="auth-input" placeholder="••••••••" autocomplete="off" autofocus>
             <button class="auth-btn" id="btn-login" onclick="checkPassword()">Abrir Processos</button>
             
             <div class="auth-links">
@@ -381,10 +428,16 @@
 
         <div class="container">
             <div class="dossier-header">
+
+                <h1 class="page-title">
+                    <span>A∴ R∴ L∴ M∴</span><br>
+                    <span class="no-wrap">Fraternidade Imperial</span><br>
+                    <span class="page-number">Nº 264</span>
+                </h1>
                 <div class="brasao-container">
                     <img src="../../imagens/264.webp" alt="Brasão 264" class="brasao-img" onerror="this.src='../../imagens/264.jpg'">
                 </div>
-                <h1 class="page-title">A∴ R∴ L∴ M∴<br>Fraternidade Imperial <span>Nº 264</span></h1>
+                
                 <p class="subtitle">Histórico de Sindicâncias</p>
             </div>
 
@@ -478,17 +531,39 @@
                 card.className = "archive-btn js-process-card";
                 card.style.display = index < visibleCount ? "flex" : "none";
                 
-                const cimLabelClass = p.exibirCim ? "cim-label" : "cim-label negado";
-                const cimNumClass = p.exibirCim ? "cim-num" : "cim-num negado";
-                const cimBoxClass = p.exibirCim ? "cim-box" : "cim-box negado";
                 const iconClass = isConcluido ? "fas fa-calendar-check" : "fas fa-calendar-times";
-                const borderStyle = isConcluido ? "" : "border-color: rgba(204, 0, 0, 0.3);";
-                const tagClass = isConcluido ? "status-badge st-success" : "status-badge st-denied";
+                
+                // --- NOVA LÓGICA DE CORES DOS STATUS ---
+                let tagClass = "status-badge ";
+                let borderStyle = "";
+                let topBoxExtraClass = "";
+                let lockColor = "";
+
+                if (p.status === "Concluído") {
+                    tagClass += "st-success";
+                } else if (p.status === "Desistência") {
+                    tagClass += "st-desistencia";
+                    borderStyle = "border-color: rgba(212, 129, 0, 0.4);";
+                    topBoxExtraClass = " desistencia"; /* Aplica o CSS laranja na caixa do topo */
+                    lockColor = "#b86b00";
+                } else { // Caso seja Negado
+                    tagClass += "st-denied";
+                    borderStyle = "border-color: rgba(204, 0, 0, 0.3);";
+                    topBoxExtraClass = " negado"; /* Aplica o CSS vermelho na caixa do topo */
+                    lockColor = "#cc0000";
+                }
+
+                // Aplica as cores no Top Box dependendo se tem CIM ou não
+                const cimLabelClass = p.exibirCim ? "cim-label" : "cim-label" + topBoxExtraClass;
+                const cimNumClass = p.exibirCim ? "cim-num" : "cim-num" + topBoxExtraClass;
+                const cimBoxClass = p.exibirCim ? "cim-box" : "cim-box" + topBoxExtraClass;
+                
                 const dateLabel = isConcluido ? "Iniciado em:" : "Encerrado em:";
                 const labelCIMTexto = p.exibirCim ? "CIM" : "PROCESSO";
                 
                 const showArrow = p.pasta ? true : false;
-                const lockIcon = !isConcluido && !showArrow ? `<i class="fas fa-lock" style="color:#cc0000;"></i>` : ``;
+                // O cadeado agora pega a cor correspondente (laranja ou vermelho)
+                const lockIcon = !isConcluido && !showArrow ? `<i class="fas fa-lock" style="color:${lockColor};"></i>` : ``;
 
                 card.style.cssText += borderStyle;
 
