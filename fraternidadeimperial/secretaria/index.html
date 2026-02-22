@@ -45,7 +45,7 @@
             display: flex; flex-direction: column; align-items: center;
             color: var(--text-main); font-family: 'Lato', sans-serif;
             overflow-x: hidden;
-            width: 100%;
+            width: 100vw;
         }
 
         h1, h2, h3, .cinzel { font-family: 'Cinzel', serif; color: var(--gold); }
@@ -89,37 +89,35 @@
         }
         .brasao-img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; border: 4px solid var(--gold); }
 
-        /* --- TÍTULO COM TAMANHO UNIFICADO E ANIMAÇÃO PREMIUM --- */
+        /* --- TÍTULO COM EFEITO DE COR ANIMADO (LOOP) E MESMO TAMANHO --- */
         .page-title { 
             font-family: 'Cinzel', serif;
-            font-size: 2.6rem; /* Tamanho unificado no desktop */
-            line-height: 1.3; 
-            letter-spacing: 2px; 
+            text-align: center;
             margin-bottom: 5px; 
-            text-transform: uppercase;
-            /* Degradê base */
-            background: linear-gradient(45deg, #d4af37, #fff, #5e0b15, #d4af37);
-            background-size: 300% 300%;
+            /* Degradê combinando Ouro, Branco e Bordô/Vinho */
+            background: linear-gradient(45deg, var(--gold) 0%, #ffffff 40%, #8a1c2a 60%, var(--gold) 100%);
+            background-size: 200% 200%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            /* Sombra suave fixa */
-            filter: drop-shadow(0 2px 5px rgba(0,0,0,0.8));
-            /* A Animação de cor (Shimmer Bordo/Ouro) */
-            animation: premium-color-shift 6s ease infinite;
+            text-transform: uppercase;
+            line-height: 1.2;
+            filter: drop-shadow(0 4px 10px rgba(0,0,0,0.8));
+            animation: color-loop 5s ease infinite; 
         }
 
-        /* Garante que os spans herdem o tamanho do h1 para ficarem todos iguais */
-        .page-title span {
-            font-size: 1em;
-            display: inline-block;
-        }
-        .no-wrap { white-space: nowrap; }
-
-        @keyframes premium-color-shift {
+        @keyframes color-loop {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
+
+        /* Todos os spans com o mesmo tamanho no Desktop */
+        .t-line1, .t-line2, .t-line3 { 
+            font-size: 2.8rem; 
+            letter-spacing: 2px; 
+            display: block; 
+        }
+        .t-line2 { white-space: nowrap; }
         
         .subtitle { font-family: 'Lato', sans-serif; letter-spacing: 3px; font-size: 0.9rem; opacity: 0.8; margin-bottom: 30px; text-transform: uppercase; color: var(--gold-light); }
 
@@ -136,12 +134,11 @@
 
         .section-title { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; color: rgba(255,255,255,0.4); margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; font-family: 'Lato', sans-serif; }
 
-        /* --- LISTA DE PROCESSOS (GRID SEGURO 3 COLUNAS) --- */
+        /* --- LISTA DE PROCESSOS --- */
         .process-list { 
             display: grid; 
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
             gap: 15px; width: 100%; margin-bottom: 20px;
-            justify-content: center; 
         }
 
         .candidate-btn {
@@ -150,28 +147,27 @@
             color: var(--gold-light); text-decoration: none; border-radius: 8px;
             transition: all 0.3s; backdrop-filter: blur(5px); box-shadow: 0 5px 15px rgba(0,0,0,0.3);
             position: relative; overflow: hidden; box-sizing: border-box;
-            width: 100%; max-width: 400px; justify-self: center; /* Impede o botão de esticar na busca */
         }
         
         .candidate-btn:hover:not(.locked) { background: rgba(0, 42, 82, 0.9); transform: translateY(-3px); border-color: var(--gold); box-shadow: 0 10px 25px rgba(212, 175, 55, 0.2); }
         .candidate-btn.locked { opacity: 0.8; cursor: default; }
         .candidate-btn.locked:hover { transform: none; box-shadow: 0 5px 15px rgba(0,0,0,0.3); border-color: rgba(212, 175, 55, 0.4); background: linear-gradient(45deg, rgba(0, 42, 82, 0.6), rgba(0, 20, 40, 0.9));}
 
-        /* Estrutura para os nomes QUEBRAREM LINHA sem cortar */
-        .cand-info { text-align: left; display: flex; align-items: flex-start; gap: 15px; flex: 1; min-width: 0; }
-        .cand-icon { font-size: 1.5rem; color: var(--gold); width: 30px; text-align: center; flex-shrink: 0; margin-top: 2px;}
+        /* Estrutura para os cards */
+        .cand-info { text-align: left; display: flex; align-items: center; gap: 15px; flex: 1; min-width: 0; }
+        .cand-icon { font-size: 1.5rem; color: var(--gold); width: 30px; text-align: center; flex-shrink: 0; }
         .cand-icon.locked-icon { color: #888; }
         
-        .cand-text-group { display: flex; flex-direction: column; flex: 1; min-width: 0; }
+        .cand-text-group { display: flex; flex-direction: column; overflow: hidden; flex: 1; min-width: 0; }
         
-        /* Quebra de linha ativada para nomes grandes. Fim das reticências (...) no nome. */
-        .cand-name { font-size: 0.95rem; font-weight: bold; font-family: 'Lato', sans-serif; color: #fff; white-space: normal; word-wrap: break-word; line-height: 1.3; margin-bottom: 5px; }
-        .cand-status { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; opacity: 0.8; font-family: 'Lato', sans-serif; white-space: normal; word-wrap: break-word; display: flex; align-items: center; line-height: 1.2;}
+        /* CORREÇÃO AQUI: Normal wrap e break-word para nomes muito longos */
+        .cand-name { font-size: 0.95rem; font-weight: bold; font-family: 'Lato', sans-serif; color: #fff; white-space: normal; word-wrap: break-word; line-height: 1.3; margin-bottom: 4px; display: block; width: 100%; }
+        .cand-status { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1px; opacity: 0.8; margin-top: 3px; font-family: 'Lato', sans-serif; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: flex; align-items: center; }
 
-        .arrow { font-size: 1rem; opacity: 0.5; transition: transform 0.3s; flex-shrink: 0; margin-left: 10px; align-self: center;}
+        .arrow { font-size: 0.9rem; opacity: 0.5; transition: transform 0.3s; flex-shrink: 0; margin-left: 10px; }
         .candidate-btn:not(.locked):hover .arrow { transform: translateX(5px); opacity: 1; color: var(--gold); }
 
-        .status-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 6px; flex-shrink: 0; }
+        .status-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 5px; flex-shrink: 0; }
         
         /* Botão Carregar Mais */
         .btn-load-more {
@@ -182,22 +178,17 @@
         }
         .btn-load-more:hover { background: var(--gold); color: #000; box-shadow: 0 0 15px var(--gold-shadow); }
 
-        /* Botão Extra - Histórico (TRACEJADO ELEGANTE) */
+        /* Botão Extra - Histórico */
         .btn-history-container { width: 100%; display: flex; justify-content: center; margin-top: 30px; }
         .btn-history {
             display: inline-flex; align-items: center; justify-content: center; gap: 8px;
             padding: 12px 25px; border-radius: 8px;
-            background: rgba(0,0,0,0.4); 
-            border: 2px dashed var(--gold); /* Tracejado garantido e mais visível */
+            background: transparent; 
+            border: 1px dashed var(--gold);
             color: var(--gold); text-decoration: none; font-family: 'Cinzel'; font-weight: bold; letter-spacing: 1px; 
             transition: 0.3s; font-size: 0.85rem; text-transform: uppercase;
         }
-        .btn-history:hover { 
-            background: rgba(212, 175, 55, 0.15); 
-            color: #fff; 
-            box-shadow: 0 0 15px var(--gold-shadow); 
-            border-style: solid; /* Fica sólido só ao passar o mouse */
-        }
+        .btn-history:hover { background: rgba(212, 175, 55, 0.1); border-color: var(--gold); color: #fff; box-shadow: 0 0 15px var(--gold-shadow); border-style: solid; }
 
         .bg-particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-image: url('https://www.transparenttextures.com/patterns/stardust.png'); opacity: 0.4; z-index: 1; pointer-events: none; animation: starMove 100s linear infinite; }
 
@@ -305,14 +296,19 @@
         @media (max-width: 900px) {
             .brasao-container { width: 100px; height: 100px; margin-bottom: 15px; } 
             
-            /* TÍTULO MOBILE: Mesmo tamanho (5.5vw) para as três linhas. Cabe perfeito sem cortar. */
-            .page-title { line-height: 1.4; margin-bottom: 15px; font-size: 5.5vw; } 
+            /* TÍTULO MOBILE: As três linhas com o mesmo tamanho (6vw) para caberem 100% sem quebrar */
+            .t-line1, .t-line2, .t-line3 { 
+                font-size: 6vw; 
+                letter-spacing: 1px; 
+            }
+            .t-line2 { 
+                white-space: nowrap; /* Impede que a palavra Fraternidade Imperial desça de linha */
+            }
             
             p.subtitle { font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 25px; }
             
-            /* Correção Card no Mobile: 1 coluna segura */
-            .process-list { grid-template-columns: 1fr; gap: 10px; width: 100%; padding: 0 10px; box-sizing: border-box;}
-            .candidate-btn { padding: 12px 15px; width: 100%; max-width: 100%; box-sizing: border-box; } 
+            /* No celular, processos ficam em 1 coluna */
+            .process-list { grid-template-columns: 1fr; gap: 10px; }
             
             /* Ajuste Header e Menu Mobile (Toggle) */
             .header-inner { padding: 0 15px; flex-wrap: nowrap; justify-content: space-between; }
@@ -328,17 +324,23 @@
             .nav-link span { display: block; }
             .mobile-toggle { display: block; margin-left: 5px; }
 
-            .footer-grid { grid-template-columns: 1fr; text-align: center; gap: 40px; width: 100%; padding: 0 15px; box-sizing: border-box;}
+            .footer-grid { grid-template-columns: 1fr; text-align: center; gap: 40px;}
             .mobile-center-col { display: flex; flex-direction: column; align-items: center; }
             .footer-contact { text-align: left; display: inline-block; width: fit-content; max-width: 100%;}
             
             .mobile-break-footer { display: block; } 
             
             .footer-dev-right { align-items: center; }
-            .copyright { flex-direction: column; gap: 10px; text-align: center; width: 100%; box-sizing: border-box;}
+            .copyright { flex-direction: column; gap: 10px; text-align: center; }
             
             .cookie-banner { flex-direction: column; padding: 20px 15px 30px 15px; }
             .cookie-btn { width: 100%; padding: 15px; font-size: 1rem; }
+
+            #main-content { margin-top: 80px; }
+            
+            /* Ajustes da tela hacker no mobile */
+            .lock-title { font-size: 1.5rem; }
+            .lock-text { font-size: 0.85rem; }
         }
     </style>
 </head>
@@ -388,9 +390,9 @@
         </div>
         
         <h1 class="page-title">
-            <span>A∴ R∴ L∴ M∴</span><br>
-            <span class="no-wrap">Fraternidade Imperial</span><br>
-            <span class="page-number">Nº 264</span>
+            <span class="t-line1">A∴ R∴ L∴ M∴</span><br>
+            <span class="t-line2">Fraternidade Imperial</span><br>
+            <span class="t-line3">Nº 264</span>
         </h1>
         
         <p class="subtitle">Secretaria Digital</p>
@@ -480,21 +482,25 @@
             const searchInput = document.getElementById('process-search');
             const btnLoadMore = document.getElementById('btn-load-more');
             
-            const ITEMS_PER_PAGE = 6; 
+            const ITEMS_PER_PAGE = 6; // Carrega 6 de cada vez (2 linhas de 3 no computador)
             let currentVisibleItems = ITEMS_PER_PAGE;
             let currentSearchTerm = "";
 
+            // Função para renderizar os botões baseada na busca e limite
             function renderCandidatos() {
                 listaContainer.innerHTML = '';
                 
+                // Filtra os candidatos pelo termo de busca
                 const filtrados = candidatosAtivos.filter(c => {
                     const termo = currentSearchTerm.toLowerCase();
                     return c.nome.toLowerCase().includes(termo) || c.statusTexto.toLowerCase().includes(termo);
                 });
 
+                // Renderiza até o limite atual
                 filtrados.forEach((candidato, index) => {
                     const isLocked = !candidato.liberado;
                     const corHexFinal = candidato.corHex || "#d4af37";
+                    // Esconde via display none os itens que excedem o limite
                     const isHiddenStyle = index >= currentVisibleItems ? 'display: none;' : '';
                     
                     const htmlBotao = `
@@ -515,25 +521,30 @@
                     listaContainer.insertAdjacentHTML('beforeend', htmlBotao);
                 });
 
+                // Controle do botão "Ver Mais"
                 if (filtrados.length > currentVisibleItems) {
                     btnLoadMore.style.display = 'block';
                 } else {
                     btnLoadMore.style.display = 'none';
                 }
                 
+                // Mensagem de nenhum resultado
                 if (filtrados.length === 0) {
-                     listaContainer.innerHTML = '<p style="color: #888; font-size: 0.9rem; grid-column: 1 / -1; width: 100%; text-align: center;">Nenhum processo encontrado com esses termos.</p>';
+                     listaContainer.innerHTML = '<p style="color: #888; font-size: 0.9rem; grid-column: 1 / -1; text-align: center;">Nenhum processo encontrado com esses termos.</p>';
                 }
             }
 
+            // Inicia a renderização
             renderCandidatos();
 
+            // Evento da barra de busca
             searchInput.addEventListener('input', (e) => {
                 currentSearchTerm = e.target.value;
-                currentVisibleItems = ITEMS_PER_PAGE; 
+                currentVisibleItems = ITEMS_PER_PAGE; // Reseta a paginação ao buscar
                 renderCandidatos();
             });
 
+            // Evento do botão Carregar Mais
             btnLoadMore.addEventListener('click', () => {
                 currentVisibleItems += ITEMS_PER_PAGE;
                 renderCandidatos();
