@@ -98,6 +98,29 @@
         }
 
         .auth-box i.fa-lock { font-size: 3rem; margin-bottom: 15px; color: var(--gold); position: relative; z-index: 2;}
+		
+		
+		
+		/* Estilo para o Pergaminho Histórico */
+.auth-box i.fa-scroll { 
+    font-size: 3.2rem; /* Aumentado para dar destaque ao acervo */
+    margin-bottom: 20px; 
+    color: var(--gold); 
+    position: relative; 
+    z-index: 2;
+    /* Adiciona um brilho dourado para combinar com o clima místico */
+    filter: drop-shadow(0 0 1px var(--gold-shadow));
+    /* Opcional: uma leve inclinação para parecer um documento real */
+    transform: rotate(-5deg);
+    transition: 0.3s;
+}
+
+.auth-box:hover i.fa-scroll {
+    transform: rotate(0deg) scale(1.1);
+    filter: drop-shadow(0 0 1px var(--gold));
+}
+		
+		
         .auth-box h2 { font-family: 'Cinzel', serif; font-size: 1.5rem; margin-bottom: 15px; color: var(--gold); position: relative; z-index: 2;}
         .cand-label { font-family: 'Lato', sans-serif; color: #bbb; font-size: 0.75rem; margin-bottom: 5px; letter-spacing: 2px; position: relative; z-index: 2;}
         .cand-name-auth { color: var(--gold); font-size: 0.85rem; margin-bottom: 25px; letter-spacing: 1px; font-family: 'Lato', sans-serif; position: relative; z-index: 2;}
@@ -399,10 +422,9 @@
 
     <div id="password-overlay">
         <div class="auth-box">
-            <i class="fas fa-lock"></i>
-            <h2>Acesso Restrito</h2>
-            <p class="cand-label" style="color: #bbb; letter-spacing: 1px;">ARQUIVO CENTRAL DE PROCESSOS</p>
-            <p style="font-family: 'Lato'; color: #ccc; font-size: 0.85rem; margin-bottom: 20px; position: relative; z-index: 5;">Insira a Palavra de Passe para acessar o histórico.</p>
+            <i class="fas fa-scroll"></i>
+            <h2>Registro de Processos</h2>
+            <p style="font-family: 'Lato'; color: #ccc; font-size: 0.85rem; margin-bottom: 20px; position: relative; z-index: 5;">Sou o guardião supremo dos sistemas. Quem sou?</p>
             
             <div id="error-msg" class="error-msg">Palavra Incorreta. Tentativas: <span id="tentativas">0</span>/3</div>
             
