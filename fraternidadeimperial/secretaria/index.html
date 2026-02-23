@@ -98,14 +98,14 @@
             margin-bottom: 5px; 
             text-transform: uppercase;
             /* Degradê base */
-            background: linear-gradient(45deg, #d4af37, #fff, #5c0a0a, #d4af37, hsl(260, 100%, 44%)); /* COR DESTAQUE LOJA */
+            background: linear-gradient(45deg, #d4af37, #fff, #5c0a0a, #d4af37, hsl(350, 100%, 44%)); /* COR DESTAQUE LOJA */
             background-size: 300% 300%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             /* Sombra suave fixa */
             filter: drop-shadow(0 2px 5px rgba(0,0,0,0.8));
             /* A Animação de cor (Shimmer Bordo/Ouro) */
-            animation: premium-color-shift 15s ease infinite; /* TEMPO DO EFEITO LOJA */
+            animation: premium-color-shift 25s ease infinite; /* TEMPO DO EFEITO LOJA */
         }
 
         /* Garante que os spans herdem o tamanho do h1 para ficarem todos iguais */
@@ -396,10 +396,9 @@
     <div id="login-overlay">
         <div class="login-box">
             <i class="fas fa-feather-alt role-icon " style="font-size: 3rem; color:var(--gold); margin-bottom:20px"></i>
-            <h1>Secretaria</h1><br>
-            <h2>Acesso Restrito <i class="fas fa-lock" style="font-size: 0.98rem; color:var(--gold); margin-bottom:20px"></i></h2>
-            
-            <p style="font-family: 'Lato'; color: #ccc; font-size: 0.9rem; margin-bottom: 20px;">Insira a Palavra de Passe para acessar a secretaria.</p>
+            <h1>Secretaria</h1>
+<br>            
+            <p style="font-family: 'Lato'; color: #ccc; font-size: 0.9rem; margin-bottom: 20px;">Sou majestade elevada ao máximo. Quem sou?</p>
             <div id="error-msg" class="error-msg">Palavra Incorreta. Tentativas: <span id="tentativas">0</span>/3</div>
             <input type="password" id="pass-input" class="login-input" placeholder="••••••••" autocomplete="off" autofocus>
             <button id="btn-login" class="login-btn">Entrar</button>
@@ -507,16 +506,16 @@
             ======================================================== */
             const candidatosAtivos = [
                 { nome: "RUAN PABLO DA SILVA DE LIMA SANTOS", statusTexto: "Entrega de Documentos", corHex: "#f1c40f", iconeUsuario: "fas fa-user-secret", linkUrl: "processos/rpsls/", liberado: true },
-                { nome: "CARLOS HENRIQUE BASTOS MELO", statusTexto: "Aguardando Pré-Proposta", corHex: "#3498db", iconeUsuario: "fas fa-user", linkUrl: "#", liberado: false },
-                { nome: "BRUNO FERNANDES DE OLIVEIRA", statusTexto: "Aguardando Pré-Proposta", corHex: "#2ecc71", iconeUsuario: "fas fa-user", linkUrl: "#", liberado: false },
-                { nome: "MATHEUS MAGALHÃES DA SILVA", statusTexto: "Aguardando Pré-Proposta", corHex: "#2ecc71", iconeUsuario: "fas fa-user", linkUrl: "#", liberado: false },
-                { nome: "GABRIEL DA SILVEIRA FILHO", statusTexto: "Aguardando Pré-Proposta", corHex: "#2ecc71", iconeUsuario: "fas fa-user", linkUrl: "#", liberado: false },
+                { nome: "CARLOS HENRIQUE BASTOS MELO", statusTexto: "Pré-Proposta", corHex: "#3498db", iconeUsuario: "fas fa-user", linkUrl: "#", liberado: false },
+                { nome: "BRUNO FERNANDES DE OLIVEIRA", statusTexto: "Pré-Proposta", corHex: "#2ecc71", iconeUsuario: "fas fa-user", linkUrl: "#", liberado: false },
+                { nome: "MATHEUS MAGALHÃES DA SILVA", statusTexto: "Pré-Proposta", corHex: "#2ecc71", iconeUsuario: "fas fa-user", linkUrl: "#", liberado: false },
+                { nome: "GABRIEL DA SILVEIRA FILHO", statusTexto: "Pré-Proposta", corHex: "#2ecc71", iconeUsuario: "fas fa-user", linkUrl: "#", liberado: false },
                 // --- NOVOS CANDIDATOS FICTÍCIOS PARA TESTAR O GRID ---
                 { nome: "JULIO CESAR DE ALMEIDA", statusTexto: "Sindicância", corHex: "#9b59b6", iconeUsuario: "fas fa-user-tie", linkUrl: "#", liberado: false },
-                { nome: "MARCELO AUGUSTO FERREIRA", statusTexto: "Votação", corHex: "#e74c3c", iconeUsuario: "fas fa-user-shield", linkUrl: "#", liberado: false },
-                { nome: "RODRIGO TEIXEIRA LIMA", statusTexto: "Aguardando Iniciação", corHex: "#34495e", iconeUsuario: "fas fa-user-graduate", linkUrl: "#", liberado: false },
-                { nome: "VITOR HUGO SOARES", statusTexto: "Entrega de Documentos", corHex: "#f1c40f", iconeUsuario: "fas fa-user-secret", linkUrl: "#", liberado: false },
-                { nome: "LEONARDO CAVALCANTI DE ALBUQUERQUE RIBEIRO", statusTexto: "Aguardando Pré-Proposta", corHex: "#3498db", iconeUsuario: "fas fa-user", linkUrl: "#", liberado: false }
+                { nome: "MARCELO AUGUSTO FERREIRA", statusTexto: "Verificação de Docs", corHex: "#e74c3c", iconeUsuario: "fas fa-user-shield", linkUrl: "#", liberado: false },
+                { nome: "RODRIGO TEIXEIRA LIMA", statusTexto: "Iniciação", corHex: "#34495e", iconeUsuario: "fas fa-user-graduate", linkUrl: "#", liberado: false },
+                { nome: "VITOR HUGO SOARES", statusTexto: "Entrega de Docs", corHex: "#f1c40f", iconeUsuario: "fas fa-user-secret", linkUrl: "#", liberado: false },
+                { nome: "LEONARDO CAVALCANTI DE ALBUQUERQUE RIBEIRO", statusTexto: "Pré-Proposta", corHex: "#3498db", iconeUsuario: "fas fa-user", linkUrl: "#", liberado: false }
             ];
 
             const listaContainer = document.getElementById('process-list-container');
