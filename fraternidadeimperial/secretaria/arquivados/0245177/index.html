@@ -127,6 +127,25 @@
 
         .auth-box h2 { font-family: 'Cinzel', serif; font-size: 1.5rem; margin-bottom: 15px; color: var(--gold); }
         .cand-label { font-family: 'Lato', sans-serif; color: #bbb; font-size: 0.75rem; margin-bottom: 5px; letter-spacing: 2px;}
+		
+		
+		
+		.auth-enigma {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.95rem;         /* Tamanho ideal para um enigma longo */
+    font-weight: 400;           /* Nem muito grosso, nem muito fino */
+    color: #ccc;                /* Tom acinzentado para manter o clima de mistério */
+    margin: 15px 0 25px 0;      /* Espaço: 15px em cima e 25px embaixo */
+    line-height: 1.5;           /* Melhora a leitura do parágrafo */
+    font-style: italic;         /* Itálico para dar um ar mais solene/enigmático */
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 0 10px;            /* Evita que o texto encoste nas bordas da caixa */
+}
+		
+		
+		
         .cand-name-auth { color: var(--gold); font-size: 0.9rem; font-weight: bold; margin-bottom: 25px; letter-spacing: 1px; font-family: 'Lato', sans-serif;}
 
         .auth-input {
@@ -385,7 +404,11 @@
             <h2 style="margin-top: 10px;"><i class="fa fa-lock" aria-hidden="true"> ∴</i></h2>
             <p class="cand-label">CANDIDATO:</p>
             <p class="cand-name-auth">RUAN PABLO S. L. S.</p>
-            
+			
+<h4 class="auth-enigma">
+    Sou número que guarda segredos, três dígitos que unem ordem e poder. Entre arquivos ocultos e caminhos imperiais, apenas quem decifra meu valor abre a passagem.
+</h4>
+            <br>
             <div id="error-msg" class="error-msg">Palavra Incorreta. Tentativas: <span id="tentativas">0</span>/3</div>
             
             <input type="password" id="passInput" class="auth-input" placeholder="SENHA MESTRA" autocomplete="off">
