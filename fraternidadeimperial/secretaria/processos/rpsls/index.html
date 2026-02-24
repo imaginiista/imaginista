@@ -268,7 +268,7 @@
         .logo-loja { height: 80px; width: auto; filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.2)); transition: transform 0.4s; }
         .logo-glmerj:hover, .logo-loja:hover { transform: scale(1.1); }
         
-        /* TÍTULO PREMIUM ANIMADO */
+        /* TÍTULO PREMIUM ANIMADO E FLEXÍVEL */
         .header-title-prefix { 
             font-family: 'Cinzel', serif; 
             color: var(--gold-light); 
@@ -286,7 +286,11 @@
             letter-spacing: 2px;
             margin: 0; 
             line-height: 1.3; 
-            display: block; 
+            display: flex; /* Flexbox para controlar o layout na mesma linha */
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 8px; /* Espaçamento entre o nome e o número no desktop */
             
             /* Efeito de Ouro Metálico Refinado */
             background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
@@ -451,7 +455,15 @@
             .logo-loja { height: 60px; }
             
             .header-title-prefix { font-size: 1.2rem; }
-            .header-title-main { font-size: 1.5rem; line-height: 1.4; margin-bottom: 5px; }
+            
+            /* Título Quebrado e Centralizado no Mobile */
+            .header-title-main { 
+                flex-direction: column; /* Empilha os itens (Nome e Número) */
+                font-size: 1.5rem; 
+                line-height: 1.4; 
+                margin-bottom: 5px; 
+                gap: 0;
+            }
             .header-title-main span { font-size: 1.1rem; }
             
             .sub-header { font-size: 0.65rem; padding: 0 20px;}
@@ -562,7 +574,11 @@
                 <img src="../../../imagens/glmerj.webp" alt="GLMERJ" class="logo-glmerj" onerror="this.src='../../../glmerj.png'">
             </div>
                 <span class="header-title-prefix">A∴ R∴ L∴ M∴</span>
-                <span class="header-title-main">FRATERNIDADE IMPERIAL <span>Nº 264</span></span>
+                
+                <span class="header-title-main">
+                    FRATERNIDADE IMPERIAL <span>Nº 264</span>
+                </span>
+                
                 <div class="sub-header">Dossiê de Sindicância</div>
             </div>
 
