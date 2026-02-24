@@ -415,8 +415,33 @@
         .btn-down:hover { background: #2e7d32; color: white; }
         .doc-desc { font-size: 0.75rem; color: #555; margin-top: -10px; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 0.5px; }
 
-        /* FOOTER */
-        footer { margin-top: 80px; text-align: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 40px; }
+        /* FOOTER COM LINHA TECNOLÓGICA */
+        footer { 
+            margin-top: 80px; 
+            text-align: center; 
+            padding-top: 40px; 
+            position: relative; /* Necessário para posicionar o pseudoelemento */
+        }
+        
+        /* A Mágica da Linha Laser no Rodapé */
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), var(--royal-blue), var(--gold), transparent);
+            background-size: 200% auto;
+            animation: dataScan 4s linear infinite;
+            box-shadow: 0 0 10px var(--gold), 0 0 20px rgba(0, 42, 82, 0.8);
+        }
+
+        @keyframes dataScan {
+            0% { background-position: 100% center; }
+            100% { background-position: -100% center; }
+        }
+
         .footer-rights { color: rgba(255,255,255,0.4); font-size: 0.8rem; letter-spacing: 1px; margin-bottom: 20px; }
         .dev-container { display: inline-flex; flex-direction: column; align-items: center; gap: 8px; cursor: pointer; transition: transform 0.2s; position: relative; }
         .dev-container:hover { transform: scale(1.05); }
@@ -456,15 +481,20 @@
             
             .header-title-prefix { font-size: 1.2rem; }
             
-            /* Título Quebrado e Centralizado no Mobile */
+            /* Título Flexível e Ajustado no Mobile */
             .header-title-main { 
-                flex-direction: column; /* Empilha os itens (Nome e Número) */
-                font-size: 1.5rem; 
+                flex-direction: column; /* Força o "Nº 264" para a linha de baixo */
+                font-size: min(1.5rem, 6vw); /* Impede que o texto estoure a tela */
                 line-height: 1.4; 
                 margin-bottom: 5px; 
                 gap: 0;
             }
-            .header-title-main span { font-size: 1.1rem; }
+            
+            .header-title-main span { 
+                font-size: 1.1rem; 
+                display: block; /* Garante que ocupe a linha inteira sozinho */
+                margin-top: 5px;
+            }
             
             .sub-header { font-size: 0.65rem; padding: 0 20px;}
 
