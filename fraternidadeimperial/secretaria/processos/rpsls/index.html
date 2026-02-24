@@ -208,7 +208,7 @@
             animation: glitch-shake 0.4s infinite;
             padding: 20px;
             width: 90%;
-            max-width: 600px;
+            max-width: 800px;
         }
 
         .lockdown-icon { 
@@ -221,11 +221,12 @@
 
         .lockdown-title { 
             font-family: 'Cinzel', serif; 
-            font-size: clamp(1.2rem, 5vw, 2.5rem); /* Ajuste dinâmico para não quebrar no mobile */
+            font-size: clamp(1.5rem, 5vw, 2.5rem); /* Ajuste dinâmico para não quebrar no mobile alterei 1.2 */
             color: #ff3333;
             letter-spacing: 4px;
             text-shadow: 0 0 15px rgba(255, 0, 0, 0.6);
             margin-bottom: 15px;
+			white-space: nowrap; /* Impede estritamente a quebra de linha no desktop */
         }
 
         .lockdown-msg { 
@@ -551,9 +552,12 @@
                 margin-bottom: 15px;
             }
             .lockdown-title { 
-                font-size: clamp(1rem, 4vw, 1.8rem); 
-                letter-spacing: 2px;
+        font-size: clamp(1.2rem, 5vw, 1.8rem); 
+        letter-spacing: 2px;
+        white-space: normal; /* Remove a trava para permitir a quebra elegante */
+        line-height: 1.3; /* Dá um respiro caso o texto quebre em duas linhas */
             }
+			
             .lockdown-msg {
                 font-size: clamp(0.7rem, 2.5vw, 0.9rem);
             }
