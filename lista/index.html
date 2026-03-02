@@ -301,7 +301,7 @@
 
   <footer class="fixed-footer">
     <button class="btn-dark" onclick="toggleDarkMode()" id="btnTheme">🌙 Modo Escuro</button>
-    <button class="btn-hide" onclick="toggleHideCompleted()" id="btnVisibility">👁️ Ocultar Pegos</button>
+    <button class="btn-hide" onclick="toggleHideCompleted()" id="btnVisibility">👁️ Ocultar ✅</button>
   </footer>
 
   <script>
@@ -456,7 +456,7 @@
       
       const isHidden = document.body.classList.contains('hide-completed');
       localStorage.setItem('hideCompleted', isHidden);
-      document.getElementById('btnVisibility').innerText = isHidden ? '👁️‍🗨️ Mostrar Pegos' : '👁️ Ocultar Pegos';
+      document.getElementById('btnVisibility').innerText = isHidden ? '👁️‍🗨️ Mostrar ✅' : '👁️ Ocultar ✅';
     }
 
     // Partículas Temáticas (Emojis de Mercado)
