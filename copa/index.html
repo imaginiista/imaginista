@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Pantry - Dark Particle Edition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Palette Dark Profunda (OLED) */
+            --bg-deep: #000000;
+            --bg-card: #121212;
+            --border-card: #2d2d2d;
+            --text-main: #f0f0f0;
+            --text-sub: #b3b3b3;
+            --good: #00c853;    /* Verde Vibrante */
+            --warning: #ffb74d; /* Amarelo Quente */
+            --expired: #ff5252; /* Vermelho Neve */
+            --particle-color: rgba(255, 183, 77, 0.4); /* Partículas cor de Páprica */
+        }
+
+        * {
+            margin: 0; padding: 0; box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            overflow-x: hidden;
+            padding-bottom: 2rem;
+            position: relative;
+        }
+
+        /* Container de Partículas */
+        #particle-container {
+            position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 0; pointer-events: none;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            position: relative; z-index: 10; /* Fica acima das partículas */
+        }
+
+        .topbar {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 2rem 0;
+            border-bottom: 1px solid var(--border-card);
+            margin-bottom: 2rem;
+        }
+
+        .btn-toggle {
+            background: rgba(45, 45, 45, 0.6);
+            border: 2px solid var(--border-card);
+            padding: 0.6rem 1.2rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex; align-items: center; gap: 0.6rem;
+            color: var(--text-main);
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+        }
+
+        .btn-toggle:hover {
+            border-color: var(--text-sub);
+            transform: translateY(-2px);
+        }
+
+        /* Campo de Pesquisa Tecnológico */
+        .search-container { margin-bottom: 2rem; }
+        .search-input {
+            width: 100%;
+            padding: 1.2rem;
+            font-size: 1.1rem;
+            border: 2px solid var(--border-card);
+            border-radius: 12px;
+            background-color: var(--bg-card);
+            color: var(--text-main);
+            outline: none;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .search-input:focus {
+            border-color: var(--warning);
+            box-shadow: 0 0 10px rgba(255, 183, 77, 0.15);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        /* Card Tecnológico com Animação de Expansão */
+        .card {
+            background-color: var(--bg-card);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid var(--border-card);
+            position: relative; overflow: hidden;
+            display: flex; flex-direction: column; gap: 0.5rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s, max-height 0.4s ease;
+            cursor: pointer;
+            max-height: 200px; /* Altura padrão */
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+        }
+
+        /* Efeito Glow Neve (Neon) */
+        .status-good { border-color: var(--good); }
+        .status-warning { border-color: var(--warning); }
+        .status-expired { border-color: var(--expired); }
+
+        .card h3 {
+            font-size: 1.2rem; margin-top: 0.5rem;
+            transition: opacity 0.3s ease; min-height: 2.8rem;
+        }
+
+        .date-label {
+            font-size: 0.85rem; color: var(--text-sub);
+            margin-top: auto; padding-top: 1rem;
+            border-top: 1px solid var(--border-card);
+        }
+
+        .status-text {
+            font-size: 0.7rem; font-weight: bold; text-transform: uppercase;
+        }
+        .status-good .status-text { color: var(--good); }
+        .status-warning .status-text { color: var(--warning); }
+        .status-expired .status-text { color: var(--expired); }
+
+        /* Estilo da Sugestão de Uso Integrada */
+        .usage-tips {
+            font-size: 0.85rem;
+            color: var(--text-sub);
+            margin-top: 0.8rem;
+            opacity: 0; pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .usage-tips ul { list-style: none; padding-left: 0.5rem; }
+        .usage-tips li { position: relative; padding-left: 1rem; margin-bottom: 0.3rem; }
+        .usage-tips li::before { content: '•'; position: absolute; left: 0; color: var(--warning); }
+
+        /* Classe de Expansão do Card */
+        .card.expanded {
+            max-height: 400px; /* Permite crescer */
+            border-color: #fff; /* Destaque branco Oled */
+            box-shadow: 0 10px 40px rgba(255,255,255,0.1);
+        }
+        .card.expanded .usage-tips {
+            opacity: 1; pointer-events: auto;
+        }
+
+        .no-results {
+            grid-column: 1 / -1; text-align: center; padding: 4rem;
+            color: var(--text-sub); font-size: 1.1rem;
+        }
+    </style>
+</head>
+<body>
+    <div id="particle-container"></div>
+
+    <header class="topbar container">
+        <h1 id="pageTitle">Smart Pantry</h1>
+        <button id="langToggle" class="btn-toggle">
+            🌐 <span id="langLabel">PT</span>
+        </button>
+    </header>
+
+    <main class="container">
+        <div class="search-container">
+            <input type="text" id="searchInput" class="search-input" placeholder="Search for a spice...">
+        </div>
+
+        <div id="spiceGrid" class="grid">
+            </div>
+    </main>
+
+    <script>
+        const spices = [
+            { id: 1, nameEN: "Cinnamon Sticks", namePT: "Canela em Pau", expiryDate: "2026-10-15", tipsEN: ["Teas & Dessert", "Curries"], tipsPT: ["Chás e Doces", "Curries"] },
+            { id: 2, nameEN: "Oregano", namePT: "Orégano", expiryDate: "2026-03-25", tipsEN: ["Pizza", "Pasta Sauce"], tipsPT: ["Pizza", "Molho de Macarrão"] },
+            { id: 3, nameEN: "Onion Cream", namePT: "Creme de Cebola", expiryDate: "2026-02-10", tipsEN: ["Beef Rubs", "Gravies"], tipsPT: ["Carne Bovina", "Molhos"] },
+            { id: 4, nameEN: "Roasted Garlic", namePT: "Alho Assado", expiryDate: "2026-12-01" },
+            { id: 5, nameEN: "Smoked Chimichurri", namePT: "Chimichurri Defumado", expiryDate: "2027-01-20" },
+            { id: 6, nameEN: "Chia Seed", namePT: "Semente de Chia", expiryDate: "2026-08-14" },
+            { id: 7, nameEN: "Luxury Golden Linseed", namePT: "Linhaça Dourada", expiryDate: "2026-09-30" },
+            { id: 8, nameEN: "Powder Smoke", namePT: "Fumaça em Pó", expiryDate: "2026-04-05" },
+            { id: 9, nameEN: "Miner Seasoning", namePT: "Tempero Mineiro", expiryDate: "2026-11-11", tipsEN: ["Prime Beef", "Feijoada"], tipsPT: ["Carnes Nobres", "Feijoada"] },
+            { id: 10, nameEN: "Black Pepper Powder", namePT: "Pimenta em Pó", expiryDate: "2027-05-10" },
+            { id: 11, nameEN: "Garlic Powder", namePT: "Alho em Pó", expiryDate: "2026-03-15" },
+            { id: 12, nameEN: "Coarse Salt", namePT: "Sal Grosso", expiryDate: "2030-01-01" }
+        ];
+
+        let currentLang = 'EN';
+
+        // --- SISTEMA DE PARTÍCULAS (JavaScript Simples) ---
+        function createParticles() {
+            const container = document.getElementById('particle-container');
+            const particleCount = 40; // Número de partículas
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.style.position = 'absolute';
+                particle.style.width = '2px';
+                particle.style.height = '2px';
+                particle.style.backgroundColor = 'var(--particle-color)';
+                particle.style.borderRadius = '50%';
+                
+                // Posição inicial aleatória
+                particle.style.top = Math.random() * 100 + 'vh';
+                particle.style.left = Math.random() * 100 + 'vw';
+                
+                // Velocidade e delay aleatórios
+                const duration = 15 + Math.random() * 15; // 15s to 30s
+                particle.style.animation = `drift ${duration}s linear infinite`;
+                particle.style.animationDelay = `-${Math.random() * 10}s`;
+
+                container.appendChild(particle);
+            }
+        }
+
+        // Adiciona a animação CSS para as partículas
+        const styleSheet = document.createElement("style")
+        styleSheet.type = "text/css"
+        styleSheet.innerText = `
+            @keyframes drift {
+                0% { transform: translateY(0) translateX(0); opacity: 0; }
+                10% { opacity: 1; }
+                90% { opacity: 1; }
+                100% { transform: translateY(-100px) translateX(${Math.random() * 50 - 25}px); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(styleSheet)
+        createParticles();
+        // --------------------------------------------------
+
+        function checkStatus(expiryDate) {
+            const today = new Date();
+            const expDate = new Date(expiryDate);
+            const daysDiff = Math.ceil((expDate.getTime() - today.getTime()) / (1000 * 3600 * 24));
+            if (daysDiff < 0) return { class: 'status-expired', labelEN: 'Expired', labelPT: 'Vencido' };
+            if (daysDiff <= 30) return { class: 'status-warning', labelEN: 'Expiring Soon', labelPT: 'Vence em Breve' };
+            return { class: 'status-good', labelEN: 'Good', labelPT: 'No Prazo' };
+        }
+
+        function formatDate(dateString) {
+            const [year, month, day] = dateString.split('-');
+            return `${day}/${month}/${year}`;
+        }
+
+        function renderCards(dataToRender = spices) {
+            const grid = document.getElementById('spiceGrid');
+            grid.innerHTML = '';
+
+            if (dataToRender.length === 0) {
+                grid.innerHTML = `<div class="no-results">${currentLang === 'EN' ? 'No spices found.' : 'Nenhum tempero.'}</div>`;
+                return;
+            }
+
+            dataToRender.forEach(spice => {
+                const status = checkStatus(spice.expiryDate);
+                const displayName = currentLang === 'EN' ? spice.nameEN : spice.namePT;
+                const displayStatus = currentLang === 'EN' ? status.labelEN : status.labelPT;
+                const tips = currentLang === 'EN' ? spice.tipsEN : spice.tipsPT;
+
+                const card = document.createElement('div');
+                card.className = `card ${status.class}`;
+                
+                // GERA A SEÇÃO DE SUGESTÕES DE USO (Se existirem)
+                let tipsHTML = '';
+                if (tips && tips.length > 0) {
+                    tipsHTML = `<div class="usage-tips"><ul>`;
+                    tips.forEach(tip => tipsHTML += `<li>${tip}</li>`);
+                    tipsHTML += `</ul></div>`;
+                }
+
+                card.innerHTML = `
+                    <span class="status-text">${displayStatus}</span>
+                    <h3 class="spice-name">${displayName}</h3>
+                    <div class="date-label">
+                        <strong>${currentLang === 'EN' ? 'Expires:' : 'Validade:'}</strong> ${formatDate(spice.expiryDate)}
+                    </div>
+                    ${tipsHTML}
+                `;
+
+                // LOGICA DE EXPANSÃO AO CLICAR
+                card.addEventListener('click', function(e) {
+                    // Evita fechar se clicar dentro de uma sugestão
+                    if (e.target.closest('.usage-tips')) return;
+                    this.classList.toggle('expanded');
+                });
+                
+                grid.appendChild(card);
+            });
+
+            document.getElementById('pageTitle').innerText = currentLang === 'EN' ? 'Smart Pantry' : 'Minha Despensa';
+            document.getElementById('langLabel').innerText = currentLang === 'EN' ? 'PT' : 'EN';
+            document.getElementById('searchInput').placeholder = currentLang === 'EN' ? 'Search for a spice...' : 'Pesquisar...';
+        }
+
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const filtered = spices.filter(s => s.nameEN.toLowerCase().includes(searchTerm) || s.namePT.toLowerCase().includes(searchTerm));
+            renderCards(filtered);
+        });
+
+        document.getElementById('langToggle').addEventListener('click', () => {
+            currentLang = currentLang === 'EN' ? 'PT' : 'EN';
+            renderCards(); // Re-render para atualizar os textos e dicas
+        });
+
+        renderCards();
+    </script>
+</body>
+</html>
