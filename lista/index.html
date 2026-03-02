@@ -12,6 +12,11 @@
       --card-dark: rgba(30, 30, 30, 0.85);
       --item-bg-light: rgba(0, 0, 0, 0.03);
       --item-bg-dark: rgba(255, 255, 255, 0.05);
+      
+      /* Novas cores para itens marcados (verdes) */
+      --checked-bg-light: #d4edda;
+      --checked-bg-dark: #1e4620;
+      
       --text-light: #222;
       --text-dark: #eee;
       --accent: #4CAF50;
@@ -32,6 +37,7 @@
       color: var(--text-light);
       transition: background 0.5s, color 0.5s;
       min-height: 100vh;
+      overflow-x: hidden; /* Evita rolagem horizontal no mobile */
     }
 
     body.dark {
@@ -48,12 +54,13 @@
       text-shadow: 0 0 5px var(--accent);
     }
 
-    /* Formulário de Adição */
+    /* Formulário de Adição Responsivo */
     .add-form {
       max-width: 600px;
       margin: 0 auto 20px auto;
       display: flex;
-      gap: 8px;
+      flex-wrap: wrap; /* Permite quebrar linha em telas pequenas */
+      gap: 10px;
       background: var(--card-light);
       padding: 15px;
       border-radius: 16px;
@@ -70,20 +77,22 @@
       font-size: 1em;
       text-align: center;
       outline: none;
+      flex-shrink: 0;
     }
     
     .add-form input[type="text"] {
-      flex: 2;
+      flex: 1;
+      min-width: 150px; /* Garante tamanho bom no mobile */
       padding: 12px;
       border: 1px solid #ccc;
       border-radius: 8px;
       font-size: 1em;
       outline: none;
-      min-width: 0; /* Evita quebrar o layout no mobile */
     }
     
     .add-form select {
       flex: 1;
+      min-width: 120px; /* Garante tamanho bom no mobile */
       padding: 12px;
       border: 1px solid #ccc;
       border-radius: 8px;
@@ -96,14 +105,14 @@
       color: white;
       border: none;
       border-radius: 8px;
-      padding: 0 15px;
+      width: 60px;
       height: 44px;
       font-size: 1.5em;
       cursor: pointer;
       font-weight: bold;
+      flex-shrink: 0;
     }
 
-    /* Elementos Dark Mode para Formulário */
     body.dark .add-form input, body.dark .add-form select {
       background: #444;
       color: white;
@@ -135,6 +144,14 @@
     }
     body.dark .item-row { background: var(--item-bg-dark); }
 
+    /* EFEITO AO MARCAR O ITEM */
+    .item-row.checked {
+      background: var(--checked-bg-light) !important;
+    }
+    body.dark .item-row.checked {
+      background: var(--checked-bg-dark) !important;
+    }
+
     .item-content {
       display: flex;
       align-items: center;
@@ -152,7 +169,6 @@
       flex-shrink: 0;
     }
 
-    /* Campo Editável de Quantidade na Lista */
     .qty-inline {
       width: 50px;
       padding: 8px 0;
@@ -176,14 +192,15 @@
       flex-grow: 1;
       font-size: 1.1em;
       word-break: break-word;
+      transition: opacity 0.3s;
     }
 
     .item-row.checked .item-name-text {
       text-decoration: line-through;
-      opacity: 0.5;
+      opacity: 0.6; /* Deixa o texto sutil ao invés de sumir */
     }
     .item-row.checked .qty-inline {
-      opacity: 0.5;
+      opacity: 0.6;
     }
 
     body.hide-completed .item-row.checked {
@@ -288,22 +305,21 @@
   </footer>
 
   <script>
-    // Dados padrão com as quantidades já separadas corretamente
     const defaultData = {
       mercado: [
         { qty: 1, name: "Creme de leite", checked: false }, { qty: 2, name: "Detergentes", checked: false },
         { qty: 2, name: "Sabonete", checked: false }, { qty: 4, name: "Molho de Tomate", checked: false },
         { qty: 1, name: "Amaciante", checked: false }, { qty: 1, name: "Arroz", checked: false },
-        { qty: 1, name: "Azeite", checked: false }, { qty: 1, name: "Biscoito recheado", checked: false },
-        { qty: 1, name: "Caldo de carne", checked: false }, { qty: 1, name: "Carne seca", checked: false },
+        { qty: 1, name: "Azeite", checked: false }, { qty: 1, name: "Biscoito Recheado", checked: false },
+        { qty: 1, name: "Caldo de Carne", checked: false }, { qty: 1, name: "Carne Seca", checked: false },
         { qty: 1, name: "Cebola", checked: false }, { qty: 1, name: "Chinelo Cleide", checked: false },
-        { qty: 1, name: "Coca cola", checked: false }, { qty: 1, name: "Esponja de pia", checked: false },
-        { qty: 1, name: "Farinha de mandioca/mesa", checked: false }, { qty: 1, name: "Feijão", checked: false },
-        { qty: 1, name: "Filtro de papel 102", checked: false }, { qty: 1, name: "Frango", checked: false },
+        { qty: 1, name: "Coca Cola Zero", checked: false }, { qty: 1, name: "Esponja de Pia", checked: false },
+        { qty: 1, name: "Farinha de Mandioca/Mesa", checked: false }, { qty: 1, name: "Feijão", checked: false },
+        { qty: 1, name: "Filtro de Papel 102", checked: false }, { qty: 1, name: "Frango", checked: false },
         { qty: 1, name: "Hambúrguer", checked: false }, { qty: 1, name: "Ketchup", checked: false },
         { qty: 1, name: "Linguiça calabresa", checked: false }, { qty: 1, name: "Margarina", checked: false },
         { qty: 1, name: "Miojo", checked: false }, { qty: 1, name: "Nescau Pequeno", checked: false },
-        { qty: 1, name: "Pedra sanitária", checked: false }, { qty: 1, name: "Pipoca", checked: false },
+        { qty: 1, name: "Pedra Sanitária", checked: false }, { qty: 1, name: "Pipoca", checked: false },
         { qty: 1, name: "Sabão em pó", checked: false }, { qty: 1, name: "Sazon de frango", checked: false },
         { qty: 1, name: "Tira manchas", checked: false }
       ],
@@ -321,23 +337,21 @@
       
       if (savedData) {
         appData = JSON.parse(savedData);
-        
-        // MIGRAÇÃO: Se os itens antigos não tiverem 'qty', cria a propriedade e tenta extrair o número do nome
+        // Garante migração caso existam itens antigos sem QTY
         ['mercado', 'bangu'].forEach(categoria => {
           appData[categoria].forEach(item => {
             if (item.qty === undefined) {
-              // Expressão regular para achar número no começo (ex: "4 Molho")
               const match = item.name.match(/^(\d+)\s+(.+)$/);
               if (match) {
-                item.qty = parseInt(match[1]); // Pega o número
-                item.name = match[2]; // Pega o resto do texto
+                item.qty = parseInt(match[1]);
+                item.name = match[2];
               } else {
                 item.qty = 1;
               }
             }
           });
         });
-        salvarDados(); // Salva a migração
+        salvarDados();
       } else {
         appData = JSON.parse(JSON.stringify(defaultData));
         salvarDados();
@@ -375,7 +389,6 @@
         const row = document.createElement('div');
         row.className = `item-row ${item.checked ? 'checked' : ''}`;
         
-        // Estrutura atualizada para suportar o input de quantidade sem conflitar com o clique de riscar
         row.innerHTML = `
           <div class="item-content" onclick="toggleItem('${categoria}', ${index})">
             <input type="checkbox" ${item.checked ? 'checked' : ''} onclick="event.stopPropagation(); toggleItem('${categoria}', ${index})">
@@ -390,7 +403,6 @@
       });
     }
 
-    // Ações do Usuário
     function adicionarItem() {
       const inputNome = document.getElementById('newItemName');
       const inputQty = document.getElementById('newItemQty');
@@ -401,7 +413,7 @@
       if (nome !== '') {
         appData[categoria].push({ qty: qty, name: nome, checked: false });
         inputNome.value = ''; 
-        inputQty.value = '1'; // Reseta a quantidade para 1
+        inputQty.value = '1';
         salvarDados();
         atualizarInterface();
       }
@@ -409,10 +421,9 @@
 
     function mudarQuantidade(categoria, index, novoValor) {
       let qty = parseInt(novoValor);
-      if (isNaN(qty) || qty < 1) qty = 1; // Proteção para não colocar letras ou zero
+      if (isNaN(qty) || qty < 1) qty = 1;
       appData[categoria][index].qty = qty;
       salvarDados();
-      // Não chama atualizarInterface() aqui para o teclado não sumir bruscamente no mobile
     }
 
     function removerItem(categoria, index) {
@@ -429,7 +440,6 @@
       atualizarInterface();
     }
 
-    // Ações do Rodapé
     function toggleDarkMode() {
       document.body.classList.toggle('dark');
       const isDark = document.body.classList.contains('dark');
@@ -449,7 +459,7 @@
       document.getElementById('btnVisibility').innerText = isHidden ? '👁️‍🗨️ Mostrar Pegos' : '👁️ Ocultar Pegos';
     }
 
-    // Partículas
+    // Partículas Temáticas (Emojis de Mercado)
     const canvas = document.getElementById('particles');
     const ctx = canvas.getContext('2d');
     function resizeCanvas() {
@@ -459,28 +469,35 @@
     window.addEventListener('resize', resizeCanvas);
     resizeCanvas();
 
-    const particles = Array.from({length: 40}, () => ({
+    const emojis = ['🛒', '🛍️', '🍎', '🥦', '🍞', '🧀'];
+    const particles = Array.from({length: 25}, () => ({ // Menos itens para não poluir
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
-      r: Math.random() * 2 + 1,
-      dx: (Math.random() - 0.5) * 0.4,
-      dy: (Math.random() - 0.5) * 0.4
+      emoji: emojis[Math.floor(Math.random() * emojis.length)],
+      size: Math.random() * 20 + 15, // Tamanho entre 15 e 35px
+      dx: (Math.random() - 0.5) * 0.5,
+      dy: (Math.random() - 0.5) * 0.5
     }));
 
     function draw() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       const isDark = document.body.classList.contains('dark');
-      ctx.fillStyle = isDark ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.08)';
+      
+      // Controla a transparência dos emojis dependendo do tema
+      ctx.globalAlpha = isDark ? 0.15 : 0.2;
 
       particles.forEach(p => {
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
-        ctx.fill();
+        ctx.font = `${p.size}px sans-serif`;
+        ctx.fillText(p.emoji, p.x, p.y);
         p.x += p.dx;
         p.y += p.dy;
-        if(p.x < 0 || p.x > canvas.width) p.dx *= -1;
-        if(p.y < 0 || p.y > canvas.height) p.dy *= -1;
+        
+        // Faz eles "rebotarem" suavemente nas bordas
+        if(p.x < -p.size || p.x > canvas.width + p.size) p.dx *= -1;
+        if(p.y < -p.size || p.y > canvas.height + p.size) p.dy *= -1;
       });
+      
+      ctx.globalAlpha = 1.0; // Reseta a transparência
       requestAnimationFrame(draw);
     }
     draw();
