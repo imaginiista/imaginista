@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Lista de Compras</title>
+  <style>
+    :root {
+      --bg-light: linear-gradient(135deg, #74ebd5 0%, #ACB6E5 100%);
+      --bg-dark: linear-gradient(135deg, #1f1c2c 0%, #928dab 100%);
+      --card-light: rgba(255, 255, 255, 0.95);
+      --card-dark: rgba(30, 30, 30, 0.85);
+      --item-bg-light: rgba(0, 0, 0, 0.03);
+      --item-bg-dark: rgba(255, 255, 255, 0.05);
+      --text-light: #222;
+      --text-dark: #eee;
+      --accent: #4CAF50;
+      --danger: #ff4d4d;
+    }
+
+    * {
+      user-select: none; 
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg-light);
+      margin: 0;
+      padding: 15px;
+      padding-bottom: 90px;
+      color: var(--text-light);
+      transition: background 0.5s, color 0.5s;
+      min-height: 100vh;
+    }
+
+    body.dark {
+      background: var(--bg-dark);
+      color: var(--text-dark);
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 1.8em;
+      margin: 20px 0 10px 0;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-shadow: 0 0 5px var(--accent);
+    }
+
+    /* Formulário de Adição */
+    .add-form {
+      max-width: 600px;
+      margin: 0 auto 20px auto;
+      display: flex;
+      gap: 8px;
+      background: var(--card-light);
+      padding: 15px;
+      border-radius: 16px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      align-items: center;
+    }
+    body.dark .add-form { background: var(--card-dark); }
+
+    .add-form input[type="number"] {
+      width: 60px;
+      padding: 12px 5px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1em;
+      text-align: center;
+      outline: none;
+    }
+    
+    .add-form input[type="text"] {
+      flex: 2;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1em;
+      outline: none;
+      min-width: 0; /* Evita quebrar o layout no mobile */
+    }
+    
+    .add-form select {
+      flex: 1;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1em;
+      background: white;
+    }
+    
+    .add-form button {
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 0 15px;
+      height: 44px;
+      font-size: 1.5em;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    /* Elementos Dark Mode para Formulário */
+    body.dark .add-form input, body.dark .add-form select {
+      background: #444;
+      color: white;
+      border-color: #666;
+    }
+
+    /* Listas */
+    .lista {
+      max-width: 600px;
+      margin: 0 auto 20px auto;
+      background: var(--card-light);
+      border-radius: 16px;
+      padding: 15px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+      transition: background 0.5s;
+    }
+    body.dark .lista { background: var(--card-dark); }
+
+    /* Itens da lista */
+    .item-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      background: var(--item-bg-light);
+      border-radius: 10px;
+      transition: transform 0.1s, background 0.3s;
+      overflow: hidden;
+    }
+    body.dark .item-row { background: var(--item-bg-dark); }
+
+    .item-content {
+      display: flex;
+      align-items: center;
+      padding: 10px 15px;
+      flex-grow: 1;
+      cursor: pointer;
+    }
+
+    input[type="checkbox"] {
+      width: 24px;
+      height: 24px;
+      margin-right: 15px;
+      accent-color: var(--accent);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    /* Campo Editável de Quantidade na Lista */
+    .qty-inline {
+      width: 50px;
+      padding: 8px 0;
+      margin-right: 12px;
+      border: 1px solid rgba(0,0,0,0.1);
+      border-radius: 6px;
+      text-align: center;
+      font-size: 1em;
+      font-weight: bold;
+      background: white;
+      color: var(--text-light);
+      flex-shrink: 0;
+    }
+    body.dark .qty-inline {
+      background: #333;
+      color: var(--text-dark);
+      border-color: rgba(255,255,255,0.2);
+    }
+
+    .item-name-text {
+      flex-grow: 1;
+      font-size: 1.1em;
+      word-break: break-word;
+    }
+
+    .item-row.checked .item-name-text {
+      text-decoration: line-through;
+      opacity: 0.5;
+    }
+    .item-row.checked .qty-inline {
+      opacity: 0.5;
+    }
+
+    body.hide-completed .item-row.checked {
+      display: none !important;
+    }
+
+    /* Botão de excluir */
+    .delete-btn {
+      background: transparent;
+      border: none;
+      color: var(--danger);
+      font-size: 1.2em;
+      padding: 15px;
+      cursor: pointer;
+      opacity: 0.7;
+    }
+    .delete-btn:hover { opacity: 1; }
+
+    /* Rodapé Fixo */
+    .fixed-footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: var(--card-light);
+      padding: 15px;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      box-shadow: 0 -5px 20px rgba(0,0,0,0.15);
+      z-index: 10;
+    }
+    body.dark .fixed-footer { background: var(--card-dark); }
+
+    .fixed-footer button {
+      flex: 1;
+      max-width: 250px;
+      padding: 12px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 1em;
+      font-weight: bold;
+      transition: transform 0.1s, background 0.3s;
+      color: white;
+    }
+    .fixed-footer button:active { transform: scale(0.95); }
+
+    .btn-dark { background: #333; }
+    body.dark .btn-dark { background: #555; }
+    
+    .btn-hide { background: var(--accent); }
+    body.hide-completed .btn-hide { background: #ff9800; }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .empty-msg {
+      text-align: center;
+      opacity: 0.5;
+      font-style: italic;
+      padding: 10px 0;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="particles"></canvas>
+
+  <div class="add-form">
+    <input type="number" id="newItemQty" value="1" min="1" inputmode="numeric">
+    <input type="text" id="newItemName" placeholder="Novo item..." autocomplete="off">
+    <select id="newItemCategory">
+      <option value="mercado">Mercado</option>
+      <option value="bangu">Bangu</option>
+    </select>
+    <button id="btnAdd" onclick="adicionarItem()">+</button>
+  </div>
+
+  <h2>Mercado</h2>
+  <div class="lista" id="lista-mercado">
+    <div class="empty-msg" id="vazio-mercado">Nenhum item.</div>
+    <div id="container-mercado"></div>
+  </div>
+
+  <h2>Bangu</h2>
+  <div class="lista" id="lista-bangu">
+    <div class="empty-msg" id="vazio-bangu">Nenhum item.</div>
+    <div id="container-bangu"></div>
+  </div>
+
+  <footer class="fixed-footer">
+    <button class="btn-dark" onclick="toggleDarkMode()" id="btnTheme">🌙 Modo Escuro</button>
+    <button class="btn-hide" onclick="toggleHideCompleted()" id="btnVisibility">👁️ Ocultar Pegos</button>
+  </footer>
+
+  <script>
+    // Dados padrão com as quantidades já separadas corretamente
+    const defaultData = {
+      mercado: [
+        { qty: 1, name: "Creme de leite", checked: false }, { qty: 2, name: "Detergentes", checked: false },
+        { qty: 2, name: "Sabonete", checked: false }, { qty: 4, name: "Molho de Tomate", checked: false },
+        { qty: 1, name: "Amaciante", checked: false }, { qty: 1, name: "Arroz", checked: false },
+        { qty: 1, name: "Azeite", checked: false }, { qty: 1, name: "Biscoito recheado", checked: false },
+        { qty: 1, name: "Caldo de carne", checked: false }, { qty: 1, name: "Carne seca", checked: false },
+        { qty: 1, name: "Cebola", checked: false }, { qty: 1, name: "Chinelo Cleide", checked: false },
+        { qty: 1, name: "Coca cola", checked: false }, { qty: 1, name: "Esponja de pia", checked: false },
+        { qty: 1, name: "Farinha de mandioca/mesa", checked: false }, { qty: 1, name: "Feijão", checked: false },
+        { qty: 1, name: "Filtro de papel 102", checked: false }, { qty: 1, name: "Frango", checked: false },
+        { qty: 1, name: "Hambúrguer", checked: false }, { qty: 1, name: "Ketchup", checked: false },
+        { qty: 1, name: "Linguiça calabresa", checked: false }, { qty: 1, name: "Margarina", checked: false },
+        { qty: 1, name: "Miojo", checked: false }, { qty: 1, name: "Nescau Pequeno", checked: false },
+        { qty: 1, name: "Pedra sanitária", checked: false }, { qty: 1, name: "Pipoca", checked: false },
+        { qty: 1, name: "Sabão em pó", checked: false }, { qty: 1, name: "Sazon de frango", checked: false },
+        { qty: 1, name: "Tira manchas", checked: false }
+      ],
+      bangu: [
+        { qty: 1, name: "Almoço", checked: false }, { qty: 1, name: "Amep (Oftalmologista)", checked: false },
+        { qty: 1, name: "Amigão", checked: false }, { qty: 1, name: "Farmácia Pop (Previane)", checked: false },
+        { qty: 1, name: "Mercado Atacadão", checked: false }, { qty: 1, name: "Vassoura", checked: false }
+      ]
+    };
+
+    let appData = { mercado: [], bangu: [] };
+
+    function inicializar() {
+      const savedData = localStorage.getItem('appComprasData');
+      
+      if (savedData) {
+        appData = JSON.parse(savedData);
+        
+        // MIGRAÇÃO: Se os itens antigos não tiverem 'qty', cria a propriedade e tenta extrair o número do nome
+        ['mercado', 'bangu'].forEach(categoria => {
+          appData[categoria].forEach(item => {
+            if (item.qty === undefined) {
+              // Expressão regular para achar número no começo (ex: "4 Molho")
+              const match = item.name.match(/^(\d+)\s+(.+)$/);
+              if (match) {
+                item.qty = parseInt(match[1]); // Pega o número
+                item.name = match[2]; // Pega o resto do texto
+              } else {
+                item.qty = 1;
+              }
+            }
+          });
+        });
+        salvarDados(); // Salva a migração
+      } else {
+        appData = JSON.parse(JSON.stringify(defaultData));
+        salvarDados();
+      }
+
+      if (localStorage.getItem('theme') === 'dark') document.body.classList.add('dark');
+      if (localStorage.getItem('hideCompleted') === 'true') toggleHideCompleted(true);
+      
+      atualizarInterface();
+    }
+
+    function salvarDados() {
+      appData.mercado.sort((a, b) => a.name.localeCompare(b.name));
+      appData.bangu.sort((a, b) => a.name.localeCompare(b.name));
+      localStorage.setItem('appComprasData', JSON.stringify(appData));
+    }
+
+    function atualizarInterface() {
+      renderizarLista('mercado', 'container-mercado', 'vazio-mercado');
+      renderizarLista('bangu', 'container-bangu', 'vazio-bangu');
+    }
+
+    function renderizarLista(categoria, containerId, emptyMsgId) {
+      const container = document.getElementById(containerId);
+      const emptyMsg = document.getElementById(emptyMsgId);
+      container.innerHTML = ''; 
+
+      if (appData[categoria].length === 0) {
+        emptyMsg.style.display = 'block';
+        return;
+      }
+      emptyMsg.style.display = 'none';
+
+      appData[categoria].forEach((item, index) => {
+        const row = document.createElement('div');
+        row.className = `item-row ${item.checked ? 'checked' : ''}`;
+        
+        // Estrutura atualizada para suportar o input de quantidade sem conflitar com o clique de riscar
+        row.innerHTML = `
+          <div class="item-content" onclick="toggleItem('${categoria}', ${index})">
+            <input type="checkbox" ${item.checked ? 'checked' : ''} onclick="event.stopPropagation(); toggleItem('${categoria}', ${index})">
+            <input type="number" class="qty-inline" value="${item.qty}" min="1" inputmode="numeric" 
+                   onclick="event.stopPropagation()" 
+                   onchange="mudarQuantidade('${categoria}', ${index}, this.value)">
+            <span class="item-name-text">${item.name}</span>
+          </div>
+          <button class="delete-btn" onclick="removerItem('${categoria}', ${index})">🗑️</button>
+        `;
+        container.appendChild(row);
+      });
+    }
+
+    // Ações do Usuário
+    function adicionarItem() {
+      const inputNome = document.getElementById('newItemName');
+      const inputQty = document.getElementById('newItemQty');
+      const categoria = document.getElementById('newItemCategory').value;
+      const nome = inputNome.value.trim();
+      const qty = parseInt(inputQty.value) || 1;
+
+      if (nome !== '') {
+        appData[categoria].push({ qty: qty, name: nome, checked: false });
+        inputNome.value = ''; 
+        inputQty.value = '1'; // Reseta a quantidade para 1
+        salvarDados();
+        atualizarInterface();
+      }
+    }
+
+    function mudarQuantidade(categoria, index, novoValor) {
+      let qty = parseInt(novoValor);
+      if (isNaN(qty) || qty < 1) qty = 1; // Proteção para não colocar letras ou zero
+      appData[categoria][index].qty = qty;
+      salvarDados();
+      // Não chama atualizarInterface() aqui para o teclado não sumir bruscamente no mobile
+    }
+
+    function removerItem(categoria, index) {
+      if(confirm(`Tem certeza que deseja excluir "${appData[categoria][index].name}"?`)) {
+        appData[categoria].splice(index, 1);
+        salvarDados();
+        atualizarInterface();
+      }
+    }
+
+    function toggleItem(categoria, index) {
+      appData[categoria][index].checked = !appData[categoria][index].checked;
+      salvarDados();
+      atualizarInterface();
+    }
+
+    // Ações do Rodapé
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark');
+      const isDark = document.body.classList.contains('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      document.getElementById('btnTheme').innerText = isDark ? '☀️ Modo Claro' : '🌙 Modo Escuro';
+    }
+
+    function toggleHideCompleted(forceState = null) {
+      if (forceState !== null) {
+        if(forceState) document.body.classList.add('hide-completed');
+      } else {
+        document.body.classList.toggle('hide-completed');
+      }
+      
+      const isHidden = document.body.classList.contains('hide-completed');
+      localStorage.setItem('hideCompleted', isHidden);
+      document.getElementById('btnVisibility').innerText = isHidden ? '👁️‍🗨️ Mostrar Pegos' : '👁️ Ocultar Pegos';
+    }
+
+    // Partículas
+    const canvas = document.getElementById('particles');
+    const ctx = canvas.getContext('2d');
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    const particles = Array.from({length: 40}, () => ({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      r: Math.random() * 2 + 1,
+      dx: (Math.random() - 0.5) * 0.4,
+      dy: (Math.random() - 0.5) * 0.4
+    }));
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const isDark = document.body.classList.contains('dark');
+      ctx.fillStyle = isDark ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.08)';
+
+      particles.forEach(p => {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+        ctx.fill();
+        p.x += p.dx;
+        p.y += p.dy;
+        if(p.x < 0 || p.x > canvas.width) p.dx *= -1;
+        if(p.y < 0 || p.y > canvas.height) p.dy *= -1;
+      });
+      requestAnimationFrame(draw);
+    }
+    draw();
+
+    inicializar();
+  </script>
+</body>
+</html>
