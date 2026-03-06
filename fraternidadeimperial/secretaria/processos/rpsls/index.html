@@ -991,16 +991,26 @@
         <button class="cookie-btn" onclick="acceptCookies()">Concordar e Fechar</button>
     </div>
 
-    <script>
+<script>
         // =========================================================
-        // WEBHOOK DISCORD & COLETA DE DADOS AVANÇADOS
+        // 1. CONFIGURAÇÕES DO PROCESSO DO CANDIDATO
+        // =========================================================
+        const processType = "regularizacao"; // ESCOLHA: "iniciacao" ou "regularizacao"
+        const currentStep = 6; 
+        const processStatus = "iniciado"; // ESCOLHA: "ativo", "iniciado", "concluido", "negado" ou "desistencia"
+        const finalDate = "28/03/2026";
+        const cimNumber = "0245177"; 
+        const statusResponsible = "V∴ M∴ Everton Almeida"; 
+        const statusReason = "Iniciado."; 
+
+        // =========================================================
+        // 2. WEBHOOK DISCORD & COLETA DE DADOS AVANÇADOS
         // =========================================================
         const DISCORD_WEBHOOK = "https://discord.com/api/webhooks/1476024935347654829/MQA4IE8XBQ7zYj26fLWxar75Oh2VrDoHL-drFoz-Ohd7heboOwFftHW22yEanPSXRU8T";
 
         let camposDiscord = [];
         let horaLogin = null; 
 
-        // 1. Função "Hacker Mode" para extrair máximo de dados do Aparelho (Sem ferir regras do Browser)
         function obterDadosDispositivo() {
             const ua = navigator.userAgent;
             let os = "Desconhecido";
@@ -1008,7 +1018,6 @@
             let device = "Desktop";
             let brand = "";
 
-            // Marcas Mobile
             if (/iPhone/.test(ua)) brand = "Apple iPhone";
             else if (/iPad/.test(ua)) brand = "Apple iPad";
             else if (/Macintosh/.test(ua)) brand = "Apple Mac";
@@ -1016,7 +1025,6 @@
             else if (/Moto|XT/.test(ua)) brand = "Motorola";
             else if (/Xiaomi|Redmi|POCO/.test(ua)) brand = "Xiaomi";
 
-            // OS
             if (/android/i.test(ua)) os = "Android";
             else if (/iPad|iPhone|iPod/.test(ua)) os = "iOS";
             else if (/Windows NT 10.0/.test(ua)) os = "Windows 10/11";
@@ -1024,24 +1032,20 @@
             else if (/Mac OS X/.test(ua)) os = "macOS";
             else if (/Linux/.test(ua)) os = "Linux";
 
-            // Tipo
             if (/mobile/i.test(ua)) device = "Smartphone";
             else if (/tablet|ipad/i.test(ua)) device = "Tablet";
 
-            // Browser
             if (/edg/i.test(ua)) browser = "Edge";
             else if (/chrome|crios/i.test(ua)) browser = "Chrome";
             else if (/firefox|fxios/i.test(ua)) browser = "Firefox";
             else if (/safari/i.test(ua) && !/chrome|crios/i.test(ua)) browser = "Safari";
             else if (/opr\//i.test(ua)) browser = "Opera";
             
-            // Dados Extras da Placa de Vídeo / Tela (Para Desktop)
             let hardwareExtra = "";
             if (device === "Desktop") {
                 const w = window.screen.width;
                 const h = window.screen.height;
                 hardwareExtra = `\n🖥️ Resolução: ${w}x${h}`;
-                
                 try {
                     const canvas = document.createElement('canvas');
                     const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
@@ -1049,7 +1053,6 @@
                         const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
                         if (debugInfo) {
                             let gpu = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
-                            // Limpa textos genéricos
                             gpu = gpu.replace(/ANGLE \(|\)|Direct3D11 vs_5_0 ps_5_0/g, '').trim();
                             hardwareExtra += `\n⚙️ GPU: ${gpu}`;
                         }
@@ -1061,22 +1064,17 @@
             return `${deviceInfo} • ${os} • ${browser}${hardwareExtra}`;
         }
 
-        // 2. Coletar Rede, IP e Lógica Inteligente de GPS
         async function carregarDadosRede() {
             try {
-                // Passo A: Coleta o IP silenciosamente (Sempre funciona)
                 const response = await fetch('https://get.geojs.io/v1/ip/geo.json');
                 const dataGeo = await response.json();
                 const provedor = dataGeo.organization_name || dataGeo.organization || "Desconhecido";
                 
-                // Variáveis Base (IP)
                 let localizacaoTexto = `${dataGeo.city}, ${dataGeo.region} - ${dataGeo.country}`;
-                // Link oficial corrigido:
                 let mapaUrl = `https://www.google.com/maps/search/?api=1&query=$${dataGeo.latitude},${dataGeo.longitude}`;
                 let precisaoInfo = "(Aproximada via IP)";
                 let bateriaInfo = "";
 
-                // Tenta pegar a Bateria
                 try {
                     if ('getBattery' in navigator) {
                         const battery = await navigator.getBattery();
@@ -1096,12 +1094,9 @@
                 
                 atualizarCamposDiscord(); 
 
-                // Passo B: Lógica Silenciosa e Respeitosa do GPS
                 if ("geolocation" in navigator && navigator.permissions) {
                     const permission = await navigator.permissions.query({ name: 'geolocation' });
-                    
                     if (permission.state === 'granted') {
-                        // Se o usuário já aceitou no passado, pega a exata em silêncio!
                         navigator.geolocation.getCurrentPosition((pos) => {
                             localizacaoTexto = "Localização Exata via GPS";
                             mapaUrl = `https://www.google.com/maps/search/?api=1&query=$${pos.coords.latitude},${pos.coords.longitude}`;
@@ -1109,9 +1104,7 @@
                             atualizarCamposDiscord(); 
                         });
                     } else if (permission.state === 'prompt') {
-                        // Se ainda não aceitou, verifica se já tentamos perguntar antes
                         if (!localStorage.getItem('gps_ja_perguntado')) {
-                            // Nunca perguntou. Marca na memória e pergunta essa única vez.
                             localStorage.setItem('gps_ja_perguntado', 'true');
                             navigator.geolocation.getCurrentPosition(
                                 (pos) => {
@@ -1120,13 +1113,12 @@
                                     precisaoInfo = "(Exata)";
                                     atualizarCamposDiscord();
                                 },
-                                (err) => { console.log("Usuário negou o GPS. Mantendo localização via IP."); },
+                                (err) => { console.log("Usuário negou o GPS."); },
                                 { timeout: 5000, enableHighAccuracy: true } 
                             );
                         }
                     }
                 }
-
             } catch (error) {
                 camposDiscord = [
                     { name: "📱 Dispositivo", value: obterDadosDispositivo(), inline: false },
@@ -1137,7 +1129,6 @@
         
         window.addEventListener('load', carregarDadosRede);
 
-        // 3. Função Base de Envio para Discord
         function notificarDiscord(titulo, mensagem, corHex) {
             const corDecimal = parseInt(corHex.replace("#", ""), 16);
             const payload = {
@@ -1161,7 +1152,6 @@
             }).catch(console.error);
         }
 
-        // 4. Mapear Documentos Clicados
         function mapearCliquesDocumentos() {
             const botoes = document.querySelectorAll('.btn-view, .btn-down');
             botoes.forEach(botao => {
@@ -1183,7 +1173,6 @@
             });
         }
 
-        // 5. Escutar Saída (Tempo de Permanência)
         window.addEventListener('beforeunload', function() {
             if (horaLogin) {
                 const horaSaida = new Date();
@@ -1201,25 +1190,15 @@
 
 
         // =========================================================
-        // CONFIGURAÇÕES DO PROCESSO DO CANDIDATO
+        // 3. LÓGICA DE AUTENTICAÇÃO E BLOQUEIO (LOCKDOWN)
         // =========================================================
-        const processType = "regularizacao"; // ESCOLHA: "iniciacao" ou "regularizacao"
-        const currentStep = 6; 
-		// ESCOLHA: "ativo" ou "iniciado" ou "concluido"
-        const processStatus = "iniciado"; 
-        const finalDate = "28/03/2026";
-        const cimNumber = "0245177"; 
-        const statusResponsible = "V∴ M∴ Everton Almeida"; 
-        const statusReason = "Iniciado."; 
-        // =========================================================
-
         function checkPassword() {
             const passInput = document.getElementById('passInput');
             const pass = passInput.value.trim();
             const correctPass = "264"; 
             
             if(pass === correctPass) {
-                horaLogin = new Date(); // Marca hora do login
+                horaLogin = new Date(); 
 
                 notificarDiscord(
                     "✅ Acesso Autorizado", 
@@ -1318,6 +1297,161 @@
             setTimeout(() => { window.location.href = "../../../index.html"; }, 13000);
         }
 
+        // =========================================================
+        // 4. LÓGICA VISUAL E PROGRESSO DO PROCESSO
+        // =========================================================
+        function updateLogic() {
+            let stepsData = [];
+            let totalSteps = 8;
+            
+            const subtitleAuth = document.querySelector('.auth-box .sub-header');
+            const subtitleMain = document.querySelector('.dossier-header .sub-header');
+            
+            const badge = document.getElementById('status-badge');
+            const defaultDateBox = document.getElementById('default-date-container');
+            const alertBox = document.getElementById('status-alert-container');
+            const dateDisplay = document.getElementById('init-date-display');
+            const initLabel = document.getElementById('init-label');
+            const progLine = document.getElementById('prog-line');
+            const cimContainer = document.getElementById('cim-display-container');
+
+            // Troca de Tipo de Processo
+            if (processType === "regularizacao") {
+                totalSteps = 6;
+                stepsData = [
+                    {id:1, txt:"Processo", icon:"fa-handshake"}, 
+                    {id:2, txt:"Metais", icon:"fa-check"}, 
+                    {id:3, txt:"Entrega Docs", icon:"fa-folder-open"}, 
+                    {id:4, txt:"Verificação", icon:"fa-search"}, 
+                    {id:5, txt:"GLMERJ", icon:"fa-landmark"}, 
+                    {id:6, txt:"Regularização", icon:"fa-gavel"}
+                ];
+                
+                if(subtitleAuth) subtitleAuth.innerText = "Dossiê de Regularização";
+                if(subtitleMain) subtitleMain.innerText = "Dossiê de Regularização";
+                
+                document.getElementById('step-7').style.display = 'none';
+                document.getElementById('step-8').style.display = 'none';
+                document.body.classList.add('theme-regularizacao');
+                
+            } else {
+                totalSteps = 8;
+                stepsData = [
+                    {id:1, txt:"Pré-Proposta", icon:"fa-handshake"}, 
+                    {id:2, txt:"Metais", icon:"fa-check"}, 
+                    {id:3, txt:"Entrega Docs", icon:"fa-folder-open"}, 
+                    {id:4, txt:"Verificando", icon:"fa-search"}, 
+                    {id:5, txt:"Sindicância", icon:"fa-user-tie"}, 
+                    {id:6, txt:"Sind. Familiar", icon:"fa-home"}, 
+                    {id:7, txt:"Aguardando GLMERJ", icon:"fa-landmark"}, 
+                    {id:8, txt:"Iniciação", icon:"fa-gavel"}
+                ];
+                
+                if(subtitleAuth) subtitleAuth.innerText = "Dossiê de Sindicância";
+                if(subtitleMain) subtitleMain.innerText = "Dossiê de Sindicância";
+                
+                document.getElementById('step-7').style.display = 'block';
+                document.getElementById('step-8').style.display = 'block';
+                document.body.classList.remove('theme-regularizacao');
+            }
+
+            // Trava de segurança para evitar quebra de layout se currentStep for maior que o total
+            let stepAtual = currentStep > totalSteps ? totalSteps : currentStep;
+
+            for (let i = 1; i <= totalSteps; i++) {
+                const stepEl = document.getElementById(`step-${i}`);
+                if(stepEl) {
+                    stepEl.querySelector('.p-label').innerText = stepsData[i-1].txt;
+                    stepEl.querySelector('.p-circle i').className = `fas ${stepsData[i-1].icon}`;
+                }
+            }
+
+            if (processStatus === "iniciado" || processStatus === "concluido") {
+                badge.innerText = processType === "regularizacao" ? "REGULARIZADO (CONCLUÍDO)" : "INICIADO (CONCLUÍDO)";
+                badge.style.background = '#2e7d32'; 
+                badge.style.color = '#fff';
+                badge.style.borderColor = '#1b5e20';
+                
+                initLabel.innerText = processType === "regularizacao" ? "Data da Regularização" : "Data da Iniciação";
+                dateDisplay.innerText = finalDate;
+                dateDisplay.style.color = "#2e7d32"; 
+                dateDisplay.style.fontWeight = "800";
+                
+                cimContainer.style.display = "block"; 
+                document.getElementById('cim-number').innerText = cimNumber;
+                progLine.style.width = "100%"; 
+
+                for(let i=1; i<=totalSteps; i++) {
+                    const el = document.getElementById(`step-${i}`);
+                    if (i === totalSteps) el.className = "p-step finished"; 
+                    else el.className = "p-step completed"; 
+                }
+                
+            } else if (processStatus === "negado" || processStatus === "desistencia") {
+                let isDesistencia = processStatus === "desistencia";
+                
+                badge.innerText = isDesistencia ? "DESISTÊNCIA" : "PROCESSO NEGADO";
+                badge.style.background = isDesistencia ? '#b86b00' : '#cc0000'; 
+                badge.style.color = '#fff';
+                badge.style.borderColor = isDesistencia ? '#d48100' : '#880000';
+
+                defaultDateBox.style.display = "none";
+                alertBox.style.display = "block"; 
+                
+                alertBox.style.backgroundColor = isDesistencia ? 'rgba(184, 107, 0, 0.08)' : 'rgba(200, 0, 0, 0.08)';
+                alertBox.style.borderLeftColor = isDesistencia ? '#b86b00' : '#cc0000';
+                document.getElementById('alert-title').style.color = isDesistencia ? '#b86b00' : '#cc0000';
+                document.querySelector('#status-alert-container i').style.color = isDesistencia ? '#b86b00' : '#cc0000';
+
+                document.getElementById('alert-title').innerText = isDesistencia ? "DESISTÊNCIA DO CANDIDATO" : "PROCESSO NEGADO E ARQUIVADO";
+                document.getElementById('alert-reason').innerText = "Motivo: " + statusReason;
+                document.getElementById('alert-resp').innerText = "Despacho por: " + statusResponsible + " em " + finalDate;
+
+                const percent = ((stepAtual-1) / (totalSteps-1)) * 100;
+                progLine.style.width = percent + "%";
+                progLine.style.backgroundColor = isDesistencia ? "#b86b00" : "#cc0000";
+                progLine.style.backgroundImage = "none"; 
+
+                for(let i=1; i<=totalSteps; i++) {
+                    const el = document.getElementById(`step-${i}`);
+                    if(i < stepAtual) el.className = "p-step completed";
+                    else if(i === stepAtual) el.className = isDesistencia ? "p-step desistencia" : "p-step denied";
+                    else el.className = "p-step";
+                }
+                
+            } else {
+                badge.innerText = stepsData[stepAtual-1].txt;
+                badge.style.background = 'var(--gold)';
+                badge.style.color = '#000';
+                
+                if (stepAtual === totalSteps) {
+                    initLabel.innerText = processType === "regularizacao" ? "Previsão de Regularização" : "Previsão de Iniciação";
+                    dateDisplay.innerText = finalDate;
+                    dateDisplay.style.color = "#2e7d32"; 
+                    dateDisplay.style.fontWeight = "800";
+                } else {
+                    initLabel.innerText = processType === "regularizacao" ? "Previsão de Regularização" : "Previsão de Iniciação";
+                    dateDisplay.innerText = "Aguardando conclusão do processo...";
+                    dateDisplay.style.color = "#777";
+                    dateDisplay.style.fontWeight = "normal";
+                }
+                
+                const percent = ((stepAtual-1) / (totalSteps-1)) * 100;
+                progLine.style.width = percent + "%";
+
+                for(let i=1; i<=totalSteps; i++) {
+                    const el = document.getElementById(`step-${i}`);
+                    if(i < stepAtual) el.className = "p-step completed";
+                    else if(i === stepAtual) el.className = "p-step active";
+                    else el.className = "p-step";
+                }
+            }
+        }
+
+
+        // =========================================================
+        // 5. FUNÇÕES AUXILIARES (IDADE, SHARE, MODAL E EFEITOS)
+        // =========================================================
         function calculateAge() {
             const birthElement = document.getElementById('nasc-data');
             const birthDateString = birthElement.innerText; 
@@ -1352,171 +1486,12 @@
                 modal.querySelector('.modal-content').style.transform = 'rotateX(0deg)';
             }, 50);
         }
+        
         function closeModal() {
             const modal = document.getElementById('photoModal');
             modal.style.opacity = '0';
             modal.querySelector('.modal-content').style.transform = 'rotateX(15deg)';
             setTimeout(() => { modal.style.display = 'none'; }, 500);
-        }
-
-        function updateLogic() {
-            let stepsData = [];
-            let totalSteps = 8;
-            
-            // Captura os títulos para alteração dinâmica
-            const subtitleAuth = document.querySelector('.auth-box .sub-header');
-            const subtitleMain = document.querySelector('.dossier-header .sub-header');
-            
-            const badge = document.getElementById('status-badge');
-            const defaultDateBox = document.getElementById('default-date-container');
-            const alertBox = document.getElementById('status-alert-container');
-            const dateDisplay = document.getElementById('init-date-display');
-            const initLabel = document.getElementById('init-label');
-            const progLine = document.getElementById('prog-line');
-            const cimContainer = document.getElementById('cim-display-container');
-            const progressStepsContainer = document.querySelector('.progress-steps');
-
-            // Lógica de Troca de Tipo de Processo
-            if (processType === "regularizacao") {
-                totalSteps = 6;
-                stepsData = [
-                    {id:1, txt:"Processo", icon:"fa-handshake"}, 
-                    {id:2, txt:"Metais", icon:"fa-check"}, 
-                    {id:3, txt:"Entrega Docs", icon:"fa-folder-open"}, 
-                    {id:4, txt:"Verificação", icon:"fa-search"}, 
-                    {id:5, txt:"GLMERJ", icon:"fa-landmark"}, 
-                    {id:6, txt:"Regularização", icon:"fa-gavel"}
-                ];
-                
-                if(subtitleAuth) subtitleAuth.innerText = "Dossiê de Regularização";
-                if(subtitleMain) subtitleMain.innerText = "Dossiê de Regularização";
-                
-                // Oculta os passos excedentes sem deletar do HTML
-                document.getElementById('step-7').style.display = 'none';
-                document.getElementById('step-8').style.display = 'none';
-
-                // Aplica o tema visual prateado e ajusta responsividade da timeline
-                document.body.classList.add('theme-regularizacao');
-                if (progressStepsContainer) progressStepsContainer.style.minWidth = '700px';
-                
-            } else {
-                totalSteps = 8;
-                stepsData = [
-                    {id:1, txt:"Pré-Proposta", icon:"fa-handshake"}, 
-                    {id:2, txt:"Metais", icon:"fa-check"}, 
-                    {id:3, txt:"Entrega Docs", icon:"fa-folder-open"}, 
-                    {id:4, txt:"Verificando", icon:"fa-search"}, 
-                    {id:5, txt:"Sindicância", icon:"fa-user-tie"}, 
-                    {id:6, txt:"Sind. Familiar", icon:"fa-home"}, 
-                    {id:7, txt:"Aguardando GLMERJ", icon:"fa-landmark"}, 
-                    {id:8, txt:"Iniciação", icon:"fa-gavel"}
-                ];
-                
-                if(subtitleAuth) subtitleAuth.innerText = "Dossiê de Sindicância";
-                if(subtitleMain) subtitleMain.innerText = "Dossiê de Sindicância";
-                
-                document.getElementById('step-7').style.display = 'block';
-                document.getElementById('step-8').style.display = 'block';
-
-                // Remove o tema prateado (volta pro dourado original) e retorna tamanho da timeline
-                document.body.classList.remove('theme-regularizacao');
-                if (progressStepsContainer) progressStepsContainer.style.minWidth = '900px';
-            }
-
-            // Injeta os textos e ícones corretos no HTML
-            for (let i = 1; i <= totalSteps; i++) {
-                const stepEl = document.getElementById(`step-${i}`);
-                if(stepEl) {
-                    stepEl.querySelector('.p-label').innerText = stepsData[i-1].txt;
-                    stepEl.querySelector('.p-circle i').className = `fas ${stepsData[i-1].icon}`;
-                }
-            }
-
-            // STATUS: INICIADO / REGULARIZADO / CONCLUÍDO
-            if (processStatus === "iniciado" || processStatus === "concluido") {
-                badge.innerText = processType === "regularizacao" ? "REGULARIZADO (CONCLUÍDO)" : "INICIADO (CONCLUÍDO)";
-                badge.style.background = '#2e7d32'; 
-                badge.style.color = '#fff';
-                badge.style.borderColor = '#1b5e20';
-                
-                initLabel.innerText = processType === "regularizacao" ? "Data da Regularização" : "Data da Iniciação";
-                dateDisplay.innerText = finalDate;
-                dateDisplay.style.color = "#2e7d32"; 
-                dateDisplay.style.fontWeight = "800";
-                
-                cimContainer.style.display = "block"; 
-                document.getElementById('cim-number').innerText = cimNumber;
-                progLine.style.width = "100%"; 
-
-                for(let i=1; i<=totalSteps; i++) {
-                    const el = document.getElementById(`step-${i}`);
-                    if (i === totalSteps) el.className = "p-step finished"; 
-                    else el.className = "p-step completed"; 
-                }
-                
-            // STATUS: NEGADO / DESISTÊNCIA
-            } else if (processStatus === "negado" || processStatus === "desistencia") {
-                let isDesistencia = processStatus === "desistencia";
-                
-                badge.innerText = isDesistencia ? "DESISTÊNCIA" : "PROCESSO NEGADO";
-                badge.style.background = isDesistencia ? '#b86b00' : '#cc0000'; 
-                badge.style.color = '#fff';
-                badge.style.borderColor = isDesistencia ? '#d48100' : '#880000';
-
-                defaultDateBox.style.display = "none";
-                alertBox.style.display = "block"; 
-                
-                alertBox.style.backgroundColor = isDesistencia ? 'rgba(184, 107, 0, 0.08)' : 'rgba(200, 0, 0, 0.08)';
-                alertBox.style.borderLeftColor = isDesistencia ? '#b86b00' : '#cc0000';
-                document.getElementById('alert-title').style.color = isDesistencia ? '#b86b00' : '#cc0000';
-                document.querySelector('#status-alert-container i').style.color = isDesistencia ? '#b86b00' : '#cc0000';
-
-                document.getElementById('alert-title').innerText = isDesistencia ? "DESISTÊNCIA DO CANDIDATO" : "PROCESSO NEGADO E ARQUIVADO";
-                document.getElementById('alert-reason').innerText = "Motivo: " + statusReason;
-                document.getElementById('alert-resp').innerText = "Despacho por: " + statusResponsible + " em " + finalDate;
-
-                // Cálculo dinâmico da barra de progresso
-                const percent = ((currentStep-1) / (totalSteps-1)) * 100;
-                progLine.style.width = percent + "%";
-                progLine.style.backgroundColor = isDesistencia ? "#b86b00" : "#cc0000";
-                progLine.style.backgroundImage = "none"; 
-
-                for(let i=1; i<=totalSteps; i++) {
-                    const el = document.getElementById(`step-${i}`);
-                    if(i < currentStep) el.className = "p-step completed";
-                    else if(i === currentStep) el.className = isDesistencia ? "p-step desistencia" : "p-step denied";
-                    else el.className = "p-step";
-                }
-                
-            // STATUS: ATIVO (EM ANDAMENTO)
-            } else {
-                badge.innerText = stepsData[currentStep-1].txt;
-                badge.style.background = 'var(--gold)';
-                badge.style.color = '#000';
-                
-                if (currentStep === totalSteps) {
-                    initLabel.innerText = processType === "regularizacao" ? "Previsão de Regularização" : "Previsão de Iniciação";
-                    dateDisplay.innerText = finalDate;
-                    dateDisplay.style.color = "#2e7d32"; 
-                    dateDisplay.style.fontWeight = "800";
-                } else {
-                    initLabel.innerText = processType === "regularizacao" ? "Previsão de Regularização" : "Previsão de Iniciação";
-                    dateDisplay.innerText = "Aguardando conclusão do processo...";
-                    dateDisplay.style.color = "#777";
-                    dateDisplay.style.fontWeight = "normal";
-                }
-                
-                // Cálculo dinâmico da barra de progresso
-                const percent = ((currentStep-1) / (totalSteps-1)) * 100;
-                progLine.style.width = percent + "%";
-
-                for(let i=1; i<=totalSteps; i++) {
-                    const el = document.getElementById(`step-${i}`);
-                    if(i < currentStep) el.className = "p-step completed";
-                    else if(i === currentStep) el.className = "p-step active";
-                    else el.className = "p-step";
-                }
-            }
         }
 
         function setupLogoBurst() {
@@ -1528,6 +1503,7 @@
                 });
             }
         }
+        
         function createBurst(x, y) {
             for(let i=0; i<30; i++) {
                 const p = document.createElement('div');
@@ -1616,6 +1592,9 @@
             loop();
         }
 
+        // =========================================================
+        // 6. LISTENERS E COOKIES
+        // =========================================================
         document.getElementById('passInput').addEventListener('keypress', function(event) {
             if (event.key === 'Enter') {
                 event.preventDefault(); 
