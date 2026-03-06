@@ -21,6 +21,10 @@
     <meta property="og:description" content="Arquivo Central e Histórico de Sindicâncias.">
     <meta property="og:type" content="website">
 
+    <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+
     <style>
         :root {
             --dark-navy: #001529;
@@ -178,31 +182,30 @@
         /* --- CONTROLES: BUSCA E TOGGLE VIEW --- */
         .controls-wrapper {
             display: flex; justify-content: center; align-items: center; gap: 15px; flex-wrap: wrap;
-            max-width: 600px; /* Reduzido para ficar mais elegante no Desktop */
-            margin: 0 auto 20px; width: 100%; position: relative; z-index: 5;
+            max-width: 600px; margin: 0 auto 20px; width: 100%; position: relative; z-index: 5;
         }
 
         .search-container { position: relative; flex: 1; min-width: 250px;}
         .search-input {
-            width: 100%; padding: 12px 20px 12px 50px; font-size: 0.95rem; border-radius: 50px; 
+            width: 100%; padding: 15px 20px 15px 60px; font-size: 1rem; border-radius: 50px; 
             border: 1px solid rgba(212, 175, 55, 0.5); background: rgba(0, 20, 40, 0.6); 
             color: #fff; font-family: 'Lato', sans-serif; outline: none; transition: 0.3s; backdrop-filter: blur(5px);
         }
         .search-input::placeholder { color: rgba(255, 255, 255, 0.5); font-style: italic; }
         .search-input:focus { border-color: var(--gold); box-shadow: 0 0 15px rgba(212, 175, 55, 0.3); background: rgba(0, 20, 40, 0.8); }
-        .search-icon { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: var(--gold); font-size: 1.1rem; pointer-events: none; z-index: 5; }
+        .search-icon { position: absolute; left: 25px; top: 50%; transform: translateY(-50%); color: var(--gold); font-size: 1.1rem; pointer-events: none; z-index: 5; }
 
         .view-toggle-container { display: flex; background: rgba(0,0,0,0.4); border-radius: 8px; border: 1px solid rgba(212, 175, 55, 0.3); overflow: hidden; flex-shrink: 0;}
         .view-btn { background: transparent; color: rgba(255,255,255,0.5); border: none; padding: 10px 18px; font-size: 1.1rem; cursor: pointer; transition: 0.3s; }
         .view-btn.active { background: rgba(212, 175, 55, 0.2); color: var(--gold); }
         .view-btn:hover:not(.active) { color: #fff; background: rgba(255,255,255,0.05); }
 
-        /* --- BARRA DE FILTROS STATUS E CSV --- */
+        /* --- BARRA DE FILTROS STATUS E EXPORTAÇÃO --- */
         .filters-and-export {
-            display: flex; justify-content: center; align-items: center; max-width: 800px; margin: 0 auto 40px; width: 100%; flex-wrap: wrap; gap: 15px; position: relative; z-index: 5;
+            display: flex; justify-content: center; align-items: center; max-width: 1000px; margin: 0 auto 40px; width: 100%; flex-wrap: wrap; gap: 15px; position: relative; z-index: 5;
         }
         
-        .filter-group { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; justify-content: center; flex: 1;}
+        .filter-group { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; justify-content: center; }
         
         .filter-btn { 
             background: rgba(0,0,0,0.3); border: 1px solid rgba(212, 175, 55, 0.4); color: var(--gold-light); 
@@ -216,13 +219,28 @@
         .btn-warning.active { background: #b86b00; color: #fff; border-color: #ffb300; box-shadow: 0 0 10px rgba(255, 179, 0, 0.3); font-weight: bold;}
         .btn-danger.active { background: #880000; color: #fff; border-color: #ef5350; box-shadow: 0 0 10px rgba(239, 83, 80, 0.3); font-weight: bold;}
         
+        /* Botões de Exportação e Select de Ordenação */
+        .sort-select {
+            background: rgba(0, 20, 40, 0.6); border: 1px solid rgba(212, 175, 55, 0.5);
+            color: var(--gold); padding: 8px 15px; border-radius: 20px;
+            font-family: 'Lato'; font-size: 0.85rem; outline: none; backdrop-filter: blur(5px);
+            margin-left: 10px; cursor: pointer; transition: 0.3s;
+        }
+        .sort-select:hover, .sort-select:focus { background: rgba(0, 42, 82, 0.8); }
+        .sort-select option { background: var(--dark-navy); color: #fff; }
+
         .btn-export { 
             background: linear-gradient(135deg, #1b5e20, #2e7d32); color: #fff; border: 1px solid #4caf50; 
-            padding: 8px 18px; border-radius: 6px; cursor: pointer; transition: 0.3s; font-family: 'Cinzel'; 
+            padding: 8px 16px; border-radius: 20px; cursor: pointer; transition: 0.3s; font-family: 'Cinzel'; 
             font-size: 0.85rem; display: flex; align-items: center; gap: 8px; font-weight: bold; letter-spacing: 1px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.4); margin-left: 5px;
         }
         .btn-export:hover { background: #2e7d32; box-shadow: 0 0 15px rgba(46, 125, 50, 0.6); transform: translateY(-2px);}
+        
+        .btn-pdf {
+            background: linear-gradient(135deg, #b71c1c, #d32f2f); border-color: #f44336; margin-left: 0;
+        }
+        .btn-pdf:hover { background: #d32f2f; box-shadow: 0 0 15px rgba(211, 47, 47, 0.6); transform: translateY(-2px);}
 
         /* --- CORES DOS STATUS PADRÃO NOS CARDS --- */
         .status-badge { display: inline-block; padding: 4px 10px; border-radius: 4px; font-size: 0.65rem; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; text-align: center; white-space: nowrap;}
@@ -341,6 +359,7 @@
             .page-title { line-height: 1.4; margin-bottom: 10px; font-size: 5.5vw; } 
             .page-title span { font-size: 1em; } 
             .subtitle { font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 30px; }
+            
             .header-nav-inner { gap: 10px; }
             .nav-link { font-size: 0.7rem; padding: 6px 12px; }
             .auth-box { width: 92%; padding: 30px 15px; }
@@ -348,17 +367,17 @@
             .auth-links { flex-direction: row; gap: 10px; } 
             .btn-voltar { padding: 10px 5px; font-size: 0.65rem; }
 
-            /* Ajustes Mobile Controles */
             .controls-wrapper { flex-direction: column; padding: 0 10px; gap: 10px;}
             .search-container { width: 100%; max-width: 100%;}
-            .view-toggle-container { display: none; } /* Oculta toggle no mobile */
+            .view-toggle-container { display: none; }
             
-            .filters-and-export { flex-direction: column; padding: 0 10px; align-items: stretch; gap: 15px;}
+            .filters-and-export { flex-direction: column; padding: 0 10px; align-items: stretch; gap: 10px;}
             .filter-group { justify-content: center; width: 100%; gap: 5px;}
             .filter-btn { flex: 1; text-align: center; padding: 8px 5px; font-size: 0.7rem; white-space: nowrap;}
-            .btn-export { width: 100%; justify-content: center; padding: 12px; margin-top: 5px;}
             
-            /* No Mobile, Grid e Tabela viram o mesmo formato de Card Responsivo */
+            .sort-select { margin-left: 0; width: 100%; text-align: center; padding: 10px;}
+            .btn-export { width: 100%; justify-content: center; padding: 12px; margin-left: 0; margin-top: 5px;}
+            
             .process-list.grid-mode, .process-list.table-mode { 
                 grid-template-columns: 1fr; gap: 15px; padding: 0 10px; display: grid; width: 100%;
             }
@@ -438,7 +457,7 @@
                     <span class="page-number">Nº 264</span>
                 </h1>
                 <div class="brasao-container">
-                    <img src="../../imagens/264.webp" alt="Brasão 264" class="brasao-img" onerror="this.src='../../imagens/264.jpg'">
+                    <img id="img-brasao" src="../../imagens/264.webp" alt="Brasão 264" class="brasao-img" onerror="this.onerror=null; this.src='../../imagens/264.png'">
                 </div>
                 <p class="subtitle">Histórico de Sindicâncias</p>
             </div>
@@ -461,11 +480,20 @@
                     <button class="filter-btn btn-success" onclick="aplicarFiltroStatus('Concluído', this)">Concluídos</button>
                     <button class="filter-btn btn-warning" onclick="aplicarFiltroStatus('Desistência', this)">Desistências</button>
                     <button class="filter-btn btn-danger" onclick="aplicarFiltroStatus('Negado', this)">Negados</button>
+                    
+                    <select id="export-sort" class="sort-select" title="Ordenar lista exportada">
+                        <option value="data">📅 Mais Recentes</option>
+                        <option value="nome">🔤 Ordem Alfabética</option>
+                        <option value="status">📊 Por Status</option>
+                    </select>
+
+                    <button class="btn-export" onclick="exportarExcel()" title="Baixar relatório formatado em XLSX">
+                        <i class="fas fa-file-excel"></i> Excel
+                    </button>
+                    <button class="btn-export btn-pdf" onclick="exportarPDF()" title="Baixar relatório formatado em PDF">
+                        <i class="fas fa-file-pdf"></i> PDF
+                    </button>
                 </div>
-                
-                <button class="btn-export" onclick="exportarCSV()" title="Baixar relatório CSV compatível com Excel">
-                    <i class="fas fa-file-excel"></i> Exportar CSV
-                </button>
             </div>
             
             <div class="process-list grid-mode" id="process-list">
@@ -546,15 +574,8 @@
         const noResultsMsg = document.getElementById('no-results-msg');
         const searchInput = document.getElementById('searchInput');
 
-        // =========================================================
-        // FUNÇÃO PRINCIPAL DE RENDERIZAÇÃO E FILTRAGEM
-        // =========================================================
-        function renderList() {
-            const cards = listContainer.querySelectorAll('.js-process-card');
-            cards.forEach(card => card.remove());
-            
-            // Filtros Simultâneos (Pesquisa Mestra + Status)
-            const processosFiltrados = dadosProcessos.filter(p => {
+        function obterProcessosFiltrados() {
+            return dadosProcessos.filter(p => {
                 const passaStatus = statusFiltroCorrente === "Todos" || p.status === statusFiltroCorrente;
                 const termo = termoPesquisaCorrente.toLowerCase();
                 const passaBusca = p.nome.toLowerCase().includes(termo) || 
@@ -563,6 +584,36 @@
                                    p.data.toLowerCase().includes(termo); 
                 return passaStatus && passaBusca;
             });
+        }
+
+        // Função para ORDENAR os processos antes de exportar
+        function ordenarProcessos(processos) {
+            const sortType = document.getElementById('export-sort').value;
+            
+            return processos.sort((a, b) => {
+                if (sortType === 'nome') {
+                    return a.nome.localeCompare(b.nome);
+                } else if (sortType === 'status') {
+                    // Ordenar por Status (A-Z) e, se igual, por nome
+                    if(a.status === b.status) return a.nome.localeCompare(b.nome);
+                    return a.status.localeCompare(b.status);
+                } else {
+                    // Ordenar por Data (Mais recente primeiro) -> Converte DD/MM/YYYY para YYYYMMDD
+                    const dateA = a.data.split('/').reverse().join('');
+                    const dateB = b.data.split('/').reverse().join('');
+                    return dateB.localeCompare(dateA); 
+                }
+            });
+        }
+
+        // =========================================================
+        // FUNÇÃO PRINCIPAL DE RENDERIZAÇÃO NA TELA
+        // =========================================================
+        function renderList() {
+            const cards = listContainer.querySelectorAll('.js-process-card');
+            cards.forEach(card => card.remove());
+            
+            const processosFiltrados = obterProcessosFiltrados();
 
             // Renderiza resultados
             processosFiltrados.forEach((p, index) => {
@@ -611,7 +662,6 @@
 
                 card.style.cssText += borderStyle;
 
-                // ESTRUTURA UNIFICADA PARA NÃO QUEBRAR A TABELA (Sem os textos de Encerrado/Iniciado)
                 card.innerHTML = `
                     <div class="col-cim">
                         <div class="${cimBoxClass}">
@@ -641,44 +691,123 @@
         }
 
         // =========================================================
-        // EXPORTAÇÃO PARA CSV NATIVO (Sem erro do Excel)
+        // EXPORTAÇÃO PARA EXCEL (.XLSX) VIA SHEETJS
         // =========================================================
-        window.exportarCSV = function() {
-            // \uFEFF é o BOM para forçar o Excel a ler em UTF-8 (Acentos corretos)
-            // Ponto e vírgula ; separa as colunas nativamente no Brasil
-            let csvContent = "data:text/csv;charset=utf-8,\uFEFF"; 
-            csvContent += "Nome do Candidato;Data do Processo;CIM / Motivo;Status Final\n"; 
-
-            const processosParaExportar = dadosProcessos.filter(p => {
-                const passaStatus = statusFiltroCorrente === "Todos" || p.status === statusFiltroCorrente;
-                const termo = termoPesquisaCorrente.toLowerCase();
-                const passaBusca = p.nome.toLowerCase().includes(termo) || p.cim.toLowerCase().includes(termo) || p.status.toLowerCase().includes(termo) || p.data.toLowerCase().includes(termo);
-                return passaStatus && passaBusca;
-            });
+        window.exportarExcel = function() {
+            // Pega os itens filtrados E ORDENADOS
+            const processosParaExportar = ordenarProcessos(obterProcessosFiltrados());
 
             if (processosParaExportar.length === 0) {
                 alert("Nenhum dado para exportar com os filtros atuais.");
                 return;
             }
 
-            processosParaExportar.forEach(p => {
-                // Remove aspas que o usuario possa ter digitado no banco pra nao quebrar o CSV
-                const nomeLimpo = p.nome.replace(/"/g, ''); 
-                // Colocar cada campo entre aspas resolve o problema de nomes com vírgula (ex: Silva, Junior)
-                let row = `"${nomeLimpo}";"${p.data}";"${p.cim}";"${p.status}"`;
-                csvContent += row + "\n";
+            const dadosPlanilha = processosParaExportar.map(p => ({
+                "Nome do Candidato": p.nome,
+                "Data do Processo": p.data,
+                "CIM / Motivo": p.cim,
+                "Status Final": p.status
+            }));
+
+            const worksheet = XLSX.utils.json_to_sheet(dadosPlanilha);
+            
+            worksheet['!cols'] = [
+                { wch: 40 }, // Nome
+                { wch: 18 }, // Data
+                { wch: 15 }, // CIM
+                { wch: 15 }  // Status
+            ];
+
+            const workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, "Arquivo de Sindicâncias");
+
+            const hoje = new Date().toISOString().split('T')[0];
+            XLSX.writeFile(workbook, `Relatorio_Arquivados_264_${hoje}.xlsx`);
+        }
+
+        // =========================================================
+        // EXPORTAÇÃO PARA PDF VIA JSPDF (Estilizado)
+        // =========================================================
+        window.exportarPDF = function() {
+            // Pega os itens filtrados E ORDENADOS
+            const processosParaExportar = ordenarProcessos(obterProcessosFiltrados());
+
+            if (processosParaExportar.length === 0) {
+                alert("Nenhum dado para exportar com os filtros atuais.");
+                return;
+            }
+
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF('p', 'pt', 'a4'); 
+            const pageWidth = doc.internal.pageSize.getWidth();
+
+            doc.setFont("helvetica", "bold");
+            doc.setFontSize(16);
+            doc.text("A∴ R∴ L∴ M∴ Fraternidade Imperial Nº 264", pageWidth / 2, 40, { align: "center" });
+            
+            doc.setFontSize(12);
+            doc.setFont("helvetica", "normal");
+            doc.text("Relatório de Sindicâncias - Arquivo Central", pageWidth / 2, 60, { align: "center" });
+
+            try {
+                const imgElement = document.getElementById('img-brasao');
+                if(imgElement && imgElement.complete && imgElement.naturalWidth > 0) {
+                    const canvas = document.createElement('canvas');
+                    canvas.width = imgElement.naturalWidth;
+                    canvas.height = imgElement.naturalHeight;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(imgElement, 0, 0);
+                    const imgData = canvas.toDataURL('image/png');
+                    doc.addImage(imgData, 'PNG', (pageWidth / 2) - 30, 80, 60, 60);
+                }
+            } catch(e) {
+                console.warn("Imagem do brasão não carregada no PDF.");
+            }
+
+            const tableData = processosParaExportar.map(p => [
+                p.nome, p.data, p.cim, p.status
+            ]);
+
+            // Melhoria das Cores do PDF
+            doc.autoTable({
+                startY: 160,
+                head: [['Nome do Candidato', 'Data', 'CIM / Motivo', 'Status']],
+                body: tableData,
+                theme: 'grid',
+                headStyles: { 
+                    fillColor: [0, 21, 41],    // Fundo Azul Marinho profundo
+                    textColor: [212, 175, 55], // Letras Douradas
+                    halign: 'center', 
+                    fontStyle: 'bold',
+                    lineColor: [212, 175, 55], // Borda Dourada embaixo
+                    lineWidth: 0.5
+                },
+                alternateRowStyles: { fillColor: [240, 248, 255] }, // Fundo Alice Blue muito suave para leitura
+                styles: { 
+                    font: 'helvetica', 
+                    fontSize: 10, 
+                    cellPadding: 7,
+                    lineColor: [200, 200, 200], // Borda cinza em toda a tabela
+                    lineWidth: 0.1
+                },
+                columnStyles: {
+                    0: { cellWidth: 'auto', fontStyle: 'bold' }, // Destaca o nome do candidato
+                    1: { halign: 'center', cellWidth: 70 },
+                    2: { halign: 'center', cellWidth: 90 },
+                    3: { halign: 'center', cellWidth: 80, fontStyle: 'bold' }
+                },
+                didParseCell: function(data) {
+                    if (data.section === 'body' && data.column.index === 3) {
+                        const status = data.cell.raw;
+                        if (status === 'Concluído') data.cell.styles.textColor = [20, 110, 30]; // Verde vivo
+                        else if (status === 'Negado') data.cell.styles.textColor = [200, 20, 20]; // Vermelho vivo
+                        else if (status === 'Desistência') data.cell.styles.textColor = [210, 105, 0]; // Laranja vivo
+                    }
+                }
             });
 
-            const encodedUri = encodeURI(csvContent);
-            const link = document.createElement("a");
-            link.setAttribute("href", encodedUri);
-            
             const hoje = new Date().toISOString().split('T')[0];
-            link.setAttribute("download", `Relatorio_Arquivados_264_${hoje}.csv`);
-            
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+            doc.save(`Relatorio_Sindicancias_264_${hoje}.pdf`);
         }
 
         // =========================================================
@@ -790,7 +919,6 @@
                 notificarDiscord("⏱️ Acesso Encerrado (Arquivo Central)", `**O usuário fechou a aba ou saiu da página.**\n**Tempo de visualização:** ${m}m ${s}s`, "#555555");
             }
         });
-
 
         // =========================================================
         // EVENTOS DOMContentLoaded E INICIALIZAÇÃO
