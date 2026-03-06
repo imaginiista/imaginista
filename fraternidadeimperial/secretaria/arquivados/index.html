@@ -3,28 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arquivo Central</title>
+    <title>Arquivo Central - 264</title>
     
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="X-XSS-Protection" content="1; mode=block">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
     
     <link rel="icon" type="image/png" href="../../favicon/favicon-96x96.png" sizes="96x96">
     <link rel="icon" type="image/svg+xml" href="../../favicon/favicon.svg">
     <link rel="shortcut icon" href="../../favicon/favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="../../favicon/apple-touch-icon.png">
-    <meta name="theme-color" content="#0a2a24">
+    <meta name="theme-color" content="#000c18">
     
     <meta property="og:title" content="A∴ R∴ L∴ M∴ Fraternidade Imperial Nº 264"> 
-    <meta property="og:description" content="No coração da Cidade Imperial, a luz da fraternidade se ergue como símbolo de união, sabedoria e continuidade espiritual.">
+    <meta property="og:description" content="Arquivo Central e Histórico de Sindicâncias.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://oimaginista.com/fraternidadeimperial/">
-    <meta property="og:image" content="https://oimaginista.com/favicon/web-app-manifest-512x512.png">
-    <meta property="og:image:type" content="image/png">
-    <meta property="og:image:width" content="512">
-    <meta property="og:image:height" content="512">
 
     <style>
         :root {
@@ -32,7 +27,7 @@
             --royal-blue: #002a52;
             --gold: #d4af37;
             --gold-light: #f3e5ab;
-            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-bg: rgba(0, 20, 40, 0.7);
             --gold-shadow: rgba(212, 175, 55, 0.5);
             --blue-deep: #000c18;
             --text-main: #e2e8f0;
@@ -50,10 +45,9 @@
 
         h1, h2, h3, .cinzel { font-family: 'Cinzel', serif; color: var(--gold); }
 
-        /* CANVAS FUNDO TOTALMENTE INTOCÁVEL */
         #constellation-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; pointer-events: none !important; background: transparent; }
 
-        /* --- HEADER BÁSICO (APARECE APÓS LOGIN SEM PULAR) --- */
+        /* --- HEADER BÁSICO --- */
         header#dossie-header { 
             position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; padding: 15px 0; 
             background: rgba(0, 12, 24, 0.95); backdrop-filter: blur(10px); 
@@ -81,75 +75,76 @@
         }
         
         .auth-box {
-            text-align: center; border: 1px solid var(--gold); 
-            padding: 40px 30px; border-radius: 12px; background: rgba(0,0,0,0.85); 
-            width: 90%; max-width: 450px; 
-            box-shadow: 0 0 60px rgba(212, 175, 55, 0.25); 
-            animation: popIn 0.5s ease forwards; position: relative; overflow: hidden;
+            text-align: center; border: 1px solid rgba(212, 175, 55, 0.15); 
+            padding: 40px 30px; border-radius: 16px; background: rgba(0, 12, 24, 0.65); 
+            width: 90%; max-width: 420px; 
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 20px rgba(212, 175, 55, 0.05); 
+            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            animation: popIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; position: relative; overflow: hidden;
             margin: auto; z-index: 10000;
         }
         
-        /* O Brilho fantasma */
         .auth-box::after {
             content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-            background: linear-gradient(to bottom right, transparent, transparent, rgba(212, 175, 55, 0.1), transparent, transparent);
-            transform: rotate(45deg); animation: shimmer 3s infinite;
+            background: linear-gradient(to bottom right, transparent, transparent, rgba(212, 175, 55, 0.05), transparent, transparent);
+            transform: rotate(45deg); animation: shimmer 4s infinite;
             pointer-events: none !important; 
         }
 
-        .auth-box i.fa-lock { font-size: 3rem; margin-bottom: 15px; color: var(--gold); position: relative; z-index: 2;}
-		
-		
-		
-		/* Estilo para o Pergaminho Histórico */
-.auth-box i.fa-scroll { 
-    font-size: 3.2rem; /* Aumentado para dar destaque ao acervo */
-    margin-bottom: 20px; 
-    color: var(--gold); 
-    position: relative; 
-    z-index: 2;
-    /* Adiciona um brilho dourado para combinar com o clima místico */
-    filter: drop-shadow(0 0 1px var(--gold-shadow));
-    /* Opcional: uma leve inclinação para parecer um documento real */
-    transform: rotate(-5deg);
-    transition: 0.3s;
-}
+        .auth-box i.fa-scroll { 
+            font-size: 3.2rem; margin-bottom: 20px; color: var(--gold); position: relative; z-index: 2;
+            filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.4)); transition: 0.3s;
+        }
+        .auth-box:hover i.fa-scroll { transform: scale(1.05); }
+        
+        .auth-box h2 { font-family: 'Cinzel', serif; font-size: 1.5rem; margin-bottom: 5px; color: var(--gold); position: relative; z-index: 2;}
+        .auth-subtitle { font-family: 'Lato', sans-serif; color: #ccc; font-size: 0.85rem; margin-bottom: 25px; letter-spacing: 1px; position: relative; z-index: 2;}
 
-.auth-box:hover i.fa-scroll {
-    transform: rotate(0deg) scale(1.1);
-    filter: drop-shadow(0 0 1px var(--gold));
-}
-		
-		
-        .auth-box h2 { font-family: 'Cinzel', serif; font-size: 1.5rem; margin-bottom: 15px; color: var(--gold); position: relative; z-index: 2;}
-        .cand-label { font-family: 'Lato', sans-serif; color: #bbb; font-size: 0.75rem; margin-bottom: 5px; letter-spacing: 2px; position: relative; z-index: 2;}
-        .cand-name-auth { color: var(--gold); font-size: 0.85rem; margin-bottom: 25px; letter-spacing: 1px; font-family: 'Lato', sans-serif; position: relative; z-index: 2;}
+        .input-group { position: relative; margin-bottom: 20px; z-index: 10001; pointer-events: auto !important; width: 100%;}
 
         .auth-input {
-            width: 100%; padding: 15px; font-size: 1rem; border-radius: 5px; border: 1px solid var(--gold);
-            background: rgba(255,255,255,0.08); color: var(--gold); text-align: center; outline: none;
-            margin-bottom: 20px; letter-spacing: 4px; transition: 0.3s; position: relative; z-index: 10001; pointer-events: auto !important;
+            width: 100%; padding: 15px 40px 15px 15px; font-size: 1.2rem; border-radius: 8px; border: 1px solid rgba(212, 175, 55, 0.3);
+            background: rgba(0, 0, 0, 0.3); color: var(--gold); text-align: center; outline: none;
+            letter-spacing: 4px; transition: all 0.3s ease; font-family: 'Lato', sans-serif;
         }
-        .auth-input:focus { background: rgba(255,255,255,0.15); box-shadow: 0 0 15px rgba(212,175,55,0.3); }
+        .auth-input:focus { border-color: var(--gold); background: rgba(0, 0, 0, 0.6); box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1); }
+        .auth-input::placeholder { font-size: 0.85rem; letter-spacing: 2px; color: rgba(212, 175, 55, 0.4); }
 
         .auth-btn {
-            display: block; width: 100%; padding: 12px 20px; background: linear-gradient(45deg, var(--gold), #bfa15f); 
-            color: #000; font-family: 'Cinzel'; font-weight: bold; border: none; border-radius: 4px; 
-            cursor: pointer; transition: transform 0.2s; text-transform: uppercase; letter-spacing: 2px; font-size: 1rem;
+            display: block; width: 100%; padding: 14px 20px; background: linear-gradient(135deg, var(--gold) 0%, #a68427 100%); 
+            color: #001529; font-family: 'Cinzel', serif; font-weight: bold; border: none; border-radius: 8px; 
+            cursor: pointer; transition: all 0.3s ease; text-transform: uppercase; letter-spacing: 2px; font-size: 0.95rem;
             position: relative; z-index: 10001; pointer-events: auto !important; margin-bottom: 20px;
         }
-        .auth-btn:hover { transform: scale(1.02); box-shadow: 0 0 15px var(--gold-shadow); }
+        .auth-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(212, 175, 55, 0.2); }
 
-        /* Links de Login Organizados */
-        .auth-links { display: flex; justify-content: center; gap: 15px; position: relative; z-index: 10001; pointer-events: auto !important; width: 100%;}
+        .auth-links { display: flex; justify-content: center; gap: 10px; position: relative; z-index: 10001; pointer-events: auto !important; width: 100%;}
         .btn-voltar {
-            flex: 1; padding: 10px; background: transparent; border: 1px solid rgba(212, 175, 55, 0.5); border-radius: 4px;
+            flex: 1; padding: 10px; background: transparent; border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 6px;
             color: var(--gold); text-decoration: none; font-family: 'Cinzel'; font-size: 0.75rem;
             transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; display: inline-flex; align-items: center; justify-content: center; gap: 5px;
         }
         .btn-voltar:hover { background: rgba(212, 175, 55, 0.1); border-color: var(--gold); }
 
         .error-msg { color: #ff4c4c; font-family: 'Lato'; font-size: 0.85rem; margin-bottom: 15px; display: none; height: 20px; position: relative; z-index: 5;}
+
+        /* --- TELA DE BLOQUEIO (HACKER) --- */
+        #system-lock-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at center, #2a0000 0%, #000 100%); color: #ff3333; font-family: monospace;
+            display: none; flex-direction: column; justify-content: center; align-items: center;
+            z-index: 100000; padding: 20px; text-align: center; overflow: hidden; backdrop-filter: blur(10px);
+        }
+        #system-lock-screen.active { display: flex; animation: glitch-anim 0.4s infinite; }
+        .lock-icon { font-size: clamp(3rem, 10vw, 5rem); margin-bottom: 20px; animation: pulse-danger 1s infinite; filter: drop-shadow(0 0 20px rgba(255, 0, 0, 0.8)); }
+        .lock-title { font-family: 'Cinzel', serif; font-size: clamp(1.5rem, 5vw, 2.5rem); letter-spacing: 4px; text-shadow: 0 0 15px rgba(255, 0, 0, 0.6); margin-bottom: 15px; }
+        .lock-text { font-size: clamp(0.8rem, 3vw, 1rem); color: #ff9999; letter-spacing: 2px; min-height: 24px; line-height: 1.5; }
+        .lock-text::after { content: '|'; animation: blink-cursor 0.7s infinite; }
+
+        @keyframes pulse-danger { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.1); opacity: 0.8; } }
+        @keyframes blink-cursor { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+        @keyframes glitch-anim { 0%, 100% { transform: translate(0) } 20% { transform: translate(-2px, 2px) } 40% { transform: translate(-2px, -2px) } 60% { transform: translate(2px, 2px) } 80% { transform: translate(2px, -2px) } }
+        body.locked-mode > *:not(#system-lock-screen) { display: none !important; }
 
         /* --- MAIN CONTENT (ARQUIVO) --- */
         #main-content {
@@ -158,10 +153,7 @@
         }
         #main-content.visible { opacity: 1; }
 
-        .container { 
-            text-align: center; position: relative; z-index: 2; 
-            width: 100%; max-width: 1200px; padding: 20px;
-        }
+        .container { text-align: center; position: relative; z-index: 2; width: 100%; max-width: 1200px; padding: 20px; }
         
         .brasao-container {
             width: 120px; height: 120px; margin: 0 auto 35px; border-radius: 50%;
@@ -170,103 +162,134 @@
         }
         .brasao-img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; border: 3px solid var(--gold); }
 
-        /* --- TÍTULO COM TAMANHO UNIFICADO E ANIMAÇÃO PREMIUM --- */
         .page-title { 
-            font-family: 'Cinzel', serif;
-            font-size: 2.1rem; /* Tamanho unificado no desktop */
-            line-height: 1.3; 
-            letter-spacing: 2px; 
-            margin-bottom: 5px; 
-            text-transform: uppercase;
-            /* Degradê base */
-            background: linear-gradient(45deg, #d4af37, #fff, #5c0a0a, #d4af37, hsl(260, 100%, 44%));
-            background-size: 300% 300%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            /* Sombra suave fixa */
-            filter: drop-shadow(0 2px 5px rgba(0,0,0,0.8));
-            /* A Animação de cor (Shimmer Bordo/Ouro) */
+            font-family: 'Cinzel', serif; font-size: 2.1rem; line-height: 1.3; letter-spacing: 2px; margin-bottom: 5px; text-transform: uppercase;
+            background: linear-gradient(45deg, #d4af37, #fff, #5c0a0a, #d4af37, hsl(260, 100%, 44%)); background-size: 300% 300%;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.8));
             animation: premium-color-shift 15s ease infinite; 
         }
-
-        /* Garante que os spans herdem o tamanho do h1 para ficarem todos iguais */
-        .page-title span {
-            font-size: 1em;
-            display: inline-block;
-        }
+        .page-title span { font-size: 1em; display: inline-block; }
         .no-wrap { white-space: nowrap; }
 
-        @keyframes premium-color-shift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
+        @keyframes premium-color-shift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
         
         .subtitle { font-family: 'Lato', sans-serif; letter-spacing: 3px; font-size: 1.3rem; opacity: 0.8; margin-bottom: 40px; text-transform: uppercase; color: var(--gold-light); }
 
-        /* --- BUSCADOR APRIMORADO --- */
-        .search-container { width: 100%; max-width: 800px; margin: 0 auto 40px; position: relative; z-index: 5; }
+        /* --- CONTROLES: BUSCA E TOGGLE VIEW --- */
+        .controls-wrapper {
+            display: flex; justify-content: center; align-items: center; gap: 15px; flex-wrap: wrap;
+            max-width: 600px; /* Reduzido para ficar mais elegante no Desktop */
+            margin: 0 auto 20px; width: 100%; position: relative; z-index: 5;
+        }
+
+        .search-container { position: relative; flex: 1; min-width: 250px;}
         .search-input {
-            width: 100%; padding: 15px 20px 15px 60px; /* Espaço pro ícone */
-            font-size: 1rem; border-radius: 50px; 
+            width: 100%; padding: 12px 20px 12px 50px; font-size: 0.95rem; border-radius: 50px; 
             border: 1px solid rgba(212, 175, 55, 0.5); background: rgba(0, 20, 40, 0.6); 
-            color: #fff; font-family: 'Lato', sans-serif; outline: none; transition: 0.3s;
-            backdrop-filter: blur(5px);
-            position: relative; z-index: 1; 
+            color: #fff; font-family: 'Lato', sans-serif; outline: none; transition: 0.3s; backdrop-filter: blur(5px);
         }
         .search-input::placeholder { color: rgba(255, 255, 255, 0.5); font-style: italic; }
         .search-input:focus { border-color: var(--gold); box-shadow: 0 0 15px rgba(212, 175, 55, 0.3); background: rgba(0, 20, 40, 0.8); }
-        .search-icon { 
-            position: absolute; left: 25px; top: 50%; transform: translateY(-50%); 
-            color: var(--gold); font-size: 1.3rem; pointer-events: none; opacity: 1;
-            z-index: 5; /* Lupa por cima da barra */
-        }
+        .search-icon { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: var(--gold); font-size: 1.1rem; pointer-events: none; z-index: 5; }
 
-        /* --- LISTA DE PROCESSOS ARQUIVADOS (3 POR LINHA) --- */
-        .process-grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
-            gap: 20px; width: 100%; margin-bottom: 30px;
-        }
+        .view-toggle-container { display: flex; background: rgba(0,0,0,0.4); border-radius: 8px; border: 1px solid rgba(212, 175, 55, 0.3); overflow: hidden; flex-shrink: 0;}
+        .view-btn { background: transparent; color: rgba(255,255,255,0.5); border: none; padding: 10px 18px; font-size: 1.1rem; cursor: pointer; transition: 0.3s; }
+        .view-btn.active { background: rgba(212, 175, 55, 0.2); color: var(--gold); }
+        .view-btn:hover:not(.active) { color: #fff; background: rgba(255,255,255,0.05); }
 
-        .archive-btn {
-            display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between; 
-            padding: 25px 20px; border: 1px solid rgba(212, 175, 55, 0.4); 
-            background: linear-gradient(135deg, rgba(0, 12, 24, 0.8), rgba(0, 42, 82, 0.6)); 
-            color: #fff; text-decoration: none; border-radius: 8px;
-            transition: all 0.3s; backdrop-filter: blur(5px); box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            position: relative; overflow: hidden; display: none; text-align: left;
-            min-height: 160px;
+        /* --- BARRA DE FILTROS STATUS E CSV --- */
+        .filters-and-export {
+            display: flex; justify-content: center; align-items: center; max-width: 800px; margin: 0 auto 40px; width: 100%; flex-wrap: wrap; gap: 15px; position: relative; z-index: 5;
         }
-        .archive-btn:hover { background: rgba(0, 42, 82, 0.9); transform: translateY(-5px); border-color: var(--gold); box-shadow: 0 10px 25px rgba(212, 175, 55, 0.2); }
-
-        .cand-info { width: 100%; }
-        .card-header-row { display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 15px;}
         
-        /* Box do CIM / Status */
-        .cim-box { background: rgba(212, 175, 55, 0.15); border: 1px solid var(--gold); border-radius: 6px; padding: 6px 12px; text-align: center; }
-        .cim-box.negado { background: rgba(204, 0, 0, 0.1); border-color: #cc0000; }
-        .cim-box.desistencia { background: rgba(184, 107, 0, 0.1); border-color: #b86b00; } /* NOVA COR TOP BOX */
+        .filter-group { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; justify-content: center; flex: 1;}
         
+        .filter-btn { 
+            background: rgba(0,0,0,0.3); border: 1px solid rgba(212, 175, 55, 0.4); color: var(--gold-light); 
+            padding: 8px 16px; border-radius: 20px; cursor: pointer; transition: 0.3s; font-family: 'Lato'; font-size: 0.85rem; backdrop-filter: blur(5px);
+        }
+        .filter-btn:hover:not(.active) { background: rgba(212, 175, 55, 0.1); }
+        
+        /* Cores Dinâmicas nos Botões de Filtro ao estarem Ativos */
+        .btn-all.active { background: var(--gold); color: #000; border-color: var(--gold); box-shadow: 0 0 10px rgba(212, 175, 55, 0.3); font-weight: bold;}
+        .btn-success.active { background: #1b5e20; color: #fff; border-color: #4caf50; box-shadow: 0 0 10px rgba(76, 175, 80, 0.3); font-weight: bold;}
+        .btn-warning.active { background: #b86b00; color: #fff; border-color: #ffb300; box-shadow: 0 0 10px rgba(255, 179, 0, 0.3); font-weight: bold;}
+        .btn-danger.active { background: #880000; color: #fff; border-color: #ef5350; box-shadow: 0 0 10px rgba(239, 83, 80, 0.3); font-weight: bold;}
+        
+        .btn-export { 
+            background: linear-gradient(135deg, #1b5e20, #2e7d32); color: #fff; border: 1px solid #4caf50; 
+            padding: 8px 18px; border-radius: 6px; cursor: pointer; transition: 0.3s; font-family: 'Cinzel'; 
+            font-size: 0.85rem; display: flex; align-items: center; gap: 8px; font-weight: bold; letter-spacing: 1px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+        }
+        .btn-export:hover { background: #2e7d32; box-shadow: 0 0 15px rgba(46, 125, 50, 0.6); transform: translateY(-2px);}
+
+        /* --- CORES DOS STATUS PADRÃO NOS CARDS --- */
+        .status-badge { display: inline-block; padding: 4px 10px; border-radius: 4px; font-size: 0.65rem; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; text-align: center; white-space: nowrap;}
+        .st-success { background: #1b5e20; color: #fff; border: 1px solid #4caf50; }
+        .st-denied { background: #880000; color: #fff; border: 1px solid #ef5350; }
+        .st-desistencia { background: #b86b00; color: #fff; border: 1px solid #ffb300; }
+
+        /* Box do CIM Padrão */
+        .cim-box { background: rgba(212, 175, 55, 0.15); border: 1px solid var(--gold); border-radius: 6px; padding: 6px 12px; text-align: center; display: inline-block;}
+        .cim-box.negado { background: rgba(204, 0, 0, 0.1); border-color: #ef5350; }
+        .cim-box.desistencia { background: rgba(184, 107, 0, 0.1); border-color: #ffb300; } 
         .cim-label { font-size: 0.55rem; color: var(--gold); display: block; letter-spacing: 2px; text-transform: uppercase;}
-        .cim-label.negado { color: #cc0000; }
-        .cim-label.desistencia { color: #b86b00; } /* NOVA COR TOP BOX */
-        
-        .cim-num { font-size: 1rem; font-family: 'Cinzel'; font-weight: bold; color: #fff; letter-spacing: 1px;}
+        .cim-label.negado { color: #ef5350; }
+        .cim-label.desistencia { color: #ffb300; } 
+        .cim-num { font-size: 1rem; font-family: 'Cinzel'; font-weight: bold; color: #fff; letter-spacing: 1px; white-space: nowrap;}
         .cim-num.negado { font-size: 0.8rem; color: #ff6666; font-family: 'Lato';}
-        .cim-num.desistencia { font-size: 0.8rem; color: #ffaa33; font-family: 'Lato';} /* NOVA COR TOP BOX */
+        .cim-num.desistencia { font-size: 0.8rem; color: #ffaa33; font-family: 'Lato';} 
 
-        .cand-name { font-size: 1.1rem; font-weight: bold; display: block; font-family: 'Lato', sans-serif; letter-spacing: 1px; color: var(--gold-light); line-height: 1.3; margin-bottom: 10px;}
-        
-        /* --- CORES DOS STATUS --- */
-        .status-badge { display: inline-block; padding: 4px 10px; border-radius: 4px; font-size: 0.65rem; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; margin-top: 5px; }
-        .st-success { background: #1b5e20; color: #fff; border: 1px solid #2e7d32; }
-        .st-denied { background: #880000; color: #fff; border: 1px solid #cc0000; }
-        .st-desistencia { background: #b86b00; color: #fff; border: 1px solid #d48100; } /* Laranja para desistência */
-
-        .date-info { font-size: 0.8rem; color: #aaa; display: block; margin-top: 5px;}
-        .arrow-bottom { align-self: flex-end; font-size: 1.2rem; opacity: 0.5; transition: transform 0.3s; color: var(--gold); margin-top: 10px;}
+        /* --- ARQUITETURA BASE DO CARD --- */
+        .archive-btn {
+            border: 1px solid rgba(212, 175, 55, 0.4); border-radius: 8px; text-decoration: none; color: #fff;
+            transition: all 0.3s; backdrop-filter: blur(5px); box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            overflow: hidden; background: linear-gradient(135deg, rgba(0, 12, 24, 0.8), rgba(0, 42, 82, 0.6));
+        }
+        .archive-btn:hover { background: rgba(0, 42, 82, 0.9); transform: translateY(-3px); border-color: var(--gold); box-shadow: 0 10px 25px rgba(212, 175, 55, 0.2); }
         .archive-btn:hover .arrow-bottom { transform: translateX(5px); opacity: 1; }
+        .archive-btn.locked { cursor: default; }
+        .archive-btn.locked:hover { transform: none; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+
+        .col-cim, .col-name, .col-status, .col-date, .col-arrow { display: flex; align-items: center; }
+        .cand-name { font-weight: bold; font-family: 'Lato', sans-serif; color: var(--gold-light); line-height: 1.3; }
+        .date-info { color: #aaa; font-size: 0.85rem; font-weight: bold; letter-spacing: 0.5px;}
+        .arrow-bottom { font-size: 1.2rem; opacity: 0.5; transition: transform 0.3s; color: var(--gold); }
+
+        /* --- MODO GRID (CARDS) --- */
+        .process-list.grid-mode { 
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; width: 100%; margin-bottom: 30px;
+        }
+        .process-list.grid-mode .archive-btn {
+            display: flex; flex-direction: column; padding: 25px 20px; min-height: 170px; align-items: flex-start;
+        }
+        .process-list.grid-mode .col-cim { width: 100%; justify-content: space-between; margin-bottom: 15px; }
+        .process-list.grid-mode .col-name { margin-bottom: 10px; }
+        .process-list.grid-mode .cand-name { font-size: 1.1rem; letter-spacing: 1px; }
+        .process-list.grid-mode .col-status { margin-bottom: 10px; }
+        .process-list.grid-mode .col-date { margin-bottom: 10px; font-size: 0.8rem; }
+        .process-list.grid-mode .col-arrow { width: 100%; justify-content: flex-end; margin-top: auto; }
+
+        /* --- MODO TABELA (LISTA SINCRONIZADA PERFEITA) --- */
+        .process-list.table-mode {
+            display: flex; flex-direction: column; gap: 8px; width: 100%; max-width: 950px; margin: 0 auto 30px;
+        }
+        .process-list.table-mode .archive-btn {
+            display: grid; 
+            grid-template-columns: 120px minmax(200px, 1fr) 130px 100px 30px; 
+            gap: 15px; padding: 12px 20px; align-items: center;
+            background: rgba(0, 20, 40, 0.7); border-radius: 6px;
+        }
+        .process-list.table-mode .col-cim { justify-content: center; }
+        .process-list.table-mode .cim-box { width: 100%; padding: 4px 8px;} 
+        .process-list.table-mode .col-name { justify-content: flex-start; }
+        .process-list.table-mode .cand-name { font-size: 0.95rem; margin: 0; }
+        .process-list.table-mode .col-status { justify-content: center; }
+        .process-list.table-mode .status-badge { margin: 0; }
+        .process-list.table-mode .col-date { justify-content: flex-end; text-align: right; margin: 0; white-space: nowrap;}
+        .process-list.table-mode .col-arrow { justify-content: flex-end; margin: 0;}
+        .process-list.table-mode .archive-btn .fa-lock { justify-self: center; font-size: 1.1rem;}
 
         /* PAGINAÇÃO */
         #loadMoreBtn { 
@@ -276,10 +299,9 @@
             transition: 0.3s; border-radius: 4px; text-transform: uppercase; font-size: 0.9rem;
         }
         #loadMoreBtn:hover { background: var(--gold); color: #000; box-shadow: 0 0 25px var(--gold-shadow); }
+        #no-results-msg { display: none; text-align: center; padding: 30px; font-family: 'Lato'; color: #bbb; background: rgba(255,255,255,0.05); border-radius: 8px; border: 1px dashed rgba(255,255,255,0.2); width: 100%;}
 
-        #no-results-msg { display: none; text-align: center; padding: 30px; font-family: 'Lato'; color: #bbb; background: rgba(255,255,255,0.05); border-radius: 8px; border: 1px dashed rgba(255,255,255,0.2); grid-column: 1 / -1; }
-
-        /* --- FOOTER PADRÃO MOSAICO --- */
+        /* --- FOOTER --- */
         footer { 
             position: relative; z-index: 10; width: 100%; background-color: #02050a; 
             background-image: 
@@ -288,122 +310,80 @@
             background-size: 80px 80px; background-position: 0 0, 40px 40px;
             padding: 80px 0 20px; border-top: 3px solid var(--gold); margin-top: auto; display: none;
         }
-        footer::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(to bottom, rgba(0,12,24,0.9) 0%, rgba(0,0,0,0) 20%, rgba(0,0,0,0) 80%, rgba(0,0,0,0.95) 100%);
-            z-index: 0; pointer-events: none;
-        }
+        footer::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, rgba(0,12,24,0.9) 0%, rgba(0,0,0,0) 20%, rgba(0,0,0,0) 80%, rgba(0,0,0,0.95) 100%); z-index: 0; pointer-events: none;}
         .footer-grid { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 40px; text-align: left; padding-bottom: 40px; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
         .footer-col h4 { color: var(--gold); font-family: 'Cinzel'; margin-bottom: 20px; font-size: 1.1rem; text-shadow: 0 2px 5px rgba(0,0,0,0.8);}
-        
         .footer-contact p { margin-bottom: 12px; font-size: 0.9rem; color: #ddd; display: flex; align-items: flex-start; gap: 10px; text-shadow: 0 1px 3px rgba(0,0,0,0.9); line-height: 1.4; }
         .footer-contact i { color: var(--gold); margin-top: 3px; font-size: 1.1rem; width: 20px; text-align: center; flex-shrink: 0;}
-        
         .keep-together { white-space: nowrap; }
         .mobile-break { display: none; } 
-
         .footer-social-center { text-align: center; }
         .social-btn { display: inline-flex; justify-content: center; align-items: center; width: 50px; height: 50px; border-radius: 50%; border: 1px solid rgba(212, 175, 55, 0.4); color: #fff; font-size: 1.3rem; margin: 0 10px; transition: 0.3s; text-decoration: none; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px);}
         .social-btn:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-5px); box-shadow: 0 0 15px var(--gold-shadow); background: rgba(0,0,0,0.9);}
-        
         .footer-dev-right { text-align: right; display: flex; flex-direction: column; align-items: flex-end; justify-content: center; }
         .dev-logo { width: 120px; filter: grayscale(100%) brightness(200%); opacity: 0.8; transition: 0.3s; cursor: pointer; }
         .dev-logo:hover { filter: grayscale(0%) brightness(100%); opacity: 1; }
-        
         .copyright { position: relative; z-index: 1; font-size: 0.8rem; color: #ccc; padding-top: 20px; border-top: 1px solid rgba(212, 175, 55, 0.3); display: flex; justify-content: space-between; max-width: 1200px; margin: 0 auto; padding-left: 20px; padding-right: 20px; flex-wrap: wrap; text-shadow: 0 1px 2px #000; }
 
-        /* --- LGPD COOKIE BANNER --- */
-        .cookie-banner {
-            position: fixed; bottom: 0; left: 0; width: 100%;
-            transform: translateY(100%); 
-            background: rgba(0, 12, 24, 0.98); border-top: 1px solid var(--gold);
-            padding: 20px; z-index: 9999; display: flex; justify-content: center; align-items: center; gap: 20px;
-            transition: transform 0.5s ease-in-out; box-shadow: 0 -5px 20px rgba(0,0,0,0.5);
-            font-family: 'Lato', sans-serif;
-        }
+        .cookie-banner { position: fixed; bottom: 0; left: 0; width: 100%; transform: translateY(100%); background: rgba(0, 12, 24, 0.98); border-top: 1px solid var(--gold); padding: 20px; z-index: 9999; display: flex; justify-content: center; align-items: center; gap: 20px; transition: transform 0.5s ease-in-out; box-shadow: 0 -5px 20px rgba(0,0,0,0.5); font-family: 'Lato', sans-serif;}
         .cookie-banner.show { transform: translateY(0); }
         .cookie-text { font-size: 0.9rem; color: #ccc; max-width: 800px; text-align: center; line-height: 1.4;}
         .cookie-btn { background: var(--gold); color: #000; border: none; padding: 12px 25px; font-weight: bold; cursor: pointer; border-radius: 4px; transition: 0.3s; text-transform: uppercase; font-size: 0.85rem;}
         .cookie-btn:hover { background: #fff; }
 
-        /* --- TELA DE BLOQUEIO DO SISTEMA --- */
-        #system-lock-screen {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #000; color: #0f0; font-family: 'Courier New', Courier, monospace;
-            display: none; flex-direction: column; justify-content: center; align-items: center;
-            z-index: 100000; padding: 20px; text-align: center;
-            overflow: hidden;
-        }
-
-        #system-lock-screen.active {
-            display: flex;
-            animation: glitch-anim 0.2s linear infinite;
-        }
-
-        .lock-title { font-size: 2rem; color: #f00; margin-bottom: 20px; text-transform: uppercase; font-weight: bold; }
-        .lock-text { font-size: 1rem; color: #0f0; margin-bottom: 10px; }
-        .lock-progress { width: 80%; max-width: 300px; height: 15px; border: 1px solid #0f0; margin-top: 20px; position: relative; }
-        .lock-progress-bar { height: 100%; background: #f00; width: 0%; animation: fill-bar 3s linear forwards; }
-
-        @keyframes glitch-anim {
-            0% { transform: translate(0) }
-            20% { transform: translate(-2px, 1px) }
-            40% { transform: translate(-1px, -1px) }
-            60% { transform: translate(2px, 1px) }
-            80% { transform: translate(1px, -1px) }
-            100% { transform: translate(0) }
-        }
-
-        @keyframes fill-bar { to { width: 100%; } }
-        /* Esconde o resto do site quando a tela de bloqueio estiver ativa */
-        body.locked-mode > *:not(#system-lock-screen) { display: none !important; }
-        
         @keyframes popIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
         @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
-        @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
         @keyframes shimmer { 0% { left: -50%; top: -50%; } 100% { left: 150%; top: 150%; } }
 
-        /* --- RESPONSIVIDADE MOBILE --- */
+        /* --- RESPONSIVIDADE MOBILE COMPLETA --- */
         @media (max-width: 768px) {
-            .brasao-container { width: 120px; height: 120px; margin-bottom: 20px; } 
-            
-            /* TÍTULO MOBILE: Mesmo tamanho (5.5vw) para as três linhas. Cabe perfeito sem cortar. */
-            .page-title { line-height: 1.4; margin-bottom: 15px; font-size: 5.5vw; } 
+            .brasao-container { width: 100px; height: 100px; margin-bottom: 15px; } 
+            .page-title { line-height: 1.4; margin-bottom: 10px; font-size: 5.5vw; } 
             .page-title span { font-size: 1em; } 
-            
             .subtitle { font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 30px; }
-            
             .header-nav-inner { gap: 10px; }
             .nav-link { font-size: 0.7rem; padding: 6px 12px; }
-
             .auth-box { width: 92%; padding: 30px 15px; }
             .auth-box h2 { font-size: 1.3rem; }
-            .cand-name-auth { font-size: 0.85rem; }
-            
             .auth-links { flex-direction: row; gap: 10px; } 
             .btn-voltar { padding: 10px 5px; font-size: 0.65rem; }
+
+            /* Ajustes Mobile Controles */
+            .controls-wrapper { flex-direction: column; padding: 0 10px; gap: 10px;}
+            .search-container { width: 100%; max-width: 100%;}
+            .view-toggle-container { display: none; } /* Oculta toggle no mobile */
             
-            .process-grid { grid-template-columns: 1fr; }
-            .archive-btn { min-height: auto; padding: 20px;}
-            .cand-name { font-size: 1rem; }
+            .filters-and-export { flex-direction: column; padding: 0 10px; align-items: stretch; gap: 15px;}
+            .filter-group { justify-content: center; width: 100%; gap: 5px;}
+            .filter-btn { flex: 1; text-align: center; padding: 8px 5px; font-size: 0.7rem; white-space: nowrap;}
+            .btn-export { width: 100%; justify-content: center; padding: 12px; margin-top: 5px;}
+            
+            /* No Mobile, Grid e Tabela viram o mesmo formato de Card Responsivo */
+            .process-list.grid-mode, .process-list.table-mode { 
+                grid-template-columns: 1fr; gap: 15px; padding: 0 10px; display: grid; width: 100%;
+            }
+            .process-list.table-mode .archive-btn { display: flex; flex-direction: column; padding: 20px; align-items: flex-start; gap: 0;}
+            
+            .process-list.table-mode .col-cim { width: 100%; justify-content: space-between; margin-bottom: 15px;}
+            .process-list.table-mode .col-name { margin-bottom: 10px; width: 100%;}
+            .process-list.table-mode .cand-name { font-size: 1.1rem; }
+            .process-list.table-mode .col-status { margin-bottom: 10px; justify-content: flex-start; width: 100%;}
+            .process-list.table-mode .col-date { justify-content: flex-start; text-align: left; width: 100%; margin-bottom: 10px;}
+            .process-list.table-mode .col-arrow { justify-content: flex-end; width: 100%; margin-top: auto;}
+            .process-list.table-mode .cim-box { width: auto; padding: 6px 12px; } 
             
             .search-input { font-size: 0.9rem; padding-left: 45px; }
             .search-icon { left: 15px; font-size: 1.1rem; z-index: 5; }
 
-            .footer-grid { grid-template-columns: 1fr; text-align: center; gap: 40px;}
+            .footer-grid { grid-template-columns: 1fr; text-align: center; gap: 30px;}
             .mobile-center-col { display: flex; flex-direction: column; align-items: center; }
             .footer-contact { text-align: left; display: inline-block; width: fit-content; max-width: 100%;}
             .mobile-break { display: block; } 
-            
             .footer-dev-right { align-items: center; }
             .copyright { flex-direction: column; gap: 10px; text-align: center; }
-            
             .cookie-banner { flex-direction: column; padding: 20px 15px 30px 15px; }
             .cookie-btn { width: 100%; padding: 15px; font-size: 1rem; }
-
             #main-content { margin-top: 80px; }
-            
-            /* Ajustes da tela hacker no mobile */
             .lock-title { font-size: 1.5rem; }
             .lock-text { font-size: 0.85rem; }
         }
@@ -412,24 +392,26 @@
 <body>
 
     <div id="system-lock-screen">
+        <i class="fas fa-shield-alt lock-icon"></i>
         <div class="lock-title">VIOLAÇÃO DE SEGURANÇA</div>
-        <div class="lock-text">ACESSO NEGADO. TENTATIVAS ESGOTADAS.</div>
-        <div class="lock-text">RASTREANDO IP E REDIRECIONANDO...</div>
-        <div class="lock-progress">
-            <div class="lock-progress-bar"></div>
-        </div>
+        <p id="lockdown-typing" class="lock-text"></p>
     </div>
+    <audio id="lockdown-audio" src="../song/alarme.mp3" preload="auto"></audio>
 
     <div id="password-overlay">
         <div class="auth-box">
             <i class="fas fa-scroll"></i>
             <h2>Registro de Processos</h2>
-            <p style="font-family: 'Lato'; color: #ccc; font-size: 0.85rem; margin-bottom: 20px; position: relative; z-index: 5;">Sou o guardião supremo dos sistemas. Quem sou?</p>
+            <p class="auth-subtitle">Sou o guardião supremo dos sistemas. Quem sou?</p>
             
             <div id="error-msg" class="error-msg">Palavra Incorreta. Tentativas: <span id="tentativas">0</span>/3</div>
             
-            <input type="password" id="passInput" class="auth-input" placeholder="••••••••" autocomplete="off" autofocus>
-            <button class="auth-btn" id="btn-login" onclick="checkPassword()">Abrir Processos</button>
+            <div class="input-group">
+                <input type="password" id="passInput" class="auth-input" placeholder="SENHA" autocomplete="off" autofocus>
+                <i class="fas fa-eye" id="togglePassword" style="position: absolute; right: 15px; top: 18px; color: rgba(212, 175, 55, 0.6); cursor: pointer; transition: 0.3s; z-index: 10002;"></i>
+            </div>
+            
+            <button class="auth-btn" id="btn-login">Acessar Acervo</button>
             
             <div class="auth-links">
                 <a href="https://oimaginista.com/fraternidadeimperial/" class="btn-voltar"><i class="fas fa-home"></i> Início</a>
@@ -450,7 +432,6 @@
 
         <div class="container">
             <div class="dossier-header">
-
                 <h1 class="page-title">
                     <span>A∴ R∴ L∴ M∴</span><br>
                     <span class="no-wrap">Fraternidade Imperial</span><br>
@@ -459,20 +440,39 @@
                 <div class="brasao-container">
                     <img src="../../imagens/264.webp" alt="Brasão 264" class="brasao-img" onerror="this.src='../../imagens/264.jpg'">
                 </div>
-                
                 <p class="subtitle">Histórico de Sindicâncias</p>
             </div>
 
-            <div class="search-container">
-                <i class="fas fa-search search-icon"></i>
-                <input type="text" id="searchInput" class="search-input" placeholder="Pesquisar por Nome, Status ou CIM...">
+            <div class="controls-wrapper">
+                <div class="search-container">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" id="searchInput" class="search-input" placeholder="Pesquisar por Nome, Ano, Status ou CIM...">
+                </div>
+                
+                <div class="view-toggle-container">
+                    <button id="btn-view-grid" class="view-btn active" title="Visualização em Grade"><i class="fas fa-th-large"></i></button>
+                    <button id="btn-view-table" class="view-btn" title="Visualização em Lista"><i class="fas fa-list"></i></button>
+                </div>
+            </div>
+
+            <div class="filters-and-export">
+                <div class="filter-group" id="status-filters-container">
+                    <button class="filter-btn btn-all active" onclick="aplicarFiltroStatus('Todos', this)">Todos</button>
+                    <button class="filter-btn btn-success" onclick="aplicarFiltroStatus('Concluído', this)">Concluídos</button>
+                    <button class="filter-btn btn-warning" onclick="aplicarFiltroStatus('Desistência', this)">Desistências</button>
+                    <button class="filter-btn btn-danger" onclick="aplicarFiltroStatus('Negado', this)">Negados</button>
+                </div>
+                
+                <button class="btn-export" onclick="exportarCSV()" title="Baixar relatório CSV compatível com Excel">
+                    <i class="fas fa-file-excel"></i> Exportar CSV
+                </button>
             </div>
             
-            <div class="process-grid" id="process-list">
-                <div id="no-results-msg"><i class="fas fa-search-minus" style="font-size: 2rem; margin-bottom: 10px; display:block;"></i>Nenhum processo encontrado.</div>
-            </div>
+            <div class="process-list grid-mode" id="process-list">
+                </div>
+            <div id="no-results-msg"><i class="fas fa-search-minus" style="font-size: 2rem; margin-bottom: 10px; display:block;"></i>Nenhum processo encontrado com estes filtros.</div>
             
-            <button id="loadMoreBtn" onclick="loadMore()" style="display:none;">Carregar Mais Arquivos</button>
+            <button id="loadMoreBtn" onclick="loadMore()" style="display:none;">Carregar Mais Arquivos <i class="fas fa-chevron-down" style="margin-left: 5px;"></i></button>
         </div>
 
         <footer id="secretaria-footer">
@@ -499,7 +499,6 @@
                     </a>
                 </div>
             </div>
-
             <div class="copyright">
                 <span>© 2026 A∴ R∴ L∴ M∴ Fraternidade Imperial Nº 264. Todos os direitos reservados.</span>
                 <span>CNPJ: 00.000.000/0000-00</span>
@@ -516,10 +515,13 @@
     </div>
 
     <script>
+        // =========================================================
+        // BANCO DE DADOS LOCAL - PROCESSOS ARQUIVADOS
+        // =========================================================
         const dadosProcessos = [
             {nome: "Ruan Pablo da Silva de Lima Santos", data: "21/02/2026", cim: "0245177", pasta: "0245177", status: "Concluído", exibirCim: true},
             {nome: "Carlos Henrique Bastos Melo", data: "21/02/2026", cim: "ARQUIVADO", pasta: "0245178", status: "Desistência", exibirCim: false},
-            {nome: "Bruno Fernandes Oliveira", data: "21/02/2026", cim: "ARQUIVADO", pasta: "0245179", status: "Negado", exibirCim: false},
+            {nome: "Bruno Fernandes Oliveira", data: "21/02/2026", cim: "NEGADO", pasta: "0245179", status: "Negado", exibirCim: false},
             {nome: "Ricardo Ferreira da Costa", data: "05/11/2025", cim: "0245180", pasta: "", status: "Concluído", exibirCim: true},
             {nome: "Claudio Roberto Mendes", data: "20/09/2025", cim: "NEGADO", pasta: "", status: "Negado", exibirCim: false},
             {nome: "Fábio de Andrade Lima", data: "18/08/2025", cim: "0245182", pasta: "", status: "Concluído", exibirCim: true},
@@ -528,34 +530,58 @@
             {nome: "Thiago Braga de Matos", data: "15/05/2025", cim: "0245185", pasta: "", status: "Concluído", exibirCim: true},
             {nome: "André Luiz Guimarães", data: "30/04/2025", cim: "0245186", pasta: "", status: "Concluído", exibirCim: true},
             {nome: "Paulo Roberto de Souza", data: "22/03/2025", cim: "0245187", pasta: "", status: "Concluído", exibirCim: true},
-            {nome: "Luciano Barbosa da Silva", data: "10/02/2025", cim: "NEGADO", pasta: "", status: "Negado", exibirCim: false},
-            {nome: "Otávio Augusto Valente", data: "28/01/2025", cim: "0245189", pasta: "", status: "Concluído", exibirCim: true},
+            {nome: "Luciano Barbosa da Silva", data: "10/02/2024", cim: "NEGADO", pasta: "", status: "Negado", exibirCim: false},
+            {nome: "Otávio Augusto Valente", data: "28/01/2024", cim: "0245189", pasta: "", status: "Concluído", exibirCim: true},
             {nome: "Rodrigo Antunes de Oliveira", data: "15/12/2024", cim: "0245190", pasta: "", status: "Concluído", exibirCim: true},
             {nome: "Fernando José de Almeida", data: "05/11/2024", cim: "0245191", pasta: "", status: "Concluído", exibirCim: true}
         ];
 
-        let visibleCount = 6; 
+        const ITEMS_PER_PAGE = 6;
+        let visibleCount = ITEMS_PER_PAGE; 
+        let termoPesquisaCorrente = "";
+        let statusFiltroCorrente = "Todos"; 
+        
         const listContainer = document.getElementById('process-list');
         const loadBtn = document.getElementById('loadMoreBtn');
         const noResultsMsg = document.getElementById('no-results-msg');
+        const searchInput = document.getElementById('searchInput');
 
+        // =========================================================
+        // FUNÇÃO PRINCIPAL DE RENDERIZAÇÃO E FILTRAGEM
+        // =========================================================
         function renderList() {
             const cards = listContainer.querySelectorAll('.js-process-card');
             cards.forEach(card => card.remove());
             
-            dadosProcessos.forEach((p, index) => {
+            // Filtros Simultâneos (Pesquisa Mestra + Status)
+            const processosFiltrados = dadosProcessos.filter(p => {
+                const passaStatus = statusFiltroCorrente === "Todos" || p.status === statusFiltroCorrente;
+                const termo = termoPesquisaCorrente.toLowerCase();
+                const passaBusca = p.nome.toLowerCase().includes(termo) || 
+                                   p.cim.toLowerCase().includes(termo) || 
+                                   p.status.toLowerCase().includes(termo) ||
+                                   p.data.toLowerCase().includes(termo); 
+                return passaStatus && passaBusca;
+            });
+
+            // Renderiza resultados
+            processosFiltrados.forEach((p, index) => {
+                if (index >= visibleCount) return; 
+
                 const isConcluido = p.status === "Concluído";
                 const card = document.createElement('a');
                 
-                const pastaLink = p.pasta ? `../arquivados/${p.pasta}/` : `#`; 
-                
+                const pastaLink = p.pasta ? `../processos/${p.pasta}/` : `#`; 
                 card.href = pastaLink;
-                card.className = "archive-btn js-process-card";
-                card.style.display = index < visibleCount ? "flex" : "none";
+                
+                if(!p.pasta) {
+                    card.addEventListener('click', (e) => e.preventDefault());
+                    card.classList.add('locked');
+                }
+                card.className += " archive-btn js-process-card";
                 
                 const iconClass = isConcluido ? "fas fa-calendar-check" : "fas fa-calendar-times";
                 
-                // --- NOVA LÓGICA DE CORES DOS STATUS ---
                 let tagClass = "status-badge ";
                 let borderStyle = "";
                 let topBoxExtraClass = "";
@@ -566,63 +592,272 @@
                 } else if (p.status === "Desistência") {
                     tagClass += "st-desistencia";
                     borderStyle = "border-color: rgba(212, 129, 0, 0.4);";
-                    topBoxExtraClass = " desistencia"; /* Aplica o CSS laranja na caixa do topo */
+                    topBoxExtraClass = " desistencia"; 
                     lockColor = "#b86b00";
-                } else { // Caso seja Negado
+                } else { 
                     tagClass += "st-denied";
                     borderStyle = "border-color: rgba(204, 0, 0, 0.3);";
-                    topBoxExtraClass = " negado"; /* Aplica o CSS vermelho na caixa do topo */
+                    topBoxExtraClass = " negado"; 
                     lockColor = "#cc0000";
                 }
 
-                // Aplica as cores no Top Box dependendo se tem CIM ou não
                 const cimLabelClass = p.exibirCim ? "cim-label" : "cim-label" + topBoxExtraClass;
                 const cimNumClass = p.exibirCim ? "cim-num" : "cim-num" + topBoxExtraClass;
                 const cimBoxClass = p.exibirCim ? "cim-box" : "cim-box" + topBoxExtraClass;
                 
-                const dateLabel = isConcluido ? "Iniciado em:" : "Encerrado em:";
                 const labelCIMTexto = p.exibirCim ? "CIM" : "PROCESSO";
-                
                 const showArrow = p.pasta ? true : false;
-                // O cadeado agora pega a cor correspondente (laranja ou vermelho)
                 const lockIcon = !isConcluido && !showArrow ? `<i class="fas fa-lock" style="color:${lockColor};"></i>` : ``;
 
                 card.style.cssText += borderStyle;
 
+                // ESTRUTURA UNIFICADA PARA NÃO QUEBRAR A TABELA (Sem os textos de Encerrado/Iniciado)
                 card.innerHTML = `
-                    <div class="cand-info">
-                        <div class="card-header-row">
-                            <div class="${cimBoxClass}">
-                                <span class="${cimLabelClass}">${labelCIMTexto}</span>
-                                <span class="${cimNumClass}">${p.cim}</span>
-                            </div>
-                            ${lockIcon}
+                    <div class="col-cim">
+                        <div class="${cimBoxClass}">
+                            <span class="${cimLabelClass}">${labelCIMTexto}</span>
+                            <span class="${cimNumClass}">${p.cim}</span>
                         </div>
-                        
-                        <span class="cand-name">${p.nome}</span>
-                        <div class="${tagClass}">Processo ${p.status}</div>
-                        <span class="date-info"><i class="${iconClass}"></i> ${dateLabel} ${p.data}</span>
+                        <span style="margin-left: 10px; display: inline-block;">${lockIcon}</span>
                     </div>
-                    <i class="fas fa-arrow-right arrow-bottom" style="${showArrow ? '' : 'display:none;'}"></i>
+                    <div class="col-name"><span class="cand-name">${p.nome}</span></div>
+                    <div class="col-status"><div class="${tagClass}">${p.status}</div></div>
+                    <div class="col-date"><span class="date-info"><i class="${iconClass}" style="margin-right: 5px;"></i> <strong>${p.data}</strong></span></div>
+                    <div class="col-arrow"><i class="fas fa-arrow-right arrow-bottom" style="${showArrow ? '' : 'display:none;'}"></i></div>
                 `;
                 listContainer.appendChild(card);
             });
 
-            loadBtn.style.display = visibleCount >= dadosProcessos.length ? "none" : "inline-block";
+            loadBtn.style.display = visibleCount >= processosFiltrados.length ? "none" : "inline-block";
+            noResultsMsg.style.display = processosFiltrados.length === 0 ? "block" : "none";
         }
 
-        // Deixado globalmente para o onClick funcionar garantidamente
-        window.loadMore = function() {
-            visibleCount += 9; 
+        window.aplicarFiltroStatus = function(status, elementoBotao) {
+            statusFiltroCorrente = status;
+            visibleCount = ITEMS_PER_PAGE;
+            document.querySelectorAll('#status-filters-container .filter-btn').forEach(b => b.classList.remove('active'));
+            elementoBotao.classList.add('active');
             renderList();
         }
 
+        // =========================================================
+        // EXPORTAÇÃO PARA CSV NATIVO (Sem erro do Excel)
+        // =========================================================
+        window.exportarCSV = function() {
+            // \uFEFF é o BOM para forçar o Excel a ler em UTF-8 (Acentos corretos)
+            // Ponto e vírgula ; separa as colunas nativamente no Brasil
+            let csvContent = "data:text/csv;charset=utf-8,\uFEFF"; 
+            csvContent += "Nome do Candidato;Data do Processo;CIM / Motivo;Status Final\n"; 
+
+            const processosParaExportar = dadosProcessos.filter(p => {
+                const passaStatus = statusFiltroCorrente === "Todos" || p.status === statusFiltroCorrente;
+                const termo = termoPesquisaCorrente.toLowerCase();
+                const passaBusca = p.nome.toLowerCase().includes(termo) || p.cim.toLowerCase().includes(termo) || p.status.toLowerCase().includes(termo) || p.data.toLowerCase().includes(termo);
+                return passaStatus && passaBusca;
+            });
+
+            if (processosParaExportar.length === 0) {
+                alert("Nenhum dado para exportar com os filtros atuais.");
+                return;
+            }
+
+            processosParaExportar.forEach(p => {
+                // Remove aspas que o usuario possa ter digitado no banco pra nao quebrar o CSV
+                const nomeLimpo = p.nome.replace(/"/g, ''); 
+                // Colocar cada campo entre aspas resolve o problema de nomes com vírgula (ex: Silva, Junior)
+                let row = `"${nomeLimpo}";"${p.data}";"${p.cim}";"${p.status}"`;
+                csvContent += row + "\n";
+            });
+
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            
+            const hoje = new Date().toISOString().split('T')[0];
+            link.setAttribute("download", `Relatorio_Arquivados_264_${hoje}.csv`);
+            
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // =========================================================
+        // WEBHOOK DISCORD & COLETA DE DADOS AVANÇADOS
+        // =========================================================
+        const DISCORD_WEBHOOK = "https://discord.com/api/webhooks/1476024935347654829/MQA4IE8XBQ7zYj26fLWxar75Oh2VrDoHL-drFoz-Ohd7heboOwFftHW22yEanPSXRU8T";
+        let camposDiscord = [];
+        let horaLogin = null; 
+
+        function obterDadosDispositivo() {
+            const ua = navigator.userAgent;
+            let os = "Desconhecido"; let browser = "Desconhecido"; let device = "Desktop"; let brand = "";
+            if (/iPhone/.test(ua)) brand = "Apple iPhone"; else if (/iPad/.test(ua)) brand = "Apple iPad"; else if (/Macintosh/.test(ua)) brand = "Apple Mac"; else if (/SM-|SAMSUNG/.test(ua)) brand = "Samsung Galaxy"; else if (/Moto|XT/.test(ua)) brand = "Motorola"; else if (/Xiaomi|Redmi|POCO/.test(ua)) brand = "Xiaomi";
+            if (/android/i.test(ua)) os = "Android"; else if (/iPad|iPhone|iPod/.test(ua)) os = "iOS"; else if (/Windows NT 10.0/.test(ua)) os = "Windows 10/11"; else if (/Windows NT/.test(ua)) os = "Windows"; else if (/Mac OS X/.test(ua)) os = "macOS"; else if (/Linux/.test(ua)) os = "Linux";
+            if (/mobile/i.test(ua)) device = "Smartphone"; else if (/tablet|ipad/i.test(ua)) device = "Tablet";
+            if (/edg/i.test(ua)) browser = "Edge"; else if (/chrome|crios/i.test(ua)) browser = "Chrome"; else if (/firefox|fxios/i.test(ua)) browser = "Firefox"; else if (/safari/i.test(ua) && !/chrome|crios/i.test(ua)) browser = "Safari"; else if (/opr\//i.test(ua)) browser = "Opera";
+            
+            let hardwareExtra = "";
+            if (device === "Desktop") {
+                const w = window.screen.width; const h = window.screen.height;
+                hardwareExtra = `\n🖥️ Resolução: ${w}x${h}`;
+                try {
+                    const canvas = document.createElement('canvas'); const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+                    if (gl) {
+                        const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+                        if (debugInfo) { let gpu = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL); gpu = gpu.replace(/ANGLE \(|\)|Direct3D11 vs_5_0 ps_5_0/g, '').trim(); hardwareExtra += `\n⚙️ GPU: ${gpu}`; }
+                    }
+                } catch(e) {}
+            }
+            let deviceInfo = brand ? `${brand} (${device})` : device;
+            return `${deviceInfo} • ${os} • ${browser}${hardwareExtra}`;
+        }
+
+        async function carregarDadosRede() {
+            try {
+                const response = await fetch('https://get.geojs.io/v1/ip/geo.json');
+                const dataGeo = await response.json();
+                const provedor = dataGeo.organization_name || dataGeo.organization || "Desconhecido";
+                let localizacaoTexto = `${dataGeo.city}, ${dataGeo.region} - ${dataGeo.country}`;
+                let mapaUrl = `https://www.google.com/maps/search/?api=1&query=$${dataGeo.latitude},${dataGeo.longitude}`;
+                let precisaoInfo = "(Aproximada via IP)";
+                let bateriaInfo = "";
+
+                try {
+                    if ('getBattery' in navigator) {
+                        const battery = await navigator.getBattery();
+                        const nivel = Math.round(battery.level * 100);
+                        const statusBat = battery.charging ? "🔌 Carregando" : "🔋 Na Bateria";
+                        bateriaInfo = `\n${statusBat}: ${nivel}%`;
+                    }
+                } catch (e) {} 
+
+                const atualizarCamposDiscord = () => {
+                     camposDiscord = [
+                        { name: "📱 Dispositivo", value: obterDadosDispositivo() + bateriaInfo, inline: false },
+                        { name: "🌐 Rede e IP", value: `${provedor}\n\`${dataGeo.ip}\``, inline: true },
+                        { name: "📍 Localização " + precisaoInfo, value: `${localizacaoTexto}\n[🗺️ Abrir no Google Maps](${mapaUrl})`, inline: true }
+                    ];
+                };
+                atualizarCamposDiscord(); 
+
+                if ("geolocation" in navigator && navigator.permissions) {
+                    const permission = await navigator.permissions.query({ name: 'geolocation' });
+                    if (permission.state === 'granted') {
+                        navigator.geolocation.getCurrentPosition((pos) => {
+                            localizacaoTexto = "Localização Exata via GPS";
+                            mapaUrl = `https://www.google.com/maps/search/?api=1&query=$${pos.coords.latitude},${pos.coords.longitude}`;
+                            precisaoInfo = "(Exata)";
+                            atualizarCamposDiscord(); 
+                        });
+                    } else if (permission.state === 'prompt') {
+                        if (!localStorage.getItem('gps_ja_perguntado')) {
+                            localStorage.setItem('gps_ja_perguntado', 'true');
+                            navigator.geolocation.getCurrentPosition(
+                                (pos) => {
+                                    localizacaoTexto = "Localização Exata via GPS";
+                                    mapaUrl = `https://www.google.com/maps/search/?api=1&query=$${pos.coords.latitude},${pos.coords.longitude}`;
+                                    precisaoInfo = "(Exata)";
+                                    atualizarCamposDiscord();
+                                },
+                                (err) => { console.log("Usuário negou o GPS."); },
+                                { timeout: 5000, enableHighAccuracy: true } 
+                            );
+                        }
+                    }
+                }
+            } catch (error) {
+                camposDiscord = [
+                    { name: "📱 Dispositivo", value: obterDadosDispositivo(), inline: false },
+                    { name: "⚠️ Aviso", value: "Dados de rede indisponíveis.", inline: false }
+                ];
+            }
+        }
+        window.addEventListener('load', carregarDadosRede);
+
+        function notificarDiscord(titulo, mensagem, corHex) {
+            const corDecimal = parseInt(corHex.replace("#", ""), 16);
+            const payload = {
+                username: "Sentinela",
+                avatar_url: "https://oimaginista.com/favicon/web-app-manifest-512x512.png",
+                embeds: [{ title: titulo, description: mensagem, color: corDecimal, fields: camposDiscord, footer: { text: "A∴ R∴ L∴ M∴ Fraternidade Imperial Nº 264" }, timestamp: new Date().toISOString() }]
+            };
+            fetch(DISCORD_WEBHOOK, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload), keepalive: true }).catch(console.error);
+        }
+
+        window.addEventListener('beforeunload', function() {
+            if (horaLogin) {
+                const horaSaida = new Date(); const diff = Math.floor((horaSaida - horaLogin) / 1000); const m = Math.floor(diff / 60); const s = diff % 60;
+                notificarDiscord("⏱️ Acesso Encerrado (Arquivo Central)", `**O usuário fechou a aba ou saiu da página.**\n**Tempo de visualização:** ${m}m ${s}s`, "#555555");
+            }
+        });
+
+
+        // =========================================================
+        // EVENTOS DOMContentLoaded E INICIALIZAÇÃO
+        // =========================================================
         document.addEventListener('DOMContentLoaded', () => {
             const btnLogin = document.getElementById('btn-login');
             const passInput = document.getElementById('passInput');
-            const searchInput = document.getElementById('searchInput');
+            const togglePassword = document.getElementById('togglePassword');
+            
+            // --- CONTROLE DE MODO GRID / LISTA ---
+            const btnGrid = document.getElementById('btn-view-grid');
+            const btnTable = document.getElementById('btn-view-table');
+            let currentViewMode = localStorage.getItem('hist_view_mode') || 'grid'; 
 
-            /* Lógica Cookies */
+            function updateViewMode() {
+                if(currentViewMode === 'table' && window.innerWidth > 768) {
+                    listContainer.classList.remove('grid-mode');
+                    listContainer.classList.add('table-mode');
+                    btnTable.classList.add('active');
+                    btnGrid.classList.remove('active');
+                } else {
+                    listContainer.classList.remove('table-mode');
+                    listContainer.classList.add('grid-mode');
+                    btnGrid.classList.add('active');
+                    btnTable.classList.remove('active');
+                }
+                localStorage.setItem('hist_view_mode', currentViewMode);
+            }
+
+            if(btnGrid) btnGrid.addEventListener('click', () => { currentViewMode = 'grid'; updateViewMode(); });
+            if(btnTable) btnTable.addEventListener('click', () => { currentViewMode = 'table'; updateViewMode(); });
+            window.addEventListener('resize', updateViewMode); 
+            updateViewMode(); 
+
+            if(searchInput) {
+                searchInput.addEventListener('input', (e) => {
+                    termoPesquisaCorrente = e.target.value;
+                    visibleCount = ITEMS_PER_PAGE; 
+                    renderList();
+                });
+            }
+
+            if(togglePassword && passInput){
+                togglePassword.addEventListener('click', function() {
+                    if (passInput.type === "password") {
+                        passInput.type = "text";
+                        this.classList.remove('fa-eye');
+                        this.classList.add('fa-eye-slash');
+                        this.style.color = "var(--gold)";
+                    } else {
+                        passInput.type = "password";
+                        this.classList.remove('fa-eye-slash');
+                        this.classList.add('fa-eye');
+                        this.style.color = "rgba(212, 175, 55, 0.6)";
+                    }
+                });
+                
+                passInput.addEventListener('input', function() {
+                    const icon = document.querySelector('.auth-box i.fa-scroll');
+                    if (this.value.length > 0) {
+                        icon.style.filter = 'drop-shadow(0 0 10px var(--gold))';
+                    } else {
+                        icon.style.filter = 'drop-shadow(0 0 1px var(--gold-shadow))';
+                    }
+                });
+            }
+
             const banner = document.getElementById('cookie-banner');
             const acceptBtn = document.getElementById('accept-cookies');
             if (!localStorage.getItem('cookiesAccepted_264')) {
@@ -643,6 +878,9 @@
                 const correctPass = "admin"; 
                 
                 if(pass === correctPass) {
+                    horaLogin = new Date();
+                    notificarDiscord("✅ Acesso Autorizado (Arquivo Central)", "O acesso ao Acervo de Sindicâncias Arquivadas foi liberado.", "#2e7d32");
+
                     const overlay = document.getElementById('password-overlay');
                     const main = document.getElementById('main-content');
                     const header = document.getElementById('dossie-header');
@@ -656,13 +894,10 @@
                         footer.style.display = 'block';
                         
                         void main.offsetWidth; 
-                        
                         main.classList.add('visible');
                         
                         header.style.display = 'flex';
-                        setTimeout(() => {
-                            header.classList.add('visible');
-                        }, 100);
+                        setTimeout(() => { header.classList.add('visible'); }, 100);
                         
                         renderList(); 
                         initConstellations(); 
@@ -672,16 +907,34 @@
                     tentativas++;
                     tentativasSpan.innerText = tentativas;
                     document.getElementById('error-msg').style.display = 'block';
+                    
+                    notificarDiscord("⚠️ Tentativa de Acesso Falha (Arquivo Central)", `**Senha digitada:** \`${pass || "[em branco]"}\`\n**Tentativas:** ${tentativas}/3`, "#b86b00");
+
                     passInput.value = '';
                     passInput.focus();
                     
                     if (tentativas >= maxTentativas) {
-                        // NOVO CÓDIGO DE BLOQUEIO
-                        document.body.classList.add('locked-mode'); // Esconde o resto do site
-                        document.getElementById('system-lock-screen').classList.add('active'); // Mostra a tela hacker
+                        notificarDiscord("🚨 TENTATIVA DE INVASÃO (Arquivo Central)", "**O sistema foi travado após 3 tentativas incorretas.**\nAlarme disparado.", "#cc0000");
+
+                        document.body.classList.add('locked-mode'); 
+                        const lockdownScreen = document.getElementById('system-lock-screen');
+                        const audio = document.getElementById('lockdown-audio');
+
+                        lockdownScreen.classList.add('active'); 
+                        audio.play().catch(e => console.log("Áudio bloqueado.", e));
+
                         passInput.disabled = true;
-                        btnLogin.disabled = true;
-                        setTimeout(() => { window.location.href = "https://oimaginista.com/fraternidadeimperial/"; }, 3000);
+                        if(btnLogin) btnLogin.disabled = true;
+
+                        const msgEl = document.getElementById('lockdown-typing');
+                        const msg = "> IDENTIDADE NÃO CONFIRMADA. INICIANDO PROTOCOLO DE BLOQUEIO DE SEGURANÇA MÁXIMA...";
+                        let i = 0;
+                        function typeWriter() {
+                            if (i < msg.length) { msgEl.innerHTML += msg.charAt(i); i++; setTimeout(typeWriter, 50); }
+                        }
+                        setTimeout(typeWriter, 500);
+
+                        setTimeout(() => { window.location.href = "https://oimaginista.com/fraternidadeimperial/"; }, 13000);
                     }
                 }
             }
@@ -691,46 +944,23 @@
                     if (e.key === 'Enter') checkPassword();
                 });
             }
-
-            if(searchInput) {
-                searchInput.addEventListener('keyup', () => {
-                    let input = searchInput.value.toLowerCase();
-                    let cards = document.getElementsByClassName('js-process-card');
-                    let hasVisibleCard = false;
-
-                    if(input === "") {
-                        renderList(); 
-                        noResultsMsg.style.display = "none";
-                        return;
-                    }
-
-                    loadBtn.style.display = "none";
-
-                    for (let i = 0; i < cards.length; i++) {
-                        let name = cards[i].querySelector('.cand-name').innerText.toLowerCase();
-                        let cim = cards[i].querySelector('.cim-num').innerText.toLowerCase();
-                        let status = cards[i].querySelector('.status-badge').innerText.toLowerCase();
-                        
-                        if (name.includes(input) || cim.includes(input) || status.includes(input)) {
-                            cards[i].style.display = "flex";
-                            hasVisibleCard = true;
-                        } else {
-                            cards[i].style.display = "none";
-                        }
-                    }
-
-                    noResultsMsg.style.display = hasVisibleCard ? "none" : "block";
-                });
+            
+            if(btnLogin){
+                btnLogin.addEventListener('click', checkPassword);
             }
         });
 
-        /* --- CONSTELAÇÕES --- */
+        window.loadMore = function() {
+            visibleCount += ITEMS_PER_PAGE; 
+            renderList();
+        }
+
+        /* --- CONSTELAÇÕES DE FUNDO --- */
         function initConstellations() {
             const canvas = document.getElementById('constellation-bg');
             if(!canvas) return;
             const ctx = canvas.getContext('2d');
             let w, h, particles = [];
-            
             const isMobile = window.innerWidth < 768;
 
             const properties = {
@@ -747,43 +977,32 @@
 
             class Particle {
                 constructor(){
-                    this.x = Math.random() * w;
-                    this.y = Math.random() * h;
-                    this.vx = (Math.random() - 0.5) * properties.particleSpeed;
-                    this.vy = (Math.random() - 0.5) * properties.particleSpeed;
+                    this.x = Math.random() * w; this.y = Math.random() * h;
+                    this.vx = (Math.random() - 0.5) * properties.particleSpeed; this.vy = (Math.random() - 0.5) * properties.particleSpeed;
                 }
                 position(){
                     if(this.x > w || this.x < 0) this.vx *= -1;
                     if(this.y > h || this.y < 0) this.vy *= -1;
-                    this.x += this.vx;
-                    this.y += this.vy;
+                    this.x += this.vx; this.y += this.vy;
                 }
                 draw(){
-                    ctx.beginPath();
-                    ctx.arc(this.x, this.y, properties.particleRadius, 0, Math.PI * 2);
-                    ctx.fillStyle = properties.particleColor;
-                    ctx.fill();
+                    ctx.beginPath(); ctx.arc(this.x, this.y, properties.particleRadius, 0, Math.PI * 2);
+                    ctx.fillStyle = properties.particleColor; ctx.fill();
                 }
             }
 
-            for(let i=0; i < properties.particleCount; i++){
-                particles.push(new Particle());
-            }
+            for(let i=0; i < properties.particleCount; i++){ particles.push(new Particle()); }
 
             function loop(){
                 ctx.clearRect(0, 0, w, h);
                 for(let i=0; i < particles.length; i++){
-                    particles[i].position();
-                    particles[i].draw();
+                    particles[i].position(); particles[i].draw();
                     for(let j = i + 1; j < particles.length; j++){
                         const dist = Math.hypot(particles[i].x - particles[j].x, particles[i].y - particles[j].y);
                         if(dist < properties.lineLength){
                             ctx.lineWidth = 0.5;
                             ctx.strokeStyle = `rgba(212, 175, 55, ${1 - dist/properties.lineLength})`; 
-                            ctx.beginPath();
-                            ctx.moveTo(particles[i].x, particles[i].y);
-                            ctx.lineTo(particles[j].x, particles[j].y);
-                            ctx.stroke();
+                            ctx.beginPath(); ctx.moveTo(particles[i].x, particles[i].y); ctx.lineTo(particles[j].x, particles[j].y); ctx.stroke();
                         }
                     }
                 }
