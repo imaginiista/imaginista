@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu - Churrasco Robson</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --text-color: #e0e0e0;
+            --accent-color: #ff5722;
+            --highlight: #ff9800;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Montserrat', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ----------------------------------
+           TELA DE INTRODUÇÃO & PARTÍCULAS
+        ----------------------------------- */
+        #intro-screen {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background-color: #0a0a0a;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 1s ease-out;
+            overflow: hidden;
+        }
+
+        #enter-btn {
+            background: transparent;
+            color: #fff;
+            border: 2px solid var(--accent-color);
+            padding: 15px 40px;
+            font-size: 1.5rem;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: bold;
+            text-transform: uppercase;
+            border-radius: 50px;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(255, 87, 34, 0.4);
+        }
+
+        #enter-btn:hover {
+            background: var(--accent-color);
+            box-shadow: 0 0 30px rgba(255, 87, 34, 0.8);
+            transform: scale(1.05);
+        }
+
+        /* Fagulhas subindo (geradas via JS) */
+        .spark {
+            position: absolute;
+            bottom: -10px;
+            width: 4px;
+            height: 4px;
+            background: #ff9800;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #ff5722, 0 0 15px #ffeb3b;
+            animation: flyUp linear infinite;
+        }
+
+        @keyframes flyUp {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-100vh) scale(0); opacity: 0; }
+        }
+
+        /* ----------------------------------
+           CONTEÚDO PRINCIPAL (OCULTO INICIALMENTE)
+        ----------------------------------- */
+        #main-content {
+            display: none;
+            opacity: 0;
+            animation: fadeInContent 1.5s forwards;
+        }
+
+        @keyframes fadeInContent {
+            to { opacity: 1; }
+        }
+
+        /* Header com Vídeo */
+        .hero {
+            position: relative;
+            height: 50vh;
+            min-height: 350px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 5px solid var(--accent-color);
+            overflow: hidden;
+        }
+
+        .hero video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            transform: translateX(-50%) translateY(-50%);
+            z-index: 1;
+            object-fit: cover;
+            filter: brightness(0.6);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(18,18,18,1));
+            z-index: 2;
+        }
+
+        h1 {
+            position: relative;
+            z-index: 3;
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-weight: 900;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-shadow: 0 5px 20px rgba(255, 87, 34, 0.8);
+            text-align: center;
+        }
+
+        /* Container Principal e Cards */
+        .container {
+            max-width: 1200px;
+            margin: -40px auto 40px;
+            padding: 0 20px;
+            position: relative;
+            z-index: 4;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(255, 87, 34, 0.2);
+        }
+
+        .card-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-bottom: 3px solid var(--accent-color);
+        }
+
+        .card-content {
+            padding: 25px;
+            flex-grow: 1;
+        }
+
+        h2 {
+            color: var(--accent-color);
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            border-bottom: 1px solid #333;
+            padding-bottom: 10px;
+        }
+
+        ul { list-style: none; }
+
+        li {
+            padding: 10px 0;
+            border-bottom: 1px dashed #333;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+        li:last-child { border-bottom: none; }
+
+        .details {
+            display: block;
+            font-size: 0.85rem;
+            color: #aaa;
+            font-weight: 400;
+            margin-top: 5px;
+        }
+
+        .sauce-card {
+            border: 2px solid var(--accent-color);
+            background: linear-gradient(145deg, #1e1e1e, #2a1a15);
+        }
+        
+        .sauce-name {
+            color: var(--highlight);
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+
+    <audio id="bg-audio" src="play.mp3" loop></audio>
+
+    <div id="intro-screen">
+        <button id="enter-btn">🔥 Iniciar Churrasco 🔥</button>
+    </div>
+
+    <div id="main-content">
+        <header class="hero">
+            <video autoplay loop muted playsinline>
+                <source src="https://player.vimeo.com/external/371433846.sd.mp4?s=236da2f3c0fac27314060af5c01062eece50b691&profile_id=164&oauth2_token_id=57447761" type="video/mp4">
+            </video>
+            <h1>Churrasco Robson</h1>
+        </header>
+
+        <div class="container">
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1596797038530-2c107229654b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Entradas Quentes" class="card-img">
+                <div class="card-content">
+                    <h2>🍢 Entradas Quentes</h2>
+                    <ul>
+                        <li>Queijo Coalho <span class="details">Tostado na brasa</span></li>
+                        <li>Pão de Alho <span class="details">Cremoso e crocante</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1603360946369-dc9bb6258143?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Carnes" class="card-img">
+                <div class="card-content">
+                    <h2>🥩 Carnes na Brasa</h2>
+                    <ul>
+                        <li>Alcatra / Contra-filé <span class="details">Selados no sal grosso</span></li>
+                        <li>Asa e Meio da Asa <span class="details">Marinada especial na cerveja</span></li>
+                        <li>Coraçãozinho <span class="details">Temperado no alho</span></li>
+                        <li>Linguiça</li>
+                        <li>Salsichão</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1549488344-1f9b8d2bd1f3?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Acompanhamentos" class="card-img">
+                <div class="card-content">
+                    <h2>🥗 Acompanhamentos</h2>
+                    <ul>
+                        <li>Arroz Branco</li>
+                        <li>Maionese Especial <span class="details">Batata, cenoura, salsa e cebolinha</span></li>
+                        <li>Farofa com Ovos <span class="details">Toque de fumaça em pó e cebola</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card sauce-card">
+                <img src="https://images.unsplash.com/photo-1585002228830-1c09ebc7e8e5?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Molhos" class="card-img">
+                <div class="card-content">
+                    <h2>🥣 Molhos Especiais</h2>
+                    <ul>
+                        <li>
+                            <span class="sauce-name">Barbecue</span>
+                            <span class="details">Feito com especiarias, toque defumado da fumaça em pó e levemente adocicado.</span>
+                        </li>
+                        <li>
+                            <span class="sauce-name">Molho Blue Cheese</span>
+                            <span class="details">Base cremosa de Cream Cheese artesanalmente misturada com o sabor marcante do queijo Gorgonzola.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1622483767028-3f66f32aef97?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Bebidas" class="card-img">
+                <div class="card-content">
+                    <h2>🥤 Bebidas</h2>
+                    <ul>
+                        <li>Coca-Cola <span class="details">Tradicional</span></li>
+                        <li>Coca-Cola Zero</li>
+                        <li>Guaraná Zero</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // GERADOR DE PARTÍCULAS DE FOGO NA TELA DE INTRO
+        const introScreen = document.getElementById('intro-screen');
+        const numSparks = 50;
+
+        for (let i = 0; i < numSparks; i++) {
+            let spark = document.createElement('div');
+            spark.classList.add('spark');
+            spark.style.left = Math.random() * 100 + 'vw';
+            spark.style.animationDuration = (Math.random() * 2 + 2) + 's';
+            spark.style.animationDelay = Math.random() * 2 + 's';
+            introScreen.appendChild(spark);
+        }
+
+        // LÓGICA DO BOTÃO ENTRAR E ÁUDIO
+        document.getElementById('enter-btn').addEventListener('click', function() {
+            // Toca a música the smiths (play.mp3)
+            const audio = document.getElementById('bg-audio');
+            audio.volume = 0.6; // Deixa o volume em 60% para não assustar
+            audio.play().catch(error => console.log("Erro ao tocar o áudio:", error));
+
+            // Some com a intro e mostra o cardápio
+            introScreen.style.opacity = '0';
+            setTimeout(() => {
+                introScreen.style.display = 'none';
+                document.getElementById('main-content').style.display = 'block';
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
