@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Menu - Churrasco do Robson</title>
+    <title>Churrasco do Robson</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -15,6 +15,7 @@
             --tech-cyan: #00f3ff;
             --hacker-green: #0f0;
             --alert-red: #ff3333;
+            --vip-gold: #ffd700;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -25,6 +26,8 @@
             font-family: 'Montserrat', sans-serif;
             line-height: 1.6;
             overflow-x: hidden;
+            /* Margem extra para o player não cobrir o rodapé no mobile */
+            padding-bottom: 90px; 
         }
 
         /* ----------------------------------
@@ -55,7 +58,7 @@
         #enter-btn:hover { background: var(--hacker-green); color: #000; box-shadow: 0 0 30px var(--hacker-green); transform: scale(1.05); }
 
         /* ----------------------------------
-           EFEITOS DE FUNDO (FUMAÇA E BRASAS)
+           EFEITOS DE FUNDO E CURSOR
         ----------------------------------- */
         #main-content { display: none; opacity: 0; animation: fadeInContent 1.5s forwards; position: relative; }
         @keyframes fadeInContent { to { opacity: 1; } }
@@ -68,16 +71,26 @@
         .ember { position: absolute; bottom: -10px; width: 4px; height: 4px; background: #ff9800; border-radius: 50%; filter: blur(1px); box-shadow: 0 0 10px #ff5722, 0 0 20px #ffeb3b; animation: floatUp linear infinite; }
         @keyframes floatUp { 0% { transform: translateY(0) translateX(0) scale(1); opacity: 1; } 100% { transform: translateY(-100vh) translateX(50px) scale(0); opacity: 0; } }
 
+        /* Brasas que seguem o cursor/dedo */
+        .cursor-spark {
+            position: fixed; width: 5px; height: 5px; background: #ff5722; border-radius: 50%;
+            pointer-events: none; z-index: 9998; box-shadow: 0 0 10px #ff9800, 0 0 20px #ffeb3b;
+            animation: sparkFade 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+        @keyframes sparkFade {
+            0% { opacity: 1; transform: translate(0, 0) scale(1); }
+            100% { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(0); }
+        }
+
         /* ----------------------------------
            HERO & TÍTULO ANIMADO TECH
         ----------------------------------- */
         .hero {
             position: relative; height: 45vh; min-height: 350px; display: flex; align-items: center; justify-content: center;
-            background-color: #050505; border-bottom: 3px solid var(--accent-color); overflow: hidden;
+            background-color: #050505; border-bottom: 3px solid var(--tech-cyan); overflow: hidden;
             perspective: 800px;
         }
 
-        /* Tech Grid Animation */
         .tech-grid {
             position: absolute; width: 200%; height: 200%; bottom: -40%; left: -50%;
             background-image: 
@@ -88,35 +101,38 @@
             animation: gridMove 4s linear infinite;
             z-index: 1;
         }
-        @keyframes gridMove {
-            0% { transform: rotateX(75deg) translateY(0); }
-            100% { transform: rotateX(75deg) translateY(50px); }
-        }
+        @keyframes gridMove { 0% { transform: rotateX(75deg) translateY(0); } 100% { transform: rotateX(75deg) translateY(50px); } }
 
-        /* Fade out grid at the top */
         .hero::after {
             content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
             background: linear-gradient(to bottom, #050505 10%, transparent 60%, #050505 100%); z-index: 2;
         }
         
-        .hero-fire { position: absolute; bottom: 0; left: 0; width: 100%; height: 50%; background: radial-gradient(ellipse at bottom, rgba(255,87,34,0.3) 0%, transparent 70%); z-index: 3; animation: firePulse 2s infinite alternate; }
+        .hero-fire { position: absolute; bottom: 0; left: 0; width: 100%; height: 50%; background: radial-gradient(ellipse at bottom, rgba(0, 28, 119, 0.3) 0%, transparent 70%); z-index: 3; animation: firePulse 2s infinite alternate; }
         @keyframes firePulse { 0% { opacity: 0.5; transform: scaleY(1); } 100% { opacity: 1; transform: scaleY(1.3); } }
         
-        /* Título Cyber-Fire */
+        /* Título Cyber-Blue */
         h1 {
             position: relative; z-index: 4; font-size: clamp(2.2rem, 6vw, 4.5rem); font-weight: 900;
             text-transform: uppercase; letter-spacing: 2px; text-align: center; padding: 0 10px;
-            color: transparent;
-            background: linear-gradient(90deg, #ff5722, #ff9800, #00f3ff, #ff9800, #ff5722);
-            background-size: 200% auto;
-            -webkit-background-clip: text;
-            background-clip: text;
-            animation: shineText 3s linear infinite, glowTitle 2s infinite alternate;
+            color: transparent; line-height: 1.1;
+            background: linear-gradient(90deg, #ff9900cb, #97a1ad, #ffffff);
+            background-size: 200% auto; -webkit-background-clip: text; background-clip: text;
+            animation: shineText 4s linear infinite, glowTitle 3s infinite alternate;
         }
+        
+        /* Ajuste do Subtítulo para Desktop */
+        .title-second-line {
+            font-size: 0.85em;
+            display: inline-block; /* Fica na mesma linha no PC */
+            margin-left: 15px;
+            cursor: crosshair; /* Indica que tem algo ali para clicar */
+        }
+
         @keyframes shineText { to { background-position: 200% center; } }
         @keyframes glowTitle {
-            0% { filter: drop-shadow(0 0 10px rgba(255,87,34,0.6)); }
-            100% { filter: drop-shadow(0 0 25px rgba(0,243,255,0.8)); }
+            0% { filter: drop-shadow(0 0 10px rgba(1, 32, 100, 0.363)); }
+            100% { filter: drop-shadow(0 0 25px rgba(17, 28, 94, 0.8)); }
         }
 
         /* ----------------------------------
@@ -128,66 +144,60 @@
         }
 
         .timer-container { display: flex; justify-content: center; gap: 10px; margin-bottom: 25px; flex-wrap: wrap; }
-        .time-box {
-            background: rgba(0, 243, 255, 0.05); border: 1px solid rgba(0, 243, 255, 0.3); border-radius: 4px;
-            padding: 10px; min-width: 75px; box-shadow: 0 0 15px rgba(0, 243, 255, 0.1); position: relative;
-        }
+        .time-box { background: rgba(0, 243, 255, 0.05); border: 1px solid rgba(0, 243, 255, 0.3); border-radius: 4px; padding: 10px; min-width: 75px; box-shadow: 0 0 15px rgba(0, 243, 255, 0.1); position: relative; }
         .time-box::before { content: ''; position: absolute; top: 0; left: 0; width: 8px; height: 8px; border-top: 2px solid var(--tech-cyan); border-left: 2px solid var(--tech-cyan); }
         .time-box::after { content: ''; position: absolute; bottom: 0; right: 0; width: 8px; height: 8px; border-bottom: 2px solid var(--tech-cyan); border-right: 2px solid var(--tech-cyan); }
         .time-box span { display: block; font-size: clamp(1.5rem, 4vw, 2.2rem); font-weight: 900; color: var(--tech-cyan); font-family: 'Share Tech Mono', monospace; text-shadow: 0 0 8px var(--tech-cyan); }
         .time-box label { font-size: 0.7rem; text-transform: uppercase; color: #888; font-family: 'Share Tech Mono', monospace; }
 
-        .tech-location {
-            font-family: 'Share Tech Mono', monospace; font-size: clamp(0.85rem, 3vw, 1.1rem); color: #aaa;
-            max-width: 600px; margin: 0 auto 20px auto; text-align: left; background: rgba(0, 0, 0, 0.6);
-            padding: 15px; border-left: 3px solid var(--tech-cyan); border-radius: 0 8px 8px 0; word-wrap: break-word;
-        }
+        .tech-location { font-family: 'Share Tech Mono', monospace; font-size: clamp(0.85rem, 3vw, 1.1rem); color: #aaa; max-width: 600px; margin: 0 auto 20px auto; text-align: left; background: rgba(0, 0, 0, 0.6); padding: 15px; border-left: 3px solid var(--tech-cyan); border-radius: 0 8px 8px 0; word-wrap: break-word; }
         .tech-line { margin-bottom: 8px; display: flex; align-items: flex-start; gap: 8px;}
-        .icon { color: var(--accent-color); font-size: 0.9em; margin-top: 2px; }
+        .icon { color: var(--tech-cyan); font-size: 0.9em; margin-top: 2px; }
         .highlight-cyan { color: var(--tech-cyan); text-shadow: 0 0 8px rgba(0, 243, 255, 0.5); font-weight: bold; }
-        .highlight-orange { color: var(--highlight); text-shadow: 0 0 8px rgba(255, 152, 0, 0.5); }
+        .highlight-orange { color: #fff; text-shadow: 0 0 8px rgba(255, 255, 255, 0.3); }
         .blinking-data { animation: pulseData 2s infinite; }
         @keyframes pulseData { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
 
         .route-btns { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-top: 20px; }
-        .btn-route {
-            flex: 1; min-width: 200px; max-width: 300px; display: flex; align-items: center; justify-content: center; gap: 8px;
-            padding: 12px 20px; border-radius: 4px; text-decoration: none; font-weight: bold;
-            font-family: 'Share Tech Mono', monospace; color: #fff; transition: all 0.3s;
-        }
+        .btn-route { flex: 1; min-width: 200px; max-width: 300px; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 20px; border-radius: 4px; text-decoration: none; font-weight: bold; font-family: 'Share Tech Mono', monospace; color: #fff; transition: all 0.3s; }
         .btn-route:hover { transform: translateY(-2px); filter: brightness(1.2); }
         .btn-gmaps { background: linear-gradient(45deg, #4285F4, #0056b3); border: 1px solid #4285F4;}
         .btn-waze { background: linear-gradient(45deg, #33ccff, #0099cc); border: 1px solid #33ccff; color: #000; }
 
-        .cyber-menu-title {
-            text-align: center; font-size: clamp(2.5rem, 6vw, 3.5rem); color: #fff; font-family: 'Share Tech Mono', monospace;
-            margin: 40px 0 20px 0; text-transform: uppercase; letter-spacing: 5px;
-            text-shadow: 0 0 10px rgba(0, 243, 255, 0.8), 0 0 20px rgba(0, 243, 255, 0.4); animation: glitch 4s infinite;
-        }
+        .cyber-menu-title { text-align: center; font-size: clamp(2.5rem, 6vw, 3.5rem); color: #fff; font-family: 'Share Tech Mono', monospace; margin: 40px 0 20px 0; text-transform: uppercase; letter-spacing: 5px; text-shadow: 0 0 10px rgba(0, 243, 255, 0.8), 0 0 20px rgba(0, 243, 255, 0.4); animation: glitch 4s infinite; }
         @keyframes glitch { 0%, 21%, 60%, 62%, 100% { text-shadow: 0 0 10px rgba(0, 243, 255, 0.8); transform: skew(0deg); } 20% { text-shadow: -2px 0 #ff00c1, 2px 0 #00fff9; transform: skew(-2deg); } 61% { text-shadow: 2px 0 #ff00c1, -2px 0 #00fff9; transform: skew(2deg); } }
 
         /* ----------------------------------
-           CARTÕES
+           CARTÕES & EFEITO SCANNER IA
         ----------------------------------- */
         .container { max-width: 1200px; margin: 0 auto 40px auto; padding: 0 15px; position: relative; z-index: 4; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
-        .card { background-color: var(--card-bg); border-radius: 8px; overflow: hidden; box-shadow: 0 5px 20px rgba(0,0,0,0.8); transition: all 0.3s ease; border: 1px solid #222; display: flex; flex-direction: column; }
-        .card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0, 243, 255, 0.15); border-color: #444; }
         
-        .card.clickable { cursor: pointer; border-color: rgba(0, 243, 255, 0.3); position: relative; }
-        .card.clickable::after { content: '🔍 VER INGREDIENTES'; position: absolute; top: 10px; right: 10px; background: rgba(0, 243, 255, 0.9); color: #000; font-family: 'Share Tech Mono', monospace; font-size: 0.65rem; padding: 4px 8px; border-radius: 2px; font-weight: bold; box-shadow: 0 0 10px rgba(0,243,255,0.5); }
+        /* Ajustada a transição para funcionar liso com o JS Holográfico */
+        .card { background-color: var(--card-bg); border-radius: 8px; overflow: hidden; box-shadow: 0 5px 20px rgba(0,0,0,0.8); transition: box-shadow 0.3s, border-color 0.3s, transform 0.1s ease-out; border: 1px solid #222; display: flex; flex-direction: column; position: relative; }
+        .card:hover { box-shadow: 0 10px 30px rgba(0, 243, 255, 0.15); border-color: #444; z-index: 5; }
+        .card.clickable { cursor: pointer; border-color: rgba(0, 243, 255, 0.3); }
+        .card.clickable::after { content: '🔍 VER INGREDIENTES'; position: absolute; top: 10px; right: 10px; background: rgba(0, 243, 255, 0.9); color: #000; font-family: 'Share Tech Mono', monospace; font-size: 0.65rem; padding: 4px 8px; border-radius: 2px; font-weight: bold; box-shadow: 0 0 10px rgba(0,243,255,0.5); z-index: 11; }
         
+        /* Scanner de Visão Computacional */
+        .card::before {
+            content: ''; position: absolute; top: -100%; left: 0; width: 100%; height: 3px;
+            background: var(--tech-cyan); box-shadow: 0 0 15px 5px rgba(0, 243, 255, 0.4);
+            z-index: 10; pointer-events: none; opacity: 0; transition: opacity 0.3s;
+        }
+        .card:hover::before { opacity: 1; animation: scanAI 2s infinite linear; }
+        @keyframes scanAI { 0% { top: 0%; } 100% { top: 100%; } }
+
         .card-img { width: 100%; height: 180px; object-fit: cover; border-bottom: 2px solid #333; filter: grayscale(30%); transition: filter 0.3s; }
         .card:hover .card-img { filter: grayscale(0%); border-bottom-color: var(--tech-cyan); }
-        
-        .card-content { padding: 20px; flex-grow: 1; }
-        h2 { color: var(--accent-color); font-size: 1.3rem; margin-bottom: 15px; text-transform: uppercase; border-bottom: 1px solid #333; padding-bottom: 8px; font-family: 'Share Tech Mono', monospace; }
+        .card-content { padding: 20px; flex-grow: 1; position: relative; z-index: 2; background: var(--card-bg); }
+        h2 { color: var(--tech-cyan); font-size: 1.3rem; margin-bottom: 15px; text-transform: uppercase; border-bottom: 1px solid #333; padding-bottom: 8px; font-family: 'Share Tech Mono', monospace; }
         ul { list-style: none; }
         li { padding: 8px 0; border-bottom: 1px dashed #333; font-weight: 700; font-size: 1rem; }
         li:last-child { border-bottom: none; }
         .details { display: block; font-size: 0.8rem; color: #888; font-weight: 400; margin-top: 3px; }
 
         /* ----------------------------------
-           MODAIS (INGREDIENTES/ALERGIAS)
+           MODAIS GERAIS E VIP
         ----------------------------------- */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.9); backdrop-filter: blur(8px);
@@ -208,6 +218,37 @@
         .ing-name { color: #fff; font-weight: bold; font-size: 1.1rem; display: block; margin-bottom: 3px; }
         .ing-list { color: #aaa; font-size: 0.9rem; line-height: 1.4; }
         .alert { color: var(--alert-red); font-size: 0.8rem; font-weight: bold; display: block; margin-top: 2px; text-transform: uppercase; }
+
+        /* Estilo VIP Freemasonry */
+        .vip-style {
+            border-color: var(--vip-gold) !important;
+            box-shadow: 0 0 40px rgba(255, 215, 0, 0.2), inset 0 0 20px rgba(0,0,0,0.9) !important;
+            background: linear-gradient(135deg, #050505, #1a1500);
+        }
+        .vip-title { color: var(--vip-gold) !important; text-shadow: 0 0 10px rgba(255, 215, 0, 0.5) !important; border-bottom-color: var(--vip-gold) !important; text-align: center; font-size: 1.5rem !important;}
+        .vip-text { color: #ccc; font-family: 'Share Tech Mono', monospace; font-size: 1.1rem; line-height: 1.6; text-align: center; }
+        .close-vip { color: var(--vip-gold) !important; }
+
+        /* ----------------------------------
+           PAINEL DE CONFIRMAÇÃO BIOMÉTRICA
+        ----------------------------------- */
+        .rsvp-panel {
+            text-align: center; margin: 60px auto; padding: 30px;
+            background: rgba(10, 10, 10, 0.6); border: 1px dashed var(--tech-cyan);
+            border-radius: 8px; max-width: 600px; backdrop-filter: blur(5px);
+            position: relative; z-index: 4; width: 90%;
+        }
+        .rsvp-panel h3 { color: var(--tech-cyan); font-family: 'Share Tech Mono', monospace; margin-bottom: 10px; }
+        .btn-rsvp {
+            display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+            margin-top: 20px; padding: 15px 30px; width: 100%; max-width: 350px;
+            background: rgba(0, 243, 255, 0.1); border: 2px solid var(--tech-cyan);
+            color: #fff; font-family: 'Share Tech Mono', monospace; font-size: 1rem;
+            text-decoration: none; text-transform: uppercase; letter-spacing: 2px;
+            transition: all 0.3s; position: relative; overflow: hidden; border-radius: 4px;
+        }
+        .btn-rsvp:hover { background: var(--tech-cyan); color: #000; box-shadow: 0 0 20px var(--tech-cyan); font-weight: bold; }
+        .fingerprint-icon { filter: drop-shadow(0 0 5px var(--tech-cyan)); animation: pulseData 1.5s infinite; font-size: 1.5rem; }
 
         /* ----------------------------------
            PLAYER E RODAPÉ TECH
@@ -243,14 +284,23 @@
         .footer-link:hover { text-shadow: 0 0 8px var(--tech-cyan); }
         .copyright { font-size: 0.75rem; margin-top: 10px; color: #555; font-family: 'Montserrat', sans-serif; }
 
-        /* Partículas da Explosão da Logo */
-        .logo-particle {
-            position: fixed; width: 6px; height: 6px; border-radius: 50%; z-index: 10000; pointer-events: none;
-            box-shadow: 0 0 10px currentColor, 0 0 20px currentColor;
-        }
-        @keyframes burst {
-            0% { transform: translate(0, 0) scale(1); opacity: 1; }
-            100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; }
+        .logo-particle { position: fixed; width: 6px; height: 6px; border-radius: 50%; z-index: 10000; pointer-events: none; box-shadow: 0 0 10px currentColor, 0 0 20px currentColor; }
+        @keyframes burst { 0% { transform: translate(0, 0) scale(1); opacity: 1; } 100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; } }
+
+        /* ----------------------------------
+           AJUSTES PARA MOBILE
+        ----------------------------------- */
+        @media (max-width: 768px) {
+            /* Força a quebra de linha do título no Mobile */
+            .title-second-line {
+                display: block; margin-left: 0; margin-top: -5px;
+            }
+
+            #tech-player {
+                left: 50%; right: auto; transform: translateX(-50%) translateY(150%);
+                width: 90%; max-width: 350px; justify-content: space-between; bottom: 15px;
+            }
+            #tech-player.visible { transform: translateX(-50%) translateY(0); }
         }
     </style>
 </head>
@@ -267,45 +317,148 @@
         <button id="enter-btn">INICIAR SESSÃO</button>
     </div>
 
-    <div class="modal-overlay" id="modal-entradas">
-        <div class="modal-content">
-            <button class="close-modal">×</button>
-            <h3 class="modal-title">Dados: Entradas</h3>
-            <div class="ing-item"><span class="ing-name">Queijo Coalho</span><span class="ing-list">Leite pasteurizado, sal, coalho e fermento lácteo.</span><span class="alert">⚠️ Contém Lactose.</span></div>
-            <div class="ing-item"><span class="ing-name">Pão de Alho</span><span class="ing-list">Farinha de trigo, água, alho fresco, manteiga, queijo mussarela, salsa e sal.</span><span class="alert">⚠️ Contém Glúten e Lactose.</span></div>
+<div class="modal-overlay" id="modal-entradas">
+    <div class="modal-content">
+        <button class="close-modal">×</button>
+        <h3 class="modal-title">Dados: Entradas</h3>
+
+        <div class="ing-item">
+            <span class="ing-name">Queijo Coalho</span>
+            <span class="ing-list">
+                Leite pasteurizado, cloreto de sódio, cloreto de cálcio e coagulante quimosina.
+            </span>
+            <span class="alert">⚠️ Contém GLÚTEN | Alérgicos: Contém LACTOSE.</span>
+        </div>
+
+        <div class="ing-item">
+            <span class="ing-name">Pão de Alho</span>
+            <span class="ing-list">
+                Farinha de trigo enriquecida com ferro e ácido fólico, água, margarina, cobertura sabor muçarela,
+                queijo muçarela, óleo de soja, açúcar, alho, sal, fermento biológico seco, salsinha, cebolinha,
+                realçador de sabor glutamato monossodico, melhorador de farinha, conservantes propionato de calcio
+                e ácido sórbico.
+            </span>
+            <span class="alert">⚠️ Alérgicos: Contém DERIVADOS DE TRIGO, LEITE E SOJA.</span>
         </div>
     </div>
+</div>
 
-    <div class="modal-overlay" id="modal-carnes">
-        <div class="modal-content">
-            <button class="close-modal">×</button>
-            <h3 class="modal-title">Dados: Carnes</h3>
-            <div class="ing-item"><span class="ing-name">Alcatra / Contra-filé</span><span class="ing-list">Corte bovino in natura temperado exclusivamente com sal grosso.</span></div>
-            <div class="ing-item"><span class="ing-name">Asa / Meio da Asa (Marinada)</span><span class="ing-list">Corte de frango, cerveja pilsen, alho, cebola em pó, orange pepper, pimenta do reino e sal.</span><span class="alert">⚠️ Contém Glúten (Cerveja). Traços de pimenta.</span></div>
-            <div class="ing-item"><span class="ing-name">Coraçãozinho</span><span class="ing-list">Coração de frango, alho fresco, azeite de oliva, tempero mineiro, salsa e cebolinha.</span></div>
-            <div class="ing-item"><span class="ing-name">Linguiça / Salsichão</span><span class="ing-list">Carne suína/bovina, especiarias, sal e conservantes padrão de embutidos.</span><span class="alert">⚠️ Pode conter traços de soja/leite (verificar marca no dia).</span></div>
+<div class="modal-overlay" id="modal-carnes">
+    <div class="modal-content">
+        <button class="close-modal">×</button>
+        <h3 class="modal-title">Dados: Carnes</h3>
+
+        <div class="ing-item">
+            <span class="ing-name">Alcatra / Contra-filé</span>
+            <span class="ing-list">Corte bovino temperado exclusivamente com sal grosso e especiarias.</span>
+        </div>
+
+        <div class="ing-item">
+            <span class="ing-name">Asa / Meio da Asa</span>
+            <span class="ing-list">
+                Corte de frango, cevada, alho, cebola, molho shoyu, pimenta laranja, pimenta do reino e sal.
+            </span>
+            <span class="alert">⚠️ Contém GLÚTEN (CEVADA). Traços de pimenta.</span>
+        </div>
+
+        <div class="ing-item">
+            <span class="ing-name">Coraçãozinho</span>
+            <span class="ing-list">
+                Coração de frango, alho fresco, azeite de oliva, tempero mineiro, salsa e cebolinha.
+            </span>
+        </div>
+
+        <div class="ing-item">
+            <span class="ing-name">Linguiça / Salsichão</span>
+            <span class="ing-list">
+                Carne suína/bovina, especiarias, sal e conservantes padrão de embutidos.
+            </span>
         </div>
     </div>
+</div>
 
-    <div class="modal-overlay" id="modal-acompanhamentos">
-        <div class="modal-content">
-            <button class="close-modal">×</button>
-            <h3 class="modal-title">Dados: Acompanhamentos</h3>
-            <div class="ing-item"><span class="ing-name">Arroz Branco</span><span class="ing-list">Arroz agulhinha, alho, óleo vegetal e sal.</span></div>
-            <div class="ing-item"><span class="ing-name">Maionese Especial</span><span class="ing-list">Batata, cenoura, maionese industrial (óleo de soja, ovos, vinagre), salsa, cebolinha desidratada e pimenta do reino.</span><span class="alert">⚠️ Contém Derivados de Ovo e Soja.</span></div>
-            <div class="ing-item"><span class="ing-name">Farofa com Ovos</span><span class="ing-list">Farinha de mandioca, ovos, óleo/manteiga, cebola em pó, fumaça em pó e sal.</span><span class="alert">⚠️ Contém Ovos. Pode conter traços de lactose (se manteiga).</span></div>
+<div class="modal-overlay" id="modal-acompanhamentos">
+    <div class="modal-content">
+        <button class="close-modal">×</button>
+        <h3 class="modal-title">Dados: Acompanhamentos</h3>
+
+        <div class="ing-item">
+            <span class="ing-name">Arroz Branco</span>
+            <span class="ing-list">Arroz agulhinha, alho, óleo vegetal e sal.</span>
+        </div>
+
+        <div class="ing-item">
+            <span class="ing-name">Maionese Especial</span>
+            <span class="ing-list">
+                Batata, cenoura, maionese receita da casa (óleo de soja, ovos), salsa,
+                cebolinha desidratada, azeite.
+            </span>
+            <span class="alert">⚠️ Contém Derivados de Ovo e Soja.</span>
+        </div>
+
+        <div class="ing-item">
+            <span class="ing-name">Farofa com Ovos</span>
+            <span class="ing-list">
+                Farinha de mandioca, ovos, óleo/manteiga, cebola e sal.
+            </span>
+            <span class="alert">⚠️ Contém Ovos. Contém: LACTOSE.</span>
         </div>
     </div>
+</div>
 
-    <div class="modal-overlay" id="modal-molhos">
-        <div class="modal-content">
-            <button class="close-modal">×</button>
-            <h3 class="modal-title">Dados: Molhos</h3>
-            <div class="ing-item"><span class="ing-name">Barbecue (Receita da Casa)</span><span class="ing-list">Polpa de tomate, açúcar mascavo, vinagre, fumaça em pó, especiarias.</span></div>
-            <div class="ing-item"><span class="ing-name">Molho Blue Cheese</span><span class="ing-list">Cream cheese (leite pasteurizado, creme de leite), queijo gorgonzola, azeite, pimenta do reino.</span><span class="alert">⚠️ Contém Lactose.</span></div>
-            <div class="ing-item"><span class="ing-name">Molho Furioso (Estilo BK)</span><span class="ing-list">Extrato de tomate, pimenta jalapeño, pimenta caiena, vinagre, cebola, alho, açúcar.</span><span class="alert">⚠️ Alto teor de picância.</span></div>
-            <div class="ing-item"><span class="ing-name">Nola Rose (Estilo Popeyes)</span><span class="ing-list">Maionese, mostarda, páprica doce/picante, alho, ervas finas.</span><span class="alert">⚠️ Contém Derivados de Ovo. Leve picância.</span></div>
-            <div class="ing-item"><span class="ing-name">Louisiana (Estilo Popeyes)</span><span class="ing-list">Molho de pimenta envelhecida (pimenta caiena, vinagre, sal), toque cítrico.</span><span class="alert">⚠️ Alto teor de picância e acidez.</span></div>
+<div class="modal-overlay" id="modal-molhos">
+    <div class="modal-content">
+        <button class="close-modal">×</button>
+        <h3 class="modal-title">Dados: Molhos</h3>
+
+        <div class="ing-item">
+            <span class="ing-name">Barbecue</span>
+            <span class="ing-list">Polpa de tomate, açúcar mascavo, fumaça em pó, especiarias.</span>
+        </div>
+
+        <div class="ing-item">
+            <span class="ing-name">Molho Blue Cheese</span>
+            <span class="ing-list">
+                Cream cheese (leite pasteurizado, creme de leite), queijo gorgonzola, azeite, salsa e cebolinha.
+            </span>
+            <span class="alert">⚠️ Contém LACTOSE.</span>
+        </div>
+
+        <div class="ing-item">
+            <span class="ing-name">Molho Furioso </span>
+            <span class="ing-list">
+                Extrato de tomate, pimenta jalapeño, pimenta caiena, vinagre, cebola, alho, açúcar.
+            </span>
+            <span class="alert">⚠️ Alto teor de picância.</span>
+        </div>
+
+        <div class="ing-item">
+            <span class="ing-name">Nola Rose</span>
+            <span class="ing-list">
+                Maionese, mostarda, páprica doce/picante, alho, ervas finas.
+            </span>
+            <span class="alert">⚠️ Contém Derivados de Ovo. Leve picância.</span>
+        </div>
+
+        <div class="ing-item">
+            <span class="ing-name">Louisiana</span>
+            <span class="ing-list">
+                Molho de pimenta envelhecida (pimenta caiena, vinagre, sal), toque cítrico.
+            </span>
+            <span class="alert">⚠️ Alto teor de picância e acidez.</span>
+        </div>
+    </div>
+</div>
+
+    <div class="modal-overlay" id="vip-modal">
+        <div class="modal-content vip-style">
+            <button class="close-modal close-vip">×</button>
+            <h3 class="modal-title vip-title">∴ ÁREA VIP - SYSTEM ∴</h3>
+            <div class="vip-text">
+                <p>Acesso restrito concedido.</p><br>
+                <p>O verdadeiro segredo do churrasco não está no fogo, mas na união de quem se reúne em volta dele.</p><br>
+                <p style="color: var(--vip-gold);"><strong>T∴ F∴ A∴</strong></p>
+            </div>
         </div>
     </div>
 
@@ -313,7 +466,7 @@
         <header class="hero">
             <div class="tech-grid"></div>
             <div class="hero-fire"></div>
-            <h1>CHURRASCO DO ROBSON</h1>
+            <h1>CHURRASCO<span class="title-second-line" id="secret-trigger" title="???">DO ROBSON</span></h1>
         </header>
 
         <div class="info-panel">
@@ -326,74 +479,58 @@
             
             <div class="tech-location">
                 <div class="tech-line"><span class="icon">▶</span><span>DATA_INT: <span class="highlight-cyan blinking-data">DOMINGO, 13:00 HRS</span></span></div>
-                <div class="tech-line"><span class="icon">▶</span><span>LOC_TARGET: <span class="highlight-orange">Rua Etelvino Antônio da Silva, 40 - Morada do Vale - Santíssimo-RJ</span></span></div>
+                <div class="tech-line"><span class="icon">▶</span><span>LOC_TARGET: <span class="highlight-orange">Rua Etelvino Antônio da Silva, 40 <br> Morada do Vale - Santíssimo-RJ</span></span></div>
             </div>
 
             <div class="route-btns">
                 <a href="https://www.google.com/maps/search/?api=1&query=Rua+Etelvino+Antônio+da+Silva,+40+-+Morada+do+Vale+-+Santíssimo-RJ" target="_blank" class="btn-route btn-gmaps">🗺️ GOOGLE MAPS</a>
-                <a href="https://waze.com/ul?q=Rua+Etelvino+Antônio+da+Silva,+40+-+Morada+do+Vale+-+Santíssimo-RJ" target="_blank" class="btn-route btn-waze">🚗 WAZE DIRECT</a>
+                <a href="https://waze.com/ul?q=Rua+Etelvino+Antônio+da+Silva,+40+-+Morada+do+Vale+-+Santíssimo-RJ" target="_blank" class="btn-route btn-waze">🚗 WAZE</a>
             </div>
         </div>
 
         <div class="container" style="margin-top: 40px;">
             <div class="card clickable" data-target="modal-entradas">
                 <img src="pao-alho.webp" alt="Entradas" class="card-img">
-                <div class="card-content">
-                    <h2>🍢 Entradas Quentes</h2>
-                    <ul><li>Queijo Coalho</li><li>Pão de Alho</li></ul>
-                </div>
+                <div class="card-content"><h2>🍢 Entradas Quentes</h2><ul><li>Queijo Coalho</li><li>Pão de Alho</li></ul></div>
             </div>
-
             <div class="card clickable" data-target="modal-carnes">
-                <img src="https://images.unsplash.com/photo-1603360946369-dc9bb6258143?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Carnes" class="card-img">
-                <div class="card-content">
-                    <h2>🥩 Carnes na Brasa</h2>
-                    <ul><li>Alcatra / Contra-filé</li><li>Asa e Meio da Asa</li><li>Coraçãozinho</li><li>Linguiça & Salsichão</li></ul>
-                </div>
+                <img src="carnes.webp" alt="Carnes" class="card-img">
+                <div class="card-content"><h2>🥩 Carnes na Brasa</h2><ul><li>Alcatra / Contrafilé</li><li>Asa e Meio da Asa</li><li>Coraçãozinho</li><li>Linguiça</li><li>Salsichão</li></ul></div>
             </div>
-
             <div class="card clickable" data-target="modal-acompanhamentos">
                 <img src="arroz.webp" alt="Acompanhamentos" class="card-img">
-                <div class="card-content">
-                    <h2>🥗 Acompanhamentos</h2>
-                    <ul><li>Arroz Branco</li><li>Maionese Especial</li><li>Farofa com Ovos</li></ul>
-                </div>
+                <div class="card-content"><h2>🥗 Acompanhamentos</h2><ul><li>Arroz Branco</li><li>Maionese Especial</li><li>Farofa com Ovos</li></ul></div>
             </div>
-
             <div class="card clickable" data-target="modal-molhos">
                 <img src="molhos.webp" alt="Molhos" class="card-img">
                 <div class="card-content">
                     <h2>🥣 Molhos Especiais</h2>
-                    <ul>
-                        <li>Barbecue <span class="details">Defumado artesanal</span></li>
-                        <li>Blue Cheese <span class="details">Gorgonzola Cremoso</span></li>
-                        <li>Furioso <span class="details">Estilo Burger King 🔥</span></li>
-                        <li>Nola Rose <span class="details">Estilo Popeyes</span></li>
-                        <li>Louisiana <span class="details">Estilo Popeyes 🔥</span></li>
-                    </ul>
+                    <ul><li>Barbecue</li><li>Blue Cheese</li><li>Furioso 🔥</li><li>Nola Rose</li><li>Louisiana 🔥</li></ul>
                 </div>
             </div>
-
             <div class="card">
                 <img src="coca-cola.webp" alt="Bebidas" class="card-img">
-                <div class="card-content">
-                    <h2>🥤 Bebidas</h2>
-                    <ul><li>Coca-Cola <span class="details">Garrafa PET</span></li><li>Coca-Cola Zero <span class="details">Garrafa PET</span></li><li>Guaraná Zero <span class="details">Garrafa PET</span></li></ul>
-                </div>
+                <div class="card-content"><h2>🥤 Bebidas</h2><ul><li>Coca-Cola</li><li>Coca-Cola Zero</li><li>Guaraná Zero</li></ul></div>
             </div>
+        </div>
+
+        <div class="rsvp-panel">
+            <h3>[ AUTENTICAÇÃO DE PRESENÇA ]</h3>
+            <p>Aproxime o cursor para registrar sua biometria na base de dados do evento.</p>
+            <a href="https://wa.me/5521996420588?text=SYSTEM,%20minha%20presença%20está%20confirmada%20no%20churrasco!" target="_blank" class="btn-rsvp">
+                <span class="fingerprint-icon">🎯</span> CONFIRMAR IDENTIDADE
+            </a>
         </div>
 
         <footer>
             <img src="logo.png" alt="O Imaginista Logo" id="footer-logo" class="footer-logo" onerror="this.style.display='none'">
             <p class="footer-text">[ DESENVOLVIDO POR <a href="https://oimaginista.com" target="_blank" class="footer-link">O IMAGINISTA</a> ]</p>
-            <p class="copyright">© 2025 Todos os direitos reservados.</p>
+            <p class="copyright">© 2026 Todos os direitos reservados.</p>
         </footer>
     </div>
 
     <div id="tech-player">
-        <div class="spectrum">
-            <div class="bar"></div><div class="bar"></div><div class="bar"></div>
-        </div>
+        <div class="spectrum"><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>
         <div class="player-info">TRACK: T.SMITHS<br>VOL: <span id="vol-display">30</span>%</div>
         <div class="tech-controls">
             <button class="tech-btn" id="btn-voldown">-</button>
@@ -403,15 +540,15 @@
     </div>
 
     <script>
-        // --- 1. INTRO HACKER ---
+        // --- 1. INTRO HACKER IA ---
         const terminalText = document.getElementById('terminal-text');
         const lines = [
-            "> Inicializando kernel do servidor...",
-            "> Carregando pacotes de suprimentos...",
-            "> Compilando lista de ingredientes...",
-            "> Verificando protocolos de segurança alimentar...",
-            "> Bem-vindo, SYSTEM.",
-            "> Acesso concedido. Fogo liberado."
+            "> Inicializando kernel do servidor...",
+            "> Carregando pacotes de suprimentos...",
+            "> Compilando lista de ingredientes...",
+            "> Verificando protocolos de segurança alimentar...",
+            "> Bem-vindo, SYSTEM.",
+            "> Acesso concedido. Fogo liberado."
         ];
         
         let lineIndex = 0; let charIndex = 0;
@@ -422,15 +559,9 @@
                 const currentLineDiv = terminalText.lastChild.querySelector('.line-content');
                 currentLineDiv.textContent += lines[lineIndex].charAt(charIndex);
                 charIndex++;
-                if (charIndex < lines[lineIndex].length) {
-                    setTimeout(typeWriter, Math.random() * 40 + 10); 
-                } else {
-                    terminalText.lastChild.querySelector('.cursor').remove(); 
-                    charIndex = 0; lineIndex++; setTimeout(typeWriter, 300); 
-                }
-            } else {
-                document.getElementById('enter-btn').style.display = 'inline-block';
-            }
+                if (charIndex < lines[lineIndex].length) setTimeout(typeWriter, Math.random() * 40 + 10); 
+                else { terminalText.lastChild.querySelector('.cursor').remove(); charIndex = 0; lineIndex++; setTimeout(typeWriter, 300); }
+            } else { document.getElementById('enter-btn').style.display = 'inline-block'; }
         }
         setTimeout(typeWriter, 500);
 
@@ -443,17 +574,10 @@
 
         document.getElementById('enter-btn').addEventListener('click', function() {
             audio.volume = 0.3; 
-            audio.play().then(() => {
-                isPlaying = true; playPauseBtn.textContent = '⏸'; techPlayer.classList.add('playing');
-            }).catch(e => console.log("Áudio bloqueado:", e));
-
+            audio.play().then(() => { isPlaying = true; playPauseBtn.textContent = '⏸'; techPlayer.classList.add('playing'); }).catch(e => console.log("Áudio bloqueado"));
             const intro = document.getElementById('terminal-intro');
             intro.style.opacity = '0';
-            setTimeout(() => {
-                intro.style.display = 'none';
-                document.getElementById('main-content').style.display = 'block';
-                setTimeout(() => techPlayer.classList.add('visible'), 500);
-            }, 1000);
+            setTimeout(() => { intro.style.display = 'none'; document.getElementById('main-content').style.display = 'block'; setTimeout(() => techPlayer.classList.add('visible'), 500); }, 1000);
         });
 
         playPauseBtn.addEventListener('click', () => {
@@ -462,19 +586,14 @@
             isPlaying = !isPlaying;
         });
 
-        document.getElementById('btn-volup').addEventListener('click', () => {
-            if (audio.volume < 0.9) { audio.volume += 0.1; volDisplay.textContent = Math.round(audio.volume * 100); }
-        });
-        document.getElementById('btn-voldown').addEventListener('click', () => {
-            if (audio.volume > 0.1) { audio.volume -= 0.1; volDisplay.textContent = Math.round(audio.volume * 100); }
-        });
+        document.getElementById('btn-volup').addEventListener('click', () => { if (audio.volume < 0.9) { audio.volume += 0.1; volDisplay.textContent = Math.round(audio.volume * 100); }});
+        document.getElementById('btn-voldown').addEventListener('click', () => { if (audio.volume > 0.1) { audio.volume -= 0.1; volDisplay.textContent = Math.round(audio.volume * 100); }});
 
         // --- 3. COUNTDOWN ---
         const targetDate = new Date("March 15, 2026 13:00:00").getTime();
         const timerInterval = setInterval(function() {
             const now = new Date().getTime();
             const distance = targetDate - now;
-
             if (distance < 0) {
                 clearInterval(timerInterval);
                 document.getElementById("countdown").innerHTML = "<div style='color:var(--tech-cyan); font-size:1.5rem; font-weight:bold; font-family:\"Share Tech Mono\", monospace; text-shadow: 0 0 10px var(--tech-cyan); text-align:center;'>O FOGO JÁ ESTÁ ACESO! 🔥</div>";
@@ -486,96 +605,112 @@
             document.getElementById("seconds").textContent = Math.floor((distance % (1000 * 60)) / 1000).toString().padStart(2, '0');
         }, 1000);
 
-        // --- 4. SISTEMA DE MODAIS ---
+        // --- 4. SISTEMA DE MODAIS & EASTER EGG VIP ---
         const cards = document.querySelectorAll('.card.clickable');
         const modals = document.querySelectorAll('.modal-overlay');
         const closeBtns = document.querySelectorAll('.close-modal');
 
         cards.forEach(card => {
-            card.addEventListener('click', () => {
-                const targetId = card.getAttribute('data-target');
-                document.getElementById(targetId).classList.add('active');
-            });
+            card.addEventListener('click', () => { document.getElementById(card.getAttribute('data-target')).classList.add('active'); });
+        });
+        closeBtns.forEach(btn => { btn.addEventListener('click', (e) => { e.target.closest('.modal-overlay').classList.remove('active'); }); });
+        modals.forEach(modal => { modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('active'); }); });
+
+        // Easter Egg (3 cliques no DO ROBSON)
+        let secretClicks = 0;
+        let secretTimer;
+        document.getElementById('secret-trigger').addEventListener('click', () => {
+            secretClicks++;
+            clearTimeout(secretTimer);
+            secretTimer = setTimeout(() => secretClicks = 0, 1500); 
+            
+            if(secretClicks >= 3) {
+                document.getElementById('vip-modal').classList.add('active');
+                secretClicks = 0;
+            }
         });
 
-        closeBtns.forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.target.closest('.modal-overlay').classList.remove('active');
-            });
-        });
-
-        modals.forEach(modal => {
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) modal.classList.remove('active');
-            });
-        });
-
-        // --- 5. FUMAÇA E BRASAS ---
+        // --- 5. FUMAÇA, BRASAS DE FUNDO E BRASAS DO CURSOR ---
         const bgFx = document.getElementById('bg-fx');
         for (let i = 0; i < 12; i++) {
-            let smoke = document.createElement('div');
-            smoke.classList.add('bg-smoke');
-            smoke.style.width = (Math.random() * 150 + 100) + 'px';
-            smoke.style.height = smoke.style.width;
+            let smoke = document.createElement('div'); smoke.classList.add('bg-smoke');
+            smoke.style.width = (Math.random() * 150 + 100) + 'px'; smoke.style.height = smoke.style.width;
             smoke.style.left = Math.random() * 100 + 'vw';
-            smoke.style.animationDuration = (Math.random() * 8 + 12) + 's';
-            smoke.style.animationDelay = (Math.random() * 5) + 's';
+            smoke.style.animationDuration = (Math.random() * 8 + 12) + 's'; smoke.style.animationDelay = (Math.random() * 5) + 's';
             bgFx.appendChild(smoke);
         }
 
         function createEmber() {
-            let ember = document.createElement('div');
-            ember.classList.add('ember');
-            ember.style.left = Math.random() * 100 + 'vw';
-            ember.style.animationDuration = (Math.random() * 3 + 2) + 's';
-            let size = Math.random() * 3 + 2;
-            ember.style.width = size + 'px';
-            ember.style.height = size + 'px';
-            bgFx.appendChild(ember);
-            setTimeout(() => { ember.remove(); }, 5000);
+            let ember = document.createElement('div'); ember.classList.add('ember');
+            ember.style.left = Math.random() * 100 + 'vw'; ember.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            let size = Math.random() * 3 + 2; ember.style.width = size + 'px'; ember.style.height = size + 'px';
+            bgFx.appendChild(ember); setTimeout(() => { ember.remove(); }, 5000);
         }
         setInterval(createEmber, 300);
+
+        function spawnCursorSpark(x, y) {
+            let p = document.createElement('div');
+            p.classList.add('cursor-spark');
+            p.style.left = x + 'px';
+            p.style.top = y + 'px';
+            p.style.setProperty('--tx', (Math.random() * 80 - 40) + 'px');
+            p.style.setProperty('--ty', (Math.random() * 80 - 40) + 'px');
+            document.body.appendChild(p);
+            setTimeout(() => p.remove(), 600);
+        }
+
+        document.addEventListener('mousemove', (e) => {
+            if(Math.random() > 0.6 && document.getElementById('main-content').style.display === 'block') {
+                spawnCursorSpark(e.clientX, e.clientY);
+            }
+        });
+
+        document.addEventListener('touchmove', (e) => {
+            if(Math.random() > 0.5 && document.getElementById('main-content').style.display === 'block') {
+                spawnCursorSpark(e.touches[0].clientX, e.touches[0].clientY);
+            }
+        });
 
         // --- 6. LOGO EXPLOSÃO TECH/FOGO ---
         const logo = document.getElementById('footer-logo');
         logo.addEventListener('click', (e) => {
-            // Efeito de choque visual na logo
-            logo.style.filter = 'drop-shadow(0 0 30px #ff5722) hue-rotate(90deg)';
-            logo.style.transform = 'scale(1.1)';
-            setTimeout(() => {
-                logo.style.filter = '';
-                logo.style.transform = '';
-            }, 300);
+            logo.style.filter = 'drop-shadow(0 0 30px #ff5722) hue-rotate(90deg)'; logo.style.transform = 'scale(1.1)';
+            setTimeout(() => { logo.style.filter = ''; logo.style.transform = ''; }, 300);
 
-            // Calcula o centro da imagem na tela
             const rect = logo.getBoundingClientRect();
-            const centerX = rect.left + rect.width / 2;
-            const centerY = rect.top + rect.height / 2;
+            const centerX = rect.left + rect.width / 2; const centerY = rect.top + rect.height / 2;
 
-            // Gera 40 partículas voando em direções aleatórias
             for(let i = 0; i < 40; i++) {
-                let p = document.createElement('div');
-                p.classList.add('logo-particle');
-                
-                // Define a cor aleatoriamente entre o ciano tech e as cores de fogo
+                let p = document.createElement('div'); p.classList.add('logo-particle');
                 const colors = ['#00f3ff', '#ff5722', '#ff9800', '#00f3ff'];
-                p.style.color = colors[Math.floor(Math.random() * colors.length)];
-                p.style.backgroundColor = 'currentColor';
-
-                p.style.left = centerX + 'px';
-                p.style.top = centerY + 'px';
-                
-                // Variáveis CSS para o destino da explosão
-                p.style.setProperty('--tx', (Math.random() * 400 - 200) + 'px');
-                p.style.setProperty('--ty', (Math.random() * 400 - 200) + 'px');
-                
+                p.style.color = colors[Math.floor(Math.random() * colors.length)]; p.style.backgroundColor = 'currentColor';
+                p.style.left = centerX + 'px'; p.style.top = centerY + 'px';
+                p.style.setProperty('--tx', (Math.random() * 400 - 200) + 'px'); p.style.setProperty('--ty', (Math.random() * 400 - 200) + 'px');
                 p.style.animation = `burst ${Math.random() * 0.8 + 0.4}s cubic-bezier(0.1, 0.8, 0.3, 1) forwards`;
-                
-                document.body.appendChild(p);
-                setTimeout(() => p.remove(), 1200);
+                document.body.appendChild(p); setTimeout(() => p.remove(), 1200);
             }
         });
 
+        // --- 7. EFEITO HOLOGRÁFICO 3D NOS CARTÕES ---
+        const tiltCards = document.querySelectorAll('.card');
+        tiltCards.forEach(card => {
+            card.addEventListener('mousemove', e => {
+                let rect = card.getBoundingClientRect();
+                let x = e.clientX - rect.left; 
+                let y = e.clientY - rect.top;  
+                
+                let xPct = (x / rect.width - 0.5) * 20; 
+                let yPct = (y / rect.height - 0.5) * -20; 
+                
+                card.style.transform = `perspective(1000px) rotateY(${xPct}deg) rotateX(${yPct}deg) translateY(-5px) scale3d(1.02, 1.02, 1.02)`;
+                card.style.borderColor = 'var(--tech-cyan)';
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateY(0deg) rotateX(0deg) translateY(0) scale3d(1, 1, 1)';
+                card.style.borderColor = '#222';
+            });
+        });
     </script>
 </body>
 </html>
