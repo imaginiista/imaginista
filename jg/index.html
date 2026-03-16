@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Financeiro | Jorge Cazé</title>
-	
+    
     <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96">
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg">
     <link rel="shortcut icon" href="/favicon/favicon.ico">
@@ -12,7 +12,7 @@
     <meta name="apple-mobile-web-app-title" content="Imaginista">
     <link rel="manifest" href="/favicon/site.webmanifest">
     <meta name="theme-color" content="#020617">
-	
+    
     <style>
         /* ==========================================================
            VARIÁVEIS GLOBAIS E TEMA CINEMÁTICO
@@ -25,11 +25,14 @@
             --text-muted: #94a3b8;
             --brand-gold: #d4af37;
             --brand-gold-light: #fef08a;
+            --brand-purple: #a855f7;
+            --brand-purple-light: #d8b4fe;
+            --brand-orange: #f97316;
+            --brand-orange-light: #fdba74;
             --status-green: #10b981;
             --status-red: #ef4444;
             --status-blue: #3b82f6;
             --border-subtle: rgba(255, 255, 255, 0.08);
-            --glow-spread: 0 0 20px rgba(59, 130, 246, 0.2);
         }
 
         /* ==========================================================
@@ -59,7 +62,6 @@
             position: relative;
         }
 
-        /* Efeito Glow Radial de Fundo */
         body::before {
             content: '';
             position: fixed; 
@@ -72,9 +74,6 @@
             pointer-events: none;
         }
 
-        /* ==========================================================
-           EFEITO CANVAS (PARTÍCULAS IA / TECH)
-           ========================================================== */
         #techCanvas {
             position: fixed;
             top: 0;
@@ -85,7 +84,7 @@
             pointer-events: none;
         }
 
-        /* ==========================================================
+/* ==========================================================
            LAYOUT WRAPPER (DESKTOP FIRST)
            ========================================================== */
         .app-container {
@@ -93,20 +92,18 @@
             display: flex; 
             flex-direction: column;
             width: 100%; 
-            max-width: 1200px; 
+            max-width: 1400px; 
             margin: 0 auto;
             padding: 20px; 
             gap: 20px; 
             z-index: 1; 
             position: relative;
-            height: auto; 
-            min-height: calc(100vh - 140px);
         }
 
         @media (min-width: 1024px) {
             .app-container { 
                 flex-direction: row; 
-                padding: 40px 20px; 
+                padding: 25px 20px; 
                 gap: 40px; 
                 align-items: flex-start;
             }
@@ -116,7 +113,7 @@
            PAINEL ESQUERDO: RESUMO DO CLIENTE
            ========================================================== */
         .dashboard-side {
-            width: 100%; /* Garante responsividade em telas menores */
+            width: 100%;
             background: var(--panel-bg);
             border: 1px solid var(--border-subtle);
             border-radius: 16px; 
@@ -131,27 +128,26 @@
 
         @media (min-width: 1024px) {
             .dashboard-side { 
-                width: 380px; /* Trava a largura apenas no desktop */
+                width: 380px; 
                 min-width: 380px;
                 position: sticky;
                 top: 40px;
             }
         }
 
-        /* CORREÇÃO DO CABEÇALHO (RELÓGIO E SEGURO) */
         .header-top-row { 
             display: flex; 
-            flex-wrap: wrap; /* A mágica anti-sobreposição */
+            flex-wrap: wrap; 
             justify-content: space-between; 
             align-items: center; 
-            gap: 12px; /* Espaçamento seguro entre os itens */
+            gap: 12px; 
             margin-bottom: 25px; 
             width: 100%;
         }
         
         .clock-display {
-            flex: 1; /* Permite crescer se houver espaço */
-            min-width: 160px; /* Garante um tamanho mínimo para não quebrar o texto */
+            flex: 1; 
+            min-width: 160px; 
             font-family: monospace; 
             font-size: 0.95rem; 
             color: var(--status-blue);
@@ -168,7 +164,7 @@
         }
 
         .badge-secure { 
-            flex-shrink: 0; /* Impede o cadeado de espremer */
+            flex-shrink: 0; 
             font-size: 0.8rem; 
             color: var(--status-green); 
             font-weight: bold; 
@@ -188,24 +184,8 @@
             100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
         }
 
-        .client-info h1 { 
-            font-size: 0.85rem; 
-            color: var(--brand-gold); 
-            text-transform: uppercase; 
-            letter-spacing: 2px; 
-            margin-bottom: 8px; 
-            font-weight: 600; 
-        }
-
-        .client-info h2 { 
-            font-size: 2.2rem; 
-            font-weight: 700; 
-            color: #fff; 
-            line-height: 1.1; 
-            margin-bottom: 8px; 
-            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
-            word-wrap: break-word;
-        }
+        .client-info h1 { font-size: 0.85rem; color: var(--brand-gold); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px; font-weight: 600; }
+        .client-info h2 { font-size: 2.2rem; font-weight: 700; color: #fff; line-height: 1.1; margin-bottom: 8px; text-shadow: 0 2px 10px rgba(0,0,0,0.5); word-wrap: break-word; }
 
         .parcelas-count { 
             font-size: 0.95rem; 
@@ -217,28 +197,9 @@
             border: 1px solid rgba(255,255,255,0.05);
         }
 
-        .finance-summary { 
-            margin: 30px 0; 
-            padding-bottom: 30px; 
-            border-bottom: 1px solid var(--border-subtle); 
-        }
-
-        .summary-label { 
-            font-size: 0.85rem; 
-            color: var(--text-muted); 
-            text-transform: uppercase; 
-            letter-spacing: 1px; 
-            margin-bottom: 8px; 
-        }
-
-        .total-value { 
-            font-size: clamp(2.5rem, 5vw, 3.2rem); /* Tipografia fluida responsiva */
-            font-weight: 800; 
-            color: #fff; 
-            line-height: 1; 
-            text-shadow: 0 4px 20px rgba(255,255,255,0.1);
-            word-break: break-all; /* Evita quebra horizontal */
-        }
+        .finance-summary { margin: 30px 0; padding-bottom: 30px; border-bottom: 1px solid var(--border-subtle); }
+        .summary-label { font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+        .total-value { font-size: clamp(2.5rem, 5vw, 3.2rem); font-weight: 800; color: #fff; line-height: 1; text-shadow: 0 4px 20px rgba(255,255,255,0.1); word-break: break-all; }
         
         .late-alert {
             display: none; 
@@ -260,96 +221,25 @@
             50% { opacity: 0.8; border-color: rgba(239, 68, 68, 0.1); } 
         }
 
-        .progress-container { 
-            margin-top: 25px; 
-            width: 100%;
-        }
+        .progress-container { margin-top: 25px; width: 100%; }
+        .progress-bar-bg { background: rgba(255,255,255,0.05); height: 8px; border-radius: 10px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); width: 100%; }
+        .progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--status-green), #34d399); width: 0%; transition: width 1s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 0 10px var(--status-green); }
+        .progress-text { display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-muted); margin-top: 10px; font-weight: bold; }
 
-        .progress-bar-bg { 
-            background: rgba(255,255,255,0.05); 
-            height: 8px; 
-            border-radius: 10px; 
-            overflow: hidden; 
-            border: 1px solid rgba(255,255,255,0.05);
-            width: 100%;
-        }
-
-        .progress-bar-fill { 
-            height: 100%; 
-            background: linear-gradient(90deg, var(--status-green), #34d399); 
-            width: 0%; 
-            transition: width 1s cubic-bezier(0.4, 0, 0.2, 1); 
-            box-shadow: 0 0 10px var(--status-green);
-        }
-
-        .progress-text { 
-            display: flex; 
-            justify-content: space-between; 
-            font-size: 0.85rem; 
-            color: var(--text-muted); 
-            margin-top: 10px; 
-            font-weight: bold; 
-        }
-
-        /* CORREÇÃO DO BOX PIX RESPONSIVO */
-        .pix-section { 
-            background: rgba(16, 185, 129, 0.05); 
-            padding: 20px; 
-            border-radius: 12px; 
-            border: 1px solid rgba(16, 185, 129, 0.15); 
-            width: 100%;
-        }
-
-        .pix-header { 
-            color: var(--status-green); 
-            font-size: 0.8rem; 
-            font-weight: bold; 
-            margin-bottom: 12px; 
-            display: flex; 
-            align-items: center; 
-            gap: 8px; 
-            letter-spacing: 1px; 
-        }
-
-        .pix-action { 
-            display: flex; 
-            gap: 10px; 
-            flex-wrap: wrap; /* Permite que o botão desça se não houver espaço */
-            width: 100%;
-        }
-
+        .pix-section { background: rgba(16, 185, 129, 0.05); padding: 20px; border-radius: 12px; border: 1px solid rgba(16, 185, 129, 0.15); width: 100%; }
+        .pix-header { color: var(--status-green); font-size: 0.8rem; font-weight: bold; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; letter-spacing: 1px; }
+        .pix-action { display: flex; gap: 10px; flex-wrap: wrap; width: 100%; }
         .pix-key-display {
-            flex: 1; 
-            min-width: 0; /* CRUCIAL: Impede que a div force a largura do container pai */
-            background: rgba(0,0,0,0.4); 
-            padding: 12px; 
-            border-radius: 8px;
-            font-family: monospace; 
-            font-size: 1.05rem; 
-            color: #fff; 
-            border: 1px solid rgba(255,255,255,0.1);
-            user-select: text; 
-            overflow: hidden; 
-            text-overflow: ellipsis; 
-            white-space: nowrap;
+            flex: 1; min-width: 0; background: rgba(0,0,0,0.4); padding: 12px; border-radius: 8px;
+            font-family: monospace; font-size: 1.05rem; color: #fff; border: 1px solid rgba(255,255,255,0.1);
+            user-select: text; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
         }
 
         .btn-copy {
-            background: var(--status-green); 
-            color: #000; 
-            border: none; 
-            padding: 12px 20px; /* Padding unificado para ficar estético no mobile */
-            border-radius: 8px; 
-            font-weight: 800; 
-            cursor: pointer; 
-            transition: all 0.2s;
-            text-transform: uppercase;
-            flex-shrink: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            background: var(--status-green); color: #000; border: none; padding: 12px 20px; border-radius: 8px; 
+            font-weight: 800; cursor: pointer; transition: all 0.2s; text-transform: uppercase; flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center;
         }
-
         .btn-copy:active { transform: scale(0.95); }
         .btn-copy:hover { box-shadow: 0 0 15px rgba(16, 185, 129, 0.4); }
 
@@ -374,164 +264,88 @@
         .list-header {
             padding: 25px 30px; 
             border-bottom: 1px solid var(--border-subtle);
-            display: flex; 
-            flex-wrap: wrap; /* Evita quebra no mobile */
-            gap: 15px;
-            justify-content: space-between; 
-            align-items: center; 
+            display: flex; flex-wrap: wrap; gap: 15px;
+            justify-content: space-between; align-items: center; 
             background: rgba(0,0,0,0.3);
-            border-top-left-radius: 16px;
-            border-top-right-radius: 16px;
+            border-top-left-radius: 16px; border-top-right-radius: 16px;
         }
 
-        .list-title { 
-            font-size: 1rem; 
-            font-weight: bold; 
-            color: var(--text-main); 
-            text-transform: uppercase; 
-            letter-spacing: 1px; 
-        }
+        .list-title { font-size: 1rem; font-weight: bold; color: var(--text-main); text-transform: uppercase; letter-spacing: 1px; }
         
         .btn-toggle-history {
-            background: transparent; 
-            border: 1px solid rgba(255,255,255,0.2); 
-            color: var(--text-muted);
-            padding: 10px 20px; 
-            border-radius: 20px; 
-            font-size: 0.85rem; 
-            cursor: pointer; 
-            transition: all 0.3s;
-            white-space: nowrap;
+            background: transparent; border: 1px solid rgba(255,255,255,0.2); color: var(--text-muted);
+            padding: 10px 20px; border-radius: 20px; font-size: 0.85rem; cursor: pointer; transition: all 0.3s; white-space: nowrap;
         }
-
         .btn-toggle-history:hover { background: rgba(255,255,255,0.05); color: #fff; }
         .btn-toggle-history.active { background: rgba(251, 191, 36, 0.1); border-color: var(--brand-gold); color: var(--brand-gold-light); }
 
-        .cards-wrapper {
-            padding: 30px;
-            display: flex; 
-            flex-direction: column; 
-            gap: 18px;
-        }
+        .cards-wrapper { padding: 30px; display: flex; flex-direction: column; gap: 18px; }
 
-        .controls-more-less {
-            display: flex;
-            flex-wrap: wrap; /* Flexibilidade para telas menores */
-            gap: 15px;
-            margin-top: 10px;
-            justify-content: center;
-        }
+        .controls-more-less { display: flex; flex-wrap: wrap; gap: 15px; margin-top: 10px; justify-content: center; }
 
         .btn-action-list {
-            background: rgba(59, 130, 246, 0.05);
-            border: 1px dashed rgba(59, 130, 246, 0.4);
-            color: var(--status-blue);
-            padding: 14px 20px;
-            border-radius: 8px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
-            flex: 1;
-            min-width: 200px; /* Garante que não fiquem finos demais no wrap */
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-size: 0.85rem;
+            background: rgba(59, 130, 246, 0.05); border: 1px dashed rgba(59, 130, 246, 0.4);
+            color: var(--status-blue); padding: 14px 20px; border-radius: 8px; font-weight: bold;
+            cursor: pointer; transition: all 0.3s; flex: 1; min-width: 200px;
+            text-transform: uppercase; letter-spacing: 1px; font-size: 0.85rem;
         }
-
-        .btn-action-list:hover {
-            background: rgba(59, 130, 246, 0.15);
-            border-color: var(--status-blue);
-            box-shadow: 0 0 15px rgba(59, 130, 246, 0.2);
-            color: #fff;
-        }
+        .btn-action-list:hover { background: rgba(59, 130, 246, 0.15); border-color: var(--status-blue); box-shadow: 0 0 15px rgba(59, 130, 246, 0.2); color: #fff; }
 
         /* ==========================================================
            DESIGN DOS CARNÊS (CARDS)
            ========================================================== */
         .carne-card {
-            background: var(--card-bg); 
-            border-radius: 12px; 
-            padding: 22px;
-            display: flex; 
-            flex-wrap: wrap; /* Otimização Mobile */
-            gap: 15px;
-            justify-content: space-between; 
-            align-items: center;
-            border-left: 4px solid var(--text-muted); 
-            position: relative;
+            background: var(--card-bg); border-radius: 12px; padding: 22px;
+            display: flex; flex-wrap: wrap; gap: 15px; justify-content: space-between; align-items: center;
+            border-left: 4px solid var(--text-muted); position: relative;
             transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s;
-            border-top: 1px solid rgba(255,255,255,0.02);
-            animation: slideIn 0.4s ease-out;
+            border-top: 1px solid rgba(255,255,255,0.02); animation: slideIn 0.4s ease-out;
         }
 
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .carne-card:hover { 
-            transform: translateX(5px); 
-            background: rgba(30, 41, 59, 0.95); 
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        }
+        .carne-card:hover { transform: translateX(5px); background: rgba(30, 41, 59, 0.95); box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
 
         .carne-info { flex: 1; min-width: 200px; }
-
-        .carne-info h4 { 
-            font-size: 1.2rem; 
-            color: #fff; 
-            margin-bottom: 8px; 
-            display: flex; 
-            align-items: center; 
-            gap: 10px; 
-            flex-wrap: wrap;
-        }
-
-        .carne-obs { 
-            font-size: 0.75rem; 
-            color: var(--brand-gold); 
-            font-weight: bold; 
-            background: rgba(251, 191, 36, 0.1); 
-            padding: 3px 10px; 
-            border-radius: 6px; 
-            letter-spacing: 0.5px;
-        }
-
+        .carne-info h4 { font-size: 1.2rem; color: #fff; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+        .carne-obs { font-size: 0.75rem; color: var(--brand-gold); font-weight: bold; background: rgba(251, 191, 36, 0.1); padding: 3px 10px; border-radius: 6px; letter-spacing: 0.5px; }
         .carne-date { font-size: 0.9rem; color: var(--text-muted); }
         .carne-date strong { color: var(--text-main); }
 
-        .carne-status-area { 
-            display: flex; 
-            flex-direction: column; 
-            align-items: flex-end; 
-            gap: 8px; 
-        }
-
-        .status-badge { 
-            font-size: 0.75rem; 
-            font-weight: 800; 
-            padding: 6px 14px; 
-            border-radius: 6px; 
-            letter-spacing: 1px; 
-            text-transform: uppercase; 
-            white-space: nowrap;
-        }
-
+        .carne-status-area { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+        .status-badge { font-size: 0.75rem; font-weight: 800; padding: 6px 14px; border-radius: 6px; letter-spacing: 1px; text-transform: uppercase; white-space: nowrap; }
         .countdown-text { font-size: 0.85rem; font-weight: bold; white-space: nowrap; }
 
         /* Variações de Status do Carnê */
         .status-open { border-left-color: rgba(255,255,255,0.2); }
         .status-open .status-badge { background: rgba(255,255,255,0.05); color: var(--text-muted); border: 1px solid rgba(255,255,255,0.1); }
 
+        /* DOURADO: Pagar Agora (Índice 1) */
         .status-next {
             border-left: 5px solid var(--brand-gold);
             background: linear-gradient(90deg, rgba(30,41,59,1) 0%, rgba(251, 191, 36, 0.08) 100%);
-            box-shadow: 0 0 25px rgba(251, 191, 36, 0.15);
-            z-index: 2;
+            box-shadow: 0 0 25px rgba(251, 191, 36, 0.15); z-index: 2;
         }
         .status-next .status-badge { background: var(--brand-gold); color: #000; box-shadow: 0 2px 10px rgba(251, 191, 36, 0.4); }
         .status-next .countdown-text { color: var(--brand-gold-light); }
 
+        /* ROXO: Próxima Parcela (Índice 2) */
+        .status-upcoming-1 {
+            border-left: 5px solid var(--brand-purple);
+            background: linear-gradient(90deg, rgba(30,41,59,1) 0%, rgba(168, 85, 247, 0.08) 100%);
+        }
+        .status-upcoming-1 .status-badge { background: rgba(168, 85, 247, 0.15); color: var(--brand-purple-light); border: 1px solid rgba(168, 85, 247, 0.3); }
+        .status-upcoming-1 .countdown-text { color: var(--brand-purple-light); }
+
+        /* LARANJA: Na Sequência (Índice 3) */
+        .status-upcoming-2 {
+            border-left: 5px solid var(--brand-orange);
+            background: linear-gradient(90deg, rgba(30,41,59,1) 0%, rgba(249, 115, 22, 0.08) 100%);
+        }
+        .status-upcoming-2 .status-badge { background: rgba(249, 115, 22, 0.15); color: var(--brand-orange-light); border: 1px solid rgba(249, 115, 22, 0.3); }
+        .status-upcoming-2 .countdown-text { color: var(--brand-orange-light); }
+
+        /* ATRASADO E PAGO */
         .status-late { border-left-color: var(--status-red); background: rgba(239, 68, 68, 0.05); border-right: 1px solid rgba(239, 68, 68, 0.1); }
         .status-late .status-badge { background: rgba(239, 68, 68, 0.1); color: var(--status-red); border: 1px solid rgba(239, 68, 68, 0.3); }
         
@@ -539,50 +353,42 @@
         .status-paid.visible { display: flex; }
         .status-paid .status-badge { background: rgba(16, 185, 129, 0.1); color: var(--status-green); border: 1px solid rgba(16, 185, 129, 0.2); }
 
+        /* LABELS FLUTUANTES */
         .label-highlight {
-            position: absolute; 
-            top: -12px; 
-            left: 20px; 
-            background: var(--brand-gold); 
-            color: #000;
-            font-size: 0.7rem; 
-            font-weight: 900; 
-            padding: 4px 12px; 
-            border-radius: 4px;
-            letter-spacing: 1px; 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+            position: absolute; top: -12px; left: 20px; font-size: 0.7rem; font-weight: 900; 
+            padding: 4px 12px; border-radius: 4px; letter-spacing: 1px; box-shadow: 0 4px 10px rgba(0,0,0,0.4);
         }
+        .label-gold { background: var(--brand-gold); color: #000; }
+        .label-purple { background: var(--brand-purple); color: #fff; }
+        .label-orange { background: var(--brand-orange); color: #fff; }
 
-        /* ==========================================================
+/* ==========================================================
            RODAPÉ (FOOTER) O IMAGINISTA 
            ========================================================== */
-        .footer-imaginista {
-            background-color: var(--bg-dark);
-            padding: 35px 20px; 
-            display: flex;
+          .footer-imaginista {
+            background-color: transparent; 
+            padding: 0 20px; /* Zero espaço sobrando dentro dele */
+            display: flex; 
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            border-top: 1px solid var(--border-subtle);
-            z-index: 10;
+            align-items: center; 
+            justify-content: center; 
+            z-index: 10; 
             flex-shrink: 0; 
-            width: 100%;
-            margin-top: auto;
+            width: 100%; 
+            margin-top: auto; /* Empurra para o final da tela */
+            margin-bottom: 75px; /* A MÁGICA: O espaço vazio garantido embaixo! */
         }
 
-        .footer-logo-box { margin-bottom: 15px; }
+        .footer-logo-box { margin-bottom: 8px; } /* Margem reduzida */
 
         .footer-logo { 
-            height: 55px; 
+            height: 55px; /* Logo um pouco menor para economizar espaço vertical */
             width: auto; 
             opacity: 0.9; 
-            filter: drop-shadow(0 0 10px rgba(255,255,255,0.1));
-            transition: all 0.3s;
-            cursor: pointer;
+            filter: drop-shadow(0 0 10px rgba(255,255,255,0.1)); 
+            transition: all 0.3s; 
+            cursor: pointer; 
         }
-
-        .footer-logo:hover { opacity: 1; }
-
         @keyframes sparkAnim {
             0% { filter: brightness(1) drop-shadow(0 0 10px rgba(255,255,255,0.1)); transform: scale(1); }
             50% { filter: brightness(1.5) drop-shadow(0 0 35px var(--brand-gold)); transform: scale(1.08); }
@@ -597,20 +403,10 @@
            MENSAGENS FLUTUANTES (TOAST)
            ========================================================== */
         .toast {
-            position: fixed; 
-            bottom: 40px; 
-            left: 50%; 
-            transform: translateX(-50%) translateY(150px);
-            background: var(--status-green); 
-            color: #000; 
-            font-weight: 800; 
-            padding: 14px 28px; 
-            border-radius: 30px;
-            z-index: 1000; 
-            opacity: 0; 
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4);
-            display: flex; align-items: center; gap: 10px; font-size: 0.95rem; white-space: nowrap;
+            position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%) translateY(150px);
+            background: var(--status-green); color: #000; font-weight: 800; padding: 14px 28px; border-radius: 30px;
+            z-index: 1000; opacity: 0; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4); display: flex; align-items: center; gap: 10px; font-size: 0.95rem; white-space: nowrap;
         }
         .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
 
@@ -627,12 +423,8 @@
         @media (max-width: 600px) {
             .header-top-row { justify-content: center; flex-direction: column; align-items: center; }
             .clock-display { width: 100%; font-size: 0.85rem; }
-            
-            /* O PIX empilha elegante */
             .pix-action { flex-direction: column; }
             .btn-copy { width: 100%; }
-            
-            /* Os Cards empilham o status e infos */
             .carne-card { flex-direction: column; align-items: flex-start; padding: 20px 15px; }
             .carne-status-area { flex-direction: row; width: 100%; justify-content: space-between; align-items: center; margin-top: 5px; }
             .label-highlight { left: 15px; }
@@ -707,7 +499,7 @@
             <img src="imagens/logo.png" alt="O Imaginista" class="footer-logo" id="mainLogo" onerror="this.style.display='none'; this.insertAdjacentHTML('afterend', '<h3 style=\'color:#fff; font-weight:300; letter-spacing:3px; font-size: 1.2rem;\'>O IMAGINISTA</h3>');">
         </div>
         <div class="footer-text">
-            © 2025 IMAGINISTA<span class="dot-gold">.</span> Todos os direitos reservados.
+            © 2025 IMAGINISTA<span class="dot-gold"> ∴</span> Todos os direitos reservados.
         </div>
     </footer>
 
@@ -732,7 +524,7 @@
         const parcelas = [
             { id: 1, valor: 130.00, venc: "10/01/2026", obs: "1ª parcela", pago: true },
             { id: 2, valor: 130.00, venc: "10/02/2026", obs: "", pago: true },
-            { id: 3, valor: 130.00, venc: "10/03/2026", obs: "", pago: false },
+            { id: 3, valor: 130.00, venc: "10/03/2026", obs: "", pago: true },
             { id: 4, valor: 130.00, venc: "10/04/2026", obs: "", pago: false },
             { id: 5, valor: 130.00, venc: "10/05/2026", obs: "", pago: false },
             { id: 6, valor: 130.00, venc: "10/06/2026", obs: "", pago: false },
@@ -764,7 +556,7 @@
         ];
 
         let mostrarHistorico = false;
-        let limiteVisivel = 4;
+        let limiteVisivel = 4; // Exibindo 4 por padrão sem quebrar!
         const totalDivida = 4030.00;
 
         function init() {
@@ -853,22 +645,45 @@
             }
 
             let exibidas = listToRender.slice(0, limiteVisivel);
-            let nextFound = false;
+            let unpaidCount = 0; // Para fazer a lógica das cores sequenciais
 
             exibidas.forEach(p => {
                 const diasRestantes = getDaysDiff(p.venc);
-                let stateClass = 'status-open'; let statusText = 'Em Aberto'; let countdown = '';
+                let stateClass = 'status-open'; 
+                let statusText = 'Em Aberto'; 
+                let countdown = '';
+                let labelExtra = '';
 
                 if(p.pago) {
                     stateClass = 'status-paid'; statusText = 'Quitado';
                 } else {
                     if (diasRestantes < 0) {
                         stateClass = 'status-late'; statusText = 'Atrasado';
-                    } else if (!nextFound) {
-                        stateClass = 'status-next'; statusText = 'Pagar Agora'; nextFound = true;
-                        if(diasRestantes === 0) { countdown = `<span style="color:#ef4444">VENCE HOJE</span>`; } 
-                        else if (diasRestantes === 1) { countdown = `Vence Amanhã`; } 
-                        else { countdown = `Vence em ${diasRestantes} dias`; }
+                        countdown = `Vencido há ${Math.abs(diasRestantes)} dias`;
+                    } else {
+                        unpaidCount++; // Conta qual parcela não paga estamos renderizando
+                        
+                        if (unpaidCount === 1) {
+                            stateClass = 'status-next'; statusText = 'Pagar Agora'; 
+                            labelExtra = '<div class="label-highlight label-gold">PRIORIDADE ALTA</div>';
+                            
+                            if(diasRestantes === 0) { countdown = `<span style="color:#ef4444">VENCE HOJE</span>`; } 
+                            else if (diasRestantes === 1) { countdown = `Vence Amanhã`; } 
+                            else { countdown = `Vence em ${diasRestantes} dias`; }
+
+                        } else if (unpaidCount === 2) {
+                            stateClass = 'status-upcoming-1'; statusText = 'Próxima Parcela';
+                            labelExtra = '<div class="label-highlight label-purple">PRÓXIMA</div>';
+                            countdown = `Em ${diasRestantes} dias`;
+
+                        } else if (unpaidCount === 3) {
+                            stateClass = 'status-upcoming-2'; statusText = 'Na Sequência';
+                            labelExtra = '<div class="label-highlight label-orange">EM BREVE</div>';
+                            countdown = `Em ${diasRestantes} dias`;
+
+                        } else {
+                            countdown = `Em ${diasRestantes} dias`;
+                        }
                     }
                 }
 
@@ -878,11 +693,10 @@
                 div.className = `carne-card ${stateClass} ${visibilityClass}`;
                 if(p.pago) div.classList.add('visible');
                 
-                const labelHTML = stateClass === 'status-next' ? '<div class="label-highlight">PRIORIDADE ALTA</div>' : '';
                 const obsHTML = p.obs ? `<span class="carne-obs">${p.obs}</span>` : '';
 
                 div.innerHTML = `
-                    ${labelHTML}
+                    ${labelExtra}
                     <div class="carne-info">
                         <h4>Parcela #${p.id.toString().padStart(2, '0')} ${obsHTML}</h4>
                         <div class="carne-date">Vencimento: <strong>${p.venc}</strong> • Valor: ${formatCurrency(p.valor)}</div>
