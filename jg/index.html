@@ -11,417 +11,762 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
     <meta name="apple-mobile-web-app-title" content="Imaginista">
     <link rel="manifest" href="/favicon/site.webmanifest">
-    <meta name="theme-color" content="#ffffff">
+    <meta name="theme-color" content="#020617">
 	
     <style>
+        /* ==========================================================
+           VARIÁVEIS GLOBAIS E TEMA CINEMÁTICO
+           ========================================================== */
         :root {
-            --bg-color: #0f172a;
-            --card-bg: #1e293b;
-            --sidebar-bg: rgba(30, 41, 59, 0.7);
-            --header-bg: rgba(15, 23, 42, 0.98);
-            --text-primary: #f8fafc;
-            --text-secondary: #94a3b8;
-            --accent-gold: #fbbf24;
-            --accent-green: #10b981;
-            --accent-red: #ef4444;
-            --accent-blue: #3b82f6;
+            --bg-dark: #020617;
+            --panel-bg: rgba(15, 23, 42, 0.75);
+            --card-bg: rgba(30, 41, 59, 0.85);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --brand-gold: #d4af37;
+            --brand-gold-light: #fef08a;
+            --status-green: #10b981;
+            --status-red: #ef4444;
+            --status-blue: #3b82f6;
+            --border-subtle: rgba(255, 255, 255, 0.08);
+            --glow-spread: 0 0 20px rgba(59, 130, 246, 0.2);
         }
 
-        /* Bloqueio de seleção de texto para segurança */
+        /* ==========================================================
+           RESET E BLOQUEIOS
+           ========================================================== */
         * { 
-            margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; 
-            -webkit-user-select: none; /* Safari */
-            -ms-user-select: none; /* IE 10 and IE 11 */
-            user-select: none; /* Standard syntax */
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            font-family: 'Segoe UI', system-ui, sans-serif; 
+            -webkit-user-select: none; 
+            -ms-user-select: none; 
+            user-select: none; 
         }
 
+        /* ==========================================================
+           ESTRUTURA PRINCIPAL
+           ========================================================== */
         body {
-            background-color: var(--bg-color);
-            color: var(--text-primary);
+            background-color: var(--bg-dark);
+            color: var(--text-main);
             min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto; /* Permitimos o scroll geral da página agora */
             overflow-x: hidden;
-            display: flex;
-            flex-direction: column;
+            position: relative;
         }
 
-        /* --- BACKGROUND ANIMATION (Melhorado) --- */
-        .money-rain {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; z-index: 0; overflow: hidden;
-        }
-        .money-icon {
-            position: absolute; 
-            color: rgba(255, 255, 255, 0.12); /* Aumentado para 12% */
-            text-shadow: 0 0 5px rgba(255,255,255,0.1); /* Brilho leve */
-            font-size: 24px; animation: fall linear infinite;
-        }
-        @keyframes fall {
-            0% { transform: translateY(-100px) rotate(0deg); opacity: 0; }
-            20% { opacity: 1; }
-            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        /* Efeito Glow Radial de Fundo */
+        body::before {
+            content: '';
+            position: fixed; 
+            top: -50%; 
+            left: -50%; 
+            width: 200%; 
+            height: 200%;
+            background: radial-gradient(circle at center, rgba(59, 130, 246, 0.05) 0%, transparent 60%);
+            z-index: -2; 
+            pointer-events: none;
         }
 
-        /* --- LAYOUT WRAPPER --- */
-        .app-wrapper {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
+        /* ==========================================================
+           EFEITO CANVAS (PARTÍCULAS IA / TECH)
+           ========================================================== */
+        #techCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            max-width: 1200px;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* ==========================================================
+           LAYOUT WRAPPER (DESKTOP FIRST)
+           ========================================================== */
+        .app-container {
+            flex: 1; 
+            display: flex; 
+            flex-direction: column;
+            width: 100%; 
+            max-width: 1200px; 
             margin: 0 auto;
+            padding: 20px; 
+            gap: 20px; 
+            z-index: 1; 
             position: relative;
-            z-index: 1;
+            height: auto; 
+            min-height: calc(100vh - 140px);
         }
 
-        /* --- SIDEBAR / HEADER AREA --- */
-        .info-panel {
-            background-color: var(--header-bg);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            padding: 20px;
-            transition: all 0.3s ease;
-            position: relative;
+        @media (min-width: 1024px) {
+            .app-container { 
+                flex-direction: row; 
+                padding: 40px 20px; 
+                gap: 40px; 
+                align-items: flex-start; /* Essencial para o position: sticky funcionar */
+            }
         }
 
-        /* Badge de Segurança no Topo */
-        .security-badge-top {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 0.7rem;
-            color: var(--accent-green);
-            border: 1px solid var(--accent-green);
-            padding: 2px 8px;
-            border-radius: 4px;
-            display: flex;
+        /* ==========================================================
+           PAINEL ESQUERDO: RESUMO DO CLIENTE (STICKY NO DESKTOP)
+           ========================================================== */
+        .dashboard-side {
+            background: var(--panel-bg);
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px; 
+            padding: 30px;
+            display: flex; 
+            flex-direction: column;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            flex-shrink: 0;
+        }
+
+        @media (min-width: 1024px) {
+            .dashboard-side { 
+                width: 380px; 
+                position: sticky; /* A mágica do painel lateral acompanhar a rolagem */
+                top: 40px;
+            }
+        }
+
+        .header-top-row { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: flex-start; 
+            margin-bottom: 25px; 
+        }
+        
+        .clock-display {
+            font-family: monospace; 
+            font-size: 0.95rem; 
+            color: var(--status-blue);
+            background: rgba(59, 130, 246, 0.1); 
+            padding: 6px 14px; 
+            border-radius: 6px;
+            border: 1px solid rgba(59, 130, 246, 0.2); 
+            letter-spacing: 1px;
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.1);
+            
+            /* Correção do Botão Quebrado */
+            white-space: nowrap;
+            display: inline-flex;
             align-items: center;
-            gap: 5px;
-            background: rgba(16, 185, 129, 0.1);
-            animation: pulseSecurity 3s infinite;
+            justify-content: center;
         }
 
-        @keyframes pulseSecurity {
-            0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
-            70% { box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+        .badge-secure { 
+            font-size: 0.75rem; 
+            color: var(--status-green); 
+            font-weight: bold; 
+            display: flex; 
+            align-items: center; 
+            gap: 5px; 
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            padding: 4px 10px;
+            border-radius: 6px;
+            background: rgba(16, 185, 129, 0.05);
+            animation: pulseSecure 2.5s infinite;
+        }
+
+        @keyframes pulseSecure {
+            0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.2); }
+            70% { box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
             100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
         }
 
-        /* Relógio */
-        .clock-container {
-            font-size: 1.01rem; color: var(--accent-blue);
-            background: rgba(59, 130, 246, 0.1);
-            padding: 4px 10px; border-radius: 4px; display: inline-block;
-            border: 1px solid rgba(59, 130, 246, 0.2); font-family: monospace;
-            margin-bottom: 15px; margin-top: 10px; width: 100%; text-align: center;
+        .client-info h1 { 
+            font-size: 0.85rem; 
+            color: var(--brand-gold); 
+            text-transform: uppercase; 
+            letter-spacing: 2px; 
+            margin-bottom: 8px; 
+            font-weight: 600; 
         }
 
-        .header-title-area { margin-bottom: 20px; }
-        .header-title-area h1 { font-size: 0.8rem; color: var(--accent-gold); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 5px; }
-        .header-title-area h2 { font-size: 1.8rem; font-weight: 700; color: #fff; line-height: 1.1; }
+        .client-info h2 { 
+            font-size: 2.2rem; 
+            font-weight: 700; 
+            color: #fff; 
+            line-height: 1.1; 
+            margin-bottom: 8px; 
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
 
-        .counter-badge {
+        /* Destaque Colorido no Contador */
+        .parcelas-count { 
+            font-size: 0.95rem; 
+            color: var(--text-muted); 
+            background: rgba(255,255,255,0.05);
+            padding: 6px 12px;
+            border-radius: 6px;
             display: inline-block;
-            background: linear-gradient(135deg, var(--accent-gold), #d97706);
-            color: #000; padding: 5px 15px; border-radius: 20px;
-            font-weight: 800; font-size: 0.9rem; margin-top: 10px;
+            border: 1px solid rgba(255,255,255,0.05);
         }
 
-        /* Resumo Financeiro */
-        .summary-block { margin: 25px 0; }
-        .big-total {
-            font-size: 2.8rem; font-weight: 700;
-            background: linear-gradient(to right, #fff, #94a3b8);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        .finance-summary { 
+            margin: 30px 0; 
+            padding-bottom: 30px; 
+            border-bottom: 1px solid var(--border-subtle); 
         }
-        .label-total { font-size: 0.8rem; color: var(--text-secondary); letter-spacing: 1px; text-transform: uppercase; }
 
-        .progress-wrapper {
-            background: rgba(255,255,255,0.1); height: 10px; border-radius: 10px;
-            width: 100%; margin-top: 15px; overflow: hidden;
+        .summary-label { 
+            font-size: 0.85rem; 
+            color: var(--text-muted); 
+            text-transform: uppercase; 
+            letter-spacing: 1px; 
+            margin-bottom: 8px; 
         }
-        .progress-fill {
-            height: 100%; background: linear-gradient(90deg, var(--accent-green), #34d399);
-            width: 0%; transition: width 1s ease;
-        }
-        .progress-label { font-size: 0.85rem; color: var(--accent-green); margin-top: 8px; text-align: right; font-weight: bold; }
 
-        /* PIX Box */
-        .pix-box {
-            background: rgba(16, 185, 129, 0.08);
-            padding: 15px; border-radius: 12px; border: 1px solid rgba(16, 185, 129, 0.2);
-            margin-top: 20px;
-        }
-        .pix-title { color: var(--accent-green); font-size: 0.75rem; font-weight: bold; margin-bottom: 8px; display: flex; align-items: center; gap: 5px; }
-        .pix-key-row { display: flex; gap: 10px; }
-        .pix-key {
-            flex-grow: 1; font-family: monospace; font-size: 0.95rem;
-            color: #fff; background: rgba(0,0,0,0.2); padding: 8px; border-radius: 6px;
-            overflow: hidden; text-overflow: ellipsis; white-space: nowrap; border: 1px solid rgba(255,255,255,0.05);
-            /* Permite selecionar apenas a chave PIX se necessário, mas o botão copiar resolve */
-            user-select: text; 
-        }
-        .btn-copy {
-            background: var(--accent-green); border: none; color: #000;
-            padding: 0 15px; border-radius: 6px; font-weight: bold;
-            font-size: 0.8rem; cursor: pointer; transition: transform 0.2s;
-        }
-        .btn-copy:active { transform: scale(0.95); }
-
-        /* --- CONTENT AREA (LIST) --- */
-        .content-panel { padding: 20px; flex: 1; }
-
-        .list-controls {
-            display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;
-        }
-        .toggle-btn {
-            background: transparent; border: 1px solid var(--text-secondary);
-            color: var(--text-secondary); padding: 6px 16px; border-radius: 20px;
-            font-size: 0.8rem; cursor: pointer; transition: all 0.3s;
-        }
-        .toggle-btn:hover { border-color: #fff; color: #fff; }
-        .toggle-btn.active { background: var(--card-bg); border-color: var(--accent-gold); color: var(--accent-gold); }
-
-        .installments-list { display: flex; flex-direction: column; gap: 15px; }
-
-        /* Card Styles */
-        .card {
-            background: var(--card-bg); padding: 20px; border-radius: 12px;
-            border-left: 4px solid var(--text-secondary); display: flex;
-            justify-content: space-between; align-items: center;
-            animation: slideIn 0.4s ease-out; position: relative;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.2); transition: transform 0.2s;
-        }
-        .card:hover { transform: translateY(-2px); }
-
-        .card.is-late {
-            border-left-color: var(--accent-red); background: rgba(239, 68, 68, 0.05);
-            border-right: 1px solid rgba(239, 68, 68, 0.2);
-        }
-        .card.is-next {
-            border-left: 5px solid var(--accent-gold);
-            box-shadow: 0 0 20px rgba(251, 191, 36, 0.1);
-            background: linear-gradient(90deg, #1e293b 0%, rgba(251, 191, 36, 0.05) 100%);
-            z-index: 10;
-        }
-        .card.is-paid {
-            border-left-color: var(--accent-green); background: rgba(30, 41, 59, 0.4);
-            opacity: 0.5; display: none; filter: grayscale(0.5);
-        }
-        .card.is-paid.visible { display: flex; }
-
-        .card-info h4 { font-size: 1.1rem; color: #fff; margin-bottom: 4px; }
-        .card-info p { font-size: 0.85rem; color: var(--text-secondary); }
-
-        .status-container { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
-        .status {
-            font-size: 0.75rem; padding: 5px 12px; border-radius: 12px;
-            text-transform: uppercase; font-weight: bold; text-align: center; min-width: 90px;
-        }
-        .days-counter { font-size: 0.75rem; color: var(--accent-gold); font-weight: bold; }
-
-        .status-open { background: rgba(148, 163, 184, 0.15); color: var(--text-secondary); }
-        .status-next { background: var(--accent-gold); color: #000; }
-        .status-late { background: rgba(239, 68, 68, 0.2); color: var(--accent-red); border: 1px solid var(--accent-red); }
-        .status-done { background: rgba(16, 185, 129, 0.15); color: var(--accent-green); }
-
-        .next-label {
-            position: absolute; top: -10px; left: 15px; background: var(--accent-gold);
-            color: #000; font-size: 0.65rem; padding: 3px 10px; border-radius: 4px;
-            font-weight: 800; text-transform: uppercase; display: none; z-index: 10;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-        }
-        .card.is-next .next-label { display: block; }
-
-        /* MENSAGEM DO SISTEMA - NOVA E ANIMADA */
-        .system-msg-container {
-            display: flex;
-            justify-content: center;
-            margin: 40px 0 20px 0;
+        .total-value { 
+            font-size: 3.2rem; 
+            font-weight: 800; 
+            color: #fff; 
+            line-height: 1; 
+            text-shadow: 0 4px 20px rgba(255,255,255,0.1);
         }
         
-        .system-msg {
-            background: linear-gradient(90deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.2));
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            color: var(--accent-green);
-            padding: 8px 20px;
-            border-radius: 30px;
-            font-size: 0.93rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            box-shadow: 0 0 15px rgba(16, 185, 129, 0.1);
-            animation: glowSystem 3s infinite alternate;
-        }
-
-        @keyframes glowSystem {
-            from { box-shadow: 0 0 5px rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.2); }
-            to { box-shadow: 0 0 15px rgba(16, 185, 129, 0.4); border-color: rgba(16, 185, 129, 0.6); }
-        }
-
-        /* --- FOOTER (FULL WIDTH) --- */
-        .imaginista-footer {
-            width: 100%;
-            background: #020617;
-            padding: 40px 20px;
+        /* Box de Alerta Melhorado, Responsivo e Centralizado */
+        .late-alert {
+            display: none; 
+            background: rgba(239, 68, 68, 0.15); 
+            border: 1px solid rgba(239, 68, 68, 0.4);
+            color: var(--status-red); 
+            padding: 12px 15px; 
+            border-radius: 8px; 
+            font-size: 0.9rem; 
+            margin-top: 18px; 
+            animation: pulseAlert 2.5s infinite;
             text-align: center;
-            border-top: 1px solid rgba(255,255,255,0.08);
+            width: 100%;
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.1);
+        }
+
+        @keyframes pulseAlert { 
+            0%, 100% { opacity: 1; border-color: rgba(239, 68, 68, 0.4); } 
+            50% { opacity: 0.8; border-color: rgba(239, 68, 68, 0.1); } 
+        }
+
+        .progress-container { 
+            margin-top: 25px; 
+        }
+
+        .progress-bar-bg { 
+            background: rgba(255,255,255,0.05); 
+            height: 8px; 
+            border-radius: 10px; 
+            overflow: hidden; 
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .progress-bar-fill { 
+            height: 100%; 
+            background: linear-gradient(90deg, var(--status-green), #34d399); 
+            width: 0%; 
+            transition: width 1s cubic-bezier(0.4, 0, 0.2, 1); 
+            box-shadow: 0 0 10px var(--status-green);
+        }
+
+        .progress-text { 
+            display: flex; 
+            justify-content: space-between; 
+            font-size: 0.85rem; 
+            color: var(--text-muted); 
+            margin-top: 10px; 
+            font-weight: bold; 
+        }
+
+        .pix-section { 
+            background: rgba(16, 185, 129, 0.05); 
+            padding: 20px; 
+            border-radius: 12px; 
+            border: 1px solid rgba(16, 185, 129, 0.15); 
+        }
+
+        .pix-header { 
+            color: var(--status-green); 
+            font-size: 0.8rem; 
+            font-weight: bold; 
+            margin-bottom: 12px; 
+            display: flex; 
+            align-items: center; 
+            gap: 8px; 
+            letter-spacing: 1px; 
+        }
+
+        .pix-action { 
+            display: flex; 
+            gap: 10px; 
+        }
+
+        .pix-key-display {
+            flex: 1; 
+            background: rgba(0,0,0,0.4); 
+            padding: 12px; 
+            border-radius: 8px;
+            font-family: monospace; 
+            font-size: 1.05rem; 
+            color: #fff; 
+            border: 1px solid rgba(255,255,255,0.1);
+            user-select: text; 
+            overflow: hidden; 
+            text-overflow: ellipsis; 
+            white-space: nowrap;
+        }
+
+        .btn-copy {
+            background: var(--status-green); 
+            color: #000; 
+            border: none; 
+            padding: 0 20px;
+            border-radius: 8px; 
+            font-weight: 800; 
+            cursor: pointer; 
+            transition: all 0.2s;
+            text-transform: uppercase;
+        }
+
+        .btn-copy:active { 
+            transform: scale(0.95); 
+        }
+
+        .btn-copy:hover { 
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.4); 
+        }
+
+        /* ==========================================================
+           PAINEL DIREITO: LISTA DE CARNÊS E CONTROLES
+           ========================================================== */
+        .list-side {
+            flex: 1; 
+            display: flex; 
+            flex-direction: column;
+            background: var(--panel-bg); 
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px; 
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+            height: fit-content; /* Permite crescer conforme o conteúdo */
+        }
+
+        .list-header {
+            padding: 25px 30px; 
+            border-bottom: 1px solid var(--border-subtle);
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            background: rgba(0,0,0,0.3);
+            border-top-left-radius: 16px;
+            border-top-right-radius: 16px;
+        }
+
+        .list-title { 
+            font-size: 1rem; 
+            font-weight: bold; 
+            color: var(--text-main); 
+            text-transform: uppercase; 
+            letter-spacing: 1px; 
+        }
+        
+        .btn-toggle-history {
+            background: transparent; 
+            border: 1px solid rgba(255,255,255,0.2); 
+            color: var(--text-muted);
+            padding: 10px 20px; 
+            border-radius: 20px; 
+            font-size: 0.85rem; 
+            cursor: pointer; 
+            transition: all 0.3s;
+        }
+
+        .btn-toggle-history:hover { 
+            background: rgba(255,255,255,0.05); 
+            color: #fff;
+        }
+
+        .btn-toggle-history.active { 
+            background: rgba(251, 191, 36, 0.1); 
+            border-color: var(--brand-gold); 
+            color: var(--brand-gold-light); 
+        }
+
+        /* ÁREA DE RENDERIZAÇÃO DOS CARDS */
+        .cards-wrapper {
+            padding: 30px;
+            display: flex; 
+            flex-direction: column; 
+            gap: 18px;
+        }
+
+        /* Novos Botões de Ação (Exibir Mais / Recolher) */
+        .controls-more-less {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+            justify-content: center;
+        }
+
+        .btn-action-list {
+            background: rgba(59, 130, 246, 0.05);
+            border: 1px dashed rgba(59, 130, 246, 0.4);
+            color: var(--status-blue);
+            padding: 14px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            flex: 1;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.85rem;
+        }
+
+        .btn-action-list:hover {
+            background: rgba(59, 130, 246, 0.15);
+            border-color: var(--status-blue);
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.2);
+            color: #fff;
+        }
+
+        /* ==========================================================
+           DESIGN DOS CARNÊS (CARDS)
+           ========================================================== */
+        .carne-card {
+            background: var(--card-bg); 
+            border-radius: 12px; 
+            padding: 22px;
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            border-left: 4px solid var(--text-muted); 
             position: relative;
-            z-index: 2;
-            margin-top: auto;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s;
+            border-top: 1px solid rgba(255,255,255,0.02);
+            animation: slideIn 0.4s ease-out;
         }
-
-        .logo-area {
-            margin-bottom: 20px; cursor: pointer; display: inline-block; transition: transform 0.2s;
-        }
-        .footer-logo { height: 90px; width: auto; display: block; }
-        .logo-animate { animation: spinLogo 1.5s cubic-bezier(0.68, -0.55, 0.27, 1.55); }
-
-        @keyframes spinLogo {
-            0% { transform: scale(1) rotateY(0deg); }
-            50% { transform: scale(1.2) rotateY(180deg); }
-            100% { transform: scale(1) rotateY(360deg); }
-        }
-
-        .copyright { font-size: 0.85rem; color: #64748b; line-height: 1.5; }
-        .footer-dot { color: var(--accent-gold); font-weight: bold; }
-        .footer-break { display: block; }
 
         @keyframes slideIn {
-            from { opacity: 0; transform: translateY(15px); }
+            from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* =========================================
-           DESKTOP STYLES
-           ========================================= */
-        @media (min-width: 1024px) {
-            body { overflow-y: scroll; }
+        .carne-card:hover { 
+            transform: translateX(5px); 
+            background: rgba(30, 41, 59, 0.95); 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
 
-            .app-wrapper {
-                flex-direction: row; align-items: flex-start;
-                padding-top: 40px; gap: 40px;
-                padding-left: 20px; padding-right: 20px;
-                min-height: calc(100vh - 200px);
-            }
+        .carne-info h4 { 
+            font-size: 1.2rem; 
+            color: #fff; 
+            margin-bottom: 8px; 
+            display: flex; 
+            align-items: center; 
+            gap: 10px; 
+        }
 
-            .info-panel {
-                width: 380px; position: sticky; top: 40px;
-                background: var(--sidebar-bg); border-radius: 20px;
-                border: 1px solid rgba(255,255,255,0.05);
-                box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
-                padding: 30px;
-            }
+        .carne-obs { 
+            font-size: 0.75rem; 
+            color: var(--brand-gold); 
+            font-weight: bold; 
+            background: rgba(251, 191, 36, 0.1); 
+            padding: 3px 10px; 
+            border-radius: 6px; 
+            letter-spacing: 0.5px;
+        }
 
-            .content-panel { padding: 0; margin-top: 0; }
-            .big-total { font-size: 3.5rem; }
-            .header-title-area h2 { font-size: 2.2rem; }
-            
-            /* Footer Desktop - FONTE MAIOR AQUI */
-            .footer-break { display: none; }
-            .copyright { 
-                display: flex; justify-content: center; gap: 5px; 
-                font-size: 1.1rem; /* Aumentado como solicitado */
-                letter-spacing: 0.5px;
+        .carne-date { 
+            font-size: 0.9rem; 
+            color: var(--text-muted); 
+        }
+
+        .carne-date strong {
+            color: var(--text-main);
+        }
+
+        .carne-status-area { 
+            display: flex; 
+            flex-direction: column; 
+            align-items: flex-end; 
+            gap: 8px; 
+        }
+
+        .status-badge { 
+            font-size: 0.75rem; 
+            font-weight: 800; 
+            padding: 6px 14px; 
+            border-radius: 6px; 
+            letter-spacing: 1px; 
+            text-transform: uppercase; 
+        }
+
+        .countdown-text { 
+            font-size: 0.85rem; 
+            font-weight: bold; 
+        }
+
+        /* Variações de Status do Carnê */
+        .status-open { 
+            border-left-color: rgba(255,255,255,0.2); 
+        }
+        
+        .status-open .status-badge { 
+            background: rgba(255,255,255,0.05); 
+            color: var(--text-muted); 
+            border: 1px solid rgba(255,255,255,0.1); 
+        }
+
+        .status-next {
+            border-left: 5px solid var(--brand-gold);
+            background: linear-gradient(90deg, rgba(30,41,59,1) 0%, rgba(251, 191, 36, 0.08) 100%);
+            box-shadow: 0 0 25px rgba(251, 191, 36, 0.15);
+            z-index: 2;
+        }
+
+        .status-next .status-badge { 
+            background: var(--brand-gold); 
+            color: #000; 
+            box-shadow: 0 2px 10px rgba(251, 191, 36, 0.4); 
+        }
+
+        .status-next .countdown-text { 
+            color: var(--brand-gold-light); 
+        }
+
+        .status-late { 
+            border-left-color: var(--status-red); 
+            background: rgba(239, 68, 68, 0.05); 
+            border-right: 1px solid rgba(239, 68, 68, 0.1); 
+        }
+
+        .status-late .status-badge { 
+            background: rgba(239, 68, 68, 0.1); 
+            color: var(--status-red); 
+            border: 1px solid rgba(239, 68, 68, 0.3); 
+        }
+        
+        /* Etiqueta Flutuante para a próxima parcela */
+        .label-highlight {
+            position: absolute; 
+            top: -12px; 
+            left: 20px; 
+            background: var(--brand-gold); 
+            color: #000;
+            font-size: 0.7rem; 
+            font-weight: 900; 
+            padding: 4px 12px; 
+            border-radius: 4px;
+            letter-spacing: 1px; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+        }
+
+        /* ==========================================================
+           RODAPÉ (FOOTER) O IMAGINISTA 
+           ========================================================== */
+        .footer-imaginista {
+            background-color: var(--bg-dark);
+            padding: 35px 20px; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-top: 1px solid var(--border-subtle);
+            z-index: 10;
+            flex-shrink: 0; 
+            width: 100%;
+        }
+
+        .footer-logo-box { 
+            margin-bottom: 15px; 
+        }
+
+        .footer-logo { 
+            height: 55px; 
+            width: auto; 
+            opacity: 0.9; 
+            filter: drop-shadow(0 0 10px rgba(255,255,255,0.1));
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .footer-logo:hover {
+            opacity: 1;
+        }
+
+        /* Animação Efeito de Faísca (Spark) da Logo */
+        @keyframes sparkAnim {
+            0% { filter: brightness(1) drop-shadow(0 0 10px rgba(255,255,255,0.1)); transform: scale(1); }
+            50% { filter: brightness(1.5) drop-shadow(0 0 35px var(--brand-gold)); transform: scale(1.08); }
+            100% { filter: brightness(1) drop-shadow(0 0 10px rgba(255,255,255,0.1)); transform: scale(1); }
+        }
+        .spark-effect {
+            animation: sparkAnim 0.6s ease-out;
+        }
+
+        .footer-text { 
+            font-size: 0.85rem; 
+            color: #64748b; 
+            letter-spacing: 0.5px; 
+        }
+
+        .dot-gold { 
+            color: var(--brand-gold); 
+            font-weight: bold; 
+        }
+
+        /* ==========================================================
+           MENSAGENS FLUTUANTES (TOAST)
+           ========================================================== */
+        .toast {
+            position: fixed; 
+            bottom: 40px; 
+            left: 50%; 
+            transform: translateX(-50%) translateY(150px);
+            background: var(--status-green); 
+            color: #000; 
+            font-weight: 800; 
+            padding: 14px 28px; 
+            border-radius: 30px;
+            z-index: 1000; 
+            opacity: 0; 
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.95rem;
+        }
+
+        .toast.show { 
+            transform: translateX(-50%) translateY(0); 
+            opacity: 1; 
+        }
+
+        /* ==========================================================
+           AJUSTES RESPONSIVOS PARA MOBILE
+           ========================================================== */
+        @media (max-width: 1023px) {
+            .dashboard-side { 
+                padding: 25px 20px; 
             }
-            .imaginista-footer { margin-top: 60px; }
-            
-            /* Ajuste do relógio no painel desktop para ficar mais elegante */
-            .clock-container { margin-top: 0; }
+            .cards-wrapper {
+                padding: 20px 15px;
+            }
+            .controls-more-less {
+                flex-direction: column;
+            }
         }
 
     </style>
 </head>
-<body oncontextmenu="return false;"> <div class="money-rain" id="moneyRain"></div>
+<body oncontextmenu="return false;"> 
+    
+    <canvas id="techCanvas"></canvas>
 
-    <div class="app-wrapper">
+    <div id="toastMsg" class="toast"><span>✅</span> Chave PIX copiada com sucesso!</div>
+
+    <div class="app-container">
         
-        <aside class="info-panel">
-            <div class="security-badge-top">
-                <span>🛡️</span> SEGURO
+        <aside class="dashboard-side">
+            <div class="header-top-row">
+                <div class="clock-display" id="liveClock">00:00:00</div>
+                <div class="badge-secure"><span>🔒</span> SEGURO</div>
             </div>
 
-            <div class="clock-container">
-                <span id="liveClock">--/--/---- --:--:--</span> | BRASÍLIA
-            </div>
-
-            <div class="header-title-area">
+            <div class="client-info">
                 <h1>Lembrete Financeiro</h1>
                 <h2>Jorge Cazé</h2>
-                <div class="counter-badge" id="counterBadge">0/31</div>
+                <div class="parcelas-count" id="counterText">Calculando...</div>
             </div>
 
-            <div class="summary-block">
-                <div class="label-total">Restante a Pagar</div>
-                <div class="big-total" id="remainingValue">R$ 4.030,00</div>
+            <div class="finance-summary">
+                <div class="summary-label">Restante a Pagar</div>
+                <div class="total-value" id="remainingValue">R$ 0,00</div>
                 
-                <div class="progress-wrapper">
-                    <div class="progress-fill" id="progressBar"></div>
+                <div id="lateWarning" class="late-alert"></div>
+                
+                <div class="progress-container">
+                    <div class="progress-bar-bg">
+                        <div class="progress-bar-fill" id="progressBar"></div>
+                    </div>
+                    <div class="progress-text">
+                        <span>Status de Quitação</span>
+                        <span id="progressPercent">0%</span>
+                    </div>
                 </div>
-                <div class="progress-label" id="progressText">0% Quitado</div>
             </div>
 
-            <div class="pix-box">
-                <div class="pix-title"><span>💠</span> CHAVE PIX</div>
-                <div class="pix-key-row">
-                    <div class="pix-key" id="pixKey">robsonbatiiista@gmail.com</div>
+            <div class="pix-section">
+                <div class="pix-header"><span>💠</span> CHAVE PIX PARA PAGAMENTO</div>
+                <div class="pix-action">
+                    <div class="pix-key-display" id="pixKey">21983340089</div>
                     <button class="btn-copy" onclick="copyPix()">COPIAR</button>
                 </div>
             </div>
         </aside>
 
-        <main class="content-panel">
-            <div class="list-controls">
-                <span style="font-size: 0.9rem; font-weight: bold; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px;">Histórico de Pagamentos</span>
-                <button class="toggle-btn" id="toggleBtn" onclick="toggleHistory()">
+        <main class="list-side">
+            <div class="list-header">
+                <div class="list-title">Histórico de Parcelas</div>
+                <button class="btn-toggle-history" id="toggleBtn" onclick="toggleHistory()">
                     👁️ Ver Pagas
                 </button>
             </div>
 
-            <div class="installments-list" id="listContainer"></div>
-
-            <div class="system-msg-container">
-                <div class="system-msg">
-                    <span>🔄</span> 
-                    <span>Atualizado automaticamente via sistema seguro</span>
-                    <span style="font-size: 0.7em;">🔒</span>
+            <div class="cards-wrapper" id="listContainer">
                 </div>
-            </div>
         </main>
 
     </div>
 
-    <footer class="imaginista-footer fade-in">
-        <div class="logo-area" id="logo-click-area" onclick="animateLogo()">
-            <img src="imagens/logo.png" alt="O Imaginista" class="footer-logo">
+    <footer class="footer-imaginista">
+        <div class="footer-logo-box">
+            <img src="imagens/logo.png" alt="O Imaginista" class="footer-logo" id="mainLogo" onerror="this.style.display='none'; this.insertAdjacentHTML('afterend', '<h3 style=\'color:#fff; font-weight:300; letter-spacing:3px; font-size: 1.2rem;\'>O IMAGINISTA</h3>');">
         </div>
-        <p class="copyright">
-            © 2025 IMAGINISTA<span class="footer-dot">∴</span>
-            <br class="footer-break">
-            Todos os direitos reservados.
-        </p>
+        <div class="footer-text">
+            © 2025 IMAGINISTA<span class="dot-gold">∴</span> Todos os direitos reservados.
+        </div>
     </footer>
 
     <script>
         /* ==========================================================
-           SEGURANÇA (Anti-Cópia e Anti-Fraude)
+           ANIMAÇÃO DA LOGO (Efeito Spark)
            ========================================================== */
-        // Desativa clique direito
-        document.addEventListener('contextmenu', event => event.preventDefault());
-
-        // Desativa teclas de desenvolvedor (F12, Ctrl+Shift+I, etc)
-        document.onkeydown = function(e) {
-            if(e.keyCode == 123) { return false; } // F12
-            if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)){ return false; } // Ctrl+Shift+I
-            if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)){ return false; } // Ctrl+Shift+J
-            if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)){ return false; } // Ctrl+U
+        const mainLogo = document.getElementById('mainLogo');
+        if (mainLogo) {
+            mainLogo.addEventListener('click', function() {
+                this.classList.add('spark-effect');
+                // Remove a classe após a animação acabar para permitir novos cliques
+                setTimeout(() => {
+                    this.classList.remove('spark-effect');
+                }, 600); 
+            });
         }
 
         /* ==========================================================
-           DADOS FINANCEIROS
+           SEGURANÇA CONTRA CÓPIA
            ========================================================== */
-        
+        document.addEventListener('contextmenu', event => event.preventDefault());
+
+        document.onkeydown = function(e) {
+            if(e.keyCode == 123) { return false; } 
+            if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)){ return false; } 
+            if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)){ return false; } 
+            if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)){ return false; } 
+        }
+
+        /* ==========================================================
+           DADOS FINANCEIROS (BANCO DE DADOS MOCK)
+           ========================================================== */
         const parcelas = [
-            { id: 1, valor: 130.00, venc: "10/01/2026", obs: "1ª", pago: true },
+            { id: 1, valor: 130.00, venc: "10/01/2026", obs: "1ª parcela", pago: true },
             { id: 2, valor: 130.00, venc: "10/02/2026", obs: "", pago: true },
             { id: 3, valor: 130.00, venc: "10/03/2026", obs: "", pago: false },
             { id: 4, valor: 130.00, venc: "10/04/2026", obs: "", pago: false },
@@ -451,184 +796,328 @@
             { id: 28, valor: 130.00, venc: "10/04/2028", obs: "", pago: false },
             { id: 29, valor: 130.00, venc: "10/05/2028", obs: "", pago: false },
             { id: 30, valor: 130.00, venc: "10/06/2028", obs: "", pago: false },
-            { id: 31, valor: 130.00, venc: "10/07/2028", obs: "", pago: false }
+            { id: 31, valor: 130.00, venc: "10/07/2028", obs: "Última parcela", pago: false }
         ];
 
         /* ==========================================================
-           LÓGICA DO SISTEMA
+           VARIÁVEIS DE ESTADO E LÓGICA PRINCIPAL
            ========================================================== */
-
         let mostrarHistorico = false;
+        let limiteVisivel = 4; // Quantidade de cards exibidos por vez
         const totalDivida = 4030.00;
 
         function init() {
-            createRain();
-            renderList();
-            setInterval(updateClock, 1000);
+            initTechCanvas(); // Inicia o efeito especial de partículas
+            calcularValores();
+            renderCards();
+            setInterval(updateClock, 1000); 
             updateClock();
         }
 
+        // Função do Relógio em Tempo Real
         function updateClock() {
             const options = { 
                 timeZone: 'America/Sao_Paulo', 
-                day: '2-digit', month: '2-digit', year: 'numeric',
-                hour: '2-digit', minute: '2-digit', second: '2-digit'
+                day: '2-digit', 
+                month: '2-digit', 
+                year: 'numeric', 
+                hour: '2-digit', 
+                minute: '2-digit', 
+                second: '2-digit' 
             };
             const now = new Date().toLocaleString('pt-BR', options);
-            document.getElementById('liveClock').innerText = now;
+            document.getElementById('liveClock').innerText = now + " | BRT";
         }
 
+        // Converte string DD/MM/YYYY para Objeto Date
         function stringToDate(dateStr) {
             const [day, month, year] = dateStr.split('/');
             return new Date(year, month - 1, day);
         }
 
-        function getDaysDiff(dateTarget) {
-            const today = new Date();
+        // Calcula a diferença em dias a partir de hoje
+        function getDaysDiff(dateStr) {
+            const [d, m, y] = dateStr.split('/');
+            const target = new Date(y, m - 1, d);
+            const today = new Date(); 
             today.setHours(0,0,0,0);
-            const target = new Date(dateTarget);
-            const diffTime = target - today;
-            return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            return Math.ceil((target - today) / (1000 * 60 * 60 * 24));
         }
 
-        function renderList() {
-            const container = document.getElementById('listContainer');
-            const elCounter = document.getElementById('counterBadge');
-            const elRemaining = document.getElementById('remainingValue');
-            const elProgressBar = document.getElementById('progressBar');
-            const elProgressText = document.getElementById('progressText');
-            const btnToggle = document.getElementById('toggleBtn');
-            
-            container.innerHTML = '';
+        // Formatação de Moeda Brasileira
+        function formatCurrency(val) { 
+            return val.toLocaleString('pt-BR', {style:'currency', currency:'BRL'}); 
+        }
+
+        // Primeiro calcula os totais baseados em TODAS as parcelas
+        let totaisCalculados = false;
+        function calcularValores() {
+            if(totaisCalculados) return;
 
             let totalPago = 0;
             let qtdPagas = 0;
-            let nextFound = false; 
-
-            const hoje = new Date();
-            hoje.setHours(0,0,0,0);
+            let qtdAtrasadas = 0;
+            let valorAtrasado = 0;
+            let maxDiasAtraso = 0; // Para descobrir qual está mais tempo vencida
 
             parcelas.forEach(p => {
-                const dataVencimento = stringToDate(p.venc);
-                const diasRestantes = getDaysDiff(dataVencimento);
-
-                let statusClass = 'status-open';
-                let statusText = 'ABERTO';
-                let cardClass = '';
-                let countdownHTML = '';
-
+                const diasRestantes = getDaysDiff(p.venc);
+                
                 if(p.pago) {
-                    totalPago += p.valor;
-                    qtdPagas++;
-                    statusClass = 'status-done';
-                    statusText = 'QUITADO';
+                    totalPago += p.valor; 
+                    qtdPagas++; 
                 } else {
-                    if (dataVencimento < hoje) {
-                        statusClass = 'status-late';
-                        statusText = 'ATRASADO';
-                        cardClass = 'is-late';
-                    } else {
-                        if (!nextFound) {
-                            cardClass += ' is-next';
-                            statusClass = 'status-next';
-                            statusText = 'PAGAR';
-                            nextFound = true; 
+                    if (diasRestantes < 0) {
+                        qtdAtrasadas++; 
+                        valorAtrasado += p.valor;
+                        let diasAbsoluto = Math.abs(diasRestantes);
+                        if (diasAbsoluto > maxDiasAtraso) maxDiasAtraso = diasAbsoluto;
+                    }
+                }
+            });
 
-                            if(diasRestantes === 0) {
-                                countdownHTML = `<span class="days-counter" style="color:red">VENCE HOJE!</span>`;
-                            } else if (diasRestantes === 1) {
-                                countdownHTML = `<span class="days-counter">Vence Amanhã</span>`;
-                            } else {
-                                countdownHTML = `<span class="days-counter">Vence em ${diasRestantes} dias</span>`;
-                            }
+            // Atualiza os Valores do Painel Resumo com DESTAQUE em Cores
+            document.getElementById('counterText').innerHTML = `
+                <span style="color: var(--status-green); font-size: 1.3em; font-weight: 800;">${qtdPagas}</span> 
+                <span style="color: var(--text-muted);">de</span> 
+                <span style="color: var(--brand-gold); font-size: 1.3em; font-weight: 800;">${parcelas.length}</span> 
+                <span style="color: var(--text-muted);">pagas</span>
+            `;
+
+            document.getElementById('remainingValue').innerText = formatCurrency(totalDivida - totalPago);
+            
+            // Animação da Barra de Progresso
+            const perc = (totalPago / totalDivida) * 100;
+            setTimeout(() => { 
+                document.getElementById('progressBar').style.width = `${perc}%`; 
+            }, 300);
+            document.getElementById('progressPercent').innerText = `${perc.toFixed(1)}%`;
+
+            // Tratamento do Alerta de Atraso (Responsivo e com contagem de dias)
+            const warning = document.getElementById('lateWarning');
+            if(qtdAtrasadas > 0) {
+                warning.innerHTML = `
+                    <div style="font-size: 1.1em; margin-bottom: 6px; letter-spacing: 0.5px;">
+                        ⚠️ ATENÇÃO: <b style="color:#fff;">${qtdAtrasadas} parcela(s)</b> em atraso!
+                    </div>
+                    <div style="font-size: 0.85em; font-weight: normal; color: var(--text-main);">
+                        Vencida há <b style="color: var(--brand-gold);">${maxDiasAtraso} dias</b> • Valor: <b style="color:#fff;">${formatCurrency(valorAtrasado)}</b>
+                    </div>
+                `;
+                warning.style.display = 'block'; 
+            } else { 
+                warning.style.display = 'none'; 
+            }
+
+            totaisCalculados = true;
+        }
+
+        // Renderiza apenas os Cards que devem aparecer
+        function renderCards() {
+            const container = document.getElementById('listContainer');
+            container.innerHTML = ''; 
+            
+            // Filtra se deve mostrar as pagas ou não
+            let listToRender = parcelas;
+            if (!mostrarHistorico) {
+                listToRender = parcelas.filter(p => !p.pago);
+            }
+
+            // Aplica o Limite de Visualização para gerar Paginação
+            let exibidas = listToRender.slice(0, limiteVisivel);
+            let nextFound = false;
+
+            exibidas.forEach(p => {
+                const diasRestantes = getDaysDiff(p.venc);
+                let stateClass = 'status-open';
+                let statusText = 'Em Aberto';
+                let countdown = '';
+
+                // Lógica de Definição de Status do Card Visual
+                if(p.pago) {
+                    stateClass = 'status-paid'; 
+                    statusText = 'Quitado';
+                } else {
+                    if (diasRestantes < 0) {
+                        stateClass = 'status-late'; 
+                        statusText = 'Atrasado';
+                    } else if (!nextFound) {
+                        stateClass = 'status-next'; 
+                        statusText = 'Pagar Agora'; 
+                        nextFound = true;
+                        
+                        if(diasRestantes === 0) {
+                            countdown = `<span style="color:#ef4444">VENCE HOJE</span>`;
+                        } else if (diasRestantes === 1) {
+                            countdown = `Vence Amanhã`;
+                        } else {
+                            countdown = `Vence em ${diasRestantes} dias`;
                         }
                     }
                 }
 
+                // Criação do Elemento HTML do Card
                 const div = document.createElement('div');
-                div.className = `card ${p.pago ? 'is-paid' : ''} ${mostrarHistorico && p.pago ? 'visible' : ''} ${cardClass}`;
+                div.className = `carne-card ${stateClass}`;
+                if(p.pago) div.classList.add('visible'); // Força exibir pois já passamos pelo filtro
                 
-                const valorFmt = p.valor.toLocaleString('pt-BR', {style:'currency', currency:'BRL'});
-                const obsText = p.obs ? `(${p.obs})` : '';
-
-                const labelHTML = div.className.includes('is-next') ? '<div class="next-label">PRIORIDADE</div>' : '';
+                const labelHTML = stateClass === 'status-next' ? '<div class="label-highlight">PRIORIDADE ALTA</div>' : '';
+                const obsHTML = p.obs ? `<span class="carne-obs">${p.obs}</span>` : '';
 
                 div.innerHTML = `
                     ${labelHTML}
-                    <div class="card-info">
-                        <h4>#${p.id} - ${valorFmt} <span style="font-size:0.7em; color:#fbbf24">${obsText}</span></h4>
-                        <p>Vencimento: ${p.venc}</p>
+                    <div class="carne-info">
+                        <h4>Parcela #${p.id.toString().padStart(2, '0')} ${obsHTML}</h4>
+                        <div class="carne-date">Vencimento: <strong>${p.venc}</strong> • Valor: ${formatCurrency(p.valor)}</div>
                     </div>
-                    <div class="status-container">
-                        <div class="status ${statusClass}">${statusText}</div>
-                        ${countdownHTML}
+                    <div class="carne-status-area">
+                        <div class="status-badge">${statusText}</div>
+                        ${countdown ? `<div class="countdown-text">${countdown}</div>` : ''}
                     </div>
                 `;
                 container.appendChild(div);
             });
 
-            // Atualiza Totais
-            elCounter.innerText = `${qtdPagas}/${parcelas.length}`;
-            const restante = totalDivida - totalPago;
-            const porcentagem = (totalPago / totalDivida) * 100;
+            // Criação dos Botões de Exibir Mais / Recolher
+            if (listToRender.length > 4) {
+                const divControls = document.createElement('div');
+                divControls.className = 'controls-more-less';
+                
+                const btnMore = `<button class="btn-action-list" onclick="actionShowMore()">⏬ Exibir Mais Parcelas</button>`;
+                const btnLess = `<button class="btn-action-list" onclick="actionShowLess()">⏫ Recolher Parcelas</button>`;
 
-            elRemaining.innerText = restante.toLocaleString('pt-BR', {style:'currency', currency:'BRL'});
-            
-            setTimeout(() => { elProgressBar.style.width = `${porcentagem}%`; }, 200);
-            elProgressText.innerText = `${porcentagem.toFixed(1)}% Quitado`;
-
-            if(mostrarHistorico) {
-                btnToggle.classList.add('active');
-                btnToggle.innerText = "👁️ Ocultar Pagas";
-            } else {
-                btnToggle.classList.remove('active');
-                btnToggle.innerText = "👁️ Ver Pagas";
+                if (limiteVisivel >= listToRender.length) {
+                    divControls.innerHTML = btnLess;
+                } else if (limiteVisivel === 4) {
+                    divControls.innerHTML = btnMore;
+                } else {
+                    divControls.innerHTML = btnMore + btnLess;
+                }
+                
+                container.appendChild(divControls);
             }
+
+            // Atualiza o estado do Botão do Cabeçalho
+            const btn = document.getElementById('toggleBtn');
+            btn.className = `btn-toggle-history ${mostrarHistorico ? 'active' : ''}`;
+            btn.innerHTML = mostrarHistorico ? "👁️ Ocultar Pagas" : "👁️ Ver Pagas";
         }
 
-        function toggleHistory() {
-            mostrarHistorico = !mostrarHistorico;
-            renderList();
+        // Funções dos Botões Novos
+        function actionShowMore() {
+            limiteVisivel += 5; // Aumenta de 5 em 5
+            renderCards();
         }
 
+        function actionShowLess() {
+            limiteVisivel = 4; // Volta para o padrão
+            window.scrollTo({top: 0, behavior: 'smooth'}); // Rola para o topo suavemente
+            renderCards();
+        }
+
+        // Função para Alternar a Visão do Histórico
+        function toggleHistory() { 
+            mostrarHistorico = !mostrarHistorico; 
+            limiteVisivel = 4; // Reseta a exibição ao alternar
+            renderCards(); 
+        }
+
+        // Função para Copiar a Chave PIX e mostrar o Toast
         function copyPix() {
-            const key = document.getElementById('pixKey').innerText;
-            navigator.clipboard.writeText(key).then(() => {
+            const pixKey = document.getElementById('pixKey').innerText;
+            navigator.clipboard.writeText(pixKey).then(() => {
                 const btn = document.querySelector('.btn-copy');
-                const originalText = btn.innerText;
-                btn.innerText = "COPIADO!";
-                setTimeout(() => btn.innerText = originalText, 2000);
+                const orig = btn.innerText; 
+                btn.innerText = "COPIADO";
+                setTimeout(() => btn.innerText = orig, 2000);
+                
+                const toast = document.getElementById('toastMsg');
+                toast.classList.add('show'); 
+                setTimeout(() => toast.classList.remove('show'), 3500);
             });
         }
 
-        function animateLogo() {
-            const logoArea = document.getElementById('logo-click-area');
-            if (!logoArea.classList.contains('logo-animate')) {
-                logoArea.classList.add('logo-animate');
-                setTimeout(() => {
-                    logoArea.classList.remove('logo-animate');
-                }, 1500);
+        /* ==========================================================
+           NOVO EFEITO ESPECIAL: MALHA NEURAL (CANVAS PARTICLES)
+           ========================================================== */
+        function initTechCanvas() {
+            const canvas = document.getElementById('techCanvas');
+            const ctx = canvas.getContext('2d');
+            let width, height;
+            let particles = [];
+
+            function resize() {
+                width = canvas.width = window.innerWidth;
+                height = canvas.height = window.innerHeight;
             }
+
+            window.addEventListener('resize', resize);
+            resize();
+
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * width;
+                    this.y = Math.random() * height;
+                    this.vx = (Math.random() - 0.5) * 0.5;
+                    this.vy = (Math.random() - 0.5) * 0.5;
+                    this.size = Math.random() * 2 + 0.5;
+                }
+
+                update() {
+                    this.x += this.vx;
+                    this.y += this.vy;
+
+                    if (this.x < 0 || this.x > width) this.vx *= -1;
+                    if (this.y < 0 || this.y > height) this.vy *= -1;
+                }
+
+                draw() {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fillStyle = 'rgba(59, 130, 246, 0.4)'; // Azul tecnológico
+                    ctx.fill();
+                }
+            }
+
+            // Cria as partículas (quantidade baseada na largura da tela)
+            const particleCount = Math.min(Math.floor(window.innerWidth / 15), 100);
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle());
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, width, height);
+
+                for (let i = 0; i < particles.length; i++) {
+                    particles[i].update();
+                    particles[i].draw();
+
+                    // Conecta as partículas próximas
+                    for (let j = i + 1; j < particles.length; j++) {
+                        const dx = particles[i].x - particles[j].x;
+                        const dy = particles[i].y - particles[j].y;
+                        const distance = Math.sqrt(dx * dx + dy * dy);
+
+                        if (distance < 150) {
+                            ctx.beginPath();
+                            ctx.moveTo(particles[i].x, particles[i].y);
+                            ctx.lineTo(particles[j].x, particles[j].y);
+                            // Opacidade baseada na distância
+                            const opacity = 1 - (distance / 150);
+                            ctx.strokeStyle = `rgba(59, 130, 246, ${opacity * 0.2})`;
+                            ctx.lineWidth = 1;
+                            ctx.stroke();
+                        }
+                    }
+                }
+                requestAnimationFrame(animate);
+            }
+            animate();
         }
 
-        function createRain() {
-            const container = document.getElementById('moneyRain');
-            const symbols = ['💲', '💸', '💰', '💳', 'R$'];
-            const amount = 25; 
-            for(let i=0; i<amount; i++) {
-                const el = document.createElement('div');
-                el.className = 'money-icon';
-                el.innerText = symbols[Math.floor(Math.random() * symbols.length)];
-                el.style.left = Math.random() * 100 + 'vw';
-                el.style.animationDuration = (Math.random() * 5 + 5) + 's';
-                el.style.animationDelay = (Math.random() * 5) + 's';
-                el.style.fontSize = (Math.random() * 20 + 15) + 'px';
-                container.appendChild(el);
-            }
-        }
-
+        // Inicia a aplicação
         init();
+
     </script>
 </body>
-
 </html>
