@@ -54,7 +54,7 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            overflow-y: auto; /* Permitimos o scroll geral da página agora */
+            overflow-y: auto;
             overflow-x: hidden;
             position: relative;
         }
@@ -108,14 +108,15 @@
                 flex-direction: row; 
                 padding: 40px 20px; 
                 gap: 40px; 
-                align-items: flex-start; /* Essencial para o position: sticky funcionar */
+                align-items: flex-start;
             }
         }
 
         /* ==========================================================
-           PAINEL ESQUERDO: RESUMO DO CLIENTE (STICKY NO DESKTOP)
+           PAINEL ESQUERDO: RESUMO DO CLIENTE
            ========================================================== */
         .dashboard-side {
+            width: 100%; /* Garante responsividade em telas menores */
             background: var(--panel-bg);
             border: 1px solid var(--border-subtle);
             border-radius: 16px; 
@@ -130,46 +131,52 @@
 
         @media (min-width: 1024px) {
             .dashboard-side { 
-                width: 380px; 
-                position: sticky; /* A mágica do painel lateral acompanhar a rolagem */
+                width: 380px; /* Trava a largura apenas no desktop */
+                min-width: 380px;
+                position: sticky;
                 top: 40px;
             }
         }
 
+        /* CORREÇÃO DO CABEÇALHO (RELÓGIO E SEGURO) */
         .header-top-row { 
             display: flex; 
+            flex-wrap: wrap; /* A mágica anti-sobreposição */
             justify-content: space-between; 
-            align-items: flex-start; 
+            align-items: center; 
+            gap: 12px; /* Espaçamento seguro entre os itens */
             margin-bottom: 25px; 
+            width: 100%;
         }
         
         .clock-display {
+            flex: 1; /* Permite crescer se houver espaço */
+            min-width: 160px; /* Garante um tamanho mínimo para não quebrar o texto */
             font-family: monospace; 
             font-size: 0.95rem; 
             color: var(--status-blue);
             background: rgba(59, 130, 246, 0.1); 
-            padding: 6px 14px; 
+            padding: 8px 14px; 
             border-radius: 6px;
             border: 1px solid rgba(59, 130, 246, 0.2); 
             letter-spacing: 1px;
             box-shadow: 0 0 10px rgba(59, 130, 246, 0.1);
-            
-            /* Correção do Botão Quebrado */
-            white-space: nowrap;
+            text-align: center;
             display: inline-flex;
-            align-items: center;
             justify-content: center;
+            align-items: center;
         }
 
         .badge-secure { 
-            font-size: 0.75rem; 
+            flex-shrink: 0; /* Impede o cadeado de espremer */
+            font-size: 0.8rem; 
             color: var(--status-green); 
             font-weight: bold; 
-            display: flex; 
+            display: inline-flex; 
             align-items: center; 
             gap: 5px; 
             border: 1px solid rgba(16, 185, 129, 0.3);
-            padding: 4px 10px;
+            padding: 6px 12px;
             border-radius: 6px;
             background: rgba(16, 185, 129, 0.05);
             animation: pulseSecure 2.5s infinite;
@@ -197,9 +204,9 @@
             line-height: 1.1; 
             margin-bottom: 8px; 
             text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+            word-wrap: break-word;
         }
 
-        /* Destaque Colorido no Contador */
         .parcelas-count { 
             font-size: 0.95rem; 
             color: var(--text-muted); 
@@ -225,14 +232,14 @@
         }
 
         .total-value { 
-            font-size: 3.2rem; 
+            font-size: clamp(2.5rem, 5vw, 3.2rem); /* Tipografia fluida responsiva */
             font-weight: 800; 
             color: #fff; 
             line-height: 1; 
             text-shadow: 0 4px 20px rgba(255,255,255,0.1);
+            word-break: break-all; /* Evita quebra horizontal */
         }
         
-        /* Box de Alerta Melhorado, Responsivo e Centralizado */
         .late-alert {
             display: none; 
             background: rgba(239, 68, 68, 0.15); 
@@ -255,6 +262,7 @@
 
         .progress-container { 
             margin-top: 25px; 
+            width: 100%;
         }
 
         .progress-bar-bg { 
@@ -263,6 +271,7 @@
             border-radius: 10px; 
             overflow: hidden; 
             border: 1px solid rgba(255,255,255,0.05);
+            width: 100%;
         }
 
         .progress-bar-fill { 
@@ -282,11 +291,13 @@
             font-weight: bold; 
         }
 
+        /* CORREÇÃO DO BOX PIX RESPONSIVO */
         .pix-section { 
             background: rgba(16, 185, 129, 0.05); 
             padding: 20px; 
             border-radius: 12px; 
             border: 1px solid rgba(16, 185, 129, 0.15); 
+            width: 100%;
         }
 
         .pix-header { 
@@ -303,10 +314,13 @@
         .pix-action { 
             display: flex; 
             gap: 10px; 
+            flex-wrap: wrap; /* Permite que o botão desça se não houver espaço */
+            width: 100%;
         }
 
         .pix-key-display {
             flex: 1; 
+            min-width: 0; /* CRUCIAL: Impede que a div force a largura do container pai */
             background: rgba(0,0,0,0.4); 
             padding: 12px; 
             border-radius: 8px;
@@ -324,21 +338,20 @@
             background: var(--status-green); 
             color: #000; 
             border: none; 
-            padding: 0 20px;
+            padding: 12px 20px; /* Padding unificado para ficar estético no mobile */
             border-radius: 8px; 
             font-weight: 800; 
             cursor: pointer; 
             transition: all 0.2s;
             text-transform: uppercase;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .btn-copy:active { 
-            transform: scale(0.95); 
-        }
-
-        .btn-copy:hover { 
-            box-shadow: 0 0 15px rgba(16, 185, 129, 0.4); 
-        }
+        .btn-copy:active { transform: scale(0.95); }
+        .btn-copy:hover { box-shadow: 0 0 15px rgba(16, 185, 129, 0.4); }
 
         /* ==========================================================
            PAINEL DIREITO: LISTA DE CARNÊS E CONTROLES
@@ -350,16 +363,20 @@
             background: var(--panel-bg); 
             border: 1px solid var(--border-subtle);
             border-radius: 16px; 
+            overflow: hidden;
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
             box-shadow: 0 10px 40px rgba(0,0,0,0.4);
-            height: fit-content; /* Permite crescer conforme o conteúdo */
+            height: fit-content;
+            width: 100%;
         }
 
         .list-header {
             padding: 25px 30px; 
             border-bottom: 1px solid var(--border-subtle);
             display: flex; 
+            flex-wrap: wrap; /* Evita quebra no mobile */
+            gap: 15px;
             justify-content: space-between; 
             align-items: center; 
             background: rgba(0,0,0,0.3);
@@ -384,20 +401,12 @@
             font-size: 0.85rem; 
             cursor: pointer; 
             transition: all 0.3s;
+            white-space: nowrap;
         }
 
-        .btn-toggle-history:hover { 
-            background: rgba(255,255,255,0.05); 
-            color: #fff;
-        }
+        .btn-toggle-history:hover { background: rgba(255,255,255,0.05); color: #fff; }
+        .btn-toggle-history.active { background: rgba(251, 191, 36, 0.1); border-color: var(--brand-gold); color: var(--brand-gold-light); }
 
-        .btn-toggle-history.active { 
-            background: rgba(251, 191, 36, 0.1); 
-            border-color: var(--brand-gold); 
-            color: var(--brand-gold-light); 
-        }
-
-        /* ÁREA DE RENDERIZAÇÃO DOS CARDS */
         .cards-wrapper {
             padding: 30px;
             display: flex; 
@@ -405,9 +414,9 @@
             gap: 18px;
         }
 
-        /* Novos Botões de Ação (Exibir Mais / Recolher) */
         .controls-more-less {
             display: flex;
+            flex-wrap: wrap; /* Flexibilidade para telas menores */
             gap: 15px;
             margin-top: 10px;
             justify-content: center;
@@ -423,6 +432,7 @@
             cursor: pointer;
             transition: all 0.3s;
             flex: 1;
+            min-width: 200px; /* Garante que não fiquem finos demais no wrap */
             text-transform: uppercase;
             letter-spacing: 1px;
             font-size: 0.85rem;
@@ -443,6 +453,8 @@
             border-radius: 12px; 
             padding: 22px;
             display: flex; 
+            flex-wrap: wrap; /* Otimização Mobile */
+            gap: 15px;
             justify-content: space-between; 
             align-items: center;
             border-left: 4px solid var(--text-muted); 
@@ -463,6 +475,8 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
 
+        .carne-info { flex: 1; min-width: 200px; }
+
         .carne-info h4 { 
             font-size: 1.2rem; 
             color: #fff; 
@@ -470,6 +484,7 @@
             display: flex; 
             align-items: center; 
             gap: 10px; 
+            flex-wrap: wrap;
         }
 
         .carne-obs { 
@@ -482,14 +497,8 @@
             letter-spacing: 0.5px;
         }
 
-        .carne-date { 
-            font-size: 0.9rem; 
-            color: var(--text-muted); 
-        }
-
-        .carne-date strong {
-            color: var(--text-main);
-        }
+        .carne-date { font-size: 0.9rem; color: var(--text-muted); }
+        .carne-date strong { color: var(--text-main); }
 
         .carne-status-area { 
             display: flex; 
@@ -505,23 +514,14 @@
             border-radius: 6px; 
             letter-spacing: 1px; 
             text-transform: uppercase; 
+            white-space: nowrap;
         }
 
-        .countdown-text { 
-            font-size: 0.85rem; 
-            font-weight: bold; 
-        }
+        .countdown-text { font-size: 0.85rem; font-weight: bold; white-space: nowrap; }
 
         /* Variações de Status do Carnê */
-        .status-open { 
-            border-left-color: rgba(255,255,255,0.2); 
-        }
-        
-        .status-open .status-badge { 
-            background: rgba(255,255,255,0.05); 
-            color: var(--text-muted); 
-            border: 1px solid rgba(255,255,255,0.1); 
-        }
+        .status-open { border-left-color: rgba(255,255,255,0.2); }
+        .status-open .status-badge { background: rgba(255,255,255,0.05); color: var(--text-muted); border: 1px solid rgba(255,255,255,0.1); }
 
         .status-next {
             border-left: 5px solid var(--brand-gold);
@@ -529,30 +529,16 @@
             box-shadow: 0 0 25px rgba(251, 191, 36, 0.15);
             z-index: 2;
         }
+        .status-next .status-badge { background: var(--brand-gold); color: #000; box-shadow: 0 2px 10px rgba(251, 191, 36, 0.4); }
+        .status-next .countdown-text { color: var(--brand-gold-light); }
 
-        .status-next .status-badge { 
-            background: var(--brand-gold); 
-            color: #000; 
-            box-shadow: 0 2px 10px rgba(251, 191, 36, 0.4); 
-        }
-
-        .status-next .countdown-text { 
-            color: var(--brand-gold-light); 
-        }
-
-        .status-late { 
-            border-left-color: var(--status-red); 
-            background: rgba(239, 68, 68, 0.05); 
-            border-right: 1px solid rgba(239, 68, 68, 0.1); 
-        }
-
-        .status-late .status-badge { 
-            background: rgba(239, 68, 68, 0.1); 
-            color: var(--status-red); 
-            border: 1px solid rgba(239, 68, 68, 0.3); 
-        }
+        .status-late { border-left-color: var(--status-red); background: rgba(239, 68, 68, 0.05); border-right: 1px solid rgba(239, 68, 68, 0.1); }
+        .status-late .status-badge { background: rgba(239, 68, 68, 0.1); color: var(--status-red); border: 1px solid rgba(239, 68, 68, 0.3); }
         
-        /* Etiqueta Flutuante para a próxima parcela */
+        .status-paid { border-left-color: var(--status-green); opacity: 0.4; filter: grayscale(0.5); display: none; }
+        .status-paid.visible { display: flex; }
+        .status-paid .status-badge { background: rgba(16, 185, 129, 0.1); color: var(--status-green); border: 1px solid rgba(16, 185, 129, 0.2); }
+
         .label-highlight {
             position: absolute; 
             top: -12px; 
@@ -581,11 +567,10 @@
             z-index: 10;
             flex-shrink: 0; 
             width: 100%;
+            margin-top: auto;
         }
 
-        .footer-logo-box { 
-            margin-bottom: 15px; 
-        }
+        .footer-logo-box { margin-bottom: 15px; }
 
         .footer-logo { 
             height: 55px; 
@@ -596,30 +581,17 @@
             cursor: pointer;
         }
 
-        .footer-logo:hover {
-            opacity: 1;
-        }
+        .footer-logo:hover { opacity: 1; }
 
-        /* Animação Efeito de Faísca (Spark) da Logo */
         @keyframes sparkAnim {
             0% { filter: brightness(1) drop-shadow(0 0 10px rgba(255,255,255,0.1)); transform: scale(1); }
             50% { filter: brightness(1.5) drop-shadow(0 0 35px var(--brand-gold)); transform: scale(1.08); }
             100% { filter: brightness(1) drop-shadow(0 0 10px rgba(255,255,255,0.1)); transform: scale(1); }
         }
-        .spark-effect {
-            animation: sparkAnim 0.6s ease-out;
-        }
+        .spark-effect { animation: sparkAnim 0.6s ease-out; }
 
-        .footer-text { 
-            font-size: 0.85rem; 
-            color: #64748b; 
-            letter-spacing: 0.5px; 
-        }
-
-        .dot-gold { 
-            color: var(--brand-gold); 
-            font-weight: bold; 
-        }
+        .footer-text { font-size: 0.85rem; color: #64748b; letter-spacing: 0.5px; text-align: center; }
+        .dot-gold { color: var(--brand-gold); font-weight: bold; }
 
         /* ==========================================================
            MENSAGENS FLUTUANTES (TOAST)
@@ -638,30 +610,34 @@
             opacity: 0; 
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 0.95rem;
+            display: flex; align-items: center; gap: 10px; font-size: 0.95rem; white-space: nowrap;
         }
-
-        .toast.show { 
-            transform: translateX(-50%) translateY(0); 
-            opacity: 1; 
-        }
+        .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
 
         /* ==========================================================
-           AJUSTES RESPONSIVOS PARA MOBILE
+           AJUSTES RESPONSIVOS (MOBILE) REFINADOS
            ========================================================== */
         @media (max-width: 1023px) {
-            .dashboard-side { 
-                padding: 25px 20px; 
-            }
-            .cards-wrapper {
-                padding: 20px 15px;
-            }
-            .controls-more-less {
-                flex-direction: column;
-            }
+            .app-container { padding: 15px; gap: 15px; }
+            .dashboard-side { padding: 25px 20px; }
+            .cards-wrapper { padding: 25px 20px; }
+            .list-header { flex-direction: column; text-align: center; }
+        }
+
+        @media (max-width: 600px) {
+            .header-top-row { justify-content: center; flex-direction: column; align-items: center; }
+            .clock-display { width: 100%; font-size: 0.85rem; }
+            
+            /* O PIX empilha elegante */
+            .pix-action { flex-direction: column; }
+            .btn-copy { width: 100%; }
+            
+            /* Os Cards empilham o status e infos */
+            .carne-card { flex-direction: column; align-items: flex-start; padding: 20px 15px; }
+            .carne-status-area { flex-direction: row; width: 100%; justify-content: space-between; align-items: center; margin-top: 5px; }
+            .label-highlight { left: 15px; }
+            .controls-more-less { flex-direction: column; }
+            .btn-action-list { width: 100%; }
         }
 
     </style>
@@ -731,28 +707,19 @@
             <img src="imagens/logo.png" alt="O Imaginista" class="footer-logo" id="mainLogo" onerror="this.style.display='none'; this.insertAdjacentHTML('afterend', '<h3 style=\'color:#fff; font-weight:300; letter-spacing:3px; font-size: 1.2rem;\'>O IMAGINISTA</h3>');">
         </div>
         <div class="footer-text">
-            © 2025 IMAGINISTA<span class="dot-gold">∴</span> Todos os direitos reservados.
+            © 2025 IMAGINISTA<span class="dot-gold">.</span> Todos os direitos reservados.
         </div>
     </footer>
 
     <script>
-        /* ==========================================================
-           ANIMAÇÃO DA LOGO (Efeito Spark)
-           ========================================================== */
         const mainLogo = document.getElementById('mainLogo');
         if (mainLogo) {
             mainLogo.addEventListener('click', function() {
                 this.classList.add('spark-effect');
-                // Remove a classe após a animação acabar para permitir novos cliques
-                setTimeout(() => {
-                    this.classList.remove('spark-effect');
-                }, 600); 
+                setTimeout(() => { this.classList.remove('spark-effect'); }, 600); 
             });
         }
 
-        /* ==========================================================
-           SEGURANÇA CONTRA CÓPIA
-           ========================================================== */
         document.addEventListener('contextmenu', event => event.preventDefault());
 
         document.onkeydown = function(e) {
@@ -762,9 +729,6 @@
             if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)){ return false; } 
         }
 
-        /* ==========================================================
-           DADOS FINANCEIROS (BANCO DE DADOS MOCK)
-           ========================================================== */
         const parcelas = [
             { id: 1, valor: 130.00, venc: "10/01/2026", obs: "1ª parcela", pago: true },
             { id: 2, valor: 130.00, venc: "10/02/2026", obs: "", pago: true },
@@ -799,84 +763,57 @@
             { id: 31, valor: 130.00, venc: "10/07/2028", obs: "Última parcela", pago: false }
         ];
 
-        /* ==========================================================
-           VARIÁVEIS DE ESTADO E LÓGICA PRINCIPAL
-           ========================================================== */
         let mostrarHistorico = false;
-        let limiteVisivel = 4; // Quantidade de cards exibidos por vez
+        let limiteVisivel = 4;
         const totalDivida = 4030.00;
 
         function init() {
-            initTechCanvas(); // Inicia o efeito especial de partículas
+            initTechCanvas(); 
             calcularValores();
             renderCards();
             setInterval(updateClock, 1000); 
             updateClock();
         }
 
-        // Função do Relógio em Tempo Real
         function updateClock() {
-            const options = { 
-                timeZone: 'America/Sao_Paulo', 
-                day: '2-digit', 
-                month: '2-digit', 
-                year: 'numeric', 
-                hour: '2-digit', 
-                minute: '2-digit', 
-                second: '2-digit' 
-            };
+            const options = { timeZone: 'America/Sao_Paulo', day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
             const now = new Date().toLocaleString('pt-BR', options);
             document.getElementById('liveClock').innerText = now + " | BRT";
         }
 
-        // Converte string DD/MM/YYYY para Objeto Date
         function stringToDate(dateStr) {
             const [day, month, year] = dateStr.split('/');
             return new Date(year, month - 1, day);
         }
 
-        // Calcula a diferença em dias a partir de hoje
         function getDaysDiff(dateStr) {
             const [d, m, y] = dateStr.split('/');
             const target = new Date(y, m - 1, d);
-            const today = new Date(); 
-            today.setHours(0,0,0,0);
+            const today = new Date(); today.setHours(0,0,0,0);
             return Math.ceil((target - today) / (1000 * 60 * 60 * 24));
         }
 
-        // Formatação de Moeda Brasileira
-        function formatCurrency(val) { 
-            return val.toLocaleString('pt-BR', {style:'currency', currency:'BRL'}); 
-        }
+        function formatCurrency(val) { return val.toLocaleString('pt-BR', {style:'currency', currency:'BRL'}); }
 
-        // Primeiro calcula os totais baseados em TODAS as parcelas
         let totaisCalculados = false;
         function calcularValores() {
             if(totaisCalculados) return;
 
-            let totalPago = 0;
-            let qtdPagas = 0;
-            let qtdAtrasadas = 0;
-            let valorAtrasado = 0;
-            let maxDiasAtraso = 0; // Para descobrir qual está mais tempo vencida
+            let totalPago = 0; let qtdPagas = 0; let qtdAtrasadas = 0; let valorAtrasado = 0; let maxDiasAtraso = 0;
 
             parcelas.forEach(p => {
                 const diasRestantes = getDaysDiff(p.venc);
-                
                 if(p.pago) {
-                    totalPago += p.valor; 
-                    qtdPagas++; 
+                    totalPago += p.valor; qtdPagas++; 
                 } else {
                     if (diasRestantes < 0) {
-                        qtdAtrasadas++; 
-                        valorAtrasado += p.valor;
+                        qtdAtrasadas++; valorAtrasado += p.valor;
                         let diasAbsoluto = Math.abs(diasRestantes);
                         if (diasAbsoluto > maxDiasAtraso) maxDiasAtraso = diasAbsoluto;
                     }
                 }
             });
 
-            // Atualiza os Valores do Painel Resumo com DESTAQUE em Cores
             document.getElementById('counterText').innerHTML = `
                 <span style="color: var(--status-green); font-size: 1.3em; font-weight: 800;">${qtdPagas}</span> 
                 <span style="color: var(--text-muted);">de</span> 
@@ -886,14 +823,10 @@
 
             document.getElementById('remainingValue').innerText = formatCurrency(totalDivida - totalPago);
             
-            // Animação da Barra de Progresso
             const perc = (totalPago / totalDivida) * 100;
-            setTimeout(() => { 
-                document.getElementById('progressBar').style.width = `${perc}%`; 
-            }, 300);
+            setTimeout(() => { document.getElementById('progressBar').style.width = `${perc}%`; }, 300);
             document.getElementById('progressPercent').innerText = `${perc.toFixed(1)}%`;
 
-            // Tratamento do Alerta de Atraso (Responsivo e com contagem de dias)
             const warning = document.getElementById('lateWarning');
             if(qtdAtrasadas > 0) {
                 warning.innerHTML = `
@@ -905,61 +838,45 @@
                     </div>
                 `;
                 warning.style.display = 'block'; 
-            } else { 
-                warning.style.display = 'none'; 
-            }
+            } else { warning.style.display = 'none'; }
 
             totaisCalculados = true;
         }
 
-        // Renderiza apenas os Cards que devem aparecer
         function renderCards() {
             const container = document.getElementById('listContainer');
             container.innerHTML = ''; 
             
-            // Filtra se deve mostrar as pagas ou não
             let listToRender = parcelas;
             if (!mostrarHistorico) {
                 listToRender = parcelas.filter(p => !p.pago);
             }
 
-            // Aplica o Limite de Visualização para gerar Paginação
             let exibidas = listToRender.slice(0, limiteVisivel);
             let nextFound = false;
 
             exibidas.forEach(p => {
                 const diasRestantes = getDaysDiff(p.venc);
-                let stateClass = 'status-open';
-                let statusText = 'Em Aberto';
-                let countdown = '';
+                let stateClass = 'status-open'; let statusText = 'Em Aberto'; let countdown = '';
 
-                // Lógica de Definição de Status do Card Visual
                 if(p.pago) {
-                    stateClass = 'status-paid'; 
-                    statusText = 'Quitado';
+                    stateClass = 'status-paid'; statusText = 'Quitado';
                 } else {
                     if (diasRestantes < 0) {
-                        stateClass = 'status-late'; 
-                        statusText = 'Atrasado';
+                        stateClass = 'status-late'; statusText = 'Atrasado';
                     } else if (!nextFound) {
-                        stateClass = 'status-next'; 
-                        statusText = 'Pagar Agora'; 
-                        nextFound = true;
-                        
-                        if(diasRestantes === 0) {
-                            countdown = `<span style="color:#ef4444">VENCE HOJE</span>`;
-                        } else if (diasRestantes === 1) {
-                            countdown = `Vence Amanhã`;
-                        } else {
-                            countdown = `Vence em ${diasRestantes} dias`;
-                        }
+                        stateClass = 'status-next'; statusText = 'Pagar Agora'; nextFound = true;
+                        if(diasRestantes === 0) { countdown = `<span style="color:#ef4444">VENCE HOJE</span>`; } 
+                        else if (diasRestantes === 1) { countdown = `Vence Amanhã`; } 
+                        else { countdown = `Vence em ${diasRestantes} dias`; }
                     }
                 }
 
-                // Criação do Elemento HTML do Card
+                const visibilityClass = (p.pago && mostrarHistorico) ? 'visible' : '';
+
                 const div = document.createElement('div');
-                div.className = `carne-card ${stateClass}`;
-                if(p.pago) div.classList.add('visible'); // Força exibir pois já passamos pelo filtro
+                div.className = `carne-card ${stateClass} ${visibilityClass}`;
+                if(p.pago) div.classList.add('visible');
                 
                 const labelHTML = stateClass === 'status-next' ? '<div class="label-highlight">PRIORIDADE ALTA</div>' : '';
                 const obsHTML = p.obs ? `<span class="carne-obs">${p.obs}</span>` : '';
@@ -978,7 +895,6 @@
                 container.appendChild(div);
             });
 
-            // Criação dos Botões de Exibir Mais / Recolher
             if (listToRender.length > 4) {
                 const divControls = document.createElement('div');
                 divControls.className = 'controls-more-less';
@@ -986,60 +902,34 @@
                 const btnMore = `<button class="btn-action-list" onclick="actionShowMore()">⏬ Exibir Mais Parcelas</button>`;
                 const btnLess = `<button class="btn-action-list" onclick="actionShowLess()">⏫ Recolher Parcelas</button>`;
 
-                if (limiteVisivel >= listToRender.length) {
-                    divControls.innerHTML = btnLess;
-                } else if (limiteVisivel === 4) {
-                    divControls.innerHTML = btnMore;
-                } else {
-                    divControls.innerHTML = btnMore + btnLess;
-                }
+                if (limiteVisivel >= listToRender.length) { divControls.innerHTML = btnLess; } 
+                else if (limiteVisivel === 4) { divControls.innerHTML = btnMore; } 
+                else { divControls.innerHTML = btnMore + btnLess; }
                 
                 container.appendChild(divControls);
             }
 
-            // Atualiza o estado do Botão do Cabeçalho
             const btn = document.getElementById('toggleBtn');
             btn.className = `btn-toggle-history ${mostrarHistorico ? 'active' : ''}`;
             btn.innerHTML = mostrarHistorico ? "👁️ Ocultar Pagas" : "👁️ Ver Pagas";
         }
 
-        // Funções dos Botões Novos
-        function actionShowMore() {
-            limiteVisivel += 5; // Aumenta de 5 em 5
-            renderCards();
-        }
+        function actionShowMore() { limiteVisivel += 5; renderCards(); }
+        function actionShowLess() { limiteVisivel = 4; window.scrollTo({top: 0, behavior: 'smooth'}); renderCards(); }
+        function toggleHistory() { mostrarHistorico = !mostrarHistorico; limiteVisivel = 4; renderCards(); }
 
-        function actionShowLess() {
-            limiteVisivel = 4; // Volta para o padrão
-            window.scrollTo({top: 0, behavior: 'smooth'}); // Rola para o topo suavemente
-            renderCards();
-        }
-
-        // Função para Alternar a Visão do Histórico
-        function toggleHistory() { 
-            mostrarHistorico = !mostrarHistorico; 
-            limiteVisivel = 4; // Reseta a exibição ao alternar
-            renderCards(); 
-        }
-
-        // Função para Copiar a Chave PIX e mostrar o Toast
         function copyPix() {
             const pixKey = document.getElementById('pixKey').innerText;
             navigator.clipboard.writeText(pixKey).then(() => {
                 const btn = document.querySelector('.btn-copy');
-                const orig = btn.innerText; 
-                btn.innerText = "COPIADO";
+                const orig = btn.innerText; btn.innerText = "COPIADO";
                 setTimeout(() => btn.innerText = orig, 2000);
                 
                 const toast = document.getElementById('toastMsg');
-                toast.classList.add('show'); 
-                setTimeout(() => toast.classList.remove('show'), 3500);
+                toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 3500);
             });
         }
 
-        /* ==========================================================
-           NOVO EFEITO ESPECIAL: MALHA NEURAL (CANVAS PARTICLES)
-           ========================================================== */
         function initTechCanvas() {
             const canvas = document.getElementById('techCanvas');
             const ctx = canvas.getContext('2d');
@@ -1064,9 +954,7 @@
                 }
 
                 update() {
-                    this.x += this.vx;
-                    this.y += this.vy;
-
+                    this.x += this.vx; this.y += this.vy;
                     if (this.x < 0 || this.x > width) this.vx *= -1;
                     if (this.y < 0 || this.y > height) this.vy *= -1;
                 }
@@ -1074,25 +962,20 @@
                 draw() {
                     ctx.beginPath();
                     ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                    ctx.fillStyle = 'rgba(59, 130, 246, 0.4)'; // Azul tecnológico
+                    ctx.fillStyle = 'rgba(59, 130, 246, 0.4)';
                     ctx.fill();
                 }
             }
 
-            // Cria as partículas (quantidade baseada na largura da tela)
             const particleCount = Math.min(Math.floor(window.innerWidth / 15), 100);
-            for (let i = 0; i < particleCount; i++) {
-                particles.push(new Particle());
-            }
+            for (let i = 0; i < particleCount; i++) { particles.push(new Particle()); }
 
             function animate() {
                 ctx.clearRect(0, 0, width, height);
 
                 for (let i = 0; i < particles.length; i++) {
-                    particles[i].update();
-                    particles[i].draw();
+                    particles[i].update(); particles[i].draw();
 
-                    // Conecta as partículas próximas
                     for (let j = i + 1; j < particles.length; j++) {
                         const dx = particles[i].x - particles[j].x;
                         const dy = particles[i].y - particles[j].y;
@@ -1102,11 +985,9 @@
                             ctx.beginPath();
                             ctx.moveTo(particles[i].x, particles[i].y);
                             ctx.lineTo(particles[j].x, particles[j].y);
-                            // Opacidade baseada na distância
                             const opacity = 1 - (distance / 150);
                             ctx.strokeStyle = `rgba(59, 130, 246, ${opacity * 0.2})`;
-                            ctx.lineWidth = 1;
-                            ctx.stroke();
+                            ctx.lineWidth = 1; ctx.stroke();
                         }
                     }
                 }
@@ -1115,9 +996,7 @@
             animate();
         }
 
-        // Inicia a aplicação
         init();
-
     </script>
 </body>
 </html>
