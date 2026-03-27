@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>Missão Confidencial | Agente Sênior</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;800;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+    
+    <style>
+        :root {
+            --bg-body: #050505; --panel-bg: #111111;
+            --gold: #D4AF37; --gold-light: #F3E5AB; --red-alert: #C62828;
+            --text-main: #E0E0E0; --text-muted: #888888; --terminal-green: #00FF41;
+            --player-bg: rgba(10, 10, 10, 0.95); --border-tech: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
+        img { -webkit-user-drag: none; user-drag: none; pointer-events: none; }
+        
+        body {
+            font-family: 'Montserrat', sans-serif; background-color: var(--bg-body); color: var(--text-main);
+            overflow-x: hidden; position: relative; padding-bottom: 120px;
+            background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 30px 30px;
+        }
+
+        /* --- FUNDO ANIMADO --- */
+        .bg-floating-icons { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; overflow: hidden; }
+        .bg-icon { position: absolute; bottom: -50px; font-family: 'Share Tech Mono', monospace; color: var(--text-muted); font-size: 1.2rem; opacity: 0.15; animation: floatUp linear infinite; }
+        @keyframes floatUp { 0% { transform: translateY(0); opacity: 0; } 10% { opacity: 0.2; } 90% { opacity: 0.2; } 100% { transform: translateY(-110vh); opacity: 0; } }
+
+        /* --- INTRO --- */
+        #intro-gate {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 10000; 
+            display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
+            padding: 20px; transition: opacity 1s ease, visibility 1s ease;
+        }
+        #intro-gate.gate-open { opacity: 0; visibility: hidden; }
+        .scanner-line { position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: var(--red-alert); box-shadow: 0 0 15px 3px rgba(198, 40, 40, 0.8); animation: scanScreen 3s infinite linear alternate; z-index: 10001; opacity: 0.6; pointer-events: none; }
+        @keyframes scanScreen { 0% { top: 0; } 100% { top: 100%; } }
+        .top-secret-stamp { color: var(--red-alert); font-family: 'Share Tech Mono', monospace; font-size: 2rem; letter-spacing: 5px; border: 3px solid var(--red-alert); padding: 10px 20px; margin-bottom: 30px; transform: rotate(-5deg); opacity: 0.8; text-shadow: 0 0 10px rgba(198, 40, 40, 0.5); }
+        #intro-gate h1 { color: white; font-size: 2rem; margin-bottom: 2rem; font-family: 'Montserrat', sans-serif; font-weight: 300; letter-spacing: 3px; }
+        .intro-btn { background: transparent; color: var(--gold); font-family: 'Share Tech Mono', monospace; font-size: 1.2rem; padding: 1rem 3rem; border: 1px solid var(--gold); cursor: pointer; text-transform: uppercase; letter-spacing: 2px; transition: all 0.3s; box-shadow: 0 0 15px rgba(212, 175, 55, 0.2) inset; position: relative; overflow: hidden; }
+        .intro-btn:hover { background: var(--gold); color: black; box-shadow: 0 0 25px rgba(212, 175, 55, 0.6); }
+        .intro-btn:active { transform: scale(0.95); }
+
+        /* --- HERO BANNER --- */
+        .hero-banner { position: relative; width: 100%; height: 75vh; min-height: 600px; display: flex; align-items: center; justify-content: center; background: radial-gradient(circle at center, #1a1a1a 0%, #000 100%); overflow: hidden; border-bottom: var(--border-tech); }
+        .radar { position: absolute; width: 600px; height: 600px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.05); animation: radarSpin 10s linear infinite; opacity: 0.3; pointer-events: none; }
+        .radar::before { content: ''; position: absolute; top: 0; left: 50%; width: 1px; height: 50%; background: linear-gradient(to bottom, var(--gold), transparent); transform-origin: bottom center; }
+        @keyframes radarSpin { 100% { transform: rotate(360deg); } }
+        .hero-content { text-align: center; z-index: 10; padding: 0 1rem; }
+        .mission-subtitle { font-family: 'Share Tech Mono', monospace; color: var(--gold); font-size: 1.2rem; letter-spacing: 4px; margin-bottom: 10px; text-transform: uppercase; }
+        .main-title { font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 5rem; color: #fff; text-transform: uppercase; line-height: 1.1; letter-spacing: -2px; text-shadow: 0 10px 30px rgba(0,0,0,0.8); margin-bottom: 1rem; }
+        .main-title span { color: var(--gold); }
+        .age-badge { display: inline-block; background: transparent; color: var(--red-alert); font-family: 'Share Tech Mono', monospace; font-size: 1.5rem; font-weight: bold; padding: 0.8rem 2.5rem; border: 1px solid var(--red-alert); letter-spacing: 2px; text-transform: uppercase; box-shadow: 0 0 15px rgba(198, 40, 40, 0.3) inset; }
+        
+        @media (max-width: 768px) { .hero-banner { height: 80vh; } .main-title { font-size: 3rem; } .radar { width: 300px; height: 300px; } .age-badge { font-size: 1.1rem; padding: 0.6rem 1.5rem; } }
+
+        /* --- PLAYER DE MÚSICA FIXO --- */
+        .music-player-fixed { position: fixed; bottom: 0; left: 0; width: 100%; height: 90px; background: var(--player-bg); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border-top: 1px solid rgba(212, 175, 55, 0.2); z-index: 9990; display: flex; align-items: center; justify-content: center; padding: 0 10px; }
+        .player-inner { width: 100%; max-width: 800px; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+        .track-display { flex: 1; background: #000; border-radius: 4px; padding: 10px; overflow: hidden; position: relative; border: 1px solid #333; }
+        .track-marquee { white-space: nowrap; display: inline-block; font-family: 'Share Tech Mono', monospace; color: var(--terminal-green); font-size: 0.85rem; animation: scrollLeft 15s linear infinite; text-transform: uppercase; }
+        @keyframes scrollLeft { from { transform: translateX(100%); } to { transform: translateX(-100%); } }
+        .vol-btn { background: #1a1a1a; border: 1px solid #333; color: var(--text-muted); width: 40px; height: 40px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
+        .vol-btn:active { transform: scale(0.9); background: var(--gold); color: #000; }
+        .btn-play { width: 55px; height: 55px; background: var(--gold); border: none; border-radius: 50%; color: black; box-shadow: 0 0 15px rgba(212, 175, 55, 0.4); display: flex; justify-content: center; align-items: center; cursor: pointer; transition: 0.2s; }
+        .btn-play:active { transform: scale(0.9); }
+        .material-icons-round { font-size: 26px; }
+        @media (max-width: 768px) { .player-inner { gap: 5px; } .vol-btn { width: 35px; height: 35px; } .btn-play { width: 45px; height: 45px; } .track-marquee { font-size: 0.75rem; } }
+
+        /* --- CONTEÚDO --- */
+        .container { max-width: 1200px; margin: 0 auto; padding: 4rem 1.5rem 2rem; position: relative; z-index: 5; }
+        .section-header { text-align: center; margin-bottom: 3rem; margin-top: 4rem;}
+        .section-title { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 2.2rem; color: #fff; text-transform: uppercase; letter-spacing: 2px; }
+        .section-title::after { content: ''; display: block; width: 60px; height: 3px; background: var(--gold); margin: 15px auto 0; }
+        @media (max-width: 768px) { .section-title { font-size: 1.8rem; } }
+
+        /* DOSSIÊ */
+        .dossier-card { background: var(--panel-bg); padding: 3rem; border: var(--border-tech); box-shadow: 0 20px 50px rgba(0,0,0,0.5); max-width: 900px; margin: -80px auto 4rem; position: relative; z-index: 20; border-left: 5px solid var(--gold); display: flex; gap: 30px; align-items: center; }
+        .dossier-card::before { content: 'ARQUIVO Nº 007 - CLASSIFICADO'; position: absolute; top: -15px; left: 20px; background: var(--bg-body); color: var(--gold); font-family: 'Share Tech Mono'; padding: 0 10px; font-size: 0.9rem; }
+        .agent-profile { flex: 0 0 220px; position: relative; border: 2px solid #333; padding: 10px; background: #000; }
+        .agent-profile img { width: 100%; height: auto; aspect-ratio: 3/4; object-fit: cover; filter: grayscale(80%) contrast(120%); border: 1px solid #222; }
+        .agent-id-tag { text-align: center; font-family: 'Share Tech Mono'; color: var(--gold); font-size: 1.1rem; margin-top: 10px; letter-spacing: 2px; }
+        .agent-profile::after { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80px; height: 80px; background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="48" fill="none" stroke="red" stroke-width="2"/><path d="M50 0 L50 100 M0 50 L100 50" stroke="red" stroke-width="2"/></svg>') no-repeat center; opacity: 0.3; pointer-events: none; }
+        .message-content { flex: 1; }
+        .message-text { font-size: 1.1rem; line-height: 1.8; color: #ccc; font-family: 'Montserrat', sans-serif; font-weight: 300; text-align: left; }
+        .message-signature { margin-top: 2rem; font-family: 'Share Tech Mono', monospace; font-size: 1.2rem; color: var(--gold); text-transform: uppercase; text-align: right; font-weight: bold;}
+        @media (max-width: 768px) { .dossier-card { flex-direction: column; padding: 2rem 1.5rem; margin-top: -50px; } .agent-profile { flex: 0 0 auto; width: 100%; max-width: 200px; margin: 0 auto; } .message-text { text-align: center; font-size: 1rem; } .message-signature { text-align: center; } }
+
+        /* SLIDER VERTICAL */
+        .swiper-container-wrapper { padding: 10px 0 50px 0; perspective: 1000px; }
+        .swiper { width: 100%; padding-top: 20px; padding-bottom: 50px; }
+        .swiper-slide { background-position: center; background-size: cover; width: 260px; height: 360px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); border: 8px solid #fff; border-bottom: 35px solid #fff; overflow: hidden; filter: grayscale(80%) contrast(120%); transition: filter 0.5s ease; cursor: pointer; }
+        @media (min-width: 768px) { .swiper-slide { width: 300px; height: 400px; } }
+        .swiper-slide:hover, .swiper-slide-active { filter: grayscale(0%) contrast(100%); }
+        .swiper-slide::after { content: 'EVIDÊNCIA'; position: absolute; bottom: -25px; left: 0; width: 100%; text-align: center; color: black; font-family: 'Share Tech Mono'; font-weight: bold; font-size: 0.9rem; letter-spacing: 2px; z-index: 10; }
+        .swiper-slide img { width: 100%; height: 100%; object-fit: cover; }
+        .swiper-pagination-bullet { background: #555; }
+        .swiper-pagination-bullet-active { background: var(--gold); }
+
+        /* --- GRID INTELIGENTE (IMAGENS PADRONIZADAS) --- */
+        .gallery-grid { display: flex; flex-wrap: wrap; gap: 15px; padding: 10px; justify-content: center; }
+        .photo-card {
+            background: #222; overflow: hidden; position: relative;
+            flex: 1 1 calc(50% - 15px); cursor: pointer; border: 1px solid #333;
+            max-width: 400px; display: none; 
+            /* PADRONIZAÇÃO DO TAMANHO (PROPORÇÃO 16:9 PERFEITA) */
+            aspect-ratio: 16 / 9;
+        }
+        .photo-card.visible { display: block; animation: fadeIn 0.5s ease forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .photo-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 255, 65, 0.1); z-index: 2; pointer-events: none; transition: opacity 0.3s; }
+        .photo-card:hover::before { opacity: 0; }
+        /* OBJECT-FIT GARANTE QUE NÃO ESTIQUE, APENAS ENQUADRE */
+        .photo-card img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(100%); transition: 0.5s ease; }
+        .photo-card:hover img { filter: grayscale(0%); transform: scale(1.05); }
+        @media (min-width: 768px) { .photo-card { flex: 1 1 calc(25% - 15px); max-width: 350px; } }
+
+        /* Botões do Banco de Dados */
+        .load-more-container { text-align: center; margin-top: 20px; display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
+        .btn-load-more, .btn-collapse {
+            background: transparent; font-family: 'Share Tech Mono', monospace;
+            padding: 10px 20px; cursor: pointer; font-size: 1rem;
+            transition: all 0.3s; text-transform: uppercase; letter-spacing: 1px;
+        }
+        .btn-load-more { color: var(--terminal-green); border: 1px solid var(--terminal-green); }
+        .btn-load-more:hover { background: rgba(0, 255, 65, 0.1); box-shadow: 0 0 15px rgba(0, 255, 65, 0.3); }
+        
+        .btn-collapse { color: var(--red-alert); border: 1px solid var(--red-alert); display: none; }
+        .btn-collapse:hover { background: rgba(198, 40, 40, 0.1); box-shadow: 0 0 15px rgba(198, 40, 40, 0.3); }
+
+        /* --- LIGHTBOX AVANÇADO --- */
+        .lightbox-modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.95); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
+            z-index: 20000; display: flex; justify-content: center; align-items: center;
+            opacity: 0; visibility: hidden; transition: opacity 0.3s ease;
+        }
+        .lightbox-modal.active { opacity: 1; visibility: visible; }
+        .lightbox-container { position: relative; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; }
+        .lightbox-content { position: relative; max-width: 90vw; max-height: 85vh; display: inline-block; }
+        .lightbox-content img { max-width: 100%; max-height: 85vh; border: 2px solid var(--gold); box-shadow: 0 0 50px rgba(212, 175, 55, 0.2); border-radius: 4px; display: block; }
+        
+        .lightbox-close {
+            position: absolute; top: -15px; right: -15px; color: #fff; font-family: 'Montserrat', sans-serif;
+            font-size: 2rem; font-weight: 900; cursor: pointer; transition: transform 0.2s;
+            text-shadow: 2px 2px 0px var(--red-alert), 3px 3px 0px #555; z-index: 20002;
+            background: #000; width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--gold);
+            display: flex; justify-content: center; align-items: center; line-height: 0;
+        }
+        .lightbox-close:active { transform: translate(2px, 2px); }
+
+        .lightbox-nav {
+            position: absolute; top: 50%; transform: translateY(-50%); background: #000; border: 2px solid var(--gold); color: var(--gold); width: 40px; height: 40px; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: 0.3s; z-index: 20001; font-size: 1.5rem;
+        }
+        .lightbox-nav:hover { background: var(--gold); color: #000; }
+        .lightbox-nav.prev { left: -20px; }
+        .lightbox-nav.next { right: -20px; }
+        
+        @media (max-width: 768px) {
+            .lightbox-nav { width: 35px; height: 35px; font-size: 1.2rem; }
+            .lightbox-nav.prev { left: -10px; }
+            .lightbox-nav.next { right: -10px; }
+            .lightbox-close { top: -10px; right: -10px; width: 35px; height: 35px; font-size: 1.5rem; }
+        }
+
+        /* VÍDEOS */
+        .video-section { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-bottom: 3rem; }
+        .video-frame { width: 310px; height: 580px; background: #000; border: 2px solid #333; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.5); flex-shrink: 0; }
+        @media (max-width: 768px) { .video-frame { width: 100%; max-width: 340px; height: 500px; } }
+        .video-frame::before { content: 'REC •'; position: absolute; top: 15px; right: 15px; color: var(--red-alert); font-family: 'Share Tech Mono'; font-size: 1.2rem; z-index: 10; animation: blinkRec 1s infinite; text-shadow: 0 0 5px red; pointer-events: none; }
+        @keyframes blinkRec { 50% { opacity: 0; } }
+        .video-frame video { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: opacity 0.3s; }
+        .video-frame:hover video { opacity: 1; }
+
+        /* PRESENTE FINAL */
+        .final-gift-wrapper { text-align: center; margin: 3rem 1rem 2rem; perspective: 1000px; }
+        .btn-vault {
+            background: linear-gradient(145deg, #1a1a1a, #0a0a0a); color: var(--gold);
+            font-family: 'Share Tech Mono', monospace; font-size: 1.2rem; font-weight: bold;
+            padding: 15px 25px; border: 2px solid var(--gold); border-radius: 8px;
+            cursor: pointer; text-transform: uppercase; letter-spacing: 2px;
+            box-shadow: 0 8px 0px #8a7020, 0 15px 20px rgba(0,0,0,0.8);
+            transition: all 0.2s; white-space: nowrap; animation: floatVault 3s ease-in-out infinite alternate;
+            display: inline-flex; align-items: center; justify-content: center;
+        }
+        @media (max-width: 400px) { .btn-vault { font-size: 0.95rem; padding: 12px 15px; letter-spacing: 1px; } }
+        @keyframes floatVault { 0% { transform: translateY(0); } 100% { transform: translateY(-8px); } }
+        .btn-vault::before { content: '🔓'; margin-right: 10px; font-size: 1.3rem; }
+        .btn-vault:active { transform: translateY(8px) !important; box-shadow: 0 0px 0px #8a7020, 0 5px 10px rgba(0,0,0,0.8); }
+
+        /* Modal do Presente */
+        .gift-reveal-modal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.5); background: #000; border: 3px solid var(--gold); padding: 40px 20px; border-radius: 15px; text-align: center; z-index: 20005; opacity: 0; visibility: hidden; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 0 100px rgba(212, 175, 55, 0.4); width: 90%; max-width: 500px; }
+        .gift-reveal-modal.show { transform: translate(-50%, -50%) scale(1); opacity: 1; visibility: visible; }
+        .gift-reveal-modal h2 { color: #fff; font-family: 'Montserrat'; font-size: 1.8rem; margin-bottom: 15px; text-transform: uppercase; line-height: 1.2;}
+        .gift-reveal-modal h2 span { color: var(--gold); display: block; font-size: 2.2rem; margin-top: 10px;}
+        .gift-reveal-modal p { color: var(--terminal-green); font-family: 'Share Tech Mono'; font-size: 1rem; margin-top: 20px;}
+        .close-gift-btn { margin-top: 30px; background: var(--gold); color: #000; border: none; padding: 12px 25px; font-weight: bold; font-family: 'Montserrat'; font-size: 0.9rem; cursor: pointer; border-radius: 5px; text-transform: uppercase; width: 100%; }
+
+        /* FAB */
+        .fab-btn { position: fixed; bottom: 110px; right: 20px; width: 60px; height: 60px; background: #111; border: 1px solid var(--gold); border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 1.5rem; cursor: pointer; box-shadow: 0 0 20px rgba(212, 175, 55, 0.2); z-index: 9980; color: var(--gold); transition: all 0.3s; }
+        .fab-btn:hover { background: var(--gold); color: #000; box-shadow: 0 0 30px rgba(212, 175, 55, 0.5); transform: scale(1.1); }
+
+        /* FOOTER */
+        footer { background: #0a0a0a; color: #555; text-align: center; padding: 4rem 2rem 8rem; margin-top: 4rem; border-top: 1px solid #1a1a1a; }
+        .footer-logo { width: 140px; margin-bottom: 20px; filter: grayscale(100%) brightness(200%); cursor: pointer; transition: transform 0.2s, filter 0.3s; pointer-events: auto; position: relative; z-index: 10;}
+        .footer-logo:hover { transform: scale(1.05); filter: grayscale(0%) brightness(100%); }
+        .footer-logo:active { transform: scale(0.95); }
+        .footer-credit p { font-family: 'Share Tech Mono', monospace; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; }
+
+    </style>
+</head>
+<body oncontextmenu="return false">
+
+    <div id="intro-gate">
+        <div class="scanner-line"></div>
+        <div class="top-secret-stamp">CLASSIFIED</div>
+        <h1>SISTEMA RESTRITO</h1>
+        <p style="color: #888; font-family: 'Share Tech Mono'; margin-bottom: 30px; letter-spacing: 2px;">IDENTIFICAÇÃO NECESSÁRIA</p>
+        <button class="intro-btn" id="openGateBtn">AUTENTICAR ACESSO</button>
+    </div>
+
+    <div class="music-player-fixed">
+        <div class="player-inner">
+            <button class="vol-btn" onclick="changeVolume(-0.1)"><span class="material-icons-round">volume_down</span></button>
+            <button class="btn-play" id="playPauseBtn" onclick="togglePlay()"><span class="material-icons-round" id="playIcon">play_arrow</span></button>
+            <div class="track-display">
+                <div class="track-marquee">
+                    📡 TRANSMISSÃO SECRETA: TRILHA SONORA OFICIAL DA MISSÃO ANIVERSÁRIO 📡 &nbsp;&nbsp;&nbsp;&nbsp;
+                </div>
+            </div>
+            <button class="vol-btn" onclick="changeVolume(0.1)"><span class="material-icons-round">volume_up</span></button>
+        </div>
+    </div>
+
+    <audio id="bgMusic" loop>
+        <source src="song/musica.mp3" type="audio/mp3">
+    </audio>
+
+    <div class="bg-floating-icons" id="bgIcons"></div>
+
+    <section class="hero-banner">
+        <div class="radar"></div>
+        <div class="hero-content">
+            <div class="mission-subtitle animate__animated animate__fadeInDown">Operação Aniversário</div>
+            <h1 class="main-title animate__animated animate__zoomIn animate__delay-1s">
+                AGENTE <br><span>ROBSON BATISTA</span>
+            </h1>
+            <div class="age-badge animate__animated animate__fadeInUp animate__delay-2s">
+                NÍVEL DE EXPERIÊNCIA: 54
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+
+        <div class="dossier-card" data-aos="fade-up" data-aos-duration="1000">
+            <div class="agent-profile">
+                <img src="imagens/perfil.webp" alt="Foto do Agente">
+                <div class="agent-id-tag">ID: 007-RB54</div>
+            </div>
+            <div class="message-content">
+                <p class="message-text">
+                    <strong>ATENÇÃO OPERATIVO.</strong><br><br>
+                    O Comando Central relata que o alvo principal alcançou o cobiçado Nível 54. Seu histórico impressiona a inteligência: 54 anos de resiliência inabalável, estratégias geniais para superar obstáculos diários e um escudo protetor intransponível para a família.<br><br>
+                    Nesta data, suspendemos todas as operações táticas de campo. Sua missão primária para as próximas 24 horas é celebrar. Autorização concedida para consumir bolo, brindar com o esquadrão e desfrutar do sucesso da sua trajetória.<br><br>
+                    Continue sendo nossa maior inspiração e referência de força. Câmbio e desligo.
+                </p>
+                <p class="message-signature">Comando Central JUNIOR</p>
+            </div>
+        </div>
+
+        <div class="section-header" data-aos="fade-up">
+            <h2 class="section-title">Registros de Campo</h2>
+        </div>
+        <div class="swiper-container-wrapper" data-aos="zoom-in-up" data-aos-duration="1000">
+            <div class="swiper mySwiper">
+                <div class="swiper-wrapper" id="swiper-wrapper-id"></div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+        
+        <div class="section-header" data-aos="fade-up" id="banco-de-dados">
+             <h2 class="section-title">Banco de Dados Geral</h2>
+             <p style="margin-top:10px; color: var(--terminal-green); font-family: 'Share Tech Mono';">STATUS: REGISTROS DESCRIPTOGRAFADOS. (CLIQUE PARA AMPLIAR)</p>
+        </div>
+        
+        <div class="gallery-grid" id="gallery-grid-id">
+            </div>
+        
+        <div class="load-more-container">
+            <button class="btn-load-more" id="btnLoadMore" onclick="loadMoreImages()">[ DESCRIPTOGRAFAR MAIS ARQUIVOS ]</button>
+            <button class="btn-collapse" id="btnCollapse" onclick="collapseImages()">[ OCULTAR ARQUIVOS ]</button>
+        </div>
+
+        <div class="section-header" data-aos="fade-up">
+            <h2 class="section-title">Cápsula do Tempo</h2>
+       </div>
+        <div class="video-section">
+            <div class="video-frame" data-aos="fade-right" data-aos-duration="1200">
+                <video src="movie/movie-1.mp4" controls playsinline></video>
+            </div>
+            <div class="video-frame" data-aos="fade-left" data-aos-duration="1200" data-aos-delay="200">
+                <video src="movie/movie-2.mp4" controls playsinline></video>
+            </div>
+        </div>
+
+        <div class="final-gift-wrapper" data-aos="zoom-in">
+            <button class="btn-vault" onclick="openGift()">Acessar Recompensa</button>
+        </div>
+
+    </div>
+
+    <div class="lightbox-modal" id="lightboxModal">
+        <div class="lightbox-container">
+            <div class="lightbox-content">
+                <div class="lightbox-close" onclick="closeLightbox()">X</div>
+                <div class="lightbox-nav prev" onclick="changeImage(-1)">&#10094;</div>
+                <img src="" id="lightboxImg" alt="Ampliada">
+                <div class="lightbox-nav next" onclick="changeImage(1)">&#10095;</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="lightbox-modal" id="giftOverlay" style="z-index: 20004;"></div>
+    <div class="gift-reveal-modal" id="giftModal">
+        <h2>Missão Concluída! <span>Feliz Aniversário, Pai!</span></h2>
+        <p>Memórias descriptografadas com sucesso. Que o próximo ciclo gere arquivos ainda mais inesquecíveis.</p>
+        <button class="close-gift-btn" onclick="closeGift()">Encerrar Transmissão</button>
+    </div>
+
+    <footer>
+        <img src="imagens/logo.png" class="footer-logo" onclick="triggerLogoExplosion(this)" alt="O Imaginista">
+        <div class="footer-credit">
+            <p>DIVISÃO DE INTELIGÊNCIA VIRTUAL - O IMAGINISTA</p>
+            <p style="margin-top: 5px; opacity: 0.5;">© 2026 CODIFICAÇÃO PROTEGIDA</p>
+        </div>
+    </footer>
+
+    <button class="fab-btn" onclick="triggerConfettiForce()" title="Disparar Confetes">🎯</button>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <script>
+        document.addEventListener('contextmenu', event => event.preventDefault());
+
+        // --- GERAÇÃO DE IMAGENS CARROSSEL ---
+        const swiperWrapper = document.getElementById('swiper-wrapper-id');
+        for(let i = 1; i <= 5; i++) {
+            swiperWrapper.innerHTML += `<div class="swiper-slide"><img src="imagens/img (${i}).webp" alt="Arquivo ${i}"></div>`;
+        }
+
+        // --- GERAÇÃO DE IMAGENS GRID (COM CARREGAR MAIS E OCULTAR) ---
+        const galleryGrid = document.getElementById('gallery-grid-id');
+        const loadMoreBtn = document.getElementById('btnLoadMore');
+        const collapseBtn = document.getElementById('btnCollapse');
+        let galleryImages = []; 
+        let currentImageIndex = 0; 
+        
+        const totalImages = 37; 
+        const imagesPerLoad = 9; // Mostra 9 por vez
+        let currentlyShown = 0; 
+
+        // Gera o HTML invisível
+        for(let i = 6; i <= 42; i++) {
+            let imgSrc = `imagens/img (${i}).webp`;
+            galleryImages.push(imgSrc); 
+            let arrayIndex = i - 6; 
+            galleryGrid.innerHTML += `<div class="photo-card" id="card-${arrayIndex}" onclick="openLightbox(${arrayIndex})"><img src="${imgSrc}" alt="Registro ${i}" loading="lazy"></div>`;
+        }
+
+        // Função para mostrar mais
+        function loadMoreImages() {
+            let limit = currentlyShown + imagesPerLoad;
+            if (limit > galleryImages.length) { limit = galleryImages.length; }
+
+            for (let i = currentlyShown; i < limit; i++) {
+                let card = document.getElementById(`card-${i}`);
+                if(card) { card.classList.add('visible'); }
+            }
+            currentlyShown = limit;
+
+            // Se mostrou todas, esconde o "Mais" e mostra o "Ocultar"
+            if (currentlyShown >= galleryImages.length) {
+                loadMoreBtn.style.display = 'none';
+                collapseBtn.style.display = 'inline-block';
+            }
+        }
+
+        // Função para ocultar arquivos (volta pro padrão)
+        function collapseImages() {
+            // Remove a classe 'visible' das imagens a partir da 10ª (index 9)
+            for (let i = imagesPerLoad; i < galleryImages.length; i++) {
+                let card = document.getElementById(`card-${i}`);
+                if(card) { card.classList.remove('visible'); }
+            }
+            currentlyShown = imagesPerLoad;
+
+            // Inverte os botões
+            collapseBtn.style.display = 'none';
+            loadMoreBtn.style.display = 'inline-block';
+
+            // Rola suavemente a tela de volta para o topo da galeria (UX)
+            document.getElementById('banco-de-dados').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // Chama a primeira vez para carregar as primeiras 9
+        loadMoreImages();
+
+        // --- FUNDO BINÁRIO ---
+        const bgContainer = document.getElementById('bgIcons');
+        const chars = ['0', '1', 'A', 'X', '7', '0', '1'];
+        for (let i = 0; i < 40; i++) {
+            const icon = document.createElement('div');
+            icon.classList.add('bg-icon');
+            icon.innerText = chars[Math.floor(Math.random() * chars.length)];
+            icon.style.left = `${Math.random() * 100}vw`;
+            icon.style.fontSize = `${Math.random() * 1 + 0.8}rem`;
+            icon.style.animationDuration = `${Math.random() * 20 + 15}s`;
+            icon.style.animationDelay = `${Math.random() * 15}s`;
+            bgContainer.appendChild(icon);
+        }
+
+        // --- SISTEMA DE ÁUDIO ---
+        const bgMusic = document.getElementById('bgMusic');
+        const playIcon = document.getElementById('playIcon');
+        bgMusic.volume = 0.3; 
+        let isPlaying = false;
+
+        function togglePlay() {
+            if (isPlaying) { bgMusic.pause(); playIcon.innerText = 'play_arrow'; } 
+            else { bgMusic.play().catch(e => console.log("Aguardando interação")); playIcon.innerText = 'pause'; }
+            isPlaying = !isPlaying;
+        }
+
+        function changeVolume(amount) {
+            let newVol = bgMusic.volume + amount;
+            if (newVol > 1) newVol = 1; if (newVol < 0) newVol = 0;
+            bgMusic.volume = newVol;
+        }
+
+        // --- INTRO & AOS ---
+        const gate = document.getElementById('intro-gate');
+        const openBtn = document.getElementById('openGateBtn');
+        openBtn.addEventListener('click', () => {
+            openBtn.innerText = "DESCRIPTOGRAFANDO...";
+            document.querySelector('#intro-gate h1').classList.add('animate__animated', 'animate__flash');
+            
+            setTimeout(() => {
+                gate.classList.add('gate-open');
+                setTimeout(() => { AOS.init({ once: true, offset: 50, duration: 800, easing: 'ease-out-cubic' }); }, 500);
+                triggerConfettiForce();
+                togglePlay(); 
+            }, 1200);
+        });
+
+        // Configuração Swiper
+        var swiper = new Swiper(".mySwiper", {
+            effect: "coverflow", grabCursor: true, centeredSlides: true, slidesPerView: "auto",
+            coverflowEffect: { rotate: 20, stretch: 0, depth: 200, modifier: 1, slideShadows: true },
+            pagination: { el: ".swiper-pagination", dynamicBullets: true },
+            autoplay: { delay: 4000, disableOnInteraction: false }
+        });
+
+        // --- SISTEMA LIGHTBOX COM NAVEGAÇÃO ---
+        const lightboxModal = document.getElementById('lightboxModal');
+        const lightboxImg = document.getElementById('lightboxImg');
+        
+        function openLightbox(index) {
+            currentImageIndex = index; 
+            lightboxImg.src = galleryImages[currentImageIndex];
+            lightboxModal.classList.add('active');
+            document.body.style.overflow = 'hidden'; 
+        }
+
+        function closeLightbox() {
+            lightboxModal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function changeImage(direction) {
+            currentImageIndex += direction;
+            if (currentImageIndex < 0) { currentImageIndex = galleryImages.length - 1; } 
+            else if (currentImageIndex >= galleryImages.length) { currentImageIndex = 0; }
+            
+            lightboxImg.style.opacity = 0;
+            setTimeout(() => {
+                lightboxImg.src = galleryImages[currentImageIndex];
+                lightboxImg.style.opacity = 1;
+            }, 150);
+        }
+
+        // Evita fechar ao clicar na imagem ou nos botões de navegação
+        document.querySelector('.lightbox-content').addEventListener('click', function(e) {
+            e.stopPropagation(); 
+        });
+        // Fecha ao clicar fora da área da imagem
+        document.querySelector('.lightbox-container').addEventListener('click', function() {
+            closeLightbox();
+        });
+
+        // Teclado
+        document.addEventListener('keydown', function(e) {
+            if(lightboxModal.classList.contains('active')) {
+                if(e.key === 'ArrowLeft') changeImage(-1);
+                if(e.key === 'ArrowRight') changeImage(1);
+                if(e.key === 'Escape') closeLightbox();
+            }
+        });
+
+        // --- FUNÇÕES PRESENTE FINAL ---
+        const giftModal = document.getElementById('giftModal');
+        const giftOverlay = document.getElementById('giftOverlay');
+
+        function openGift() {
+            giftOverlay.classList.add('active');
+            giftModal.classList.add('show');
+            document.body.style.overflow = 'hidden';
+            
+            var duration = 3 * 1000;
+            var end = Date.now() + duration;
+            (function frame() {
+                confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#D4AF37', '#fff', '#C62828'] });
+                confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#D4AF37', '#fff', '#C62828'] });
+                if (Date.now() < end) { requestAnimationFrame(frame); }
+            }());
+        }
+
+        function closeGift() {
+            giftModal.classList.remove('show');
+            giftOverlay.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Confetes Básicos Iniciais (FAB)
+        function triggerConfettiForce() {
+            confetti({ particleCount: 100, spread: 70, origin: { y: 0.8 }, colors: ['#D4AF37', '#C62828', '#FFFFFF'] });
+        }
+
+        // Explosão no Logo O Imaginista
+        function triggerLogoExplosion(element) {
+            const rect = element.getBoundingClientRect();
+            confetti({
+                particleCount: 80, spread: 80, scalar: 1.2,
+                origin: { x: (rect.left + rect.width/2)/window.innerWidth, y: (rect.top + rect.height/2)/window.innerHeight },
+                colors: ['#D4AF37', '#C62828', '#00FF41'] 
+            });
+        }
+
+        document.body.style.overflow = 'hidden';
+        openBtn.addEventListener('click', () => { setTimeout(() => document.body.style.overflow = 'auto', 2000); });
+    </script>
+</body>
+</html>
