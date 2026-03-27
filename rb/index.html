@@ -5,6 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>Missão Confidencial | Agente Sênior</title>
     
+    <link rel="icon" type="image/png" href="../favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/svg+xml" href="../favicon/favicon.svg">
+    <link rel="shortcut icon" href="../favicon/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="../favicon/apple-touch-icon.png">
+    <meta name="theme-color" content="#0a2a24">
+    
+    <meta property="og:title" content="Missão Confidencial | Operação 54 Anos"> 
+    <meta property="og:description" content="Acesso Restrito: Dossiê do Agente Sênior Robson Batista. Nível de segurança máximo exigido.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://oimaginista.com/rb">
+    <meta property="og:image" content="https://oimaginista.com/favicon/web-app-manifest-512x512.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="512">
+    <meta property="og:image:height" content="512">
+    
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;800;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
     
@@ -23,9 +38,14 @@
         * { margin: 0; padding: 0; box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
         img { -webkit-user-drag: none; user-drag: none; pointer-events: none; }
         
+        /* CORREÇÃO DO BUG MOBILE (OVERFLOW X) */
+        html, body {
+            max-width: 100%; overflow-x: hidden;
+        }
+
         body {
             font-family: 'Montserrat', sans-serif; background-color: var(--bg-body); color: var(--text-main);
-            overflow-x: hidden; position: relative; padding-bottom: 120px;
+            position: relative; padding-bottom: 120px;
             background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
             background-size: 30px 30px;
         }
@@ -55,7 +75,7 @@
         .radar { position: absolute; width: 600px; height: 600px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.05); animation: radarSpin 10s linear infinite; opacity: 0.3; pointer-events: none; }
         .radar::before { content: ''; position: absolute; top: 0; left: 50%; width: 1px; height: 50%; background: linear-gradient(to bottom, var(--gold), transparent); transform-origin: bottom center; }
         @keyframes radarSpin { 100% { transform: rotate(360deg); } }
-        .hero-content { text-align: center; z-index: 10; padding: 0 1rem; }
+        .hero-content { text-align: center; z-index: 10; padding: 0 1rem; width: 100%; max-width: 100%; overflow: hidden; }
         .mission-subtitle { font-family: 'Share Tech Mono', monospace; color: var(--gold); font-size: 1.2rem; letter-spacing: 4px; margin-bottom: 10px; text-transform: uppercase; }
         .main-title { font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 5rem; color: #fff; text-transform: uppercase; line-height: 1.1; letter-spacing: -2px; text-shadow: 0 10px 30px rgba(0,0,0,0.8); margin-bottom: 1rem; }
         .main-title span { color: var(--gold); }
@@ -83,18 +103,29 @@
         .section-title::after { content: ''; display: block; width: 60px; height: 3px; background: var(--gold); margin: 15px auto 0; }
         @media (max-width: 768px) { .section-title { font-size: 1.8rem; } }
 
-        /* DOSSIÊ COM NOVO EFEITO HUD NA FOTO */
+        /* DOSSIÊ COM EFEITOS DE HACKER/HUD */
         .dossier-card { background: var(--panel-bg); padding: 3rem; border: var(--border-tech); box-shadow: 0 20px 50px rgba(0,0,0,0.5); max-width: 900px; margin: -80px auto 4rem; position: relative; z-index: 20; border-left: 5px solid var(--gold); display: flex; gap: 30px; align-items: center; }
         .dossier-card::before { content: 'ARQUIVO Nº 007 - CLASSIFICADO'; position: absolute; top: -15px; left: 20px; background: var(--bg-body); color: var(--gold); font-family: 'Share Tech Mono'; padding: 0 10px; font-size: 0.9rem; }
         
         .agent-profile { flex: 0 0 220px; position: relative; border: 2px solid #333; padding: 10px; background: #000; overflow: hidden; }
-        .agent-profile img { width: 100%; height: auto; aspect-ratio: 3/4; object-fit: cover; filter: grayscale(80%) contrast(120%); border: 1px solid #222; }
         
-        /* Laser Scanner na Foto de Perfil */
+        /* NOVO: Efeito Glitch Profissional na Imagem */
+        .agent-profile img { 
+            width: 100%; height: auto; aspect-ratio: 3/4; object-fit: cover; 
+            filter: grayscale(80%) contrast(120%); border: 1px solid #222; 
+            animation: glitchEffect 4s infinite; /* Chama a animação */
+        }
+        
+        @keyframes glitchEffect {
+            0%, 94%, 98%, 100% { filter: grayscale(80%) contrast(120%) hue-rotate(0deg); transform: translate(0); }
+            95% { filter: grayscale(0%) contrast(200%) hue-rotate(90deg); transform: translate(-2px, 2px); }
+            96% { filter: grayscale(100%) contrast(150%) hue-rotate(-90deg); transform: translate(2px, -2px); }
+            97% { filter: grayscale(50%) contrast(180%) hue-rotate(180deg); transform: translate(-1px, 1px); }
+        }
+        
         .laser-scanner { position: absolute; top: 10px; left: 10px; width: calc(100% - 20px); height: 2px; background: var(--red-alert); box-shadow: 0 0 15px 3px rgba(198, 40, 40, 0.8); z-index: 10; animation: profileScan 3s ease-in-out infinite alternate; pointer-events: none; }
         @keyframes profileScan { 0% { top: 10px; opacity: 0.2; } 50% { opacity: 1;} 100% { top: calc(100% - 15px); opacity: 0.2;} }
         
-        /* Cantoneiras HUD estilo Reconhecimento Facial */
         .hud-corners { position: absolute; top: 10px; left: 10px; width: calc(100% - 20px); height: calc(100% - 20px); z-index: 5; pointer-events: none; }
         .hud-corners::before, .hud-corners::after { content: ''; position: absolute; width: 30px; height: 30px; border-color: var(--terminal-green); border-style: solid; opacity: 0.7; }
         .hud-corners::before { top: 0; left: 0; border-width: 3px 0 0 3px; }
@@ -119,7 +150,7 @@
         .swiper-pagination-bullet { background: #555; }
         .swiper-pagination-bullet-active { background: var(--gold); }
 
-        /* --- GRID INTELIGENTE --- */
+        /* GRID INTELIGENTE */
         .gallery-grid { display: flex; flex-wrap: wrap; gap: 15px; padding: 10px; justify-content: center; }
         .photo-card {
             background: #222; overflow: hidden; position: relative;
@@ -136,15 +167,27 @@
         .photo-card:hover img { filter: grayscale(0%); transform: scale(1.05); }
         @media (min-width: 768px) { .photo-card { flex: 1 1 calc(25% - 15px); max-width: 350px; } }
 
-        /* Botões do Banco de Dados */
-        .load-more-container { text-align: center; margin-top: 20px; display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
-        .btn-load-more, .btn-collapse { background: transparent; font-family: 'Share Tech Mono', monospace; padding: 10px 20px; cursor: pointer; font-size: 1rem; transition: all 0.3s; text-transform: uppercase; letter-spacing: 1px; }
+        /* Botões do Banco de Dados (NÃO QUEBRA LINHA NO MOBILE) */
+        .load-more-container { text-align: center; margin-top: 20px; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+        .btn-load-more, .btn-collapse { 
+            background: transparent; font-family: 'Share Tech Mono', monospace; 
+            padding: 10px 20px; cursor: pointer; font-size: 1rem; 
+            transition: all 0.3s; text-transform: uppercase; letter-spacing: 1px; 
+            white-space: nowrap; /* Trava em 1 linha */
+        }
         .btn-load-more { color: var(--terminal-green); border: 1px solid var(--terminal-green); }
         .btn-load-more:hover { background: rgba(0, 255, 65, 0.1); box-shadow: 0 0 15px rgba(0, 255, 65, 0.3); }
         .btn-collapse { color: var(--red-alert); border: 1px solid var(--red-alert); display: none; }
         .btn-collapse:hover { background: rgba(198, 40, 40, 0.1); box-shadow: 0 0 15px rgba(198, 40, 40, 0.3); }
 
-        /* --- LIGHTBOX AVANÇADO E PADRONIZADO (MESMO TAMANHO) --- */
+        /* Ajuste do botão Descriptografar para telas menores */
+        @media (max-width: 480px) {
+            .btn-load-more, .btn-collapse {
+                font-size: 0.85rem; padding: 10px 12px; letter-spacing: 0;
+            }
+        }
+
+        /* --- LIGHTBOX AVANÇADO E PADRONIZADO --- */
         .lightbox-modal {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.95); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
@@ -152,20 +195,11 @@
             opacity: 0; visibility: hidden; transition: opacity 0.3s ease;
         }
         .lightbox-modal.active { opacity: 1; visibility: visible; }
-        
         .lightbox-container { position: relative; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; }
+        .lightbox-content { position: relative; width: 95vw; max-width: 900px; height: 75vh; display: flex; justify-content: center; align-items: center; }
         
-        /* O "Quadro" (Container) que mantém todas as fotos do mesmo tamanho visual */
-        .lightbox-content { 
-            position: relative; width: 95vw; max-width: 900px; height: 75vh; 
-            display: flex; justify-content: center; align-items: center;
-        }
-        
-        /* A Foto se enquadra dentro do Quadro, preenchendo as sobras com fundo escuro */
         .lightbox-content img { 
-            width: 100%; height: 100%; 
-            object-fit: contain; /* Não corta a cabeça de ninguém, mas enquadra perfeitamente no container */
-            background: #0a0a0a; 
+            width: 100%; height: 100%; object-fit: contain; background: #0a0a0a; 
             border: 2px solid var(--gold); box-shadow: 0 0 50px rgba(212, 175, 55, 0.2); 
             border-radius: 4px; display: block; 
         }
@@ -428,7 +462,7 @@
             const icon = document.createElement('div');
             icon.classList.add('bg-icon');
             icon.innerText = chars[Math.floor(Math.random() * chars.length)];
-            icon.style.left = `${Math.random() * 100}vw`;
+            icon.style.left = `${Math.random() * 100}%`; /* Correção de 'vw' para '%' */
             icon.style.fontSize = `${Math.random() * 1 + 0.8}rem`;
             icon.style.animationDuration = `${Math.random() * 20 + 15}s`;
             icon.style.animationDelay = `${Math.random() * 15}s`;
