@@ -83,13 +83,26 @@
         .section-title::after { content: ''; display: block; width: 60px; height: 3px; background: var(--gold); margin: 15px auto 0; }
         @media (max-width: 768px) { .section-title { font-size: 1.8rem; } }
 
-        /* DOSSIÊ */
+        /* DOSSIÊ COM NOVO EFEITO HUD NA FOTO */
         .dossier-card { background: var(--panel-bg); padding: 3rem; border: var(--border-tech); box-shadow: 0 20px 50px rgba(0,0,0,0.5); max-width: 900px; margin: -80px auto 4rem; position: relative; z-index: 20; border-left: 5px solid var(--gold); display: flex; gap: 30px; align-items: center; }
         .dossier-card::before { content: 'ARQUIVO Nº 007 - CLASSIFICADO'; position: absolute; top: -15px; left: 20px; background: var(--bg-body); color: var(--gold); font-family: 'Share Tech Mono'; padding: 0 10px; font-size: 0.9rem; }
-        .agent-profile { flex: 0 0 220px; position: relative; border: 2px solid #333; padding: 10px; background: #000; }
+        
+        .agent-profile { flex: 0 0 220px; position: relative; border: 2px solid #333; padding: 10px; background: #000; overflow: hidden; }
         .agent-profile img { width: 100%; height: auto; aspect-ratio: 3/4; object-fit: cover; filter: grayscale(80%) contrast(120%); border: 1px solid #222; }
+        
+        /* Laser Scanner na Foto de Perfil */
+        .laser-scanner { position: absolute; top: 10px; left: 10px; width: calc(100% - 20px); height: 2px; background: var(--red-alert); box-shadow: 0 0 15px 3px rgba(198, 40, 40, 0.8); z-index: 10; animation: profileScan 3s ease-in-out infinite alternate; pointer-events: none; }
+        @keyframes profileScan { 0% { top: 10px; opacity: 0.2; } 50% { opacity: 1;} 100% { top: calc(100% - 15px); opacity: 0.2;} }
+        
+        /* Cantoneiras HUD estilo Reconhecimento Facial */
+        .hud-corners { position: absolute; top: 10px; left: 10px; width: calc(100% - 20px); height: calc(100% - 20px); z-index: 5; pointer-events: none; }
+        .hud-corners::before, .hud-corners::after { content: ''; position: absolute; width: 30px; height: 30px; border-color: var(--terminal-green); border-style: solid; opacity: 0.7; }
+        .hud-corners::before { top: 0; left: 0; border-width: 3px 0 0 3px; }
+        .hud-corners::after { bottom: 0; right: 0; border-width: 0 3px 3px 0; }
+
         .agent-id-tag { text-align: center; font-family: 'Share Tech Mono'; color: var(--gold); font-size: 1.1rem; margin-top: 10px; letter-spacing: 2px; }
         .agent-profile::after { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80px; height: 80px; background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="48" fill="none" stroke="red" stroke-width="2"/><path d="M50 0 L50 100 M0 50 L100 50" stroke="red" stroke-width="2"/></svg>') no-repeat center; opacity: 0.3; pointer-events: none; }
+        
         .message-content { flex: 1; }
         .message-text { font-size: 1.1rem; line-height: 1.8; color: #ccc; font-family: 'Montserrat', sans-serif; font-weight: 300; text-align: left; }
         .message-signature { margin-top: 2rem; font-family: 'Share Tech Mono', monospace; font-size: 1.2rem; color: var(--gold); text-transform: uppercase; text-align: right; font-weight: bold;}
@@ -106,13 +119,12 @@
         .swiper-pagination-bullet { background: #555; }
         .swiper-pagination-bullet-active { background: var(--gold); }
 
-        /* --- GRID INTELIGENTE (IMAGENS PADRONIZADAS) --- */
+        /* --- GRID INTELIGENTE --- */
         .gallery-grid { display: flex; flex-wrap: wrap; gap: 15px; padding: 10px; justify-content: center; }
         .photo-card {
             background: #222; overflow: hidden; position: relative;
             flex: 1 1 calc(50% - 15px); cursor: pointer; border: 1px solid #333;
             max-width: 400px; display: none; 
-            /* PADRONIZAÇÃO DO TAMANHO (PROPORÇÃO 16:9 PERFEITA) */
             aspect-ratio: 16 / 9;
         }
         .photo-card.visible { display: block; animation: fadeIn 0.5s ease forwards; }
@@ -120,25 +132,19 @@
         
         .photo-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 255, 65, 0.1); z-index: 2; pointer-events: none; transition: opacity 0.3s; }
         .photo-card:hover::before { opacity: 0; }
-        /* OBJECT-FIT GARANTE QUE NÃO ESTIQUE, APENAS ENQUADRE */
         .photo-card img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(100%); transition: 0.5s ease; }
         .photo-card:hover img { filter: grayscale(0%); transform: scale(1.05); }
         @media (min-width: 768px) { .photo-card { flex: 1 1 calc(25% - 15px); max-width: 350px; } }
 
         /* Botões do Banco de Dados */
         .load-more-container { text-align: center; margin-top: 20px; display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
-        .btn-load-more, .btn-collapse {
-            background: transparent; font-family: 'Share Tech Mono', monospace;
-            padding: 10px 20px; cursor: pointer; font-size: 1rem;
-            transition: all 0.3s; text-transform: uppercase; letter-spacing: 1px;
-        }
+        .btn-load-more, .btn-collapse { background: transparent; font-family: 'Share Tech Mono', monospace; padding: 10px 20px; cursor: pointer; font-size: 1rem; transition: all 0.3s; text-transform: uppercase; letter-spacing: 1px; }
         .btn-load-more { color: var(--terminal-green); border: 1px solid var(--terminal-green); }
         .btn-load-more:hover { background: rgba(0, 255, 65, 0.1); box-shadow: 0 0 15px rgba(0, 255, 65, 0.3); }
-        
         .btn-collapse { color: var(--red-alert); border: 1px solid var(--red-alert); display: none; }
         .btn-collapse:hover { background: rgba(198, 40, 40, 0.1); box-shadow: 0 0 15px rgba(198, 40, 40, 0.3); }
 
-        /* --- LIGHTBOX AVANÇADO --- */
+        /* --- LIGHTBOX AVANÇADO E PADRONIZADO (MESMO TAMANHO) --- */
         .lightbox-modal {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.95); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
@@ -146,9 +152,23 @@
             opacity: 0; visibility: hidden; transition: opacity 0.3s ease;
         }
         .lightbox-modal.active { opacity: 1; visibility: visible; }
+        
         .lightbox-container { position: relative; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; }
-        .lightbox-content { position: relative; max-width: 90vw; max-height: 85vh; display: inline-block; }
-        .lightbox-content img { max-width: 100%; max-height: 85vh; border: 2px solid var(--gold); box-shadow: 0 0 50px rgba(212, 175, 55, 0.2); border-radius: 4px; display: block; }
+        
+        /* O "Quadro" (Container) que mantém todas as fotos do mesmo tamanho visual */
+        .lightbox-content { 
+            position: relative; width: 95vw; max-width: 900px; height: 75vh; 
+            display: flex; justify-content: center; align-items: center;
+        }
+        
+        /* A Foto se enquadra dentro do Quadro, preenchendo as sobras com fundo escuro */
+        .lightbox-content img { 
+            width: 100%; height: 100%; 
+            object-fit: contain; /* Não corta a cabeça de ninguém, mas enquadra perfeitamente no container */
+            background: #0a0a0a; 
+            border: 2px solid var(--gold); box-shadow: 0 0 50px rgba(212, 175, 55, 0.2); 
+            border-radius: 4px; display: block; 
+        }
         
         .lightbox-close {
             position: absolute; top: -15px; right: -15px; color: #fff; font-family: 'Montserrat', sans-serif;
@@ -159,14 +179,13 @@
         }
         .lightbox-close:active { transform: translate(2px, 2px); }
 
-        .lightbox-nav {
-            position: absolute; top: 50%; transform: translateY(-50%); background: #000; border: 2px solid var(--gold); color: var(--gold); width: 40px; height: 40px; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: 0.3s; z-index: 20001; font-size: 1.5rem;
-        }
+        .lightbox-nav { position: absolute; top: 50%; transform: translateY(-50%); background: #000; border: 2px solid var(--gold); color: var(--gold); width: 40px; height: 40px; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: 0.3s; z-index: 20001; font-size: 1.5rem; }
         .lightbox-nav:hover { background: var(--gold); color: #000; }
         .lightbox-nav.prev { left: -20px; }
         .lightbox-nav.next { right: -20px; }
         
         @media (max-width: 768px) {
+            .lightbox-content { width: 90vw; height: 60vh; }
             .lightbox-nav { width: 35px; height: 35px; font-size: 1.2rem; }
             .lightbox-nav.prev { left: -10px; }
             .lightbox-nav.next { right: -10px; }
@@ -184,15 +203,7 @@
 
         /* PRESENTE FINAL */
         .final-gift-wrapper { text-align: center; margin: 3rem 1rem 2rem; perspective: 1000px; }
-        .btn-vault {
-            background: linear-gradient(145deg, #1a1a1a, #0a0a0a); color: var(--gold);
-            font-family: 'Share Tech Mono', monospace; font-size: 1.2rem; font-weight: bold;
-            padding: 15px 25px; border: 2px solid var(--gold); border-radius: 8px;
-            cursor: pointer; text-transform: uppercase; letter-spacing: 2px;
-            box-shadow: 0 8px 0px #8a7020, 0 15px 20px rgba(0,0,0,0.8);
-            transition: all 0.2s; white-space: nowrap; animation: floatVault 3s ease-in-out infinite alternate;
-            display: inline-flex; align-items: center; justify-content: center;
-        }
+        .btn-vault { background: linear-gradient(145deg, #1a1a1a, #0a0a0a); color: var(--gold); font-family: 'Share Tech Mono', monospace; font-size: 1.2rem; font-weight: bold; padding: 15px 25px; border: 2px solid var(--gold); border-radius: 8px; cursor: pointer; text-transform: uppercase; letter-spacing: 2px; box-shadow: 0 8px 0px #8a7020, 0 15px 20px rgba(0,0,0,0.8); transition: all 0.2s; white-space: nowrap; animation: floatVault 3s ease-in-out infinite alternate; display: inline-flex; align-items: center; justify-content: center; }
         @media (max-width: 400px) { .btn-vault { font-size: 0.95rem; padding: 12px 15px; letter-spacing: 1px; } }
         @keyframes floatVault { 0% { transform: translateY(0); } 100% { transform: translateY(-8px); } }
         .btn-vault::before { content: '🔓'; margin-right: 10px; font-size: 1.3rem; }
@@ -265,6 +276,8 @@
 
         <div class="dossier-card" data-aos="fade-up" data-aos-duration="1000">
             <div class="agent-profile">
+                <div class="laser-scanner"></div>
+                <div class="hud-corners"></div>
                 <img src="imagens/perfil.webp" alt="Foto do Agente">
                 <div class="agent-id-tag">ID: 007-RB54</div>
             </div>
@@ -369,10 +382,9 @@
         let currentImageIndex = 0; 
         
         const totalImages = 37; 
-        const imagesPerLoad = 9; // Mostra 9 por vez
+        const imagesPerLoad = 9; 
         let currentlyShown = 0; 
 
-        // Gera o HTML invisível
         for(let i = 6; i <= 42; i++) {
             let imgSrc = `imagens/img (${i}).webp`;
             galleryImages.push(imgSrc); 
@@ -380,7 +392,6 @@
             galleryGrid.innerHTML += `<div class="photo-card" id="card-${arrayIndex}" onclick="openLightbox(${arrayIndex})"><img src="${imgSrc}" alt="Registro ${i}" loading="lazy"></div>`;
         }
 
-        // Função para mostrar mais
         function loadMoreImages() {
             let limit = currentlyShown + imagesPerLoad;
             if (limit > galleryImages.length) { limit = galleryImages.length; }
@@ -391,31 +402,23 @@
             }
             currentlyShown = limit;
 
-            // Se mostrou todas, esconde o "Mais" e mostra o "Ocultar"
             if (currentlyShown >= galleryImages.length) {
                 loadMoreBtn.style.display = 'none';
                 collapseBtn.style.display = 'inline-block';
             }
         }
 
-        // Função para ocultar arquivos (volta pro padrão)
         function collapseImages() {
-            // Remove a classe 'visible' das imagens a partir da 10ª (index 9)
             for (let i = imagesPerLoad; i < galleryImages.length; i++) {
                 let card = document.getElementById(`card-${i}`);
                 if(card) { card.classList.remove('visible'); }
             }
             currentlyShown = imagesPerLoad;
-
-            // Inverte os botões
             collapseBtn.style.display = 'none';
             loadMoreBtn.style.display = 'inline-block';
-
-            // Rola suavemente a tela de volta para o topo da galeria (UX)
             document.getElementById('banco-de-dados').scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
-        // Chama a primeira vez para carregar as primeiras 9
         loadMoreImages();
 
         // --- FUNDO BINÁRIO ---
@@ -501,16 +504,9 @@
             }, 150);
         }
 
-        // Evita fechar ao clicar na imagem ou nos botões de navegação
-        document.querySelector('.lightbox-content').addEventListener('click', function(e) {
-            e.stopPropagation(); 
-        });
-        // Fecha ao clicar fora da área da imagem
-        document.querySelector('.lightbox-container').addEventListener('click', function() {
-            closeLightbox();
-        });
+        document.querySelector('.lightbox-content').addEventListener('click', function(e) { e.stopPropagation(); });
+        document.querySelector('.lightbox-container').addEventListener('click', function() { closeLightbox(); });
 
-        // Teclado
         document.addEventListener('keydown', function(e) {
             if(lightboxModal.classList.contains('active')) {
                 if(e.key === 'ArrowLeft') changeImage(-1);
@@ -543,12 +539,10 @@
             document.body.style.overflow = 'auto';
         }
 
-        // Confetes Básicos Iniciais (FAB)
         function triggerConfettiForce() {
             confetti({ particleCount: 100, spread: 70, origin: { y: 0.8 }, colors: ['#D4AF37', '#C62828', '#FFFFFF'] });
         }
 
-        // Explosão no Logo O Imaginista
         function triggerLogoExplosion(element) {
             const rect = element.getBoundingClientRect();
             confetti({
