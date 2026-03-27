@@ -38,9 +38,9 @@
         * { margin: 0; padding: 0; box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
         img { -webkit-user-drag: none; user-drag: none; pointer-events: none; }
         
-        /* CORREÇÃO DO BUG MOBILE (OVERFLOW X) */
+        /* CORREÇÃO DEFINITIVA DO BUG MOBILE (OVERFLOW) */
         html, body {
-            max-width: 100%; overflow-x: hidden;
+            width: 100%; max-width: 100vw; overflow-x: hidden !important;
         }
 
         body {
@@ -48,6 +48,11 @@
             position: relative; padding-bottom: 120px;
             background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
             background-size: 30px 30px;
+        }
+
+        /* WRAPPER PARA PROTEGER O AOS DE CAUSAR ROLAGEM */
+        .main-wrapper {
+            width: 100%; overflow-x: hidden; position: relative;
         }
 
         /* --- FUNDO ANIMADO --- */
@@ -103,24 +108,24 @@
         .section-title::after { content: ''; display: block; width: 60px; height: 3px; background: var(--gold); margin: 15px auto 0; }
         @media (max-width: 768px) { .section-title { font-size: 1.8rem; } }
 
-        /* DOSSIÊ COM EFEITOS DE HACKER/HUD */
+        /* DOSSIÊ COM EFEITO HUD E NOVO GLITCH SUPREMO */
         .dossier-card { background: var(--panel-bg); padding: 3rem; border: var(--border-tech); box-shadow: 0 20px 50px rgba(0,0,0,0.5); max-width: 900px; margin: -80px auto 4rem; position: relative; z-index: 20; border-left: 5px solid var(--gold); display: flex; gap: 30px; align-items: center; }
         .dossier-card::before { content: 'ARQUIVO Nº 007 - CLASSIFICADO'; position: absolute; top: -15px; left: 20px; background: var(--bg-body); color: var(--gold); font-family: 'Share Tech Mono'; padding: 0 10px; font-size: 0.9rem; }
         
         .agent-profile { flex: 0 0 220px; position: relative; border: 2px solid #333; padding: 10px; background: #000; overflow: hidden; }
         
-        /* NOVO: Efeito Glitch Profissional na Imagem */
+        /* Efeito Hacker Glitch Extremo na Imagem */
         .agent-profile img { 
             width: 100%; height: auto; aspect-ratio: 3/4; object-fit: cover; 
             filter: grayscale(80%) contrast(120%); border: 1px solid #222; 
-            animation: glitchEffect 4s infinite; /* Chama a animação */
+            animation: glitchHacker 4s infinite; 
         }
         
-        @keyframes glitchEffect {
-            0%, 94%, 98%, 100% { filter: grayscale(80%) contrast(120%) hue-rotate(0deg); transform: translate(0); }
-            95% { filter: grayscale(0%) contrast(200%) hue-rotate(90deg); transform: translate(-2px, 2px); }
-            96% { filter: grayscale(100%) contrast(150%) hue-rotate(-90deg); transform: translate(2px, -2px); }
-            97% { filter: grayscale(50%) contrast(180%) hue-rotate(180deg); transform: translate(-1px, 1px); }
+        @keyframes glitchHacker {
+            0%, 90%, 98%, 100% { filter: grayscale(80%) contrast(120%) hue-rotate(0deg); transform: translate(0) skew(0deg); opacity: 1; }
+            92% { filter: grayscale(0%) contrast(250%) hue-rotate(90deg) invert(100%); transform: translate(-4px, 3px) skew(10deg); opacity: 0.8; }
+            94% { filter: grayscale(100%) contrast(150%) hue-rotate(-90deg); transform: translate(4px, -3px) skew(-10deg); opacity: 0.9; }
+            96% { filter: grayscale(50%) contrast(180%) sepia(100%); transform: translate(-2px, 2px) skew(2deg); opacity: 0.8; }
         }
         
         .laser-scanner { position: absolute; top: 10px; left: 10px; width: calc(100% - 20px); height: 2px; background: var(--red-alert); box-shadow: 0 0 15px 3px rgba(198, 40, 40, 0.8); z-index: 10; animation: profileScan 3s ease-in-out infinite alternate; pointer-events: none; }
@@ -167,27 +172,28 @@
         .photo-card:hover img { filter: grayscale(0%); transform: scale(1.05); }
         @media (min-width: 768px) { .photo-card { flex: 1 1 calc(25% - 15px); max-width: 350px; } }
 
-        /* Botões do Banco de Dados (NÃO QUEBRA LINHA NO MOBILE) */
+        /* Botões do Banco de Dados (OTIMIZADO MOBILE) */
         .load-more-container { text-align: center; margin-top: 20px; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
         .btn-load-more, .btn-collapse { 
             background: transparent; font-family: 'Share Tech Mono', monospace; 
             padding: 10px 20px; cursor: pointer; font-size: 1rem; 
             transition: all 0.3s; text-transform: uppercase; letter-spacing: 1px; 
-            white-space: nowrap; /* Trava em 1 linha */
+            white-space: nowrap; max-width: 100%;
         }
         .btn-load-more { color: var(--terminal-green); border: 1px solid var(--terminal-green); }
         .btn-load-more:hover { background: rgba(0, 255, 65, 0.1); box-shadow: 0 0 15px rgba(0, 255, 65, 0.3); }
         .btn-collapse { color: var(--red-alert); border: 1px solid var(--red-alert); display: none; }
         .btn-collapse:hover { background: rgba(198, 40, 40, 0.1); box-shadow: 0 0 15px rgba(198, 40, 40, 0.3); }
 
-        /* Ajuste do botão Descriptografar para telas menores */
+        /* Ajuste do texto no celular (Uso de VW para escalar o texto e não quebrar linha) */
         @media (max-width: 480px) {
             .btn-load-more, .btn-collapse {
-                font-size: 0.85rem; padding: 10px 12px; letter-spacing: 0;
+                font-size: 3.5vw; /* Fica do tamanho exato da tela */
+                padding: 10px 5px; letter-spacing: 0;
             }
         }
 
-        /* --- LIGHTBOX AVANÇADO E PADRONIZADO --- */
+        /* --- LIGHTBOX AVANÇADO --- */
         .lightbox-modal {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.95); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
@@ -266,108 +272,118 @@
 </head>
 <body oncontextmenu="return false">
 
-    <div id="intro-gate">
-        <div class="scanner-line"></div>
-        <div class="top-secret-stamp">CLASSIFIED</div>
-        <h1>SISTEMA RESTRITO</h1>
-        <p style="color: #888; font-family: 'Share Tech Mono'; margin-bottom: 30px; letter-spacing: 2px;">IDENTIFICAÇÃO NECESSÁRIA</p>
-        <button class="intro-btn" id="openGateBtn">AUTENTICAR ACESSO</button>
-    </div>
+    <div class="main-wrapper">
 
-    <div class="music-player-fixed">
-        <div class="player-inner">
-            <button class="vol-btn" onclick="changeVolume(-0.1)"><span class="material-icons-round">volume_down</span></button>
-            <button class="btn-play" id="playPauseBtn" onclick="togglePlay()"><span class="material-icons-round" id="playIcon">play_arrow</span></button>
-            <div class="track-display">
-                <div class="track-marquee">
-                    📡 TRANSMISSÃO SECRETA: TRILHA SONORA OFICIAL DA MISSÃO ANIVERSÁRIO 📡 &nbsp;&nbsp;&nbsp;&nbsp;
+        <div id="intro-gate">
+            <div class="scanner-line"></div>
+            <div class="top-secret-stamp">CLASSIFIED</div>
+            <h1>SISTEMA RESTRITO</h1>
+            <p style="color: #888; font-family: 'Share Tech Mono'; margin-bottom: 30px; letter-spacing: 2px;">IDENTIFICAÇÃO NECESSÁRIA</p>
+            <button class="intro-btn" id="openGateBtn">AUTENTICAR ACESSO</button>
+        </div>
+
+        <div class="music-player-fixed">
+            <div class="player-inner">
+                <button class="vol-btn" onclick="changeVolume(-0.1)"><span class="material-icons-round">volume_down</span></button>
+                <button class="btn-play" id="playPauseBtn" onclick="togglePlay()"><span class="material-icons-round" id="playIcon">play_arrow</span></button>
+                <div class="track-display">
+                    <div class="track-marquee">
+                        📡 TRANSMISSÃO SECRETA: TRILHA SONORA OFICIAL DA MISSÃO ANIVERSÁRIO 📡 &nbsp;&nbsp;&nbsp;&nbsp;
+                    </div>
+                </div>
+                <button class="vol-btn" onclick="changeVolume(0.1)"><span class="material-icons-round">volume_up</span></button>
+            </div>
+        </div>
+
+        <audio id="bgMusic" loop>
+            <source src="song/musica.mp3" type="audio/mp3">
+        </audio>
+
+        <div class="bg-floating-icons" id="bgIcons"></div>
+
+        <section class="hero-banner">
+            <div class="radar"></div>
+            <div class="hero-content">
+                <div class="mission-subtitle animate__animated animate__fadeInDown">Operação Aniversário</div>
+                <h1 class="main-title animate__animated animate__zoomIn animate__delay-1s">
+                    AGENTE <br><span>ROBSON BATISTA</span>
+                </h1>
+                <div class="age-badge animate__animated animate__fadeInUp animate__delay-2s">
+                    NÍVEL DE EXPERIÊNCIA: 54
                 </div>
             </div>
-            <button class="vol-btn" onclick="changeVolume(0.1)"><span class="material-icons-round">volume_up</span></button>
-        </div>
-    </div>
+        </section>
 
-    <audio id="bgMusic" loop>
-        <source src="song/musica.mp3" type="audio/mp3">
-    </audio>
+        <div class="container">
 
-    <div class="bg-floating-icons" id="bgIcons"></div>
-
-    <section class="hero-banner">
-        <div class="radar"></div>
-        <div class="hero-content">
-            <div class="mission-subtitle animate__animated animate__fadeInDown">Operação Aniversário</div>
-            <h1 class="main-title animate__animated animate__zoomIn animate__delay-1s">
-                AGENTE <br><span>ROBSON BATISTA</span>
-            </h1>
-            <div class="age-badge animate__animated animate__fadeInUp animate__delay-2s">
-                NÍVEL DE EXPERIÊNCIA: 54
+            <div class="dossier-card" data-aos="fade-up" data-aos-duration="1000">
+                <div class="agent-profile">
+                    <div class="laser-scanner"></div>
+                    <div class="hud-corners"></div>
+                    <img src="imagens/perfil.webp" alt="Foto do Agente">
+                    <div class="agent-id-tag">ID: 007-RB54</div>
+                </div>
+                <div class="message-content">
+                    <p class="message-text">
+                        <strong>ATENÇÃO OPERATIVO.</strong><br><br>
+                        O Comando Central relata que o alvo principal alcançou o cobiçado Nível 54. Seu histórico impressiona a inteligência: 54 anos de resiliência inabalável, estratégias geniais para superar obstáculos diários e um escudo protetor intransponível para a família.<br><br>
+                        Nesta data, suspendemos todas as operações táticas de campo. Sua missão primária para as próximas 24 horas é celebrar. Autorização concedida para consumir bolo, brindar com o esquadrão e desfrutar do sucesso da sua trajetória.<br><br>
+                        Continue sendo nossa maior inspiração e referência de força. Câmbio e desligo.
+                    </p>
+                    <p class="message-signature">Comando Central JUNIOR</p>
+                </div>
             </div>
-        </div>
-    </section>
 
-    <div class="container">
-
-        <div class="dossier-card" data-aos="fade-up" data-aos-duration="1000">
-            <div class="agent-profile">
-                <div class="laser-scanner"></div>
-                <div class="hud-corners"></div>
-                <img src="imagens/perfil.webp" alt="Foto do Agente">
-                <div class="agent-id-tag">ID: 007-RB54</div>
+            <div class="section-header" data-aos="fade-up">
+                <h2 class="section-title">Registros de Campo</h2>
             </div>
-            <div class="message-content">
-                <p class="message-text">
-                    <strong>ATENÇÃO OPERATIVO.</strong><br><br>
-                    O Comando Central relata que o alvo principal alcançou o cobiçado Nível 54. Seu histórico impressiona a inteligência: 54 anos de resiliência inabalável, estratégias geniais para superar obstáculos diários e um escudo protetor intransponível para a família.<br><br>
-                    Nesta data, suspendemos todas as operações táticas de campo. Sua missão primária para as próximas 24 horas é celebrar. Autorização concedida para consumir bolo, brindar com o esquadrão e desfrutar do sucesso da sua trajetória.<br><br>
-                    Continue sendo nossa maior inspiração e referência de força. Câmbio e desligo.
-                </p>
-                <p class="message-signature">Comando Central JUNIOR</p>
+            <div class="swiper-container-wrapper" data-aos="zoom-in-up" data-aos-duration="1000">
+                <div class="swiper mySwiper">
+                    <div class="swiper-wrapper" id="swiper-wrapper-id"></div>
+                    <div class="swiper-pagination"></div>
+                </div>
             </div>
+            
+            <div class="section-header" data-aos="fade-up" id="banco-de-dados">
+                 <h2 class="section-title">Banco de Dados Geral</h2>
+                 <p style="margin-top:10px; color: var(--terminal-green); font-family: 'Share Tech Mono';">STATUS: REGISTROS DESCRIPTOGRAFADOS. (CLIQUE PARA AMPLIAR)</p>
+            </div>
+            
+            <div class="gallery-grid" id="gallery-grid-id">
+                </div>
+            
+            <div class="load-more-container">
+                <button class="btn-load-more" id="btnLoadMore" onclick="loadMoreImages()">[ DESCRIPTOGRAFAR MAIS ARQUIVOS ]</button>
+                <button class="btn-collapse" id="btnCollapse" onclick="collapseImages()">[ OCULTAR ARQUIVOS ]</button>
+            </div>
+
+            <div class="section-header" data-aos="fade-up">
+                <h2 class="section-title">Cápsula do Tempo</h2>
+           </div>
+            <div class="video-section">
+                <div class="video-frame" data-aos="fade-right" data-aos-duration="1200">
+                    <video src="movie/movie-1.mp4" controls playsinline></video>
+                </div>
+                <div class="video-frame" data-aos="fade-left" data-aos-duration="1200" data-aos-delay="200">
+                    <video src="movie/movie-2.mp4" controls playsinline></video>
+                </div>
+            </div>
+
+            <div class="final-gift-wrapper" data-aos="zoom-in">
+                <button class="btn-vault" onclick="openGift()">Acessar Recompensa</button>
+            </div>
+
         </div>
 
-        <div class="section-header" data-aos="fade-up">
-            <h2 class="section-title">Registros de Campo</h2>
-        </div>
-        <div class="swiper-container-wrapper" data-aos="zoom-in-up" data-aos-duration="1000">
-            <div class="swiper mySwiper">
-                <div class="swiper-wrapper" id="swiper-wrapper-id"></div>
-                <div class="swiper-pagination"></div>
+        <footer>
+            <img src="imagens/logo.png" class="footer-logo" onclick="triggerLogoExplosion(this)" alt="O Imaginista">
+            <div class="footer-credit">
+                <p>DIVISÃO DE INTELIGÊNCIA VIRTUAL - O IMAGINISTA</p>
+                <p style="margin-top: 5px; opacity: 0.5;">© 2026 CODIFICAÇÃO PROTEGIDA</p>
             </div>
-        </div>
-        
-        <div class="section-header" data-aos="fade-up" id="banco-de-dados">
-             <h2 class="section-title">Banco de Dados Geral</h2>
-             <p style="margin-top:10px; color: var(--terminal-green); font-family: 'Share Tech Mono';">STATUS: REGISTROS DESCRIPTOGRAFADOS. (CLIQUE PARA AMPLIAR)</p>
-        </div>
-        
-        <div class="gallery-grid" id="gallery-grid-id">
-            </div>
-        
-        <div class="load-more-container">
-            <button class="btn-load-more" id="btnLoadMore" onclick="loadMoreImages()">[ DESCRIPTOGRAFAR MAIS ARQUIVOS ]</button>
-            <button class="btn-collapse" id="btnCollapse" onclick="collapseImages()">[ OCULTAR ARQUIVOS ]</button>
-        </div>
+        </footer>
 
-        <div class="section-header" data-aos="fade-up">
-            <h2 class="section-title">Cápsula do Tempo</h2>
-       </div>
-        <div class="video-section">
-            <div class="video-frame" data-aos="fade-right" data-aos-duration="1200">
-                <video src="movie/movie-1.mp4" controls playsinline></video>
-            </div>
-            <div class="video-frame" data-aos="fade-left" data-aos-duration="1200" data-aos-delay="200">
-                <video src="movie/movie-2.mp4" controls playsinline></video>
-            </div>
-        </div>
-
-        <div class="final-gift-wrapper" data-aos="zoom-in">
-            <button class="btn-vault" onclick="openGift()">Acessar Recompensa</button>
-        </div>
-
-    </div>
-
-    <div class="lightbox-modal" id="lightboxModal">
+    </div> <div class="lightbox-modal" id="lightboxModal">
         <div class="lightbox-container">
             <div class="lightbox-content">
                 <div class="lightbox-close" onclick="closeLightbox()">X</div>
@@ -384,14 +400,6 @@
         <p>Memórias descriptografadas com sucesso. Que o próximo ciclo gere arquivos ainda mais inesquecíveis.</p>
         <button class="close-gift-btn" onclick="closeGift()">Encerrar Transmissão</button>
     </div>
-
-    <footer>
-        <img src="imagens/logo.png" class="footer-logo" onclick="triggerLogoExplosion(this)" alt="O Imaginista">
-        <div class="footer-credit">
-            <p>DIVISÃO DE INTELIGÊNCIA VIRTUAL - O IMAGINISTA</p>
-            <p style="margin-top: 5px; opacity: 0.5;">© 2026 CODIFICAÇÃO PROTEGIDA</p>
-        </div>
-    </footer>
 
     <button class="fab-btn" onclick="triggerConfettiForce()" title="Disparar Confetes">🎯</button>
 
@@ -462,7 +470,7 @@
             const icon = document.createElement('div');
             icon.classList.add('bg-icon');
             icon.innerText = chars[Math.floor(Math.random() * chars.length)];
-            icon.style.left = `${Math.random() * 100}%`; /* Correção de 'vw' para '%' */
+            icon.style.left = `${Math.random() * 95}vw`; /* Travado em 95 para evitar transbordar a tela */
             icon.style.fontSize = `${Math.random() * 1 + 0.8}rem`;
             icon.style.animationDuration = `${Math.random() * 20 + 15}s`;
             icon.style.animationDelay = `${Math.random() * 15}s`;
