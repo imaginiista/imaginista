@@ -38,22 +38,43 @@
         * { margin: 0; padding: 0; box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
         img { -webkit-user-drag: none; user-drag: none; pointer-events: none; }
         
-        /* CORREÇÃO DEFINITIVA DO BUG MOBILE (OVERFLOW) */
-        html, body {
-            width: 100%; max-width: 100vw; overflow-x: hidden !important;
-        }
+        html, body { width: 100%; max-width: 100vw; overflow-x: hidden !important; }
 
+        /* MIRA TÁTICA NO MOUSE (MIRA VERMELHA) */
         body {
             font-family: 'Montserrat', sans-serif; background-color: var(--bg-body); color: var(--text-main);
-            position: relative; padding-bottom: 120px;
+            position: relative; padding-bottom: 120px; 
+            cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='3' fill='%23ff0000'/%3E%3Ccircle cx='16' cy='16' r='14' fill='none' stroke='%23ff0000' stroke-width='1.5' opacity='0.8'/%3E%3Cline x1='16' y1='0' x2='16' y2='32' stroke='%23ff0000' stroke-width='1.5' opacity='0.8'/%3E%3Cline x1='0' y1='16' x2='32' y2='16' stroke='%23ff0000' stroke-width='1.5' opacity='0.8'/%3E%3C/svg%3E") 16 16, crosshair;
             background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
             background-size: 30px 30px;
         }
-
-        /* WRAPPER PARA PROTEGER O AOS DE CAUSAR ROLAGEM */
-        .main-wrapper {
-            width: 100%; overflow-x: hidden; position: relative;
+        
+        /* MIRA VERDE EM BOTÕES (ALVO TRAVADO) */
+        button, .photo-card, .swiper-slide, .lightbox-close, .lightbox-nav, .footer-logo { 
+            cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='3' fill='%2300ff41'/%3E%3Ccircle cx='16' cy='16' r='14' fill='none' stroke='%2300ff41' stroke-width='1.5' opacity='0.9'/%3E%3Cline x1='16' y1='0' x2='16' y2='32' stroke='%2300ff41' stroke-width='1.5' opacity='0.9'/%3E%3Cline x1='0' y1='16' x2='32' y2='16' stroke='%2300ff41' stroke-width='1.5' opacity='0.9'/%3E%3C/svg%3E") 16 16, pointer; 
         }
+
+        /* --- SISTEMA DE TIROS (BURACOS DE BALA MAIORES) --- */
+        .bullet-hole {
+            position: absolute; width: 30px; height: 30px;
+            background: radial-gradient(circle at center, #000 20%, #222 50%, transparent 100%);
+            border-radius: 50%; z-index: 9999; pointer-events: none; transform: translate(-50%, -50%);
+            box-shadow: inset 0 0 8px rgba(0,0,0,0.9), 0 0 3px rgba(255,255,255,0.3);
+            opacity: 1; transition: opacity 0.5s ease-out;
+        }
+        .bullet-hole::after {
+            content: ''; position: absolute; top: -15px; left: -15px; right: -15px; bottom: -15px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50 50 L20 20 M50 50 L80 10 M50 50 L90 60 M50 50 L60 90 M50 50 L10 70 M50 50 L30 80" stroke="rgba(255,255,255,0.25)" stroke-width="1.5" fill="none"/></svg>');
+            pointer-events: none; opacity: 0.8;
+        }
+        .muzzle-flash {
+            position: absolute; width: 50px; height: 50px; background: radial-gradient(circle, #ffeb3b 0%, #ff5722 40%, transparent 80%);
+            border-radius: 50%; z-index: 10000; pointer-events: none; transform: translate(-50%, -50%) scale(1);
+            animation: flashAnim 0.1s ease-out forwards;
+        }
+        @keyframes flashAnim { 100% { transform: translate(-50%, -50%) scale(2); opacity: 0; } }
+
+        .main-wrapper { width: 100%; overflow-x: hidden; position: relative; }
 
         /* --- FUNDO ANIMADO --- */
         .bg-floating-icons { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; overflow: hidden; }
@@ -61,11 +82,7 @@
         @keyframes floatUp { 0% { transform: translateY(0); opacity: 0; } 10% { opacity: 0.2; } 90% { opacity: 0.2; } 100% { transform: translateY(-110vh); opacity: 0; } }
 
         /* --- INTRO --- */
-        #intro-gate {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 10000; 
-            display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
-            padding: 20px; transition: opacity 1s ease, visibility 1s ease;
-        }
+        #intro-gate { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 10000; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 20px; transition: opacity 1s ease, visibility 1s ease; }
         #intro-gate.gate-open { opacity: 0; visibility: hidden; }
         .scanner-line { position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: var(--red-alert); box-shadow: 0 0 15px 3px rgba(198, 40, 40, 0.8); animation: scanScreen 3s infinite linear alternate; z-index: 10001; opacity: 0.6; pointer-events: none; }
         @keyframes scanScreen { 0% { top: 0; } 100% { top: 100%; } }
@@ -94,9 +111,9 @@
         .track-display { flex: 1; background: #000; border-radius: 4px; padding: 10px; overflow: hidden; position: relative; border: 1px solid #333; }
         .track-marquee { white-space: nowrap; display: inline-block; font-family: 'Share Tech Mono', monospace; color: var(--terminal-green); font-size: 0.85rem; animation: scrollLeft 15s linear infinite; text-transform: uppercase; }
         @keyframes scrollLeft { from { transform: translateX(100%); } to { transform: translateX(-100%); } }
-        .vol-btn { background: #1a1a1a; border: 1px solid #333; color: var(--text-muted); width: 40px; height: 40px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
+        .vol-btn { background: #1a1a1a; border: 1px solid #333; color: var(--text-muted); width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
         .vol-btn:active { transform: scale(0.9); background: var(--gold); color: #000; }
-        .btn-play { width: 55px; height: 55px; background: var(--gold); border: none; border-radius: 50%; color: black; box-shadow: 0 0 15px rgba(212, 175, 55, 0.4); display: flex; justify-content: center; align-items: center; cursor: pointer; transition: 0.2s; }
+        .btn-play { width: 55px; height: 55px; background: var(--gold); border: none; border-radius: 50%; color: black; box-shadow: 0 0 15px rgba(212, 175, 55, 0.4); display: flex; justify-content: center; align-items: center; transition: 0.2s; }
         .btn-play:active { transform: scale(0.9); }
         .material-icons-round { font-size: 26px; }
         @media (max-width: 768px) { .player-inner { gap: 5px; } .vol-btn { width: 35px; height: 35px; } .btn-play { width: 45px; height: 45px; } .track-marquee { font-size: 0.75rem; } }
@@ -108,18 +125,12 @@
         .section-title::after { content: ''; display: block; width: 60px; height: 3px; background: var(--gold); margin: 15px auto 0; }
         @media (max-width: 768px) { .section-title { font-size: 1.8rem; } }
 
-        /* DOSSIÊ COM EFEITO HUD E NOVO GLITCH SUPREMO */
+        /* DOSSIÊ COM EFEITO HUD E GLITCH HACKER */
         .dossier-card { background: var(--panel-bg); padding: 3rem; border: var(--border-tech); box-shadow: 0 20px 50px rgba(0,0,0,0.5); max-width: 900px; margin: -80px auto 4rem; position: relative; z-index: 20; border-left: 5px solid var(--gold); display: flex; gap: 30px; align-items: center; }
         .dossier-card::before { content: 'ARQUIVO Nº 007 - CLASSIFICADO'; position: absolute; top: -15px; left: 20px; background: var(--bg-body); color: var(--gold); font-family: 'Share Tech Mono'; padding: 0 10px; font-size: 0.9rem; }
         
         .agent-profile { flex: 0 0 220px; position: relative; border: 2px solid #333; padding: 10px; background: #000; overflow: hidden; }
-        
-        /* Efeito Hacker Glitch Extremo na Imagem */
-        .agent-profile img { 
-            width: 100%; height: auto; aspect-ratio: 3/4; object-fit: cover; 
-            filter: grayscale(80%) contrast(120%); border: 1px solid #222; 
-            animation: glitchHacker 4s infinite; 
-        }
+        .agent-profile img { width: 100%; height: auto; aspect-ratio: 3/4; object-fit: cover; filter: grayscale(80%) contrast(120%); border: 1px solid #222; animation: glitchHacker 4s infinite; }
         
         @keyframes glitchHacker {
             0%, 90%, 98%, 100% { filter: grayscale(80%) contrast(120%) hue-rotate(0deg); transform: translate(0) skew(0deg); opacity: 1; }
@@ -130,7 +141,6 @@
         
         .laser-scanner { position: absolute; top: 10px; left: 10px; width: calc(100% - 20px); height: 2px; background: var(--red-alert); box-shadow: 0 0 15px 3px rgba(198, 40, 40, 0.8); z-index: 10; animation: profileScan 3s ease-in-out infinite alternate; pointer-events: none; }
         @keyframes profileScan { 0% { top: 10px; opacity: 0.2; } 50% { opacity: 1;} 100% { top: calc(100% - 15px); opacity: 0.2;} }
-        
         .hud-corners { position: absolute; top: 10px; left: 10px; width: calc(100% - 20px); height: calc(100% - 20px); z-index: 5; pointer-events: none; }
         .hud-corners::before, .hud-corners::after { content: ''; position: absolute; width: 30px; height: 30px; border-color: var(--terminal-green); border-style: solid; opacity: 0.7; }
         .hud-corners::before { top: 0; left: 0; border-width: 3px 0 0 3px; }
@@ -147,7 +157,7 @@
         /* SLIDER VERTICAL */
         .swiper-container-wrapper { padding: 10px 0 50px 0; perspective: 1000px; }
         .swiper { width: 100%; padding-top: 20px; padding-bottom: 50px; }
-        .swiper-slide { background-position: center; background-size: cover; width: 260px; height: 360px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); border: 8px solid #fff; border-bottom: 35px solid #fff; overflow: hidden; filter: grayscale(80%) contrast(120%); transition: filter 0.5s ease; cursor: pointer; }
+        .swiper-slide { background-position: center; background-size: cover; width: 260px; height: 360px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); border: 8px solid #fff; border-bottom: 35px solid #fff; overflow: hidden; filter: grayscale(80%) contrast(120%); transition: filter 0.5s ease; }
         @media (min-width: 768px) { .swiper-slide { width: 300px; height: 400px; } }
         .swiper-slide:hover, .swiper-slide-active { filter: grayscale(0%) contrast(100%); }
         .swiper-slide::after { content: 'EVIDÊNCIA'; position: absolute; bottom: -25px; left: 0; width: 100%; text-align: center; color: black; font-family: 'Share Tech Mono'; font-weight: bold; font-size: 0.9rem; letter-spacing: 2px; z-index: 10; }
@@ -157,82 +167,39 @@
 
         /* GRID INTELIGENTE */
         .gallery-grid { display: flex; flex-wrap: wrap; gap: 15px; padding: 10px; justify-content: center; }
-        .photo-card {
-            background: #222; overflow: hidden; position: relative;
-            flex: 1 1 calc(50% - 15px); cursor: pointer; border: 1px solid #333;
-            max-width: 400px; display: none; 
-            aspect-ratio: 16 / 9;
-        }
+        .photo-card { background: #222; overflow: hidden; position: relative; flex: 1 1 calc(50% - 15px); max-width: 400px; display: none; aspect-ratio: 16 / 9; }
         .photo-card.visible { display: block; animation: fadeIn 0.5s ease forwards; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        
         .photo-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 255, 65, 0.1); z-index: 2; pointer-events: none; transition: opacity 0.3s; }
         .photo-card:hover::before { opacity: 0; }
         .photo-card img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(100%); transition: 0.5s ease; }
         .photo-card:hover img { filter: grayscale(0%); transform: scale(1.05); }
         @media (min-width: 768px) { .photo-card { flex: 1 1 calc(25% - 15px); max-width: 350px; } }
 
-        /* Botões do Banco de Dados (OTIMIZADO MOBILE) */
+        /* Botões do Banco de Dados */
         .load-more-container { text-align: center; margin-top: 20px; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
-        .btn-load-more, .btn-collapse { 
-            background: transparent; font-family: 'Share Tech Mono', monospace; 
-            padding: 10px 20px; cursor: pointer; font-size: 1rem; 
-            transition: all 0.3s; text-transform: uppercase; letter-spacing: 1px; 
-            white-space: nowrap; max-width: 100%;
-        }
+        .btn-load-more, .btn-collapse { background: transparent; font-family: 'Share Tech Mono', monospace; padding: 10px 20px; font-size: 1rem; transition: all 0.3s; text-transform: uppercase; letter-spacing: 1px; white-space: nowrap; max-width: 100%; }
         .btn-load-more { color: var(--terminal-green); border: 1px solid var(--terminal-green); }
         .btn-load-more:hover { background: rgba(0, 255, 65, 0.1); box-shadow: 0 0 15px rgba(0, 255, 65, 0.3); }
         .btn-collapse { color: var(--red-alert); border: 1px solid var(--red-alert); display: none; }
         .btn-collapse:hover { background: rgba(198, 40, 40, 0.1); box-shadow: 0 0 15px rgba(198, 40, 40, 0.3); }
+        @media (max-width: 480px) { .btn-load-more, .btn-collapse { font-size: 3.5vw; padding: 10px 5px; letter-spacing: 0; } }
 
-        /* Ajuste do texto no celular (Uso de VW para escalar o texto e não quebrar linha) */
-        @media (max-width: 480px) {
-            .btn-load-more, .btn-collapse {
-                font-size: 3.5vw; /* Fica do tamanho exato da tela */
-                padding: 10px 5px; letter-spacing: 0;
-            }
-        }
-
-        /* --- LIGHTBOX AVANÇADO --- */
-        .lightbox-modal {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.95); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
-            z-index: 20000; display: flex; justify-content: center; align-items: center;
-            opacity: 0; visibility: hidden; transition: opacity 0.3s ease;
-        }
+        /* LIGHTBOX AVANÇADO */
+        .lightbox-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.95); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); z-index: 20000; display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: opacity 0.3s ease; }
         .lightbox-modal.active { opacity: 1; visibility: visible; }
         .lightbox-container { position: relative; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; }
         .lightbox-content { position: relative; width: 95vw; max-width: 900px; height: 75vh; display: flex; justify-content: center; align-items: center; }
-        
-        .lightbox-content img { 
-            width: 100%; height: 100%; object-fit: contain; background: #0a0a0a; 
-            border: 2px solid var(--gold); box-shadow: 0 0 50px rgba(212, 175, 55, 0.2); 
-            border-radius: 4px; display: block; 
-        }
-        
-        .lightbox-close {
-            position: absolute; top: -15px; right: -15px; color: #fff; font-family: 'Montserrat', sans-serif;
-            font-size: 2rem; font-weight: 900; cursor: pointer; transition: transform 0.2s;
-            text-shadow: 2px 2px 0px var(--red-alert), 3px 3px 0px #555; z-index: 20002;
-            background: #000; width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--gold);
-            display: flex; justify-content: center; align-items: center; line-height: 0;
-        }
+        .lightbox-content img { width: 100%; height: 100%; object-fit: contain; background: #0a0a0a; border: 2px solid var(--gold); box-shadow: 0 0 50px rgba(212, 175, 55, 0.2); border-radius: 4px; display: block; }
+        .lightbox-close { position: absolute; top: -15px; right: -15px; color: #fff; font-family: 'Montserrat', sans-serif; font-size: 2rem; font-weight: 900; transition: transform 0.2s; text-shadow: 2px 2px 0px var(--red-alert), 3px 3px 0px #555; z-index: 20002; background: #000; width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--gold); display: flex; justify-content: center; align-items: center; line-height: 0; }
         .lightbox-close:active { transform: translate(2px, 2px); }
-
-        .lightbox-nav { position: absolute; top: 50%; transform: translateY(-50%); background: #000; border: 2px solid var(--gold); color: var(--gold); width: 40px; height: 40px; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: 0.3s; z-index: 20001; font-size: 1.5rem; }
+        .lightbox-nav { position: absolute; top: 50%; transform: translateY(-50%); background: #000; border: 2px solid var(--gold); color: var(--gold); width: 40px; height: 40px; border-radius: 50%; display: flex; justify-content: center; align-items: center; transition: 0.3s; z-index: 20001; font-size: 1.5rem; }
         .lightbox-nav:hover { background: var(--gold); color: #000; }
         .lightbox-nav.prev { left: -20px; }
         .lightbox-nav.next { right: -20px; }
-        
-        @media (max-width: 768px) {
-            .lightbox-content { width: 90vw; height: 60vh; }
-            .lightbox-nav { width: 35px; height: 35px; font-size: 1.2rem; }
-            .lightbox-nav.prev { left: -10px; }
-            .lightbox-nav.next { right: -10px; }
-            .lightbox-close { top: -10px; right: -10px; width: 35px; height: 35px; font-size: 1.5rem; }
-        }
+        @media (max-width: 768px) { .lightbox-content { width: 90vw; height: 60vh; } .lightbox-nav { width: 35px; height: 35px; font-size: 1.2rem; } .lightbox-nav.prev { left: -10px; } .lightbox-nav.next { right: -10px; } .lightbox-close { top: -10px; right: -10px; width: 35px; height: 35px; font-size: 1.5rem; } }
 
-        /* VÍDEOS */
+        /* VÍDEOS (MUTADOS) */
         .video-section { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-bottom: 3rem; }
         .video-frame { width: 310px; height: 580px; background: #000; border: 2px solid #333; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.5); flex-shrink: 0; }
         @media (max-width: 768px) { .video-frame { width: 100%; max-width: 340px; height: 500px; } }
@@ -243,7 +210,7 @@
 
         /* PRESENTE FINAL */
         .final-gift-wrapper { text-align: center; margin: 3rem 1rem 2rem; perspective: 1000px; }
-        .btn-vault { background: linear-gradient(145deg, #1a1a1a, #0a0a0a); color: var(--gold); font-family: 'Share Tech Mono', monospace; font-size: 1.2rem; font-weight: bold; padding: 15px 25px; border: 2px solid var(--gold); border-radius: 8px; cursor: pointer; text-transform: uppercase; letter-spacing: 2px; box-shadow: 0 8px 0px #8a7020, 0 15px 20px rgba(0,0,0,0.8); transition: all 0.2s; white-space: nowrap; animation: floatVault 3s ease-in-out infinite alternate; display: inline-flex; align-items: center; justify-content: center; }
+        .btn-vault { background: linear-gradient(145deg, #1a1a1a, #0a0a0a); color: var(--gold); font-family: 'Share Tech Mono', monospace; font-size: 1.2rem; font-weight: bold; padding: 15px 25px; border: 2px solid var(--gold); border-radius: 8px; text-transform: uppercase; letter-spacing: 2px; box-shadow: 0 8px 0px #8a7020, 0 15px 20px rgba(0,0,0,0.8); transition: all 0.2s; white-space: nowrap; animation: floatVault 3s ease-in-out infinite alternate; display: inline-flex; align-items: center; justify-content: center; }
         @media (max-width: 400px) { .btn-vault { font-size: 0.95rem; padding: 12px 15px; letter-spacing: 1px; } }
         @keyframes floatVault { 0% { transform: translateY(0); } 100% { transform: translateY(-8px); } }
         .btn-vault::before { content: '🔓'; margin-right: 10px; font-size: 1.3rem; }
@@ -255,15 +222,15 @@
         .gift-reveal-modal h2 { color: #fff; font-family: 'Montserrat'; font-size: 1.8rem; margin-bottom: 15px; text-transform: uppercase; line-height: 1.2;}
         .gift-reveal-modal h2 span { color: var(--gold); display: block; font-size: 2.2rem; margin-top: 10px;}
         .gift-reveal-modal p { color: var(--terminal-green); font-family: 'Share Tech Mono'; font-size: 1rem; margin-top: 20px;}
-        .close-gift-btn { margin-top: 30px; background: var(--gold); color: #000; border: none; padding: 12px 25px; font-weight: bold; font-family: 'Montserrat'; font-size: 0.9rem; cursor: pointer; border-radius: 5px; text-transform: uppercase; width: 100%; }
+        .close-gift-btn { margin-top: 30px; background: var(--gold); color: #000; border: none; padding: 12px 25px; font-weight: bold; font-family: 'Montserrat'; font-size: 0.9rem; border-radius: 5px; text-transform: uppercase; width: 100%; }
 
         /* FAB */
-        .fab-btn { position: fixed; bottom: 110px; right: 20px; width: 60px; height: 60px; background: #111; border: 1px solid var(--gold); border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 1.5rem; cursor: pointer; box-shadow: 0 0 20px rgba(212, 175, 55, 0.2); z-index: 9980; color: var(--gold); transition: all 0.3s; }
+        .fab-btn { position: fixed; bottom: 110px; right: 20px; width: 60px; height: 60px; background: #111; border: 1px solid var(--gold); border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 1.5rem; box-shadow: 0 0 20px rgba(212, 175, 55, 0.2); z-index: 9980; color: var(--gold); transition: all 0.3s; }
         .fab-btn:hover { background: var(--gold); color: #000; box-shadow: 0 0 30px rgba(212, 175, 55, 0.5); transform: scale(1.1); }
 
         /* FOOTER */
         footer { background: #0a0a0a; color: #555; text-align: center; padding: 4rem 2rem 8rem; margin-top: 4rem; border-top: 1px solid #1a1a1a; }
-        .footer-logo { width: 140px; margin-bottom: 20px; filter: grayscale(100%) brightness(200%); cursor: pointer; transition: transform 0.2s, filter 0.3s; pointer-events: auto; position: relative; z-index: 10;}
+        .footer-logo { width: 140px; margin-bottom: 20px; filter: grayscale(100%) brightness(200%); transition: transform 0.2s, filter 0.3s; pointer-events: auto; position: relative; z-index: 10;}
         .footer-logo:hover { transform: scale(1.05); filter: grayscale(0%) brightness(100%); }
         .footer-logo:active { transform: scale(0.95); }
         .footer-credit p { font-family: 'Share Tech Mono', monospace; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; }
@@ -349,8 +316,7 @@
                  <p style="margin-top:10px; color: var(--terminal-green); font-family: 'Share Tech Mono';">STATUS: REGISTROS DESCRIPTOGRAFADOS. (CLIQUE PARA AMPLIAR)</p>
             </div>
             
-            <div class="gallery-grid" id="gallery-grid-id">
-                </div>
+            <div class="gallery-grid" id="gallery-grid-id"></div>
             
             <div class="load-more-container">
                 <button class="btn-load-more" id="btnLoadMore" onclick="loadMoreImages()">[ DESCRIPTOGRAFAR MAIS ARQUIVOS ]</button>
@@ -362,10 +328,10 @@
            </div>
             <div class="video-section">
                 <div class="video-frame" data-aos="fade-right" data-aos-duration="1200">
-                    <video src="movie/movie-1.mp4" controls playsinline></video>
+                    <video src="movie/movie-1.mp4" controls playsinline muted></video>
                 </div>
                 <div class="video-frame" data-aos="fade-left" data-aos-duration="1200" data-aos-delay="200">
-                    <video src="movie/movie-2.mp4" controls playsinline></video>
+                    <video src="movie/movie-2.mp4" controls playsinline muted></video>
                 </div>
             </div>
 
@@ -378,8 +344,8 @@
         <footer>
             <img src="imagens/logo.png" class="footer-logo" onclick="triggerLogoExplosion(this)" alt="O Imaginista">
             <div class="footer-credit">
-                <p>DIVISÃO DE INTELIGÊNCIA VIRTUAL - O IMAGINISTA</p>
-                <p style="margin-top: 5px; opacity: 0.5;">© 2026 CODIFICAÇÃO PROTEGIDA</p>
+                <p>DIVISÃO DE INTELIGÊNCIA VIRTUAL</p>
+                <p style="margin-top: 5px; opacity: 0.5;">© 2025 CODIFICAÇÃO PROTEGIDA</p>
             </div>
         </footer>
 
@@ -410,19 +376,43 @@
     <script>
         document.addEventListener('contextmenu', event => event.preventDefault());
 
+        // --- SISTEMA DE TIRO TÁTICO NO CLIQUE (DESKTOP) ---
+        document.addEventListener('mousedown', function(e) {
+            // Não atira se estiver clicando em botões ou imagens interativas
+            if(e.target.closest('button') || e.target.closest('.photo-card') || e.target.closest('.swiper-slide') || e.target.closest('.lightbox-nav') || e.target.closest('.lightbox-close') || e.target.closest('video') || e.target.closest('.footer-logo')) return;
+            
+            // Cria faísca (Muzzle Flash)
+            const flash = document.createElement('div');
+            flash.className = 'muzzle-flash';
+            flash.style.left = e.pageX + 'px';
+            flash.style.top = e.pageY + 'px';
+            document.body.appendChild(flash);
+            setTimeout(() => flash.remove(), 100);
+
+            // Cria buraco de bala
+            const hole = document.createElement('div');
+            hole.className = 'bullet-hole';
+            hole.style.left = e.pageX + 'px';
+            hole.style.top = e.pageY + 'px';
+            document.body.appendChild(hole);
+
+            // Some após 3 segundos
+            setTimeout(() => { hole.style.opacity = '0'; }, 3000);
+            setTimeout(() => { hole.remove(); }, 3500);
+        });
+
         // --- GERAÇÃO DE IMAGENS CARROSSEL ---
         const swiperWrapper = document.getElementById('swiper-wrapper-id');
         for(let i = 1; i <= 5; i++) {
             swiperWrapper.innerHTML += `<div class="swiper-slide"><img src="imagens/img (${i}).webp" alt="Arquivo ${i}"></div>`;
         }
 
-        // --- GERAÇÃO DE IMAGENS GRID (COM CARREGAR MAIS E OCULTAR) ---
+        // --- GERAÇÃO DE IMAGENS GRID ---
         const galleryGrid = document.getElementById('gallery-grid-id');
         const loadMoreBtn = document.getElementById('btnLoadMore');
         const collapseBtn = document.getElementById('btnCollapse');
         let galleryImages = []; 
         let currentImageIndex = 0; 
-        
         const totalImages = 37; 
         const imagesPerLoad = 9; 
         let currentlyShown = 0; 
@@ -437,13 +427,11 @@
         function loadMoreImages() {
             let limit = currentlyShown + imagesPerLoad;
             if (limit > galleryImages.length) { limit = galleryImages.length; }
-
             for (let i = currentlyShown; i < limit; i++) {
                 let card = document.getElementById(`card-${i}`);
                 if(card) { card.classList.add('visible'); }
             }
             currentlyShown = limit;
-
             if (currentlyShown >= galleryImages.length) {
                 loadMoreBtn.style.display = 'none';
                 collapseBtn.style.display = 'inline-block';
@@ -470,7 +458,7 @@
             const icon = document.createElement('div');
             icon.classList.add('bg-icon');
             icon.innerText = chars[Math.floor(Math.random() * chars.length)];
-            icon.style.left = `${Math.random() * 95}vw`; /* Travado em 95 para evitar transbordar a tela */
+            icon.style.left = `${Math.random() * 95}vw`; 
             icon.style.fontSize = `${Math.random() * 1 + 0.8}rem`;
             icon.style.animationDuration = `${Math.random() * 20 + 15}s`;
             icon.style.animationDelay = `${Math.random() * 15}s`;
@@ -480,7 +468,7 @@
         // --- SISTEMA DE ÁUDIO ---
         const bgMusic = document.getElementById('bgMusic');
         const playIcon = document.getElementById('playIcon');
-        bgMusic.volume = 0.3; 
+        bgMusic.volume = 0.15; // VOLUME INICIAL REDUZIDO PARA 15%
         let isPlaying = false;
 
         function togglePlay() {
@@ -518,7 +506,7 @@
             autoplay: { delay: 4000, disableOnInteraction: false }
         });
 
-        // --- SISTEMA LIGHTBOX COM NAVEGAÇÃO ---
+        // --- SISTEMA LIGHTBOX ---
         const lightboxModal = document.getElementById('lightboxModal');
         const lightboxImg = document.getElementById('lightboxImg');
         
@@ -581,9 +569,7 @@
             document.body.style.overflow = 'auto';
         }
 
-        function triggerConfettiForce() {
-            confetti({ particleCount: 100, spread: 70, origin: { y: 0.8 }, colors: ['#D4AF37', '#C62828', '#FFFFFF'] });
-        }
+        function triggerConfettiForce() { confetti({ particleCount: 100, spread: 70, origin: { y: 0.8 }, colors: ['#D4AF37', '#C62828', '#FFFFFF'] }); }
 
         function triggerLogoExplosion(element) {
             const rect = element.getBoundingClientRect();
