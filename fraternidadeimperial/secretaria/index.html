@@ -9,7 +9,7 @@
     <meta http-equiv="X-XSS-Protection" content="1; mode=block">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
 
     <link rel="icon" type="image/png" href="../favicon/favicon-96x96.png" sizes="96x96">
     <link rel="icon" type="image/svg+xml" href="../favicon/favicon.svg">
@@ -118,11 +118,11 @@
 
         /* CONTROLES DA BUSCA E MODO DE VISUALIZAÇÃO */
         .controls-wrapper {
-            display: flex; justify-content: center; align-items: center; gap: 15px;
-            max-width: 600px; margin: 0 auto 25px; width: 100%;
+            display: flex; justify-content: center; align-items: center; gap: 15px; flex-wrap: wrap;
+            max-width: 700px; margin: 0 auto 20px; width: 100%; position: relative; z-index: 5;
         }
 
-        .search-wrapper { position: relative; flex: 1; }
+        .search-wrapper { position: relative; flex: 1; min-width: 250px;}
         .search-input {
             width: 100%; padding: 12px 50px 12px 20px; border-radius: 50px;
             background: rgba(255, 255, 255, 0.05); border: 1px solid var(--gold);
@@ -134,7 +134,7 @@
 
         /* Botões de Toggle View */
         .view-toggle-container {
-            display: flex; background: rgba(0,0,0,0.4); border-radius: 8px; border: 1px solid rgba(212, 175, 55, 0.3); overflow: hidden;
+            display: flex; background: rgba(0,0,0,0.4); border-radius: 8px; border: 1px solid rgba(212, 175, 55, 0.3); overflow: hidden; flex-shrink: 0;
         }
         .view-btn {
             background: transparent; color: rgba(255,255,255,0.5); border: none; padding: 10px 15px; font-size: 1.1rem; cursor: pointer; transition: 0.3s;
@@ -142,61 +142,105 @@
         .view-btn.active { background: rgba(212, 175, 55, 0.2); color: var(--gold); }
         .view-btn:hover:not(.active) { color: #fff; background: rgba(255,255,255,0.05); }
 
+        /* --- BARRA DE FILTROS STATUS --- */
+        .filters-and-export {
+            display: flex; justify-content: center; align-items: center; max-width: 1000px; margin: 0 auto 30px; width: 100%; flex-wrap: wrap; gap: 15px; position: relative; z-index: 5;
+        }
+        .filter-group { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; justify-content: center; }
+        .filter-btn { 
+            background: rgba(0,0,0,0.3); border: 1px solid rgba(212, 175, 55, 0.4); color: var(--gold-light); 
+            padding: 8px 16px; border-radius: 20px; cursor: pointer; transition: 0.3s; font-family: 'Lato'; font-size: 0.85rem; backdrop-filter: blur(5px);
+        }
+        .filter-btn:hover:not(.active) { background: rgba(212, 175, 55, 0.1); }
+        
+        .btn-all.active { background: var(--gold); color: #000; border-color: var(--gold); box-shadow: 0 0 10px rgba(212, 175, 55, 0.3); font-weight: bold;}
+        .btn-filter-active.active { background: #3498db; color: #fff; border-color: #2980b9; box-shadow: 0 0 10px rgba(52, 152, 219, 0.3); font-weight: bold;}
 
         .section-title { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; color: rgba(255,255,255,0.4); margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; font-family: 'Lato', sans-serif; }
 
-        /* --- LISTA DE PROCESSOS: GRID MODE --- */
-        .process-list.grid-mode { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
-            gap: 15px; width: 100%; margin-bottom: 20px;
-            justify-content: center; 
-        }
+        /* --- ESTILOS DOS CARDS PADRONIZADOS --- */
+        .tipo-processo { font-size: 0.65rem; color: rgba(255, 255, 255, 0.6); text-transform: uppercase; letter-spacing: 1px; margin-top: 5px; text-align: center; font-family: 'Lato', sans-serif;}
+        .status-badge { display: inline-block; padding: 4px 10px; border-radius: 4px; font-size: 0.65rem; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; text-align: center; white-space: nowrap; text-shadow: 0 1px 2px rgba(0,0,0,0.8);}
 
-        .process-list.grid-mode .candidate-btn {
-            display: flex; align-items: center; justify-content: space-between; padding: 15px 20px; 
-            border: 1px solid rgba(212, 175, 55, 0.4); background: linear-gradient(45deg, rgba(0, 42, 82, 0.6), rgba(0, 20, 40, 0.9)); 
-            color: var(--gold-light); text-decoration: none; border-radius: 8px;
+        .cim-box { border: 1px solid var(--gold); border-radius: 6px; padding: 6px 12px; text-align: center; display: inline-block;}
+        .cim-label { font-size: 0.55rem; color: var(--gold); display: block; letter-spacing: 2px; text-transform: uppercase;}
+        .cim-num { font-size: 1rem; font-family: 'Cinzel'; font-weight: bold; color: #fff; letter-spacing: 1px; white-space: nowrap;}
+
+        .candidate-btn {
+            border: 1px solid rgba(212, 175, 55, 0.4); border-radius: 8px; text-decoration: none; color: #fff;
             transition: all 0.3s; backdrop-filter: blur(5px); box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            position: relative; overflow: hidden; box-sizing: border-box;
-            width: 100%; max-width: 400px; justify-self: center; 
+            overflow: hidden; background: linear-gradient(135deg, rgba(0, 12, 24, 0.8), rgba(0, 42, 82, 0.6));
         }
-        
-        .process-list.grid-mode .cand-info { text-align: left; display: flex; align-items: flex-start; gap: 15px; flex: 1; min-width: 0; }
-        .process-list.grid-mode .cand-icon { font-size: 1.5rem; color: var(--gold); width: 30px; text-align: center; flex-shrink: 0; margin-top: 2px;}
-        .process-list.grid-mode .cand-text-group { display: flex; flex-direction: column; flex: 1; min-width: 0; }
-        .process-list.grid-mode .cand-name { font-size: 0.95rem; font-weight: bold; font-family: 'Lato', sans-serif; color: #fff; white-space: normal; word-wrap: break-word; line-height: 1.3; margin-bottom: 5px; }
-        .process-list.grid-mode .cand-status { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; opacity: 0.8; font-family: 'Lato', sans-serif; white-space: normal; word-wrap: break-word; display: flex; align-items: center; line-height: 1.2;}
+        .candidate-btn:hover:not(.locked) { background: rgba(0, 42, 82, 0.9); transform: translateY(-3px); border-color: var(--gold); box-shadow: 0 10px 25px rgba(212, 175, 55, 0.2); }
+        .candidate-btn:hover:not(.locked) .arrow-bottom { transform: translateX(5px); opacity: 1; }
+        .candidate-btn.locked { cursor: not-allowed; opacity: 0.75; }
+        .candidate-btn.locked:hover { transform: none; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
 
-        /* --- LISTA DE PROCESSOS: TABLE MODE --- */
+        .col-cim { display: flex; align-items: center; width: 140px; justify-content: flex-start; flex-shrink: 0; }
+        .col-name, .col-status, .col-date, .col-arrow { display: flex; align-items: center; }
+        .cand-name { font-weight: bold; font-family: 'Lato', sans-serif; color: var(--gold-light); line-height: 1.3; text-align: left; }
+        .date-info { color: #aaa; font-size: 0.85rem; font-weight: bold; letter-spacing: 0.5px;}
+        .arrow-bottom { font-size: 1.2rem; opacity: 0.5; transition: transform 0.3s; color: var(--gold); }
+
+        .card-header { display: flex; width: 100%; align-items: flex-start; }
+        
+        .profile-pic {
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1px solid var(--gold);
+            background-color: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gold-light);
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        /* --- MODO GRID --- */
+        .process-list.grid-mode { 
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; width: 100%; margin-bottom: 30px;
+        }
+        .process-list.grid-mode .candidate-btn {
+            display: flex; flex-direction: column; padding: 25px 20px; min-height: 170px; align-items: flex-start;
+        }
+        .process-list.grid-mode .card-header { justify-content: space-between; margin-bottom: 15px; }
+        .process-list.grid-mode .profile-pic { width: 85px; height: 85px; margin: 0; }
+        .process-list.grid-mode .col-cim { margin-bottom: 0; width: auto; }
+        
+        .process-list.grid-mode .col-name { margin-bottom: 10px; width: 100%; align-items: flex-start; justify-content: flex-start; }
+        .process-list.grid-mode .cand-name { font-size: 1.1rem; letter-spacing: 1px; }
+        .process-list.grid-mode .col-status { margin-bottom: 10px; align-items: flex-start !important; }
+        .process-list.grid-mode .tipo-processo { text-align: left; }
+        .process-list.grid-mode .col-date { margin-bottom: 10px; font-size: 0.8rem; }
+        .process-list.grid-mode .col-arrow { width: 100%; justify-content: flex-end; margin-top: auto; }
+
+        /* --- MODO TABELA --- */
         .process-list.table-mode {
-            display: flex; flex-direction: column; gap: 8px; width: 100%; max-width: 900px; margin: 0 auto 20px;
+            display: flex; flex-direction: column; gap: 8px; width: 100%; max-width: 950px; margin: 0 auto 30px;
         }
-
         .process-list.table-mode .candidate-btn {
-            display: grid; grid-template-columns: 40px minmax(150px, 2fr) minmax(120px, 1fr) 30px; align-items: center; padding: 12px 20px;
-            border: 1px solid rgba(212, 175, 55, 0.2); background: rgba(0, 20, 40, 0.7); 
-            color: var(--gold-light); text-decoration: none; border-radius: 4px;
-            transition: all 0.2s; box-sizing: border-box; width: 100%;
+            display: grid; 
+            grid-template-columns: 220px minmax(200px, 1fr) 150px 100px 30px; 
+            gap: 15px; padding: 12px 20px; align-items: center;
         }
+        .process-list.table-mode .card-header { justify-content: flex-start; align-items: center; gap: 15px; }
+        .process-list.table-mode .profile-pic { width: 45px; height: 45px; margin: 0; }
+        .process-list.table-mode .cim-box { width: 100%; padding: 4px 8px;} 
+        .process-list.table-mode .col-name { justify-content: flex-start; overflow: hidden;}
+        .process-list.table-mode .cand-name { font-size: 0.95rem; margin: 0; }
+        .process-list.table-mode .col-status { justify-content: center; align-items: center !important; }
+        .process-list.table-mode .tipo-processo { text-align: center; }
+        .process-list.table-mode .col-date { justify-content: flex-end; text-align: right; margin: 0; white-space: nowrap;}
+        .process-list.table-mode .col-arrow { justify-content: flex-end; margin: 0;}
 
-        .process-list.table-mode .cand-info { display: contents; } /* Ignora a div container no CSS Grid da tabela */
-        .process-list.table-mode .cand-icon { font-size: 1.2rem; color: var(--gold); text-align: left; }
-        .process-list.table-mode .cand-text-group { display: contents; }
-        
-        .process-list.table-mode .cand-name { font-size: 0.9rem; font-weight: bold; font-family: 'Lato', sans-serif; color: #fff; text-align: left; padding-right: 15px;}
-        .process-list.table-mode .cand-status { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; opacity: 0.9; text-align: left; display: flex; align-items: center;}
+        /* --- CONTROLE DE NOMES E ABREVIAÇÕES --- */
+        .name-full, .name-short { width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: block; text-align: left; }
+        .process-list.grid-mode .name-full { display: none; }
+        .process-list.grid-mode .name-short { display: block; }
+        .process-list.table-mode .name-full { display: block; }
+        .process-list.table-mode .name-short { display: none; }
 
-        /* ESTILOS COMUNS AOS DOIS MODOS */
-        .candidate-btn:hover:not(.locked) { background: rgba(0, 42, 82, 0.9); transform: translateY(-2px); border-color: var(--gold); box-shadow: 0 5px 15px rgba(212, 175, 55, 0.2); }
-        .candidate-btn.locked { opacity: 0.6; cursor: not-allowed; }
-        .candidate-btn.locked:hover { transform: none; box-shadow: none; background: rgba(0, 20, 40, 0.7); border-color: rgba(212, 175, 55, 0.2);}
-        .locked-icon { color: #666 !important; }
-
-        .arrow { font-size: 1rem; opacity: 0.5; transition: transform 0.3s; flex-shrink: 0; justify-self: flex-end;}
-        .candidate-btn:not(.locked):hover .arrow { transform: translateX(5px); opacity: 1; color: var(--gold); }
-        .status-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 8px; flex-shrink: 0; }
-        
         /* Botão Carregar Mais */
         .btn-load-more {
             display: none; 
@@ -360,9 +404,6 @@
 
         .error-msg { color: #ff4c4c; font-family: 'Lato'; font-size: 0.85rem; margin-bottom: 15px; display: none; height: 20px; }
 
-        @keyframes popIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
-        @keyframes shimmer { 0% { left: -50%; top: -50%; } 100% { left: 150%; top: 150%; } }
-
         /* --- TELA DE BLOQUEIO DO SISTEMA (ESTILO HACKER) --- */
         #system-lock-screen {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -445,11 +486,16 @@
             .process-list.grid-mode, .process-list.table-mode { grid-template-columns: 1fr; gap: 10px; width: 100%; padding: 0 10px; box-sizing: border-box; display: grid;}
             
             .process-list.table-mode .candidate-btn, .process-list.grid-mode .candidate-btn { 
-                display: flex; flex-direction: row; padding: 12px 15px; width: 100%; max-width: 100%; box-sizing: border-box; 
+                display: flex; flex-direction: column; padding: 20px; width: 100%; max-width: 100%; box-sizing: border-box; align-items: flex-start;
             }
-            .process-list.table-mode .cand-info, .process-list.grid-mode .cand-info { display: flex; align-items: center; }
-            .process-list.table-mode .cand-text-group, .process-list.grid-mode .cand-text-group { display: flex; flex-direction: column; }
-            .process-list.table-mode .cand-status { margin-top: 5px; }
+            .process-list.table-mode .card-header, .process-list.grid-mode .card-header { justify-content: space-between; width: 100%; margin-bottom: 15px; }
+            .process-list.table-mode .col-cim, .process-list.grid-mode .col-cim { width: auto; }
+            .process-list.table-mode .col-name, .process-list.grid-mode .col-name { margin-bottom: 10px; width: 100%;}
+            .process-list.table-mode .cand-name, .process-list.grid-mode .cand-name { font-size: 1.1rem; }
+            .process-list.table-mode .col-status, .process-list.grid-mode .col-status { align-items: flex-start !important; margin-bottom: 10px; justify-content: flex-start; width: 100%;}
+            .process-list.table-mode .tipo-processo, .process-list.grid-mode .tipo-processo { text-align: left; }
+            .process-list.table-mode .col-date, .process-list.grid-mode .col-date { justify-content: flex-start; text-align: left; width: 100%; margin-bottom: 10px;}
+            .process-list.table-mode .col-arrow, .process-list.grid-mode .col-arrow { justify-content: flex-end; width: 100%; margin-top: auto;}
             
             .header-inner { padding: 0 15px; flex-wrap: nowrap; justify-content: space-between; }
             .logo-img { height: 40px; }
@@ -490,7 +536,7 @@
 
     <div id="login-overlay">
         <div class="auth-box">
-            <img src="../imagens/264.webp" alt="264" class="auth-logo-img" onerror="this.src='../264.jpg'">
+            <img src="../imagens/264.webp" alt="264" class="auth-logo-img" onerror="this.style.display='none'">
             <h2>Secretaria Digital</h2>
             <p class="auth-subtitle">Sou majestade elevada ao máximo. Quem sou?</p>
             
@@ -546,6 +592,17 @@
             <div class="view-toggle-container">
                 <button id="btn-view-grid" class="view-btn active" title="Visualização em Grade"><i class="fas fa-th-large"></i></button>
                 <button id="btn-view-table" class="view-btn" title="Visualização em Lista"><i class="fas fa-list"></i></button>
+            </div>
+        </div>
+
+        <div class="filters-and-export">
+            <div class="filter-group" id="status-filters-container">
+                <button class="filter-btn btn-all active" onclick="aplicarFiltroStatus('Todos', this)">Todos</button>
+                <button class="filter-btn btn-filter-active" onclick="aplicarFiltroStatus('Iniciação', this)">Iniciação</button>
+				<button class="filter-btn btn-filter-active" onclick="aplicarFiltroStatus('Reg/Filiação', this)">Reg/Filiação</button>
+                <button class="filter-btn btn-filter-active" onclick="aplicarFiltroStatus('Documentos', this)">Documentos</button>
+                <button class="filter-btn btn-filter-active f-docs" onclick="aplicarFiltroStatus('Sindicância', this)">Sindicância</button>
+                <button class="filter-btn btn-filter-active" onclick="aplicarFiltroStatus('GLMERJ', this)">GLMERJ</button>
             </div>
         </div>
 
@@ -717,22 +774,63 @@
             }
         });
 
+        // =========================================================
+        // FUNÇÃO PARA LIDAR COM ERRO DE IMAGEM
+        // =========================================================
+        window.handleImageError = function(img) {
+            if (img.src.includes('264.webp')) {
+                img.style.display = 'none';
+                if (img.nextElementSibling) {
+                    img.nextElementSibling.style.display = 'flex';
+                }
+            } else {
+                img.src = 'processos/264.webp'; // Ajustado para carregar o brasão da loja como fallback
+            }
+        };
+
+        // =========================================================
+        // FUNÇÃO PARA ABREVIAR NOMES MUITO LONGOS
+        // =========================================================
+        function abreviarNome(nomeOriginal) {
+            const partes = nomeOriginal.trim().split(' ');
+            if (partes.length <= 2) return nomeOriginal;
+
+            let nomeAbreviado = partes[0] + ' ';
+            for (let i = 1; i < partes.length - 1; i++) {
+                const palavra = partes[i];
+                if (palavra.toLowerCase().match(/^(da|de|do|dos|das)$/)) {
+                    continue; 
+                } else {
+                    nomeAbreviado += palavra.charAt(0) + '. ';
+                }
+            }
+            nomeAbreviado += partes[partes.length - 1];
+            return nomeAbreviado;
+        }
+
+        let statusFiltroCorrente = "Todos"; 
+        
+        window.aplicarFiltroStatus = function(tipo, elementoBotao) {
+            statusFiltroCorrente = tipo;
+            document.querySelectorAll('#status-filters-container .filter-btn').forEach(b => b.classList.remove('active'));
+            elementoBotao.classList.add('active');
+            
+            // Dispara um evento para o código principal atualizar a lista
+            const event = new CustomEvent('filtroAtualizado');
+            document.dispatchEvent(event);
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
 
             /* ========================================================
                LISTA DE CANDIDATOS E MODO DE VISUALIZAÇÃO
             ======================================================== */
             const candidatosAtivos = [
-                { nome: "RUAN PABLO DA SILVA DE LIMA SANTOS", statusTexto: "Verificação de Documentos", corHex: "#f1c40f", iconeUsuario: "fas fa-user-secret", linkUrl: "processos/rpsls/", liberado: true },
-                { nome: "ALAN FERNANDES LOPES", statusTexto: "Regularização", corHex: "#3498db", iconeUsuario: "fas fa-user", linkUrl: "processos/afl/", liberado: true },
-                { nome: "DIEGO CARVALHO BASSAN", statusTexto: "Pré-Proposta", corHex: "#2ecc71", iconeUsuario: "fas fa-user", linkUrl: "processos/dcb", liberado: true },
-                { nome: "MATHEUS MAGALHÃES DA SILVA", statusTexto: "Pré-Proposta", corHex: "#2ecc71", iconeUsuario: "fas fa-user", linkUrl: "#", liberado: false },
-                { nome: "GABRIEL DA SILVEIRA FILHO", statusTexto: "Pré-Proposta", corHex: "#2ecc71", iconeUsuario: "fas fa-user", linkUrl: "#", liberado: false },
-                { nome: "JULIO CESAR DE ALMEIDA", statusTexto: "Sindicância", corHex: "#9b59b6", iconeUsuario: "fas fa-user-tie", linkUrl: "#", liberado: false },
-                { nome: "MARCELO AUGUSTO FERREIRA", statusTexto: "Verificação de Docs", corHex: "#e74c3c", iconeUsuario: "fas fa-user-shield", linkUrl: "#", liberado: false },
-                { nome: "RODRIGO TEIXEIRA LIMA", statusTexto: "Iniciação", corHex: "#34495e", iconeUsuario: "fas fa-user-graduate", linkUrl: "#", liberado: false },
-                { nome: "VITOR HUGO SOARES", statusTexto: "Entrega de Docs", corHex: "#f1c40f", iconeUsuario: "fas fa-user-secret", linkUrl: "#", liberado: false },
-                { nome: "LEONARDO CAVALCANTI DE ALBUQUERQUE RIBEIRO", statusTexto: "Pré-Proposta", corHex: "#3498db", iconeUsuario: "fas fa-user", linkUrl: "#", liberado: false }
+                { nome: "ALAN FERNANDES LOPES", cim: "264110", data: "24/04/2026", tipo: "Reg/Filiação", statusTexto: "Regularização", corHex: "#3498db", pasta: "afl", liberado: true },
+				{ nome: "RUAN PABLO DA SILVA DE LIMA SANTOS", cim: "264103", data: "17/05/2026", tipo: "Iniciação", statusTexto: "Iniciação", corHex: "#2ecc71", pasta: "rpsls", liberado: true },
+                { nome: "DIEGO CARVALHO BASSAN", cim: "264102", data: "17/05/2026", tipo: "Iniciação", statusTexto: "Iniciação", corHex: "#2ecc71", pasta: "dcb", liberado: true },
+                { nome: "333", cim: "", data: "33/33/3333", tipo: "Reg/Filiação", statusTexto: "GLMERJ", corHex: "#800080", pasta: "", liberado: false },
+                { nome: "333", cim: "", data: "33/33/3333", tipo: "Reg/Filiação", statusTexto: "Documentos", corHex: "#FF2C2C", pasta: "", liberado: false }
             ];
 
             const listaContainer = document.getElementById('process-list-container');
@@ -747,7 +845,7 @@
             let currentViewMode = localStorage.getItem('sec_view_mode') || 'grid'; 
 
             function updateViewMode() {
-                if(currentViewMode === 'table') {
+                if(currentViewMode === 'table' && window.innerWidth > 768) {
                     listaContainer.classList.remove('grid-mode');
                     listaContainer.classList.add('table-mode');
                     btnTable.classList.add('active');
@@ -763,6 +861,7 @@
 
             btnGrid.addEventListener('click', () => { currentViewMode = 'grid'; updateViewMode(); });
             btnTable.addEventListener('click', () => { currentViewMode = 'table'; updateViewMode(); });
+            window.addEventListener('resize', updateViewMode);
             
             updateViewMode(); // Chama no carregamento
 
@@ -774,28 +873,76 @@
                 listaContainer.innerHTML = '';
                 
                 const filtrados = candidatosAtivos.filter(c => {
+                    // Novo sistema de filtro global (Busca em qualquer campo)
+                    const passaFiltroStatus = statusFiltroCorrente === "Todos" || 
+                                              c.tipo.includes(statusFiltroCorrente) || 
+                                              c.statusTexto.includes(statusFiltroCorrente);
+                                              
                     const termo = currentSearchTerm.toLowerCase();
-                    return c.nome.toLowerCase().includes(termo) || c.statusTexto.toLowerCase().includes(termo);
+                    const passaBusca = c.nome.toLowerCase().includes(termo) || 
+                                       c.statusTexto.toLowerCase().includes(termo) ||
+                                       c.cim.toLowerCase().includes(termo) ||
+                                       c.tipo.toLowerCase().includes(termo) ||
+                                       c.data.toLowerCase().includes(termo); // Busca por data incluída
+                                       
+                    return passaFiltroStatus && passaBusca;
                 });
 
                 filtrados.forEach((candidato, index) => {
+                    if (index >= currentVisibleItems) return;
+
                     const isLocked = !candidato.liberado;
                     const corHexFinal = candidato.corHex || "#d4af37";
-                    const isHiddenStyle = index >= currentVisibleItems ? 'display: none;' : '';
+                    const nomeAbreviado = abreviarNome(candidato.nome);
                     
+                    // Lógica da Pasta Inteligente (Se não tiver 'pasta', cria pelas iniciais do nome)
+                    let pastaCandidato = candidato.pasta;
+                    if (!pastaCandidato || pastaCandidato === "") {
+                        pastaCandidato = candidato.nome.split(' ').map(n => n.charAt(0).toLowerCase()).join('');
+                    }
+
+                    // Lógica para CIM Opcional
+                    let labelCIMTexto = "CIM";
+                    let valorCIM = candidato.cim;
+                    let styleCimNum = "";
+                    
+                    if(!candidato.cim || candidato.cim === "") {
+                        labelCIMTexto = "PROCESSO";
+                        valorCIM = "EM ANÁLISE";
+                        styleCimNum = "font-size: 0.75rem;"; // Diminui a fonte para caber certinho
+                    }
+
+                    // Busca a foto. Se falhar, a função onerro tentará o ../processos/264.webp
+                    let imgSrc = `processos/${pastaCandidato}/3x4.webp`;
+                    let linkUrl = isLocked ? "#" : `processos/${pastaCandidato}/`;
+
                     const htmlBotao = `
-                        <a href="${candidato.linkUrl}" class="candidate-btn process-item ${isLocked ? 'locked' : ''}" style="${isHiddenStyle}" ${isLocked ? 'onclick="event.preventDefault()"' : ''} data-index="${index}">
-                            <div class="cand-info">
-                                <div class="cand-icon ${isLocked ? 'locked-icon' : ''}"><i class="${candidato.iconeUsuario}"></i></div>
-                                <div class="cand-text-group">
-                                    <span class="cand-name" title="${candidato.nome}">${candidato.nome}</span>
-                                    <div class="cand-status" title="${candidato.statusTexto}">
-                                        <span class="status-dot" style="background-color: ${corHexFinal}; box-shadow: 0 0 8px ${corHexFinal};"></span> 
-                                        ${candidato.statusTexto}
+                        <a href="${linkUrl}" class="candidate-btn ${isLocked ? 'locked' : ''}" ${isLocked ? 'onclick="event.preventDefault()"' : ''} data-index="${index}">
+                            <div class="card-header">
+                                <div class="col-cim">
+                                    <div class="cim-box" style="border-color: ${corHexFinal}; background: ${corHexFinal}20;">
+                                        <span class="cim-label" style="color: ${corHexFinal};">${labelCIMTexto}</span>
+                                        <span class="cim-num" style="${styleCimNum}">${valorCIM}</span>
                                     </div>
                                 </div>
+                                <div style="position: relative;">
+                                    <img src="${imgSrc}" class="profile-pic" alt="Foto" onerror="handleImageError(this)">
+                                    <div class="profile-pic fallback-pic" style="display:none;"><i class="fas fa-user${isLocked ? '-lock' : ''}"></i></div>
+                                </div>
                             </div>
-                            <i class="fas ${isLocked ? 'fa-lock' : 'fa-chevron-right'} arrow"></i>
+                            
+                            <div class="col-name" style="width: 100%; overflow: hidden;">
+                                <span class="cand-name name-full" title="${candidato.nome}">${candidato.nome}</span>
+                                <span class="cand-name name-short" title="${candidato.nome}">${nomeAbreviado}</span>
+                            </div>
+                            
+                            <div class="col-status" style="flex-direction: column; justify-content: center; align-items: flex-start;">
+                                <div class="status-badge" style="background-color: ${corHexFinal}; color: #fff; border: 1px solid ${corHexFinal};">${candidato.statusTexto}</div>
+                                <span class="tipo-processo">${candidato.tipo}</span>
+                            </div>
+                            
+                            <div class="col-date"><span class="date-info"><i class="fas fa-calendar-alt" style="margin-right: 5px;"></i> <strong>${candidato.data}</strong></span></div>
+                            <div class="col-arrow"><i class="fas ${isLocked ? 'fa-lock' : 'fa-arrow-right'} arrow-bottom" style="color: ${isLocked ? '#666' : 'var(--gold)'}"></i></div>
                         </a>
                     `;
                     listaContainer.insertAdjacentHTML('beforeend', htmlBotao);
@@ -813,6 +960,12 @@
             }
 
             renderCandidatos();
+
+            // Escuta o evento do Filtro de Botões
+            document.addEventListener('filtroAtualizado', () => {
+                currentVisibleItems = ITEMS_PER_PAGE;
+                renderCandidatos();
+            });
 
             searchInput.addEventListener('input', (e) => {
                 currentSearchTerm = e.target.value;
