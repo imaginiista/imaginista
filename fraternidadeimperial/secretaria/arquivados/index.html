@@ -247,6 +247,8 @@
         .st-success { background: #1b5e20; color: #fff; border: 1px solid #4caf50; }
         .st-denied { background: #880000; color: #fff; border: 1px solid #ef5350; }
         .st-desistencia { background: #b86b00; color: #fff; border: 1px solid #ffb300; }
+        
+        .tipo-processo { font-size: 0.65rem; color: rgba(255, 255, 255, 0.6); text-transform: uppercase; letter-spacing: 1px; margin-top: 5px; text-align: center; font-family: 'Lato', sans-serif;}
 
         /* Box do CIM Padrão */
         .cim-box { background: rgba(212, 175, 55, 0.15); border: 1px solid var(--gold); border-radius: 6px; padding: 6px 12px; text-align: center; display: inline-block;}
@@ -270,10 +272,27 @@
         .archive-btn.locked { cursor: default; }
         .archive-btn.locked:hover { transform: none; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
 
-        .col-cim, .col-name, .col-status, .col-date, .col-arrow { display: flex; align-items: center; }
-        .cand-name { font-weight: bold; font-family: 'Lato', sans-serif; color: var(--gold-light); line-height: 1.3; }
+        .col-cim { display: flex; align-items: center; width: 140px; justify-content: flex-start; flex-shrink: 0; } /* Largura Fixa RIGOROSA */
+        .col-name, .col-status, .col-date, .col-arrow { display: flex; align-items: center; }
+        .cand-name { font-weight: bold; font-family: 'Lato', sans-serif; color: var(--gold-light); line-height: 1.3; text-align: left; }
         .date-info { color: #aaa; font-size: 0.85rem; font-weight: bold; letter-spacing: 0.5px;}
         .arrow-bottom { font-size: 1.2rem; opacity: 0.5; transition: transform 0.3s; color: var(--gold); }
+
+        /* Estilo da Foto de Perfil e Header do Card */
+        .card-header { display: flex; width: 100%; align-items: flex-start; }
+        
+        .profile-pic {
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1px solid var(--gold);
+            background-color: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gold-light);
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
 
         /* --- MODO GRID (CARDS) --- */
         .process-list.grid-mode { 
@@ -282,10 +301,16 @@
         .process-list.grid-mode .archive-btn {
             display: flex; flex-direction: column; padding: 25px 20px; min-height: 170px; align-items: flex-start;
         }
-        .process-list.grid-mode .col-cim { width: 100%; justify-content: space-between; margin-bottom: 15px; }
-        .process-list.grid-mode .col-name { margin-bottom: 10px; }
+        
+        /* Foto e CIM separados (CIM na esquerda, Foto na direita) */
+        .process-list.grid-mode .card-header { justify-content: space-between; margin-bottom: 15px; }
+        .process-list.grid-mode .profile-pic { width: 85px; height: 85px; margin: 0; }
+        .process-list.grid-mode .col-cim { margin-bottom: 0; width: auto; } /* Na grade o CIM pode ser fluido */
+        
+        .process-list.grid-mode .col-name { margin-bottom: 10px; width: 100%; align-items: flex-start; justify-content: flex-start; }
         .process-list.grid-mode .cand-name { font-size: 1.1rem; letter-spacing: 1px; }
-        .process-list.grid-mode .col-status { margin-bottom: 10px; }
+        .process-list.grid-mode .col-status { margin-bottom: 10px; align-items: flex-start !important; }
+        .process-list.grid-mode .tipo-processo { text-align: left; }
         .process-list.grid-mode .col-date { margin-bottom: 10px; font-size: 0.8rem; }
         .process-list.grid-mode .col-arrow { width: 100%; justify-content: flex-end; margin-top: auto; }
 
@@ -295,19 +320,35 @@
         }
         .process-list.table-mode .archive-btn {
             display: grid; 
-            grid-template-columns: 120px minmax(200px, 1fr) 130px 100px 30px; 
+            /* Espaço exato para Foto + CIM Box ficarem perfeitos lado a lado */
+            grid-template-columns: 220px minmax(200px, 1fr) 130px 100px 30px; 
             gap: 15px; padding: 12px 20px; align-items: center;
             background: rgba(0, 20, 40, 0.7); border-radius: 6px;
         }
-        .process-list.table-mode .col-cim { justify-content: center; }
+        
+        /* Foto e CIM juntos na mesma coluna */
+        .process-list.table-mode .card-header { justify-content: flex-start; align-items: center; gap: 15px; }
+        .process-list.table-mode .profile-pic { width: 45px; height: 45px; margin: 0; }
+        
         .process-list.table-mode .cim-box { width: 100%; padding: 4px 8px;} 
-        .process-list.table-mode .col-name { justify-content: flex-start; }
+        .process-list.table-mode .col-name { justify-content: flex-start; overflow: hidden;}
+        
         .process-list.table-mode .cand-name { font-size: 0.95rem; margin: 0; }
-        .process-list.table-mode .col-status { justify-content: center; }
+        .process-list.table-mode .col-status { justify-content: center; align-items: center !important; }
+        .process-list.table-mode .tipo-processo { text-align: center; }
         .process-list.table-mode .status-badge { margin: 0; }
         .process-list.table-mode .col-date { justify-content: flex-end; text-align: right; margin: 0; white-space: nowrap;}
         .process-list.table-mode .col-arrow { justify-content: flex-end; margin: 0;}
         .process-list.table-mode .archive-btn .fa-lock { justify-self: center; font-size: 1.1rem;}
+
+        /* --- CONTROLE DE NOMES E ABREVIAÇÕES --- */
+        .name-full, .name-short { width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: block; text-align: left; }
+        
+        .process-list.grid-mode .name-full { display: none; }
+        .process-list.grid-mode .name-short { display: block; }
+        
+        .process-list.table-mode .name-full { display: block; }
+        .process-list.table-mode .name-short { display: none; }
 
         /* PAGINAÇÃO */
         #loadMoreBtn { 
@@ -383,10 +424,13 @@
             }
             .process-list.table-mode .archive-btn { display: flex; flex-direction: column; padding: 20px; align-items: flex-start; gap: 0;}
             
-            .process-list.table-mode .col-cim { width: 100%; justify-content: space-between; margin-bottom: 15px;}
+            .process-list.table-mode .card-header { justify-content: space-between; width: 100%; margin-bottom: 15px; }
+            .process-list.table-mode .col-cim { width: auto; } /* No mobile o CIM não precisa ser fixo */
             .process-list.table-mode .col-name { margin-bottom: 10px; width: 100%;}
             .process-list.table-mode .cand-name { font-size: 1.1rem; }
-            .process-list.table-mode .col-status { margin-bottom: 10px; justify-content: flex-start; width: 100%;}
+            .process-list.table-mode .col-status { align-items: flex-start !important; margin-bottom: 10px; justify-content: flex-start; width: 100%;}
+            .process-list.table-mode .tipo-processo { text-align: left; }
+            
             .process-list.table-mode .col-date { justify-content: flex-start; text-align: left; width: 100%; margin-bottom: 10px;}
             .process-list.table-mode .col-arrow { justify-content: flex-end; width: 100%; margin-top: auto;}
             .process-list.table-mode .cim-box { width: auto; padding: 6px 12px; } 
@@ -547,21 +591,11 @@
         // BANCO DE DADOS LOCAL - PROCESSOS ARQUIVADOS
         // =========================================================
         const dadosProcessos = [
-            {nome: "Ruan Pablo da Silva de Lima Santos", data: "21/02/2026", cim: "0245177", pasta: "0245177", status: "Concluído", exibirCim: true},
-            {nome: "Carlos Henrique Bastos Melo", data: "21/02/2026", cim: "ARQUIVADO", pasta: "0245178", status: "Desistência", exibirCim: false},
-            {nome: "Bruno Fernandes Oliveira", data: "21/02/2026", cim: "NEGADO", pasta: "0245179", status: "Negado", exibirCim: false},
-            {nome: "Ricardo Ferreira da Costa", data: "05/11/2025", cim: "0245180", pasta: "", status: "Concluído", exibirCim: true},
-            {nome: "Claudio Roberto Mendes", data: "20/09/2025", cim: "NEGADO", pasta: "", status: "Negado", exibirCim: false},
-            {nome: "Fábio de Andrade Lima", data: "18/08/2025", cim: "0245182", pasta: "", status: "Concluído", exibirCim: true},
-            {nome: "Sérgio Murilo Peixoto", data: "10/07/2025", cim: "0245183", pasta: "", status: "Concluído", exibirCim: true},
-            {nome: "Gustavo Henrique Duarte", data: "02/06/2025", cim: "ARQUIVADO", pasta: "", status: "Desistência", exibirCim: false},
-            {nome: "Thiago Braga de Matos", data: "15/05/2025", cim: "0245185", pasta: "", status: "Concluído", exibirCim: true},
-            {nome: "André Luiz Guimarães", data: "30/04/2025", cim: "0245186", pasta: "", status: "Concluído", exibirCim: true},
-            {nome: "Paulo Roberto de Souza", data: "22/03/2025", cim: "0245187", pasta: "", status: "Concluído", exibirCim: true},
-            {nome: "Luciano Barbosa da Silva", data: "10/02/2024", cim: "NEGADO", pasta: "", status: "Negado", exibirCim: false},
-            {nome: "Otávio Augusto Valente", data: "28/01/2024", cim: "0245189", pasta: "", status: "Concluído", exibirCim: true},
-            {nome: "Rodrigo Antunes de Oliveira", data: "15/12/2024", cim: "0245190", pasta: "", status: "Concluído", exibirCim: true},
-            {nome: "Fernando José de Almeida", data: "05/11/2024", cim: "0245191", pasta: "", status: "Concluído", exibirCim: true}
+            {nome: "ALAN FERNANDES LOPES", data: "24/04/2026", tipo: "Reg/Filiação", cim: "264110", pasta: "264110", status: "Concluído", exibirCim: true},
+            {nome: "DIEGO CARVALHO BASSAN", data: "17/05/2026", tipo: "Iniciado", cim: "264102", pasta: "264102", status: "Concluído", exibirCim: true},
+            {nome: "RUAN PABLO DA SILVA DE LIMA SANTOS", data: "17/05/2026", tipo: "Iniciado", cim: "264103", pasta: "264103", status: "Concluído", exibirCim: true},
+            {nome: "333", data: "33/33/3333", tipo: "System", cim: "Negado", pasta: "", status: "Negado", exibirCim: false},
+            {nome: "333", data: "33/33/3333", tipo: "System", cim: "Desistência", pasta: "", status: "Desistência", exibirCim: false}
         ];
 
         const ITEMS_PER_PAGE = 6;
@@ -581,9 +615,40 @@
                 const passaBusca = p.nome.toLowerCase().includes(termo) || 
                                    p.cim.toLowerCase().includes(termo) || 
                                    p.status.toLowerCase().includes(termo) ||
-                                   p.data.toLowerCase().includes(termo); 
+                                   p.data.toLowerCase().includes(termo) ||
+                                   (p.tipo && p.tipo.toLowerCase().includes(termo)); 
                 return passaStatus && passaBusca;
             });
+        }
+
+        // =========================================================
+        // FUNÇÃO PARA ABREVIAR NOMES MUITO LONGOS
+        // =========================================================
+        function abreviarNome(nomeOriginal) {
+            const partes = nomeOriginal.trim().split(' ');
+            
+            // Se tiver 2 palavras ou menos, não precisa abreviar
+            if (partes.length <= 2) return nomeOriginal;
+
+            // Mantém apenas o primeiro nome intacto
+            let nomeAbreviado = partes[0] + ' ';
+
+            // Abrevia do segundo até o penúltimo
+            for (let i = 1; i < partes.length - 1; i++) {
+                const palavra = partes[i];
+                // Pula preposições para economizar espaço
+                if (palavra.toLowerCase().match(/^(da|de|do|dos|das)$/)) {
+                    continue; 
+                } else {
+                    // Pega só a primeira letra e coloca um ponto
+                    nomeAbreviado += palavra.charAt(0) + '. ';
+                }
+            }
+
+            // Adiciona o último sobrenome completo
+            nomeAbreviado += partes[partes.length - 1];
+
+            return nomeAbreviado;
         }
 
         // Função para ORDENAR os processos antes de exportar
@@ -605,6 +670,22 @@
                 }
             });
         }
+        
+        // =========================================================
+        // FUNÇÃO PARA LIDAR COM ERRO DE IMAGEM
+        // =========================================================
+        window.handleImageError = function(img) {
+            // Se a imagem que falhou já era o fallback, oculta e mostra o ícone de usuário
+            if (img.src.includes('264.webp')) {
+                img.style.display = 'none';
+                if (img.nextElementSibling) {
+                    img.nextElementSibling.style.display = 'flex';
+                }
+            } else {
+                // Se a foto 3x4 falhou, tenta carregar o brasão da loja
+                img.src = '../arquivados/264.webp';
+            }
+        };
 
         // =========================================================
         // FUNÇÃO PRINCIPAL DE RENDERIZAÇÃO NA TELA
@@ -622,7 +703,7 @@
                 const isConcluido = p.status === "Concluído";
                 const card = document.createElement('a');
                 
-                const pastaLink = p.pasta ? `../processos/${p.pasta}/` : `#`; 
+                const pastaLink = p.pasta ? `../arquivados/${p.pasta}/` : `#`; 
                 card.href = pastaLink;
                 
                 if(!p.pasta) {
@@ -662,16 +743,40 @@
 
                 card.style.cssText += borderStyle;
 
+                // GERA A VERSÃO ABREVIADA DO NOME
+                const nomeAbreviado = abreviarNome(p.nome);
+                
+                // LÓGICA DE IMAGEM: Inicialmente tenta a foto 3x4 do CIM (se houver CIM numérico)
+                // Se o CIM for "Negado", "Desistência" ou "333", ou se a 3x4 não existir, o handleImageError fará a troca.
+                let imgSrc = "";
+                if (p.cim && p.cim !== "333" && p.cim !== "Negado" && p.cim !== "Desistência") {
+                    imgSrc = `../arquivados/${p.cim}/3x4.webp`;
+                } else {
+                    imgSrc = `../arquivados/264.webp`; // Já começa com o fallback se for um caso especial
+                }
+
                 card.innerHTML = `
-                    <div class="col-cim">
-                        <div class="${cimBoxClass}">
-                            <span class="${cimLabelClass}">${labelCIMTexto}</span>
-                            <span class="${cimNumClass}">${p.cim}</span>
+                    <div class="card-header">
+                        <div class="col-cim">
+                            <div class="${cimBoxClass}">
+                                <span class="${cimLabelClass}">${labelCIMTexto}</span>
+                                <span class="${cimNumClass}">${p.cim}</span>
+                            </div>
+                            <span style="margin-left: 10px; display: inline-block;">${lockIcon}</span>
                         </div>
-                        <span style="margin-left: 10px; display: inline-block;">${lockIcon}</span>
+                        <div style="position: relative;">
+                            <img src="${imgSrc}" class="profile-pic" alt="Foto" onerror="handleImageError(this)">
+                            <div class="profile-pic fallback-pic" style="display:none;"><i class="fas fa-user-secret"></i></div>
+                        </div>
                     </div>
-                    <div class="col-name"><span class="cand-name">${p.nome}</span></div>
-                    <div class="col-status"><div class="${tagClass}">${p.status}</div></div>
+                    <div class="col-name" style="width: 100%; overflow: hidden;">
+                        <span class="cand-name name-full" title="${p.nome}">${p.nome}</span>
+                        <span class="cand-name name-short" title="${p.nome}">${nomeAbreviado}</span>
+                    </div>
+                    <div class="col-status" style="flex-direction: column; justify-content: center; align-items: flex-start;">
+                        <div class="${tagClass}">${p.status}</div>
+                        ${p.tipo ? `<span class="tipo-processo">${p.tipo}</span>` : ''}
+                    </div>
                     <div class="col-date"><span class="date-info"><i class="${iconClass}" style="margin-right: 5px;"></i> <strong>${p.data}</strong></span></div>
                     <div class="col-arrow"><i class="fas fa-arrow-right arrow-bottom" style="${showArrow ? '' : 'display:none;'}"></i></div>
                 `;
@@ -706,7 +811,8 @@
                 "Nome do Candidato": p.nome,
                 "Data do Processo": p.data,
                 "CIM / Motivo": p.cim,
-                "Status Final": p.status
+                "Status Final": p.status,
+                "Tipo de Processo": p.tipo || "-"
             }));
 
             const worksheet = XLSX.utils.json_to_sheet(dadosPlanilha);
@@ -715,7 +821,8 @@
                 { wch: 40 }, // Nome
                 { wch: 18 }, // Data
                 { wch: 15 }, // CIM
-                { wch: 15 }  // Status
+                { wch: 15 }, // Status
+                { wch: 20 }  // Tipo
             ];
 
             const workbook = XLSX.utils.book_new();
@@ -725,7 +832,7 @@
             XLSX.writeFile(workbook, `Relatorio_Arquivados_264_${hoje}.xlsx`);
         }
 
-        // =========================================================
+// =========================================================
         // EXPORTAÇÃO PARA PDF VIA JSPDF (Estilizado)
         // =========================================================
         window.exportarPDF = function() {
@@ -741,12 +848,16 @@
             const doc = new jsPDF('p', 'pt', 'a4'); 
             const pageWidth = doc.internal.pageSize.getWidth();
 
-            doc.setFont("helvetica", "bold");
-            doc.setFontSize(16);
-            doc.text("A∴ R∴ L∴ M∴ Fraternidade Imperial Nº 264", pageWidth / 2, 40, { align: "center" });
+            // Usando 'times' que tem melhor suporte a caracteres especiais no jsPDF básico
+            doc.setFont("times", "bold");
+            doc.setFontSize(18);
+            
+            // Texto centralizado 
+            const titulo = "A:. R:. L:. M:. Fraternidade Imperial Nº 264";
+            doc.text(titulo, pageWidth / 2, 40, { align: "center" });
             
             doc.setFontSize(12);
-            doc.setFont("helvetica", "normal");
+            doc.setFont("times", "normal");
             doc.text("Relatório de Sindicâncias - Arquivo Central", pageWidth / 2, 60, { align: "center" });
 
             try {
@@ -758,6 +869,7 @@
                     const ctx = canvas.getContext('2d');
                     ctx.drawImage(imgElement, 0, 0);
                     const imgData = canvas.toDataURL('image/png');
+                    // Imagem centralizada
                     doc.addImage(imgData, 'PNG', (pageWidth / 2) - 30, 80, 60, 60);
                 }
             } catch(e) {
@@ -765,13 +877,13 @@
             }
 
             const tableData = processosParaExportar.map(p => [
-                p.nome, p.data, p.cim, p.status
+                p.nome, p.data, p.cim, p.status, p.tipo || "-"
             ]);
 
             // Melhoria das Cores do PDF
             doc.autoTable({
                 startY: 160,
-                head: [['Nome do Candidato', 'Data', 'CIM / Motivo', 'Status']],
+                head: [['Nome do Candidato', 'Data', 'CIM / Motivo', 'Status', 'Tipo']],
                 body: tableData,
                 theme: 'grid',
                 headStyles: { 
@@ -794,7 +906,8 @@
                     0: { cellWidth: 'auto', fontStyle: 'bold' }, // Destaca o nome do candidato
                     1: { halign: 'center', cellWidth: 70 },
                     2: { halign: 'center', cellWidth: 90 },
-                    3: { halign: 'center', cellWidth: 80, fontStyle: 'bold' }
+                    3: { halign: 'center', cellWidth: 80, fontStyle: 'bold' },
+                    4: { halign: 'center', cellWidth: 80 }
                 },
                 didParseCell: function(data) {
                     if (data.section === 'body' && data.column.index === 3) {
