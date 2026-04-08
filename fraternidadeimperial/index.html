@@ -100,8 +100,24 @@
         .motto-desktop { display: inline; }
         .motto-mobile { display: none; }
 
-        .hero-badge { display: inline-flex; align-items: center; justify-content: center; gap: 10px; background: linear-gradient(90deg, rgba(0,0,0,0.8), rgba(20,40,60,0.8)); padding: 10px 25px; border-radius: 50px; border: 1px solid rgba(212, 175, 55, 0.3); margin-top: 10px; margin-bottom: 40px; box-shadow: 0 0 15px rgba(0,0,0,0.5); flex-wrap: wrap; max-width: 100%; box-sizing: border-box; }
-        .flag-icon { width: 24px; height: auto; border-radius: 2px; }
+        /* --- HERO BADGE & BANDEIRA (CORRIGIDO) --- */
+        .hero-badge { 
+            display: inline-flex; align-items: center; justify-content: center; gap: 15px; 
+            background: linear-gradient(90deg, rgba(0,0,0,0.8), rgba(20,40,60,0.8)); 
+            padding: 8px 25px; border-radius: 50px; border: 1px solid rgba(212, 175, 55, 0.3); 
+            margin-top: 15px; margin-bottom: 50px; 
+            box-shadow: 0 0 15px rgba(0,0,0,0.5); flex-wrap: nowrap; 
+            height: 50px; 
+        }
+        /* Tamanho Fixo para evitar quebra no mobile */
+        .flag-icon { 
+            height: 24px; 
+            width: 34px; 
+            object-fit: cover; 
+            border-radius: 3px; 
+            display: block; 
+            box-shadow: 0 0 5px rgba(0,0,0,0.5);
+        }
 
         .btn-hero { color: var(--gold); text-decoration: none; border: 1px solid var(--gold); padding: 12px 30px; font-size: 1rem; display: inline-block; margin-top: 10px; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; background: rgba(0,0,0,0.4); text-align: center; }
         .btn-hero:hover { background: var(--gold); color: #000; box-shadow: 0 0 20px var(--gold-shadow); }
@@ -168,7 +184,6 @@
         .btn-map { color: #fff; text-decoration: none; border: 1px solid rgba(255,255,255,0.3); padding: 12px 20px; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; gap: 10px; transition: 0.3s; background: rgba(0,0,0,0.3); width: auto; max-width: 100%; text-align: center; }
         .btn-map:hover { background: var(--gold); color: #000; border-color: var(--gold); }
         
-        /* Ocultar a versão mobile dos botões no desktop */
         .mobile-map-buttons { display: none; }
 
         /* --- FOOTER PADRÃO MOSAICO --- */
@@ -204,14 +219,13 @@
         
         .copyright { position: relative; z-index: 1; font-size: 0.8rem; color: #ccc; padding-top: 20px; border-top: 1px solid rgba(212, 175, 55, 0.3); display: flex; justify-content: space-between; max-width: 1200px; margin: 0 auto; padding-left: 20px; padding-right: 20px; flex-wrap: wrap; text-shadow: 0 1px 2px #000; }
 
-
         /* --- BOTÕES FLUTUANTES --- */
         .floating-actions { position: fixed; bottom: 30px; right: 30px; display: flex; flex-direction: column; gap: 15px; z-index: 998; transition: opacity 0.4s, visibility 0.4s; opacity: 0; visibility: hidden; }
         .floating-actions.show { opacity: 1; visibility: visible; }
         .float-btn { width: 45px; height: 45px; border-radius: 50%; background: rgba(0, 12, 24, 0.6); border: 1px solid rgba(212, 175, 55, 0.5); color: var(--gold); font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.5); transition: 0.3s; backdrop-filter: blur(5px); }
         .float-btn:hover { background: var(--gold); color: #000; border-color: var(--gold); box-shadow: 0 0 15px var(--gold-shadow); transform: translateY(-5px); }
 
-        /* --- LGPD COOKIE BANNER CORRIGIDO --- */
+        /* --- LGPD COOKIE BANNER --- */
         .cookie-banner { position: fixed; bottom: 0; left: 0; width: 100%; transform: translateY(100%); background: rgba(0, 12, 24, 0.98); border-top: 1px solid var(--gold); padding: 20px; z-index: 9999; display: flex; justify-content: center; align-items: center; gap: 20px; transition: transform 0.5s ease-in-out; box-shadow: 0 -5px 20px rgba(0,0,0,0.5); box-sizing: border-box; }
         .cookie-banner.show { transform: translateY(0); }
         .cookie-text { font-size: 0.9rem; color: #ccc; max-width: 800px; word-wrap: break-word; }
@@ -230,22 +244,19 @@
             .nav-menu ul { flex-direction: column; gap: 25px; width: 100%; align-items: center; }
             .mobile-toggle { display: block; margin-left: 5px; }
 
-            /* Ajuste crucial para o título no mobile com fonte baseada na largura da tela */
             .hero h1 { font-size: 6vw; line-height: 1.3; } 
             .gadu-text { font-size: 0.75rem; letter-spacing: 2px; }
             
-            /* Novo texto de destaque no mobile */
             .texto-destaque { font-size: 1.2rem; letter-spacing: 2px; }
             .texto-destaque span { display: block; margin-top: 5px; }
             
-            /* A Pirâmide na Frase no Mobile */
             .motto { font-size: 0.85rem; letter-spacing: 2px; line-height: 1.8; text-align: center; }
             .motto-desktop { display: none; }
             .motto-mobile { display: block; }
             .motto-mobile span { display: block; }
             .motto-bot { color: var(--gold); font-weight: bold; margin-top: 5px; }
 
-            .hero-badge { padding: 8px 15px; margin-bottom: 20px; }
+            .hero-badge { padding: 8px 15px; margin-bottom: 30px; } 
             .btn-hero { font-size: 0.85rem; padding: 10px 20px; }
 
             .history-box { padding: 25px 20px; width: 100%; }
@@ -256,26 +267,31 @@
 
             .faq-question { font-size: 0.95rem; padding: 15px; }
 
-            /* --- CONTATO MOBILE: OCULTA TEXTO E MOSTRA MAPA/BOTÕES --- */
-            .contact-container { grid-template-columns: 1fr; padding: 20px; width: 100%; gap: 20px; }
+            /* --- CONTATO MOBILE UPGRADE ("APP FEELING") --- */
+            .contact-container { grid-template-columns: 1fr; padding: 25px 15px; width: 100%; gap: 30px; }
             
-            /* Mantemos o flex para alinhar o botão, mas escondemos o endereço escrito */
-            .contact-info { display: flex; flex-direction: column; align-items: center; text-align: center; margin-bottom: 10px; width: 100%; }
-            .contact-info h3, .contact-info .info-item { display: none; }
+            /* Torna as informações visíveis, alinhadas e bonitas no mobile */
+            .contact-info { display: flex; flex-direction: column; align-items: center; text-align: center; margin-bottom: 0; width: 100%; }
+            .contact-info h3 { display: block; font-size: 1.6rem; margin-bottom: 25px; border-bottom: none; width: 100%; }
             
-            /* O Botão WPP no Mobile fica do mesmo tamanho dos botões de mapa */
-            .btn-wpp { width: 100%; margin-top: 0; font-size: 1rem; }
+            /* Formato de ícone acima do texto */
+            .contact-info .info-item { display: flex; flex-direction: column; align-items: center; gap: 8px; margin-bottom: 25px; width: 100%; }
+            .info-item i { margin-top: 0; font-size: 1.8rem; margin-bottom: 5px; background: rgba(212, 175, 55, 0.1); padding: 15px; border-radius: 50%; box-shadow: 0 0 15px rgba(212, 175, 55, 0.2); }
+            .info-item span { font-size: 0.95rem; line-height: 1.4; color: #e2e8f0; }
             
-            .btn-map-container { display: none; } /* Esconde o contêiner de mapas do desktop */
+            .btn-wpp { width: 100%; margin-top: 10px; font-size: 1.05rem; padding: 15px; border-radius: 8px; }
+            
+            .btn-map-container { display: none; } /* Mantém as do desktop escondidas */
 
-            .map-area { min-height: 300px; padding: 15px; display: flex; flex-direction: column; gap: 15px; background: rgba(0,0,0,0.3);}
-            .map-frame { min-height: 250px; width: 100%; border-radius: 4px; margin-bottom: 0; }
+            /* Ajuste elegante no container do Mapa */
+            .map-area { min-height: auto; padding: 15px; display: flex; flex-direction: column; gap: 15px; background: rgba(0,0,0,0.4); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: 12px; }
+            .map-frame { min-height: 250px; width: 100%; border-radius: 8px; margin-bottom: 0; }
             
-            /* Mostra os botões abaixo do mapa */
+            /* Botões do mapa em tela cheia */
             .mobile-map-buttons { display: flex; flex-direction: column; width: 100%; gap: 10px; }
-            .mobile-map-buttons .btn-map { width: 100%; margin: 0; max-width: 100%; font-size: 0.9rem;}
+            .mobile-map-buttons .btn-map { width: 100%; margin: 0; max-width: 100%; font-size: 0.95rem; padding: 14px; border-radius: 8px; }
 
-            /* Footer Secretaria copiado e responsivo */
+            /* Footer */
             .footer-grid { grid-template-columns: 1fr; text-align: center; gap: 40px; padding: 0 15px; }
             .mobile-center-col { display: flex; flex-direction: column; align-items: center; }
             .footer-contact { text-align: left; display: inline-block; width: fit-content; max-width: 100%; }
@@ -343,7 +359,7 @@
             </p>
            <br>
             <div class="hero-badge">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Flag_of_Brazil.svg/64px-Flag_of_Brazil.svg.png" alt="Brasil" class="flag-icon">
+                <img src="imagens/brasil.webp" alt="Brasil" class="flag-icon" onerror="this.style.display='none'">
                 <span style="font-family: 'Cinzel'; font-size: 0.95rem; color: #fff;">Rito Brasileiro</span>
             </div>
             
