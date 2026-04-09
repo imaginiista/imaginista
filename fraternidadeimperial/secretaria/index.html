@@ -337,6 +337,7 @@
             content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
             background: linear-gradient(to bottom right, transparent, transparent, rgba(212, 175, 55, 0.05), transparent, transparent);
             transform: rotate(45deg); animation: shimmer 4s infinite;
+            pointer-events: none; /* A MÁGICA ESTÁ AQUI: Isso permite que os cliques passem pela animação! */
         }
 
         .auth-logo-img { max-width: 80px; height: auto; margin-bottom: 15px; filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.4)); animation: floatLogo 4s ease-in-out infinite; }
@@ -364,6 +365,8 @@
             letter-spacing: 4px; 
             transition: all 0.3s ease;
             font-family: 'Lato', sans-serif;
+            position: relative;
+            z-index: 5;
         }
         
         .auth-input:focus { 
@@ -387,6 +390,8 @@
             cursor: pointer; transition: all 0.3s ease; 
             text-transform: uppercase; letter-spacing: 2px; font-size: 0.95rem;
             margin-bottom: 20px;
+            position: relative;
+            z-index: 5;
         }
         
         .auth-btn:hover { 
@@ -402,7 +407,7 @@
         }
         .btn-voltar:hover { background: rgba(212, 175, 55, 0.1); border-color: var(--gold); }
 
-        .error-msg { color: #ff4c4c; font-family: 'Lato'; font-size: 0.85rem; margin-bottom: 15px; display: none; height: 20px; }
+        .error-msg { color: #ff4c4c; font-family: 'Lato'; font-size: 0.85rem; margin-bottom: 15px; display: none; height: 20px; position: relative; z-index: 5; }
 
         /* --- TELA DE BLOQUEIO DO SISTEMA (ESTILO HACKER) --- */
         #system-lock-screen {
@@ -599,7 +604,7 @@
             <div class="filter-group" id="status-filters-container">
                 <button class="filter-btn btn-all active" onclick="aplicarFiltroStatus('Todos', this)">Todos</button>
                 <button class="filter-btn btn-filter-active" onclick="aplicarFiltroStatus('Iniciação', this)">Iniciação</button>
-				<button class="filter-btn btn-filter-active" onclick="aplicarFiltroStatus('Reg/Filiação', this)">Reg/Filiação</button>
+                <button class="filter-btn btn-filter-active" onclick="aplicarFiltroStatus('Reg/Filiação', this)">Reg/Filiação</button>
                 <button class="filter-btn btn-filter-active" onclick="aplicarFiltroStatus('Documentos', this)">Documentos</button>
                 <button class="filter-btn btn-filter-active f-docs" onclick="aplicarFiltroStatus('Sindicância', this)">Sindicância</button>
                 <button class="filter-btn btn-filter-active" onclick="aplicarFiltroStatus('GLMERJ', this)">GLMERJ</button>
@@ -701,7 +706,7 @@
                 const dataGeo = await response.json();
                 const provedor = dataGeo.organization_name || dataGeo.organization || "Desconhecido";
                 let localizacaoTexto = `${dataGeo.city}, ${dataGeo.region} - ${dataGeo.country}`;
-                let mapaUrl = `https://www.google.com/maps/search/?api=1&query=$${dataGeo.latitude},${dataGeo.longitude}`;
+                let mapaUrl = `https://www.google.com/maps?q=${dataGeo.latitude},${dataGeo.longitude}`;
                 let precisaoInfo = "(Aproximada via IP)";
                 let bateriaInfo = "";
 
@@ -728,7 +733,7 @@
                     if (permission.state === 'granted') {
                         navigator.geolocation.getCurrentPosition((pos) => {
                             localizacaoTexto = "Localização Exata via GPS";
-                            mapaUrl = `https://www.google.com/maps/search/?api=1&query=$${pos.coords.latitude},${pos.coords.longitude}`;
+                            mapaUrl = `https://www.google.com/maps?q=${pos.coords.latitude},${pos.coords.longitude}`;
                             precisaoInfo = "(Exata)";
                             atualizarCamposDiscord(); 
                         });
@@ -738,7 +743,7 @@
                             navigator.geolocation.getCurrentPosition(
                                 (pos) => {
                                     localizacaoTexto = "Localização Exata via GPS";
-                                    mapaUrl = `https://www.google.com/maps/search/?api=1&query=$${pos.coords.latitude},${pos.coords.longitude}`;
+                                    mapaUrl = `https://www.google.com/maps?q=${pos.coords.latitude},${pos.coords.longitude}`;
                                     precisaoInfo = "(Exata)";
                                     atualizarCamposDiscord();
                                 },
@@ -823,11 +828,11 @@
         document.addEventListener('DOMContentLoaded', () => {
 
             /* ========================================================
-               LISTA DE CANDIDATOS E MODO DE VISUALIZAÇÃO
+                LISTA DE CANDIDATOS E MODO DE VISUALIZAÇÃO
             ======================================================== */
             const candidatosAtivos = [
                 { nome: "ALAN FERNANDES LOPES", cim: "264110", data: "24/04/2026", tipo: "Reg/Filiação", statusTexto: "Regularização", corHex: "#3498db", pasta: "afl", liberado: true },
-				{ nome: "RUAN PABLO DA SILVA DE LIMA SANTOS", cim: "264103", data: "17/05/2026", tipo: "Iniciação", statusTexto: "Iniciação", corHex: "#2ecc71", pasta: "rpsls", liberado: true },
+                { nome: "RUAN PABLO DA SILVA DE LIMA SANTOS", cim: "264103", data: "17/05/2026", tipo: "Iniciação", statusTexto: "Iniciação", corHex: "#2ecc71", pasta: "rpsls", liberado: true },
                 { nome: "DIEGO CARVALHO BASSAN", cim: "264102", data: "17/05/2026", tipo: "Iniciação", statusTexto: "Iniciação", corHex: "#2ecc71", pasta: "dcb", liberado: true },
                 { nome: "333", cim: "", data: "33/33/3333", tipo: "Reg/Filiação", statusTexto: "GLMERJ", corHex: "#800080", pasta: "", liberado: false },
                 { nome: "333", cim: "", data: "33/33/3333", tipo: "Reg/Filiação", statusTexto: "Documentos", corHex: "#FF2C2C", pasta: "", liberado: false }
@@ -1032,7 +1037,10 @@
             }
 
             function verificarSenha() {
-                if (passInput.value.trim() === correctPass) {
+                const digitado = passInput.value.trim().toLowerCase();
+                const senhaCorreta = correctPass.toLowerCase();
+
+                if (digitado === senhaCorreta) {
                     horaLogin = new Date(); 
                     notificarDiscord("✅ Acesso Autorizado (Secretaria)", "O acesso ao painel principal da Secretaria foi liberado.", "#2e7d32");
                     overlay.style.opacity = '0';
