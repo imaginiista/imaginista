@@ -13,13 +13,13 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-	
-	<link rel="icon" type="image/png" href="favicon/favicon-96x96.png" sizes="96x96">
+    
+    <link rel="icon" type="image/png" href="favicon/favicon-96x96.png" sizes="96x96">
     <link rel="icon" type="image/svg+xml" href="favicon/favicon.svg">
     <link rel="shortcut icon" href="favicon/favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
     <meta name="theme-color" content="#0a2a24">
-	
+    
     <meta property="og:title" content="A∴ R∴ L∴ M∴ Fraternidade Imperial Nº 264"> 
     <meta property="og:description" content="No coração da Cidade Imperial, a luz da fraternidade se ergue como símbolo de união, sabedoria e continuidade espiritual.">
     <meta property="og:type" content="website">
@@ -28,7 +28,7 @@
     <meta property="og:image:type" content="image/png">
     <meta property="og:image:width" content="512">
     <meta property="og:image:height" content="512">
-	
+    
     <style>
         :root {
             --gold: #d4af37;
@@ -270,28 +270,27 @@
             .faq-question { font-size: 0.95rem; padding: 15px; }
 
             /* --- CONTATO MOBILE UPGRADE ("APP FEELING") --- */
-            .contact-container { grid-template-columns: 1fr; padding: 25px 15px; width: 100%; gap: 30px; }
+            .contact-container { grid-template-columns: 1fr; padding: 0 15px; width: 100%; gap: 20px; background: transparent; border: none; box-shadow: none; }
             
-            /* Torna as informações visíveis e centralizadas no mobile */
             .contact-info { display: flex; flex-direction: column; align-items: center; text-align: center; margin-bottom: 0; width: 100%; }
-            .contact-info h3 { display: block; font-size: 1.6rem; margin-bottom: 25px; border-bottom: none; width: 100%; }
+            .contact-info h3 { display: none; } /* Esconde o título redundante no mobile */
             
-            /* Formato de ícone acima do texto */
-            .contact-info .info-item { display: flex; flex-direction: column; align-items: center; gap: 8px; margin-bottom: 25px; width: 100%; }
-            .info-item i { margin-top: 0; font-size: 1.8rem; margin-bottom: 5px; background: rgba(212, 175, 55, 0.1); padding: 15px; border-radius: 50%; box-shadow: 0 0 15px rgba(212, 175, 55, 0.2); }
-            .info-item span { font-size: 0.95rem; line-height: 1.4; color: #e2e8f0; }
+            /* O SEGREDO: Esconde os textos detalhados no mobile para não repetir com o footer */
+            .contact-info .info-item { display: none; }
             
-            .btn-wpp { width: 100%; margin-top: 10px; font-size: 1.05rem; padding: 15px; border-radius: 8px; }
+            /* Botão WhatsApp Estilo Premium App */
+            .btn-wpp { width: 100%; margin-top: 0; font-size: 1.1rem; padding: 18px; border-radius: 12px; box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3); text-transform: uppercase; letter-spacing: 1px; }
             
-            .btn-map-container { display: none; } /* Esconde o contêiner de mapas do desktop */
+            .btn-map-container { display: none; } /* Esconde os botões do desktop */
 
-            /* Ajuste elegante no container do Mapa */
-            .map-area { min-height: auto; padding: 15px; display: flex; flex-direction: column; gap: 15px; background: rgba(0,0,0,0.4); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: 12px; }
-            .map-frame { min-height: 250px; width: 100%; border-radius: 8px; margin-bottom: 0; }
+            /* Card do Mapa Estilo App com Efeito Vidro */
+            .map-area { min-height: auto; padding: 15px; display: flex; flex-direction: column; gap: 15px; background: rgba(0, 12, 24, 0.8); border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.6); backdrop-filter: blur(10px); }
+            .map-frame { min-height: 200px; width: 100%; border-radius: 12px; margin-bottom: 0; }
             
-            /* Botões do mapa em tela cheia */
-            .mobile-map-buttons { display: flex; flex-direction: column; width: 100%; gap: 10px; }
-            .mobile-map-buttons .btn-map { width: 100%; margin: 0; max-width: 100%; font-size: 0.95rem; padding: 14px; border-radius: 8px; }
+            /* Botões do mapa (Waze / Google) Lado a Lado */
+            .mobile-map-buttons { display: flex; flex-direction: row; width: 100%; gap: 10px; justify-content: space-between; }
+            .mobile-map-buttons .btn-map { flex: 1; margin: 0; max-width: 100%; font-size: 0.85rem; padding: 12px 5px; border-radius: 10px; display: flex; flex-direction: column; gap: 5px; }
+            .mobile-map-buttons .btn-map i { font-size: 1.4rem; margin: 0; }
 
             /* Footer */
             .footer-grid { grid-template-columns: 1fr; text-align: center; gap: 40px; padding: 0 15px; }
@@ -353,7 +352,7 @@
             <div class="gadu-text">À Glória do Supremo Arquiteto do Universo</div>
             
             <h1>A∴ R∴ L∴ M∴<br><span class="no-wrap">Fraternidade Imperial</span><br><span>Nº 264</span></h1>
-			
+            
             <p class="motto motto-desktop">Liberdade, Igualdade e Fraternidade</p>
             <p class="motto motto-mobile">
                 <span class="motto-top">Liberdade Igualdade</span> 
@@ -467,7 +466,7 @@
                     
                     <div class="mobile-map-buttons">
                         <a href="https://ul.waze.com/ul?place=EkVSLiBOYWlyIFRlZsOpLCAzMjAgLSBRdWl0YW5kaW5oYSwgUGV0csOzcG9saXMgLSBSSiwgMjU2NTAtMzAwLCBCcmF6aWwiMRIvChQKEgnTeoLBGgmZABFG21QZBKl3qhDAAioUChIJAy103BoJmQAR_tz56QDwYhg&ll=-22.53576410%2C-43.22511110&navigate=yes&utm_campaign=waze_website&utm_source=waze_website&utm_medium=lm_share_location" target="_blank" class="btn-map">
-                            <i class="fab fa-waze"></i> Ir com Waze
+                            <i class="fab fa-waze"></i> Waze
                         </a>
                         <a href="https://www.google.com/maps/search/?api=1&query=Rua+Nair+Tefe+320+Petropolis+RJ" target="_blank" class="btn-map">
                             <i class="fas fa-map-marked-alt"></i> Google Maps
@@ -495,8 +494,8 @@
                         <a href="#" class="social-btn" title="YouTube (Em breve)"><i class="fab fa-youtube"></i></a>
                     </div>
                 </div>
-				
-				
+                
+                
                   <div class="footer-col footer-dev-right">
                     <span style="font-size:0.8rem; color:#aaa; margin-bottom:5px; text-shadow: 0 1px 2px #000;">Desenvolvido por:</span>
                     <a href="https://oimaginista.com" target="_blank">
