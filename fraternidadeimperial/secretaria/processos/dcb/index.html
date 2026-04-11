@@ -35,7 +35,7 @@
             --gold-shadow: rgba(212, 175, 55, 0.5);
             --blue-deep: #000c18;
             --text-main: #e2e8f0;
-			--aprovado: #008000; 
+            --aprovado: #008000; 
         }
 
         /* --- TEMA REGULARIZAÇÃO (PRATEADO/AÇO) --- */
@@ -388,25 +388,36 @@
             padding: 15px; border-radius: 6px; border-left: 4px solid #cc0000; margin-top: 5px; 
         }
 
+        /* --- ANIMAÇÃO DAS LISTRAS DA BARRA --- */
+        @keyframes progress-stripes {
+            from { background-position: 1rem 0; }
+            to { background-position: 0 0; }
+        }
+
         /* TIMELINE */
-        .timeline-box { background: white; padding: 40px 20px; border-radius: 12px; box-shadow: var(--shadow-hdr); margin-bottom: 40px; overflow-x: auto; border-bottom: 4px solid var(--gold); scrollbar-width: thin; scrollbar-color: var(--gold) #f0f0f0; transition: border-color 0.3s ease;}
+        /* overflow: hidden no desktop para tirar a barra de rolagem */
+        .timeline-box { background: rgba(0, 15, 30, 0.6); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); padding: 40px 20px; border-radius: 12px; box-shadow: var(--shadow-hdr); margin-bottom: 40px; overflow: hidden; border: 1px solid rgba(212, 175, 55, 0.15); border-bottom: 4px solid var(--gold); scrollbar-width: thin; scrollbar-color: var(--gold) rgba(0,0,0,0.3); transition: border-color 0.3s ease;}
         .timeline-box::-webkit-scrollbar { height: 6px; }
         .timeline-box::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 10px; }
 
-        .timeline-header { text-align: center; font-family: 'Cinzel', serif; color: var(--royal-blue); font-size: 1.4rem; margin-bottom: 40px; }
-        .progress-steps { display: flex; justify-content: space-between; position: relative; min-width: 900px; padding: 0 20px; transition: min-width 0.5s ease;}
+        .timeline-header { text-align: center; font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.4rem; margin-bottom: 40px; text-shadow: 0 2px 5px rgba(0,0,0,0.8); }
         
-        /* AQUI FICA A CORREÇÃO DE LARGURA DA TIMELINE PARA DESKTOP REGULARIZAÇÃO */
-        body.theme-regularizacao .progress-steps { min-width: 700px; }
+        /* width: 100% no desktop para não estourar a tela */
+        .progress-steps { display: flex; justify-content: space-between; position: relative; width: 100%; padding: 0 10px; transition: width 0.5s ease;}
+        
+        /* CORREÇÃO DE LARGURA DA TIMELINE PARA DESKTOP REGULARIZAÇÃO */
+        body.theme-regularizacao .progress-steps { width: 100%; }
 
-        .progress-line-bg { position: absolute; top: 18px; left: 45px; right: 45px; height: 6px; background: #e0e0e0; z-index: 0; border-radius: 10px; }
+        .progress-line-bg { position: absolute; top: 18px; left: 45px; right: 45px; height: 6px; background: rgba(255, 255, 255, 0.1); z-index: 0; border-radius: 10px; }
         .progress-line-fill { position: absolute; top: 18px; left: 45px; height: 6px; background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.2) 75%, transparent 75%, transparent); background-color: var(--gold); background-size: 1rem 1rem; animation: progress-stripes 1s linear infinite; z-index: 0; transition: width 1s ease, background-color 0.3s ease; width: 0%; border-radius: 10px; box-shadow: 0 0 10px rgba(212, 175, 55, 0.5); }
         .p-step { position: relative; z-index: 1; text-align: center; flex: 1; transition: display 0.3s ease;}
-        .p-circle { width: 42px; height: 42px; background: #fff; border: 3px solid #ddd; border-radius: 50%; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #ccc; transition: all 0.4s; }
-        .p-label { font-size: 0.7rem; color: #999; font-weight: 700; margin-top: 5px; text-transform: uppercase;}
         
-        .p-step.completed .p-circle { background: var(--royal-blue); border-color: var(--royal-blue); color: white; }
-        .p-step.completed .p-label { color: var(--royal-blue); }
+        /* Ajuste das Cores dos Círculos para Fundo Escuro */
+        .p-circle { width: 42px; height: 42px; background: var(--dark-navy); border: 3px solid rgba(255, 255, 255, 0.15); border-radius: 50%; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #666; transition: all 0.4s; }
+        .p-label { font-size: 0.7rem; color: #aaa; font-weight: 700; margin-top: 5px; text-transform: uppercase;}
+        
+        .p-step.completed .p-circle { background: var(--royal-blue); border-color: var(--gold); color: white; }
+        .p-step.completed .p-label { color: var(--text-main); }
         .p-step.active .p-circle { background: var(--gold); border-color: var(--gold); color: white; transform: scale(1.3); box-shadow: 0 0 20px var(--gold-shadow); }
         .p-step.active .p-label { color: var(--gold); font-weight: 800; }
         
@@ -420,19 +431,32 @@
         .p-step.desistencia .p-label { color: #b86b00; font-weight: 800; }
 
         /* VISUALIZADOR PDF */
-        .pdf-viewer-section { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: var(--shadow-hdr); margin-bottom: 40px; border: 1px solid #ddd; }
-        .pdf-toolbar { background: #f8f9fa; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; flex-wrap: wrap; gap: 10px;}
-        .pdf-title { font-weight: bold; color: var(--royal-blue); display: flex; align-items: center; gap: 10px; font-family: 'Cinzel', serif; }
-        .pdf-actions { display: flex; gap: 5px; }
-        iframe { width: 100%; height: 600px; border: none; background: #525659; }
+        .pdf-viewer-section { 
+            background: rgba(0, 15, 30, 0.6); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); 
+            border-radius: 12px; overflow: hidden; box-shadow: var(--shadow-hdr); margin-bottom: 40px; border: 1px solid rgba(212, 175, 55, 0.15); 
+            /* Efeito Céu Estrelado no fundo do PDF (aparece se o PDF demorar a carregar) */
+            background-image: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+        
+        .pdf-toolbar { background: rgba(0, 5, 10, 0.8); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(212, 175, 55, 0.2); flex-wrap: wrap; gap: 10px;}
+        .pdf-title { font-weight: bold; color: var(--gold); display: flex; align-items: center; gap: 10px; font-family: 'Cinzel', serif; }
+        
+        /* Ajuste para os botões não quebrarem a linha */
+        .pdf-actions { display: flex; gap: 5px; flex-wrap: nowrap; }
+        .pdf-actions .btn-mini { white-space: nowrap; }
+
+        /* Fundo transparente para ver o espaço atrás do iframe */
+        iframe { width: 100%; height: 600px; border: none; background: transparent; }
 
         .mobile-pdf-warning {
             display: none;
             padding: 40px 20px;
             text-align: center;
-            background: #f8f9fa;
-            color: #555;
+            background: rgba(0, 5, 10, 0.8);
+            color: #ccc;
             font-size: 0.9rem;
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
         }
 
         /* =========================================
@@ -752,17 +776,6 @@
             
             .full-width, .col-span-2, .initiation-date { grid-column: span 2; }
             
-            .progress-steps { 
-                padding-bottom: 10px; 
-                min-width: 750px; 
-                padding-right: 40px; 
-                overflow-x: visible;
-            }
-            body.theme-regularizacao .progress-steps { 
-                min-width: 600px; 
-            }
-            .progress-line-bg { right: 45px; }
-            
             .search-container { flex-direction: column; align-items: stretch;}
             .docs-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
             
@@ -787,6 +800,20 @@
             .lockdown-msg {
                 font-size: clamp(0.7rem, 2.5vw, 0.9rem);
             }
+            
+            /* DEVOLVE A ROLAGEM APENAS NO MOBILE PARA A TIMELINE */
+            .timeline-box { overflow-x: auto; }
+            .progress-steps { 
+                padding-bottom: 10px; 
+                min-width: 750px; 
+                padding-right: 40px; 
+                overflow-x: visible;
+            }
+            body.theme-regularizacao .progress-steps { 
+                min-width: 600px; 
+            }
+            .progress-line-bg { right: 45px; }
+            
         }
         
         /* NOVO AJUSTE: Telas muito pequenas (iPhone SE, etc) com DUAS colunas perfeitas */
@@ -1031,9 +1058,7 @@
                     <div class="doc-name">Termo<small>de Consentimento</small></div>
                     <div class="doc-desc status-missing">PENDENTE ✍️</div>
                     <div class="card-actions">
-                     <!--   <a href="#" target="_blank" class="btn-mini btn-view">Ver</a>
-                        <a href="#" download class="btn-mini btn-down">Baixar</a> -->
-                    </div>
+                     </div>
                 </div>
 
                 <div class="doc-card doc-locked">
@@ -1101,30 +1126,7 @@
                         <a href="docs/2021-09 - CNH-e.pdf" download class="btn-mini btn-down">Baixar</a>
                     </div>
                 </div>
-     <!--
-                <div class="doc-card doc-locked">
-                    <span class="doc-tag tag-pessoal">PESSOAL</span>
-                    <div class="doc-icon"><i class="fas fa-ring"></i></div>
-                    <div class="doc-name">Certidão<small>ESPOSA</small></div>
-                    <div class="doc-desc status-neutral">Casamento</div>
-                    <div class="card-actions">
-                        <a href="docs/#" target="_blank" class="btn-mini btn-view">Ver</a>
-                        <a href="docs/#" download class="btn-mini btn-down">Baixar</a>
-                    </div>
-                </div>
-
-                <div class="doc-card doc-locked">
-                    <span class="doc-tag tag-pessoal">PESSOAL</span>
-                    <div class="doc-icon"><i class="fas fa-baby"></i></div>
-                    <div class="doc-name">Certidão<small>FILHO</small></div>
-                    <div class="doc-desc status-neutral">Nascimento</div>
-                    <div class="card-actions">
-                        <a href="docs/#" target="_blank" class="btn-mini btn-view">Ver</a>
-                        <a href="docs/#" download class="btn-mini btn-down">Baixar</a>
-                    </div>
-                </div>
-      -->          
-                <div class="doc-card">
+     <div class="doc-card">
                     <span class="doc-tag tag-pessoal">PESSOAL</span>
                     <div class="doc-icon"><i class="fas fa-map-marked-alt"></i></div>
                     <div class="doc-name">Comprovante<small>Residência</small></div>
@@ -1353,8 +1355,8 @@
                         <a href="docs/2023.03 - GLMERJ - 3. SINDICÂNCIA COM O CANDIDATO.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
                         <a href="docs/2023.03 - GLMERJ - 3. SINDICÂNCIA COM O CANDIDATO.pdf" download class="btn-mini btn-down">Baixar</a>
                     </div>
-                </div>     
-				
+                </div>      
+                
                 <div class="doc-card doc-locked">
                     <span class="doc-tag tag-loja">LOJA 264</span>
                     <div class="doc-icon"><img src="../../../imagens/264.webp" class="doc-icon-img" alt="GLMERJ"></div>
@@ -1364,7 +1366,7 @@
                         <a href="docs/2023.03 - GLMERJ - 5. SINDICÂNCIA COM REFERÊNCIAS.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
                         <a href="docs/2023.03 - GLMERJ - 5. SINDICÂNCIA COM REFERÊNCIAS.pdf" download class="btn-mini btn-down">Baixar</a>
                     </div>
-                </div>				
+                </div>              
 
                 <div class="doc-card">
                     <span class="doc-tag tag-glmerj">GLMERJ</span>
@@ -1860,7 +1862,11 @@
                 
                 cimContainer.style.display = "block"; 
                 document.getElementById('cim-number').innerText = cimNumber;
-                progLine.style.width = "100%"; 
+                
+                // Atraso para a animação da barra
+                setTimeout(() => {
+                    progLine.style.width = "100%"; 
+                }, 100);
 
                 for(let i=1; i<=totalSteps; i++) {
                     const el = document.getElementById(`step-${i}`);
@@ -1889,7 +1895,12 @@
                 document.getElementById('alert-resp').innerText = "Despacho por: " + statusResponsible + " em " + finalDate;
 
                 const percent = ((stepAtual-1) / (totalSteps-1)) * 100;
-                progLine.style.width = percent + "%";
+                
+                // Atraso para a animação da barra
+                setTimeout(() => {
+                    progLine.style.width = percent + "%";
+                }, 100);
+                
                 progLine.style.backgroundColor = isDesistencia ? "#b86b00" : "#cc0000";
                 progLine.style.backgroundImage = "none"; 
 
@@ -1918,7 +1929,11 @@
                 }
                 
                 const percent = ((stepAtual-1) / (totalSteps-1)) * 100;
-                progLine.style.width = percent + "%";
+                
+                // Atraso para a animação da barra "crescendo" funcionar
+                setTimeout(() => {
+                    progLine.style.width = percent + "%";
+                }, 100);
 
                 for(let i=1; i<=totalSteps; i++) {
                     const el = document.getElementById(`step-${i}`);
@@ -2043,7 +2058,17 @@
                 particleSpeed: 0.15 
             };
 
-            const resize = () => { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; };
+            const resize = () => { 
+                w = canvas.width = window.innerWidth; 
+                h = canvas.height = window.innerHeight; 
+                // Reposiciona partículas se a tela diminuir (zoom) para não quebrar a borda
+                particles.forEach(p => {
+                    if (p.x > w || p.y > h) {
+                        p.x = Math.random() * w;
+                        p.y = Math.random() * h;
+                    }
+                });
+            };
             window.addEventListener('resize', resize);
             resize();
 
