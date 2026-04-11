@@ -390,26 +390,41 @@
 
         /* --- ANIMAÇÃO DAS LISTRAS DA BARRA --- */
         @keyframes progress-stripes {
-            from { background-position: 1rem 0; }
+            from { background-position: 2rem 0; }
             to { background-position: 0 0; }
         }
 
         /* TIMELINE */
-        /* overflow: hidden no desktop para tirar a barra de rolagem */
-        .timeline-box { background: rgba(0, 15, 30, 0.6); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); padding: 40px 20px; border-radius: 12px; box-shadow: var(--shadow-hdr); margin-bottom: 40px; overflow: hidden; border: 1px solid rgba(212, 175, 55, 0.15); border-bottom: 4px solid var(--gold); scrollbar-width: thin; scrollbar-color: var(--gold) rgba(0,0,0,0.3); transition: border-color 0.3s ease;}
+        .timeline-box { 
+            background: rgba(0, 15, 30, 0.6); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); 
+            padding: 40px 20px; border-radius: 12px; box-shadow: var(--shadow-hdr); margin-bottom: 40px; 
+            overflow: hidden; /* Remove rolagem padrão no desktop */
+            border: 1px solid rgba(212, 175, 55, 0.15); border-bottom: 4px solid var(--gold); 
+            scrollbar-width: thin; scrollbar-color: var(--gold) rgba(0,0,0,0.3); transition: border-color 0.3s ease;
+        }
         .timeline-box::-webkit-scrollbar { height: 6px; }
         .timeline-box::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 10px; }
 
         .timeline-header { text-align: center; font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.4rem; margin-bottom: 40px; text-shadow: 0 2px 5px rgba(0,0,0,0.8); }
         
-        /* width: 100% no desktop para não estourar a tela */
         .progress-steps { display: flex; justify-content: space-between; position: relative; width: 100%; padding: 0 10px; transition: width 0.5s ease;}
         
         /* CORREÇÃO DE LARGURA DA TIMELINE PARA DESKTOP REGULARIZAÇÃO */
         body.theme-regularizacao .progress-steps { width: 100%; }
 
         .progress-line-bg { position: absolute; top: 18px; left: 45px; right: 45px; height: 6px; background: rgba(255, 255, 255, 0.1); z-index: 0; border-radius: 10px; }
-        .progress-line-fill { position: absolute; top: 18px; left: 45px; height: 6px; background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.2) 75%, transparent 75%, transparent); background-color: var(--gold); background-size: 1rem 1rem; animation: progress-stripes 1s linear infinite; z-index: 0; transition: width 1s ease, background-color 0.3s ease; width: 0%; border-radius: 10px; box-shadow: 0 0 10px rgba(212, 175, 55, 0.5); }
+        
+        /* O "pulo do gato" da animação está aqui: */
+        .progress-line-fill { 
+            position: absolute; top: 18px; left: 45px; height: 6px; width: 0%; 
+            background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.25) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.25) 50%, rgba(255, 255, 255, 0.25) 75%, transparent 75%, transparent); 
+            background-color: var(--gold); 
+            background-size: 2rem 2rem; /* Tamanho exato para as listras rolarem */
+            animation: progress-stripes 1.5s linear infinite; /* Animação ativada */
+            z-index: 0; border-radius: 10px; box-shadow: 0 0 10px rgba(212, 175, 55, 0.5); 
+            transition: width 1s ease-in-out, background-color 0.3s ease; 
+        }
+        
         .p-step { position: relative; z-index: 1; text-align: center; flex: 1; transition: display 0.3s ease;}
         
         /* Ajuste das Cores dos Círculos para Fundo Escuro */
@@ -443,8 +458,8 @@
         .pdf-title { font-weight: bold; color: var(--gold); display: flex; align-items: center; gap: 10px; font-family: 'Cinzel', serif; }
         
         /* Ajuste para os botões não quebrarem a linha */
-        .pdf-actions { display: flex; gap: 5px; flex-wrap: nowrap; }
-        .pdf-actions .btn-mini { white-space: nowrap; }
+        .pdf-actions { display: flex; gap: 8px; flex-wrap: nowrap; }
+        .pdf-actions .btn-mini { white-space: nowrap; padding: 6px 12px; }
 
         /* Fundo transparente para ver o espaço atrás do iframe */
         iframe { width: 100%; height: 600px; border: none; background: transparent; }
@@ -1055,7 +1070,7 @@
                 <div class="doc-card">
                     <span class="doc-tag tag-imaginista">IMAGINISTA</span>
                     <div class="doc-icon"><i class="fas fa-edit"></i></div>
-                    <div class="doc-name">Termo<small>de Consentimento</small></div>
+                    <div class="doc-name">LGPD<small>Termo de Consentimento</small></div>
                     <div class="doc-desc status-missing">PENDENTE ✍️</div>
                     <div class="card-actions">
                      </div>
@@ -2055,19 +2070,12 @@
                 particleColor: 'rgba(212, 175, 55, 0.8)', 
                 particleCount: isMobile ? 40 : 80, 
                 lineLength: isMobile ? 120 : 180, 
-                particleSpeed: 0.15 
+                particleSpeed: 0.30   // Velocidade da Constelação
             };
 
             const resize = () => { 
                 w = canvas.width = window.innerWidth; 
                 h = canvas.height = window.innerHeight; 
-                // Reposiciona partículas se a tela diminuir (zoom) para não quebrar a borda
-                particles.forEach(p => {
-                    if (p.x > w || p.y > h) {
-                        p.x = Math.random() * w;
-                        p.y = Math.random() * h;
-                    }
-                });
             };
             window.addEventListener('resize', resize);
             resize();
@@ -2081,10 +2089,13 @@
                     this.radius = Math.random() * 1.5 + 0.5; 
                 }
                 position(){
-                    if(this.x > w + 50) this.x = -50;
-                    else if(this.x < -50) this.x = w + 50;
-                    if(this.y > h + 50) this.y = -50;
-                    else if(this.y < -50) this.y = h + 50;
+                    // Teletransporta a partícula para o lado oposto se sair da tela (inclusive ao dar zoom)
+                    if(this.x > w) this.x = 0;
+                    else if(this.x < 0) this.x = w;
+                    
+                    if(this.y > h) this.y = 0;
+                    else if(this.y < 0) this.y = h;
+                    
                     this.x += this.vx;
                     this.y += this.vy;
                 }
