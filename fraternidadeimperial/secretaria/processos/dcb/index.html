@@ -788,10 +788,34 @@
             }
         }
         
+        /* NOVO AJUSTE: Telas muito pequenas (iPhone SE, etc) com DUAS colunas perfeitas */
         @media (max-width: 380px) {
-             .data-grid { grid-template-columns: 1fr; } 
-             .full-width, .col-span-2, .initiation-date { grid-column: span 1; }
-             .docs-grid { grid-template-columns: 1fr; }
+            .data-grid { grid-template-columns: 1fr; } 
+            .full-width, .col-span-2, .initiation-date { grid-column: span 1; }
+            
+            /* Mantém 2 colunas, mas ajusta o espaçamento entre elas */
+            .docs-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+            
+            /* Reduz o respiro interno do card para caber na tela pequena */
+            .doc-card { padding: 15px 10px 15px; }
+            
+            /* Diminui a tag superior */
+            .doc-tag { font-size: 0.5rem; padding: 3px 8px; }
+            
+            /* Diminui os ícones */
+            .doc-icon { font-size: 1.5rem; margin-bottom: 8px; }
+            .doc-icon-img { height: 30px; }
+            
+            /* Ajusta o título para não quebrar a linha de forma feia */
+            .doc-name { font-size: 0.75rem; min-height: 35px; margin-bottom: 10px; }
+            .doc-name small { font-size: 0.55rem; }
+            
+            /* Diminui o status */
+            .doc-desc { font-size: 0.55rem; padding: 3px 6px; margin-bottom: 10px; }
+            
+            /* Ajusta os botões de ação para caberem lado a lado */
+            .card-actions { gap: 3px; }
+            .btn-mini { padding: 5px 6px; font-size: 0.6rem; letter-spacing: -0.5px; }
         }
     </style>
 </head>
@@ -909,14 +933,14 @@
                         <div class="data-item full-width"><strong>Filiação (Mãe)</strong><span>MARTA DE SOUZA CARVALHO BASSAN</span></div>
                         <div class="data-item full-width"><strong>Filiação (Pai)</strong><span>JOSE CARLOS BASSAN</span></div>
                         
-<div class="data-item full-width">
-    <strong>Endereço Residencial</strong>
-    <span style="line-height: 1.4;">
-        Estr. Philuvio Cerqueira Rodrigues, 2200 - Bloco 3 Apt. 202<br>
-        <span style="font-size: 0.85rem; color: #666; font-weight: normal;">Itaipava, Petrópolis - RJ ∴ CEP: 25745-071</span>
-    </span>
-</div>            
-        <div class="data-item"><strong>Estado Civil</strong><span>Solteiro</span></div>                
+                        <div class="data-item full-width">
+                            <strong>Endereço Residencial</strong>
+                            <span style="line-height: 1.4;">
+                                Estr. Philuvio Cerqueira Rodrigues, 2200 - Bloco 3 Apt. 202<br>
+                                <span style="font-size: 0.85rem; color: #666; font-weight: normal;">Itaipava, Petrópolis - RJ ∴ CEP: 25745-071</span>
+                            </span>
+                        </div>            
+                        <div class="data-item"><strong>Estado Civil</strong><span>Solteiro</span></div>                
                         
                         <div class="data-item full-width"><strong>Esposa</strong><span>*</span></div>
                         
@@ -1021,7 +1045,8 @@
                         <a href="#" download class="btn-mini btn-down">Baixar</a>
                     </div>
                 </div>
-				  <div class="doc-card doc-locked">
+                
+                <div class="doc-card doc-locked">
                     <span class="doc-tag tag-glmerj">GLMERJ</span>
                     <div class="doc-icon"><img src="../../../imagens/glmerj.webp" class="doc-icon-img" alt="GLMERJ"></div>
                     <div class="doc-name">Proposta<small>de Admissão</small></div>
@@ -1338,7 +1363,7 @@
                         <a href="#" target="_blank" class="btn-mini btn-view">Ver</a>
                         <a href="#" download class="btn-mini btn-down">Baixar</a>
                     </div>
-                </div>				
+                </div>                
 
                 <div class="doc-card">
                     <span class="doc-tag tag-glmerj">GLMERJ</span>
@@ -1405,7 +1430,6 @@
                         <a href="docs/2023.03 - GLMERJ - 9. TESTAMENTO SIMBÓLICO.pdf" download class="btn-mini btn-down">Baixar</a>
                     </div>
                 </div>   
-
 
             </div>
         </div>
