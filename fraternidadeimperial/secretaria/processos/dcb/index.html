@@ -35,6 +35,7 @@
             --gold-shadow: rgba(212, 175, 55, 0.5);
             --blue-deep: #000c18;
             --text-main: #e2e8f0;
+			--aprovado: #008000; 
         }
 
         /* --- TEMA REGULARIZAÇÃO (PRATEADO/AÇO) --- */
@@ -1018,20 +1019,20 @@
                 <h3 class="section-title"><i class="fas fa-archive"></i> Arquivos Individuais</h3>
                 <div class="search-box">
                     <i class="fas fa-search"></i>
-                    <input type="text" id="docSearch" class="search-input" placeholder="Buscar por documento, tipo, tag..." onkeyup="filterDocs()">
+                    <input type="text" id="docSearch" class="search-input" placeholder="Buscar por documento..." onkeyup="filterDocs()">
                 </div>
             </div>
 
             <div class="docs-grid" id="docsGrid">
    
-                <div class="doc-card doc-locked">
+                <div class="doc-card">
                     <span class="doc-tag tag-imaginista">IMAGINISTA</span>
                     <div class="doc-icon"><i class="fas fa-edit"></i></div>
                     <div class="doc-name">Termo<small>de Consentimento</small></div>
-                    <div class="doc-desc status-missing">FALTANDO</div>
+                    <div class="doc-desc status-missing">PENDENTE ✍️</div>
                     <div class="card-actions">
-                        <a href="#" target="_blank" class="btn-mini btn-view">Ver</a>
-                        <a href="#" download class="btn-mini btn-down">Baixar</a>
+                     <!--   <a href="#" target="_blank" class="btn-mini btn-view">Ver</a>
+                        <a href="#" download class="btn-mini btn-down">Baixar</a> -->
                     </div>
                 </div>
 
@@ -1041,19 +1042,19 @@
                     <div class="doc-name">Pré-Proposta<small>Sindicância</small></div>
                     <div class="doc-desc status-missing">FALTANDO</div>
                     <div class="card-actions">
-                        <a href="#" target="_blank" class="btn-mini btn-view">Ver</a>
-                        <a href="#" download class="btn-mini btn-down">Baixar</a>
+                        <a href="docs/2023.03 - GLMERJ - 1. PRÉ-PROPOSTA.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
+                        <a href="docs/2023.03 - GLMERJ - 1. PRÉ-PROPOSTA.pdf" download class="btn-mini btn-down">Baixar</a>
                     </div>
                 </div>
                 
                 <div class="doc-card doc-locked">
                     <span class="doc-tag tag-glmerj">GLMERJ</span>
                     <div class="doc-icon"><img src="../../../imagens/glmerj.webp" class="doc-icon-img" alt="GLMERJ"></div>
-                    <div class="doc-name">Proposta<small>de Admissão</small></div>
+                    <div class="doc-name">GLMERJ<small>Proposta de Admissão</small></div>
                     <div class="doc-desc status-missing">FALTANDO</div>
                     <div class="card-actions">
-                        <a href="#" target="_blank" class="btn-mini btn-view">Ver</a>
-                        <a href="#" download class="btn-mini btn-down">Baixar</a>
+                        <a href="docs/2023.03 - GLMERJ - 2. PROPOSTA DE ADMISSÃO.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
+                        <a href="docs/2023.03 - GLMERJ - 2. PROPOSTA DE ADMISSÃO.pdf" download class="btn-mini btn-down">Baixar</a>
                     </div>
                 </div>
 
@@ -1100,40 +1101,29 @@
                         <a href="docs/2021-09 - CNH-e.pdf" download class="btn-mini btn-down">Baixar</a>
                     </div>
                 </div>
-
-                <div class="doc-card">
-                    <span class="doc-tag tag-pessoal">PESSOAL</span>
-                    <div class="doc-icon"><i class="fas fa-child"></i></div>
-                    <div class="doc-name">Certidão<small>Giuliano C. L. G.</small></div>
-                    <div class="doc-desc status-neutral">Nascimento</div>
-                    <div class="card-actions">
-                        <a href="docs/2018.11 - CERTIDÃO DE NASCIMENTO - GIULIANO CASTRO LIMA GIAMPAOLI.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
-                        <a href="docs/2018.11 - CERTIDÃO DE NASCIMENTO - GIULIANO CASTRO LIMA GIAMPAOLI.pdf" download class="btn-mini btn-down">Baixar</a>
-                    </div>
-                </div>
-
+     <!--
                 <div class="doc-card doc-locked">
                     <span class="doc-tag tag-pessoal">PESSOAL</span>
                     <div class="doc-icon"><i class="fas fa-ring"></i></div>
-                    <div class="doc-name">Certidão<small>Monick Deyze C. S.</small></div>
+                    <div class="doc-name">Certidão<small>ESPOSA</small></div>
                     <div class="doc-desc status-neutral">Casamento</div>
                     <div class="card-actions">
-                        <a href="docs/2023.11 - CERTIDÃO DE CASAMENTO.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
-                        <a href="docs/2023.11 - CERTIDÃO DE CASAMENTO.pdf" download class="btn-mini btn-down">Baixar</a>
+                        <a href="docs/#" target="_blank" class="btn-mini btn-view">Ver</a>
+                        <a href="docs/#" download class="btn-mini btn-down">Baixar</a>
                     </div>
                 </div>
 
                 <div class="doc-card doc-locked">
                     <span class="doc-tag tag-pessoal">PESSOAL</span>
                     <div class="doc-icon"><i class="fas fa-baby"></i></div>
-                    <div class="doc-name">Certidão<small>Chloé L. S.</small></div>
+                    <div class="doc-name">Certidão<small>FILHO</small></div>
                     <div class="doc-desc status-neutral">Nascimento</div>
                     <div class="card-actions">
-                        <a href="docs/2024.02 - CERTIDÃO DE NASCIMENTO - CHLOÉ LIMA SPÍNOLA.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
-                        <a href="docs/2024.02 - CERTIDÃO DE NASCIMENTO - CHLOÉ LIMA SPÍNOLA.pdf" download class="btn-mini btn-down">Baixar</a>
+                        <a href="docs/#" target="_blank" class="btn-mini btn-view">Ver</a>
+                        <a href="docs/#" download class="btn-mini btn-down">Baixar</a>
                     </div>
                 </div>
-                
+      -->          
                 <div class="doc-card">
                     <span class="doc-tag tag-pessoal">PESSOAL</span>
                     <div class="doc-icon"><i class="fas fa-map-marked-alt"></i></div>
@@ -1360,10 +1350,21 @@
                     <div class="doc-name">Candidato<small>Sindicância Familiar</small></div>
                     <div class="doc-desc status-missing">FALTANDO</div>
                     <div class="card-actions">
-                        <a href="#" target="_blank" class="btn-mini btn-view">Ver</a>
-                        <a href="#" download class="btn-mini btn-down">Baixar</a>
+                        <a href="docs/2023.03 - GLMERJ - 3. SINDICÂNCIA COM O CANDIDATO.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
+                        <a href="docs/2023.03 - GLMERJ - 3. SINDICÂNCIA COM O CANDIDATO.pdf" download class="btn-mini btn-down">Baixar</a>
                     </div>
-                </div>                
+                </div>     
+				
+                <div class="doc-card doc-locked">
+                    <span class="doc-tag tag-loja">LOJA 264</span>
+                    <div class="doc-icon"><img src="../../../imagens/264.webp" class="doc-icon-img" alt="GLMERJ"></div>
+                    <div class="doc-name">Referências<small>Sindicância Familiar</small></div>
+                    <div class="doc-desc status-missing">FALTANDO</div>
+                    <div class="card-actions">
+                        <a href="docs/2023.03 - GLMERJ - 5. SINDICÂNCIA COM REFERÊNCIAS.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
+                        <a href="docs/2023.03 - GLMERJ - 5. SINDICÂNCIA COM REFERÊNCIAS.pdf" download class="btn-mini btn-down">Baixar</a>
+                    </div>
+                </div>				
 
                 <div class="doc-card">
                     <span class="doc-tag tag-glmerj">GLMERJ</span>
@@ -1391,7 +1392,7 @@
                     <span class="doc-tag tag-glmerj">GLMERJ</span>
                     <div class="doc-icon"><img src="../../../imagens/glmerj.webp" class="doc-icon-img" alt="GLMERJ"></div>
                     <div class="doc-name">GLMERJ<small>Placet de Iniciação</small></div>
-                    <div class="doc-desc status-alert" style="color: #fff; background-color: var(--gold)">APROVADO</div>
+                    <div class="doc-desc"> APROVADO</div>
                     <div class="card-actions">
                         <a href="docs/2026.04 - GLMERJ - PLACET DE INICIAÇÃO.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
                         <a href="docs/2026.04 - GLMERJ - PLACET DE INICIAÇÃO.pdf" download class="btn-mini btn-down">Baixar</a>
