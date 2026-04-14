@@ -35,11 +35,12 @@
             --gold-shadow: rgba(212, 175, 55, 0.5);
             --blue-deep: #000c18;
             --text-main: #e2e8f0;
+            --aprovado: #008000; 
         }
 
-     /* --- TEMA REGULARIZAÇÃO (PRATEADO/AÇO) --- */
+        /* --- TEMA REGULARIZAÇÃO (PRATEADO/AÇO) --- */
         body.theme-regularizacao {
-            --gold: #546e7a; /* Mudei para um tom de Aço mais forte e escuro para dar destaque! */
+            --gold: #546e7a;
             --gold-light: #eceff1;
             --gold-shadow: rgba(84, 110, 122, 0.6);
         }
@@ -53,7 +54,7 @@
         
         body.theme-regularizacao #status-badge {
             border-color: #546e7a;
-            color: #fff; /* Deixa o texto do status branco para ler melhor no fundo aço */
+            color: #fff;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -387,25 +388,51 @@
             padding: 15px; border-radius: 6px; border-left: 4px solid #cc0000; margin-top: 5px; 
         }
 
+        /* --- ANIMAÇÃO DAS LISTRAS DA BARRA --- */
+        @keyframes progress-stripes {
+            from { background-position: 2rem 0; }
+            to { background-position: 0 0; }
+        }
+
         /* TIMELINE */
-        .timeline-box { background: white; padding: 40px 20px; border-radius: 12px; box-shadow: var(--shadow-hdr); margin-bottom: 40px; overflow-x: auto; border-bottom: 4px solid var(--gold); scrollbar-width: thin; scrollbar-color: var(--gold) #f0f0f0; transition: border-color 0.3s ease;}
+        .timeline-box { 
+            background: rgba(0, 15, 30, 0.6); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); 
+            padding: 40px 20px; border-radius: 12px; box-shadow: var(--shadow-hdr); margin-bottom: 40px; 
+            overflow: hidden; /* Remove rolagem padrão no desktop */
+            border: 1px solid rgba(212, 175, 55, 0.15); border-bottom: 4px solid var(--gold); 
+            scrollbar-width: thin; scrollbar-color: var(--gold) rgba(0,0,0,0.3); transition: border-color 0.3s ease;
+        }
         .timeline-box::-webkit-scrollbar { height: 6px; }
         .timeline-box::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 10px; }
 
-        .timeline-header { text-align: center; font-family: 'Cinzel', serif; color: var(--royal-blue); font-size: 1.4rem; margin-bottom: 40px; }
-        .progress-steps { display: flex; justify-content: space-between; position: relative; min-width: 900px; padding: 0 20px; transition: min-width 0.5s ease;}
+        .timeline-header { text-align: center; font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.4rem; margin-bottom: 40px; text-shadow: 0 2px 5px rgba(0,0,0,0.8); }
         
-        /* AQUI FICA A CORREÇÃO DE LARGURA DA TIMELINE PARA DESKTOP REGULARIZAÇÃO */
-        body.theme-regularizacao .progress-steps { min-width: 700px; }
+        .progress-steps { display: flex; justify-content: space-between; position: relative; width: 100%; padding: 0 10px; transition: width 0.5s ease;}
+        
+        /* CORREÇÃO DE LARGURA DA TIMELINE PARA DESKTOP REGULARIZAÇÃO */
+        body.theme-regularizacao .progress-steps { width: 100%; }
 
-        .progress-line-bg { position: absolute; top: 18px; left: 45px; right: 45px; height: 6px; background: #e0e0e0; z-index: 0; border-radius: 10px; }
-        .progress-line-fill { position: absolute; top: 18px; left: 45px; height: 6px; background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.2) 75%, transparent 75%, transparent); background-color: var(--gold); background-size: 1rem 1rem; animation: progress-stripes 1s linear infinite; z-index: 0; transition: width 1s ease, background-color 0.3s ease; width: 0%; border-radius: 10px; box-shadow: 0 0 10px rgba(212, 175, 55, 0.5); }
-        .p-step { position: relative; z-index: 1; text-align: center; flex: 1; transition: display 0.3s ease;}
-        .p-circle { width: 42px; height: 42px; background: #fff; border: 3px solid #ddd; border-radius: 50%; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #ccc; transition: all 0.4s; }
-        .p-label { font-size: 0.7rem; color: #999; font-weight: 700; margin-top: 5px; text-transform: uppercase;}
+        .progress-line-bg { position: absolute; top: 18px; left: 45px; right: 45px; height: 6px; background: rgba(255, 255, 255, 0.1); z-index: 0; border-radius: 10px; }
         
-        .p-step.completed .p-circle { background: var(--royal-blue); border-color: var(--royal-blue); color: white; }
-        .p-step.completed .p-label { color: var(--royal-blue); }
+        /* O "pulo do gato" da animação está aqui: */
+        .progress-line-fill { 
+            position: absolute; top: 18px; left: 45px; height: 6px; width: 0%; 
+            background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.25) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.25) 50%, rgba(255, 255, 255, 0.25) 75%, transparent 75%, transparent); 
+            background-color: var(--gold); 
+            background-size: 2rem 2rem; /* Tamanho exato para as listras rolarem */
+            animation: progress-stripes 1.5s linear infinite; /* Animação ativada */
+            z-index: 0; border-radius: 10px; box-shadow: 0 0 10px rgba(212, 175, 55, 0.5); 
+            transition: width 1s ease-in-out, background-color 0.3s ease; 
+        }
+        
+        .p-step { position: relative; z-index: 1; text-align: center; flex: 1; transition: display 0.3s ease;}
+        
+        /* Ajuste das Cores dos Círculos para Fundo Escuro */
+        .p-circle { width: 42px; height: 42px; background: var(--dark-navy); border: 3px solid rgba(255, 255, 255, 0.15); border-radius: 50%; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #666; transition: all 0.4s; }
+        .p-label { font-size: 0.7rem; color: #aaa; font-weight: 700; margin-top: 5px; text-transform: uppercase;}
+        
+        .p-step.completed .p-circle { background: var(--royal-blue); border-color: var(--gold); color: white; }
+        .p-step.completed .p-label { color: var(--text-main); }
         .p-step.active .p-circle { background: var(--gold); border-color: var(--gold); color: white; transform: scale(1.3); box-shadow: 0 0 20px var(--gold-shadow); }
         .p-step.active .p-label { color: var(--gold); font-weight: 800; }
         
@@ -419,35 +446,230 @@
         .p-step.desistencia .p-label { color: #b86b00; font-weight: 800; }
 
         /* VISUALIZADOR PDF */
-        .pdf-viewer-section { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: var(--shadow-hdr); margin-bottom: 40px; border: 1px solid #ddd; }
-        .pdf-toolbar { background: #f8f9fa; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; flex-wrap: wrap; gap: 10px;}
-        .pdf-title { font-weight: bold; color: var(--royal-blue); display: flex; align-items: center; gap: 10px; font-family: 'Cinzel', serif; }
-        .pdf-actions { display: flex; gap: 5px; }
-        iframe { width: 100%; height: 600px; border: none; background: #525659; }
+        .pdf-viewer-section { 
+            background: rgba(0, 15, 30, 0.6); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); 
+            border-radius: 12px; overflow: hidden; box-shadow: var(--shadow-hdr); margin-bottom: 40px; border: 1px solid rgba(212, 175, 55, 0.15); 
+            /* Efeito Céu Estrelado no fundo do PDF (aparece se o PDF demorar a carregar) */
+            background-image: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+        
+        .pdf-toolbar { background: rgba(0, 5, 10, 0.8); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(212, 175, 55, 0.2); flex-wrap: wrap; gap: 10px;}
+        .pdf-title { font-weight: bold; color: var(--gold); display: flex; align-items: center; gap: 10px; font-family: 'Cinzel', serif; }
+        
+        /* Ajuste para os botões não quebrarem a linha */
+        .pdf-actions { display: flex; gap: 8px; flex-wrap: nowrap; }
+        .pdf-actions .btn-mini { white-space: nowrap; padding: 6px 12px; }
+
+        /* Fundo transparente para ver o espaço atrás do iframe */
+        iframe { width: 100%; height: 600px; border: none; background: transparent; }
 
         .mobile-pdf-warning {
             display: none;
             padding: 40px 20px;
             text-align: center;
-            background: #f8f9fa;
-            color: #555;
+            background: rgba(0, 5, 10, 0.8);
+            color: #ccc;
             font-size: 0.9rem;
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
         }
 
-        /* DOCS GRID */
-        .section-title { color: var(--gold); margin-bottom: 20px; font-family: 'Cinzel', serif; font-size: 1.3rem; text-shadow: 0 2px 5px rgba(0,0,0,0.8); display: flex; align-items: center; gap: 10px; }
+        /* =========================================
+           BARRA DE PESQUISA PREMIUM
+           ========================================= */
+        .search-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .search-box {
+            flex: 1;
+            position: relative;
+            background: rgba(0, 15, 30, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 8px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .search-box:focus-within {
+            border-color: var(--gold);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+        }
+        
+        .search-box i {
+            color: var(--gold);
+            font-size: 1.1rem;
+        }
+        
+        .search-input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            padding: 15px 10px;
+            color: #e2e8f0;
+            font-family: 'Lato', sans-serif;
+            font-size: 0.95rem;
+            outline: none;
+        }
+        
+        .search-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* =========================================
+           DOCS GRID - UPGRADE PREMIUM
+           ========================================= */
+        .section-title { color: var(--gold); margin-bottom: 0; font-family: 'Cinzel', serif; font-size: 1.3rem; text-shadow: 0 2px 5px rgba(0,0,0,0.8); display: flex; align-items: center; gap: 10px; }
         .section-title::before { content: ''; display: block; width: 4px; height: 25px; background: var(--gold); }
-        .docs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 20px; }
-        .doc-card { background: white; padding: 20px; border-radius: 8px; text-align: center; transition: all 0.3s; border-bottom: 3px solid #eee; position: relative; top: 0; }
-        .doc-card:hover { top: -5px; border-bottom-color: var(--gold); box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
-        .doc-icon { font-size: 2rem; color: #555; margin-bottom: 10px; }
-        .doc-name { font-weight: bold; font-size: 0.85rem; margin-bottom: 15px; color: #333; min-height: 32px; display: flex; align-items: center; justify-content: center; }
-        .btn-mini { padding: 6px 12px; border-radius: 4px; font-size: 0.7rem; text-decoration: none; font-weight: bold; display: inline-block; margin: 0 2px; transition: background 0.2s; }
-        .btn-view { background: #e3f2fd; color: #1565c0; border: 1px solid #bbdefb; }
-        .btn-down { background: #f1f8e9; color: #2e7d32; border: 1px solid #c8e6c9; }
-        .btn-view:hover { background: #1565c0; color: white; }
-        .btn-down:hover { background: #2e7d32; color: white; }
-        .doc-desc { font-size: 0.75rem; color: #555; margin-top: -10px; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .docs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 20px; perspective: 1000px;}
+        
+        /* CASCATA ANIMATION INICIAL */
+        .doc-card { 
+            background: rgba(0, 15, 30, 0.6); 
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 25px 15px 20px; 
+            border-radius: 12px; 
+            text-align: center; 
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s, border-color 0.4s, opacity 0.5s; 
+            border: 1px solid rgba(212, 175, 55, 0.15); 
+            position: relative; 
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+            
+            /* Preparando para a Cascata */
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        /* Classe que o JS vai adicionar para revelar o card */
+        .doc-card.show-card {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .doc-card.show-card:hover { 
+            transform: translateY(-8px); 
+            border-color: var(--gold); 
+            box-shadow: 0 15px 30px rgba(0,0,0,0.6), 0 0 15px rgba(212, 175, 55, 0.2) inset; 
+        }
+
+        /* --- ESTADO BLOQUEADO (DOCUMENTO FALTANDO) --- */
+        .doc-card.doc-locked {
+            filter: grayscale(100%) opacity(0.6);
+            cursor: not-allowed;
+        }
+        .doc-card.doc-locked.show-card:hover {
+            transform: translateY(0); /* Remove o hover */
+            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+        .doc-card.doc-locked .doc-tag {
+            background: #333 !important; /* Força a cor cinza na tag */
+            box-shadow: none;
+        }
+        .doc-card.doc-locked .card-actions {
+            opacity: 0.3;
+            pointer-events: none; /* Desativa os cliques nos botões */
+        }
+
+        .doc-icon { font-size: 2.2rem; color: var(--gold-light); margin-bottom: 12px; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.5)); transition: transform 0.3s; }
+        .doc-card:not(.doc-locked):hover .doc-icon { transform: scale(1.1); color: var(--gold); }
+        
+        .doc-icon-img { width: auto; height: 45px; filter: drop-shadow(0 2px 5px rgba(212, 175, 55, 0.5)); transition: transform 0.3s; }
+        .doc-card:not(.doc-locked):hover .doc-icon-img { transform: scale(1.15); filter: drop-shadow(0 2px 10px rgba(212, 175, 55, 0.8)); }
+
+        .doc-name { 
+            font-weight: bold; 
+            font-family: 'Cinzel', serif; 
+            font-size: 0.9rem; 
+            margin-bottom: 15px; 
+            color: #e2e8f0; 
+            letter-spacing: 1px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            line-height: 1.3;
+            min-height: 45px;
+        }
+        
+        .doc-name small {
+            font-size: 0.65rem;
+            color: var(--gold);
+            font-family: 'Lato', sans-serif;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-top: 4px;
+        }
+        
+        .doc-desc { 
+            font-size: 0.65rem; 
+            background: rgba(46, 125, 50, 0.15);
+            color: #81c784; 
+            border: 1px solid rgba(129, 199, 132, 0.3);
+            margin: 0 auto 15px; 
+            padding: 4px 10px;
+            border-radius: 20px;
+            text-transform: uppercase; 
+            letter-spacing: 1px; 
+            font-weight: bold;
+            display: inline-block;
+        }
+
+        .doc-desc.status-alert { background: rgba(212, 175, 55, 0.15); color: var(--gold); border-color: rgba(212, 175, 55, 0.4); }
+        .doc-desc.status-neutral { background: rgba(255, 255, 255, 0.1); color: #ccc; border-color: rgba(255, 255, 255, 0.2); }
+        .doc-desc.status-missing { background: rgba(220, 53, 69, 0.15); color: #ff6b6b; border-color: rgba(220, 53, 69, 0.3); } /* Nova cor para documentos faltando */
+
+        .doc-tag {
+            position: absolute;
+            top: 0;
+            right: 0;
+            padding: 4px 12px;
+            font-size: 0.6rem;
+            font-weight: 900;
+            letter-spacing: 1.5px;
+            color: #fff;
+            border-radius: 0 11px 0 12px;
+            text-transform: uppercase;
+            box-shadow: -2px 2px 10px rgba(0,0,0,0.3);
+            font-family: 'Lato', sans-serif;
+        }
+
+        /* Cores das Instituições */
+        .tag-pessoal { background: linear-gradient(45deg, #455a64, #607d8b); } 
+        .tag-tjerj { background: linear-gradient(45deg, #0d47a1, #1976d2); } 
+        .tag-tst { background: linear-gradient(45deg, #004d40, #00796b); } 
+        .tag-mpt { background: linear-gradient(45deg, #4a148c, #7b1fa2); } 
+        .tag-pf { background: linear-gradient(45deg, #212121, #424242); } 
+        .tag-tce { background: linear-gradient(45deg, #e65100, #f57c00); } 
+        .tag-tse { background: linear-gradient(45deg, #006064, #00acc1); } 
+        .tag-cjf { background: linear-gradient(45deg, #1a237e, #3949ab); } 
+        .tag-stm { background: linear-gradient(45deg, #33691e, #558b2f); } 
+        .tag-detran { background: linear-gradient(45deg, #3e2723, #5d4037); } 
+        .tag-glmerj { background: linear-gradient(45deg, #b8860b, #d4af37); color: #000; box-shadow: 0 0 10px rgba(212,175,55,0.4); } 
+        .tag-loja { background: linear-gradient(45deg, #880e4f, #ad1457); } 
+        .tag-financeiro { background: linear-gradient(45deg, #37474f, #546e7a); } 
+        .tag-imaginista { background: linear-gradient(45deg, #1a0033, #880e4f); box-shadow: 0 0 10px rgba(136, 14, 79, 0.5); } 
+
+        .card-actions { display: flex; justify-content: center; gap: 5px; }
+        .btn-mini { padding: 6px 12px; border-radius: 4px; font-size: 0.7rem; text-decoration: none; font-weight: bold; transition: all 0.3s; flex: 1;}
+        .btn-view { background: transparent; color: var(--gold-light); border: 1px solid rgba(212, 175, 55, 0.5); }
+        .btn-down { background: rgba(46, 125, 50, 0.1); color: #a5d6a7; border: 1px solid rgba(76, 175, 80, 0.5); }
+        .btn-view:hover { background: var(--gold); color: #000; border-color: var(--gold); box-shadow: 0 0 10px var(--gold-shadow);}
+        .btn-down:hover { background: #4caf50; color: #fff; border-color: #4caf50; box-shadow: 0 0 10px rgba(76, 175, 80, 0.4);}
 
         /* FOOTER COM LINHA DE DADOS (DATA STREAM) */
         footer { 
@@ -569,21 +791,9 @@
             
             .full-width, .col-span-2, .initiation-date { grid-column: span 2; }
             
-            /* AQUI FICA A CORREÇÃO DE LARGURA DA TIMELINE NO MOBILE PARA NÃO CORTAR O ÍCONE */
-            .progress-steps { 
-                padding-bottom: 10px; 
-                min-width: 750px; 
-                padding-right: 40px; 
-                overflow-x: visible;
-            }
-            body.theme-regularizacao .progress-steps { 
-                min-width: 600px; 
-            }
-            .progress-line-bg { right: 45px; }
-            
+            .search-container { flex-direction: column; align-items: stretch;}
             .docs-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
             
-            /* Ajuste do Visualizador de PDF para Mobile */
             .pdf-viewer-section { display: block; }
             iframe { display: none; } 
             .mobile-pdf-warning { display: block; } 
@@ -605,11 +815,50 @@
             .lockdown-msg {
                 font-size: clamp(0.7rem, 2.5vw, 0.9rem);
             }
+            
+            /* DEVOLVE A ROLAGEM APENAS NO MOBILE PARA A TIMELINE */
+            .timeline-box { overflow-x: auto; }
+            .progress-steps { 
+                padding-bottom: 10px; 
+                min-width: 750px; 
+                padding-right: 40px; 
+                overflow-x: visible;
+            }
+            body.theme-regularizacao .progress-steps { 
+                min-width: 600px; 
+            }
+            .progress-line-bg { right: 45px; }
+            
         }
         
+        /* NOVO AJUSTE: Telas muito pequenas (iPhone SE, etc) com DUAS colunas perfeitas */
         @media (max-width: 380px) {
-             .data-grid { grid-template-columns: 1fr; } 
-             .full-width, .col-span-2, .initiation-date { grid-column: span 1; }
+            .data-grid { grid-template-columns: 1fr; } 
+            .full-width, .col-span-2, .initiation-date { grid-column: span 1; }
+            
+            /* Mantém 2 colunas, mas ajusta o espaçamento entre elas */
+            .docs-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+            
+            /* Reduz o respiro interno do card para caber na tela pequena */
+            .doc-card { padding: 15px 10px 15px; }
+            
+            /* Diminui a tag superior */
+            .doc-tag { font-size: 0.5rem; padding: 3px 8px; }
+            
+            /* Diminui os ícones */
+            .doc-icon { font-size: 1.5rem; margin-bottom: 8px; }
+            .doc-icon-img { height: 30px; }
+            
+            /* Ajusta o título para não quebrar a linha de forma feia */
+            .doc-name { font-size: 0.75rem; min-height: 35px; margin-bottom: 10px; }
+            .doc-name small { font-size: 0.55rem; }
+            
+            /* Diminui o status */
+            .doc-desc { font-size: 0.55rem; padding: 3px 6px; margin-bottom: 10px; }
+            
+            /* Ajusta os botões de ação para caberem lado a lado */
+            .card-actions { gap: 3px; }
+            .btn-mini { padding: 5px 6px; font-size: 0.6rem; letter-spacing: -0.5px; }
         }
     </style>
 </head>
@@ -726,17 +975,16 @@
 
                         <div class="data-item full-width"><strong>Filiação (Mãe)</strong><span>MARTA DE SOUZA CARVALHO BASSAN</span></div>
                         <div class="data-item full-width"><strong>Filiação (Pai)</strong><span>JOSE CARLOS BASSAN</span></div>
-						
-						
-<div class="data-item full-width">
-    <strong>Endereço Residencial</strong>
-    <span style="line-height: 1.4;">
-        Estr. Philuvio Cerqueira Rodrigues, 2200 - Bloco 3 Apt. 202<br>
-        <span style="font-size: 0.85rem; color: #666; font-weight: normal;">Itaipava, Petrópolis - RJ ∴ CEP: 25745-071</span>
-    </span>
-</div>			
-		<div class="data-item"><strong>Estado Civil</strong><span>Solteiro</span></div>				
-						
+                        
+                        <div class="data-item full-width">
+                            <strong>Endereço Residencial</strong>
+                            <span style="line-height: 1.4;">
+                                Estr. Philuvio Cerqueira Rodrigues, 2200 - Bloco 3 Apt. 202<br>
+                                <span style="font-size: 0.85rem; color: #666; font-weight: normal;">Itaipava, Petrópolis - RJ ∴ CEP: 25745-071</span>
+                            </span>
+                        </div>            
+                        <div class="data-item"><strong>Estado Civil</strong><span>Solteiro</span></div>                
+                        
                         <div class="data-item full-width"><strong>Esposa</strong><span>*</span></div>
                         
                         <div class="data-item full-width" style="margin-top: 10px; border-top: 1px dashed #ccc; padding-top: 10px;">
@@ -790,6 +1038,7 @@
                     <div class="p-step" id="step-8"><div class="p-circle"><i class="fas fa-gavel"></i></div><div class="p-label">Iniciação</div></div>
                 </div>
             </div>
+            
             <div class="pdf-viewer-section">
                 <div class="pdf-toolbar">
                     <div class="pdf-title">
@@ -807,240 +1056,412 @@
                     Para melhor leitura em dispositivos móveis, utilize os botões acima para ver em tela cheia ou baixar o arquivo.
                 </div>
             </div>
-			
-            <h3 class="section-title"><i class="fas fa-archive"></i> Arquivos Individuais</h3>
-            <div class="docs-grid">
-   
-         <!--
-               <div class="doc-card">
-                    <div class="doc-icon"><i class="fas fa-edit"></i></div>
-                    <div class="doc-name">TERMO DE CONSENTIMENTO</div>
-                    <div class="doc-desc">2026/03</div>
-                    <a href="docs/2026.03 - DIEGO CARVALHO BASSAN - TERMO DE CONSENTIMENTO.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
-                    <a href="docs/2026.03 - DIEGO CARVALHO BASSAN - TERMO DE CONSENTIMENTO.pdf" download class="btn-mini btn-down">Baixar</a>
-                </div>
-		-->	
-            <!--
-               <div class="doc-card">
-                    <div class="doc-icon"><i class="fas fa-drafting-compass"></i></div>
-                    <div class="doc-name">Pré-Proposta</div>
-                    <div class="doc-desc">2025/11</div>
-                    <a href="docs/2025.11 - PRÉ-PROPOSTA.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
-                    <a href="docs/2025.11 - PRÉ-PROPOSTA.pdf" download class="btn-mini btn-down">Baixar</a>
-                </div>
-				-->
-                <div class="doc-card">
-                    <div class="doc-icon" style="color: #e67e22;"><i class="fas fa-image"></i></div>
-                    <div class="doc-name">Foto 3x4</div>
-                    <a href="docs/3x4.png" target="_blank" class="btn-mini btn-view">Ver</a>
-                    <a href="docs/3x4.png" download class="btn-mini btn-down">Baixar</a>
-                </div>
-                <div class="doc-card">
-                    <div class="doc-icon"><i class="fas fa-id-card-alt"></i></div>
-                    <div class="doc-name">RG</div>
-                    <a href="docs/2022.10 - RG.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
-                    <a href="docs/2022.10 - RG.pdf" download class="btn-mini btn-down">Baixar</a>
-                </div>
-                 <div class="doc-card">
-                    <div class="doc-icon"><i class="fas fa-id-card"></i></div>
-                    <div class="doc-name">CPF</div>
-                    <div class="doc-desc">REGULAR</div>
-                    <a href="docs/2026.03 - RF - COMPROVANTE DE SITUAÇÃO CADASTRAL.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
-                    <a href="docs/2026.03 - RF - COMPROVANTE DE SITUAÇÃO CADASTRAL.pdf" download class="btn-mini btn-down">Baixar</a>
-                </div>
-                <div class="doc-card">
-                    <div class="doc-icon"><i class="fas fa-car"></i></div>
-                    <div class="doc-name">CNH Digital</div>
-                    <a href="docs/2021-09 - CNH-e.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
-                    <a href="docs/2021-09 - CNH-e.pdf" download class="btn-mini btn-down">Baixar</a>
-                </div>
-		       <div class="doc-card">
-                    <div class="doc-icon"><i class="fas fa-car"></i></div>
-                    <div class="doc-name">DETRAN-RJ | Certidão</div>
-					<div class="doc-desc">NADA CONSTA</div>
-                    <a href="docs/2026.04 - DETRAN - CERTIDÃO.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
-                    <a href="docs/2026.04 - DETRAN - CERTIDÃO.pdf" download class="btn-mini btn-down">Baixar</a>
-                </div>
-                 <div class="doc-card">
-                    <div class="doc-icon"><i class="fas fa-vote-yea"></i></div>
-                    <div class="doc-name">Justiça Eleitoral</div>
-                    <div class="doc-desc">NADA CONSTA</div>
-                    <a href="docs/2026.03 - TSE - CERTIDÃO.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
-                    <a href="docs/2026.03 - TSE - CERTIDÃO.pdf" download class="btn-mini btn-down">Baixar</a>
-                </div>
-				   <div class="doc-card">
-                    <div class="doc-icon"><i class="fas fa-vote-yea"></i></div>
-                    <div class="doc-name">Justiça Criminal Eleitoral</div>
-                    <div class="doc-desc">NADA CONSTA</div>
-                    <a href="docs/2026.03 - TSE - CERTIDÃO CRIMINAL.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
-                    <a href="docs/2026.03 - TSE - CERTIDÃO CRIMINAL.pdf" download class="btn-mini btn-down">Baixar</a>
-                </div>
-                 <div class="doc-card">
-                    <div class="doc-icon"><i class="fas fa-user-alt"></i></div>
-                    <div class="doc-name">Superior Tribunal Militar</div>
-                    <div class="doc-desc">NADA CONSTA</div>
-                    <a href="docs/2026.03 - STM - CERTIDÃO DE AÇÕES CRIMINAIS.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
-                    <a href="docs/2026.03 - STM - CERTIDÃO DE AÇÕES CRIMINAIS.pdf" download class="btn-mini btn-down">Baixar</a>
-                </div>	
-                <div class="doc-card">
-                    <div class="doc-icon"><i class="fas fa-map-marked-alt"></i></div>
-                    <div class="doc-name">Comprovante de Residência</div>
-                    <div class="doc-desc">2025/12</div>
-                    <a href="docs/2025.12 - COMPROVANTE DE RESIDÊNCIA.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
-                    <a href="docs/2025.12 - COMPROVANTE DE RESIDÊNCIA.pdf" download class="btn-mini btn-down">Baixar</a>
-                </div>
-				<!--
-                <div class="doc-card">
-                    <div class="doc-icon"><i class="fas fa-receipt"></i></div>
-                    <div class="doc-name">Contracheque</div>
-                    <div class="doc-desc">2025/10</div>
-                    <a href="docs/2025.10 - CC - CONTRACHEQUE OUTUBRO.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
-                    <a href="docs/2025.10 - CC - CONTRACHEQUE OUTUBRO.pdf" download class="btn-mini btn-down">Baixar</a>
-                </div>
-				-->
-                <div class="doc-card">
-                    <div class="doc-icon"><i class="fas fa-file-invoice-dollar"></i></div>
-                    <div class="doc-name">SEFAZ</div>
-                    <div class="doc-desc">Nada Consta</div>
-                    <a href="docs/2026.03 - SEFAZ - CERTIDÃO NEGATIVA DE DÉBITOS.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
-                    <a href="docs/2026.03 - SEFAZ - CERTIDÃO NEGATIVA DE DÉBITOS.pdf" download class="btn-mini btn-down">Baixar</a>
-                </div>
-				<div class="doc-card">
-                    <div class="doc-icon"><i class="fas fa-file-invoice-dollar"></i></div>
-                    <div class="doc-name">TCE | Certidão</div>
-                    <div class="doc-desc">Nada Consta</div>
-                    <a href="docs/2026.03 - TCE - CERTIDÃO DE PROCESSOS.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
-                    <a href="docs/2026.03 - TCE - CERTIDÃO DE PROCESSOS.pdf" download class="btn-mini btn-down">Baixar</a>
-                </div>
-	            <div class="doc-card">
-                    <div class="doc-icon"><i class="fas fa-file-invoice-dollar"></i></div>
-                    <div class="doc-name">PGFN | Certidão Negativa</div>
-                    <div class="doc-desc">Nada Consta</div>
-                    <a href="docs/2026.03 - PGFN - CERTIDÃO NEGATIVA DE DÉBITOS.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
-                    <a href="docs/2026.03 - PGFN - CERTIDÃO NEGATIVA DE DÉBITOS.pdf" download class="btn-mini btn-down">Baixar</a>
-                </div>
-				<!--
-                 <div class="doc-card">
-                    <div class="doc-icon"><i class="fas fa-hand-holding-usd"></i></div>
-                    <div class="doc-name">Pendências Financeiras</div>
-                    <div class="doc-desc">*</div>
-                    <a href="docs/2026.02 - SPC BRASIL - CONSULTA CPF.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
-                    <a href="docs/2026.02 - SPC BRASIL - CONSULTA CPF.pdf" download class="btn-mini btn-down">Baixar</a>
-                </div>
-				-->
-                <div class="doc-card">
-                    <div class="doc-icon"><i class="fas fa-passport"></i></div>
-                    <div class="doc-name">Polícia Federal</div>
-                    <div class="doc-desc">Nada Consta</div>
-                    <a href="docs/2026.03 - PF - CERTIDÃO DE ANTECEDENTES CRIMINAIS.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
-                    <a href="docs/2026.03 - PF - CERTIDÃO DE ANTECEDENTES CRIMINAIS.pdf" download class="btn-mini btn-down">Baixar</a>
-                </div>
-                <div class="doc-card">
-                    <div class="doc-icon"><i class="fas fa-fingerprint"></i></div>
-                    <div class="doc-name">Polícia Civil</div>
-                    <div class="doc-desc">Nada Consta</div>
-                    <a href="docs/2026.03 - PC - CERTIDÃO DE ANTECEDENTES CRIMINAIS.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
-                    <a href="docs/2026.03 - PC - CERTIDÃO DE ANTECEDENTES CRIMINAIS.pdf" download class="btn-mini btn-down">Baixar</a>
-                </div>
-                <div class="doc-card">
-                    <div class="doc-icon"><i class="fas fa-balance-scale"></i></div>
-                    <div class="doc-name">CJF | Certidão Judicial CÍVEL</div>
-                    <div class="doc-desc">Nada Consta</div>
-                    <a href="docs/2026.03 - CJF - CERTIDÃO JUDICIAL CÍVEL.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
-                    <a href="docs/2026.03 - CJF - CERTIDÃO JUDICIAL CÍVEL.pdf" download class="btn-mini btn-down">Baixar</a>
-                </div>
-                <div class="doc-card">
-                    <div class="doc-icon"><i class="fas fa-balance-scale"></i></div>
-                    <div class="doc-name">CJF | Certidão Judicial Criminal Negativa</div>
-                    <div class="doc-desc">Nada Consta</div>
-                    <a href="docs/2026.03 - CJF - CERTIDÃO JUDICIAL CRIMINAL NEGATIVA.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
-                    <a href="docs/2026.03 - CJF - CERTIDÃO JUDICIAL CRIMINAL NEGATIVA.pdf" download class="btn-mini btn-down">Baixar</a>
-                </div>
-	            <div class="doc-card">
-                    <div class="doc-icon"><i class="fas fa-balance-scale"></i></div>
-                    <div class="doc-name">CJF | Certidão Judicial Eleitoral</div>
-                    <div class="doc-desc">Nada Consta</div>
-                    <a href="docs/2026.03 - CJF - CERTIDÃO JUDICIAL PARA FINS ELEITORAIS.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
-                    <a href="docs/2026.03 - CJF - CERTIDÃO JUDICIAL PARA FINS ELEITORAIS.pdf" download class="btn-mini btn-down">Baixar</a>
-                </div>
-                <div class="doc-card">
-                    <div class="doc-icon"><i class="fas fa-landmark"></i></div>
-                    <div class="doc-name">TST | Certidão Negativa de Débitos Trabalhistas</div>
-                    <div class="doc-desc">Nada Consta</div>
-                    <a href="docs/2026.03 - TST - CERTIDÃO NEGATIVA DE DÉBITOS TRABALHISTAS.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
-                    <a href="docs/2026.03 - TST - CERTIDÃO NEGATIVA DE DÉBITOS TRABALHISTAS.pdf" download class="btn-mini btn-down">Baixar</a>
-                </div> 
-                <div class="doc-card">
-                    <div class="doc-icon"><i class="fas fa-landmark"></i></div>
-                    <div class="doc-name">MPT | Certidão Negativa</div>
-                    <div class="doc-desc">Nada Consta</div>
-                    <a href="docs/2026.03 - MPT - CERTIDÃO NEGATIVA.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
-                    <a href="docs/2026.03 - MPT - CERTIDÃO NEGATIVA.pdf" download class="btn-mini btn-down">Baixar</a>
-                </div> 				
-                <div class="doc-card">
-                    <div class="doc-icon"><i class="fa fa-gavel"></i></div>
-                    <div class="doc-name">TJERJ | Certidão de Registro de Ações Cíveis</div>
-                    <div class="doc-desc">Nada Consta</div>
-                    <a href="docs/2026.03 - TJERJ - CERTIDÃO DE REGISTRO DE AÇÕES CÍVEIS.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
-                    <a href="docs/2026.03 - TJERJ - CERTIDÃO DE REGISTRO DE AÇÕES CÍVEIS.pdf" download class="btn-mini btn-down">Baixar</a>
-                </div>   
-                <div class="doc-card">
-                    <div class="doc-icon"><i class="fa fa-gavel"></i></div>
-                    <div class="doc-name">TJERJ | Certidão de Registro de Ações Criminais</div>
-                    <div class="doc-desc">Nada Consta</div>
-                    <a href="docs/2026.03 - TJERJ - CERTIDÃO DE REGISTRO DE AÇÕES CRIMINAIS.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
-                    <a href="docs/2026.03 - TJERJ - CERTIDÃO DE REGISTRO DE AÇÕES CRIMINAIS.pdf" download class="btn-mini btn-down">Baixar</a>
-                </div> 
-				<div class="doc-card">
-                    <div class="doc-icon"><i class="fa fa-gavel"></i></div>
-                    <div class="doc-name">TJERJ Petrópolis | Certidão de Registro de Ações Criminais</div>
-                    <div class="doc-desc">Nada Consta</div>
-                    <a href="docs/2026.03 - TJERJ - CERTIDÃO DE REGISTRO DE AÇÕES CRIMINAIS (PETRÓPOLIS).pdf" target="_blank" class="btn-mini btn-view">Ver</a>
-                    <a href="docs/2026.03 - TJERJ - CERTIDÃO DE REGISTRO DE AÇÕES CRIMINAIS (PETRÓPOLIS).pdf" download class="btn-mini btn-down">Baixar</a>
-                </div> 
-                <div class="doc-card">
-                    <div class="doc-icon"><i class="fa fa-gavel"></i></div>
-                    <div class="doc-name">TJERJ | Certidão Fiscal e Fazendária</div>
-                    <div class="doc-desc">Nada Consta</div>
-                    <a href="docs/2026.03 - TJERJ - CERTIDÃO FISCAL E FAZENDÁRIA.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
-                    <a href="docs/2026.03 - TJERJ - CERTIDÃO FISCAL E FAZENDÁRIA.pdf" download class="btn-mini btn-down">Baixar</a>
-                </div>  				
-               <div class="doc-card">
-                    <div class="doc-icon"><i class="fas fa-drafting-compass"></i></div>
-                    <div class="doc-name">Protocolo de Publicação</div>
-                    <div class="doc-desc">2026/03</div>
-                    <a href="docs/2026.03 - GLMERJ - PROTOCOLO DE SOLICITAÇÃO DE PUBLICAÇÃO.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
-                    <a href="docs/2026.03 - GLMERJ - PROTOCOLO DE SOLICITAÇÃO DE PUBLICAÇÃO.pdf" download class="btn-mini btn-down">Baixar</a>
-                </div> 
-               <div class="doc-card">
-                    <div class="doc-icon"><i class="fas fa-drafting-compass"></i></div>
-                    <div class="doc-name">Anexo de Sindicância</div>
-                    <div class="doc-desc">2026/04</div>
-                    <a href="docs/2026.04 - GLMERJ - ANEXO DE SINDICÂNCIA.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
-                    <a href="docs/2026.04 - GLMERJ - ANEXO DE SINDICÂNCIA.pdf" download class="btn-mini btn-down">Baixar</a>
-                </div> 	
-               <div class="doc-card">
-                    <div class="doc-icon"><i class="fas fa-drafting-compass"></i></div>
-                    <div class="doc-name">Placet de Iniciação</div>
-                    <div class="doc-desc">2026/04</div>
-                    <a href="docs/2026.04 - GLMERJ - PLACET DE INICIAÇÃO.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
-                    <a href="docs/2026.04 - GLMERJ - PLACET DE INICIAÇÃO.pdf" download class="btn-mini btn-down">Baixar</a>
-                </div> 	
-				
-				
+            
+            <div class="search-container">
+                <h3 class="section-title"><i class="fas fa-archive"></i> Arquivos Individuais</h3>
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="docSearch" class="search-input" placeholder="Buscar por documento..." onkeyup="filterDocs()">
                 </div>
             </div>
-     
-            <footer>
-                <div class="footer-rights">
-                    © 2025 A∴ R∴ L∴ M∴ Fraternidade Imperial Nº 264. Todos os direitos reservados.
+
+            <div class="docs-grid" id="docsGrid">
+   
+                <div class="doc-card">
+                    <span class="doc-tag tag-imaginista">IMAGINISTA</span>
+                    <div class="doc-icon"><i class="fas fa-edit"></i></div>
+                    <div class="doc-name">LGPD<small>Termo de Consentimento</small></div>
+                    <div class="doc-desc status-missing">PENDENTE ✍️</div>
+                    <div class="card-actions">
+		<!--	         <a href="docs/2026.03 - TERMO DE CONSENTIMENTO.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
+                         <a href="docs/2026.03 - TERMO DE CONSENTIMENTO.pdf" download class="btn-mini btn-down">Baixar</a>
+         -->         </div>
                 </div>
-                <div class="dev-container" id="imaginista-btn">
-                    <span class="dev-text">Desenvolvido por:</span>
-                    <img src="../../../imagens/logo.webp" alt="O Imaginista" class="imaginista-logo" onerror="this.src='../../../logo.png'">
+
+                <div class="doc-card doc-locked">
+                    <span class="doc-tag tag-loja">LOJA 264</span>
+                    <div class="doc-icon"><i class="fas fa-drafting-compass"></i></div>
+                    <div class="doc-name">Pré-Proposta<small>Sindicância</small></div>
+                    <div class="doc-desc status-missing">FALTANDO</div>
+                    <div class="card-actions">
+                        <a href="docs/2023.03 - GLMERJ - 1. PRÉ-PROPOSTA.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
+                        <a href="docs/2023.03 - GLMERJ - 1. PRÉ-PROPOSTA.pdf" download class="btn-mini btn-down">Baixar</a>
+                    </div>
                 </div>
-            </footer>
+                
+                <div class="doc-card doc-locked">
+                    <span class="doc-tag tag-glmerj">GLMERJ</span>
+                    <div class="doc-icon"><img src="../../../imagens/glmerj.webp" class="doc-icon-img" alt="GLMERJ"></div>
+                    <div class="doc-name">GLMERJ<small>Proposta de Admissão</small></div>
+                    <div class="doc-desc status-missing">FALTANDO</div>
+                    <div class="card-actions">
+                        <a href="docs/2023.03 - GLMERJ - 2. PROPOSTA DE ADMISSÃO.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
+                        <a href="docs/2023.03 - GLMERJ - 2. PROPOSTA DE ADMISSÃO.pdf" download class="btn-mini btn-down">Baixar</a>
+                    </div>
+                </div>
+
+                <div class="doc-card">
+                    <span class="doc-tag tag-pessoal">PESSOAL</span>
+                    <div class="doc-icon" style="color: #e67e22;"><i class="fas fa-image"></i></div>
+                    <div class="doc-name">Foto 3x4<small>Identificação</small></div>
+                    <div class="doc-desc status-neutral">3x4</div>
+                    <div class="card-actions">
+                        <a href="docs/3x4.png" target="_blank" class="btn-mini btn-view">Ver</a>
+                        <a href="docs/3x4.png" download class="btn-mini btn-down">Baixar</a>
+                    </div>
+                </div>
+                
+                <div class="doc-card">
+                    <span class="doc-tag tag-pessoal">PESSOAL</span>
+                    <div class="doc-icon"><i class="fas fa-id-card-alt"></i></div>
+                    <div class="doc-name">RG<small>Registro Geral</small></div>
+                    <div class="doc-desc status-neutral">2022/10</div>
+                    <div class="card-actions">
+                        <a href="docs/2022.10 - RG.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
+                        <a href="docs/2022.10 - RG.pdf" download class="btn-mini btn-down">Baixar</a>
+                    </div>
+                </div>
+                
+                <div class="doc-card">
+                    <span class="doc-tag tag-pessoal">PESSOAL</span>
+                    <div class="doc-icon"><i class="fas fa-id-card"></i></div>
+                    <div class="doc-name">CPF<small>Situação Cadastral</small></div>
+                    <div class="doc-desc">REGULAR</div>
+                    <div class="card-actions">
+                        <a href="docs/2026.03 - RF - COMPROVANTE DE SITUAÇÃO CADASTRAL.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
+                        <a href="docs/2026.03 - RF - COMPROVANTE DE SITUAÇÃO CADASTRAL.pdf" download class="btn-mini btn-down">Baixar</a>
+                    </div>
+                </div>
+                
+                <div class="doc-card">
+                    <span class="doc-tag tag-detran">DETRAN</span>
+                    <div class="doc-icon"><i class="fas fa-car"></i></div>
+                    <div class="doc-name">CNH<small>Habilitação Digital</small></div>
+                    <div class="doc-desc status-neutral">2022/10</div>
+                    <div class="card-actions">
+                        <a href="docs/2021-09 - CNH-e.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
+                        <a href="docs/2021-09 - CNH-e.pdf" download class="btn-mini btn-down">Baixar</a>
+                    </div>
+                </div>
+     <div class="doc-card">
+                    <span class="doc-tag tag-pessoal">PESSOAL</span>
+                    <div class="doc-icon"><i class="fas fa-map-marked-alt"></i></div>
+                    <div class="doc-name">Comprovante<small>Residência</small></div>
+                    <div class="doc-desc status-neutral">2025/12</div>
+                    <div class="card-actions">
+                        <a href="docs/2025.12 - COMPROVANTE DE RESIDÊNCIA.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
+                        <a href="docs/2025.12 - COMPROVANTE DE RESIDÊNCIA.pdf" download class="btn-mini btn-down">Baixar</a>
+                    </div>
+                </div>
+
+                <div class="doc-card doc-locked">
+                    <span class="doc-tag tag-financeiro">FINANCEIRO</span>
+                    <div class="doc-icon"><i class="fas fa-receipt"></i></div>
+                    <div class="doc-name">Contracheque<small>PENDENTE</small></div>
+                    <div class="doc-desc status-neutral">FALTANDO</div>
+                    <div class="card-actions">
+                        <a href="docs/2025.10 - CC - CONTRACHEQUE OUTUBRO.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
+                        <a href="docs/2025.10 - CC - CONTRACHEQUE OUTUBRO.pdf" download class="btn-mini btn-down">Baixar</a>
+                    </div>
+                </div>
+
+                <div class="doc-card">
+                    <span class="doc-tag tag-detran">DETRAN-RJ</span>
+                    <div class="doc-icon"><i class="fas fa-car"></i></div>
+                    <div class="doc-name">Certidão<small>Detran-RJ</small></div>
+                    <div class="doc-desc">NADA CONSTA</div>
+                    <div class="card-actions">
+                        <a href="docs/2026.04 - DETRAN - CERTIDÃO.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
+                        <a href="docs/2026.04 - DETRAN - CERTIDÃO.pdf" download class="btn-mini btn-down">Baixar</a>
+                    </div>
+                </div>
+                
+                <div class="doc-card">
+                    <span class="doc-tag tag-tse">TSE</span>
+                    <div class="doc-icon"><i class="fas fa-vote-yea"></i></div>
+                    <div class="doc-name">Certidão<small>Justiça Eleitoral</small></div>
+                    <div class="doc-desc">NADA CONSTA</div>
+                    <div class="card-actions">
+                        <a href="docs/2026.03 - TSE - CERTIDÃO.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
+                        <a href="docs/2026.03 - TSE - CERTIDÃO.pdf" download class="btn-mini btn-down">Baixar</a>
+                    </div>
+                </div>
+                
+                <div class="doc-card">
+                    <span class="doc-tag tag-tse">TSE</span>
+                    <div class="doc-icon"><i class="fas fa-vote-yea"></i></div>
+                    <div class="doc-name">Certidão<small>Criminal Eleitoral</small></div>
+                    <div class="doc-desc">NADA CONSTA</div>
+                    <div class="card-actions">
+                        <a href="docs/2026.03 - TSE - CERTIDÃO CRIMINAL.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
+                        <a href="docs/2026.03 - TSE - CERTIDÃO CRIMINAL.pdf" download class="btn-mini btn-down">Baixar</a>
+                    </div>
+                </div>
+                
+                <div class="doc-card">
+                    <span class="doc-tag tag-stm">STM</span>
+                    <div class="doc-icon"><i class="fas fa-user-alt"></i></div>
+                    <div class="doc-name">Certidão<small>Sup. Tribunal Militar</small></div>
+                    <div class="doc-desc">NADA CONSTA</div>
+                    <div class="card-actions">
+                        <a href="docs/2026.03 - STM - CERTIDÃO DE AÇÕES CRIMINAIS.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
+                        <a href="docs/2026.03 - STM - CERTIDÃO DE AÇÕES CRIMINAIS.pdf" download class="btn-mini btn-down">Baixar</a>
+                    </div>
+                </div>  
+
+                <div class="doc-card">
+                    <span class="doc-tag tag-tce">SEFAZ</span>
+                    <div class="doc-icon"><i class="fas fa-file-invoice-dollar"></i></div>
+                    <div class="doc-name">Certidão<small>Negativa de Débitos</small></div>
+                    <div class="doc-desc">NADA CONSTA</div>
+                    <div class="card-actions">
+                        <a href="docs/2026.03 - SEFAZ - CERTIDÃO NEGATIVA DE DÉBITOS.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
+                        <a href="docs/2026.03 - SEFAZ - CERTIDÃO NEGATIVA DE DÉBITOS.pdf" download class="btn-mini btn-down">Baixar</a>
+                    </div>
+                </div>
+                
+                <div class="doc-card">
+                    <span class="doc-tag tag-tce">TCE</span>
+                    <div class="doc-icon"><i class="fas fa-file-invoice-dollar"></i></div>
+                    <div class="doc-name">Certidão<small>Processos no TCE-RJ</small></div>
+                    <div class="doc-desc">NADA CONSTA</div>
+                    <div class="card-actions">
+                        <a href="docs/2026.03 - TCE-RJ - CERTIDÃO DE PROCESSOS.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
+                        <a href="docs/2026.03 - TCE-RJ - CERTIDÃO DE PROCESSOS.pdf" download class="btn-mini btn-down">Baixar</a>
+                    </div>
+                </div>
+                
+                <div class="doc-card">
+                    <span class="doc-tag tag-tce">PGFN</span>
+                    <div class="doc-icon"><i class="fas fa-file-invoice-dollar"></i></div>
+                    <div class="doc-name">Certidão<small>Negativa de Débitos</small></div>
+                    <div class="doc-desc">NADA CONSTA</div>
+                    <div class="card-actions">
+                        <a href="docs/2026.03 - PGFN - CERTIDÃO NEGATIVA DE DÉBITOS.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
+                        <a href="docs/2026.03 - PGFN - CERTIDÃO NEGATIVA DE DÉBITOS.pdf" download class="btn-mini btn-down">Baixar</a>
+                    </div>
+                </div>
+
+                <div class="doc-card">
+                    <span class="doc-tag tag-pf">Polícia Federal</span>
+                    <div class="doc-icon"><i class="fas fa-passport"></i></div>
+                    <div class="doc-name">Certidão<small>Antecedentes Criminais</small></div>
+                    <div class="doc-desc">NADA CONSTA</div>
+                    <div class="card-actions">
+                        <a href="docs/2026.03 - PF - CERTIDÃO DE ANTECEDENTES CRIMINAIS.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
+                        <a href="docs/2026.03 - PF - CERTIDÃO DE ANTECEDENTES CRIMINAIS.pdf" download class="btn-mini btn-down">Baixar</a>
+                    </div>
+                </div>
+                
+                <div class="doc-card">
+                    <span class="doc-tag tag-pf">Polícia Civil</span>
+                    <div class="doc-icon"><i class="fas fa-fingerprint"></i></div>
+                    <div class="doc-name">Certidão<small>Antecedentes Criminais</small></div>
+                    <div class="doc-desc">NADA CONSTA</div>
+                    <div class="card-actions">
+                        <a href="docs/2026.03 - PC - CERTIDÃO DE ANTECEDENTES CRIMINAIS.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
+                        <a href="docs/2026.03 - PC - CERTIDÃO DE ANTECEDENTES CRIMINAIS.pdf" download class="btn-mini btn-down">Baixar</a>
+                    </div>
+                </div>
+                
+                <div class="doc-card">
+                    <span class="doc-tag tag-cjf">CJF</span>
+                    <div class="doc-icon"><i class="fas fa-balance-scale"></i></div>
+                    <div class="doc-name">Certidão<small>Judicial Cível</small></div>
+                    <div class="doc-desc">NADA CONSTA</div>
+                    <div class="card-actions">
+                        <a href="docs/2026.03 - CJF - CERTIDÃO JUDICIAL CÍVEL.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
+                        <a href="docs/2026.03 - CJF - CERTIDÃO JUDICIAL CÍVEL.pdf" download class="btn-mini btn-down">Baixar</a>
+                    </div>
+                </div>
+                
+                <div class="doc-card">
+                    <span class="doc-tag tag-cjf">CJF</span>
+                    <div class="doc-icon"><i class="fas fa-balance-scale"></i></div>
+                    <div class="doc-name">Certidão<small>Judicial Criminal</small></div>
+                    <div class="doc-desc">NADA CONSTA</div>
+                    <div class="card-actions">
+                        <a href="docs/2026.03 - CJF - CERTIDÃO JUDICIAL CRIMINAL NEGATIVA.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
+                        <a href="docs/2026.03 - CJF - CERTIDÃO JUDICIAL CRIMINAL NEGATIVA.pdf" download class="btn-mini btn-down">Baixar</a>
+                    </div>
+                </div>
+                
+                <div class="doc-card">
+                    <span class="doc-tag tag-cjf">CJF</span>
+                    <div class="doc-icon"><i class="fas fa-balance-scale"></i></div>
+                    <div class="doc-name">Certidão<small>Judicial Eleitoral</small></div>
+                    <div class="doc-desc">NADA CONSTA</div>
+                    <div class="card-actions">
+                        <a href="docs/2026.03 - CJF - CERTIDÃO JUDICIAL PARA FINS ELEITORAIS.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
+                        <a href="docs/2026.03 - CJF - CERTIDÃO JUDICIAL PARA FINS ELEITORAIS.pdf" download class="btn-mini btn-down">Baixar</a>
+                    </div>
+                </div>
+                
+                <div class="doc-card">
+                    <span class="doc-tag tag-tst">TST</span>
+                    <div class="doc-icon"><i class="fas fa-landmark"></i></div>
+                    <div class="doc-name">Certidão<small>Débitos Trabalhistas</small></div>
+                    <div class="doc-desc">NADA CONSTA</div>
+                    <div class="card-actions">
+                        <a href="docs/2026.03 - TST - CERTIDÃO NEGATIVA DE DÉBITOS TRABALHISTAS.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
+                        <a href="docs/2026.03 - TST - CERTIDÃO NEGATIVA DE DÉBITOS TRABALHISTAS.pdf" download class="btn-mini btn-down">Baixar</a>
+                    </div>
+                </div> 
+                
+                <div class="doc-card">
+                    <span class="doc-tag tag-mpt">MPT</span>
+                    <div class="doc-icon"><i class="fas fa-landmark"></i></div>
+                    <div class="doc-name">Certidão<small>Negativa</small></div>
+                    <div class="doc-desc">NADA CONSTA</div>
+                    <div class="card-actions">
+                        <a href="docs/2026.03 - MPT - CERTIDÃO NEGATIVA.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
+                        <a href="docs/2026.03 - MPT - CERTIDÃO NEGATIVA.pdf" download class="btn-mini btn-down">Baixar</a>
+                    </div>
+                </div>                 
+                
+                <div class="doc-card">
+                    <span class="doc-tag tag-tjerj">TJERJ</span>
+                    <div class="doc-icon"><i class="fa fa-gavel"></i></div>
+                    <div class="doc-name">Certidão<small>Ações Cíveis</small></div>
+                    <div class="doc-desc">NADA CONSTA</div>
+                    <div class="card-actions">
+                        <a href="docs/2026.03 - TJERJ - CERTIDÃO DE REGISTRO DE AÇÕES CÍVEIS.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
+                        <a href="docs/2026.03 - TJERJ - CERTIDÃO DE REGISTRO DE AÇÕES CÍVEIS.pdf" download class="btn-mini btn-down">Baixar</a>
+                    </div>
+                </div>   
+                
+                <div class="doc-card">
+                    <span class="doc-tag tag-tjerj">TJERJ</span>
+                    <div class="doc-icon"><i class="fa fa-gavel"></i></div>
+                    <div class="doc-name">Certidão<small>Ações Criminais</small></div>
+                    <div class="doc-desc">NADA CONSTA</div>
+                    <div class="card-actions">
+                        <a href="docs/2026.03 - TJERJ - CERTIDÃO DE REGISTRO DE AÇÕES CRIMINAIS.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
+                        <a href="docs/2026.03 - TJERJ - CERTIDÃO DE REGISTRO DE AÇÕES CRIMINAIS.pdf" download class="btn-mini btn-down">Baixar</a>
+                    </div>
+                </div> 
+                
+                <div class="doc-card">
+                    <span class="doc-tag tag-tjerj">TJERJ - Petrópolis</span>
+                    <div class="doc-icon"><i class="fa fa-gavel"></i></div>
+                    <div class="doc-name">Certidão<small>Ações Criminais</small></div>
+                    <div class="doc-desc">NADA CONSTA</div>
+                    <div class="card-actions">
+                        <a href="docs/2026.03 - TJERJ - CERTIDÃO DE REGISTRO DE AÇÕES CRIMINAIS (PETRÓPOLIS).pdf" target="_blank" class="btn-mini btn-view">Ver</a>
+                        <a href="docs/2026.03 - TJERJ - CERTIDÃO DE REGISTRO DE AÇÕES CRIMINAIS (PETRÓPOLIS).pdf" download class="btn-mini btn-down">Baixar</a>
+                    </div>
+                </div> 
+                
+                <div class="doc-card">
+                    <span class="doc-tag tag-tjerj">TJERJ</span>
+                    <div class="doc-icon"><i class="fa fa-gavel"></i></div>
+                    <div class="doc-name">Certidão<small>Fiscal e Fazendária</small></div>
+                    <div class="doc-desc">NADA CONSTA</div>
+                    <div class="card-actions">
+                        <a href="docs/2026.03 - TJERJ - CERTIDÃO FISCAL E FAZENDÁRIA.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
+                        <a href="docs/2026.03 - TJERJ - CERTIDÃO FISCAL E FAZENDÁRIA.pdf" download class="btn-mini btn-down">Baixar</a>
+                    </div>
+                </div>   
+
+                <div class="doc-card doc-locked">
+                    <span class="doc-tag tag-loja">LOJA 264</span>
+                    <div class="doc-icon"><img src="../../../imagens/264.webp" class="doc-icon-img" alt="GLMERJ"></div>
+                    <div class="doc-name">Candidato<small>Sindicância Familiar</small></div>
+                    <div class="doc-desc status-missing">FALTANDO</div>
+                    <div class="card-actions">
+                        <a href="docs/2023.03 - GLMERJ - 3. SINDICÂNCIA COM O CANDIDATO.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
+                        <a href="docs/2023.03 - GLMERJ - 3. SINDICÂNCIA COM O CANDIDATO.pdf" download class="btn-mini btn-down">Baixar</a>
+                    </div>
+                </div>      
+                
+                <div class="doc-card doc-locked">
+                    <span class="doc-tag tag-loja">LOJA 264</span>
+                    <div class="doc-icon"><img src="../../../imagens/264.webp" class="doc-icon-img" alt="GLMERJ"></div>
+                    <div class="doc-name">Referências<small>Sindicância Familiar</small></div>
+                    <div class="doc-desc status-missing">FALTANDO</div>
+                    <div class="card-actions">
+                        <a href="docs/2023.03 - GLMERJ - 5. SINDICÂNCIA COM REFERÊNCIAS.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
+                        <a href="docs/2023.03 - GLMERJ - 5. SINDICÂNCIA COM REFERÊNCIAS.pdf" download class="btn-mini btn-down">Baixar</a>
+                    </div>
+                </div>              
+
+                <div class="doc-card">
+                    <span class="doc-tag tag-glmerj">GLMERJ</span>
+                    <div class="doc-icon"><img src="../../../imagens/glmerj.webp" class="doc-icon-img" alt="GLMERJ"></div>
+                    <div class="doc-name">Protocolo<small>Publicação</small></div>
+                    <div class="doc-desc status-alert">ANEXO</div>
+                    <div class="card-actions">
+                        <a href="docs/2026.03 - GLMERJ - PROTOCOLO DE SOLICITAÇÃO DE PUBLICAÇÃO.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
+                        <a href="docs/2026.03 - GLMERJ - PROTOCOLO DE SOLICITAÇÃO DE PUBLICAÇÃO.pdf" download class="btn-mini btn-down">Baixar</a>
+                    </div>
+                </div> 
+                
+                <div class="doc-card">
+                    <span class="doc-tag tag-glmerj">GLMERJ</span>
+                    <div class="doc-icon"><img src="../../../imagens/glmerj.webp" class="doc-icon-img" alt="GLMERJ"></div>
+                    <div class="doc-name">Anexo<small>Edital de Sindicância</small></div>
+                    <div class="doc-desc status-alert">ANEXO</div>
+                    <div class="card-actions">
+                        <a href="docs/2026.04 - GLMERJ - ANEXO DE SINDICÂNCIA.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
+                        <a href="docs/2026.04 - GLMERJ - ANEXO DE SINDICÂNCIA.pdf" download class="btn-mini btn-down">Baixar</a>
+                    </div>
+                </div>  
+                
+                <div class="doc-card">
+                    <span class="doc-tag tag-glmerj">GLMERJ</span>
+                    <div class="doc-icon"><img src="../../../imagens/glmerj.webp" class="doc-icon-img" alt="GLMERJ"></div>
+                    <div class="doc-name">GLMERJ<small>Placet de Iniciação</small></div>
+                    <div class="doc-desc"> APROVADO</div>
+                    <div class="card-actions">
+                        <a href="docs/2026.04 - GLMERJ - PLACET DE INICIAÇÃO.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
+                        <a href="docs/2026.04 - GLMERJ - PLACET DE INICIAÇÃO.pdf" download class="btn-mini btn-down">Baixar</a>
+                    </div>
+                </div>  
+                
+                <div class="doc-card">
+                    <span class="doc-tag tag-glmerj">GLMERJ</span>
+                    <div class="doc-icon"><img src="../../../imagens/glmerj.webp" class="doc-icon-img" alt="GLMERJ"></div>
+                    <div class="doc-name">GLMERJ<small>Juramento</small></div>
+                    <div class="doc-desc status-neutral">PENDENTE</div>
+                    <div class="card-actions">
+                        <a href="docs/2023.03 - GLMERJ - 7. JURAMENTO.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
+                        <a href="docs/2023.03 - GLMERJ - 7. JURAMENTO.pdf" download class="btn-mini btn-down">Baixar</a>
+                    </div>
+                </div>  
+                
+                <div class="doc-card">
+                    <span class="doc-tag tag-glmerj">GLMERJ</span>
+                    <div class="doc-icon"><img src="../../../imagens/glmerj.webp" class="doc-icon-img" alt="GLMERJ"></div>
+                    <div class="doc-name">GLMERJ<small>Compromisso</small></div>
+                    <div class="doc-desc status-neutral">PENDENTE</div>
+                    <div class="card-actions">
+                        <a href="docs/2023.03 - GLMERJ - 8. COMPROMISSO.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
+                        <a href="docs/2023.03 - GLMERJ - 8. COMPROMISSO.pdf" download class="btn-mini btn-down">Baixar</a>
+                    </div>
+                </div>  
+                
+                <div class="doc-card">
+                    <span class="doc-tag tag-glmerj">GLMERJ</span>
+                    <div class="doc-icon"><img src="../../../imagens/glmerj.webp" class="doc-icon-img" alt="GLMERJ"></div>
+                    <div class="doc-name">GLMERJ<small> Testamento Simbólico</small></div>
+                    <div class="doc-desc status-neutral">PENDENTE</div>
+                    <div class="card-actions">
+                        <a href="docs/2023.03 - GLMERJ - 9. TESTAMENTO SIMBÓLICO.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
+                        <a href="docs/2023.03 - GLMERJ - 9. TESTAMENTO SIMBÓLICO.pdf" download class="btn-mini btn-down">Baixar</a>
+                    </div>
+                </div>   
+
+            </div>
         </div>
+        <footer>
+            <div class="footer-rights">
+                © 2025 A∴ R∴ L∴ M∴ Fraternidade Imperial Nº 264. Todos os direitos reservados.
+            </div>
+            <div class="dev-container" id="imaginista-btn">
+                <span class="dev-text">Desenvolvido por:</span>
+                <img src="../../../imagens/logo.webp" alt="O Imaginista" class="imaginista-logo" onerror="this.src='../../../logo.png'">
+            </div>
+        </footer>
     </div>
 
     <div id="photoModal">
@@ -1228,7 +1649,11 @@
                     let nomeDoc = "Documento Desconhecido";
                     if (card) {
                         const docNameEl = card.querySelector('.doc-name') || card.querySelector('.pdf-title');
-                        if (docNameEl) nomeDoc = docNameEl.innerText.trim();
+                        if (docNameEl) {
+                            const mainText = docNameEl.childNodes[0].nodeValue ? docNameEl.childNodes[0].nodeValue.trim() : "";
+                            const subText = docNameEl.querySelector('small') ? " " + docNameEl.querySelector('small').innerText.trim() : "";
+                            nomeDoc = mainText + subText;
+                        }
                     }
                     const acao = this.classList.contains('btn-down') ? "Baixou o arquivo" : "Visualizou o arquivo";
                     
@@ -1293,6 +1718,15 @@
                     updateLogic();
                     calculateAge(); 
                     mapearCliquesDocumentos(); 
+                    
+                    // Dispara o efeito Cascata
+                    const cards = document.querySelectorAll('.doc-card');
+                    cards.forEach((card, index) => {
+                        setTimeout(() => {
+                            card.classList.add('show-card');
+                        }, index * 100); 
+                    });
+                    
                 }, 500);
             } else {
                 let tentativasSpan = document.getElementById('tentativas');
@@ -1383,7 +1817,6 @@
             const progLine = document.getElementById('prog-line');
             const cimContainer = document.getElementById('cim-display-container');
 
-            // Troca de Tipo de Processo
             if (processType === "regularizacao") {
                 totalSteps = 6;
                 stepsData = [
@@ -1423,7 +1856,6 @@
                 document.body.classList.remove('theme-regularizacao');
             }
 
-            // Trava de segurança para evitar quebra de layout se currentStep for maior que o total
             let stepAtual = currentStep > totalSteps ? totalSteps : currentStep;
 
             for (let i = 1; i <= totalSteps; i++) {
@@ -1447,7 +1879,11 @@
                 
                 cimContainer.style.display = "block"; 
                 document.getElementById('cim-number').innerText = cimNumber;
-                progLine.style.width = "100%"; 
+                
+                // Atraso para a animação da barra
+                setTimeout(() => {
+                    progLine.style.width = "100%"; 
+                }, 100);
 
                 for(let i=1; i<=totalSteps; i++) {
                     const el = document.getElementById(`step-${i}`);
@@ -1476,7 +1912,12 @@
                 document.getElementById('alert-resp').innerText = "Despacho por: " + statusResponsible + " em " + finalDate;
 
                 const percent = ((stepAtual-1) / (totalSteps-1)) * 100;
-                progLine.style.width = percent + "%";
+                
+                // Atraso para a animação da barra
+                setTimeout(() => {
+                    progLine.style.width = percent + "%";
+                }, 100);
+                
                 progLine.style.backgroundColor = isDesistencia ? "#b86b00" : "#cc0000";
                 progLine.style.backgroundImage = "none"; 
 
@@ -1505,7 +1946,11 @@
                 }
                 
                 const percent = ((stepAtual-1) / (totalSteps-1)) * 100;
-                progLine.style.width = percent + "%";
+                
+                // Atraso para a animação da barra "crescendo" funcionar
+                setTimeout(() => {
+                    progLine.style.width = percent + "%";
+                }, 100);
 
                 for(let i=1; i<=totalSteps; i++) {
                     const el = document.getElementById(`step-${i}`);
@@ -1518,8 +1963,34 @@
 
 
         // =========================================================
-        // 5. FUNÇÕES AUXILIARES (IDADE, SHARE, MODAL E EFEITOS)
+        // 5. FUNÇÕES AUXILIARES E FILTRO DE BUSCA
         // =========================================================
+        function filterDocs() {
+            let input = document.getElementById('docSearch');
+            let filter = input.value.toUpperCase();
+            let grid = document.getElementById("docsGrid");
+            let cards = grid.getElementsByClassName('doc-card');
+
+            for (let i = 0; i < cards.length; i++) {
+                let nameBlock = cards[i].querySelector(".doc-name");
+                
+                let mainText = nameBlock.childNodes[0].nodeValue ? nameBlock.childNodes[0].nodeValue : "";
+                let subText = nameBlock.querySelector("small") ? nameBlock.querySelector("small").innerText : "";
+                let name = mainText + " " + subText;
+                
+                let desc = cards[i].querySelector(".doc-desc") ? cards[i].querySelector(".doc-desc").innerText : "";
+                let tag = cards[i].querySelector(".doc-tag").innerText;
+                
+                if (name.toUpperCase().indexOf(filter) > -1 || 
+                    desc.toUpperCase().indexOf(filter) > -1 || 
+                    tag.toUpperCase().indexOf(filter) > -1) {
+                    cards[i].style.display = "flex";
+                } else {
+                    cards[i].style.display = "none";
+                }
+            }
+        }
+
         function calculateAge() {
             const birthElement = document.getElementById('nasc-data');
             const birthDateString = birthElement.innerText; 
@@ -1601,10 +2072,13 @@
                 particleColor: 'rgba(212, 175, 55, 0.8)', 
                 particleCount: isMobile ? 40 : 80, 
                 lineLength: isMobile ? 120 : 180, 
-                particleSpeed: 0.15 
+                particleSpeed: 0.30   // Velocidade da Constelação
             };
 
-            const resize = () => { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; };
+            const resize = () => { 
+                w = canvas.width = window.innerWidth; 
+                h = canvas.height = window.innerHeight; 
+            };
             window.addEventListener('resize', resize);
             resize();
 
@@ -1617,10 +2091,13 @@
                     this.radius = Math.random() * 1.5 + 0.5; 
                 }
                 position(){
-                    if(this.x > w + 50) this.x = -50;
-                    else if(this.x < -50) this.x = w + 50;
-                    if(this.y > h + 50) this.y = -50;
-                    else if(this.y < -50) this.y = h + 50;
+                    // Teletransporta a partícula para o lado oposto se sair da tela (inclusive ao dar zoom)
+                    if(this.x > w) this.x = 0;
+                    else if(this.x < 0) this.x = w;
+                    
+                    if(this.y > h) this.y = 0;
+                    else if(this.y < 0) this.y = h;
+                    
                     this.x += this.vx;
                     this.y += this.vy;
                 }
@@ -1694,3 +2171,5 @@
 
         window.addEventListener('load', checkCookies);
     </script>
+</body>
+</html>
