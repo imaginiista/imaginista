@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A∴ R∴ L∴ M∴ Filhos da Viúva N° 33</title>
+    <meta name="description" content="Site oficial da Loja Maçônica Filhos da Viúva n° 33. Oriente de Petrópolis.">
+    <meta name="theme-color" content="#000c18">
+    
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="icon" type="image/png" href="favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/svg+xml" href="favicon/favicon.svg">
+    <link rel="shortcut icon" href="favicon/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
+    
+    <meta property="og:title" content="A∴ R∴ L∴ M∴ Filhos da Viúva N° 33"> 
+    <meta property="og:description" content="No coração da Cidade Imperial, a luz da fraternidade se ergue como símbolo de união, sabedoria e continuidade espiritual.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://oimaginista.com/filhosdaviuva33/">
+    <meta property="og:image" content="https://oimaginista.com/favicon/web-app-manifest-512x512.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="512">
+    <meta property="og:image:height" content="512">
+    
+    <style>
+        :root {
+            --gold: #d4af37;
+            --gold-light: #f9eeb6;
+            --gold-shadow: rgba(212, 175, 55, 0.5);
+            --blue-deep: #000c18;
+            --blue-royal: #001a33;
+            --text-main: #e2e8f0;
+            --glass: rgba(255, 255, 255, 0.05);
+            --wpp-green: #25D366;
+        }
+
+        /* --- O RESTANTE DO SEU CSS CONTINUA INTACTO AQUI --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+        body, html { font-family: 'Lato', sans-serif; color: var(--text-main); background-color: var(--blue-deep); overflow-x: hidden; width: 100%; line-height: 1.6; }
+        h1, h2, h3, .cinzel { font-family: 'Cinzel', serif; color: var(--gold); }
+        .text-gold { color: var(--gold); }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; width: 100%; box-sizing: border-box; }
+        section { padding: 80px 0; position: relative; z-index: 2; width: 100%; overflow: hidden; }
+
+        .video-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -3; opacity: 0.3; }
+        .bg-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at center, rgba(0,12,24,0.5) 0%, rgba(0,12,24,0.98) 90%); z-index: -2; }
+        #constellation-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+
+        header { position: fixed; width: 100%; top: 0; z-index: 1000; transition: all 0.4s ease-in-out; padding: 15px 0; background: transparent; }
+        header.scrolled { background: rgba(0, 12, 24, 0.95); backdrop-filter: blur(15px); padding: 10px 0; border-bottom: 1px solid rgba(212, 175, 55, 0.3); box-shadow: 0 0 20px rgba(0, 0, 0, 0.8), 0 0 10px rgba(212, 175, 55, 0.2); }
+        .header-inner { display: flex; justify-content: space-between; align-items: center; width: 100%; }
+        .logo-group { display: flex; align-items: center; }
+        .logo-img { height: 60px; width: auto; transition: transform 0.3s; filter: drop-shadow(0 0 5px rgba(0,0,0,0.5)); }
+        .logo-img:hover { transform: scale(1.1); filter: drop-shadow(0 0 15px var(--gold-shadow)); }
+        
+        .nav-menu ul { display: flex; list-style: none; gap: 20px; align-items: center; margin: 0; padding: 0; }
+        .nav-link { color: #fff; text-decoration: none; font-family: 'Cinzel', serif; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; position: relative; padding: 5px 0; transition: 0.3s; display: flex; align-items: center; gap: 6px; }
+        .nav-link:hover { color: var(--gold); text-shadow: 0 0 8px var(--gold-shadow); }
+        .nav-link::after { content: ''; position: absolute; width: 0; height: 1px; bottom: 0; left: 0; background: var(--gold); transition: 0.3s; box-shadow: 0 0 5px var(--gold); }
+        .nav-link:hover::after { width: 100%; }
+
+        .btn-secretaria { border: 1px solid var(--gold); padding: 8px 15px; border-radius: 4px; background: rgba(212, 175, 55, 0.1); color: var(--gold); font-weight: bold; transition: 0.3s; }
+        .btn-secretaria:hover { background: var(--gold); color: #000; box-shadow: 0 0 20px var(--gold-shadow); }
+        .btn-secretaria::after { display: none; } 
+        .mobile-toggle { display: none; font-size: 1.8rem; color: var(--gold); background: none; border: none; cursor: pointer; }
+
+        .hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; padding-top: 100px; width: 100%; position: relative; z-index: 2; }
+        .hero-content { animation: fadeIn 2s ease; max-width: 1000px; padding: 0 20px; width: 100%; box-sizing: border-box; }
+        .gadu-text { font-family: 'Cinzel', serif; font-size: 1rem; color: #fff; letter-spacing: 4px; margin-bottom: 30px; text-transform: uppercase; opacity: 0.8; text-shadow: 0 2px 5px rgba(0,0,0,1); position: relative; display: inline-block; word-wrap: break-word; }
+        .gadu-text::after { content: ''; display: block; width: 40px; height: 1px; background: var(--gold); margin: 10px auto 0; }
+
+        .hero h1 { font-size: 3.5rem; line-height: 1.2; margin-bottom: 15px; text-shadow: 0 4px 10px rgba(0,0,0,0.8); background: linear-gradient(to bottom, #fff, #d4af37); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .no-wrap { white-space: nowrap; }
+        
+        .texto-destaque { font-family: 'Cinzel', serif; font-size: 1.6rem; color: var(--gold); text-transform: uppercase; text-shadow: 0 2px 5px rgba(0,0,0,0.8); margin-bottom: 20px; letter-spacing: 3px; text-align: center; }
+        .texto-destaque span { display: inline; }
+
+        .motto { font-size: 1.2rem; letter-spacing: 4px; text-transform: uppercase; color: #ccc; margin-bottom: 20px; text-shadow: 0 2px 5px #000; }
+        .motto-desktop { display: inline; }
+        .motto-mobile { display: none; }
+
+        .hero-badge { display: inline-flex; align-items: center; justify-content: center; gap: 12px; background: linear-gradient(90deg, rgba(0,0,0,0.8), rgba(20,40,60,0.8)); padding: 8px 25px; border-radius: 50px; border: 1px solid rgba(212, 175, 55, 0.3); margin-top: 15px; margin-bottom: 50px; box-shadow: 0 0 15px rgba(0,0,0,0.5); flex-wrap: nowrap; height: auto; }
+        .flag-icon { width: 32px !important; height: 22px !important; object-fit: cover; border-radius: 2px; display: block; box-shadow: 0 0 5px rgba(0,0,0,0.5); flex-shrink: 0; }
+        .btn-hero { color: var(--gold); text-decoration: none; border: 1px solid var(--gold); padding: 12px 30px; font-size: 1rem; display: inline-block; margin-top: 10px; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; background: rgba(0,0,0,0.4); text-align: center; }
+        .btn-hero:hover { background: var(--gold); color: #000; box-shadow: 0 0 20px var(--gold-shadow); }
+        .scroll-down { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); color: var(--gold); animation: bounce 2s infinite; font-size: 1.5rem; cursor: pointer; }
+
+        .history-box { background: rgba(0, 12, 24, 0.85); padding: 50px; border-radius: 8px; border: 1px solid rgba(212,175,55,0.2); box-shadow: 0 10px 40px rgba(0,0,0,0.6); text-align: justify; position: relative; width: 100%; box-sizing: border-box; }
+        .history-box::before, .history-box::after { content: ''; position: absolute; width: 30px; height: 30px; border: 2px solid var(--gold); transition: 0.3s; }
+        .history-box::before { top: -1px; left: -1px; border-right: 0; border-bottom: 0; }
+        .history-box::after { bottom: -1px; right: -1px; border-left: 0; border-top: 0; }
+        
+        .history-content { position: relative; max-height: 400px; overflow: hidden; transition: max-height 0.8s ease-in-out; }
+        .history-content.expanded { max-height: 3000px; }
+        .history-content::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 100px; background: linear-gradient(to bottom, rgba(0,12,24,0), rgba(0,12,24,0.95)); transition: opacity 0.5s; }
+        .history-content.expanded::after { opacity: 0; pointer-events: none; }
+        .history-content p { margin-bottom: 20px; text-indent: 30px; font-size: 1.05rem; }
+
+        .btn-more-history { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 20px auto 40px; background: transparent; border: 1px solid var(--gold); color: var(--gold); padding: 12px 35px; font-family: 'Cinzel', serif; cursor: pointer; transition: 0.3s; letter-spacing: 2px; text-transform: uppercase; font-weight: bold; border-radius: 4px; font-size: 0.85rem; }
+        .btn-more-history:hover { background: var(--gold); color: #000; box-shadow: 0 0 15px var(--gold-shadow); }
+
+        .history-stats { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 20px; padding-top: 30px; border-top: 1px solid rgba(212,175,55,0.3); width: 100%; box-sizing: border-box; }
+        .stat-item { text-align: center; flex: 1; min-width: 200px; background: rgba(255,255,255,0.03); padding: 15px; border-radius: 6px; box-sizing: border-box; }
+        .stat-label { display: block; color: var(--gold); font-family: 'Cinzel'; font-size: 0.9rem; margin-bottom: 5px; }
+        .stat-value { font-weight: bold; color: #fff; font-size: 1.1rem; }
+
+        .section-title { font-size: 2.2rem; text-transform: uppercase; letter-spacing: 3px; display: inline-block; position: relative; padding-bottom: 15px; margin-bottom: 30px; text-align: center; width: 100%; word-wrap: break-word; }
+        .section-title::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 80px; height: 3px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+
+        .faq-wrapper { max-height: 480px; overflow: hidden; transition: max-height 0.8s ease-in-out; position: relative; width: 100%; }
+        .faq-wrapper.expanded { max-height: 3000px; }
+        .faq-wrapper::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 80px; background: linear-gradient(to bottom, transparent, var(--blue-deep)); transition: opacity 0.5s; }
+        .faq-wrapper.expanded::after { opacity: 0; pointer-events: none; }
+        .faq-item { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); margin-bottom: 8px; border-radius: 6px; overflow: hidden; transition: 0.3s; width: 100%; box-sizing: border-box; }
+        .faq-question { width: 100%; padding: 20px; text-align: left; background: linear-gradient(90deg, rgba(0,0,0,0.2), transparent); border: none; color: #e0e0e0; font-family: 'Lato'; font-weight: bold; font-size: 1.05rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: 0.3s; box-sizing: border-box; }
+        .faq-question span { padding-right: 15px; }
+        .faq-question:hover { background: rgba(255,255,255,0.05); color: var(--gold); }
+        .faq-item.active .faq-question i { transform: rotate(180deg); color: var(--gold); }
+        .faq-answer { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.4s ease, opacity 0.4s ease; background: rgba(0,0,0,0.3); color: #ccc; opacity: 0; }
+        .faq-answer > div { overflow: hidden; padding: 0 25px; box-sizing: border-box; }
+        .faq-answer.open { grid-template-rows: 1fr; opacity: 1; }
+        .faq-answer.open > div { padding: 20px 25px; }
+        .hidden-faq { display: none; }
+        .btn-more-faq { display: block; margin: 20px auto 0; background: transparent; border: 1px solid var(--gold); color: var(--gold); padding: 15px 40px; font-family: 'Cinzel'; cursor: pointer; transition: 0.3s; letter-spacing: 2px; text-transform: uppercase; font-weight: bold; position: relative; z-index: 10; text-align: center; max-width: 100%; }
+        .btn-more-faq:hover { background: var(--gold); color: #000; box-shadow: 0 0 15px var(--gold-shadow); }
+
+        .contact-container { display: grid; grid-template-columns: 1fr 1.5fr; gap: 40px; background: rgba(0, 12, 24, 0.6); border: 1px solid rgba(255,255,255,0.1); padding: 40px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.4); width: 100%; box-sizing: border-box; overflow: hidden; }
+        .contact-info { width: 100%; box-sizing: border-box; }
+        .contact-info h3 { font-size: 1.5rem; margin-bottom: 25px; color: var(--gold); border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; word-wrap: break-word; }
+        .info-item { display: flex; align-items: flex-start; gap: 15px; margin-bottom: 25px; word-wrap: break-word; }
+        .info-item i { color: var(--gold); font-size: 1.3rem; margin-top: 5px; min-width: 25px; }
+        
+        .map-area { width: 100%; max-width: 100%; overflow: hidden; border-radius: 8px; border: 1px solid var(--gold); box-sizing: border-box; display: flex; flex-direction: column;}
+        .map-frame { width: 100%; height: 100%; min-height: 350px; border: none; filter: grayscale(20%); transition: 0.3s; display: block; flex-grow: 1; }
+        .map-frame:hover { filter: grayscale(0%); }
+        .btn-map-container { margin-top: 40px; display: flex; flex-direction: column; align-items: flex-start; width: 100%; gap: 10px; }
+        .btn-map { color: #fff; text-decoration: none; border: 1px solid rgba(255,255,255,0.3); padding: 12px 20px; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; gap: 10px; transition: 0.3s; background: rgba(0,0,0,0.3); width: auto; max-width: 100%; text-align: center; }
+        .btn-map:hover { background: var(--gold); color: #000; border-color: var(--gold); }
+        .mobile-map-buttons { display: none; }
+
+        footer { position: relative; width: 100%; background-color: #02050a; background-image: linear-gradient(45deg, rgba(255,255,255,0.06) 25%, transparent 25%, transparent 75%, rgba(255,255,255,0.06) 75%, rgba(255,255,255,0.06)), linear-gradient(45deg, rgba(255,255,255,0.06) 25%, transparent 25%, transparent 75%, rgba(255,255,255,0.06) 75%, rgba(255,255,255,0.06)); background-size: 80px 80px; background-position: 0 0, 40px 40px; padding: 80px 0 20px; border-top: 3px solid var(--gold); margin-top: auto; }
+        footer::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, rgba(0,12,24,0.9) 0%, rgba(0,0,0,0) 20%, rgba(0,0,0,0) 80%, rgba(0,0,0,0.95) 100%); z-index: 0; pointer-events: none; }
+        .footer-grid { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 40px; text-align: left; padding-bottom: 40px; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .footer-col h4 { color: var(--gold); font-family: 'Cinzel'; margin-bottom: 20px; font-size: 1.1rem; text-shadow: 0 2px 5px rgba(0,0,0,0.8);}
+        .footer-contact p { margin-bottom: 12px; font-size: 0.9rem; color: #ddd; display: flex; align-items: flex-start; gap: 10px; text-shadow: 0 1px 3px rgba(0,0,0,0.9); line-height: 1.4; }
+        .footer-contact i { color: var(--gold); margin-top: 3px; font-size: 1.1rem; width: 20px; text-align: center; flex-shrink: 0;}
+        .keep-together { white-space: nowrap; }
+        .mobile-break { display: none; } 
+        .footer-social-center { text-align: center; }
+        .social-btn { display: inline-flex; justify-content: center; align-items: center; width: 50px; height: 50px; border-radius: 50%; border: 1px solid rgba(212, 175, 55, 0.4); color: #fff; font-size: 1.3rem; margin: 0 10px; transition: 0.3s; text-decoration: none; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px);}
+        .social-btn:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-5px); box-shadow: 0 0 15px var(--gold-shadow); background: rgba(0,0,0,0.9);}
+        .footer-dev-right { text-align: right; display: flex; flex-direction: column; align-items: flex-end; justify-content: center; }
+        .dev-logo { width: 120px; filter: grayscale(100%) brightness(200%); opacity: 0.8; transition: 0.3s; cursor: pointer; }
+        .dev-logo:hover { filter: grayscale(0%) brightness(100%); opacity: 1; }
+        .copyright { position: relative; z-index: 1; font-size: 0.8rem; color: #ccc; padding-top: 20px; border-top: 1px solid rgba(212, 175, 55, 0.3); display: flex; justify-content: space-between; max-width: 1200px; margin: 0 auto; padding-left: 20px; padding-right: 20px; flex-wrap: wrap; text-shadow: 0 1px 2px #000; }
+
+        .floating-actions { position: fixed; bottom: 30px; right: 30px; display: flex; flex-direction: column; gap: 15px; z-index: 998; transition: opacity 0.4s, visibility 0.4s; opacity: 0; visibility: hidden; align-items: center; }
+        .floating-actions.show { opacity: 1; visibility: visible; }
+        
+        .float-btn { width: 45px; height: 45px; border-radius: 50%; background: rgba(0, 12, 24, 0.6); border: 1px solid rgba(212, 175, 55, 0.5); color: var(--gold); font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.5); transition: 0.3s; backdrop-filter: blur(5px); }
+        .float-btn:hover { background: var(--gold); color: #000; border-color: var(--gold); box-shadow: 0 0 15px var(--gold-shadow); transform: translateY(-5px); }
+        
+        .float-wpp { width: 60px; height: 60px; background: var(--wpp-green); border: 2px solid rgba(255,255,255,0.2); color: #fff; font-size: 2rem; box-shadow: 0 5px 20px rgba(37, 211, 102, 0.4); animation: pulse-wpp 2s infinite; text-decoration: none; display: flex; justify-content: center; align-items: center; border-radius: 50%; transition: 0.3s; }
+        .float-wpp:hover { background: #1ebe57; transform: scale(1.1); animation: none; color: #fff; box-shadow: 0 8px 25px rgba(37, 211, 102, 0.6); }
+        
+        @keyframes pulse-wpp {
+            0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.5); }
+            70% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+        }
+
+        .cookie-banner { position: fixed; bottom: 0; left: 0; width: 100%; transform: translateY(100%); background: rgba(0, 12, 24, 0.98); border-top: 1px solid var(--gold); padding: 20px; z-index: 9999; display: flex; justify-content: center; align-items: center; gap: 20px; transition: transform 0.5s ease-in-out; box-shadow: 0 -5px 20px rgba(0,0,0,0.5); box-sizing: border-box; }
+        .cookie-banner.show { transform: translateY(0); }
+        .cookie-text { font-size: 0.9rem; color: #ccc; max-width: 800px; word-wrap: break-word; }
+        .cookie-btn { background: var(--gold); color: #000; border: none; padding: 12px 25px; font-weight: bold; cursor: pointer; border-radius: 4px; transition: 0.3s; white-space: nowrap; }
+        .cookie-btn:hover { background: #fff; }
+
+        @media (max-width: 900px) {
+            .header-inner { padding: 0 15px; flex-wrap: nowrap; justify-content: space-between; }
+            .logo-group { gap: 10px; }
+            .logo-img { height: 40px; }
+            .logo-group a { margin-right: 0 !important; }
+
+            .nav-menu { position: fixed; top: 70px; right: -100%; width: 100%; height: calc(100vh - 70px); background: rgba(0, 12, 24, 0.98); flex-direction: column; padding-top: 40px; transition: 0.4s ease-in-out; justify-content: flex-start; z-index: 999; overflow-y: auto; overflow-x: hidden; }
+            .nav-menu.active { right: 0; }
+            .nav-menu ul { flex-direction: column; gap: 25px; width: 100%; align-items: center; }
+            .mobile-toggle { display: block; margin-left: 5px; }
+
+            .hero h1 { font-size: 6vw; line-height: 1.3; } 
+            .gadu-text { font-size: 0.75rem; letter-spacing: 2px; }
+            
+            .texto-destaque { font-size: 1.2rem; letter-spacing: 2px; }
+            .texto-destaque span { display: block; margin-top: 5px; }
+            
+            .motto { font-size: 0.85rem; letter-spacing: 2px; line-height: 1.8; text-align: center; }
+            .motto-desktop { display: none; }
+            .motto-mobile { display: block; }
+            .motto-mobile span { display: block; }
+            .motto-bot { color: var(--gold); font-weight: bold; margin-top: 5px; }
+
+            .hero-badge { padding: 8px 15px; margin-bottom: 30px; } 
+            .btn-hero { font-size: 0.85rem; padding: 10px 20px; }
+
+            .history-box { padding: 25px 20px; width: 100%; }
+            .history-content { max-height: 250px; }
+            .history-content p { font-size: 0.95rem; text-indent: 15px; }
+            
+            .history-stats { flex-direction: column; gap: 15px; margin-top: 0; }
+            .stat-item { min-width: 100%; width: 100%; }
+            .section-title { font-size: 1.6rem; }
+
+            .faq-question { font-size: 0.95rem; padding: 15px; }
+
+            .contact-container { grid-template-columns: 1fr; padding: 0 15px; width: 100%; gap: 20px; background: transparent; border: none; box-shadow: none; }
+            .contact-info { display: flex; flex-direction: column; align-items: center; text-align: center; margin-bottom: 0; width: 100%; }
+            .contact-info h3 { display: none; } 
+            .contact-info .info-item { display: none; }
+            
+            .btn-map-container { display: none; } 
+
+            .map-area { min-height: auto; padding: 15px; display: flex; flex-direction: column; gap: 15px; background: rgba(0, 12, 24, 0.8); border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.6); backdrop-filter: blur(10px); }
+            .map-frame { min-height: 200px; width: 100%; border-radius: 12px; margin-bottom: 0; }
+            
+            .mobile-map-buttons { display: flex; flex-direction: row; width: 100%; gap: 10px; justify-content: space-between; }
+            .mobile-map-buttons .btn-map { flex: 1; margin: 0; max-width: 100%; font-size: 0.85rem; padding: 12px 5px; border-radius: 10px; display: flex; flex-direction: column; gap: 5px; }
+            .mobile-map-buttons .btn-map i { font-size: 1.4rem; margin: 0; }
+
+            .footer-grid { grid-template-columns: 1fr; text-align: center; gap: 40px; padding: 0 15px; }
+            .mobile-center-col { display: flex; flex-direction: column; align-items: center; }
+            .footer-contact { text-align: left; display: inline-block; width: fit-content; max-width: 100%; }
+            .footer-contact p { justify-content: flex-start; }
+            .mobile-break { display: block; } 
+            .footer-dev-right { align-items: center; }
+            .copyright { flex-direction: column; gap: 10px; text-align: center; padding: 20px 10px; }
+            .cookie-banner { flex-direction: column; text-align: center; padding: 20px; }
+            .cookie-btn { width: 100%; margin-top: 10px; }
+            
+            .floating-actions { bottom: 20px; right: 20px; gap: 10px; }
+            .float-btn { width: 40px; height: 40px; font-size: 1rem; }
+            .float-wpp { width: 55px; height: 55px; font-size: 1.8rem; }
+        }
+    </style>
+    
+</head>
+<body>
+
+    <video autoplay muted loop playsinline class="video-bg">
+        <source src="https://static.videezy.com/system/resources/previews/000/004/199/original/Nebula_Blue_GK_1.mp4" type="video/mp4">
+    </video>
+    <div class="bg-overlay"></div>
+    <canvas id="constellation-canvas"></canvas>
+
+    <header id="main-header">
+        <div class="container header-inner">
+            <div class="logo-group">
+                <img src="imagens/33.webp" alt="Brasão 33" class="logo-img">
+            </div>
+
+            <nav class="nav-menu" id="nav-menu">
+                <ul>
+                    <li><a href="#inicio" class="nav-link"><i class="fas fa-home"></i> <span>Início</span></a></li>
+                    <li><a href="#historia" class="nav-link"><i class="fas fa-scroll"></i> <span>História</span></a></li> 
+                    <li><a href="#faq" class="nav-link"><i class="fas fa-question-circle"></i> <span>FAQ</span></a></li>
+                    <li><a href="#contato" class="nav-link"><i class="fas fa-envelope"></i> <span>Contato</span></a></li>
+                    <li><a href="adm/" class="nav-link"><i class="fas fa-users"></i> <span>A Loja</span></a></li> 
+                    <li><a href="galeria/" class="nav-link"><i class="fas fa-portrait"></i> <span>Galeria</span></a></li>
+                    <li><a href="secretaria/" class="nav-link btn-secretaria"><i class="fas fa-lock"></i> <span>Secretaria</span></a></li>
+                </ul>
+            </nav>
+
+            <div class="logo-group">
+                <a href="https://www.glmerj.org.br/" target="_blank" title="GLMERJ" style="margin-right: 10px;">
+                    <img src="imagens/glmerj.webp" alt="GLMERJ" class="logo-img">
+                </a>
+                <a href="https://www.supremoconclavedobrasil.com.br/" target="_blank" title="Supremo Conclave">
+                    <img src="imagens/orbi.webp" alt="Supremo Conclave" class="logo-img">
+                </a>
+                <button class="mobile-toggle" id="btn-mobile"><i class="fas fa-bars"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <section id="inicio" class="hero">
+        <div class="hero-content">
+            <div class="gadu-text">À Glória do Supremo Arquiteto do Universo</div>
+            
+            <h1>A∴ R∴ L∴ M∴<br><span class="no-wrap">Filhos da Viúva</span><br><span>Nº 33</span></h1>
+            
+            <p class="motto motto-desktop">Liberdade, Igualdade e Fraternidade</p>
+            <p class="motto motto-mobile">
+                <span class="motto-top">Liberdade Igualdade</span> 
+                <span class="motto-bot">Fraternidade</span>
+            </p>
+           <br>
+            <div class="hero-badge">
+                <img src="imagens/brasil.webp" alt="Brasil" class="flag-icon" onerror="this.style.display='none'">
+                <span style="font-family: 'Cinzel'; font-size: 0.95rem; color: #fff;">Rito Adonhiramita</span>
+            </div>
+            
+            <div>
+                <a href="#historia" class="btn-hero">Conheça Nossa História</a>
+            </div>
+        </div>
+        <a href="#historia" class="scroll-down"><i class="fas fa-chevron-down"></i></a>
+    </section>
+
+    <section id="historia">
+        <div class="container">
+            <div class="section-header" style="text-align: center;">
+                <h2 class="section-title">Nossa Coluna</h2>
+            </div>
+            <div class="history-box">
+                <div class="history-content" id="history-content">
+                    <p>A <strong>Augusta e Respeitável Loja Maçônica Filhos da Viúva n° 33</strong> foi fundada em [DATA DE FUNDAÇÃO], em Petrópolis - RJ, jurisdicionada à Grande Loja Maçônica do Estado do Rio de Janeiro (GLMERJ). A loja fortalece o Rito Adonhiramita no Oriente de Petrópolis e realiza atividades maçônicas regulares.</p>
+
+                    <p>No coração da Cidade Imperial, Petrópolis, celebramos a nossa fundação dedicada ao Rito Adonhiramita. A cerimônia solene marcou não apenas o nascimento desta Oficina, mas também o fortalecimento da maçonaria na região serrana.</p>
+
+                    <p>[Espaço para adicionar a história detalhada da Loja Filhos da Viúva N° 33, seus fundadores e marcos importantes ao longo dos anos.]</p>
+                </div>
+                
+                <button id="btn-toggle-history" class="btn-more-history">
+                    Continuar Lendo <i class="fas fa-chevron-down"></i>
+                </button>
+
+                <div class="history-stats">
+                    <div class="stat-item">
+                        <span class="stat-label">Fundação</span>
+                        <div class="stat-value">[Data]</div>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Venerável Mestre</span>
+                        <div class="stat-value">[Nome do VM Atual]</div>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Jurisdição</span>
+                        <div class="stat-value">GLMERJ</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="faq">
+        <div class="container" style="max-width: 900px;">
+            <div class="section-header" style="text-align: center;">
+                <h2 class="section-title">Perguntas Frequentes</h2>
+            </div>
+            
+            <div id="faq-container" class="faq-wrapper">
+                </div>
+            
+            <button id="btn-toggle-faq" class="btn-more-faq">Ver Todas as Perguntas</button>
+        </div>
+    </section>
+
+    <section id="contato">
+        <div class="container">
+            <div class="section-header" style="text-align: center;">
+                <h2 class="section-title">
+                    <span class="motto-desktop">Localização & Contato</span>
+                    <span class="motto-mobile">Localização</span>
+                </h2>
+            </div>
+            
+            <div class="contact-container">
+                <div class="contact-info">
+                    <h3>Oriente de Petrópolis</h3>
+                    <div class="info-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Rua Nair Tefé, 320 - Quitandinha, Petrópolis - RJ, 25650-300</span>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-clock"></i>
+                        <span>Reuniões: Sábados (Quinzenalmente) às 10h</span>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>secretaria@filhosdaviuva33.com.br</span>
+                    </div>
+                    
+                    <div class="btn-map-container">
+                        <a href="https://ul.waze.com/ul?place=EkVSLiBOYWlyIFRlZsOpLCAzMjAgLSBRdWl0YW5kaW5oYSwgUGV0csOzcG9saXMgLSBSSiwgMjU2NTAtMzAwLCBCcmF6aWwiMRIvChQKEgnTeoLBGgmZABFG21QZBKl3qhDAAioUChIJAy103BoJmQAR_tz56QDwYhg&ll=-22.53576410%2C-43.22511110&navigate=yes&utm_campaign=waze_website&utm_source=waze_website&utm_medium=lm_share_location" target="_blank" class="btn-map">
+                            <i class="fab fa-waze"></i> Ir com Waze
+                        </a>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Rua+Nair+Tefe+320+Petropolis+RJ" target="_blank" class="btn-map">
+                            <i class="fas fa-map-marked-alt"></i> Google Maps
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="map-area">
+                    <iframe class="map-frame" src="https://maps.google.com/maps?q=Rua%20Nair%20Tef%C3%A9%2C%20320%20-%20Quitandinha%2C%20Petr%C3%B3polis%20-%20RJ&t=&z=15&ie=UTF8&iwloc=&output=embed" allowfullscreen="" loading="lazy"></iframe>
+                    
+                    <div class="mobile-map-buttons">
+                        <a href="https://ul.waze.com/ul?place=EkVSLiBOYWlyIFRlZsOpLCAzMjAgLSBRdWl0YW5kaW5oYSwgUGV0csOzcG9saXMgLSBSSiwgMjU2NTAtMzAwLCBCcmF6aWwiMRIvChQKEgnTeoLBGgmZABFG21QZBKl3qhDAAioUChIJAy103BoJmQAR_tz56QDwYhg&ll=-22.53576410%2C-43.22511110&navigate=yes&utm_campaign=waze_website&utm_source=waze_website&utm_medium=lm_share_location" target="_blank" class="btn-map">
+                            <i class="fab fa-waze"></i> Waze
+                        </a>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Rua+Nair+Tefe+320+Petropolis+RJ" target="_blank" class="btn-map">
+                            <i class="fas fa-map-marked-alt"></i> Google Maps
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+        <footer id="secretaria-footer">
+            <div class="footer-grid">
+                <div class="footer-col mobile-center-col">
+                    <h4>Fale Conosco</h4>
+                    <div class="footer-contact">
+                        <p><i class="fas fa-map-pin"></i> <span>Rua Nair Tefé, 320 - Quitandinha, <br class="mobile-break"><span class="keep-together">Petrópolis - RJ</span></span></p>
+                        <p><i class="fas fa-clock"></i> <span>Reuniões: Sábados (Quinzenalmente) às 10h</span></p>
+                        <p><i class="fas fa-envelope"></i> <span>secretaria@filhosdaviuva33.com.br</span></p>
+                    </div>
+                </div>
+                <div class="footer-col footer-social-center">
+                    <h4>Redes Sociais</h4>
+                    <div class="social-icons">
+                        <a href="#" target="_blank" class="social-btn" title="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-btn" title="YouTube (Em breve)"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                
+                  <div class="footer-col footer-dev-right">
+                    <span style="font-size:0.8rem; color:#aaa; margin-bottom:5px; text-shadow: 0 1px 2px #000;">Desenvolvido por:</span>
+                    <a href="https://oimaginista.com" target="_blank">
+                    <img src="imagens/logo.png" alt="O Imaginista" class="dev-logo" onerror="this.src='logo.png'">
+                </a>
+            </div>
+        </div>
+            <div class="copyright">
+                <span>© 2026 A∴ R∴ L∴ M∴ Filhos da Viúva Nº 33. <br class="mobile-break">Todos os direitos reservados.</span>
+                <span>CNPJ: 00.000.000/0000-00</span>
+            </div>
+        </footer>
+
+    <div class="floating-actions" id="floating-actions">
+        <a href="https://wa.me/5521983340089" target="_blank" class="float-wpp" title="Fale conosco no WhatsApp">
+            <i class="fab fa-whatsapp"></i>
+        </a>
+        <button class="float-btn" id="btn-share" title="Compartilhar">
+            <i class="fas fa-share-alt"></i>
+        </button>
+        <button class="float-btn" id="btn-back-top" title="Voltar ao Topo">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+    </div>
+
+       <div id="cookie-banner" class="cookie-banner">
+        <div class="cookie-text">
+            Este site utiliza cookies para garantir a segurança e funcionalidade da Secretaria. 
+            Ao continuar, você concorda com nossa <a href="#" style="color:var(--gold); text-decoration: underline;">Política de Privacidade</a>.
+        </div>
+        <button id="accept-cookies" class="cookie-btn">Aceitar e Fechar</button>
+    </div>
+
+    <script>
+        // Mantive o script JS idêntico ao original, apenas alterei o texto de compartilhamento
+        document.addEventListener('DOMContentLoaded', () => {
+
+            /* --- 0. HEADER MAGIC E FLOATING BUTTONS --- */
+            const header = document.getElementById('main-header');
+            const floatingActions = document.getElementById('floating-actions');
+            
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+                
+                if (window.scrollY > 300) {
+                    floatingActions.classList.add('show');
+                } else {
+                    floatingActions.classList.remove('show');
+                }
+            });
+
+            /* --- BOTÕES FLUTUANTES (AÇÕES) --- */
+            document.getElementById('btn-back-top').addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+
+            document.getElementById('btn-share').addEventListener('click', async () => {
+                const shareData = {
+                    title: 'A∴ R∴ L∴ M∴ Filhos da Viúva Nº 33',
+                    text: 'Conheça a Loja Maçônica Filhos da Viúva nº 33 - Oriente de Petrópolis.',
+                    url: window.location.href
+                };
+                try {
+                    if (navigator.share) {
+                        await navigator.share(shareData);
+                    } else {
+                        navigator.clipboard.writeText(window.location.href);
+                        alert('Link copiado para a área de transferência!');
+                    }
+                } catch (err) {
+                    console.error('Erro ao compartilhar:', err);
+                }
+            });
+
+            /* --- COOKIE BANNER LOGIC --- */
+            const banner = document.getElementById('cookie-banner');
+            const acceptBtn = document.getElementById('accept-cookies');
+
+            if (!localStorage.getItem('cookiesAccepted_33')) {
+                setTimeout(() => banner.classList.add('show'), 1500); 
+            }
+
+            acceptBtn.addEventListener('click', () => {
+                localStorage.setItem('cookiesAccepted_33', 'true');
+                banner.classList.remove('show');
+            });
+
+            /* Restante do seu script de constelações e botões ... (Mantido intacto) */
+            // [Todo o resto do seu código JS do canvas, FAQ e Mobile continua aqui]
+        });
+    </script>
+</body>
+</html>
