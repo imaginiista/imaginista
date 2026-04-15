@@ -29,8 +29,7 @@
     <meta property="og:image:width" content="512">
     <meta property="og:image:height" content="512">
     
-    
-	<style>
+    <style>
         :root {
             --gold: #d4af37;
             --gold-light: #f9eeb6;
@@ -39,6 +38,7 @@
             --blue-royal: #001a33;
             --text-main: #e2e8f0;
             --glass: rgba(255, 255, 255, 0.05);
+            --wpp-green: #25D366; /* Cor oficial do WhatsApp */
         }
 
         /* --- RESET & BASE --- */
@@ -154,7 +154,7 @@
         .btn-more-faq { display: block; margin: 20px auto 0; background: transparent; border: 1px solid var(--gold); color: var(--gold); padding: 15px 40px; font-family: 'Cinzel'; cursor: pointer; transition: 0.3s; letter-spacing: 2px; text-transform: uppercase; font-weight: bold; position: relative; z-index: 10; text-align: center; max-width: 100%; }
         .btn-more-faq:hover { background: var(--gold); color: #000; box-shadow: 0 0 15px var(--gold-shadow); }
 
-        /* --- CONTATO E MAPA (DESKTOP) --- */
+        /* --- CONTATO E MAPA --- */
         .contact-container { 
             display: grid; grid-template-columns: 1fr 1.5fr; gap: 40px; background: rgba(0, 12, 24, 0.6); 
             border: 1px solid rgba(255,255,255,0.1); padding: 40px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.4); 
@@ -165,10 +165,6 @@
         .info-item { display: flex; align-items: flex-start; gap: 15px; margin-bottom: 25px; word-wrap: break-word; }
         .info-item i { color: var(--gold); font-size: 1.3rem; margin-top: 5px; min-width: 25px; }
         
-        /* BOTÃO WHATSAPP DESKTOP ORIGINAL AQUI (Mantido perfeito) */
-        .btn-wpp { color: #000; background: var(--gold); text-decoration: none; padding: 12px 25px; font-weight: bold; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; gap: 10px; transition: 0.3s; margin-top: 10px; }
-        .btn-wpp:hover { background: #fff; box-shadow: 0 0 15px var(--gold-shadow); }
-
         .map-area { width: 100%; max-width: 100%; overflow: hidden; border-radius: 8px; border: 1px solid var(--gold); box-sizing: border-box; display: flex; flex-direction: column;}
         .map-frame { width: 100%; height: 100%; min-height: 350px; border: none; filter: grayscale(20%); transition: 0.3s; display: block; flex-grow: 1; }
         .map-frame:hover { filter: grayscale(0%); }
@@ -201,11 +197,22 @@
         .dev-logo:hover { filter: grayscale(0%) brightness(100%); opacity: 1; }
         .copyright { position: relative; z-index: 1; font-size: 0.8rem; color: #ccc; padding-top: 20px; border-top: 1px solid rgba(212, 175, 55, 0.3); display: flex; justify-content: space-between; max-width: 1200px; margin: 0 auto; padding-left: 20px; padding-right: 20px; flex-wrap: wrap; text-shadow: 0 1px 2px #000; }
 
-        /* --- BOTÕES FLUTUANTES --- */
-        .floating-actions { position: fixed; bottom: 30px; right: 30px; display: flex; flex-direction: column; gap: 15px; z-index: 998; transition: opacity 0.4s, visibility 0.4s; opacity: 0; visibility: hidden; }
+        /* --- BOTÕES FLUTUANTES (Incluindo WhatsApp) --- */
+        .floating-actions { position: fixed; bottom: 30px; right: 30px; display: flex; flex-direction: column; gap: 15px; z-index: 998; transition: opacity 0.4s, visibility 0.4s; opacity: 0; visibility: hidden; align-items: center; }
         .floating-actions.show { opacity: 1; visibility: visible; }
+        
         .float-btn { width: 45px; height: 45px; border-radius: 50%; background: rgba(0, 12, 24, 0.6); border: 1px solid rgba(212, 175, 55, 0.5); color: var(--gold); font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.5); transition: 0.3s; backdrop-filter: blur(5px); }
         .float-btn:hover { background: var(--gold); color: #000; border-color: var(--gold); box-shadow: 0 0 15px var(--gold-shadow); transform: translateY(-5px); }
+        
+        /* Botão WhatsApp Específico */
+        .float-wpp { width: 60px; height: 60px; background: var(--wpp-green); border: 2px solid rgba(255,255,255,0.2); color: #fff; font-size: 2rem; box-shadow: 0 5px 20px rgba(37, 211, 102, 0.4); animation: pulse-wpp 2s infinite; text-decoration: none; display: flex; justify-content: center; align-items: center; border-radius: 50%; transition: 0.3s; }
+        .float-wpp:hover { background: #1ebe57; transform: scale(1.1); animation: none; color: #fff; box-shadow: 0 8px 25px rgba(37, 211, 102, 0.6); }
+        
+        @keyframes pulse-wpp {
+            0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.5); }
+            70% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+        }
 
         /* --- LGPD COOKIE BANNER --- */
         .cookie-banner { position: fixed; bottom: 0; left: 0; width: 100%; transform: translateY(100%); background: rgba(0, 12, 24, 0.98); border-top: 1px solid var(--gold); padding: 20px; z-index: 9999; display: flex; justify-content: center; align-items: center; gap: 20px; transition: transform 0.5s ease-in-out; box-shadow: 0 -5px 20px rgba(0,0,0,0.5); box-sizing: border-box; }
@@ -215,7 +222,7 @@
         .cookie-btn:hover { background: #fff; }
 
         /* =======================================================
-           RESPONSIVO TOTAL MOBILE (A MÁGICA PARA O CELULAR)
+           RESPONSIVO TOTAL MOBILE
            ======================================================= */
         @media (max-width: 900px) {
             .header-inner { padding: 0 15px; flex-wrap: nowrap; justify-content: space-between; }
@@ -253,26 +260,11 @@
 
             .faq-question { font-size: 0.95rem; padding: 15px; }
 
-            /* --- CONTATO MOBILE UPGRADE ("APP FEELING") --- */
+            /* --- CONTATO MOBILE UPGRADE --- */
             .contact-container { grid-template-columns: 1fr; padding: 0 15px; width: 100%; gap: 20px; background: transparent; border: none; box-shadow: none; }
             .contact-info { display: flex; flex-direction: column; align-items: center; text-align: center; margin-bottom: 0; width: 100%; }
             .contact-info h3 { display: none; } 
             .contact-info .info-item { display: none; }
-            
-            /* ======== O BOTÃO WHATSAPP PERFEITO NO MOBILE ======== */
-            .btn-wpp { 
-                display: flex; /* Força os elementos internos a se comportarem */
-                width: 80%; /* Não estica totalmente nas bordas */
-                max-width: 300px; /* Limite máximo para não ficar gigante */
-                margin: 10px auto 0 auto; /* Centraliza perfeitamente */
-                font-size: 0.95rem; 
-                padding: 14px 20px; 
-                border-radius: 50px; /* Borda de pílula (Premium) */
-                box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3); 
-                text-transform: uppercase; 
-                letter-spacing: 1px; 
-                justify-content: center; /* Centraliza ícone e texto */
-            }
             
             .btn-map-container { display: none; } 
 
@@ -295,11 +287,14 @@
             .copyright { flex-direction: column; gap: 10px; text-align: center; padding: 20px 10px; }
             .cookie-banner { flex-direction: column; text-align: center; padding: 20px; }
             .cookie-btn { width: 100%; margin-top: 10px; }
-            .floating-actions { bottom: 20px; right: 20px; }
+            
+            /* Ajuste dos Botões Flutuantes no Celular */
+            .floating-actions { bottom: 20px; right: 20px; gap: 10px; }
             .float-btn { width: 40px; height: 40px; font-size: 1rem; }
+            .float-wpp { width: 55px; height: 55px; font-size: 1.8rem; }
         }
     </style>
-	
+    
 </head>
 <body>
 
@@ -445,10 +440,6 @@
                         <span>secretaria@fraternidadeimperial264.com.br</span>
                     </div>
                     
-                    <a href="https://wa.me/5521983340089" target="_blank" class="btn-wpp">
-                        <i class="fab fa-whatsapp" style="font-size: 1.5rem; margin: 0; color: #000;"></i> Fraternidade Imperial
-                    </a>
-                    
                     <div class="btn-map-container">
                         <a href="https://ul.waze.com/ul?place=EkVSLiBOYWlyIFRlZsOpLCAzMjAgLSBRdWl0YW5kaW5oYSwgUGV0csOzcG9saXMgLSBSSiwgMjU2NTAtMzAwLCBCcmF6aWwiMRIvChQKEgnTeoLBGgmZABFG21QZBKl3qhDAAioUChIJAy103BoJmQAR_tz56QDwYhg&ll=-22.53576410%2C-43.22511110&navigate=yes&utm_campaign=waze_website&utm_source=waze_website&utm_medium=lm_share_location" target="_blank" class="btn-map">
                             <i class="fab fa-waze"></i> Ir com Waze
@@ -508,6 +499,9 @@
         </footer>
 
     <div class="floating-actions" id="floating-actions">
+        <a href="https://wa.me/5521983340089" target="_blank" class="float-wpp" title="Fale conosco no WhatsApp">
+            <i class="fab fa-whatsapp"></i>
+        </a>
         <button class="float-btn" id="btn-share" title="Compartilhar">
             <i class="fas fa-share-alt"></i>
         </button>
