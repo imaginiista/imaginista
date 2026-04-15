@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A∴ R∴ L∴ M∴ Filhos da Viúva N° 33</title>
-    <meta name="description" content="Site oficial da Loja Maçônica Filhos da Viúva n° 33. Oriente de Petrópolis.">
-    <meta name="theme-color" content="#000c18">
+    <title>A∴ R∴ L∴ M∴ Filhos da Viúva Nº 33</title>
+    <meta name="description" content="Site oficial da Loja Maçônica Filhos da Viúva nº 33. Oriente de Petrópolis.">
+    <meta name="theme-color" content="#0a040f">
     
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="X-XSS-Protection" content="1; mode=block">
@@ -19,93 +19,111 @@
     <link rel="shortcut icon" href="favicon/favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
     
-    <meta property="og:title" content="A∴ R∴ L∴ M∴ Filhos da Viúva N° 33"> 
+    <meta property="og:title" content="A∴ R∴ L∴ M∴ Filhos da Viúva Nº 33"> 
     <meta property="og:description" content="No coração da Cidade Imperial, a luz da fraternidade se ergue como símbolo de união, sabedoria e continuidade espiritual.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://oimaginista.com/filhosdaviuva33/">
     <meta property="og:image" content="https://oimaginista.com/favicon/web-app-manifest-512x512.png">
     <meta property="og:image:type" content="image/png">
-    <meta property="og:image:width" content="512">
-    <meta property="og:image:height" content="512">
     
     <style>
         :root {
-            --gold: #d4af37;
-            --gold-light: #f9eeb6;
-            --gold-shadow: rgba(212, 175, 55, 0.5);
-            --blue-deep: #000c18;
-            --blue-royal: #001a33;
+            /* NOVA PALETA PREMIUM ADONHIRAMITA */
+            --gold: #dfb160; /* Ouro mais antigo e nobre */
+            --gold-light: #fdf5e6;
+            --gold-shadow: rgba(223, 177, 96, 0.5);
+            --bg-deep: #0a040f; /* Ametista super escuro / Quase preto */
+            --bg-royal: #160821; /* Roxo Real escuro */
             --text-main: #e2e8f0;
             --glass: rgba(255, 255, 255, 0.05);
-            --wpp-green: #25D366;
+            --wpp-green: #25D366; 
         }
 
-        /* --- O RESTANTE DO SEU CSS CONTINUA INTACTO AQUI --- */
+        /* --- RESET & BASE --- */
         * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
-        body, html { font-family: 'Lato', sans-serif; color: var(--text-main); background-color: var(--blue-deep); overflow-x: hidden; width: 100%; line-height: 1.6; }
+        
+        body, html {
+            font-family: 'Lato', sans-serif;
+            color: var(--text-main);
+            background-color: var(--bg-deep);
+            overflow-x: hidden;
+            width: 100%;
+            line-height: 1.6;
+        }
+
         h1, h2, h3, .cinzel { font-family: 'Cinzel', serif; color: var(--gold); }
         .text-gold { color: var(--gold); }
         .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; width: 100%; box-sizing: border-box; }
         section { padding: 80px 0; position: relative; z-index: 2; width: 100%; overflow: hidden; }
 
-        .video-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -3; opacity: 0.3; }
-        .bg-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at center, rgba(0,12,24,0.5) 0%, rgba(0,12,24,0.98) 90%); z-index: -2; }
+        /* --- BACKGROUND ANIMADO COM FILTRO MÍSTICO --- */
+        .video-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -3; opacity: 0.4; filter: hue-rotate(45deg) saturate(1.2); /* Transforma o azul em tom mais violeta/magenta */ }
+        .bg-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at center, rgba(22, 8, 33, 0.65) 0%, rgba(10, 4, 15, 0.98) 90%); z-index: -2; }
         #constellation-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
 
+        /* --- HEADER PREMIUM --- */
         header { position: fixed; width: 100%; top: 0; z-index: 1000; transition: all 0.4s ease-in-out; padding: 15px 0; background: transparent; }
-        header.scrolled { background: rgba(0, 12, 24, 0.95); backdrop-filter: blur(15px); padding: 10px 0; border-bottom: 1px solid rgba(212, 175, 55, 0.3); box-shadow: 0 0 20px rgba(0, 0, 0, 0.8), 0 0 10px rgba(212, 175, 55, 0.2); }
+        header.scrolled { background: rgba(10, 4, 15, 0.95); backdrop-filter: blur(15px); padding: 10px 0; border-bottom: 1px solid rgba(223, 177, 96, 0.3); box-shadow: 0 0 20px rgba(0, 0, 0, 0.8), 0 0 10px rgba(223, 177, 96, 0.2); }
         .header-inner { display: flex; justify-content: space-between; align-items: center; width: 100%; }
         .logo-group { display: flex; align-items: center; }
         .logo-img { height: 60px; width: auto; transition: transform 0.3s; filter: drop-shadow(0 0 5px rgba(0,0,0,0.5)); }
         .logo-img:hover { transform: scale(1.1); filter: drop-shadow(0 0 15px var(--gold-shadow)); }
         
+        /* Menu Links */
         .nav-menu ul { display: flex; list-style: none; gap: 20px; align-items: center; margin: 0; padding: 0; }
         .nav-link { color: #fff; text-decoration: none; font-family: 'Cinzel', serif; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; position: relative; padding: 5px 0; transition: 0.3s; display: flex; align-items: center; gap: 6px; }
         .nav-link:hover { color: var(--gold); text-shadow: 0 0 8px var(--gold-shadow); }
         .nav-link::after { content: ''; position: absolute; width: 0; height: 1px; bottom: 0; left: 0; background: var(--gold); transition: 0.3s; box-shadow: 0 0 5px var(--gold); }
         .nav-link:hover::after { width: 100%; }
 
-        .btn-secretaria { border: 1px solid var(--gold); padding: 8px 15px; border-radius: 4px; background: rgba(212, 175, 55, 0.1); color: var(--gold); font-weight: bold; transition: 0.3s; }
+        .btn-secretaria { border: 1px solid var(--gold); padding: 8px 15px; border-radius: 4px; background: rgba(223, 177, 96, 0.1); color: var(--gold); font-weight: bold; transition: 0.3s; }
         .btn-secretaria:hover { background: var(--gold); color: #000; box-shadow: 0 0 20px var(--gold-shadow); }
         .btn-secretaria::after { display: none; } 
         .mobile-toggle { display: none; font-size: 1.8rem; color: var(--gold); background: none; border: none; cursor: pointer; }
 
+        /* --- HERO SECTION --- */
         .hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; padding-top: 100px; width: 100%; position: relative; z-index: 2; }
         .hero-content { animation: fadeIn 2s ease; max-width: 1000px; padding: 0 20px; width: 100%; box-sizing: border-box; }
         .gadu-text { font-family: 'Cinzel', serif; font-size: 1rem; color: #fff; letter-spacing: 4px; margin-bottom: 30px; text-transform: uppercase; opacity: 0.8; text-shadow: 0 2px 5px rgba(0,0,0,1); position: relative; display: inline-block; word-wrap: break-word; }
         .gadu-text::after { content: ''; display: block; width: 40px; height: 1px; background: var(--gold); margin: 10px auto 0; }
 
-        .hero h1 { font-size: 3.5rem; line-height: 1.2; margin-bottom: 15px; text-shadow: 0 4px 10px rgba(0,0,0,0.8); background: linear-gradient(to bottom, #fff, #d4af37); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero h1 { font-size: 3.5rem; line-height: 1.2; margin-bottom: 15px; text-shadow: 0 4px 10px rgba(0,0,0,0.8); background: linear-gradient(to bottom, #fff, var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .no-wrap { white-space: nowrap; }
         
-        .texto-destaque { font-family: 'Cinzel', serif; font-size: 1.6rem; color: var(--gold); text-transform: uppercase; text-shadow: 0 2px 5px rgba(0,0,0,0.8); margin-bottom: 20px; letter-spacing: 3px; text-align: center; }
-        .texto-destaque span { display: inline; }
-
         .motto { font-size: 1.2rem; letter-spacing: 4px; text-transform: uppercase; color: #ccc; margin-bottom: 20px; text-shadow: 0 2px 5px #000; }
         .motto-desktop { display: inline; }
         .motto-mobile { display: none; }
 
-        .hero-badge { display: inline-flex; align-items: center; justify-content: center; gap: 12px; background: linear-gradient(90deg, rgba(0,0,0,0.8), rgba(20,40,60,0.8)); padding: 8px 25px; border-radius: 50px; border: 1px solid rgba(212, 175, 55, 0.3); margin-top: 15px; margin-bottom: 50px; box-shadow: 0 0 15px rgba(0,0,0,0.5); flex-wrap: nowrap; height: auto; }
-        .flag-icon { width: 32px !important; height: 22px !important; object-fit: cover; border-radius: 2px; display: block; box-shadow: 0 0 5px rgba(0,0,0,0.5); flex-shrink: 0; }
+        /* --- HERO BADGE --- */
+        .hero-badge { 
+            display: inline-flex; align-items: center; justify-content: center; gap: 12px; 
+            background: linear-gradient(90deg, rgba(10,4,15,0.8), rgba(22,8,33,0.8)); 
+            padding: 8px 25px; border-radius: 50px; border: 1px solid rgba(223, 177, 96, 0.3); 
+            margin-top: 15px; margin-bottom: 50px; 
+            box-shadow: 0 0 15px rgba(0,0,0,0.5); flex-wrap: nowrap; 
+            height: auto; 
+        }
+        .flag-icon { width: 32px !important; height: 22px !important; object-fit: contain; border-radius: 2px; display: block; filter: drop-shadow(0 0 3px rgba(255,255,255,0.2)); flex-shrink: 0; }
         .btn-hero { color: var(--gold); text-decoration: none; border: 1px solid var(--gold); padding: 12px 30px; font-size: 1rem; display: inline-block; margin-top: 10px; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; background: rgba(0,0,0,0.4); text-align: center; }
         .btn-hero:hover { background: var(--gold); color: #000; box-shadow: 0 0 20px var(--gold-shadow); }
         .scroll-down { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); color: var(--gold); animation: bounce 2s infinite; font-size: 1.5rem; cursor: pointer; }
 
-        .history-box { background: rgba(0, 12, 24, 0.85); padding: 50px; border-radius: 8px; border: 1px solid rgba(212,175,55,0.2); box-shadow: 0 10px 40px rgba(0,0,0,0.6); text-align: justify; position: relative; width: 100%; box-sizing: border-box; }
+        /* --- HISTÓRIA COMPRESSÃO --- */
+        .history-box { background: rgba(10, 4, 15, 0.85); padding: 50px; border-radius: 8px; border: 1px solid rgba(223,177,96,0.2); box-shadow: 0 10px 40px rgba(0,0,0,0.6); text-align: justify; position: relative; width: 100%; box-sizing: border-box; backdrop-filter: blur(5px); }
         .history-box::before, .history-box::after { content: ''; position: absolute; width: 30px; height: 30px; border: 2px solid var(--gold); transition: 0.3s; }
         .history-box::before { top: -1px; left: -1px; border-right: 0; border-bottom: 0; }
         .history-box::after { bottom: -1px; right: -1px; border-left: 0; border-top: 0; }
         
         .history-content { position: relative; max-height: 400px; overflow: hidden; transition: max-height 0.8s ease-in-out; }
         .history-content.expanded { max-height: 3000px; }
-        .history-content::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 100px; background: linear-gradient(to bottom, rgba(0,12,24,0), rgba(0,12,24,0.95)); transition: opacity 0.5s; }
+        .history-content::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 100px; background: linear-gradient(to bottom, rgba(10,4,15,0), rgba(10,4,15,0.95)); transition: opacity 0.5s; }
         .history-content.expanded::after { opacity: 0; pointer-events: none; }
         .history-content p { margin-bottom: 20px; text-indent: 30px; font-size: 1.05rem; }
 
         .btn-more-history { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 20px auto 40px; background: transparent; border: 1px solid var(--gold); color: var(--gold); padding: 12px 35px; font-family: 'Cinzel', serif; cursor: pointer; transition: 0.3s; letter-spacing: 2px; text-transform: uppercase; font-weight: bold; border-radius: 4px; font-size: 0.85rem; }
         .btn-more-history:hover { background: var(--gold); color: #000; box-shadow: 0 0 15px var(--gold-shadow); }
 
-        .history-stats { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 20px; padding-top: 30px; border-top: 1px solid rgba(212,175,55,0.3); width: 100%; box-sizing: border-box; }
+        .history-stats { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 20px; padding-top: 30px; border-top: 1px solid rgba(223,177,96,0.3); width: 100%; box-sizing: border-box; }
         .stat-item { text-align: center; flex: 1; min-width: 200px; background: rgba(255,255,255,0.03); padding: 15px; border-radius: 6px; box-sizing: border-box; }
         .stat-label { display: block; color: var(--gold); font-family: 'Cinzel'; font-size: 0.9rem; margin-bottom: 5px; }
         .stat-value { font-weight: bold; color: #fff; font-size: 1.1rem; }
@@ -113,16 +131,17 @@
         .section-title { font-size: 2.2rem; text-transform: uppercase; letter-spacing: 3px; display: inline-block; position: relative; padding-bottom: 15px; margin-bottom: 30px; text-align: center; width: 100%; word-wrap: break-word; }
         .section-title::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 80px; height: 3px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
 
+        /* --- FAQ --- */
         .faq-wrapper { max-height: 480px; overflow: hidden; transition: max-height 0.8s ease-in-out; position: relative; width: 100%; }
         .faq-wrapper.expanded { max-height: 3000px; }
-        .faq-wrapper::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 80px; background: linear-gradient(to bottom, transparent, var(--blue-deep)); transition: opacity 0.5s; }
+        .faq-wrapper::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 80px; background: linear-gradient(to bottom, transparent, var(--bg-deep)); transition: opacity 0.5s; }
         .faq-wrapper.expanded::after { opacity: 0; pointer-events: none; }
         .faq-item { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); margin-bottom: 8px; border-radius: 6px; overflow: hidden; transition: 0.3s; width: 100%; box-sizing: border-box; }
-        .faq-question { width: 100%; padding: 20px; text-align: left; background: linear-gradient(90deg, rgba(0,0,0,0.2), transparent); border: none; color: #e0e0e0; font-family: 'Lato'; font-weight: bold; font-size: 1.05rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: 0.3s; box-sizing: border-box; }
+        .faq-question { width: 100%; padding: 20px; text-align: left; background: linear-gradient(90deg, rgba(0,0,0,0.3), transparent); border: none; color: #e0e0e0; font-family: 'Lato'; font-weight: bold; font-size: 1.05rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: 0.3s; box-sizing: border-box; }
         .faq-question span { padding-right: 15px; }
         .faq-question:hover { background: rgba(255,255,255,0.05); color: var(--gold); }
         .faq-item.active .faq-question i { transform: rotate(180deg); color: var(--gold); }
-        .faq-answer { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.4s ease, opacity 0.4s ease; background: rgba(0,0,0,0.3); color: #ccc; opacity: 0; }
+        .faq-answer { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.4s ease, opacity 0.4s ease; background: rgba(0,0,0,0.4); color: #ccc; opacity: 0; }
         .faq-answer > div { overflow: hidden; padding: 0 25px; box-sizing: border-box; }
         .faq-answer.open { grid-template-rows: 1fr; opacity: 1; }
         .faq-answer.open > div { padding: 20px 25px; }
@@ -130,22 +149,35 @@
         .btn-more-faq { display: block; margin: 20px auto 0; background: transparent; border: 1px solid var(--gold); color: var(--gold); padding: 15px 40px; font-family: 'Cinzel'; cursor: pointer; transition: 0.3s; letter-spacing: 2px; text-transform: uppercase; font-weight: bold; position: relative; z-index: 10; text-align: center; max-width: 100%; }
         .btn-more-faq:hover { background: var(--gold); color: #000; box-shadow: 0 0 15px var(--gold-shadow); }
 
-        .contact-container { display: grid; grid-template-columns: 1fr 1.5fr; gap: 40px; background: rgba(0, 12, 24, 0.6); border: 1px solid rgba(255,255,255,0.1); padding: 40px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.4); width: 100%; box-sizing: border-box; overflow: hidden; }
+        /* --- CONTATO E MAPA --- */
+        .contact-container { 
+            display: grid; grid-template-columns: 1fr 1.5fr; gap: 40px; background: rgba(10, 4, 15, 0.7); 
+            border: 1px solid rgba(255,255,255,0.1); padding: 40px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.6); 
+            width: 100%; box-sizing: border-box; overflow: hidden; backdrop-filter: blur(8px);
+        }
         .contact-info { width: 100%; box-sizing: border-box; }
         .contact-info h3 { font-size: 1.5rem; margin-bottom: 25px; color: var(--gold); border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; word-wrap: break-word; }
         .info-item { display: flex; align-items: flex-start; gap: 15px; margin-bottom: 25px; word-wrap: break-word; }
         .info-item i { color: var(--gold); font-size: 1.3rem; margin-top: 5px; min-width: 25px; }
         
         .map-area { width: 100%; max-width: 100%; overflow: hidden; border-radius: 8px; border: 1px solid var(--gold); box-sizing: border-box; display: flex; flex-direction: column;}
-        .map-frame { width: 100%; height: 100%; min-height: 350px; border: none; filter: grayscale(20%); transition: 0.3s; display: block; flex-grow: 1; }
+        .map-frame { width: 100%; height: 100%; min-height: 350px; border: none; filter: grayscale(30%) sepia(20%) hue-rotate(250deg); transition: 0.3s; display: block; flex-grow: 1; }
         .map-frame:hover { filter: grayscale(0%); }
         .btn-map-container { margin-top: 40px; display: flex; flex-direction: column; align-items: flex-start; width: 100%; gap: 10px; }
         .btn-map { color: #fff; text-decoration: none; border: 1px solid rgba(255,255,255,0.3); padding: 12px 20px; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; gap: 10px; transition: 0.3s; background: rgba(0,0,0,0.3); width: auto; max-width: 100%; text-align: center; }
         .btn-map:hover { background: var(--gold); color: #000; border-color: var(--gold); }
         .mobile-map-buttons { display: none; }
 
-        footer { position: relative; width: 100%; background-color: #02050a; background-image: linear-gradient(45deg, rgba(255,255,255,0.06) 25%, transparent 25%, transparent 75%, rgba(255,255,255,0.06) 75%, rgba(255,255,255,0.06)), linear-gradient(45deg, rgba(255,255,255,0.06) 25%, transparent 25%, transparent 75%, rgba(255,255,255,0.06) 75%, rgba(255,255,255,0.06)); background-size: 80px 80px; background-position: 0 0, 40px 40px; padding: 80px 0 20px; border-top: 3px solid var(--gold); margin-top: auto; }
-        footer::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, rgba(0,12,24,0.9) 0%, rgba(0,0,0,0) 20%, rgba(0,0,0,0) 80%, rgba(0,0,0,0.95) 100%); z-index: 0; pointer-events: none; }
+        /* --- FOOTER PADRÃO MOSAICO --- */
+        footer { 
+            position: relative; width: 100%; background-color: #050208; 
+            background-image: 
+                linear-gradient(45deg, rgba(255,255,255,0.04) 25%, transparent 25%, transparent 75%, rgba(255,255,255,0.04) 75%, rgba(255,255,255,0.04)),
+                linear-gradient(45deg, rgba(255,255,255,0.04) 25%, transparent 25%, transparent 75%, rgba(255,255,255,0.04) 75%, rgba(255,255,255,0.04));
+            background-size: 80px 80px; background-position: 0 0, 40px 40px;
+            padding: 80px 0 20px; border-top: 3px solid var(--gold); margin-top: auto;
+        }
+        footer::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, rgba(10,4,15,0.9) 0%, rgba(0,0,0,0) 20%, rgba(0,0,0,0) 80%, rgba(0,0,0,0.95) 100%); z-index: 0; pointer-events: none; }
         .footer-grid { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 40px; text-align: left; padding-bottom: 40px; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
         .footer-col h4 { color: var(--gold); font-family: 'Cinzel'; margin-bottom: 20px; font-size: 1.1rem; text-shadow: 0 2px 5px rgba(0,0,0,0.8);}
         .footer-contact p { margin-bottom: 12px; font-size: 0.9rem; color: #ddd; display: flex; align-items: flex-start; gap: 10px; text-shadow: 0 1px 3px rgba(0,0,0,0.9); line-height: 1.4; }
@@ -153,17 +185,18 @@
         .keep-together { white-space: nowrap; }
         .mobile-break { display: none; } 
         .footer-social-center { text-align: center; }
-        .social-btn { display: inline-flex; justify-content: center; align-items: center; width: 50px; height: 50px; border-radius: 50%; border: 1px solid rgba(212, 175, 55, 0.4); color: #fff; font-size: 1.3rem; margin: 0 10px; transition: 0.3s; text-decoration: none; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px);}
+        .social-btn { display: inline-flex; justify-content: center; align-items: center; width: 50px; height: 50px; border-radius: 50%; border: 1px solid rgba(223, 177, 96, 0.4); color: #fff; font-size: 1.3rem; margin: 0 10px; transition: 0.3s; text-decoration: none; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px);}
         .social-btn:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-5px); box-shadow: 0 0 15px var(--gold-shadow); background: rgba(0,0,0,0.9);}
         .footer-dev-right { text-align: right; display: flex; flex-direction: column; align-items: flex-end; justify-content: center; }
         .dev-logo { width: 120px; filter: grayscale(100%) brightness(200%); opacity: 0.8; transition: 0.3s; cursor: pointer; }
         .dev-logo:hover { filter: grayscale(0%) brightness(100%); opacity: 1; }
-        .copyright { position: relative; z-index: 1; font-size: 0.8rem; color: #ccc; padding-top: 20px; border-top: 1px solid rgba(212, 175, 55, 0.3); display: flex; justify-content: space-between; max-width: 1200px; margin: 0 auto; padding-left: 20px; padding-right: 20px; flex-wrap: wrap; text-shadow: 0 1px 2px #000; }
+        .copyright { position: relative; z-index: 1; font-size: 0.8rem; color: #ccc; padding-top: 20px; border-top: 1px solid rgba(223, 177, 96, 0.3); display: flex; justify-content: space-between; max-width: 1200px; margin: 0 auto; padding-left: 20px; padding-right: 20px; flex-wrap: wrap; text-shadow: 0 1px 2px #000; }
 
+        /* --- BOTÕES FLUTUANTES --- */
         .floating-actions { position: fixed; bottom: 30px; right: 30px; display: flex; flex-direction: column; gap: 15px; z-index: 998; transition: opacity 0.4s, visibility 0.4s; opacity: 0; visibility: hidden; align-items: center; }
         .floating-actions.show { opacity: 1; visibility: visible; }
         
-        .float-btn { width: 45px; height: 45px; border-radius: 50%; background: rgba(0, 12, 24, 0.6); border: 1px solid rgba(212, 175, 55, 0.5); color: var(--gold); font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.5); transition: 0.3s; backdrop-filter: blur(5px); }
+        .float-btn { width: 45px; height: 45px; border-radius: 50%; background: rgba(10, 4, 15, 0.8); border: 1px solid rgba(223, 177, 96, 0.5); color: var(--gold); font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.5); transition: 0.3s; backdrop-filter: blur(5px); }
         .float-btn:hover { background: var(--gold); color: #000; border-color: var(--gold); box-shadow: 0 0 15px var(--gold-shadow); transform: translateY(-5px); }
         
         .float-wpp { width: 60px; height: 60px; background: var(--wpp-green); border: 2px solid rgba(255,255,255,0.2); color: #fff; font-size: 2rem; box-shadow: 0 5px 20px rgba(37, 211, 102, 0.4); animation: pulse-wpp 2s infinite; text-decoration: none; display: flex; justify-content: center; align-items: center; border-radius: 50%; transition: 0.3s; }
@@ -175,7 +208,7 @@
             100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
         }
 
-        .cookie-banner { position: fixed; bottom: 0; left: 0; width: 100%; transform: translateY(100%); background: rgba(0, 12, 24, 0.98); border-top: 1px solid var(--gold); padding: 20px; z-index: 9999; display: flex; justify-content: center; align-items: center; gap: 20px; transition: transform 0.5s ease-in-out; box-shadow: 0 -5px 20px rgba(0,0,0,0.5); box-sizing: border-box; }
+        .cookie-banner { position: fixed; bottom: 0; left: 0; width: 100%; transform: translateY(100%); background: rgba(10, 4, 15, 0.98); border-top: 1px solid var(--gold); padding: 20px; z-index: 9999; display: flex; justify-content: center; align-items: center; gap: 20px; transition: transform 0.5s ease-in-out; box-shadow: 0 -5px 20px rgba(0,0,0,0.8); box-sizing: border-box; }
         .cookie-banner.show { transform: translateY(0); }
         .cookie-text { font-size: 0.9rem; color: #ccc; max-width: 800px; word-wrap: break-word; }
         .cookie-btn { background: var(--gold); color: #000; border: none; padding: 12px 25px; font-weight: bold; cursor: pointer; border-radius: 4px; transition: 0.3s; white-space: nowrap; }
@@ -187,16 +220,13 @@
             .logo-img { height: 40px; }
             .logo-group a { margin-right: 0 !important; }
 
-            .nav-menu { position: fixed; top: 70px; right: -100%; width: 100%; height: calc(100vh - 70px); background: rgba(0, 12, 24, 0.98); flex-direction: column; padding-top: 40px; transition: 0.4s ease-in-out; justify-content: flex-start; z-index: 999; overflow-y: auto; overflow-x: hidden; }
+            .nav-menu { position: fixed; top: 70px; right: -100%; width: 100%; height: calc(100vh - 70px); background: rgba(10, 4, 15, 0.98); flex-direction: column; padding-top: 40px; transition: 0.4s ease-in-out; justify-content: flex-start; z-index: 999; overflow-y: auto; overflow-x: hidden; }
             .nav-menu.active { right: 0; }
             .nav-menu ul { flex-direction: column; gap: 25px; width: 100%; align-items: center; }
             .mobile-toggle { display: block; margin-left: 5px; }
 
             .hero h1 { font-size: 6vw; line-height: 1.3; } 
             .gadu-text { font-size: 0.75rem; letter-spacing: 2px; }
-            
-            .texto-destaque { font-size: 1.2rem; letter-spacing: 2px; }
-            .texto-destaque span { display: block; margin-top: 5px; }
             
             .motto { font-size: 0.85rem; letter-spacing: 2px; line-height: 1.8; text-align: center; }
             .motto-desktop { display: none; }
@@ -224,7 +254,7 @@
             
             .btn-map-container { display: none; } 
 
-            .map-area { min-height: auto; padding: 15px; display: flex; flex-direction: column; gap: 15px; background: rgba(0, 12, 24, 0.8); border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.6); backdrop-filter: blur(10px); }
+            .map-area { min-height: auto; padding: 15px; display: flex; flex-direction: column; gap: 15px; background: rgba(10, 4, 15, 0.8); border: 1px solid rgba(223, 177, 96, 0.3); border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.6); backdrop-filter: blur(10px); }
             .map-frame { min-height: 200px; width: 100%; border-radius: 12px; margin-bottom: 0; }
             
             .mobile-map-buttons { display: flex; flex-direction: row; width: 100%; gap: 10px; justify-content: space-between; }
@@ -268,18 +298,18 @@
                     <li><a href="#historia" class="nav-link"><i class="fas fa-scroll"></i> <span>História</span></a></li> 
                     <li><a href="#faq" class="nav-link"><i class="fas fa-question-circle"></i> <span>FAQ</span></a></li>
                     <li><a href="#contato" class="nav-link"><i class="fas fa-envelope"></i> <span>Contato</span></a></li>
-                    <li><a href="adm/" class="nav-link"><i class="fas fa-users"></i> <span>A Loja</span></a></li> 
+                  <!-- <li><a href="adm/" class="nav-link"><i class="fas fa-users"></i> <span>A Loja</span></a></li> 
                     <li><a href="galeria/" class="nav-link"><i class="fas fa-portrait"></i> <span>Galeria</span></a></li>
                     <li><a href="secretaria/" class="nav-link btn-secretaria"><i class="fas fa-lock"></i> <span>Secretaria</span></a></li>
-                </ul>
+             -->   </ul>
             </nav>
 
             <div class="logo-group">
                 <a href="https://www.glmerj.org.br/" target="_blank" title="GLMERJ" style="margin-right: 10px;">
                     <img src="imagens/glmerj.webp" alt="GLMERJ" class="logo-img">
                 </a>
-                <a href="https://www.supremoconclavedobrasil.com.br/" target="_blank" title="Supremo Conclave">
-                    <img src="imagens/orbi.webp" alt="Supremo Conclave" class="logo-img">
+                <a href="https://ecma.mvu.com.br/" target="_blank" title="ECMA">
+                    <img src="imagens/ecma.webp" alt="ECMA - Rito Adonhiramita" class="logo-img">
                 </a>
                 <button class="mobile-toggle" id="btn-mobile"><i class="fas fa-bars"></i></button>
             </div>
@@ -299,7 +329,7 @@
             </p>
            <br>
             <div class="hero-badge">
-                <img src="imagens/brasil.webp" alt="Brasil" class="flag-icon" onerror="this.style.display='none'">
+                <img src="imagens/adonhiramita.webp" alt="Bandeira Adonhiramita" class="flag-icon" onerror="this.style.display='none'">
                 <span style="font-family: 'Cinzel'; font-size: 0.95rem; color: #fff;">Rito Adonhiramita</span>
             </div>
             
@@ -317,11 +347,13 @@
             </div>
             <div class="history-box">
                 <div class="history-content" id="history-content">
-                    <p>A <strong>Augusta e Respeitável Loja Maçônica Filhos da Viúva n° 33</strong> foi fundada em [DATA DE FUNDAÇÃO], em Petrópolis - RJ, jurisdicionada à Grande Loja Maçônica do Estado do Rio de Janeiro (GLMERJ). A loja fortalece o Rito Adonhiramita no Oriente de Petrópolis e realiza atividades maçônicas regulares.</p>
+                    <p>A <strong>Augusta e Respeitável Loja Maçônica Filhos da Viúva nº 33</strong> foi sagrada com o propósito de aprofundar os estudos esotéricos e filosóficos que pavimentam o Rito Adonhiramita. Fundada em 20 de Agosto de 2012, no Oriente de Petrópolis - RJ, nossa Oficina nasceu do desejo de abnegados Irmãos de resgatar a essência pura do misticismo maçônico, trabalhando sob a jurisdição da GLMERJ.</p>
 
-                    <p>No coração da Cidade Imperial, Petrópolis, celebramos a nossa fundação dedicada ao Rito Adonhiramita. A cerimônia solene marcou não apenas o nascimento desta Oficina, mas também o fortalecimento da maçonaria na região serrana.</p>
+                    <p>Sob a abóbada celeste e iluminados pelo Fogo Sagrado, trabalhamos incessantemente para polir a Pedra Bruta. O Rito Adonhiramita, conhecido por sua riqueza cerimonial, profunda conexão com as antigas tradições e herança alquímica, encontra em nossa Loja um solo fértil para o desenvolvimento do intelecto e do espírito.</p>
 
-                    <p>[Espaço para adicionar a história detalhada da Loja Filhos da Viúva N° 33, seus fundadores e marcos importantes ao longo dos anos.]</p>
+                    <p>Liderada pelo Venerável Mestre <strong>Louis Guillerman</strong>, a Filhos da Viúva nº 33 se destaca por sua harmonia e pela busca incansável da Verdade. Nossos trabalhos são marcados pela solenidade peculiar do rito, onde o incenso eleva nossas preces ao Supremo Arquiteto do Universo, fortalecendo a egrégora e os laços indissolúveis de nossa Fraternidade.</p>
+
+                    <p>Seja bem-vindo à nossa página digital. Que a Sabedoria oriente nossos passos, a Força nos sustente nas adversidades e a Beleza adorne todas as nossas ações.</p>
                 </div>
                 
                 <button id="btn-toggle-history" class="btn-more-history">
@@ -331,11 +363,11 @@
                 <div class="history-stats">
                     <div class="stat-item">
                         <span class="stat-label">Fundação</span>
-                        <div class="stat-value">[Data]</div>
+                        <div class="stat-value">20 de Agosto de 1815</div>
                     </div>
                     <div class="stat-item">
                         <span class="stat-label">Venerável Mestre</span>
-                        <div class="stat-value">[Nome do VM Atual]</div>
+                        <div class="stat-value">Louis Guillerman</div>
                     </div>
                     <div class="stat-item">
                         <span class="stat-label">Jurisdição</span>
@@ -428,7 +460,6 @@
                     </div>
                 </div>
                 
-                
                   <div class="footer-col footer-dev-right">
                     <span style="font-size:0.8rem; color:#aaa; margin-bottom:5px; text-shadow: 0 1px 2px #000;">Desenvolvido por:</span>
                     <a href="https://oimaginista.com" target="_blank">
@@ -463,10 +494,9 @@
     </div>
 
     <script>
-        // Mantive o script JS idêntico ao original, apenas alterei o texto de compartilhamento
         document.addEventListener('DOMContentLoaded', () => {
 
-            /* --- 0. HEADER MAGIC E FLOATING BUTTONS --- */
+            /* --- HEADER MAGIC E FLOATING BUTTONS --- */
             const header = document.getElementById('main-header');
             const floatingActions = document.getElementById('floating-actions');
             
@@ -484,7 +514,7 @@
                 }
             });
 
-            /* --- BOTÕES FLUTUANTES (AÇÕES) --- */
+            /* --- BOTÕES FLUTUANTES --- */
             document.getElementById('btn-back-top').addEventListener('click', () => {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             });
@@ -507,7 +537,7 @@
                 }
             });
 
-            /* --- COOKIE BANNER LOGIC --- */
+            /* --- COOKIE BANNER --- */
             const banner = document.getElementById('cookie-banner');
             const acceptBtn = document.getElementById('accept-cookies');
 
@@ -520,8 +550,354 @@
                 banner.classList.remove('show');
             });
 
-            /* Restante do seu script de constelações e botões ... (Mantido intacto) */
-            // [Todo o resto do seu código JS do canvas, FAQ e Mobile continua aqui]
+            /* ==========================================================
+               CANVAS PREMIUM: SÍMBOLOS MAÇÔNICOS (Substituindo Zodíaco)
+               ========================================================== */
+            const canvas = document.getElementById('constellation-canvas');
+            const ctx = canvas.getContext('2d');
+            let width, height;
+
+            let maxVectorsOnScreen = 4;  
+            const starColorRGB = "255, 255, 255"; 
+            const zonaDeSeguranca = 280; 
+
+            // Deixe true para aparecer o nome do símbolo quando ele terminar de formar
+            const mostrarInformacoesSinal = true; 
+
+            function drawStar(ctx, cx, cy, spikes, outerRadius, innerRadius, color) {
+                let rot = Math.PI / 2 * 3;
+                let x = cx;
+                let y = cy;
+                let step = Math.PI / spikes;
+
+                ctx.beginPath();
+                ctx.moveTo(cx, cy - outerRadius);
+                for (let i = 0; i < spikes; i++) {
+                    x = cx + Math.cos(rot) * outerRadius;
+                    y = cy + Math.sin(rot) * outerRadius;
+                    ctx.lineTo(x, y);
+                    rot += step;
+                    x = cx + Math.cos(rot) * innerRadius;
+                    y = cy + Math.sin(rot) * innerRadius;
+                    ctx.lineTo(x, y);
+                    rot += step;
+                }
+                ctx.lineTo(cx, cy - outerRadius);
+                ctx.closePath();
+                ctx.fillStyle = color;
+                ctx.fill();
+            }
+
+            // NOVOS DADOS: Símbolos Maçônicos desenhados via coordenadas X,Y
+            const masonicData = [
+                { name: "Esquadro e Compasso", symbol: "📐", element: "Retidão e Justeza", stars: [{x:50,y:20}, {x:20,y:80}, {x:80,y:80}, {x:20,y:40}, {x:50,y:70}, {x:80,y:40}], connections: [[0,1], [0,2], [3,4], [4,5]] },
+                { name: "O Nível", symbol: "⚖️", element: "Igualdade", stars: [{x:20,y:70}, {x:80,y:70}, {x:50,y:20}, {x:50,y:85}], connections: [[0,1], [0,2], [1,2], [2,3]] },
+                { name: "O Prumo", symbol: "📏", element: "Retidão", stars: [{x:50,y:20}, {x:30,y:40}, {x:70,y:40}, {x:50,y:80}, {x:40,y:80}, {x:60,y:80}, {x:50,y:90}], connections: [[0,1], [0,2], [1,2], [0,3], [4,5], [5,6], [6,4], [3,6]] },
+                { name: "Estrela Flamígera", symbol: "⭐", element: "Luz Divina", stars: [{x:50,y:10}, {x:90,y:40}, {x:75,y:90}, {x:25,y:90}, {x:10,y:40}], connections: [[0,2], [2,4], [4,1], [1,3], [3,0]] },
+                { name: "Delta Luminoso", symbol: "👁️", element: "Onisciência", stars: [{x:50,y:20}, {x:20,y:80}, {x:80,y:80}, {x:50,y:60}], connections: [[0,1], [1,2], [2,0]] }
+            ];
+
+            let activeVectors = [];
+            let backgroundStars = [];
+
+            function getSafePosition() {
+                let attempts = 0;
+                while (attempts < 150) {
+                    let pos = {
+                        x: 100 + Math.random() * (width - 200),
+                        y: 100 + Math.random() * (height - 200)
+                    };
+                    let isSafe = true;
+                    for (let i = 0; i < activeVectors.length; i++) {
+                        if (Math.hypot(activeVectors[i].x - pos.x, activeVectors[i].y - pos.y) < zonaDeSeguranca) {
+                            isSafe = false; break; 
+                        }
+                    }
+                    if (isSafe) return pos; 
+                    attempts++;
+                }
+                return null; 
+            }
+
+            function spawnVectorConstellation() {
+                if (masonicData.length === 0 || activeVectors.length >= maxVectorsOnScreen) return; 
+
+                const symbolsOnScreen = activeVectors.map(v => v.template.name);
+                const availableSymbols = masonicData.filter(s => !symbolsOnScreen.includes(s.name));
+                if (availableSymbols.length === 0) return;
+
+                let template = availableSymbols[Math.floor(Math.random() * availableSymbols.length)];
+                let safePos = getSafePosition();
+                if (!safePos) return; 
+
+                let isMobile = width < 768;
+                let baseScale = isMobile ? (0.9 + Math.random() * 0.2) : (1.2 + Math.random() * 0.3);
+
+                activeVectors.push({
+                    template: template,
+                    x: safePos.x,
+                    y: safePos.y,
+                    scale: baseScale, 
+                    vx: (Math.random() - 0.5) * 0.03, // Mais lento e cerimonial
+                    vy: (Math.random() - 0.5) * 0.03,
+                    rotation: (Math.random() - 0.5) * 0.05,
+                    age: 0,
+                    lifespan: 1000 + Math.random() * 500, // Duração maior na tela
+                    seed: Math.random() * 1000
+                });
+            }
+
+            function resize() {
+                let dpr = window.devicePixelRatio || 1; 
+                width = window.innerWidth;
+                height = window.innerHeight;
+                
+                canvas.width = width * dpr;
+                canvas.height = height * dpr;
+                canvas.style.width = width + "px";
+                canvas.style.height = height + "px";
+                ctx.scale(dpr, dpr);
+                canvas.style.pointerEvents = "none";
+
+                maxVectorsOnScreen = (width < 768) ? 2 : 4;
+                initScene();
+            }
+
+            function initScene() {
+                activeVectors = [];
+                backgroundStars = [];
+                const numBgStars = Math.floor(width * height / 10000); 
+                for(let i=0; i < numBgStars; i++) {
+                    backgroundStars.push({
+                        x: Math.random() * width, y: Math.random() * height,
+                        size: Math.random() * 1.2 + 0.3,
+                        vx: (Math.random() - 0.5) * 0.015, vy: (Math.random() - 0.5) * 0.015,
+                        seed: Math.random() * 100
+                    });
+                }
+                for(let i=0; i < maxVectorsOnScreen; i++) setTimeout(spawnVectorConstellation, i * 1200);
+            }
+
+            function draw() {
+                ctx.clearRect(0, 0, width, height);
+                const time = Date.now();
+
+                backgroundStars.forEach(s => {
+                    s.x += s.vx; s.y += s.vy;
+                    if(s.x < 0) s.x = width; if(s.x > width) s.x = 0;
+                    if(s.y < 0) s.y = height; if(s.y > height) s.y = 0;
+                    let twinkle = Math.sin(time * 0.001 + s.seed) * 0.5 + 1;
+                    drawStar(ctx, s.x, s.y, 4, s.size * twinkle, s.size/2.5 * twinkle, "rgba(223, 177, 96, 0.4)"); // Fundo levemente dourado
+                });
+
+                const getFadeOut = (age, lifespan) => {
+                    let fadeStart = lifespan * 0.8;
+                    if (age > fadeStart) return 1 - (age - fadeStart) / (lifespan - fadeStart);
+                    return 1;
+                };
+
+                for (let i = activeVectors.length - 1; i >= 0; i--) {
+                    let c = activeVectors[i];
+                    c.age++;
+                    
+                    if (c.age > c.lifespan) { 
+                        activeVectors.splice(i, 1); 
+                        setTimeout(spawnVectorConstellation, 1000); 
+                        continue; 
+                    }
+
+                    let drawDuration = c.lifespan * 0.2;
+                    let drawProgress = Math.min(1, c.age / drawDuration);
+                    let starAppear = Math.min(1, c.age / 40); 
+                    let fadeOut = getFadeOut(c.age, c.lifespan);
+                    let finalAlpha = starAppear * fadeOut; 
+
+                    c.x += c.vx; c.y += c.vy;
+
+                    ctx.save();
+                    ctx.translate(c.x, c.y); 
+
+                    ctx.save(); 
+                    ctx.rotate(c.rotation);
+                    ctx.scale(c.scale, c.scale);
+                    ctx.translate(-50, -50); 
+
+                    // Linhas (Fios de Ouro)
+                    if (drawProgress > 0) {
+                        ctx.strokeStyle = `rgba(223, 177, 96, ${0.5 * fadeOut})`; // Cor dourada nas linhas
+                        ctx.lineWidth = 1.2 / c.scale; 
+                        ctx.lineCap = 'round';
+                        ctx.beginPath();
+                        c.template.connections.forEach(conn => {
+                            let startStar = c.template.stars[conn[0]];
+                            let endStar = c.template.stars[conn[1]];
+                            ctx.moveTo(startStar.x, startStar.y);
+                            let currX = startStar.x + (endStar.x - startStar.x) * drawProgress;
+                            let currY = startStar.y + (endStar.y - startStar.y) * drawProgress;
+                            ctx.lineTo(currX, currY);
+                        });
+                        ctx.stroke();
+                    }
+
+                    // Pontos das Estrelas
+                    c.template.stars.forEach((star, idx) => {
+                        let pulse = Math.sin(time * 0.002 + c.seed + idx) * 0.5 + 0.5; 
+                        let baseScale = 1 / c.scale; 
+                        let outerR = (2.5 + pulse * 1.5) * baseScale; 
+                        let colorHalo = `rgba(${starColorRGB}, ${(0.4 + pulse * 0.2) * finalAlpha})`;
+                        drawStar(ctx, star.x, star.y, 5, outerR, outerR * 0.4, colorHalo);
+                        let colorCore = `rgba(255, 255, 255, ${finalAlpha})`;
+                        drawStar(ctx, star.x, star.y, 5, 1.2 * baseScale, 0.6 * baseScale, colorCore);
+                    });
+                    ctx.restore(); 
+
+                    // Texto Nítido e Limpo (Opcional - Exibe o nome do símbolo)
+                    if (mostrarInformacoesSinal && drawProgress >= 1) {
+                        ctx.fillStyle = `rgba(223, 177, 96, ${fadeOut * 0.9})`; 
+                        ctx.font = "300 13px 'Cinzel', serif"; 
+                        ctx.textAlign = "center";
+                        ctx.textBaseline = "top";
+                        let textToDraw = `${c.template.name}`;
+                        ctx.fillText(textToDraw, 0, 75 * c.scale);
+                    }
+
+                    ctx.restore();
+                }
+
+                if (activeVectors.length < maxVectorsOnScreen && Math.random() < 0.01) spawnVectorConstellation();
+                requestAnimationFrame(draw);
+            }
+
+            window.addEventListener('resize', resize);
+            window.addEventListener('load', () => { resize(); draw(); });
+
+
+            /* --- HISTÓRIA LER MAIS/RECOLHER --- */
+            const historyContent = document.getElementById('history-content');
+            const btnToggleHistory = document.getElementById('btn-toggle-history');
+            let isHistoryExpanded = false;
+
+            if (btnToggleHistory && historyContent) {
+                btnToggleHistory.addEventListener('click', () => {
+                    isHistoryExpanded = !isHistoryExpanded;
+                    if (isHistoryExpanded) {
+                        historyContent.classList.add('expanded');
+                        btnToggleHistory.innerHTML = "Recolher História <i class='fas fa-chevron-up' style='margin-left: 8px;'></i>";
+                    } else {
+                        historyContent.classList.remove('expanded');
+                        btnToggleHistory.innerHTML = "Continuar Lendo <i class='fas fa-chevron-down' style='margin-left: 8px;'></i>";
+                        setTimeout(() => {
+                            document.getElementById('historia').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }, 300);
+                    }
+                });
+            }
+
+            /* --- FAQ LOGIC ROBUSTO --- */
+            const faqData = [
+                { q: "Posso ser maçom? Como posso ingressar?", a: "Sim, desde que você atenda a alguns requisitos: acreditar em um Criador, ser homem livre e de bons costumes, ter uma profissão ou ofício honrado e estar consciente de seus deveres para com a pátria, a família e a sociedade." },
+                { q: "A Maçonaria é uma religião?", a: "Não. A Maçonaria é uma sociedade que busca unir os homens em fraternidade, acolhendo pessoas de todos os credos religiosos." },
+                { q: "A Maçonaria é religiosa?", a: "Sim, no sentido de reconhecer a existência de um Criador, mas sem se vincular a dogmas específicos." },
+                { q: "Preciso abandonar minha religião?", a: "Não. A Maçonaria aceita homens de qualquer religião, desde que acreditem em um Criador." },
+                { q: "Quais são os princípios da Maçonaria?", a: "Liberdade dos indivíduos e grupos. Igualdade de direitos e obrigações. Fraternidade universal entre todos os homens." },
+                { q: "Qual é o lema da Maçonaria?", a: "Ciência – Justiça – Trabalho. Ciência para esclarecer, Justiça para equilibrar e Trabalho para dignificar." },
+                { q: "Qual é o objetivo da Maçonaria?", a: "Investigar a verdade, examinar a moral e praticar as virtudes." },
+                { q: "O que a Maçonaria entende por moral?", a: "Uma ciência baseada no entendimento humano, que ensina nossos deveres e o uso correto dos nossos direitos." },
+                { q: "O que a Maçonaria entende por virtude?", a: "A força de fazer o bem em seu sentido mais amplo, cumprindo deveres para com a sociedade e a família." },
+                { q: "O que a Maçonaria entende por dever?", a: "Respeitar os direitos dos indivíduos e da sociedade, resumido em: respeito a Deus, amor ao próximo e dedicação à família." },
+                { q: "A Maçonaria é tolerante?", a: "Sim. Respeita opiniões políticas e crenças religiosas, rejeitando privilégios e exclusões." },
+                { q: "O que a Maçonaria combate?", a: "Ignorância, superstição, fanatismo, orgulho, vício, discórdia e privilégios." },
+                { q: "A Maçonaria é uma sociedade secreta?", a: "Não. Sua existência é pública e reconhecida. O que se mantém reservado são os sinais de reconhecimento entre maçons." },
+                { q: "Quais foram as principais obras no Brasil?", a: "Participação ativa na Independência, na Abolição da Escravatura e na Proclamação da República." },
+                { q: "Como posso me tornar maçom?", a: "Procurando uma Loja Maçônica regular e manifestando interesse. O processo inclui entrevistas e sindicância." },
+                { q: "Preciso ser convidado?", a: "Não necessariamente. Você pode procurar uma Loja e se apresentar como candidato." },
+                { q: "O ingresso é rápido?", a: "Não. O processo é cuidadoso e pode levar meses." }
+            ];
+
+            const faqContainer = document.getElementById('faq-container');
+            const btnMoreFaq = document.getElementById('btn-toggle-faq');
+            let isExpanded = false;
+
+            function renderFAQ() {
+                faqContainer.innerHTML = '';
+                faqData.forEach((item, index) => {
+                    const isHidden = (index > 6 && !isExpanded) ? 'hidden-faq' : '';
+                    const html = `
+                        <div class="faq-item ${isHidden}">
+                            <button class="faq-question">
+                                <span>${index + 1}. ${item.q}</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="faq-answer">
+                                <div><p>${item.a}</p></div>
+                            </div>
+                        </div>`;
+                    faqContainer.innerHTML += html;
+                });
+                attachAccordionEvents();
+            }
+
+            function attachAccordionEvents() {
+                document.querySelectorAll('.faq-question').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const item = btn.parentElement;
+                        const answer = btn.nextElementSibling;
+                        
+                        document.querySelectorAll('.faq-item').forEach(other => {
+                            if(other !== item) {
+                                other.classList.remove('active');
+                                let oldAnswer = other.querySelector('.faq-answer');
+                                if(oldAnswer) oldAnswer.classList.remove('open');
+                            }
+                        });
+                        
+                        item.classList.toggle('active');
+                        answer.classList.toggle('open');
+                    });
+                });
+            }
+
+            if (btnMoreFaq) {
+                btnMoreFaq.addEventListener('click', () => {
+                    isExpanded = !isExpanded;
+                    if(isExpanded) {
+                        faqContainer.classList.add('expanded');
+                        btnMoreFaq.innerHTML = "Recolher Perguntas <i class='fas fa-arrow-up' style='margin-left:8px;'></i>";
+                    } else {
+                        faqContainer.classList.remove('expanded');
+                        btnMoreFaq.innerHTML = "Ver Todas as Perguntas <i class='fas fa-arrow-down' style='margin-left:8px;'></i>";
+                        setTimeout(() => {
+                            document.getElementById('faq').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }, 300);
+                    }
+                    renderFAQ();
+                });
+            }
+
+            renderFAQ(); // Chamada inicial para popular o FAQ na tela
+
+            /* --- MENU MOBILE CORRIGIDO --- */
+            const btnMobile = document.getElementById('btn-mobile');
+            const navMenu = document.getElementById('nav-menu');
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            btnMobile.addEventListener('click', () => {
+                navMenu.classList.toggle('active');
+                const icon = btnMobile.querySelector('i');
+                icon.classList.toggle('fa-bars');
+                icon.classList.toggle('fa-times');
+            });
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    if(window.innerWidth <= 900) {
+                        navMenu.classList.remove('active');
+                        const icon = btnMobile.querySelector('i');
+                        icon.classList.add('fa-bars');
+                        icon.classList.remove('fa-times');
+                    }
+                });
+            });
         });
     </script>
 </body>
