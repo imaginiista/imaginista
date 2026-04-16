@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfólio Maçônico | O Imaginista</title>
+    <meta name="description" content="A vitrine premium de arquitetura digital para Lojas Maçônicas por O Imaginista.">
+    <meta name="theme-color" content="#030303">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-base: #030303;
+            --bg-surface: #0a0a0a;
+            --gold-primary: #d4af37;
+            --gold-light: #fef0c7;
+            --gold-glow: rgba(212, 175, 55, 0.4);
+            --text-main: #e2e8f0;
+            --text-muted: #8892b0;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(212, 175, 55, 0.15);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, .cinzel { font-family: 'Cinzel', serif; }
+
+        /* Background Effects */
+        .ambient-light {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 15% 30%, rgba(212, 175, 55, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 85% 80%, rgba(212, 175, 55, 0.05) 0%, transparent 40%);
+            pointer-events: none;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding-top: 40px;
+            position: relative;
+        }
+
+        .brand-logo {
+            width: 280px;
+            max-width: 80%;
+            height: auto;
+            margin-bottom: 40px;
+            filter: drop-shadow(0 0 20px rgba(212, 175, 55, 0.2));
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            color: var(--gold-light);
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.8);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            letter-spacing: 1px;
+            margin-bottom: 50px;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            color: var(--gold-primary);
+            font-size: 1.5rem;
+            animation: bounce 2s infinite;
+        }
+
+        /* --- PORTFOLIO GRID --- */
+        .portfolio-section {
+            padding: 100px 0;
+            position: relative;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            color: var(--gold-primary);
+            display: inline-block;
+            position: relative;
+            padding-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .section-header h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 50%;
+            transform: translateX(-50%);
+            width: 60px; height: 2px;
+            background: var(--gold-primary);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+        }
+
+        /* --- CARDS PREMIUM --- */
+        .card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+            backdrop-filter: blur(10px);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), border-color 0.4s, box-shadow 0.4s;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            min-height: 380px;
+            overflow: hidden;
+            transform-style: preserve-3d;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 50%; height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.05), transparent);
+            transform: skewX(-25deg);
+            transition: 0.7s;
+        }
+
+        .card:hover:not(.disabled) {
+            transform: translateY(-10px);
+            border-color: var(--gold-primary);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.8), 0 0 20px var(--gold-glow);
+        }
+
+        .card:hover:not(.disabled)::before {
+            left: 200%;
+        }
+
+        .card-icon {
+            font-size: 3.5rem;
+            color: var(--gold-primary);
+            margin-bottom: 25px;
+            filter: drop-shadow(0 0 10px rgba(212,175,55,0.5));
+            transform: translateZ(30px); /* Para o efeito 3D */
+        }
+
+        .card h3 {
+            font-size: 1.5rem;
+            color: #fff;
+            margin-bottom: 15px;
+            letter-spacing: 2px;
+            transform: translateZ(20px);
+        }
+
+        .card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 30px;
+            transform: translateZ(10px);
+        }
+
+        .card-btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: transparent;
+            border: 1px solid var(--gold-primary);
+            color: var(--gold-primary);
+            font-family: 'Cinzel', serif;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 4px;
+            transition: 0.3s;
+            transform: translateZ(20px);
+        }
+
+        .card:hover:not(.disabled) .card-btn {
+            background: var(--gold-primary);
+            color: #000;
+            box-shadow: 0 0 15px var(--gold-glow);
+        }
+
+        /* Card Em Desenvolvimento */
+        .card.disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            background: rgba(10,10,10,0.8);
+            border-style: dashed;
+        }
+
+        .card.disabled .card-icon {
+            color: #555;
+            filter: none;
+        }
+
+        .card.disabled .card-btn {
+            border-color: #555;
+            color: #555;
+        }
+
+        .badge-dev {
+            position: absolute;
+            top: 20px; right: -35px;
+            background: #A6192E;
+            color: #fff;
+            font-size: 0.7rem;
+            font-weight: bold;
+            padding: 5px 40px;
+            transform: rotate(45deg);
+            letter-spacing: 1px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            border-top: 1px solid var(--glass-border);
+            margin-top: 50px;
+            background: rgba(0,0,0,0.5);
+        }
+
+        .footer-logo {
+            width: 150px;
+            margin-bottom: 20px;
+            opacity: 0.8;
+            transition: 0.3s;
+        }
+        
+        .footer-logo:hover {
+            opacity: 1;
+            filter: brightness(1.2);
+        }
+
+        /* --- ANIMAÇÕES GERAIS --- */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(10px); }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- RESPONSIVO --- */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.2rem; }
+            .grid { grid-template-columns: 1fr; }
+            .card { min-height: auto; padding: 40px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="ambient-light"></div>
+
+    <section class="hero">
+        <div class="container reveal active">
+            <img src="https://oimaginista.com/logo.png" alt="O Imaginista Logo" class="brand-logo" onerror="this.src='https://via.placeholder.com/280x100?text=O+Imaginista'">
+            <h1>Arquitetura Digital</h1>
+            <p>A união perfeita entre a tradição da Antiga Maçonaria de Ofício e o ápice da tecnologia e design contemporâneo. Explore nossas Lojas.</p>
+        </div>
+        <i class="fas fa-chevron-down scroll-indicator"></i>
+    </section>
+
+    <section class="portfolio-section" id="portfolio">
+        <div class="container">
+            <div class="section-header reveal">
+                <h2>Mostruário de Ritos</h2>
+            </div>
+
+            <div class="grid">
+                <a href="https://oimaginista.com/fraternidadeimperial" target="_blank" class="card reveal tilt-card">
+                    <div class="card-icon"><i class="fas fa-globe-americas"></i></div>
+                    <h3>Rito Brasileiro</h3>
+                    <p>Fraternidade Imperial. Uma interface que honra as raízes nacionais com um design limpo e funcionalidade moderna.</p>
+                    <span class="card-btn">Visitar Templo</span>
+                </a>
+
+                <a href="https://oimaginista.com/filhosdaviuva" target="_blank" class="card reveal tilt-card" style="transition-delay: 0.1s;">
+                    <div class="card-icon"><i class="fas fa-eye"></i></div>
+                    <h3>Rito Adonhiramita</h3>
+                    <p>Filhos da Viúva. Tradição e mistério traduzidos em uma experiência visual profunda e imersiva.</p>
+                    <span class="card-btn">Visitar Templo</span>
+                </a>
+
+                <a href="https://oimaginista.com/mestrehiram" target="_blank" class="card reveal tilt-card" style="transition-delay: 0.2s;">
+                    <div class="card-icon"><i class="fas fa-compass"></i></div>
+                    <h3>Rito E. A. A.</h3>
+                    <p>Mestre Hiram. O Rito Escocês Antigo e Aceito estruturado com a precisão dos grandes construtores.</p>
+                    <span class="card-btn">Visitar Templo</span>
+                </a>
+
+                <a href="https://oimaginista.com/pedraangular" target="_blank" class="card reveal tilt-card" style="transition-delay: 0.3s;">
+                    <div class="card-icon"><i class="fas fa-drafting-compass"></i></div>
+                    <h3>Rito de York</h3>
+                    <p>Pedra Angular. A Antiga Maçonaria de Ofício com alto rigor litúrgico, estética purista e alta definição geométrica.</p>
+                    <span class="card-btn">Visitar Templo</span>
+                </a>
+
+                <div class="card disabled reveal tilt-card" style="transition-delay: 0.4s;">
+                    <div class="badge-dev">EM BREVE</div>
+                    <div class="card-icon"><i class="fas fa-cogs"></i></div>
+                    <h3>Rito Schröder</h3>
+                    <p>Atualmente nas pranchetas de nossa oficina. Um design humanista e minimalista está sendo forjado.</p>
+                    <span class="card-btn"><i class="fas fa-lock"></i> Aguarde</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container reveal">
+            <img src="https://oimaginista.com/logo.png" alt="O Imaginista" class="footer-logo" onerror="this.src='https://via.placeholder.com/150x50?text=O+Imaginista'">
+            <p style="color: var(--text-muted); font-size: 0.9rem;">© 2026 O Imaginista. Obras talhadas em código puro.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- SCROLL REVEAL ---
+            const observerOptions = { root: null, rootMargin: '0px', threshold: 0.15 };
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+            // --- 3D TILT EFFECT (Vanilla JS) ---
+            const cards = document.querySelectorAll('.tilt-card:not(.disabled)');
+            
+            cards.forEach(card => {
+                card.addEventListener('mousemove', e => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    
+                    const rotateX = ((y - centerY) / centerY) * -10; // Max 10 deg
+                    const rotateY = ((x - centerX) / centerX) * 10;
+                    
+                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-10px)`;
+                });
+
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)`;
+                });
+            });
+        });
+    </script>
+</body>
+</html>
