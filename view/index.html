@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfólio Maçônico | O Imaginista</title>
     <meta name="description" content="A vitrine premium de arquitetura digital para Lojas Maçônicas por O Imaginista.">
-    <meta name="theme-color" content="#030303">
+    <meta name="theme-color" content="#02050a">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,14 +15,13 @@
 
     <style>
         :root {
-            --bg-base: #030303;
-            --bg-surface: #0a0a0a;
+            --bg-base: #02050a;
             --gold-primary: #d4af37;
             --gold-light: #fef0c7;
             --gold-glow: rgba(212, 175, 55, 0.4);
             --text-main: #e2e8f0;
             --text-muted: #8892b0;
-            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-bg: rgba(10, 15, 30, 0.4);
             --glass-border: rgba(212, 175, 55, 0.15);
         }
 
@@ -38,14 +37,13 @@
 
         h1, h2, h3, .cinzel { font-family: 'Cinzel', serif; }
 
-        /* Background Effects */
-        .ambient-light {
+        /* Background Dinâmico (Céu/Espaço) */
+        #particle-canvas {
             position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            z-index: -1;
-            background: 
-                radial-gradient(circle at 15% 30%, rgba(212, 175, 55, 0.05) 0%, transparent 40%),
-                radial-gradient(circle at 85% 80%, rgba(212, 175, 55, 0.05) 0%, transparent 40%);
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            z-index: -2;
+            background: radial-gradient(circle at center, #051024 0%, #010205 100%);
             pointer-events: none;
         }
 
@@ -53,157 +51,147 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 24px;
+            position: relative;
+            z-index: 1;
         }
 
         /* --- HERO SECTION --- */
         .hero {
-            min-height: 100vh;
+            min-height: 55vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             text-align: center;
-            padding-top: 40px;
+            padding-top: 80px;
             position: relative;
         }
 
+        /* Animação Suave da Logo */
+        @keyframes pulse-fade {
+            0% { opacity: 0.3; transform: scale(0.95); filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.1)); }
+            50% { opacity: 1; transform: scale(1); filter: drop-shadow(0 0 45px rgba(212, 175, 55, 0.8)); }
+            100% { opacity: 0.3; transform: scale(0.95); filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.1)); }
+        }
+
         .brand-logo {
-            width: 280px;
-            max-width: 80%;
+            width: 480px; /* Logo Aumentada */
+            max-width: 90%;
             height: auto;
-            margin-bottom: 40px;
-            filter: drop-shadow(0 0 20px rgba(212, 175, 55, 0.2));
-            animation: float 6s ease-in-out infinite;
-        }
-
-        .hero h1 {
-            font-size: clamp(2.5rem, 5vw, 4rem);
-            color: var(--gold-light);
+            animation: pulse-fade 8s ease-in-out infinite;
             margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: 4px;
-            text-shadow: 0 4px 20px rgba(0,0,0,0.8);
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            color: var(--text-muted);
-            max-width: 600px;
-            letter-spacing: 1px;
-            margin-bottom: 50px;
-        }
-
-        .scroll-indicator {
-            position: absolute;
-            bottom: 40px;
-            color: var(--gold-primary);
-            font-size: 1.5rem;
-            animation: bounce 2s infinite;
         }
 
         /* --- PORTFOLIO GRID --- */
         .portfolio-section {
-            padding: 100px 0;
+            padding: 40px 0 100px;
             position: relative;
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 80px;
-        }
-
-        .section-header h2 {
-            font-size: 2.5rem;
-            color: var(--gold-primary);
-            display: inline-block;
-            position: relative;
-            padding-bottom: 15px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .section-header h2::after {
-            content: '';
-            position: absolute;
-            bottom: 0; left: 50%;
-            transform: translateX(-50%);
-            width: 60px; height: 2px;
-            background: var(--gold-primary);
         }
 
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 40px;
+            perspective: 1500px;
         }
 
-        /* --- CARDS PREMIUM --- */
+        /* --- CARDS 3D PREMIUM --- */
         .card {
             background: var(--glass-bg);
             border: 1px solid var(--glass-border);
-            border-radius: 12px;
-            padding: 40px 30px;
+            border-radius: 16px;
+            padding: 50px 30px;
             text-align: center;
             position: relative;
-            backdrop-filter: blur(10px);
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), border-color 0.4s, box-shadow 0.4s;
+            backdrop-filter: blur(12px);
             text-decoration: none;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: space-between;
-            min-height: 380px;
-            overflow: hidden;
+            min-height: 440px;
             transform-style: preserve-3d;
+            transition: border-color 0.4s, box-shadow 0.4s;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            overflow: hidden; 
         }
 
-        .card::before {
-            content: '';
+        /* Efeito de brilho reflexivo (Glare) */
+        .glare {
             position: absolute;
-            top: 0; left: -100%;
-            width: 50%; height: 100%;
-            background: linear-gradient(to right, transparent, rgba(255,255,255,0.05), transparent);
-            transform: skewX(-25deg);
-            transition: 0.7s;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.2), transparent 60%);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+            transform: translateZ(1px); 
+            mix-blend-mode: overlay;
         }
 
         .card:hover:not(.disabled) {
-            transform: translateY(-10px);
             border-color: var(--gold-primary);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.8), 0 0 20px var(--gold-glow);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.9), 0 0 30px rgba(212, 175, 55, 0.2);
+            z-index: 10;
         }
 
-        .card:hover:not(.disabled)::before {
-            left: 200%;
+        .card:hover:not(.disabled) .glare { opacity: 1; }
+
+        /* Imagens dos Brasões */
+        .card-logo {
+            width: 140px;
+            height: 140px;
+            object-fit: contain;
+            margin-bottom: 30px;
+            transform: translateZ(60px); 
+            filter: drop-shadow(0 15px 15px rgba(0,0,0,0.8));
+            transition: transform 0.4s ease, filter 0.4s ease;
         }
 
-        .card-icon {
-            font-size: 3.5rem;
-            color: var(--gold-primary);
-            margin-bottom: 25px;
-            filter: drop-shadow(0 0 10px rgba(212,175,55,0.5));
-            transform: translateZ(30px); /* Para o efeito 3D */
+        .card:hover:not(.disabled) .card-logo {
+            transform: translateZ(80px) scale(1.1);
+            filter: drop-shadow(0 20px 20px rgba(0,0,0,0.9)) drop-shadow(0 0 20px rgba(212, 175, 55, 0.5));
         }
 
+        /* Tipografia do Card Quebrada */
         .card h3 {
-            font-size: 1.5rem;
-            color: #fff;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
+            transform: translateZ(40px);
+            line-height: 1.2;
+        }
+
+        .rito-label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 2px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 300;
+        }
+
+        .rito-name {
+            font-size: 1.8rem;
+            color: var(--gold-light);
             letter-spacing: 2px;
-            transform: translateZ(20px);
+            text-transform: uppercase;
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.8);
         }
 
         .card p {
             color: var(--text-muted);
             font-size: 0.95rem;
             margin-bottom: 30px;
-            transform: translateZ(10px);
+            transform: translateZ(30px);
         }
 
         .card-btn {
             display: inline-block;
             padding: 12px 30px;
-            background: transparent;
+            background: rgba(0,0,0,0.5);
             border: 1px solid var(--gold-primary);
             color: var(--gold-primary);
             font-family: 'Cinzel', serif;
@@ -212,82 +200,94 @@
             letter-spacing: 1px;
             border-radius: 4px;
             transition: 0.3s;
-            transform: translateZ(20px);
+            transform: translateZ(50px);
+            backdrop-filter: blur(5px);
         }
 
         .card:hover:not(.disabled) .card-btn {
             background: var(--gold-primary);
             color: #000;
-            box-shadow: 0 0 15px var(--gold-glow);
+            box-shadow: 0 0 20px var(--gold-glow);
         }
 
         /* Card Em Desenvolvimento */
         .card.disabled {
             opacity: 0.6;
-            cursor: not-allowed;
-            background: rgba(10,10,10,0.8);
-            border-style: dashed;
+            cursor: default;
+            background: rgba(5, 8, 15, 0.8);
+            border: 1px dashed #555;
         }
 
-        .card.disabled .card-icon {
+        .card.disabled .card-logo, .card.disabled i {
             color: #555;
-            filter: none;
+            filter: grayscale(100%) opacity(0.5);
+            font-size: 4rem;
+            transform: translateZ(20px);
         }
 
-        .card.disabled .card-btn {
-            border-color: #555;
-            color: #555;
-        }
+        .card.disabled .rito-name { color: #888; }
+        .card.disabled .card-btn { border-color: #444; color: #666; background: transparent; }
 
         .badge-dev {
             position: absolute;
-            top: 20px; right: -35px;
+            top: 25px; right: -40px;
             background: #A6192E;
             color: #fff;
             font-size: 0.7rem;
             font-weight: bold;
-            padding: 5px 40px;
-            transform: rotate(45deg);
-            letter-spacing: 1px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+            padding: 5px 45px;
+            transform: rotate(45deg) translateZ(30px);
+            letter-spacing: 2px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.6);
         }
 
         /* --- FOOTER --- */
         footer {
             text-align: center;
-            padding: 40px 20px;
+            padding: 60px 20px 40px;
             border-top: 1px solid var(--glass-border);
-            margin-top: 50px;
-            background: rgba(0,0,0,0.5);
+            background: rgba(0,0,0,0.7);
+            position: relative;
+            z-index: 1;
         }
 
         .footer-logo {
-            width: 150px;
-            margin-bottom: 20px;
-            opacity: 0.8;
-            transition: 0.3s;
+            width: 180px;
+            margin-bottom: 25px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            filter: drop-shadow(0 0 10px rgba(212,175,55,0.2));
+            position: relative;
+            z-index: 10;
+        }
+
+        .footer-logo:hover {
+            transform: scale(1.05) translateY(-5px);
+            filter: drop-shadow(0 0 25px rgba(212,175,55,0.7));
         }
         
-        .footer-logo:hover {
-            opacity: 1;
-            filter: brightness(1.2);
+        .copyright {
+            font-family: 'Cinzel', serif;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            letter-spacing: 2px;
+            line-height: 1.8;
         }
+
+        .footer-dot {
+            color: var(--gold-primary);
+            font-weight: bold;
+            font-size: 1.2rem;
+            animation: pulse-fade 4s infinite;
+        }
+
+        .footer-break { display: none; }
 
         /* --- ANIMAÇÕES GERAIS --- */
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(10px); }
-        }
-
         .reveal {
             opacity: 0;
-            transform: translateY(40px);
-            transition: all 0.8s ease-out;
+            transform: translateY(50px);
+            transition: all 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
         .reveal.active {
@@ -297,64 +297,79 @@
 
         /* --- RESPONSIVO --- */
         @media (max-width: 768px) {
-            .hero h1 { font-size: 2.2rem; }
+            .hero { padding-top: 40px; min-height: 35vh;}
+            .brand-logo { width: 320px; }
             .grid { grid-template-columns: 1fr; }
             .card { min-height: auto; padding: 40px 20px; }
+            .footer-break { display: block; }
         }
     </style>
 </head>
 <body>
 
-    <div class="ambient-light"></div>
+    <canvas id="particle-canvas"></canvas>
 
     <section class="hero">
         <div class="container reveal active">
-            <img src="https://oimaginista.com/logo.png" alt="O Imaginista Logo" class="brand-logo" onerror="this.src='https://via.placeholder.com/280x100?text=O+Imaginista'">
-            <h1>Arquitetura Digital</h1>
-            <p>A união perfeita entre a tradição da Antiga Maçonaria de Ofício e o ápice da tecnologia e design contemporâneo. Explore nossas Lojas.</p>
+            <img src="imagens/logo.webp" alt="O Imaginista" class="brand-logo" onerror="this.src='https://via.placeholder.com/480x150?text=O+Imaginista'">
         </div>
-        <i class="fas fa-chevron-down scroll-indicator"></i>
     </section>
 
     <section class="portfolio-section" id="portfolio">
         <div class="container">
-            <div class="section-header reveal">
-                <h2>Mostruário de Ritos</h2>
-            </div>
-
             <div class="grid">
                 <a href="https://oimaginista.com/fraternidadeimperial" target="_blank" class="card reveal tilt-card">
-                    <div class="card-icon"><i class="fas fa-globe-americas"></i></div>
-                    <h3>Rito Brasileiro</h3>
+                    <div class="glare"></div>
+                    <img src="imagens/orbi.webp" alt="Rito Brasileiro" class="card-logo" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Square_compasses.svg/512px-Square_compasses.svg.png'">
+                    <h3>
+                        <span class="rito-label">Rito</span>
+                        <span class="rito-name">Brasileiro</span>
+                    </h3>
                     <p>Fraternidade Imperial. Uma interface que honra as raízes nacionais com um design limpo e funcionalidade moderna.</p>
                     <span class="card-btn">Visitar Templo</span>
                 </a>
 
                 <a href="https://oimaginista.com/filhosdaviuva" target="_blank" class="card reveal tilt-card" style="transition-delay: 0.1s;">
-                    <div class="card-icon"><i class="fas fa-eye"></i></div>
-                    <h3>Rito Adonhiramita</h3>
+                    <div class="glare"></div>
+                    <img src="imagens/ecma.webp" alt="Rito Adonhiramita" class="card-logo" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Square_compasses.svg/512px-Square_compasses.svg.png'">
+                    <h3>
+                        <span class="rito-label">Rito</span>
+                        <span class="rito-name">Adonhiramita</span>
+                    </h3>
                     <p>Filhos da Viúva. Tradição e mistério traduzidos em uma experiência visual profunda e imersiva.</p>
                     <span class="card-btn">Visitar Templo</span>
                 </a>
 
                 <a href="https://oimaginista.com/mestrehiram" target="_blank" class="card reveal tilt-card" style="transition-delay: 0.2s;">
-                    <div class="card-icon"><i class="fas fa-compass"></i></div>
-                    <h3>Rito E. A. A.</h3>
+                    <div class="glare"></div>
+                    <img src="imagens/sc33.webp" alt="Rito REAA" class="card-logo" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Square_compasses.svg/512px-Square_compasses.svg.png'">
+                    <h3>
+                        <span class="rito-label">Rito</span>
+                        <span class="rito-name">REAA</span>
+                    </h3>
                     <p>Mestre Hiram. O Rito Escocês Antigo e Aceito estruturado com a precisão dos grandes construtores.</p>
                     <span class="card-btn">Visitar Templo</span>
                 </a>
 
                 <a href="https://oimaginista.com/pedraangular" target="_blank" class="card reveal tilt-card" style="transition-delay: 0.3s;">
-                    <div class="card-icon"><i class="fas fa-drafting-compass"></i></div>
-                    <h3>Rito de York</h3>
+                    <div class="glare"></div>
+                    <img src="imagens/glomaron.webp" alt="Rito de York" class="card-logo" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Square_compasses.svg/512px-Square_compasses.svg.png'">
+                    <h3>
+                        <span class="rito-label">Rito</span>
+                        <span class="rito-name">de York</span>
+                    </h3>
                     <p>Pedra Angular. A Antiga Maçonaria de Ofício com alto rigor litúrgico, estética purista e alta definição geométrica.</p>
                     <span class="card-btn">Visitar Templo</span>
                 </a>
 
                 <div class="card disabled reveal tilt-card" style="transition-delay: 0.4s;">
                     <div class="badge-dev">EM BREVE</div>
-                    <div class="card-icon"><i class="fas fa-cogs"></i></div>
-                    <h3>Rito Schröder</h3>
+                    <div class="glare"></div>
+                    <i class="fas fa-compass" style="font-size: 4rem; margin-bottom: 25px; transform: translateZ(60px); opacity: 0.3;"></i>
+                    <h3>
+                        <span class="rito-label">Rito</span>
+                        <span class="rito-name">Schröder</span>
+                    </h3>
                     <p>Atualmente nas pranchetas de nossa oficina. Um design humanista e minimalista está sendo forjado.</p>
                     <span class="card-btn"><i class="fas fa-lock"></i> Aguarde</span>
                 </div>
@@ -364,15 +379,18 @@
 
     <footer>
         <div class="container reveal">
-            <img src="https://oimaginista.com/logo.png" alt="O Imaginista" class="footer-logo" onerror="this.src='https://via.placeholder.com/150x50?text=O+Imaginista'">
-            <p style="color: var(--text-muted); font-size: 0.9rem;">© 2026 O Imaginista. Obras talhadas em código puro.</p>
+            <img src="imagens/logo.webp" alt="O Imaginista" id="footer-logo" class="footer-logo" title="Faça-se a Luz" onerror="this.src='https://via.placeholder.com/180x60?text=O+Imaginista'">
+            <p class="copyright">
+                © 2026 IMAGINISTA <span class="footer-dot">∴</span> <br class="footer-break"> Todos os direitos reservados.
+            </p>
         </div>
     </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            
             // --- SCROLL REVEAL ---
-            const observerOptions = { root: null, rootMargin: '0px', threshold: 0.15 };
+            const observerOptions = { root: null, rootMargin: '0px', threshold: 0.1 };
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
@@ -383,28 +401,157 @@
 
             document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-            // --- 3D TILT EFFECT (Vanilla JS) ---
+            // --- 3D TILT EFFECT & GLARE ---
             const cards = document.querySelectorAll('.tilt-card:not(.disabled)');
             
             cards.forEach(card => {
-                card.addEventListener('mousemove', e => {
-                    const rect = card.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
-                    
-                    const centerX = rect.width / 2;
-                    const centerY = rect.height / 2;
-                    
-                    const rotateX = ((y - centerY) / centerY) * -10; // Max 10 deg
-                    const rotateY = ((x - centerX) / centerX) * 10;
-                    
-                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-10px)`;
-                });
+                const glare = card.querySelector('.glare');
+                
+                // Se for mobile, desativamos o mousemove pesado
+                if(window.matchMedia("(hover: hover)").matches) {
+                    card.addEventListener('mousemove', e => {
+                        const rect = card.getBoundingClientRect();
+                        const x = e.clientX - rect.left;
+                        const y = e.clientY - rect.top;
+                        
+                        const centerX = rect.width / 2;
+                        const centerY = rect.height / 2;
+                        
+                        const rotateX = ((y - centerY) / centerY) * -12; 
+                        const rotateY = ((x - centerX) / centerX) * 12;
+                        
+                        card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-10px)`;
+                        
+                        if(glare) {
+                            const glareX = (x / rect.width) * 100;
+                            const glareY = (y / rect.height) * 100;
+                            glare.style.background = `radial-gradient(circle at ${glareX}% ${glareY}%, rgba(255, 255, 255, 0.15), transparent 50%)`;
+                        }
+                    });
 
-                card.addEventListener('mouseleave', () => {
-                    card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)`;
-                });
+                    card.addEventListener('mouseleave', () => {
+                        card.style.transform = `rotateX(0deg) rotateY(0deg) translateY(0px)`;
+                        if(glare) {
+                            glare.style.background = `radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.2), transparent 60%)`;
+                        }
+                    });
+                }
             });
+
+            // --- CANVAS PARTICLES (Constelações & Explosão) ---
+            const canvas = document.getElementById('particle-canvas');
+            const ctx = canvas.getContext('2d');
+            let width, height, particles;
+
+            function initCanvas() {
+                width = canvas.width = window.innerWidth;
+                height = canvas.height = window.innerHeight;
+                particles = [];
+                const particleCount = width < 768 ? 40 : 100;
+
+                for (let i = 0; i < particleCount; i++) {
+                    particles.push(createBaseParticle());
+                }
+            }
+
+            function createBaseParticle() {
+                return {
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    vx: (Math.random() - 0.5) * 0.5,
+                    vy: (Math.random() - 0.5) * 0.5,
+                    radius: Math.random() * 1.5 + 0.5,
+                    isBurst: false,
+                    alpha: 1
+                };
+            }
+
+            function animateCanvas() {
+                ctx.clearRect(0, 0, width, height);
+                
+                // Iteração de trás para frente para permitir remoção segura de partículas temporárias
+                for (let i = particles.length - 1; i >= 0; i--) {
+                    let p = particles[i];
+                    p.x += p.vx;
+                    p.y += p.vy;
+
+                    if (p.isBurst) {
+                        // Partículas da explosão (Easter Egg do Footer)
+                        p.life -= 1;
+                        p.alpha = Math.max(0, p.life / 100);
+                        if (p.life <= 0) {
+                            particles.splice(i, 1);
+                            continue;
+                        }
+                    } else {
+                        // Partículas normais de fundo
+                        if (p.x < 0 || p.x > width) p.vx *= -1;
+                        if (p.y < 0 || p.y > height) p.vy *= -1;
+                    }
+
+                    // Desenhar Estrela
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(212, 175, 55, ${p.alpha * 0.8})`;
+                    ctx.fill();
+
+                    // Conectar constelações apenas entre partículas base (ignora explosão para não pesar)
+                    if (!p.isBurst) {
+                        for (let j = i + 1; j < particles.length; j++) {
+                            let p2 = particles[j];
+                            if(p2.isBurst) continue; 
+
+                            let dx = p.x - p2.x;
+                            let dy = p.y - p2.y;
+                            let dist = Math.sqrt(dx * dx + dy * dy);
+
+                            if (dist < 120) {
+                                ctx.beginPath();
+                                ctx.moveTo(p.x, p.y);
+                                ctx.lineTo(p2.x, p2.y);
+                                ctx.strokeStyle = `rgba(212, 175, 55, ${(0.2 - dist/600) * p.alpha})`;
+                                ctx.lineWidth = 0.5;
+                                ctx.stroke();
+                            }
+                        }
+                    }
+                }
+                requestAnimationFrame(animateCanvas);
+            }
+
+            window.addEventListener('resize', initCanvas);
+            initCanvas();
+            animateCanvas();
+
+            // --- INTERAÇÃO DO FOOTER (Explosão de Estrelas) ---
+            const footerLogo = document.getElementById('footer-logo');
+            if(footerLogo) {
+                footerLogo.addEventListener('click', (e) => {
+                    const rect = footerLogo.getBoundingClientRect();
+                    // Pega a posição exata da logo na tela
+                    const originX = rect.left + rect.width / 2;
+                    const originY = rect.top + rect.height / 2;
+
+                    // Cria 40 novas partículas disparadas para cima e para os lados
+                    for(let i = 0; i < 40; i++) {
+                        particles.push({
+                            x: originX,
+                            y: originY,
+                            vx: (Math.random() - 0.5) * 15, // Espalha pros lados
+                            vy: (Math.random() * -12) - 3,  // Dispara fortemente pra cima
+                            radius: Math.random() * 2.5 + 1,
+                            isBurst: true,
+                            life: Math.random() * 50 + 50, // Duração da partícula
+                            alpha: 1
+                        });
+                    }
+                    
+                    // Prevenção de lag limitando o array
+                    if(particles.length > 300) {
+                        particles.splice(100, particles.length - 300);
+                    }
+                });
+            }
         });
     </script>
 </body>
