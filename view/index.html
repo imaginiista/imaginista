@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfólio Maçônico | O Imaginista</title>
+    <title>Secretaria | Imaginista</title>
     <meta name="description" content="A vitrine premium de arquitetura digital para Lojas Maçônicas por O Imaginista.">
     <meta name="theme-color" content="#02050a">
 
@@ -12,6 +12,18 @@
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="icon" type="image/png" href="favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/svg+xml" href="favicon/favicon.svg">
+    <link rel="shortcut icon" href="favicon/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
+    
+    <meta property="og:title" content="Imaginista"> 
+    <meta property="og:description" content="Onde a imaginação vira arte!">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://oimaginista.com/filhosdaviuva33/">
+    <meta property="og:image" content="https://oimaginista.com/favicon/web-app-manifest-512x512.png">
+    <meta property="og:image:type" content="image/png">
 
     <style>
         :root {
@@ -33,6 +45,8 @@
             color: var(--text-main);
             overflow-x: hidden;
             line-height: 1.6;
+            transition: opacity 1s ease; /* Para o Fade-Out de saída */
+            opacity: 1;
         }
 
         h1, h2, h3, .cinzel { font-family: 'Cinzel', serif; }
@@ -55,6 +69,161 @@
             z-index: 1;
         }
 
+        /* --- TELA DE INTRODUÇÃO --- */
+        #intro-gate {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: rgba(1, 2, 5, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 1.5s ease, visibility 1.5s ease;
+        }
+
+        #intro-gate.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .intro-logo {
+            width: 380px;
+            max-width: 80%;
+            margin-bottom: 50px;
+            filter: drop-shadow(0 0 30px rgba(212, 175, 55, 0.3));
+            animation: pulse-glow 4s infinite alternate;
+        }
+
+        @keyframes pulse-glow {
+            from { filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.1)); transform: scale(0.98); }
+            to { filter: drop-shadow(0 0 40px rgba(212, 175, 55, 0.8)); transform: scale(1.02); }
+        }
+
+        .btn-enter {
+            background: transparent;
+            border: 1px solid var(--gold-primary);
+            color: var(--gold-primary);
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-enter:hover {
+            background: var(--gold-primary);
+            color: #000;
+            box-shadow: 0 0 30px var(--gold-glow);
+        }
+
+        /* --- PLAYER DE ÁUDIO AMBIENTE --- */
+        #audio-player-container {
+            position: fixed;
+            bottom: 30px;
+            right: 30px; /* Posicionado à direita no Desktop */
+            background: rgba(5, 10, 20, 0.7);
+            border: 1px solid var(--glass-border);
+            padding: 10px 25px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            backdrop-filter: blur(15px);
+            z-index: 1000;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 2s ease 1s, transform 0.3s ease;
+        }
+
+        #audio-player-container.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .play-btn, .vol-btn {
+            background: none;
+            border: none;
+            color: var(--gold-primary);
+            cursor: pointer;
+            transition: transform 0.2s, color 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .play-btn { font-size: 1.2rem; width: 30px; }
+        .vol-btn { font-size: 0.9rem; color: var(--text-muted); padding: 0 5px; }
+
+        .play-btn:hover, .vol-btn:hover {
+            transform: scale(1.1);
+            color: #fff;
+            text-shadow: 0 0 10px var(--gold-glow);
+        }
+
+        .volume-control {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 70px;
+            background: rgba(255,255,255,0.1);
+            height: 4px;
+            border-radius: 2px;
+            outline: none;
+        }
+
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--gold-primary);
+            cursor: pointer;
+            box-shadow: 0 0 10px var(--gold-glow);
+        }
+
+        /* Animação do Visualizador EQ */
+        .eq-visualizer {
+            display: flex;
+            gap: 3px;
+            align-items: flex-end;
+            height: 18px;
+            margin-right: 5px;
+        }
+
+        .eq-bar {
+            width: 3px;
+            background: var(--gold-primary);
+            border-radius: 2px;
+            animation: eq-bounce 1s infinite alternate ease-in-out;
+        }
+
+        .eq-bar:nth-child(1) { animation-duration: 0.8s; }
+        .eq-bar:nth-child(2) { animation-duration: 1.2s; animation-delay: 0.2s; }
+        .eq-bar:nth-child(3) { animation-duration: 0.9s; animation-delay: 0.4s; }
+
+        @keyframes eq-bounce {
+            0% { height: 4px; }
+            100% { height: 18px; }
+        }
+
+        .eq-visualizer.paused .eq-bar {
+            animation: none;
+            height: 4px;
+        }
+
         /* --- HERO SECTION --- */
         .hero {
             min-height: 55vh;
@@ -67,15 +236,8 @@
             position: relative;
         }
 
-        /* Animação Suave da Logo */
-        @keyframes pulse-fade {
-            0% { opacity: 0.3; transform: scale(0.95); filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.1)); }
-            50% { opacity: 1; transform: scale(1); filter: drop-shadow(0 0 45px rgba(212, 175, 55, 0.8)); }
-            100% { opacity: 0.3; transform: scale(0.95); filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.1)); }
-        }
-
         .brand-logo {
-            width: 480px; /* Logo Aumentada */
+            width: 480px; 
             max-width: 90%;
             height: auto;
             animation: pulse-fade 8s ease-in-out infinite;
@@ -84,7 +246,7 @@
 
         /* --- PORTFOLIO GRID --- */
         .portfolio-section {
-            padding: 40px 0 100px;
+            padding: 40px 0 120px; 
             position: relative;
         }
 
@@ -109,14 +271,13 @@
             flex-direction: column;
             align-items: center;
             justify-content: space-between;
-            min-height: 440px;
+            min-height: 460px;
             transform-style: preserve-3d;
             transition: border-color 0.4s, box-shadow 0.4s;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             overflow: hidden; 
         }
 
-        /* Efeito de brilho reflexivo (Glare) */
         .glare {
             position: absolute;
             top: 0; left: 0;
@@ -137,7 +298,6 @@
 
         .card:hover:not(.disabled) .glare { opacity: 1; }
 
-        /* Imagens dos Brasões */
         .card-logo {
             width: 140px;
             height: 140px;
@@ -145,19 +305,19 @@
             margin-bottom: 30px;
             transform: translateZ(60px); 
             filter: drop-shadow(0 15px 15px rgba(0,0,0,0.8));
-            transition: transform 0.4s ease, filter 0.4s ease;
+            /* A transição aqui lida com o z-index e scale iniciais, mas o parallax é JS puro */
+            transition: transform 0.1s ease-out, filter 0.4s ease;
         }
 
         .card:hover:not(.disabled) .card-logo {
-            transform: translateZ(80px) scale(1.1);
             filter: drop-shadow(0 20px 20px rgba(0,0,0,0.9)) drop-shadow(0 0 20px rgba(212, 175, 55, 0.5));
         }
 
-        /* Tipografia do Card Quebrada */
         .card h3 {
             margin-bottom: 20px;
             transform: translateZ(40px);
             line-height: 1.2;
+            transition: transform 0.1s ease-out;
         }
 
         .rito-label {
@@ -210,28 +370,71 @@
             box-shadow: 0 0 20px var(--gold-glow);
         }
 
-        /* Card Em Desenvolvimento */
+        /* --- CARD SCHRÖDER (Animação de Construção) --- */
         .card.disabled {
-            opacity: 0.6;
+            opacity: 0.9;
             cursor: default;
-            background: rgba(5, 8, 15, 0.8);
-            border: 1px dashed #555;
+            background: rgba(5, 8, 15, 0.6);
+            border: 1px solid rgba(212, 175, 55, 0.1);
         }
 
-        .card.disabled .card-logo, .card.disabled i {
-            color: #555;
-            filter: grayscale(100%) opacity(0.5);
+        .construction-zone {
+            position: relative;
+            height: 140px;
+            width: 140px;
+            margin-bottom: 30px;
+            transform: translateZ(60px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Engrenagens girando */
+        .gear-1 {
             font-size: 4rem;
-            transform: translateZ(20px);
+            color: rgba(212, 175, 55, 0.2);
+            animation: spin 6s linear infinite;
+            position: absolute;
+            left: 25px; top: 25px;
+            filter: drop-shadow(0 0 5px rgba(0,0,0,0.8));
         }
 
-        .card.disabled .rito-name { color: #888; }
-        .card.disabled .card-btn { border-color: #444; color: #666; background: transparent; }
+        .gear-2 {
+            font-size: 2.5rem;
+            color: rgba(212, 175, 55, 0.4);
+            animation: spin-reverse 4s linear infinite;
+            position: absolute;
+            right: 30px; bottom: 30px;
+        }
+
+        /* Feixe de Luz (Scanner Blueprint) */
+        .scanner-line {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: var(--gold-glow);
+            box-shadow: 0 0 10px var(--gold-primary);
+            top: 0; left: 0;
+            animation: scan 3s ease-in-out infinite alternate;
+            z-index: 2;
+        }
+
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        @keyframes spin-reverse { 100% { transform: rotate(-360deg); } }
+        @keyframes scan { 
+            0% { top: 10%; opacity: 0; }
+            50% { opacity: 1; }
+            100% { top: 90%; opacity: 0; }
+        }
+
+        .card.disabled .rito-name { color: #aaa; }
+        .card.disabled .card-btn { border-color: rgba(212, 175, 55, 0.2); color: rgba(212, 175, 55, 0.5); background: rgba(0,0,0,0.3); }
 
         .badge-dev {
             position: absolute;
             top: 25px; right: -40px;
-            background: #A6192E;
+            background: rgba(166, 25, 46, 0.8);
+            border: 1px solid rgba(255,255,255,0.1);
             color: #fff;
             font-size: 0.7rem;
             font-weight: bold;
@@ -239,12 +442,13 @@
             transform: rotate(45deg) translateZ(30px);
             letter-spacing: 2px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.6);
+            backdrop-filter: blur(4px);
         }
 
         /* --- FOOTER --- */
         footer {
             text-align: center;
-            padding: 60px 20px 40px;
+            padding: 60px 20px 40px; 
             border-top: 1px solid var(--glass-border);
             background: rgba(0,0,0,0.7);
             position: relative;
@@ -271,7 +475,11 @@
             color: var(--text-muted);
             font-size: 0.95rem;
             letter-spacing: 2px;
-            line-height: 1.8;
+            display: flex;
+            flex-direction: row; /* Alinha em uma linha no Desktop */
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
 
         .footer-dot {
@@ -280,8 +488,6 @@
             font-size: 1.2rem;
             animation: pulse-fade 4s infinite;
         }
-
-        .footer-break { display: none; }
 
         /* --- ANIMAÇÕES GERAIS --- */
         .reveal {
@@ -301,16 +507,30 @@
             .brand-logo { width: 320px; }
             .grid { grid-template-columns: 1fr; }
             .card { min-height: auto; padding: 40px 20px; }
-            .footer-break { display: block; }
+            .intro-logo { width: 280px; }
+            
+            /* Ajustes Player e Footer Mobile */
+            #audio-player-container { 
+                bottom: 15px; right: auto; left: 50%; transform: translateX(-50%); 
+                padding: 8px 20px; width: 90%; justify-content: center;
+            }
+            input[type=range] { width: 50px; }
+            .copyright { flex-direction: column; gap: 2px;} /* Quebra de linha no mobile */
+            footer { padding-bottom: 90px; } /* Espaço para o player centralizado */
         }
     </style>
 </head>
 <body>
 
+    <div id="intro-gate">
+        <img src="imagens/logo.webp" alt="O Imaginista" class="intro-logo" onerror="this.src='https://via.placeholder.com/380x120?text=O+Imaginista'">
+        <button id="btn-enter" class="btn-enter cinzel">Ver Projetos</button>
+    </div>
+
     <canvas id="particle-canvas"></canvas>
 
     <section class="hero">
-        <div class="container reveal active">
+        <div class="container reveal">
             <img src="imagens/logo.webp" alt="O Imaginista" class="brand-logo" onerror="this.src='https://via.placeholder.com/480x150?text=O+Imaginista'">
         </div>
     </section>
@@ -318,60 +538,66 @@
     <section class="portfolio-section" id="portfolio">
         <div class="container">
             <div class="grid">
-                <a href="https://oimaginista.com/fraternidadeimperial" target="_blank" class="card reveal tilt-card">
+                <a href="https://oimaginista.com/fraternidadeimperial" class="card reveal tilt-card link-transition">
                     <div class="glare"></div>
                     <img src="imagens/orbi.webp" alt="Rito Brasileiro" class="card-logo" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Square_compasses.svg/512px-Square_compasses.svg.png'">
-                    <h3>
+                    <h3 class="card-title-3d">
                         <span class="rito-label">Rito</span>
                         <span class="rito-name">Brasileiro</span>
                     </h3>
-                    <p>Fraternidade Imperial. Uma interface que honra as raízes nacionais com um design limpo e funcionalidade moderna.</p>
+                    <p>Nascido em solo pátrio, este Rito une o civismo universal aos mais elevados princípios morais. Uma jornada arquitetônica que exalta a Liberdade e a construção do Templo Social.</p>
                     <span class="card-btn">Visitar Templo</span>
                 </a>
 
-                <a href="https://oimaginista.com/filhosdaviuva" target="_blank" class="card reveal tilt-card" style="transition-delay: 0.1s;">
+                <a href="https://oimaginista.com/filhosdaviuva" class="card reveal tilt-card link-transition" style="transition-delay: 0.1s;">
                     <div class="glare"></div>
                     <img src="imagens/ecma.webp" alt="Rito Adonhiramita" class="card-logo" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Square_compasses.svg/512px-Square_compasses.svg.png'">
-                    <h3>
+                    <h3 class="card-title-3d">
                         <span class="rito-label">Rito</span>
                         <span class="rito-name">Adonhiramita</span>
                     </h3>
-                    <p>Filhos da Viúva. Tradição e mistério traduzidos em uma experiência visual profunda e imersiva.</p>
+                    <p>Profundamente esotérico e filosófico. A herança dos verdadeiros Filhos da Viúva, onde o misticismo e a busca pela Palavra Perdida guiam a luz de nossos trabalhos.</p>
                     <span class="card-btn">Visitar Templo</span>
                 </a>
 
-                <a href="https://oimaginista.com/mestrehiram" target="_blank" class="card reveal tilt-card" style="transition-delay: 0.2s;">
+                <a href="https://oimaginista.com/mestrehiram" class="card reveal tilt-card link-transition" style="transition-delay: 0.2s;">
                     <div class="glare"></div>
                     <img src="imagens/sc33.webp" alt="Rito REAA" class="card-logo" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Square_compasses.svg/512px-Square_compasses.svg.png'">
-                    <h3>
+                    <h3 class="card-title-3d">
                         <span class="rito-label">Rito</span>
-                        <span class="rito-name">REAA</span>
+                        <span class="rito-name">R. E. A. A.</span>
                     </h3>
-                    <p>Mestre Hiram. O Rito Escocês Antigo e Aceito estruturado com a precisão dos grandes construtores.</p>
+                    <p>A mais tradicional escada filosófica de 33 graus. Onde a lenda do Mestre Hiram se desdobra em uma alquimia espiritual, lapidando a Pedra Bruta até a suprema Sabedoria.</p>
                     <span class="card-btn">Visitar Templo</span>
                 </a>
 
-                <a href="https://oimaginista.com/pedraangular" target="_blank" class="card reveal tilt-card" style="transition-delay: 0.3s;">
+                <a href="https://oimaginista.com/pedraangular" class="card reveal tilt-card link-transition" style="transition-delay: 0.3s;">
                     <div class="glare"></div>
                     <img src="imagens/glomaron.webp" alt="Rito de York" class="card-logo" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Square_compasses.svg/512px-Square_compasses.svg.png'">
-                    <h3>
+                    <h3 class="card-title-3d">
                         <span class="rito-label">Rito</span>
                         <span class="rito-name">de York</span>
                     </h3>
-                    <p>Pedra Angular. A Antiga Maçonaria de Ofício com alto rigor litúrgico, estética purista e alta definição geométrica.</p>
+                    <p>A pureza da Antiga Maçonaria de Ofício. Um resgate rigoroso às práticas operativas, marcado pela sobriedade litúrgica, desde a Marca até o Sublime Arco Real.</p>
                     <span class="card-btn">Visitar Templo</span>
                 </a>
 
                 <div class="card disabled reveal tilt-card" style="transition-delay: 0.4s;">
-                    <div class="badge-dev">EM BREVE</div>
+                    <div class="badge-dev">NAS PRANCHETAS</div>
                     <div class="glare"></div>
-                    <i class="fas fa-compass" style="font-size: 4rem; margin-bottom: 25px; transform: translateZ(60px); opacity: 0.3;"></i>
+                    
+                    <div class="construction-zone">
+                        <i class="fas fa-cog gear-1"></i>
+                        <i class="fas fa-cog gear-2"></i>
+                        <div class="scanner-line"></div>
+                    </div>
+
                     <h3>
                         <span class="rito-label">Rito</span>
                         <span class="rito-name">Schröder</span>
                     </h3>
-                    <p>Atualmente nas pranchetas de nossa oficina. Um design humanista e minimalista está sendo forjado.</p>
-                    <span class="card-btn"><i class="fas fa-lock"></i> Aguarde</span>
+                    <p>O retorno à essência original. Um rito humanista, purista e intensamente ritualístico, focado estritamente no simbolismo dos graus das Lojas de São João.</p>
+                    <span class="card-btn">Aguardando Revelação</span>
                 </div>
             </div>
         </div>
@@ -380,15 +606,121 @@
     <footer>
         <div class="container reveal">
             <img src="imagens/logo.webp" alt="O Imaginista" id="footer-logo" class="footer-logo" title="Faça-se a Luz" onerror="this.src='https://via.placeholder.com/180x60?text=O+Imaginista'">
-            <p class="copyright">
-                © 2026 IMAGINISTA <span class="footer-dot">∴</span> <br class="footer-break"> Todos os direitos reservados.
-            </p>
+            <div class="copyright">
+                <span>© 2026 IMAGINISTA <span class="footer-dot">∴</span></span>
+                <span>Todos os direitos reservados.</span>
+            </div>
         </div>
     </footer>
+
+    <div id="audio-player-container">
+        <div class="eq-visualizer paused" id="eq-viz">
+            <div class="eq-bar"></div>
+            <div class="eq-bar"></div>
+            <div class="eq-bar"></div>
+        </div>
+        
+        <audio id="bg-music" src="song/play.mp3" loop preload="auto"></audio>
+        
+        <button id="play-pause-btn" class="play-btn"><i class="fas fa-play"></i></button>
+        
+        <div class="volume-control">
+            <button class="vol-btn" id="btn-vol-down"><i class="fas fa-minus"></i></button>
+            <input type="range" id="volume-slider" min="0" max="1" step="0.05" value="0.1">
+            <button class="vol-btn" id="btn-vol-up"><i class="fas fa-plus"></i></button>
+        </div>
+    </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             
+            /* --- CONTROLE DE INTRO E ÁUDIO --- */
+            const introGate = document.getElementById('intro-gate');
+            const btnEnter = document.getElementById('btn-enter');
+            const audio = document.getElementById('bg-music');
+            const playPauseBtn = document.getElementById('play-pause-btn');
+            const volumeSlider = document.getElementById('volume-slider');
+            const btnVolDown = document.getElementById('btn-vol-down');
+            const btnVolUp = document.getElementById('btn-vol-up');
+            const audioPlayerContainer = document.getElementById('audio-player-container');
+            const playIcon = playPauseBtn.querySelector('i');
+            const eqViz = document.getElementById('eq-viz');
+
+            audio.volume = 0.1;
+
+            btnEnter.addEventListener('click', () => {
+                let playPromise = audio.play();
+                if (playPromise !== undefined) {
+                    playPromise.then(_ => {
+                        playIcon.classList.remove('fa-play');
+                        playIcon.classList.add('fa-pause');
+                        eqViz.classList.remove('paused');
+                    }).catch(error => {
+                        console.log("Autoplay prevenido pelo navegador:", error);
+                    });
+                }
+
+                introGate.classList.add('hidden');
+                audioPlayerContainer.classList.add('visible');
+                
+                setTimeout(() => {
+                    document.querySelectorAll('.hero .reveal').forEach(el => el.classList.add('active'));
+                }, 500);
+            });
+
+            playPauseBtn.addEventListener('click', () => {
+                if (audio.paused) {
+                    audio.play();
+                    playIcon.classList.remove('fa-play');
+                    playIcon.classList.add('fa-pause');
+                    eqViz.classList.remove('paused');
+                } else {
+                    audio.pause();
+                    playIcon.classList.remove('fa-pause');
+                    playIcon.classList.add('fa-play');
+                    eqViz.classList.add('paused');
+                }
+            });
+
+            const updateVolume = (val) => {
+                let newVal = Math.max(0, Math.min(1, val));
+                audio.volume = newVal;
+                volumeSlider.value = newVal;
+            };
+
+            volumeSlider.addEventListener('input', (e) => updateVolume(parseFloat(e.target.value)));
+            btnVolDown.addEventListener('click', () => updateVolume(audio.volume - 0.1));
+            btnVolUp.addEventListener('click', () => updateVolume(audio.volume + 0.1));
+
+            /* --- TRANSIÇÃO DE SAÍDA SUAVE (FADE OUT DA TELA E ÁUDIO) --- */
+            const links = document.querySelectorAll('.link-transition');
+            links.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault(); 
+                    const targetUrl = this.getAttribute('href');
+                    
+                    // Escurece a tela
+                    document.body.style.opacity = '0';
+                    
+                    // Fade out do áudio
+                    let fadeAudio = setInterval(() => {
+                        if(audio.volume > 0.02) {
+                            audio.volume -= 0.02;
+                        } else {
+                            audio.volume = 0;
+                            audio.pause();
+                            clearInterval(fadeAudio);
+                        }
+                    }, 50);
+
+                    // Redireciona após 1 segundo
+                    setTimeout(() => {
+                        window.location.href = targetUrl;
+                    }, 1000);
+                });
+            });
+
+
             // --- SCROLL REVEAL ---
             const observerOptions = { root: null, rootMargin: '0px', threshold: 0.1 };
             const observer = new IntersectionObserver((entries) => {
@@ -399,15 +731,16 @@
                 });
             }, observerOptions);
 
-            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+            document.querySelectorAll('.portfolio-section .reveal, footer .reveal').forEach(el => observer.observe(el));
 
-            // --- 3D TILT EFFECT & GLARE ---
+            // --- DEEP PARALLAX 3D EFFECT & GLARE ---
             const cards = document.querySelectorAll('.tilt-card:not(.disabled)');
             
             cards.forEach(card => {
                 const glare = card.querySelector('.glare');
+                const logo = card.querySelector('.card-logo');
+                const title = card.querySelector('.card-title-3d');
                 
-                // Se for mobile, desativamos o mousemove pesado
                 if(window.matchMedia("(hover: hover)").matches) {
                     card.addEventListener('mousemove', e => {
                         const rect = card.getBoundingClientRect();
@@ -417,11 +750,20 @@
                         const centerX = rect.width / 2;
                         const centerY = rect.height / 2;
                         
+                        // Rotação principal do card
                         const rotateX = ((y - centerY) / centerY) * -12; 
                         const rotateY = ((x - centerX) / centerX) * 12;
                         
                         card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-10px)`;
                         
+                        // Deep Parallax nos itens internos (Movem ao contrário do mouse)
+                        const parallaxX = ((x - centerX) / centerX) * -15; 
+                        const parallaxY = ((y - centerY) / centerY) * -15;
+
+                        if(logo) logo.style.transform = `translateZ(80px) translateX(${parallaxX}px) translateY(${parallaxY}px) scale(1.1)`;
+                        if(title) title.style.transform = `translateZ(50px) translateX(${parallaxX * 0.5}px) translateY(${parallaxY * 0.5}px)`;
+
+                        // Reflexo
                         if(glare) {
                             const glareX = (x / rect.width) * 100;
                             const glareY = (y / rect.height) * 100;
@@ -431,9 +773,9 @@
 
                     card.addEventListener('mouseleave', () => {
                         card.style.transform = `rotateX(0deg) rotateY(0deg) translateY(0px)`;
-                        if(glare) {
-                            glare.style.background = `radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.2), transparent 60%)`;
-                        }
+                        if(logo) logo.style.transform = `translateZ(60px) scale(1) translateX(0) translateY(0)`;
+                        if(title) title.style.transform = `translateZ(40px) translateX(0) translateY(0)`;
+                        if(glare) glare.style.background = `radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.2), transparent 60%)`;
                     });
                 }
             });
@@ -469,14 +811,12 @@
             function animateCanvas() {
                 ctx.clearRect(0, 0, width, height);
                 
-                // Iteração de trás para frente para permitir remoção segura de partículas temporárias
                 for (let i = particles.length - 1; i >= 0; i--) {
                     let p = particles[i];
                     p.x += p.vx;
                     p.y += p.vy;
 
                     if (p.isBurst) {
-                        // Partículas da explosão (Easter Egg do Footer)
                         p.life -= 1;
                         p.alpha = Math.max(0, p.life / 100);
                         if (p.life <= 0) {
@@ -484,18 +824,15 @@
                             continue;
                         }
                     } else {
-                        // Partículas normais de fundo
                         if (p.x < 0 || p.x > width) p.vx *= -1;
                         if (p.y < 0 || p.y > height) p.vy *= -1;
                     }
 
-                    // Desenhar Estrela
                     ctx.beginPath();
                     ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
                     ctx.fillStyle = `rgba(212, 175, 55, ${p.alpha * 0.8})`;
                     ctx.fill();
 
-                    // Conectar constelações apenas entre partículas base (ignora explosão para não pesar)
                     if (!p.isBurst) {
                         for (let j = i + 1; j < particles.length; j++) {
                             let p2 = particles[j];
@@ -526,27 +863,24 @@
             // --- INTERAÇÃO DO FOOTER (Explosão de Estrelas) ---
             const footerLogo = document.getElementById('footer-logo');
             if(footerLogo) {
-                footerLogo.addEventListener('click', (e) => {
+                footerLogo.addEventListener('click', () => {
                     const rect = footerLogo.getBoundingClientRect();
-                    // Pega a posição exata da logo na tela
                     const originX = rect.left + rect.width / 2;
                     const originY = rect.top + rect.height / 2;
 
-                    // Cria 40 novas partículas disparadas para cima e para os lados
                     for(let i = 0; i < 40; i++) {
                         particles.push({
                             x: originX,
                             y: originY,
-                            vx: (Math.random() - 0.5) * 15, // Espalha pros lados
-                            vy: (Math.random() * -12) - 3,  // Dispara fortemente pra cima
+                            vx: (Math.random() - 0.5) * 15,
+                            vy: (Math.random() * -12) - 3,  
                             radius: Math.random() * 2.5 + 1,
                             isBurst: true,
-                            life: Math.random() * 50 + 50, // Duração da partícula
+                            life: Math.random() * 50 + 50,
                             alpha: 1
                         });
                     }
                     
-                    // Prevenção de lag limitando o array
                     if(particles.length > 300) {
                         particles.splice(100, particles.length - 300);
                     }
