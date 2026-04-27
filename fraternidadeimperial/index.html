@@ -94,6 +94,7 @@
         .hero-badge { display: inline-flex; align-items: center; justify-content: center; gap: 12px; background: linear-gradient(90deg, rgba(0,0,0,0.8), rgba(20,40,60,0.8)); padding: 8px 25px; border-radius: 50px; border: 1px solid rgba(212, 175, 55, 0.3); margin-top: 15px; margin-bottom: 40px; box-shadow: 0 0 15px rgba(0,0,0,0.5); flex-wrap: nowrap; height: auto; }
         .flag-icon { width: 32px !important; height: 22px !important; object-fit: cover; border-radius: 2px; display: block; box-shadow: 0 0 5px rgba(0,0,0,0.5); flex-shrink: 0; }
         
+        /* BOTÕES DE INSTALAR */
         .btn-hero { color: var(--gold); text-decoration: none; border: 1px solid var(--gold); padding: 12px 25px; font-size: 1rem; display: inline-flex; align-items: center; gap: 10px; margin: 10px 5px; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; background: rgba(0,0,0,0.4); text-align: center; border-radius: 4px; }
         .btn-hero:hover { background: var(--gold); color: #000; box-shadow: 0 0 20px var(--gold-shadow); }
         .btn-hero-app { background: var(--gold); color: #000; font-weight: bold; }
@@ -101,9 +102,7 @@
         
         .scroll-down { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); color: var(--gold); animation: bounce 2s infinite; font-size: 1.5rem; cursor: pointer; }
 
-        /* =======================================================
-           MODAL PREMIUM DE AVISO (PASSO A PASSO CLARO)
-           ======================================================= */
+        /* MODAL PREMIUM DE AVISO (PASSO A PASSO) */
         .modal-pwa { display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); backdrop-filter: blur(8px); justify-content: center; align-items: center; padding: 20px; }
         .modal-pwa-content { background: linear-gradient(145deg, rgba(0, 12, 24, 0.95), rgba(0, 26, 51, 0.95)); border: 1px solid var(--gold); padding: 30px; border-radius: 12px; max-width: 400px; text-align: center; color: #fff; position: relative; box-shadow: 0 15px 40px rgba(0,0,0,0.8), 0 0 20px rgba(212, 175, 55, 0.2); }
         .close-modal-pwa { position: absolute; top: 15px; right: 20px; color: #888; font-size: 28px; cursor: pointer; transition: 0.3s; line-height: 1; }
@@ -111,7 +110,6 @@
         .modal-pwa h3 { color: var(--gold); margin-bottom: 15px; font-family: 'Cinzel', serif; font-size: 1.3rem; display: flex; align-items: center; justify-content: center; gap: 10px; }
         .modal-pwa p.intro { font-size: 0.95rem; line-height: 1.5; color: #ddd; margin-bottom: 15px; }
         
-        /* Caixinha do Passo a Passo */
         .passo-a-passo { text-align: left; background: rgba(0,0,0,0.5); padding: 20px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); }
         .passo-a-passo p { font-size: 0.95rem; margin-bottom: 12px; color: #eee; line-height: 1.4; display: flex; align-items: flex-start; gap: 10px; }
         .passo-a-passo p:last-child { margin-bottom: 0; }
@@ -279,7 +277,7 @@
             <p class="intro">Seu sistema bloqueou a instalação automática. Siga o passo a passo abaixo para adicionar nosso aplicativo à sua tela:</p>
             
             <div class="passo-a-passo">
-                <p><span class="passo-numero">1.</span> Toque no ícone de Compartilhar <i class="fas fa-share-square highlight"></i> localizado na barra inferior ou superior do seu navegador.</p>
+                <p><span class="passo-numero">1.</span> Toque no ícone de Compartilhar <i class="fas fa-share-square highlight"></i> localizado na barra do seu navegador.</p>
                 <p><span class="passo-numero">2.</span> Role o menu e procure pela opção "Adicionar à Tela de Início" <i class="fas fa-plus-square highlight"></i>.</p>
                 <p><span class="passo-numero">3.</span> Confirme tocando em "Adicionar" no canto superior direito da tela.</p>
             </div>
@@ -348,6 +346,9 @@
             
             <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
                 <a href="#historia" class="btn-hero">Conheça Nossa História</a>
+                <a href="#" class="btn-hero btn-hero-app btn-instalar-pwa-acao">
+                    <i class="fas fa-download"></i> Instalar App
+                </a>
             </div>
         </div>
         <a href="#historia" class="scroll-down"><i class="fas fa-chevron-down"></i></a>
@@ -482,7 +483,7 @@
                     <button class="btn-hero btn-hero-app btn-instalar-pwa-acao" style="margin: 0; font-size: 0.85rem; padding: 10px 20px;">
                         <i class="fas fa-download"></i> Instalar App
                     </button>
-                    </div>
+                </div>
                 
                   <div class="footer-col footer-dev-right">
                     <span style="font-size:0.8rem; color:#aaa; margin-bottom:5px; text-shadow: 0 1px 2px #000;">Desenvolvido por:</span>
@@ -521,17 +522,15 @@
         document.addEventListener('DOMContentLoaded', () => {
 
             /* =======================================================
-               SISTEMA DE INSTALAÇÃO DO APP (MÚLTIPLOS BOTÕES)
+               SISTEMA DE INSTALAÇÃO DO APP (AGORA EM TODOS OS BOTÕES)
                ======================================================= */
             let deferredPrompt;
             
-            // Captura o evento nativo para Android
             window.addEventListener('beforeinstallprompt', (e) => {
                 e.preventDefault();
                 deferredPrompt = e;
             });
 
-            // Pega todos os botões de instalar que criamos (Menu e Rodapé)
             const botoesInstalar = document.querySelectorAll('.btn-instalar-pwa-acao');
             const modalIos = document.getElementById('modal-ios');
             const closeModal = document.querySelector('.close-modal-pwa');
@@ -541,24 +540,19 @@
                     e.preventDefault();
                     
                     if (deferredPrompt) {
-                        // O celular suporta e está pronto para o pop-up oficial (Android)
                         deferredPrompt.prompt();
                         const { outcome } = await deferredPrompt.userChoice;
-                        console.log(`Escolha do usuário: ${outcome}`);
-                        deferredPrompt = null; // Limpa após o uso
+                        deferredPrompt = null; 
                     } else {
-                        // Se for iPhone (iOS) ou se o navegador já instalou antes
                         modalIos.style.display = 'flex';
                     }
                 });
             });
 
-            // Fecha o Modal
             closeModal.addEventListener('click', () => {
                 modalIos.style.display = 'none';
             });
 
-            // Fecha o modal ao clicar fora da janela
             window.addEventListener('click', (e) => {
                 if (e.target == modalIos) {
                     modalIos.style.display = 'none';
@@ -617,7 +611,7 @@
                 banner.classList.remove('show');
             });
 
-            /* --- SISTEMA PREMIUM OTIMIZADO: HIGH-DPI (RETINA) + PERFORMANCE MOBILE --- */
+            /* --- SISTEMA PREMIUM OTIMIZADO --- */
             const canvas = document.getElementById('constellation-canvas');
             const ctx = canvas.getContext('2d');
             let width, height;
@@ -625,7 +619,6 @@
             let maxVectorsOnScreen = 5;  
             const starColorRGB = "255, 255, 255"; 
             const zonaDeSeguranca = 280; 
-
             const mostrarInformacoesSigno = false; 
 
             const signosParaExibir = [
@@ -950,12 +943,12 @@
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js')
+                navigator.serviceWorker.register('sw.js?v=5')
                     .then(registration => {
-                        console.log('ServiceWorker registrado com sucesso:', registration.scope);
+                        console.log('SW Registrado com SUCESSO:', registration.scope);
                     })
                     .catch(error => {
-                        console.log('Falha ao registrar o ServiceWorker:', error);
+                        console.log('Falha no SW:', error);
                     });
             });
         }

@@ -18,5 +18,6 @@
   "theme_color": "#000c18",
   "background_color": "#000c18",
   "display": "standalone",
-  "start_url": "/fraternidadeimperial/"
+  "scope": "./",
+  "start_url": "./"
 }
