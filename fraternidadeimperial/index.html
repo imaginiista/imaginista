@@ -71,7 +71,6 @@
         .btn-secretaria:hover { background: var(--gold); color: #000; box-shadow: 0 0 20px var(--gold-shadow); }
         .btn-secretaria::after { display: none; } 
         
-        /* Botão do App Sempre Visível e Elegante */
         .btn-menu-app { color: var(--gold); border-bottom: 2px solid transparent; }
         .btn-menu-app:hover { color: #fff; border-bottom-color: #fff; }
 
@@ -103,15 +102,21 @@
         .scroll-down { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); color: var(--gold); animation: bounce 2s infinite; font-size: 1.5rem; cursor: pointer; }
 
         /* =======================================================
-           MODAL PREMIUM DE AVISO (PARA IOS E FALLBACK)
+           MODAL PREMIUM DE AVISO (PASSO A PASSO CLARO)
            ======================================================= */
         .modal-pwa { display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); backdrop-filter: blur(8px); justify-content: center; align-items: center; padding: 20px; }
-        .modal-pwa-content { background: linear-gradient(145deg, rgba(0, 12, 24, 0.95), rgba(0, 26, 51, 0.95)); border: 1px solid var(--gold); padding: 40px 30px; border-radius: 12px; max-width: 400px; text-align: center; color: #fff; position: relative; box-shadow: 0 15px 40px rgba(0,0,0,0.8), 0 0 20px rgba(212, 175, 55, 0.2); }
+        .modal-pwa-content { background: linear-gradient(145deg, rgba(0, 12, 24, 0.95), rgba(0, 26, 51, 0.95)); border: 1px solid var(--gold); padding: 30px; border-radius: 12px; max-width: 400px; text-align: center; color: #fff; position: relative; box-shadow: 0 15px 40px rgba(0,0,0,0.8), 0 0 20px rgba(212, 175, 55, 0.2); }
         .close-modal-pwa { position: absolute; top: 15px; right: 20px; color: #888; font-size: 28px; cursor: pointer; transition: 0.3s; line-height: 1; }
         .close-modal-pwa:hover { color: var(--gold); }
-        .modal-pwa h3 { color: var(--gold); margin-bottom: 20px; font-family: 'Cinzel', serif; font-size: 1.3rem; display: flex; align-items: center; justify-content: center; gap: 10px; }
-        .modal-pwa p { font-size: 1.05rem; line-height: 1.6; color: #ddd; margin-bottom: 15px; }
-        .modal-pwa i.highlight { color: var(--gold); font-size: 1.3rem; margin: 0 5px; vertical-align: middle; }
+        .modal-pwa h3 { color: var(--gold); margin-bottom: 15px; font-family: 'Cinzel', serif; font-size: 1.3rem; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .modal-pwa p.intro { font-size: 0.95rem; line-height: 1.5; color: #ddd; margin-bottom: 15px; }
+        
+        /* Caixinha do Passo a Passo */
+        .passo-a-passo { text-align: left; background: rgba(0,0,0,0.5); padding: 20px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); }
+        .passo-a-passo p { font-size: 0.95rem; margin-bottom: 12px; color: #eee; line-height: 1.4; display: flex; align-items: flex-start; gap: 10px; }
+        .passo-a-passo p:last-child { margin-bottom: 0; }
+        .passo-numero { color: var(--gold); font-weight: bold; font-family: 'Cinzel', serif; font-size: 1.1rem; }
+        .highlight { color: var(--gold); font-size: 1.1rem; margin: 0 2px; }
 
         .history-box { background: rgba(0, 12, 24, 0.85); padding: 50px; border-radius: 8px; border: 1px solid rgba(212,175,55,0.2); box-shadow: 0 10px 40px rgba(0,0,0,0.6); text-align: justify; position: relative; width: 100%; box-sizing: border-box; }
         .history-box::before, .history-box::after { content: ''; position: absolute; width: 30px; height: 30px; border: 2px solid var(--gold); transition: 0.3s; }
@@ -269,10 +274,15 @@
 
     <div id="modal-ios" class="modal-pwa">
         <div class="modal-pwa-content">
-            <span class="close-modal-pwa">&times;</span>
+            <span class="close-modal-pwa">×</span>
             <h3><i class="fab fa-apple"></i> Instalação Manual</h3>
-            <p>Para instalar nosso aplicativo, toque no ícone de <strong>Compartilhar</strong> <i class="fas fa-share-square highlight"></i> na barra do seu navegador.</p>
-            <p>Em seguida, deslize para baixo e selecione <strong>"Adicionar à Tela de Início"</strong> <i class="fas fa-plus-square highlight"></i>.</p>
+            <p class="intro">Seu sistema bloqueou a instalação automática. Siga o passo a passo abaixo para adicionar nosso aplicativo à sua tela:</p>
+            
+            <div class="passo-a-passo">
+                <p><span class="passo-numero">1.</span> Toque no ícone de Compartilhar <i class="fas fa-share-square highlight"></i> localizado na barra inferior ou superior do seu navegador.</p>
+                <p><span class="passo-numero">2.</span> Role o menu e procure pela opção "Adicionar à Tela de Início" <i class="fas fa-plus-square highlight"></i>.</p>
+                <p><span class="passo-numero">3.</span> Confirme tocando em "Adicionar" no canto superior direito da tela.</p>
+            </div>
         </div>
     </div>
 
@@ -338,9 +348,6 @@
             
             <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
                 <a href="#historia" class="btn-hero">Conheça Nossa História</a>
-                <a href="#" class="btn-hero btn-hero-app btn-instalar-pwa-acao">
-                    <i class="fas fa-download"></i> Baixar App
-                </a>
             </div>
         </div>
         <a href="#historia" class="scroll-down"><i class="fas fa-chevron-down"></i></a>
@@ -466,11 +473,16 @@
                 </div>
                 <div class="footer-col footer-social-center">
                     <h4>Redes Sociais</h4>
-                    <div class="social-icons">
+                    <div class="social-icons" style="margin-bottom: 25px;">
                         <a href="https://www.instagram.com/fraternidadeimperial264" target="_blank" class="social-btn" title="Instagram"><i class="fab fa-instagram"></i></a>
                         <a href="#" class="social-btn" title="YouTube (Em breve)"><i class="fab fa-youtube"></i></a>
                     </div>
-                </div>
+                    
+                    <h4>Aplicativo</h4>
+                    <button class="btn-hero btn-hero-app btn-instalar-pwa-acao" style="margin: 0; font-size: 0.85rem; padding: 10px 20px;">
+                        <i class="fas fa-download"></i> Instalar App
+                    </button>
+                    </div>
                 
                   <div class="footer-col footer-dev-right">
                     <span style="font-size:0.8rem; color:#aaa; margin-bottom:5px; text-shadow: 0 1px 2px #000;">Desenvolvido por:</span>
@@ -519,7 +531,7 @@
                 deferredPrompt = e;
             });
 
-            // Pega todos os botões de instalar que criamos (Menu e Hero)
+            // Pega todos os botões de instalar que criamos (Menu e Rodapé)
             const botoesInstalar = document.querySelectorAll('.btn-instalar-pwa-acao');
             const modalIos = document.getElementById('modal-ios');
             const closeModal = document.querySelector('.close-modal-pwa');
