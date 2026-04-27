@@ -1,4 +1,5 @@
 {
+  "id": "/fraternidadeimperial/",
   "name": "Fraternidade Imperial Nº 264",
   "short_name": "Loja 264",
   "icons": [
@@ -18,6 +19,6 @@
   "theme_color": "#000c18",
   "background_color": "#000c18",
   "display": "standalone",
-  "scope": "./",
-  "start_url": "./"
+  "scope": "/fraternidadeimperial/",
+  "start_url": "/fraternidadeimperial/"
 }
