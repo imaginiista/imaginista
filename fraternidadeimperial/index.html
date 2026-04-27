@@ -10,7 +10,7 @@
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="X-XSS-Protection" content="1; mode=block">
 
-    <link rel="manifest" href="site.webmanifest.json">
+    <link rel="manifest" href="site.webmanifest">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -71,9 +71,9 @@
         .btn-secretaria:hover { background: var(--gold); color: #000; box-shadow: 0 0 20px var(--gold-shadow); }
         .btn-secretaria::after { display: none; } 
         
-        /* NOVO: Estilo especial para o botão de Instalar no menu */
-        .btn-instalar-app { display: none; /* Fica oculto até o JS ativar */ color: var(--gold); border-bottom: 2px solid var(--gold); }
-        .btn-instalar-app:hover { color: #fff; border-bottom-color: #fff; }
+        /* Botão do App Sempre Visível e Elegante */
+        .btn-menu-app { color: var(--gold); border-bottom: 2px solid transparent; }
+        .btn-menu-app:hover { color: #fff; border-bottom-color: #fff; }
 
         .mobile-toggle { display: none; font-size: 1.8rem; color: var(--gold); background: none; border: none; cursor: pointer; }
 
@@ -92,11 +92,26 @@
         .motto-desktop { display: inline; }
         .motto-mobile { display: none; }
 
-        .hero-badge { display: inline-flex; align-items: center; justify-content: center; gap: 12px; background: linear-gradient(90deg, rgba(0,0,0,0.8), rgba(20,40,60,0.8)); padding: 8px 25px; border-radius: 50px; border: 1px solid rgba(212, 175, 55, 0.3); margin-top: 15px; margin-bottom: 50px; box-shadow: 0 0 15px rgba(0,0,0,0.5); flex-wrap: nowrap; height: auto; }
+        .hero-badge { display: inline-flex; align-items: center; justify-content: center; gap: 12px; background: linear-gradient(90deg, rgba(0,0,0,0.8), rgba(20,40,60,0.8)); padding: 8px 25px; border-radius: 50px; border: 1px solid rgba(212, 175, 55, 0.3); margin-top: 15px; margin-bottom: 40px; box-shadow: 0 0 15px rgba(0,0,0,0.5); flex-wrap: nowrap; height: auto; }
         .flag-icon { width: 32px !important; height: 22px !important; object-fit: cover; border-radius: 2px; display: block; box-shadow: 0 0 5px rgba(0,0,0,0.5); flex-shrink: 0; }
-        .btn-hero { color: var(--gold); text-decoration: none; border: 1px solid var(--gold); padding: 12px 30px; font-size: 1rem; display: inline-block; margin-top: 10px; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; background: rgba(0,0,0,0.4); text-align: center; }
+        
+        .btn-hero { color: var(--gold); text-decoration: none; border: 1px solid var(--gold); padding: 12px 25px; font-size: 1rem; display: inline-flex; align-items: center; gap: 10px; margin: 10px 5px; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; background: rgba(0,0,0,0.4); text-align: center; border-radius: 4px; }
         .btn-hero:hover { background: var(--gold); color: #000; box-shadow: 0 0 20px var(--gold-shadow); }
+        .btn-hero-app { background: var(--gold); color: #000; font-weight: bold; }
+        .btn-hero-app:hover { background: #fff; border-color: #fff; box-shadow: 0 0 25px rgba(255,255,255,0.5); }
+        
         .scroll-down { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); color: var(--gold); animation: bounce 2s infinite; font-size: 1.5rem; cursor: pointer; }
+
+        /* =======================================================
+           MODAL PREMIUM DE AVISO (PARA IOS E FALLBACK)
+           ======================================================= */
+        .modal-pwa { display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); backdrop-filter: blur(8px); justify-content: center; align-items: center; padding: 20px; }
+        .modal-pwa-content { background: linear-gradient(145deg, rgba(0, 12, 24, 0.95), rgba(0, 26, 51, 0.95)); border: 1px solid var(--gold); padding: 40px 30px; border-radius: 12px; max-width: 400px; text-align: center; color: #fff; position: relative; box-shadow: 0 15px 40px rgba(0,0,0,0.8), 0 0 20px rgba(212, 175, 55, 0.2); }
+        .close-modal-pwa { position: absolute; top: 15px; right: 20px; color: #888; font-size: 28px; cursor: pointer; transition: 0.3s; line-height: 1; }
+        .close-modal-pwa:hover { color: var(--gold); }
+        .modal-pwa h3 { color: var(--gold); margin-bottom: 20px; font-family: 'Cinzel', serif; font-size: 1.3rem; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .modal-pwa p { font-size: 1.05rem; line-height: 1.6; color: #ddd; margin-bottom: 15px; }
+        .modal-pwa i.highlight { color: var(--gold); font-size: 1.3rem; margin: 0 5px; vertical-align: middle; }
 
         .history-box { background: rgba(0, 12, 24, 0.85); padding: 50px; border-radius: 8px; border: 1px solid rgba(212,175,55,0.2); box-shadow: 0 10px 40px rgba(0,0,0,0.6); text-align: justify; position: relative; width: 100%; box-sizing: border-box; }
         .history-box::before, .history-box::after { content: ''; position: absolute; width: 30px; height: 30px; border: 2px solid var(--gold); transition: 0.3s; }
@@ -208,8 +223,7 @@
             .motto-bot { color: var(--gold); font-weight: bold; margin-top: 5px; }
 
             .hero-badge { padding: 8px 15px; margin-bottom: 30px; } 
-            .btn-hero { font-size: 0.85rem; padding: 10px 20px; }
-
+            
             .history-box { padding: 25px 20px; width: 100%; }
             .history-content { max-height: 250px; }
             .history-content p { font-size: 0.95rem; text-indent: 15px; }
@@ -253,6 +267,15 @@
 </head>
 <body>
 
+    <div id="modal-ios" class="modal-pwa">
+        <div class="modal-pwa-content">
+            <span class="close-modal-pwa">&times;</span>
+            <h3><i class="fab fa-apple"></i> Instalação Manual</h3>
+            <p>Para instalar nosso aplicativo, toque no ícone de <strong>Compartilhar</strong> <i class="fas fa-share-square highlight"></i> na barra do seu navegador.</p>
+            <p>Em seguida, deslize para baixo e selecione <strong>"Adicionar à Tela de Início"</strong> <i class="fas fa-plus-square highlight"></i>.</p>
+        </div>
+    </div>
+
     <video autoplay muted loop playsinline class="video-bg">
         <source src="https://static.videezy.com/system/resources/previews/000/004/199/original/Nebula_Blue_GK_1.mp4" type="video/mp4">
     </video>
@@ -275,10 +298,11 @@
                     <li><a href="galeria/" class="nav-link"><i class="fas fa-portrait"></i> <span>Galeria</span></a></li>
                     
                     <li>
-                        <a href="#" id="nav-install-app" class="nav-link btn-instalar-app">
+                        <a href="#" class="nav-link btn-menu-app btn-instalar-pwa-acao">
                             <i class="fas fa-mobile-alt"></i> <span>Instalar App</span>
                         </a>
                     </li>
+
                     <li><a href="secretaria/" class="nav-link btn-secretaria"><i class="fas fa-lock"></i> <span>Secretaria</span></a></li>
                 </ul>
             </nav>
@@ -312,8 +336,11 @@
                 <span style="font-family: 'Cinzel'; font-size: 0.95rem; color: #fff;">Rito Brasileiro</span>
             </div>
             
-            <div>
+            <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
                 <a href="#historia" class="btn-hero">Conheça Nossa História</a>
+                <a href="#" class="btn-hero btn-hero-app btn-instalar-pwa-acao">
+                    <i class="fas fa-download"></i> Baixar App
+                </a>
             </div>
         </div>
         <a href="#historia" class="scroll-down"><i class="fas fa-chevron-down"></i></a>
@@ -482,38 +509,47 @@
         document.addEventListener('DOMContentLoaded', () => {
 
             /* =======================================================
-               NOVO: LÓGICA DO MENU PWA
+               SISTEMA DE INSTALAÇÃO DO APP (MÚLTIPLOS BOTÕES)
                ======================================================= */
             let deferredPrompt;
-            const navInstallApp = document.getElementById('nav-install-app');
-
-            // Fica "escutando" se o navegador permite a instalação
+            
+            // Captura o evento nativo para Android
             window.addEventListener('beforeinstallprompt', (e) => {
-                // Impede o banner padrão feio do Google
                 e.preventDefault();
-                // Salva o evento para usarmos depois
                 deferredPrompt = e;
-                // Faz o botão aparecer no menu (display: flex mantém o ícone e texto alinhados)
-                navInstallApp.style.display = 'flex';
             });
 
-            // Quando o usuário clicar no "Instalar App" no menu
-            navInstallApp.addEventListener('click', async (e) => {
-                e.preventDefault(); // Impede a página de pular pro topo
-                
-                if (deferredPrompt) {
-                    // Dispara a caixinha oficial de instalação do celular
-                    deferredPrompt.prompt();
-                    // Aguarda a resposta do usuário
-                    const { outcome } = await deferredPrompt.userChoice;
-                    console.log(`Usuário escolheu: ${outcome}`);
+            // Pega todos os botões de instalar que criamos (Menu e Hero)
+            const botoesInstalar = document.querySelectorAll('.btn-instalar-pwa-acao');
+            const modalIos = document.getElementById('modal-ios');
+            const closeModal = document.querySelector('.close-modal-pwa');
+
+            botoesInstalar.forEach(btn => {
+                btn.addEventListener('click', async (e) => {
+                    e.preventDefault();
                     
-                    // Se o usuário instalou, podemos esconder o botão
-                    if (outcome === 'accepted') {
-                        navInstallApp.style.display = 'none';
+                    if (deferredPrompt) {
+                        // O celular suporta e está pronto para o pop-up oficial (Android)
+                        deferredPrompt.prompt();
+                        const { outcome } = await deferredPrompt.userChoice;
+                        console.log(`Escolha do usuário: ${outcome}`);
+                        deferredPrompt = null; // Limpa após o uso
+                    } else {
+                        // Se for iPhone (iOS) ou se o navegador já instalou antes
+                        modalIos.style.display = 'flex';
                     }
-                    
-                    deferredPrompt = null;
+                });
+            });
+
+            // Fecha o Modal
+            closeModal.addEventListener('click', () => {
+                modalIos.style.display = 'none';
+            });
+
+            // Fecha o modal ao clicar fora da janela
+            window.addEventListener('click', (e) => {
+                if (e.target == modalIos) {
+                    modalIos.style.display = 'none';
                 }
             });
             /* ======================================================= */
@@ -902,7 +938,6 @@
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                // Certifique-se de que o arquivo sw.js existe na pasta raiz do projeto
                 navigator.serviceWorker.register('sw.js')
                     .then(registration => {
                         console.log('ServiceWorker registrado com sucesso:', registration.scope);
@@ -913,5 +948,5 @@
             });
         }
     </script>
-    </body>
+</body>
 </html>
