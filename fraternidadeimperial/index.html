@@ -222,6 +222,47 @@
         .cookie-btn:hover { background: #fff; }
 
         /* =======================================================
+           NOVO: ESTILO DO BANNER PWA (PREMIUM)
+           ======================================================= */
+        .pwa-banner {
+            position: fixed;
+            top: 90px; /* Fica logo abaixo do header */
+            left: 50%;
+            transform: translateX(-50%) translateY(-150px);
+            background: rgba(0, 12, 24, 0.95);
+            border: 1px solid var(--gold);
+            padding: 12px 20px;
+            z-index: 999; /* Fica sob o header (z-index 1000) */
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8), 0 0 15px rgba(212, 175, 55, 0.2);
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s ease;
+            width: 90%;
+            max-width: 450px;
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            visibility: hidden;
+        }
+        .pwa-banner.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+            visibility: visible;
+        }
+        .pwa-info { display: flex; align-items: center; gap: 15px; flex: 1; }
+        .pwa-icon { width: 45px; height: 45px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.5); object-fit: cover;}
+        .pwa-text { display: flex; flex-direction: column; }
+        .pwa-title { color: var(--gold); font-family: 'Cinzel', serif; font-size: 0.95rem; font-weight: bold; line-height: 1.2; }
+        .pwa-subtitle { color: #ccc; font-size: 0.75rem; margin-top: 3px; }
+        .pwa-actions { display: flex; align-items: center; gap: 10px; }
+        .btn-install-pwa { background: var(--gold); color: #000; border: none; padding: 8px 15px; border-radius: 4px; font-weight: bold; text-transform: uppercase; font-size: 0.8rem; cursor: pointer; transition: 0.3s; font-family: 'Lato', sans-serif; }
+        .btn-install-pwa:hover { background: #fff; box-shadow: 0 0 15px var(--gold-shadow); }
+        .btn-close-pwa { background: none; border: none; color: #888; font-size: 1.2rem; cursor: pointer; transition: 0.3s; padding: 0 5px; }
+        .btn-close-pwa:hover { color: var(--gold); }
+
+        /* =======================================================
            RESPONSIVO TOTAL MOBILE
            ======================================================= */
         @media (max-width: 900px) {
@@ -292,12 +333,31 @@
             .floating-actions { bottom: 20px; right: 20px; gap: 10px; }
             .float-btn { width: 40px; height: 40px; font-size: 1rem; }
             .float-wpp { width: 55px; height: 55px; font-size: 1.8rem; }
+
+            /* PWA Mobile Ajuste */
+            .pwa-banner { top: 80px; padding: 10px 15px; }
+            .pwa-icon { width: 35px; height: 35px; }
+            .pwa-title { font-size: 0.85rem; }
+            .btn-install-pwa { padding: 6px 12px; font-size: 0.75rem; }
         }
     </style>
     
 </head>
 <body>
 
+    <div id="pwa-install-banner" class="pwa-banner">
+        <div class="pwa-info">
+            <img src="favicon/web-app-manifest-512x512.png" alt="Ícone App" class="pwa-icon" onerror="this.src='imagens/264.webp'">
+            <div class="pwa-text">
+                <span class="pwa-title">Fraternidade Imperial</span>
+                <span class="pwa-subtitle">Instale nosso aplicativo</span>
+            </div>
+        </div>
+        <div class="pwa-actions">
+            <button id="btn-install-pwa" class="btn-install-pwa">Instalar</button>
+            <button id="btn-close-pwa" class="btn-close-pwa"><i class="fas fa-times"></i></button>
+        </div>
+    </div>
     <video autoplay muted loop playsinline class="video-bg">
         <source src="https://static.videezy.com/system/resources/previews/000/004/199/original/Nebula_Blue_GK_1.mp4" type="video/mp4">
     </video>
@@ -520,6 +580,47 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+
+            /* =======================================================
+               NOVO: LÓGICA DO BANNER PWA
+               ======================================================= */
+            let deferredPrompt;
+            const pwaBanner = document.getElementById('pwa-install-banner');
+            const btnInstallPwa = document.getElementById('btn-install-pwa');
+            const btnClosePwa = document.getElementById('btn-close-pwa');
+
+            window.addEventListener('beforeinstallprompt', (e) => {
+                // Previne o navegador de mostrar o prompt feio padrão nativo
+                e.preventDefault();
+                // Guarda o evento para dispararmos no nosso botão premium
+                deferredPrompt = e;
+                
+                // Exibe nosso banner premium após 2 segundos para o usuário não assustar ao carregar a página
+                setTimeout(() => {
+                    pwaBanner.classList.add('show');
+                }, 2000);
+            });
+
+            btnInstallPwa.addEventListener('click', async () => {
+                if (deferredPrompt) {
+                    // Esconde o banner customizado
+                    pwaBanner.classList.remove('show');
+                    // Mostra o prompt oficial de instalação do sistema
+                    deferredPrompt.prompt();
+                    // Aguarda a resposta do usuário
+                    const { outcome } = await deferredPrompt.userChoice;
+                    console.log(`Escolha de instalação: ${outcome}`);
+                    // Limpa a variável, pois ela só pode ser usada uma vez
+                    deferredPrompt = null;
+                }
+            });
+
+            btnClosePwa.addEventListener('click', () => {
+                // Oculta o banner caso o usuário não queira agora
+                pwaBanner.classList.remove('show');
+            });
+            /* --- FIM PWA --- */
+
 
             /* --- 0. HEADER MAGIC E FLOATING BUTTONS --- */
             const header = document.getElementById('main-header');
