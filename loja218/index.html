@@ -56,7 +56,7 @@
         .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; width: 100%; box-sizing: border-box; }
         section { padding: 80px 0; position: relative; z-index: 2; width: 100%; overflow: hidden; }
 
-        /* --- LOADING SCREEN PREMIUM --- */
+        /* --- LOADING SCREEN PREMIUM VIP --- */
         #loader-wrapper {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100vh;
@@ -66,36 +66,83 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            transition: opacity 1s ease-out, visibility 1s ease-out;
+            transition: opacity 1.5s cubic-bezier(0.16, 1, 0.3, 1), visibility 1.5s;
         }
         #loader-wrapper.fade-out {
             opacity: 0;
             visibility: hidden;
+            transform: scale(1.05);
         }
+        
+        .loader-ring-container {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        .loader-ring {
+            position: absolute;
+            width: 320px;
+            height: 320px;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            border-top-color: var(--gold);
+            border-bottom-color: rgba(135, 206, 235, 0.3);
+            animation: spin 4s linear infinite;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.1);
+        }
+
+        .loader-ring::before {
+            content: '';
+            position: absolute;
+            top: 15px; left: 15px; right: 15px; bottom: 15px;
+            border-radius: 50%;
+            border: 1px solid transparent;
+            border-left-color: var(--blue-celeste);
+            border-right-color: rgba(212, 175, 55, 0.5);
+            animation: spin 3s linear infinite reverse;
+        }
+
         .loader-logo {
-            width: 160px;
+            width: 250px; /* Logo bem maior */
             height: auto;
-            animation: pulseLogo 2.5s infinite ease-in-out;
-            filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.3));
-            margin-bottom: 30px;
+            position: relative;
+            z-index: 2;
+            animation: pulseLogoPremium 4s infinite ease-in-out;
+            filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.8));
         }
+
         .loader-text {
             font-family: 'Cinzel', serif;
             color: var(--gold);
-            letter-spacing: 4px;
-            font-size: 1rem;
+            letter-spacing: 6px;
+            font-size: 1.1rem;
             text-transform: uppercase;
-            animation: blinkText 2s infinite;
+            animation: blinkText 2.5s infinite;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.8);
         }
         
-        @keyframes pulseLogo {
-            0% { transform: scale(0.95); filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.3)); }
-            50% { transform: scale(1.05); filter: drop-shadow(0 0 35px rgba(212, 175, 55, 0.8)); }
-            100% { transform: scale(0.95); filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.3)); }
+        @keyframes pulseLogoPremium {
+            0% { transform: scale(0.98); filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.2)); }
+            50% { transform: scale(1.02); filter: drop-shadow(0 0 35px rgba(212, 175, 55, 0.9)); }
+            100% { transform: scale(0.98); filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.2)); }
         }
         @keyframes blinkText {
-            0%, 100% { opacity: 0.4; }
-            50% { opacity: 1; text-shadow: 0 0 10px var(--gold-shadow); }
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; text-shadow: 0 0 15px var(--gold-shadow); }
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Ajuste para mobile no loader */
+        @media (max-width: 600px) {
+            .loader-logo { width: 180px; }
+            .loader-ring { width: 240px; height: 240px; }
+            .loader-text { font-size: 0.9rem; letter-spacing: 4px; }
         }
 
         /* --- BACKGROUND ANIMADO --- */
@@ -187,7 +234,6 @@
             font-size: 2.5rem; text-transform: uppercase; letter-spacing: 4px; display: inline-block; position: relative; padding-bottom: 15px; margin-bottom: 30px; text-align: center; width: 100%; word-wrap: break-word; 
         }
         
-        /* Efeito de Brilho no Título da História */
         .title-animated {
             background: linear-gradient(90deg, #d4af37 0%, #fff 50%, #d4af37 100%);
             background-size: 200% auto;
@@ -353,7 +399,10 @@
 <body>
 
     <div id="loader-wrapper">
-        <img src="imagens/218.webp" alt="Aguarde..." class="loader-logo" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Square_compasses.svg/512px-Square_compasses.svg.png'">
+        <div class="loader-ring-container">
+            <div class="loader-ring"></div>
+            <img src="imagens/218.webp" alt="Aguarde..." class="loader-logo" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Square_compasses.svg/512px-Square_compasses.svg.png'">
+        </div>
         <div class="loader-text">Preparando o Templo...</div>
     </div>
 
@@ -574,15 +623,14 @@
 
             /* --- LOADING SCREEN LOGIC --- */
             window.addEventListener('load', () => {
-                // Dá um tempo mínimo de 1.5s para o usuário admirar o loader antes de apagar
+                // Tempo mínimo para brilhar a animação premium
                 setTimeout(() => {
                     const loader = document.getElementById('loader-wrapper');
                     if(loader) {
                         loader.classList.add('fade-out');
-                        // Remove o elemento do DOM depois da transição para não pesar a memória
-                        setTimeout(() => loader.remove(), 1000); 
+                        setTimeout(() => loader.remove(), 1500); 
                     }
-                }, 1500);
+                }, 2000);
             });
 
             /* --- HEADER MAGIC E FLOATING BUTTONS --- */
@@ -631,7 +679,7 @@
             const acceptBtn = document.getElementById('accept-cookies');
 
             if (!localStorage.getItem('cookiesAccepted_Liberdade218')) {
-                setTimeout(() => banner.classList.add('show'), 3000); // Aparece um pouco depois do loader sumir
+                setTimeout(() => banner.classList.add('show'), 3500);
             }
 
             acceptBtn.addEventListener('click', () => {
