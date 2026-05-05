@@ -1,0 +1,27 @@
+{
+  "id": "/loja218/",
+  "name": "A∴ R∴ L∴ M∴ Liberdade e Igualdade Nº 218",
+  "short_name": "Loja 218",
+  "description": "Portal Oficial e Secretaria da Loja Maçônica Liberdade e Igualdade Nº 218.",
+  "lang": "pt-BR",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "favicon/web-app-manifest-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "favicon/web-app-manifest-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "theme_color": "#000c18",
+  "background_color": "#000c18",
+  "display": "standalone",
+  "scope": "/loja218/",
+  "start_url": "/loja218/"
+}
