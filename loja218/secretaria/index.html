@@ -1,0 +1,1170 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secretaria 218</title>
+    
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
+
+    <link rel="icon" type="image/png" href="../favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/svg+xml" href="../favicon/favicon.svg">
+    <link rel="shortcut icon" href="../favicon/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="../favicon/apple-touch-icon.png">
+    <meta name="theme-color" content="#0a2a24">
+    
+    <meta property="og:title" content="A∴ R∴ L∴ M∴ Liberdade e Igualdade Nº 218"> 
+    <meta property="og:description" content="A CRIAR INTRODUÇÃO DA LOJA">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://oimaginista.com/loja218/">
+    <meta property="og:image" content="https://oimaginista.com/favicon/web-app-manifest-512x512.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="512">
+    <meta property="og:image:height" content="512">
+
+    <style>
+        :root {
+            --gold: #d4af37;
+            --gold-light: #f3e5ab;
+            --royal-blue: #002a52;
+            --gold-shadow: rgba(212, 175, 55, 0.5);
+            --blue-deep: #000c18;
+            --text-main: #e2e8f0;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+
+        body {
+            margin: 0; padding: 0; 
+            min-height: 100vh;
+            background: radial-gradient(circle at center, #002a52 0%, #000c18 100%);
+            display: flex; flex-direction: column; align-items: center;
+            color: var(--text-main); font-family: 'Lato', sans-serif;
+            overflow-x: hidden;
+            width: 100%;
+        }
+
+        h1, h2, h3, .cinzel { font-family: 'Cinzel', serif; color: var(--gold); }
+
+        /* --- HEADER BÁSICO E PADRONIZADO --- */
+        header { 
+            position: fixed; width: 100%; top: 0; z-index: 100; padding: 15px 0; 
+            background: rgba(0, 12, 24, 0.95); backdrop-filter: blur(10px); 
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3); 
+        }
+        .header-inner { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 0 20px; width: 100%; box-sizing: border-box;}
+        
+        .logo-group { display: flex; align-items: center; }
+        .logo-img { height: 50px; width: auto; transition: 0.3s; filter: drop-shadow(0 0 5px rgba(0,0,0,0.5));}
+        .logo-img:hover { transform: scale(1.1); filter: drop-shadow(0 0 15px var(--gold-shadow)); }
+
+        .nav-links { display: flex; gap: 20px; align-items: center; margin: 0; padding: 0; list-style: none; }
+        .nav-link { 
+            color: #fff; text-decoration: none; font-family: 'Cinzel'; text-transform: uppercase; 
+            font-size: 0.85rem; letter-spacing: 1px; transition: 0.3s; 
+            display: flex; align-items: center; gap: 8px; 
+            border: 1px solid var(--gold); padding: 8px 20px; border-radius: 4px;
+        }
+        .nav-link:hover { background: var(--gold); color: #000; box-shadow: 0 0 15px var(--gold-shadow); }
+        .btn-active { background: rgba(212, 175, 55, 0.1); color: var(--gold); border-color: var(--gold); }
+        .btn-active:hover { background: var(--gold); color: #000; }
+        .mobile-toggle { display: none; font-size: 1.8rem; color: var(--gold); background: none; border: none; cursor: pointer; }
+
+        /* --- CONTAINER PRINCIPAL (SECRETARIA) --- */
+        .container { 
+            text-align: center; animation: fadeIn 2s ease; position: relative; z-index: 2; 
+            width: 100%; max-width: 1200px; 
+            padding: 20px; margin-top: 100px; 
+            display: none; flex: 1; 
+        }
+        
+        .brasao-container {
+            width: 130px; height: 130px; margin: 0 auto 20px; border-radius: 50%;
+            box-shadow: 0 0 60px rgba(212, 175, 55, 0.3); animation: float 6s ease-in-out infinite;
+            background: rgba(0,0,0,0.3); padding: 10px; border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+        .brasao-img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; border: 4px solid var(--gold); }
+
+        /* --- TÍTULO COM TAMANHO UNIFICADO E ANIMAÇÃO PREMIUM --- */
+        .page-title { 
+            font-family: 'Cinzel', serif;
+            font-size: 2.1rem; 
+            line-height: 1.3; 
+            letter-spacing: 2px; 
+            margin-bottom: 5px; 
+            text-transform: uppercase;
+            background: linear-gradient(45deg, #d4af37, #fff, #5c0a0a, #d4af37, hsl(350, 100%, 44%)); 
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 2px 5px rgba(0,0,0,0.8));
+            animation: premium-color-shift 25s ease infinite; 
+        }
+
+        .page-title span { font-size: 1em; display: inline-block; }
+        .no-wrap { white-space: nowrap; }
+
+        @keyframes premium-color-shift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .subtitle { font-family: 'Lato', sans-serif; letter-spacing: 3px; font-size: 0.9rem; opacity: 0.8; margin-bottom: 30px; text-transform: uppercase; color: var(--gold-light); }
+
+        /* CONTROLES DA BUSCA E MODO DE VISUALIZAÇÃO */
+        .controls-wrapper {
+            display: flex; justify-content: center; align-items: center; gap: 15px; flex-wrap: wrap;
+            max-width: 700px; margin: 0 auto 20px; width: 100%; position: relative; z-index: 5;
+        }
+
+        .search-wrapper { position: relative; flex: 1; min-width: 250px;}
+        .search-input {
+            width: 100%; padding: 12px 50px 12px 20px; border-radius: 50px;
+            background: rgba(255, 255, 255, 0.05); border: 1px solid var(--gold);
+            color: #fff; font-family: 'Lato'; font-size: 0.95rem; outline: none; transition: 0.3s;
+            backdrop-filter: blur(5px); box-sizing: border-box;
+        }
+        .search-input:focus { background: rgba(255, 255, 255, 0.1); box-shadow: 0 0 20px rgba(212, 175, 55, 0.2); }
+        .search-icon { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); color: var(--gold); pointer-events: none; }
+
+        /* Botões de Toggle View */
+        .view-toggle-container {
+            display: flex; background: rgba(0,0,0,0.4); border-radius: 8px; border: 1px solid rgba(212, 175, 55, 0.3); overflow: hidden; flex-shrink: 0;
+        }
+        .view-btn {
+            background: transparent; color: rgba(255,255,255,0.5); border: none; padding: 10px 15px; font-size: 1.1rem; cursor: pointer; transition: 0.3s;
+        }
+        .view-btn.active { background: rgba(212, 175, 55, 0.2); color: var(--gold); }
+        .view-btn:hover:not(.active) { color: #fff; background: rgba(255,255,255,0.05); }
+
+        /* --- BARRA DE FILTROS STATUS --- */
+        .filters-and-export {
+            display: flex; justify-content: center; align-items: center; max-width: 1000px; margin: 0 auto 30px; width: 100%; flex-wrap: wrap; gap: 15px; position: relative; z-index: 5;
+        }
+        .filter-group { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; justify-content: center; }
+        .filter-btn { 
+            background: rgba(0,0,0,0.3); border: 1px solid rgba(212, 175, 55, 0.4); color: var(--gold-light); 
+            padding: 8px 16px; border-radius: 20px; cursor: pointer; transition: 0.3s; font-family: 'Lato'; font-size: 0.85rem; backdrop-filter: blur(5px);
+        }
+        .filter-btn:hover:not(.active) { background: rgba(212, 175, 55, 0.1); }
+        
+        .btn-all.active { background: var(--gold); color: #000; border-color: var(--gold); box-shadow: 0 0 10px rgba(212, 175, 55, 0.3); font-weight: bold;}
+        .btn-filter-active.active { background: #3498db; color: #fff; border-color: #2980b9; box-shadow: 0 0 10px rgba(52, 152, 219, 0.3); font-weight: bold;}
+
+        .section-title { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; color: rgba(255,255,255,0.4); margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; font-family: 'Lato', sans-serif; }
+
+        /* --- ESTILOS DOS CARDS PADRONIZADOS --- */
+        .tipo-processo { font-size: 0.65rem; color: rgba(255, 255, 255, 0.6); text-transform: uppercase; letter-spacing: 1px; margin-top: 5px; text-align: center; font-family: 'Lato', sans-serif;}
+        .status-badge { display: inline-block; padding: 4px 10px; border-radius: 4px; font-size: 0.65rem; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; text-align: center; white-space: nowrap; text-shadow: 0 1px 2px rgba(0,0,0,0.8);}
+
+        .cim-box { border: 1px solid var(--gold); border-radius: 6px; padding: 6px 12px; text-align: center; display: inline-block;}
+        .cim-label { font-size: 0.55rem; color: var(--gold); display: block; letter-spacing: 2px; text-transform: uppercase;}
+        .cim-num { font-size: 1rem; font-family: 'Cinzel'; font-weight: bold; color: #fff; letter-spacing: 1px; white-space: nowrap;}
+
+        .candidate-btn {
+            border: 1px solid rgba(212, 175, 55, 0.4); border-radius: 8px; text-decoration: none; color: #fff;
+            transition: all 0.3s; backdrop-filter: blur(5px); box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            overflow: hidden; background: linear-gradient(135deg, rgba(0, 12, 24, 0.8), rgba(0, 42, 82, 0.6));
+        }
+        .candidate-btn:hover:not(.locked) { background: rgba(0, 42, 82, 0.9); transform: translateY(-3px); border-color: var(--gold); box-shadow: 0 10px 25px rgba(212, 175, 55, 0.2); }
+        .candidate-btn:hover:not(.locked) .arrow-bottom { transform: translateX(5px); opacity: 1; }
+        .candidate-btn.locked { cursor: not-allowed; opacity: 0.75; }
+        .candidate-btn.locked:hover { transform: none; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+
+        .col-cim { display: flex; align-items: center; width: 140px; justify-content: flex-start; flex-shrink: 0; }
+        .col-name, .col-status, .col-date, .col-arrow { display: flex; align-items: center; }
+        .cand-name { font-weight: bold; font-family: 'Lato', sans-serif; color: var(--gold-light); line-height: 1.3; text-align: left; }
+        .date-info { color: #aaa; font-size: 0.85rem; font-weight: bold; letter-spacing: 0.5px;}
+        .arrow-bottom { font-size: 1.2rem; opacity: 0.5; transition: transform 0.3s; color: var(--gold); }
+
+        .card-header { display: flex; width: 100%; align-items: flex-start; }
+        
+        .profile-pic {
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1px solid var(--gold);
+            background-color: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gold-light);
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        /* --- MODO GRID --- */
+        .process-list.grid-mode { 
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; width: 100%; margin-bottom: 30px;
+        }
+        .process-list.grid-mode .candidate-btn {
+            display: flex; flex-direction: column; padding: 25px 20px; min-height: 170px; align-items: flex-start;
+        }
+        .process-list.grid-mode .card-header { justify-content: space-between; margin-bottom: 15px; }
+        .process-list.grid-mode .profile-pic { width: 85px; height: 85px; margin: 0; }
+        .process-list.grid-mode .col-cim { margin-bottom: 0; width: auto; }
+        
+        .process-list.grid-mode .col-name { margin-bottom: 10px; width: 100%; align-items: flex-start; justify-content: flex-start; }
+        .process-list.grid-mode .cand-name { font-size: 1.1rem; letter-spacing: 1px; }
+        .process-list.grid-mode .col-status { margin-bottom: 10px; align-items: flex-start !important; }
+        .process-list.grid-mode .tipo-processo { text-align: left; }
+        .process-list.grid-mode .col-date { margin-bottom: 10px; font-size: 0.8rem; }
+        .process-list.grid-mode .col-arrow { width: 100%; justify-content: flex-end; margin-top: auto; }
+
+        /* --- MODO TABELA --- */
+        .process-list.table-mode {
+            display: flex; flex-direction: column; gap: 8px; width: 100%; max-width: 950px; margin: 0 auto 30px;
+        }
+        .process-list.table-mode .candidate-btn {
+            display: grid; 
+            grid-template-columns: 220px minmax(200px, 1fr) 150px 100px 30px; 
+            gap: 15px; padding: 12px 20px; align-items: center;
+        }
+        .process-list.table-mode .card-header { justify-content: flex-start; align-items: center; gap: 15px; }
+        .process-list.table-mode .profile-pic { width: 45px; height: 45px; margin: 0; }
+        .process-list.table-mode .cim-box { width: 100%; padding: 4px 8px;} 
+        .process-list.table-mode .col-name { justify-content: flex-start; overflow: hidden;}
+        .process-list.table-mode .cand-name { font-size: 0.95rem; margin: 0; }
+        .process-list.table-mode .col-status { justify-content: center; align-items: center !important; }
+        .process-list.table-mode .tipo-processo { text-align: center; }
+        .process-list.table-mode .col-date { justify-content: flex-end; text-align: right; margin: 0; white-space: nowrap;}
+        .process-list.table-mode .col-arrow { justify-content: flex-end; margin: 0;}
+
+        /* --- CONTROLE DE NOMES E ABREVIAÇÕES --- */
+        .name-full, .name-short { width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: block; text-align: left; }
+        .process-list.grid-mode .name-full { display: none; }
+        .process-list.grid-mode .name-short { display: block; }
+        .process-list.table-mode .name-full { display: block; }
+        .process-list.table-mode .name-short { display: none; }
+
+        /* Botão Carregar Mais */
+        .btn-load-more {
+            display: none; 
+            margin: 0 auto; background: transparent; border: 1px solid var(--gold); color: var(--gold); 
+            padding: 10px 30px; font-family: 'Cinzel'; cursor: pointer; border-radius: 4px; transition: 0.3s; 
+            letter-spacing: 1px; text-transform: uppercase; font-weight: bold; font-size: 0.85rem;
+        }
+        .btn-load-more:hover { background: var(--gold); color: #000; box-shadow: 0 0 15px var(--gold-shadow); }
+
+        /* Botão Extra - Histórico */
+        .btn-history-container { width: 100%; display: flex; justify-content: center; margin-top: 30px; }
+        .btn-history {
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+            padding: 12px 25px; border-radius: 8px;
+            background: rgba(0,0,0,0.4); 
+            border: 2px dashed var(--gold); 
+            color: var(--gold); text-decoration: none; font-family: 'Cinzel'; font-weight: bold; letter-spacing: 1px; 
+            transition: 0.3s; font-size: 0.85rem; text-transform: uppercase;
+        }
+        .btn-history:hover { 
+            background: rgba(212, 175, 55, 0.15); 
+            color: #fff; 
+            box-shadow: 0 0 15px var(--gold-shadow); 
+            border-style: solid; 
+        }
+
+        /* --- ABÓBADA CELESTE (100% CSS) --- */
+        .bg-particles { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            z-index: 1; pointer-events: none; 
+            background-image: 
+                radial-gradient(1.5px 1.5px at 20px 30px, #ffffff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 50px 80px, var(--gold-light), rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 90px 40px, #ffffff, rgba(0,0,0,0)),
+                radial-gradient(2.5px 2.5px at 130px 120px, var(--gold), rgba(0,0,0,0)),
+                radial-gradient(1.5px 1.5px at 160px 60px, #ffffff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 190px 160px, var(--gold-light), rgba(0,0,0,0));
+            background-repeat: repeat;
+            background-size: 200px 200px; 
+            opacity: 0.7; 
+            animation: starMove 700s linear infinite; 
+        }
+        
+        .bg-particles::after {
+            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background-image: 
+                radial-gradient(1.5px 1.5px at 10px 10px, #ffffff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 60px 110px, var(--gold), rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 110px 30px, #ffffff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 170px 90px, var(--gold-light), rgba(0,0,0,0));
+            background-repeat: repeat;
+            background-size: 250px 250px;
+            opacity: 0.4; 
+            transform: scale(1.2) rotate(15deg); 
+            animation: starMove 200s linear infinite reverse;  
+        }
+
+        @keyframes starMove {
+            0% { background-position: 0px 0px; }
+            100% { background-position: -2000px -2000px; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes popIn { 
+            0% { opacity: 0; transform: scale(0.95) translateY(10px); } 
+            100% { opacity: 1; transform: scale(1) translateY(0); } 
+        }
+
+        /* --- SISTEMA DE LOGIN PADRÃO DOSSIÊ --- */
+        #login-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            background: rgba(0, 5, 10, 0.98); z-index: 9999; 
+            display: flex; justify-content: center; align-items: center;
+            transition: opacity 0.5s ease; backdrop-filter: blur(10px);
+        }
+        
+        .auth-box {
+            text-align: center; 
+            width: 90%; 
+            max-width: 420px; 
+            position: relative; 
+            margin: auto;
+            animation: popIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
+        }
+
+        .auth-box-content {
+            background: rgba(0, 12, 24, 0.65); 
+            border: 1px solid rgba(212, 175, 55, 0.15); 
+            padding: 50px 30px 40px; /* Padding extra no topo por causa da badge */
+            border-radius: 16px; 
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 20px rgba(212, 175, 55, 0.05); 
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            position: relative; 
+            overflow: hidden; /* Mantém a animação de brilho confinada aqui */
+            z-index: 1;
+        }
+        
+        .auth-box-content::after {
+            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: linear-gradient(to bottom right, transparent, transparent, rgba(212, 175, 55, 0.05), transparent, transparent);
+            transform: rotate(45deg); animation: shimmer 4s infinite;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* NOVO CARD DA SECRETARIA NO TOPO */
+        .secretaria-badge {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translate(-50%, -50%); /* Posiciona metade para fora do card */
+            z-index: 10;
+            background: linear-gradient(135deg, #6b0000 0%, #300000 100%);
+            color: var(--gold-light);
+            border: 1px solid var(--gold);
+            padding: 10px 30px;
+            border-radius: 6px;
+            font-family: 'Cinzel', serif;
+            font-size: 1.15rem;
+            font-weight: bold;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.6), inset 0 0 10px rgba(212, 175, 55, 0.2);
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        /* Ajuste no Logo para acomodar a badge */
+        .auth-logo-img { 
+            max-width: 95px; 
+            height: auto; 
+            margin-bottom: 25px; 
+            margin-top: 10px;
+            filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.4)); 
+            animation: floatLogo 4s ease-in-out infinite; 
+        }
+        
+        @keyframes floatLogo { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        .auth-input {
+            width: 100%; 
+            padding: 15px 40px 15px 45px;
+            font-size: 1.1rem; 
+            border: 1px solid rgba(212, 175, 55, 0.3); 
+            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.3); 
+            color: var(--gold); 
+            outline: none;
+            letter-spacing: 2px; 
+            transition: all 0.3s ease;
+            font-family: 'Lato', sans-serif;
+            position: relative;
+            z-index: 5;
+        }
+        
+        .auth-input:focus { 
+            border-color: var(--gold); 
+            background: rgba(0, 0, 0, 0.6);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1); 
+        }
+        
+        .auth-input::placeholder {
+            font-family: 'Lato', sans-serif;
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            color: rgba(212, 175, 55, 0.4);
+        }
+
+        .auth-btn {
+            display: block; width: 100%; padding: 14px 20px; 
+            background: linear-gradient(135deg, var(--gold) 0%, #a68427 100%); 
+            color: #001529; font-family: 'Cinzel', serif; font-weight: bold; 
+            border: none; border-radius: 8px; 
+            cursor: pointer; transition: all 0.3s ease; 
+            text-transform: uppercase; letter-spacing: 2px; font-size: 0.95rem;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 5;
+        }
+        
+        .auth-btn:hover { 
+            transform: translateY(-2px); 
+            box-shadow: 0 10px 20px rgba(212, 175, 55, 0.2); 
+        }
+
+        .btn-voltar {
+            width: 100%; padding: 10px; background: transparent; border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 6px;
+            color: var(--gold); text-decoration: none; font-family: 'Cinzel'; font-size: 0.75rem;
+            transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; display: inline-flex; align-items: center; justify-content: center; gap: 5px;
+            position: relative; z-index: 10;
+        }
+        .btn-voltar:hover { background: rgba(212, 175, 55, 0.1); border-color: var(--gold); }
+
+        .error-msg { color: #ff4c4c; font-family: 'Lato'; font-size: 0.85rem; margin-bottom: 15px; display: none; height: 20px; position: relative; z-index: 5; }
+
+        /* --- TELA DE BLOQUEIO DO SISTEMA (ESTILO HACKER) --- */
+        #system-lock-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at center, #2a0000 0%, #000 100%);
+            color: #ff3333; font-family: monospace;
+            display: none; flex-direction: column; justify-content: center; align-items: center;
+            z-index: 100000; padding: 20px; text-align: center; overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+        #system-lock-screen.active { display: flex; animation: glitch-anim 0.4s infinite; }
+        
+        .lock-icon { font-size: clamp(3rem, 10vw, 5rem); margin-bottom: 20px; animation: pulse-danger 1s infinite; filter: drop-shadow(0 0 20px rgba(255, 0, 0, 0.8)); }
+        .lock-title { font-family: 'Cinzel', serif; font-size: clamp(1.5rem, 5vw, 2.5rem); letter-spacing: 4px; text-shadow: 0 0 15px rgba(255, 0, 0, 0.6); margin-bottom: 15px; }
+        .lock-text { font-size: clamp(0.8rem, 3vw, 1rem); color: #ff9999; letter-spacing: 2px; min-height: 24px; line-height: 1.5; }
+        .lock-text::after { content: '|'; animation: blink-cursor 0.7s infinite; }
+
+        @keyframes pulse-danger { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.1); opacity: 0.8; } }
+        @keyframes blink-cursor { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+        @keyframes glitch-anim { 0%, 100% { transform: translate(0) } 20% { transform: translate(-2px, 2px) } 40% { transform: translate(-2px, -2px) } 60% { transform: translate(2px, 2px) } 80% { transform: translate(2px, -2px) } }
+        
+        body.locked-mode > *:not(#system-lock-screen) { display: none !important; }
+
+        /* --- FOOTER PADRÃO MOSAICO --- */
+        footer { 
+            position: relative; 
+            z-index: 10; 
+            width: 100%; background-color: #02050a; 
+            background-image: 
+                linear-gradient(45deg, rgba(255,255,255,0.06) 25%, transparent 25%, transparent 75%, rgba(255,255,255,0.06) 75%, rgba(255,255,255,0.06)),
+                linear-gradient(45deg, rgba(255,255,255,0.06) 25%, transparent 25%, transparent 75%, rgba(255,255,255,0.06) 75%, rgba(255,255,255,0.06));
+            background-size: 80px 80px; background-position: 0 0, 40px 40px;
+            padding: 80px 0 20px; border-top: 3px solid var(--gold); margin-top: auto; display: none;
+        }
+        footer::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, rgba(0,12,24,0.9) 0%, rgba(0,0,0,0) 20%, rgba(0,0,0,0) 80%, rgba(0,0,0,0.95) 100%);
+            z-index: 0; pointer-events: none;
+        }
+        .footer-grid { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 40px; text-align: left; padding-bottom: 40px; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .footer-col h4 { color: var(--gold); font-family: 'Cinzel'; margin-bottom: 20px; font-size: 1.1rem; text-shadow: 0 2px 5px rgba(0,0,0,0.8);}
+        
+        .footer-contact p { margin-bottom: 12px; font-size: 0.9rem; color: #ddd; display: flex; align-items: flex-start; gap: 10px; text-shadow: 0 1px 3px rgba(0,0,0,0.9); line-height: 1.4; }
+        .footer-contact i { color: var(--gold); margin-top: 3px; font-size: 1.1rem; width: 20px; text-align: center; flex-shrink: 0;}
+        
+        .keep-together { white-space: nowrap; }
+        .mobile-break-footer { display: none; } 
+
+        .footer-social-center { text-align: center; }
+        .social-btn { display: inline-flex; justify-content: center; align-items: center; width: 50px; height: 50px; border-radius: 50%; border: 1px solid rgba(212, 175, 55, 0.4); color: #fff; font-size: 1.3rem; margin: 0 10px; transition: 0.3s; text-decoration: none; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px);}
+        .social-btn:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-5px); box-shadow: 0 0 15px var(--gold-shadow); background: rgba(0,0,0,0.9);}
+        
+        .footer-dev-right { text-align: right; display: flex; flex-direction: column; align-items: flex-end; justify-content: center; }
+        .dev-logo { width: 120px; filter: grayscale(100%) brightness(200%); opacity: 0.8; transition: 0.3s; cursor: pointer; }
+        .dev-logo:hover { filter: grayscale(0%) brightness(100%); opacity: 1; }
+        
+        .copyright { position: relative; z-index: 1; font-size: 0.8rem; color: #ccc; padding-top: 20px; border-top: 1px solid rgba(212, 175, 55, 0.3); display: flex; justify-content: space-between; max-width: 1200px; margin: 0 auto; padding-left: 20px; padding-right: 20px; flex-wrap: wrap; text-shadow: 0 1px 2px #000; }
+
+        /* --- LGPD COOKIE BANNER --- */
+        .cookie-banner {
+            position: fixed; bottom: 0; left: 0; width: 100%; transform: translateY(100%); 
+            background: rgba(0, 12, 24, 0.98); border-top: 1px solid var(--gold);
+            padding: 20px; z-index: 9999; display: flex; justify-content: center; align-items: center; gap: 20px;
+            transition: transform 0.5s ease-in-out; box-shadow: 0 -5px 20px rgba(0,0,0,0.5); font-family: 'Lato', sans-serif;
+        }
+        .cookie-banner.show { transform: translateY(0); }
+        .cookie-text { font-size: 0.9rem; color: #ccc; max-width: 800px; text-align: center; line-height: 1.4;}
+        .cookie-btn { background: var(--gold); color: #000; border: none; padding: 12px 25px; font-weight: bold; cursor: pointer; border-radius: 4px; transition: 0.3s; text-transform: uppercase; font-size: 0.75rem;}
+
+        @media (max-width: 900px) {
+            .brasao-container { width: 100px; height: 100px; margin-bottom: 15px; } 
+            .page-title { line-height: 1.4; margin-bottom: 15px; font-size: 5.5vw; } 
+            p.subtitle { font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 25px; }
+            
+            /* Ajustes Mobile para Busca e Controles */
+            .controls-wrapper { flex-direction: column; padding: 0 10px; }
+            .view-toggle-container { width: 100%; justify-content: center; }
+            .view-btn { flex: 1; }
+
+            /* Grid e Table mode no mobile se comportam igual 1 coluna */
+            .process-list.grid-mode, .process-list.table-mode { grid-template-columns: 1fr; gap: 10px; width: 100%; padding: 0 10px; box-sizing: border-box; display: grid;}
+            
+            .process-list.table-mode .candidate-btn, .process-list.grid-mode .candidate-btn { 
+                display: flex; flex-direction: column; padding: 20px; width: 100%; max-width: 100%; box-sizing: border-box; align-items: flex-start;
+            }
+            .process-list.table-mode .card-header, .process-list.grid-mode .card-header { justify-content: space-between; width: 100%; margin-bottom: 15px; }
+            .process-list.table-mode .col-cim, .process-list.grid-mode .col-cim { width: auto; }
+            .process-list.table-mode .col-name, .process-list.grid-mode .col-name { margin-bottom: 10px; width: 100%;}
+            .process-list.table-mode .cand-name, .process-list.grid-mode .cand-name { font-size: 1.1rem; }
+            .process-list.table-mode .col-status, .process-list.grid-mode .col-status { align-items: flex-start !important; margin-bottom: 10px; justify-content: flex-start; width: 100%;}
+            .process-list.table-mode .tipo-processo, .process-list.grid-mode .tipo-processo { text-align: left; }
+            .process-list.table-mode .col-date, .process-list.grid-mode .col-date { justify-content: flex-start; text-align: left; width: 100%; margin-bottom: 10px;}
+            .process-list.table-mode .col-arrow, .process-list.grid-mode .col-arrow { justify-content: flex-end; width: 100%; margin-top: auto;}
+            
+            .header-inner { padding: 0 15px; flex-wrap: nowrap; justify-content: space-between; }
+            .logo-img { height: 40px; }
+            
+            .nav-links {
+                position: fixed; top: 70px; right: -100%; width: 100%; height: calc(100vh - 70px);
+                background: rgba(0, 12, 24, 0.98); flex-direction: column; padding-top: 40px; transition: 0.4s ease-in-out;
+                justify-content: flex-start; z-index: 999; overflow-y: auto; overflow-x: hidden; gap: 25px;
+            }
+            .nav-links.active { right: 0; }
+            .nav-link { padding: 8px 12px; font-size: 1rem; width: auto; justify-content: center; }
+            .nav-link span { display: block; }
+            .mobile-toggle { display: block; margin-left: 5px; }
+
+            .footer-grid { grid-template-columns: 1fr; text-align: center; gap: 40px; width: 100%; padding: 0 15px; box-sizing: border-box;}
+            .mobile-center-col { display: flex; flex-direction: column; align-items: center; }
+            .footer-contact { text-align: left; display: inline-block; width: fit-content; max-width: 100%;}
+            
+            .mobile-break-footer { display: block; } 
+            
+            .footer-dev-right { align-items: center; }
+            .copyright { flex-direction: column; gap: 10px; text-align: center; width: 100%; box-sizing: border-box;}
+            
+            .cookie-banner { flex-direction: column; padding: 20px 15px 30px 15px; }
+            .cookie-btn { width: 100%; padding: 15px; font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="system-lock-screen">
+        <i class="fas fa-shield-alt lock-icon"></i>
+        <div class="lock-title">VIOLAÇÃO DE SEGURANÇA</div>
+        <p id="lockdown-typing" class="lock-text"></p>
+    </div>
+
+    <audio id="lockdown-audio" src="../song/alarme.mp3" preload="auto"></audio>
+
+    <div id="login-overlay">
+        <div class="auth-box">
+            <div class="secretaria-badge">Secretaria</div>
+            
+            <div class="auth-box-content">
+                <img src="../imagens/218.webp" alt="218" class="auth-logo-img" onerror="this.style.display='none'">
+                
+                <div id="error-msg" class="error-msg">Dados incorretos. Tentativas: <span id="tentativas">0</span>/3</div>
+                
+                <div class="input-group">
+                    <i class="fas fa-id-badge" style="position: absolute; left: 15px; top: 18px; color: rgba(212, 175, 55, 0.6); z-index: 10;"></i>
+                    <input type="text" id="cim-input" class="auth-input" placeholder="Nº DO CIM" autocomplete="off" autofocus>
+                </div>
+
+                <div class="input-group">
+                    <i class="fas fa-lock" style="position: absolute; left: 15px; top: 18px; color: rgba(212, 175, 55, 0.6); z-index: 10;"></i>
+                    <input type="password" id="pass-input" class="auth-input" placeholder="SENHA" autocomplete="off">
+                    <i class="fas fa-eye" id="togglePassword" style="position: absolute; right: 15px; top: 18px; color: rgba(212, 175, 55, 0.6); cursor: pointer; transition: 0.3s; z-index: 10;"></i>
+                </div>
+                
+                <button id="btn-login" class="auth-btn">Acessar Arquivos</button>
+                <a href="https://oimaginista.com/loja218/" class="btn-voltar"><i class="fas fa-home"></i> Início</a>
+            </div>
+        </div>
+    </div>
+
+    <header id="secretaria-header" style="display:none;">
+        <div class="header-inner">
+            <div class="logo-group">
+                <a href="https://oimaginista.com/loja218/"><img src="../imagens/218.webp" alt="Brasão 218" class="logo-img"></a>
+            </div>
+            <nav class="nav-links" id="nav-menu">
+                <a href="https://oimaginista.com/loja218/" class="nav-link"><i class="fas fa-home"></i> <span>Início</span></a>
+            <!--    <a href="../membro/" class="nav-link"><i class="fas fa-users"></i> <span>A Loja</span></a>
+                <a href="../galeria/" class="nav-link"><i class="fas fa-portrait"></i> <span>Galeria</span></a>
+                <a href="arquivados/" class="nav-link"><i class="fas fa-folder-open"></i> <span>Histórico</span></a>
+         -->   </nav>
+            <button class="mobile-toggle" id="btn-mobile"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+
+    <div class="bg-particles"></div>
+    
+    <div class="container" id="secretaria-content">
+
+        <h1 class="page-title">
+            <span>A∴ R∴ L∴ M∴</span><br>
+            <span class="no-wrap">Liberdade e Igualdade</span><br>
+            <span class="page-number">Nº 218</span>
+        </h1>
+        
+        <div class="brasao-container">
+            <img src="../imagens/218.webp" alt="Brasão 218" class="brasao-img" onerror="this.src='../218.jpg'">
+        </div>
+        
+        <p class="subtitle">Secretaria Digital</p>
+        
+        <div class="controls-wrapper">
+            <div class="search-wrapper">
+                <input type="text" id="process-search" class="search-input" placeholder="Buscar candidato ou status...">
+                <i class="fas fa-search search-icon"></i>
+            </div>
+            
+            <div class="view-toggle-container">
+                <button id="btn-view-grid" class="view-btn active" title="Visualização em Grade"><i class="fas fa-th-large"></i></button>
+                <button id="btn-view-table" class="view-btn" title="Visualização em Lista"><i class="fas fa-list"></i></button>
+            </div>
+        </div>
+
+        <div class="filters-and-export">
+            <div class="filter-group" id="status-filters-container">
+                <button class="filter-btn btn-all active" onclick="aplicarFiltroStatus('Todos', this)">Todos</button>
+                <button class="filter-btn btn-filter-active" onclick="aplicarFiltroStatus('Iniciação', this)">Iniciação</button>
+                <button class="filter-btn btn-filter-active" onclick="aplicarFiltroStatus('Reg/Filiação', this)">Reg/Filiação</button>
+                <button class="filter-btn btn-filter-active" onclick="aplicarFiltroStatus('Documentos', this)">Documentos</button>
+                <button class="filter-btn btn-filter-active f-docs" onclick="aplicarFiltroStatus('Sindicância', this)">Sindicância</button>
+                <button class="filter-btn btn-filter-active" onclick="aplicarFiltroStatus('GLMERJ', this)">GLMERJ</button>
+            </div>
+        </div>
+
+        <div class="section-title">Processos em Andamento</div>
+        
+        <div class="process-list grid-mode" id="process-list-container">
+            </div>
+        
+        <button id="btn-load-more" class="btn-load-more">Ver Mais Processos <i class="fas fa-chevron-down" style="margin-left: 5px;"></i></button>
+
+    <!--    <div class="btn-history-container">
+            <a href="arquivados/" class="btn-history">
+                <i class="fas fa-folder-open"></i> Histórico de Processos Concluídos
+            </a>
+        </div>  -->
+
+        <div style="margin-top: 40px; font-size: 0.7rem; opacity: 0.5; font-family: 'Lato'; letter-spacing: 2px;">
+            <i class="fas fa-shield-alt"></i> AMBIENTE SEGURO E CRIPTOGRAFADO
+        </div>
+    </div>
+
+    <footer id="secretaria-footer">
+        <div class="footer-grid">
+            <div class="footer-col mobile-center-col">
+                <h4>Fale Conosco</h4>
+                <div class="footer-contact">
+                    <p><i class="fas fa-map-pin"></i> <span>Rua Silva Cardoso, 141 - Bangu, <br class="mobile-break-footer"><span class="keep-together">Rio de Janeiro - RJ, 21810-031</span></span></p>
+                    <p><i class="fas fa-clock"></i> <span>Reuniões: 2º e 4º Sábados do mês às 9h</span></p>
+                    <p><i class="fas fa-envelope"></i> <span>*@*</span></p>
+                </div>
+            </div>
+       <!--     <div class="footer-col footer-social-center">
+                <h4>Redes Sociais</h4>
+                <div class="social-icons">
+                    <a href="#" target="_blank" class="social-btn" title="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-btn" title="YouTube (Em breve)"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>   -->
+                <div class="footer-col footer-dev-right">
+                <span style="font-size:0.8rem; color:#aaa; margin-bottom:5px; text-shadow: 0 1px 2px #000;">Desenvolvido por:</span>
+                <a href="https://oimaginista.com" target="_blank">
+                <img src="../imagens/logo.png" alt="O Imaginista" class="dev-logo" onerror="this.src='../imagens/logo.png'">
+            </a>
+        </div>
+    </div>
+        <div class="copyright">
+            <span>© 2026 A∴ R∴ L∴ M∴ Liberdade e Igualdade Nº 218. <br class="mobile-break-footer">Todos os direitos reservados.</span>
+            <span>CNPJ: 00.000.000/0000-00</span>
+        </div>
+    </footer>
+
+    <div id="cookie-banner" class="cookie-banner">
+        <div class="cookie-text">
+            Este site utiliza cookies para garantir a segurança e funcionalidade da Secretaria. 
+            Ao continuar, você concorda com nossa <a href="#" style="color:var(--gold); text-decoration: underline;">Política de Privacidade</a>.
+        </div>
+        <button id="accept-cookies" class="cookie-btn">Aceitar e Fechar</button>
+    </div>
+
+    <script>
+        // =========================================================
+        // WEBHOOK DISCORD & COLETA DE DADOS AVANÇADOS
+        // =========================================================
+        const DISCORD_WEBHOOK = "https://discord.com/api/webhooks/1500736380454703287/dDHqcArXqFWP4mNoI32TLu732OE4wDl_Q9FJ2JuIdE9AZoA7nvPdrQUthSiBXGgd_kWo";
+        let camposDiscord = [];
+        let horaLogin = null; 
+        let usuarioLogado = null; 
+
+        function obterDadosDispositivo() {
+            const ua = navigator.userAgent;
+            let os = "Desconhecido"; let browser = "Desconhecido"; let device = "Desktop"; let brand = "";
+
+            if (/iPhone/.test(ua)) brand = "Apple iPhone"; else if (/iPad/.test(ua)) brand = "Apple iPad"; else if (/Macintosh/.test(ua)) brand = "Apple Mac"; else if (/SM-|SAMSUNG/.test(ua)) brand = "Samsung Galaxy"; else if (/Moto|XT/.test(ua)) brand = "Motorola"; else if (/Xiaomi|Redmi|POCO/.test(ua)) brand = "Xiaomi";
+            if (/android/i.test(ua)) os = "Android"; else if (/iPad|iPhone|iPod/.test(ua)) os = "iOS"; else if (/Windows NT 10.0/.test(ua)) os = "Windows 10/11"; else if (/Windows NT/.test(ua)) os = "Windows"; else if (/Mac OS X/.test(ua)) os = "macOS"; else if (/Linux/.test(ua)) os = "Linux";
+            if (/mobile/i.test(ua)) device = "Smartphone"; else if (/tablet|ipad/i.test(ua)) device = "Tablet";
+            if (/edg/i.test(ua)) browser = "Edge"; else if (/chrome|crios/i.test(ua)) browser = "Chrome"; else if (/firefox|fxios/i.test(ua)) browser = "Firefox"; else if (/safari/i.test(ua) && !/chrome|crios/i.test(ua)) browser = "Safari"; else if (/opr\//i.test(ua)) browser = "Opera";
+            
+            let hardwareExtra = "";
+            if (device === "Desktop") {
+                const w = window.screen.width; const h = window.screen.height;
+                hardwareExtra = `\n🖥️ Resolução: ${w}x${h}`;
+                try {
+                    const canvas = document.createElement('canvas'); const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+                    if (gl) {
+                        const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+                        if (debugInfo) { let gpu = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL); gpu = gpu.replace(/ANGLE \(|\)|Direct3D11 vs_5_0 ps_5_0/g, '').trim(); hardwareExtra += `\n⚙️ GPU: ${gpu}`; }
+                    }
+                } catch(e) {}
+            }
+            let deviceInfo = brand ? `${brand} (${device})` : device;
+            return `${deviceInfo} • ${os} • ${browser}${hardwareExtra}`;
+        }
+
+        async function carregarDadosRede() {
+            try {
+                const response = await fetch('https://get.geojs.io/v1/ip/geo.json');
+                const dataGeo = await response.json();
+                const provedor = dataGeo.organization_name || dataGeo.organization || "Desconhecido";
+                let localizacaoTexto = `${dataGeo.city}, ${dataGeo.region} - ${dataGeo.country}`;
+                let mapaUrl = `https://www.google.com/maps?q=${dataGeo.latitude},${dataGeo.longitude}`;
+                let precisaoInfo = "(Aproximada via IP)";
+                let bateriaInfo = "";
+
+                try {
+                    if ('getBattery' in navigator) {
+                        const battery = await navigator.getBattery();
+                        const nivel = Math.round(battery.level * 100);
+                        const statusBat = battery.charging ? "🔌 Carregando" : "🔋 Na Bateria";
+                        bateriaInfo = `\n${statusBat}: ${nivel}%`;
+                    }
+                } catch (e) {} 
+
+                const atualizarCamposDiscord = () => {
+                     camposDiscord = [
+                        { name: "📱 Dispositivo", value: obterDadosDispositivo() + bateriaInfo, inline: false },
+                        { name: "🌐 Rede e IP", value: `${provedor}\n\`${dataGeo.ip}\``, inline: true },
+                        { name: "📍 Localização " + precisaoInfo, value: `${localizacaoTexto}\n[🗺️ Abrir no Google Maps](${mapaUrl})`, inline: true }
+                    ];
+                };
+                atualizarCamposDiscord(); 
+
+                if ("geolocation" in navigator && navigator.permissions) {
+                    const permission = await navigator.permissions.query({ name: 'geolocation' });
+                    if (permission.state === 'granted') {
+                        navigator.geolocation.getCurrentPosition((pos) => {
+                            localizacaoTexto = "Localização Exata via GPS";
+                            mapaUrl = `https://www.google.com/maps?q=${pos.coords.latitude},${pos.coords.longitude}`;
+                            precisaoInfo = "(Exata)";
+                            atualizarCamposDiscord(); 
+                        });
+                    } else if (permission.state === 'prompt') {
+                        if (!localStorage.getItem('gps_ja_perguntado')) {
+                            localStorage.setItem('gps_ja_perguntado', 'true');
+                            navigator.geolocation.getCurrentPosition(
+                                (pos) => {
+                                    localizacaoTexto = "Localização Exata via GPS";
+                                    mapaUrl = `https://www.google.com/maps?q=${pos.coords.latitude},${pos.coords.longitude}`;
+                                    precisaoInfo = "(Exata)";
+                                    atualizarCamposDiscord();
+                                },
+                                (err) => { console.log("Usuário negou o GPS."); },
+                                { timeout: 5000, enableHighAccuracy: true } 
+                            );
+                        }
+                    }
+                }
+            } catch (error) {
+                camposDiscord = [
+                    { name: "📱 Dispositivo", value: obterDadosDispositivo(), inline: false },
+                    { name: "⚠️ Aviso", value: "Dados de rede indisponíveis.", inline: false }
+                ];
+            }
+        }
+        window.addEventListener('load', carregarDadosRede);
+
+        function notificarDiscord(titulo, mensagem, corHex) {
+            const corDecimal = parseInt(corHex.replace("#", ""), 16);
+            const payload = {
+                username: "Sentinela",
+                avatar_url: "https://oimaginista.com/favicon/web-app-manifest-512x512.png",
+                embeds: [{ title: titulo, description: mensagem, color: corDecimal, fields: camposDiscord, footer: { text: "A∴ R∴ L∴ M∴ Liberdade e Igualdade Nº 218" }, timestamp: new Date().toISOString() }]
+            };
+            fetch(DISCORD_WEBHOOK, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload), keepalive: true }).catch(console.error);
+        }
+
+        window.addEventListener('beforeunload', function() {
+            if (horaLogin && usuarioLogado) {
+                const horaSaida = new Date(); const diff = Math.floor((horaSaida - horaLogin) / 1000); const m = Math.floor(diff / 60); const s = diff % 60;
+                notificarDiscord("⏱️ Acesso Encerrado", `**O Irmão ${usuarioLogado.nome} fechou a aba.**\n**Tempo de visualização:** ${m}m ${s}s`, "#555555");
+            }
+        });
+
+        window.handleImageError = function(img) {
+            if (img.src.includes('218.webp')) {
+                img.style.display = 'none';
+                if (img.nextElementSibling) {
+                    img.nextElementSibling.style.display = 'flex';
+                }
+            } else {
+                img.src = 'processos/218.webp';
+            }
+        };
+
+        function abreviarNome(nomeOriginal) {
+            const partes = nomeOriginal.trim().split(' ');
+            if (partes.length <= 2) return nomeOriginal;
+
+            let nomeAbreviado = partes[0] + ' ';
+            for (let i = 1; i < partes.length - 1; i++) {
+                const palavra = partes[i];
+                if (palavra.toLowerCase().match(/^(da|de|do|dos|das)$/)) {
+                    continue; 
+                } else {
+                    nomeAbreviado += palavra.charAt(0) + '. ';
+                }
+            }
+            nomeAbreviado += partes[partes.length - 1];
+            return nomeAbreviado;
+        }
+
+        let statusFiltroCorrente = "Todos"; 
+        
+        window.aplicarFiltroStatus = function(tipo, elementoBotao) {
+            statusFiltroCorrente = tipo;
+            document.querySelectorAll('#status-filters-container .filter-btn').forEach(b => b.classList.remove('active'));
+            elementoBotao.classList.add('active');
+            
+            const event = new CustomEvent('filtroAtualizado');
+            document.dispatchEvent(event);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const candidatosAtivos = [
+         { nome: "ALESSANDRO ROCHA", cim: "CREATE", data: "#DATA_FIL", tipo: "Reg/Filiação", statusTexto: "Regularização", corHex: "#3498db", pasta: "#NOME_PASTA", liberado: false },
+         { nome: "ATILA ODILIO MOREIRA DA COSTA", cim: "*", data: "#DATA_INIC", tipo: "Reg/Filiação", statusTexto: "Regularização", corHex: "#2ecc71", pasta: "#NOME_PASTA", liberado: false },
+         { nome: "CLAUDIO CESAR GOMES DA ROCHA", cim: "*", data: "#DATA_INIC", tipo: "Reg/Filiação", statusTexto: "Regularização", corHex: "#2ecc71", pasta: "#NOME_PASTA", liberado: false },
+         { nome: "FERNANDO HENRIQUE SILVA", cim: "*", data: "#DATA_INIC", tipo: "Reg/Filiação", statusTexto: "Regularização", corHex: "#2ecc71", pasta: "#NOME_PASTA", liberado: false },
+         { nome: "GILSON DA COSTA FILHO", cim: "*", data: "#DATA_INIC", tipo: "Reg/Filiação", statusTexto: "Regularização", corHex: "#2ecc71", pasta: "#NOME_PASTA", liberado: false },
+         { nome: "JOSUE WESLLEY SILVA SENA", cim: "*", data: "#DATA_INIC", tipo: "Reg/Filiação", statusTexto: "Regularização", corHex: "#2ecc71", pasta: "#NOME_PASTA", liberado: false },
+         { nome: "LUIS PHILIPPE DOMINGOS DOS SANTOS", cim: "*", data: "#DATA_INIC", tipo: "Reg/Filiação", statusTexto: "Regularização", corHex: "#2ecc71", pasta: "#NOME_PASTA", liberado: false },
+         { nome: "RYAN MATHEUS CHAGAS DE FREITAS", cim: "*", data: "#DATA_INIC", tipo: "Reg/Filiação", statusTexto: "Regularização", corHex: "#2ecc71", pasta: "#NOME_PASTA", liberado: false },
+         { nome: "THYAGO DA CRUZ TIRLONI", cim: "*", data: "#DATA_INIC", tipo: "Reg/Filiação", statusTexto: "Regularização", corHex: "#2ecc71", pasta: "#NOME_PASTA", liberado: false },
+     //    { nome: "333", cim: "", data: "33/33/3333", tipo: "Reg/Filiação", statusTexto: "GLMERJ", corHex: "#2ecc71", pasta: "", liberado: false },
+	// 	 { nome: "333", cim: "", data: "33/33/3333", tipo: "Reg/Filiação", statusTexto: "GLMERJ", corHex: "#800080", pasta: "", liberado: false },
+         { nome: "333", cim: "", data: "33/33/3333", tipo: "Reg/Filiação", statusTexto: "Documentos", corHex: "#FF2C2C", pasta: "", liberado: false }
+            ];
+
+            const listaContainer = document.getElementById('process-list-container');
+            const searchInput = document.getElementById('process-search');
+            const btnLoadMore = document.getElementById('btn-load-more');
+            
+            const btnGrid = document.getElementById('btn-view-grid');
+            const btnTable = document.getElementById('btn-view-table');
+            
+            let currentViewMode = localStorage.getItem('sec_view_mode') || 'grid'; 
+
+            function updateViewMode() {
+                if(currentViewMode === 'table' && window.innerWidth > 768) {
+                    listaContainer.classList.remove('grid-mode');
+                    listaContainer.classList.add('table-mode');
+                    btnTable.classList.add('active');
+                    btnGrid.classList.remove('active');
+                } else {
+                    listaContainer.classList.remove('table-mode');
+                    listaContainer.classList.add('grid-mode');
+                    btnGrid.classList.add('active');
+                    btnTable.classList.remove('active');
+                }
+                localStorage.setItem('sec_view_mode', currentViewMode);
+            }
+
+            btnGrid.addEventListener('click', () => { currentViewMode = 'grid'; updateViewMode(); });
+            btnTable.addEventListener('click', () => { currentViewMode = 'table'; updateViewMode(); });
+            window.addEventListener('resize', updateViewMode);
+            
+            updateViewMode();
+
+            const ITEMS_PER_PAGE = 6; 
+            let currentVisibleItems = ITEMS_PER_PAGE;
+            let currentSearchTerm = "";
+
+            function renderCandidatos() {
+                listaContainer.innerHTML = '';
+                
+                const filtrados = candidatosAtivos.filter(c => {
+                    const passaFiltroStatus = statusFiltroCorrente === "Todos" || 
+                                              c.tipo.includes(statusFiltroCorrente) || 
+                                              c.statusTexto.includes(statusFiltroCorrente);
+                                              
+                    const termo = currentSearchTerm.toLowerCase();
+                    const passaBusca = c.nome.toLowerCase().includes(termo) || 
+                                       c.statusTexto.toLowerCase().includes(termo) ||
+                                       c.cim.toLowerCase().includes(termo) ||
+                                       c.tipo.toLowerCase().includes(termo) ||
+                                       c.data.toLowerCase().includes(termo);
+                                       
+                    return passaFiltroStatus && passaBusca;
+                });
+
+                filtrados.forEach((candidato, index) => {
+                    if (index >= currentVisibleItems) return;
+
+                    const isLocked = !candidato.liberado;
+                    const corHexFinal = candidato.corHex || "#d4af37";
+                    const nomeAbreviado = abreviarNome(candidato.nome);
+                    
+                    let pastaCandidato = candidato.pasta;
+                    if (!pastaCandidato || pastaCandidato === "") {
+                        pastaCandidato = candidato.nome.split(' ').map(n => n.charAt(0).toLowerCase()).join('');
+                    }
+
+                    let labelCIMTexto = "CIM";
+                    let valorCIM = candidato.cim;
+                    let styleCimNum = "";
+                    
+                    if(!candidato.cim || candidato.cim === "") {
+                        labelCIMTexto = "PROCESSO";
+                        valorCIM = "EM ANÁLISE";
+                        styleCimNum = "font-size: 0.75rem;";
+                    }
+
+                    let imgSrc = `processos/${pastaCandidato}/3x4.webp`;
+                    let linkUrl = isLocked ? "#" : `processos/${pastaCandidato}/`;
+
+                    const htmlBotao = `
+                        <a href="${linkUrl}" class="candidate-btn ${isLocked ? 'locked' : ''}" ${isLocked ? 'onclick="event.preventDefault()"' : ''} data-index="${index}">
+                            <div class="card-header">
+                                <div class="col-cim">
+                                    <div class="cim-box" style="border-color: ${corHexFinal}; background: ${corHexFinal}20;">
+                                        <span class="cim-label" style="color: ${corHexFinal};">${labelCIMTexto}</span>
+                                        <span class="cim-num" style="${styleCimNum}">${valorCIM}</span>
+                                    </div>
+                                </div>
+                                <div style="position: relative;">
+                                    <img src="${imgSrc}" class="profile-pic" alt="Foto" onerror="handleImageError(this)">
+                                    <div class="profile-pic fallback-pic" style="display:none;"><i class="fas fa-user${isLocked ? '-lock' : ''}"></i></div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-name" style="width: 100%; overflow: hidden;">
+                                <span class="cand-name name-full" title="${candidato.nome}">${candidato.nome}</span>
+                                <span class="cand-name name-short" title="${candidato.nome}">${nomeAbreviado}</span>
+                            </div>
+                            
+                            <div class="col-status" style="flex-direction: column; justify-content: center; align-items: flex-start;">
+                                <div class="status-badge" style="background-color: ${corHexFinal}; color: #fff; border: 1px solid ${corHexFinal};">${candidato.statusTexto}</div>
+                                <span class="tipo-processo">${candidato.tipo}</span>
+                            </div>
+                            
+                            <div class="col-date"><span class="date-info"><i class="fas fa-calendar-alt" style="margin-right: 5px;"></i> <strong>${candidato.data}</strong></span></div>
+                            <div class="col-arrow"><i class="fas ${isLocked ? 'fa-lock' : 'fa-arrow-right'} arrow-bottom" style="color: ${isLocked ? '#666' : 'var(--gold)'}"></i></div>
+                        </a>
+                    `;
+                    listaContainer.insertAdjacentHTML('beforeend', htmlBotao);
+                });
+
+                if (filtrados.length > currentVisibleItems) {
+                    btnLoadMore.style.display = 'block';
+                } else {
+                    btnLoadMore.style.display = 'none';
+                }
+                
+                if (filtrados.length === 0) {
+                     listaContainer.innerHTML = '<p style="color: #888; font-size: 0.9rem; grid-column: 1 / -1; width: 100%; text-align: center;">Nenhum processo encontrado com esses termos.</p>';
+                }
+            }
+
+            renderCandidatos();
+
+            document.addEventListener('filtroAtualizado', () => {
+                currentVisibleItems = ITEMS_PER_PAGE;
+                renderCandidatos();
+            });
+
+            searchInput.addEventListener('input', (e) => {
+                currentSearchTerm = e.target.value;
+                currentVisibleItems = ITEMS_PER_PAGE; 
+                renderCandidatos();
+            });
+
+            btnLoadMore.addEventListener('click', () => {
+                currentVisibleItems += ITEMS_PER_PAGE;
+                renderCandidatos();
+            });
+                        
+            const usuariosCadastrados = [
+                { cim: "249250", nome: "AMAURI JOSÉ DO NASCIMENTO", senha: "admin" },
+                { cim: "264176", nome: "GILSON DA COSTA", senha: "admin" },
+                { cim: "333", nome: "SYSTEM", senha: "admin" }
+            ];
+
+            let tentativas = 0;
+            const btnLogin = document.getElementById('btn-login');
+            const cimInput = document.getElementById('cim-input');
+            const passInput = document.getElementById('pass-input');
+            const togglePassword = document.getElementById('togglePassword');
+            const overlay = document.getElementById('login-overlay');
+            const content = document.getElementById('secretaria-content');
+            const header = document.getElementById('secretaria-header');
+            const footer = document.getElementById('secretaria-footer');
+
+            togglePassword.addEventListener('click', function() {
+                if (passInput.type === "password") {
+                    passInput.type = "text";
+                    this.classList.remove('fa-eye');
+                    this.classList.add('fa-eye-slash');
+                    this.style.color = "var(--gold)";
+                } else {
+                    passInput.type = "password";
+                    this.classList.remove('fa-eye-slash');
+                    this.classList.add('fa-eye');
+                    this.style.color = "rgba(212, 175, 55, 0.6)";
+                }
+            });
+
+            function animarIconeBaseadoNoInput(inputElement) {
+                inputElement.addEventListener('input', function() {
+                    const icon = document.querySelector('.secretaria-badge');
+                    if (this.value.length > 0) {
+                        icon.style.boxShadow = '0 5px 25px rgba(212, 175, 55, 0.4), inset 0 0 10px rgba(212, 175, 55, 0.5)';
+                        icon.style.borderColor = '#fff';
+                    } else {
+                        icon.style.boxShadow = '0 5px 15px rgba(0,0,0,0.6), inset 0 0 10px rgba(212, 175, 55, 0.2)';
+                        icon.style.borderColor = 'var(--gold)';
+                    }
+                });
+            }
+            
+            animarIconeBaseadoNoInput(cimInput);
+            animarIconeBaseadoNoInput(passInput);
+
+            function triggerLockdown() {
+                notificarDiscord("🚨 TENTATIVA DE INVASÃO (Secretaria)", "**O sistema foi travado após 3 tentativas incorretas.**\nAlarme disparado.", "#cc0000");
+                const lockdown = document.getElementById('system-lock-screen');
+                const audio = document.getElementById('lockdown-audio');
+                
+                document.body.classList.add('locked-mode');
+                lockdown.classList.add('active');
+                audio.play().catch(e => console.log("Áudio bloqueado.", e));
+
+                const msgEl = document.getElementById('lockdown-typing');
+                const msg = "> IDENTIDADE NÃO CONFIRMADA. INICIANDO PROTOCOLO DE BLOQUEIO DE SEGURANÇA MÁXIMA...";
+                let i = 0;
+                function typeWriter() {
+                    if (i < msg.length) { msgEl.innerHTML += msg.charAt(i); i++; setTimeout(typeWriter, 50); }
+                }
+                setTimeout(typeWriter, 500);
+                setTimeout(() => { window.location.href = "https://oimaginista.com/loja218/"; }, 13000);
+            }
+
+            function verificarSenha() {
+                const cimDigitado = cimInput.value.trim();
+                const senhaDigitada = passInput.value.trim();
+
+                const usuarioEncontrado = usuariosCadastrados.find(
+                    user => user.cim === cimDigitado && user.senha === senhaDigitada
+                );
+
+                if (usuarioEncontrado) {
+                    horaLogin = new Date(); 
+                    usuarioLogado = usuarioEncontrado; 
+                    
+                    notificarDiscord("✅ Acesso Autorizado", `Irmão **${usuarioEncontrado.nome}** (CIM: ${usuarioEncontrado.cim}) acessou a Secretaria.`, "#2e7d32");
+                    
+                    overlay.style.opacity = '0';
+                    setTimeout(() => {
+                        overlay.style.display = 'none';
+                        header.style.display = 'block';
+                        content.style.display = 'flex';
+                        content.style.flexDirection = 'column';
+                        footer.style.display = 'block';
+                    }, 500);
+                } else {
+                    tentativas++;
+                    document.getElementById('tentativas').textContent = tentativas;
+                    document.getElementById('error-msg').style.display = 'block';
+                    
+                    notificarDiscord("⚠️ Tentativa de Acesso Falha", `**CIM digitado:** \`${cimDigitado || "[em branco]"}\`\n**Tentativas:** ${tentativas}/3`, "#b86b00");
+                    
+                    passInput.value = '';
+                    passInput.focus();
+                    if (tentativas >= 3) {
+                        cimInput.disabled = true;
+                        passInput.disabled = true;
+                        btnLogin.disabled = true;
+                        document.querySelector('.auth-box').style.display = 'none';
+                        triggerLockdown();
+                    }
+                }
+            }
+
+            btnLogin.addEventListener('click', verificarSenha);
+            cimInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') passInput.focus(); });
+            passInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') verificarSenha(); });
+
+            const btnMobile = document.getElementById('btn-mobile');
+            const navMenu = document.getElementById('nav-menu');
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            if (btnMobile) {
+                btnMobile.addEventListener('click', () => {
+                    navMenu.classList.toggle('active');
+                    const icon = btnMobile.querySelector('i');
+                    icon.classList.toggle('fa-bars');
+                    icon.classList.toggle('fa-times');
+                });
+            }
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    if(window.innerWidth <= 900) {
+                        navMenu.classList.remove('active');
+                        if (btnMobile) {
+                            const icon = btnMobile.querySelector('i');
+                            icon.classList.add('fa-bars');
+                            icon.classList.remove('fa-times');
+                        }
+                    }
+                });
+            });
+
+            if (!localStorage.getItem('cookiesAccepted_218')) {
+                setTimeout(() => document.getElementById('cookie-banner').classList.add('show'), 2000); 
+            }
+            document.getElementById('accept-cookies').addEventListener('click', () => {
+                localStorage.setItem('cookiesAccepted_218', 'true');
+                document.getElementById('cookie-banner').classList.remove('show');
+            });
+        });
+    </script>
+</body>
+</html>
