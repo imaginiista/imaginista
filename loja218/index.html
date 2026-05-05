@@ -348,7 +348,7 @@
         .btn-secretaria:hover { background: var(--gold); color: #000; box-shadow: 0 0 20px var(--gold-shadow); }
         .btn-secretaria::after { display: none; } 
         
-        #btn-install { display: none; background: rgba(135, 206, 235, 0.1); border-color: var(--blue-celeste); color: var(--blue-celeste); }
+        #btn-install { display: flex; background: rgba(135, 206, 235, 0.1); border-color: var(--blue-celeste); color: var(--blue-celeste); }
         #btn-install:hover { background: var(--blue-celeste); color: #000; box-shadow: 0 0 20px var(--blue-shadow); }
 
         .mobile-toggle { display: none; font-size: 1.8rem; color: var(--gold); background: none; border: none; cursor: pointer; }
@@ -507,7 +507,17 @@
             .motto-desktop { display: none; } .motto-mobile { display: block; } .motto-mobile span { display: block; }
             .motto-bot { color: var(--gold); font-weight: bold; margin-top: 5px; }
             
-            .hero-badge { padding: 6px 15px; margin-bottom: 30px; transform: scale(0.9); } 
+            /* Ajuste da centralização e tamanho do Badge no Mobile */
+            .hero-badge { 
+                display: flex; 
+                width: max-content; 
+                margin: 15px auto 30px auto; 
+                padding: 8px 20px; 
+                transform: none; 
+            } 
+            .hero-badge span { font-size: 0.85rem !important; }
+            .hero-badge img.badge-icon { height: 24px; }
+
             .btn-hero { font-size: 0.85rem; padding: 10px 20px; }
 
             .history-box { padding: 25px 20px; width: 100%; }
@@ -604,7 +614,7 @@
                     <li><a href="#faq" class="nav-link"><i class="fas fa-question-circle"></i> <span>FAQ</span></a></li>
                     <li><a href="#contato" class="nav-link"><i class="fas fa-envelope"></i> <span>Contato</span></a></li>
                     <li><a href="secretaria/" class="nav-link btn-secretaria"><i class="fas fa-lock"></i> <span>Secretaria</span></a></li>
-                    <li><a href="#" id="btn-install" class="nav-link btn-secretaria"><i class="fas fa-mobile-alt"></i> <span>Instalar App</span></a></li>
+                    <li id="li-install" style="display: none;"><a href="#" id="btn-install" class="nav-link btn-secretaria"><i class="fas fa-mobile-alt"></i> <span>Instalar App</span></a></li>
                 </ul>
             </nav>
 
@@ -779,7 +789,7 @@
             </div>
         </div>
         <div class="copyright">
-            <span>© 2026 A∴ R∴ L∴ M∴ Liberdade e Igualdade Nº 218. <br class="mobile-break">Todos os direitos reservados.</span>
+            <span>© 2026 A∴ R∴ L∴ M∴ Fraternidade Imperial Nº 264. Todos os direitos reservados.</span>
             <span>CNPJ: 00.000.000/0000-00</span>
         </div>
     </footer>
@@ -835,6 +845,7 @@
 
             let deferredPrompt;
             const installBtnFooter = document.getElementById('btn-install-footer');
+            const installLiMenu = document.getElementById('li-install'); /* Tag <li> inteira agora */
             const installBtnMenu = document.getElementById('btn-install');
             const isIos = /iphone|ipad|ipod/.test(window.navigator.userAgent.toLowerCase());
             const isStandalone = ('standalone' in window.navigator) && (window.navigator.standalone);
@@ -843,12 +854,12 @@
                 e.preventDefault(); 
                 deferredPrompt = e; 
                 installBtnFooter.style.display = 'inline-flex';
-                installBtnMenu.style.display = 'flex';
+                installLiMenu.style.display = 'block'; /* Exibe a li no menu */
             });
             
             if(isIos && !isStandalone) { 
                 installBtnFooter.style.display = 'inline-flex'; 
-                installBtnMenu.style.display = 'flex';
+                installLiMenu.style.display = 'block'; /* Exibe a li no menu */
             }
 
             installBtnFooter.addEventListener('click', async (e) => {
@@ -858,7 +869,7 @@
                     const { outcome } = await deferredPrompt.userChoice;
                     if (outcome === 'accepted') {
                         installBtnFooter.style.display = 'none';
-                        installBtnMenu.style.display = 'none';
+                        installLiMenu.style.display = 'none';
                     }
                     deferredPrompt = null;
                 } else if(isIos) {
@@ -873,7 +884,7 @@
                     const { outcome } = await deferredPrompt.userChoice;
                     if (outcome === 'accepted') {
                         installBtnFooter.style.display = 'none';
-                        installBtnMenu.style.display = 'none';
+                        installLiMenu.style.display = 'none';
                     }
                     deferredPrompt = null;
                 } else if(isIos) {
@@ -913,7 +924,7 @@
                                 iconPlayPause.classList.replace('fa-play', 'fa-pause');
                                 audioWrapper.classList.add('playing-anim');
                             }).catch(err => {
-                                console.log("Auto-play bloqueado aguardando clique.");
+                                console.log("Auto-play bloqueado aguardando interação.");
                             });
                         }, 1500); 
                     }
@@ -938,22 +949,25 @@
                 }
             }
 
-            function startAudioOnFirstClick() {
+            /* Função que tenta tocar o áudio em qualquer interação na página */
+            const initAudioPlayback = () => {
                 if (!isPlaying) {
                     bgAudio.play().then(() => {
                         isPlaying = true;
                         iconPlayPause.classList.replace('fa-play', 'fa-pause');
                         audioWrapper.classList.add('playing-anim');
-                    }).catch(err => console.log("Aguardando interação para tocar o áudio."));
+                    }).catch(e => console.log("Aguardando interação válida."));
                 }
-                document.removeEventListener('click', startAudioOnFirstClick);
-                document.removeEventListener('touchstart', startAudioOnFirstClick);
-                document.removeEventListener('scroll', startAudioOnFirstClick);
-            }
+                // Remove os eventos para não rodar a verificação toda hora
+                ['click', 'touchstart', 'keydown'].forEach(evt =>
+                    document.removeEventListener(evt, initAudioPlayback)
+                );
+            };
 
-            document.addEventListener('click', startAudioOnFirstClick, { once: true });
-            document.addEventListener('touchstart', startAudioOnFirstClick, { once: true });
-            document.addEventListener('scroll', startAudioOnFirstClick, { once: true });
+            // Adiciona a escuta de interação na página inteira
+            ['click', 'touchstart', 'keydown'].forEach(evt =>
+                document.addEventListener(evt, initAudioPlayback, { once: true })
+            );
 
             btnPlayPause.addEventListener('click', (e) => {
                 e.stopPropagation();
