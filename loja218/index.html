@@ -278,7 +278,7 @@
            ========================================================== */
         .audio-player-wrapper {
             position: fixed; top: 0; left: 0; width: 100%; height: 45px; z-index: 1005;
-            display: flex; justify-content: space-between; align-items: center; padding: 0 20px;
+            display: flex; justify-content: center; align-items: center; padding: 0 20px; gap: 20px;
             background: rgba(5, 16, 28, 0.98); border-bottom: 1px solid rgba(212, 175, 55, 0.4);
             box-shadow: 0 4px 15px rgba(0,0,0,0.5); backdrop-filter: blur(10px);
             transition: transform 0.6s ease, border-color 0.3s; transform: translateY(-100%);
@@ -447,8 +447,6 @@
         .footer-col h4 { color: var(--gold); font-family: 'Cinzel'; margin-bottom: 20px; font-size: 1.1rem; text-shadow: 0 2px 5px rgba(0,0,0,0.8);}
         .footer-contact p { margin-bottom: 12px; font-size: 0.9rem; color: #ddd; display: flex; align-items: flex-start; gap: 10px; text-shadow: 0 1px 3px rgba(0,0,0,0.9); line-height: 1.4; transition: color 0.4s;}
         .footer-contact i { color: var(--gold); margin-top: 3px; font-size: 1.1rem; width: 20px; text-align: center; flex-shrink: 0;}
-        .keep-together { white-space: nowrap; }
-        .mobile-break { display: none; } 
         .footer-social-center { text-align: center; }
         
         .social-btn { display: inline-flex; justify-content: center; align-items: center; width: 45px; height: 45px; border-radius: 50%; border: 1px solid rgba(135, 206, 235, 0.4); color: inherit; font-size: 1.2rem; margin: 0 8px; transition: 0.3s; text-decoration: none; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); cursor: pointer;}
@@ -498,7 +496,7 @@
             .mobile-toggle { display: block; margin-left: 5px; }
 
             /* Ajustes do Player no Topo para Mobile */
-            .audio-player-wrapper { padding: 0 10px; gap: 10px; }
+            .audio-player-wrapper { justify-content: center; padding: 0 10px; gap: 15px; }
             .audio-controls-group { padding-left: 10px; gap: 8px;}
             .audio-btn-vol { width: 24px; height: 24px; font-size: 0.7rem;}
             .audio-display { min-width: 35px; font-size: 0.8rem; }
@@ -536,7 +534,6 @@
             .mobile-center-col { display: flex; flex-direction: column; align-items: center; }
             .footer-contact { text-align: left; display: inline-block; width: fit-content; max-width: 100%; }
             .footer-contact p { justify-content: flex-start; }
-            .mobile-break { display: block; } 
             .footer-dev-right { align-items: center; }
             .copyright { flex-direction: column; gap: 10px; text-align: center; padding: 20px 10px; }
             .cookie-banner { flex-direction: column; text-align: center; padding: 20px; }
@@ -755,7 +752,10 @@
             <div class="footer-col mobile-center-col">
                 <h4>Fale Conosco</h4>
                 <div class="footer-contact">
-                    <p><i class="fas fa-map-pin"></i> <span>Rua Silva Cardoso, 141 - Bangu, <br class="mobile-break"><span class="keep-together">Rio de Janeiro - RJ, 21810-031</span></span></p>
+                    <p class="footer-address" style="display: flex; align-items: flex-start; gap: 10px;">
+                        <i class="fas fa-map-pin" style="margin-top: 5px;"></i> 
+                        <span>Rua Silva Cardoso, 141 - Bangu,<br>Rio de Janeiro - RJ, 21810-031</span>
+                    </p>
                     <p><i class="fas fa-clock"></i> <span>Reuniões: 2º e 4º Sábados do mês às 9h</span></p>
                     <p><i class="fas fa-envelope"></i> <span>liberdade@secretaria.com.br</span></p>
                 </div>
@@ -835,6 +835,7 @@
 
             let deferredPrompt;
             const installBtnFooter = document.getElementById('btn-install-footer');
+            const installBtnMenu = document.getElementById('btn-install');
             const isIos = /iphone|ipad|ipod/.test(window.navigator.userAgent.toLowerCase());
             const isStandalone = ('standalone' in window.navigator) && (window.navigator.standalone);
 
@@ -842,10 +843,12 @@
                 e.preventDefault(); 
                 deferredPrompt = e; 
                 installBtnFooter.style.display = 'inline-flex';
+                installBtnMenu.style.display = 'flex';
             });
             
             if(isIos && !isStandalone) { 
                 installBtnFooter.style.display = 'inline-flex'; 
+                installBtnMenu.style.display = 'flex';
             }
 
             installBtnFooter.addEventListener('click', async (e) => {
@@ -855,6 +858,22 @@
                     const { outcome } = await deferredPrompt.userChoice;
                     if (outcome === 'accepted') {
                         installBtnFooter.style.display = 'none';
+                        installBtnMenu.style.display = 'none';
+                    }
+                    deferredPrompt = null;
+                } else if(isIos) {
+                    alert('Para instalar no iPhone/iPad:\n1. Toque no ícone de "Compartilhar" na barra inferior do Safari.\n2. Selecione "Adicionar à Tela de Início".');
+                }
+            });
+
+            installBtnMenu.addEventListener('click', async (e) => {
+                e.preventDefault();
+                if (deferredPrompt) {
+                    deferredPrompt.prompt();
+                    const { outcome } = await deferredPrompt.userChoice;
+                    if (outcome === 'accepted') {
+                        installBtnFooter.style.display = 'none';
+                        installBtnMenu.style.display = 'none';
                     }
                     deferredPrompt = null;
                 } else if(isIos) {
@@ -925,14 +944,16 @@
                         isPlaying = true;
                         iconPlayPause.classList.replace('fa-play', 'fa-pause');
                         audioWrapper.classList.add('playing-anim');
-                    }).catch(err => console.log("Erro ao tocar áudio:", err));
+                    }).catch(err => console.log("Aguardando interação para tocar o áudio."));
                 }
                 document.removeEventListener('click', startAudioOnFirstClick);
                 document.removeEventListener('touchstart', startAudioOnFirstClick);
+                document.removeEventListener('scroll', startAudioOnFirstClick);
             }
 
             document.addEventListener('click', startAudioOnFirstClick, { once: true });
             document.addEventListener('touchstart', startAudioOnFirstClick, { once: true });
+            document.addEventListener('scroll', startAudioOnFirstClick, { once: true });
 
             btnPlayPause.addEventListener('click', (e) => {
                 e.stopPropagation();
