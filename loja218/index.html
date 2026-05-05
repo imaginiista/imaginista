@@ -614,7 +614,7 @@
                     <li><a href="#faq" class="nav-link"><i class="fas fa-question-circle"></i> <span>FAQ</span></a></li>
                     <li><a href="#contato" class="nav-link"><i class="fas fa-envelope"></i> <span>Contato</span></a></li>
                     <li><a href="secretaria/" class="nav-link btn-secretaria"><i class="fas fa-lock"></i> <span>Secretaria</span></a></li>
-                    <li id="li-install" style="display: none;"><a href="#" id="btn-install" class="nav-link btn-secretaria"><i class="fas fa-mobile-alt"></i> <span>Instalar App</span></a></li>
+                    <li id="li-install"><a href="#" id="btn-install" class="nav-link btn-secretaria"><i class="fas fa-mobile-alt"></i> <span>Instalar App</span></a></li>
                 </ul>
             </nav>
 
@@ -789,9 +789,9 @@
             </div>
         </div>
         <div class="copyright">
-            <span>© 2026 A∴ R∴ L∴ M∴ Fraternidade Imperial Nº 264. Todos os direitos reservados.</span>
-            <span>CNPJ: 00.000.000/0000-00</span>
-        </div>
+            <span>© 2026 A∴ R∴ L∴ M∴ Fraternidade Imperial Nº 264. <br class="mobile-break">Todos os direitos reservados.</span>
+              <span>CNPJ: 00.000.000/0000-00</span>
+          </div>
     </footer>
 
     <div class="floating-actions" id="floating-actions">
@@ -878,19 +878,22 @@
             });
 
             installBtnMenu.addEventListener('click', async (e) => {
-                e.preventDefault();
+                  e.preventDefault();
                 if (deferredPrompt) {
-                    deferredPrompt.prompt();
-                    const { outcome } = await deferredPrompt.userChoice;
-                    if (outcome === 'accepted') {
-                        installBtnFooter.style.display = 'none';
-                        installLiMenu.style.display = 'none';
-                    }
-                    deferredPrompt = null;
-                } else if(isIos) {
+                 deferredPrompt.prompt();
+                 const { outcome } = await deferredPrompt.userChoice;
+                   if (outcome === 'accepted') {
+                      installBtnFooter.style.display = 'none';
+                      installLiMenu.style.display = 'none';
+                      }
+                   deferredPrompt = null;
+                  } else if(isIos) {
                     alert('Para instalar no iPhone/iPad:\n1. Toque no ícone de "Compartilhar" na barra inferior do Safari.\n2. Selecione "Adicionar à Tela de Início".');
-                }
-            });
+                    } else {
+                    // Nova mensagem para navegadores de PC ou Android que não engatilharam o prompt automático
+                        alert('Para instalar o aplicativo, acesse o menu de opções do seu navegador (três pontinhos no canto superior) e selecione "Instalar Aplicativo" ou "Adicionar à Tela Inicial".');
+                   }
+               });
 
             /* ==========================================================
                3. LOADING SCREEN E DESTRAVE DE ROLAGEM
