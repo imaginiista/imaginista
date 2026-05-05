@@ -30,7 +30,7 @@
     <meta property="og:image:width" content="512">
     <meta property="og:image:height" content="512">
     
-    <style>
+<style>
         /* ==========================================================
            0. VARIÁVEIS GERAIS E MODO NOTURNO (PADRÃO)
            ========================================================== */
@@ -477,11 +477,15 @@
         .cookie-text a { color: var(--gold); }
         .cookie-btn { background: var(--gold); color: #000; border: none; padding: 12px 25px; font-weight: bold; cursor: pointer; border-radius: 4px; transition: 0.3s; white-space: nowrap; }
         .cookie-btn:hover { background: #fff; }
+        
+        .mobile-block { display: inline; } /* Classe inserida para o PC */
 
         /* ==========================================================
            7. RESPONSIVIDADE (MOBILE)
            ========================================================== */
         @media (max-width: 900px) {
+            .mobile-block { display: block; } /* Classe inserida para o Mobile */
+
             .header-inner { padding: 0 15px; flex-wrap: nowrap; justify-content: space-between; }
             .logo-group { gap: 10px; }
             .logo-img { height: 45px; }
@@ -789,9 +793,9 @@
             </div>
         </div>
         <div class="copyright">
-            <span>© 2026 A∴ R∴ L∴ M∴ Fraternidade Imperial Nº 264. <br class="mobile-break">Todos os direitos reservados.</span>
-              <span>CNPJ: 00.000.000/0000-00</span>
-          </div>
+            <span>© 2026 A∴ R∴ L∴ M∴ Fraternidade Imperial Nº 264. <span class="mobile-block">Todos os direitos reservados.</span></span>
+            <span>CNPJ: 00.000.000/0000-00</span>
+        </div>
     </footer>
 
     <div class="floating-actions" id="floating-actions">
