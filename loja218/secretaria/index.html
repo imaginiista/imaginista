@@ -516,7 +516,8 @@
         .cookie-text { font-size: 0.9rem; color: #ccc; max-width: 800px; text-align: center; line-height: 1.4;}
         .cookie-btn { background: var(--gold); color: #000; border: none; padding: 12px 25px; font-weight: bold; cursor: pointer; border-radius: 4px; transition: 0.3s; text-transform: uppercase; font-size: 0.75rem;}
 
-        @media (max-width: 900px) {
+        
+		   @media (max-width: 900px) {
             .brasao-container { width: 100px; height: 100px; margin-bottom: 15px; } 
             .page-title { line-height: 1.4; margin-bottom: 15px; font-size: 5.5vw; } 
             p.subtitle { font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 25px; }
@@ -526,21 +527,31 @@
             .view-toggle-container { width: 100%; justify-content: center; }
             .view-btn { flex: 1; }
 
-            /* Grid e Table mode no mobile se comportam igual 1 coluna */
-            .process-list.grid-mode, .process-list.table-mode { grid-template-columns: 1fr; gap: 10px; width: 100%; padding: 0 10px; box-sizing: border-box; display: grid;}
+            /* --- COMPORTAMENTO GRID (CARD) NO MOBILE --- */
+            .process-list.grid-mode { grid-template-columns: 1fr; gap: 10px; width: 100%; padding: 0 10px; box-sizing: border-box; display: grid; }
+            .process-list.grid-mode .candidate-btn { display: flex; flex-direction: column; padding: 20px; width: 100%; box-sizing: border-box; align-items: flex-start; }
+            .process-list.grid-mode .card-header { justify-content: space-between; width: 100%; margin-bottom: 15px; }
+            .process-list.grid-mode .col-name { margin-bottom: 10px; width: 100%;}
+            .process-list.grid-mode .cand-name { font-size: 1.1rem; }
+            .process-list.grid-mode .col-status { align-items: flex-start !important; margin-bottom: 10px; justify-content: flex-start; width: 100%;}
+            .process-list.grid-mode .tipo-processo { text-align: left; }
+            .process-list.grid-mode .col-date { justify-content: flex-start; text-align: left; width: 100%; margin-bottom: 10px;}
+            .process-list.grid-mode .col-arrow { justify-content: flex-end; width: 100%; margin-top: auto;}
+
+            /* --- COMPORTAMENTO TABLE (LISTA) NO MOBILE --- */
+            .process-list.table-mode { display: flex; flex-direction: column; gap: 10px; width: 100%; padding: 0 10px; box-sizing: border-box; }
+            .process-list.table-mode .candidate-btn { display: grid; grid-template-columns: auto 1fr auto; gap: 10px; padding: 12px; align-items: center; }
+            .process-list.table-mode .card-header { display: contents; } 
+            .process-list.table-mode .col-cim { display: none; } 
+            .process-list.table-mode .col-name { flex-direction: column; align-items: flex-start; }
+            .process-list.table-mode .cand-name { font-size: 0.9rem; white-space: normal; }
+            .process-list.table-mode .col-status { display: none; } 
+            .process-list.table-mode .col-date { font-size: 0.75rem; text-align: right; }
+            /* FIM DO CÓDIGO NOVO */
             
-            .process-list.table-mode .candidate-btn, .process-list.grid-mode .candidate-btn { 
-                display: flex; flex-direction: column; padding: 20px; width: 100%; max-width: 100%; box-sizing: border-box; align-items: flex-start;
-            }
-            .process-list.table-mode .card-header, .process-list.grid-mode .card-header { justify-content: space-between; width: 100%; margin-bottom: 15px; }
-            .process-list.table-mode .col-cim, .process-list.grid-mode .col-cim { width: auto; }
-            .process-list.table-mode .col-name, .process-list.grid-mode .col-name { margin-bottom: 10px; width: 100%;}
-            .process-list.table-mode .cand-name, .process-list.grid-mode .cand-name { font-size: 1.1rem; }
-            .process-list.table-mode .col-status, .process-list.grid-mode .col-status { align-items: flex-start !important; margin-bottom: 10px; justify-content: flex-start; width: 100%;}
-            .process-list.table-mode .tipo-processo, .process-list.grid-mode .tipo-processo { text-align: left; }
-            .process-list.table-mode .col-date, .process-list.grid-mode .col-date { justify-content: flex-start; text-align: left; width: 100%; margin-bottom: 10px;}
-            .process-list.table-mode .col-arrow, .process-list.grid-mode .col-arrow { justify-content: flex-end; width: 100%; margin-top: auto;}
-            
+            .header-inner { padding: 0 15px; flex-wrap: nowrap; justify-content: space-between; }
+            .logo-img { height: 40px; }
+		
             .header-inner { padding: 0 15px; flex-wrap: nowrap; justify-content: space-between; }
             .logo-img { height: 40px; }
             
@@ -870,12 +881,12 @@
 
             const candidatosAtivos = [
          { nome: "ALESSANDRO ROCHA", cim: "ANÁLISE", data: "#DATA_FIL", tipo: "Reg/Filiação", statusTexto: "INICIAL", corHex: "#3498db", pasta: "ar", liberado: false },
-         { nome: "ATILA ODILIO MOREIRA DA COSTA", cim: "*", data: "#DATA_INIC", tipo: "Reg/Filiação", statusTexto: "INICIAL", corHex: "#3498db", pasta: "aomc", liberado: false },
-         { nome: "CLAUDIO CESAR GOMES DA ROCHA", cim: "*", data: "#DATA_INIC", tipo: "Reg/Filiação", statusTexto: "INICIAL", corHex: "#3498db", pasta: "ccgr", liberado: false },
-         { nome: "FERNANDO HENRIQUE SILVA", cim: "*", data: "#DATA_INIC", tipo: "Reg/Filiação", statusTexto: "INICIAL", corHex: "#3498db", pasta: "fhs", liberado: false },
+         { nome: "ATILA ODILIO MOREIRA DA COSTA", cim: "LGPD", data: "#DATA_INIC", tipo: "Reg/Filiação", statusTexto: "INICIAL", corHex: "#3498db", pasta: "aomc", liberado: true },
+         { nome: "CLAUDIO CESAR GOMES DA ROCHA", cim: "LGPD", data: "#DATA_INIC", tipo: "Reg/Filiação", statusTexto: "INICIAL", corHex: "#3498db", pasta: "ccgr", liberado: true },
+         { nome: "FERNANDO HENRIQUE SILVA", cim: "LGPD", data: "#DATA_INIC", tipo: "Reg/Filiação", statusTexto: "INICIAL", corHex: "#3498db", pasta: "fhs", liberado: true },
          { nome: "GILSON DA COSTA FILHO", cim: "*", data: "#DATA_INIC", tipo: "Reg/Filiação", statusTexto: "INICIAL", corHex: "#3498db", pasta: "gcf", liberado: false },
-         { nome: "JOSUE WESLLEY SILVA SENA", cim: "LGPD", data: "#DATA_INIC", tipo: "Reg/Filiação", statusTexto: "INICIAL", corHex: "#3498db", pasta: "jwss", liberado: false },
-         { nome: "LUIS PHILIPPE DOMINGOS DOS SANTOS", cim: "*", data: "#DATA_INIC", tipo: "Reg/Filiação", statusTexto: "INICIAL", corHex: "#3498db", pasta: "lpds", liberado: false },
+         { nome: "JOSUE WESLLEY SILVA SENA", cim: "LGPD", data: "#DATA_INIC", tipo: "Reg/Filiação", statusTexto: "INICIAL", corHex: "#3498db", pasta: "jwss", liberado: true },
+         { nome: "LUIS PHILIPPE DOMINGOS DOS SANTOS", cim: "LGPD", data: "#DATA_INIC", tipo: "Reg/Filiação", statusTexto: "INICIAL", corHex: "#3498db", pasta: "lpds", liberado: true },
 		 { nome: "PATRICK FREIRE LUCAS", cim: "*", data: "#DATA_INIC", tipo: "Reg/Filiação", statusTexto: "INICIAL", corHex: "#3498db", pasta: "pfl", liberado: false },
          { nome: "RYAN MATHEUS CHAGAS DE FREITAS", cim: "*", data: "#DATA_INIC", tipo: "Reg/Filiação", statusTexto: "INICIAL", corHex: "#3498db", pasta: "rmcf", liberado: false },
          { nome: "THYAGO DA CRUZ TIRLONI", cim: "*", data: "#DATA_INIC", tipo: "Reg/Filiação", statusTexto: "INICIAL", corHex: "#3498db", pasta: "tct", liberado: false },
@@ -894,19 +905,19 @@
             let currentViewMode = localStorage.getItem('sec_view_mode') || 'grid'; 
 
             function updateViewMode() {
-                if(currentViewMode === 'table' && window.innerWidth > 768) {
-                    listaContainer.classList.remove('grid-mode');
-                    listaContainer.classList.add('table-mode');
-                    btnTable.classList.add('active');
-                    btnGrid.classList.remove('active');
-                } else {
-                    listaContainer.classList.remove('table-mode');
-                    listaContainer.classList.add('grid-mode');
-                    btnGrid.classList.add('active');
-                    btnTable.classList.remove('active');
-                }
-                localStorage.setItem('sec_view_mode', currentViewMode);
+               if(currentViewMode === 'table') { 
+               listaContainer.classList.remove('grid-mode');
+               listaContainer.classList.add('table-mode');
+               btnTable.classList.add('active');
+               btnGrid.classList.remove('active');
+              } else {
+                listaContainer.classList.remove('table-mode');
+                listaContainer.classList.add('grid-mode');
+             btnGrid.classList.add('active');
+             btnTable.classList.remove('active');
             }
+               localStorage.setItem('sec_view_mode', currentViewMode);
+          }
 
             btnGrid.addEventListener('click', () => { currentViewMode = 'grid'; updateViewMode(); });
             btnTable.addEventListener('click', () => { currentViewMode = 'table'; updateViewMode(); });
@@ -993,11 +1004,19 @@
                     listaContainer.insertAdjacentHTML('beforeend', htmlBotao);
                 });
 
-                if (filtrados.length > currentVisibleItems) {
+                // Exibe o botão se houver mais itens totais do que o limite inicial da página
+                 if (filtrados.length > ITEMS_PER_PAGE) {
                     btnLoadMore.style.display = 'block';
-                } else {
-                    btnLoadMore.style.display = 'none';
-                }
+    
+                 // Se a quantidade visível na tela for maior ou igual ao total filtrado, muda para "Recolher"
+                  if (currentVisibleItems >= filtrados.length) {
+                     btnLoadMore.innerHTML = 'Recolher Processos <i class="fas fa-chevron-up" style="margin-left: 5px;"></i>';
+                      } else {
+                       btnLoadMore.innerHTML = 'Ver Mais Processos <i class="fas fa-chevron-down" style="margin-left: 5px;"></i>';
+                        }
+                       } else {
+                        btnLoadMore.style.display = 'none';
+                      }
                 
                 if (filtrados.length === 0) {
                      listaContainer.innerHTML = '<p style="color: #888; font-size: 0.9rem; grid-column: 1 / -1; width: 100%; text-align: center;">Nenhum processo encontrado com esses termos.</p>';
@@ -1018,9 +1037,17 @@
             });
 
             btnLoadMore.addEventListener('click', () => {
-                currentVisibleItems += ITEMS_PER_PAGE;
-                renderCandidatos();
-            });
+    // Verifica se o botão está no modo de recolher
+    if (btnLoadMore.innerHTML.includes('Recolher')) {
+        currentVisibleItems = ITEMS_PER_PAGE; // Volta para a quantidade inicial de itens
+        
+        // Bônus UX: Rola a tela suavemente de volta para o topo da lista
+        document.querySelector('.section-title').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else {
+        currentVisibleItems += ITEMS_PER_PAGE; // Carrega mais itens
+    }
+    renderCandidatos();
+});
                         
             const usuariosCadastrados = [
                 { cim: "249250", nome: "AMAURI JOSÉ DO NASCIMENTO", senha: "admin" },
