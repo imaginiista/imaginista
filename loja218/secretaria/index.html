@@ -944,8 +944,8 @@
                 
                 const filtrados = candidatosAtivos.filter(c => {
                     const passaFiltroStatus = statusFiltroCorrente === "Todos" || 
-                                              c.tipo.includes(statusFiltroCorrente) || 
-                                              c.statusTexto.includes(statusFiltroCorrente);
+                          c.tipo.toLowerCase().includes(statusFiltroCorrente.toLowerCase()) || 
+                          c.statusTexto.toLowerCase().includes(statusFiltroCorrente.toLowerCase());
                                               
                     const termo = currentSearchTerm.toLowerCase();
                     const passaBusca = c.nome.toLowerCase().includes(termo) || 
