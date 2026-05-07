@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Painel Financeiro | A∴R∴L∴M∴ 218</title>
+    
+    <style>
+        /* ==========================================================
+           VARIÁVEIS GLOBAIS E TEMA CINEMÁTICO
+           ========================================================== */
+        :root {
+            --bg-dark: #020617;
+            --panel-bg: rgba(15, 23, 42, 0.75);
+            --card-bg: rgba(30, 41, 59, 0.85);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --brand-gold: #d4af37;
+            --brand-gold-light: #fef08a;
+            --status-green: #10b981;
+            --status-red: #ef4444;
+            --status-blue: #3b82f6;
+            --border-subtle: rgba(255, 255, 255, 0.08);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
+
+        body {
+            background-color: var(--bg-dark); color: var(--text-main);
+            min-height: 100vh; display: flex; flex-direction: column;
+            overflow-y: auto; overflow-x: hidden; position: relative;
+        }
+
+        body::before {
+            content: ''; position: fixed; top: -50%; left: -50%; 
+            width: 200%; height: 200%;
+            background: radial-gradient(circle at center, rgba(212, 175, 55, 0.05) 0%, transparent 60%);
+            z-index: -2; pointer-events: none;
+        }
+
+        #techCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+
+        /* ==========================================================
+           ESTRUTURA PRINCIPAL
+           ========================================================== */
+        .app-container {
+            flex: 1; display: flex; flex-direction: column; width: 100%; max-width: 1400px;
+            margin: 0 auto; padding: 20px; gap: 20px; z-index: 1; position: relative;
+            animation: fadeIn 0.8s;
+        }
+        @media (min-width: 1024px) { .app-container { flex-direction: row; padding: 25px 20px; gap: 40px; align-items: flex-start; } }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* PAINEL ESQUERDO */
+        .dashboard-side {
+            width: 100%; background: var(--panel-bg); border: 1px solid var(--border-subtle); border-radius: 16px; 
+            padding: 30px; display: flex; flex-direction: column; box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); flex-shrink: 0;
+        }
+        @media (min-width: 1024px) { .dashboard-side { width: 380px; min-width: 380px; position: sticky; top: 40px; } }
+
+        .header-top-row { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 25px; width: 100%; }
+        
+        .btn-logout {
+            background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); color: var(--status-red);
+            padding: 6px 12px; border-radius: 6px; font-size: 0.8rem; font-weight: bold; cursor: pointer; transition: 0.3s;
+            display: none; /* Só aparece logado */
+        }
+        .btn-logout:hover { background: var(--status-red); color: #fff; }
+
+        .badge-secure { font-size: 0.8rem; color: var(--brand-gold); font-weight: bold; display: inline-flex; align-items: center; gap: 5px; border: 1px solid rgba(212, 175, 55, 0.3); padding: 6px 12px; border-radius: 6px; background: rgba(212, 175, 55, 0.05); }
+
+        .client-info h1 { font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px; }
+        .client-info h2 { font-size: 1.8rem; font-weight: 700; color: var(--brand-gold); line-height: 1.1; margin-bottom: 8px; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
+
+        /* ==========================================================
+           ÁREA DE LOCK E LOGIN (NO PAINEL ESQUERDO)
+           ========================================================== */
+        .lock-area {
+            flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center;
+            background: rgba(0,0,0,0.2); border-radius: 12px; padding: 30px 20px; margin-top: 20px;
+            border: 1px dashed rgba(255,255,255,0.1); text-align: center;
+        }
+
+        .lock-title { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; }
+
+        .lock-btn {
+            font-size: 2.5rem; background: rgba(212, 175, 55, 0.1); border: 2px solid var(--brand-gold);
+            width: 80px; height: 80px; border-radius: 50%; display: flex; justify-content: center; align-items: center;
+            cursor: pointer; transition: all 0.3s; box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+        }
+        .lock-btn:hover { transform: scale(1.1); background: rgba(212, 175, 55, 0.2); box-shadow: 0 0 30px rgba(212, 175, 55, 0.4); }
+
+        .login-form { display: none; width: 100%; animation: fadeIn 0.4s; }
+        .login-form input { width: 100%; padding: 12px 15px; margin-bottom: 15px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.4); color: #fff; font-size: 0.9rem; }
+        .login-form input:focus { outline: none; border-color: var(--brand-gold); }
+        
+        .btn-enter { width: 100%; padding: 12px; background: var(--brand-gold); color: #000; border: none; border-radius: 8px; font-weight: bold; font-size: 0.9rem; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; }
+        .btn-enter:hover { background: var(--brand-gold-light); box-shadow: 0 0 15px rgba(212, 175, 55, 0.4); }
+        .error-msg { color: var(--status-red); font-size: 0.8rem; margin-top: 10px; display: none; }
+
+        /* Oculto até logar */
+        .secret-area { display: none; flex-direction: column; animation: fadeIn 0.5s; }
+
+        /* Dados Financeiros */
+        .finance-summary { margin: 20px 0; padding-bottom: 30px; border-bottom: 1px solid var(--border-subtle); }
+        .summary-label { font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+        .total-value { font-size: 2.5rem; font-weight: 800; color: #fff; text-shadow: 0 4px 20px rgba(255,255,255,0.1); transition: font-size 0.3s; }
+        .total-expected { font-size: 0.9rem; color: var(--text-muted); margin-top: 5px; }
+
+        .progress-container { margin-top: 25px; width: 100%; }
+        .progress-bar-bg { background: rgba(255,255,255,0.05); height: 8px; border-radius: 10px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); width: 100%; }
+        .progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--status-green), #34d399); width: 0%; transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 0 10px var(--status-green); }
+        .progress-text { display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-muted); margin-top: 10px; font-weight: bold; }
+
+        .pix-section { background: rgba(16, 185, 129, 0.05); padding: 20px; border-radius: 12px; border: 1px solid rgba(16, 185, 129, 0.15); width: 100%; }
+        .pix-header { color: var(--status-green); font-size: 0.8rem; font-weight: bold; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; letter-spacing: 1px; }
+        .pix-action { display: flex; gap: 10px; flex-wrap: wrap; width: 100%; }
+        .pix-key-display { flex: 1; background: rgba(0,0,0,0.4); padding: 12px; border-radius: 8px; font-family: monospace; font-size: 1.05rem; color: #fff; border: 1px solid rgba(255,255,255,0.1); overflow: hidden; text-overflow: ellipsis; }
+        .btn-copy { background: var(--status-green); color: #000; border: none; padding: 12px 20px; border-radius: 8px; font-weight: 800; cursor: pointer; transition: all 0.2s; text-transform: uppercase; }
+        .btn-copy:hover { box-shadow: 0 0 15px rgba(16, 185, 129, 0.4); }
+
+        /* PAINEL DIREITO: TABELA E FILTROS */
+        .list-side {
+            flex: 1; display: flex; flex-direction: column; background: var(--panel-bg); border: 1px solid var(--border-subtle);
+            border-radius: 16px; overflow: hidden; backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.4); width: 100%;
+        }
+
+        .list-header { padding: 25px 30px; border-bottom: 1px solid var(--border-subtle); background: rgba(0,0,0,0.3); display: flex; flex-direction: column; gap: 15px; }
+        .list-title-row { display: flex; justify-content: space-between; align-items: center; }
+        .list-title { font-size: 1.1rem; font-weight: bold; color: var(--brand-gold); text-transform: uppercase; letter-spacing: 1px; }
+
+        .btn-toggle-pagos {
+            background: transparent; border: 1px solid rgba(255,255,255,0.2); color: var(--text-muted);
+            padding: 6px 12px; border-radius: 20px; font-size: 0.8rem; cursor: pointer; transition: all 0.3s;
+        }
+        .btn-toggle-pagos.active { background: rgba(16, 185, 129, 0.1); border-color: var(--status-green); color: var(--status-green); }
+
+        .filters { display: flex; gap: 10px; flex-wrap: wrap; width: 100%; }
+        .filter-btn { background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-subtle); color: var(--text-muted); padding: 8px 16px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: all 0.3s; text-transform: uppercase; letter-spacing: 1px; }
+        .filter-btn:hover { background: rgba(255, 255, 255, 0.1); color: #fff; }
+        .filter-btn.active { background: rgba(212, 175, 55, 0.15); border-color: var(--brand-gold); color: var(--brand-gold); box-shadow: 0 0 10px rgba(212, 175, 55, 0.2); }
+
+        .table-container { padding: 20px 30px; overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.9em; min-width: 600px; }
+        th, td { padding: 12px 10px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.05); transition: background 0.2s; }
+        th { color: var(--brand-gold); text-transform: uppercase; font-size: 0.8em; letter-spacing: 1px; }
+        td:nth-child(2) { text-transform: uppercase; text-align: left; font-weight: 500; }
+        tr:hover { background: rgba(255,255,255,0.03); }
+
+        /* Cursor default pois não haverá mais clique para alterar */
+        .status-cell { cursor: default; font-weight: bold; padding: 6px 12px; border-radius: 6px; display: inline-block; white-space: nowrap; user-select: none; }
+        .pendente { background: rgba(239, 68, 68, 0.1); color: var(--status-red); border: 1px solid rgba(239, 68, 68, 0.3); }
+        .pago { background: rgba(16, 185, 129, 0.1); color: var(--status-green); border: 1px solid rgba(16, 185, 129, 0.3); }
+
+        .linha-paga td { color: var(--text-muted); }
+        .linha-paga td:not(:last-child) { text-decoration: line-through; opacity: 0.5; }
+
+        /* ==========================================================
+           RODAPÉ E TOAST
+           ========================================================== */
+        .footer-imaginista { display: flex; flex-direction: column; align-items: center; padding: 45px 20px 30px; margin-top: 30px; z-index: 10; border-top: 1px solid var(--border-subtle); background: linear-gradient(to top, rgba(15, 23, 42, 0.9) 0%, transparent 100%); }
+        .footer-logo-box { margin-bottom: 12px; transition: transform 0.3s; }
+        .footer-logo-box:hover { transform: scale(1.05); }
+        .footer-logo { height: 65px; width: auto; opacity: 0.8; cursor: pointer; filter: drop-shadow(0 0 5px rgba(212, 175, 55, 0.1)); transition: 0.4s ease; }
+        .footer-logo:hover { opacity: 1; filter: drop-shadow(0 0 15px var(--brand-gold)); }
+        .fallback-logo { color: #fff; font-weight: 300; letter-spacing: 4px; font-size: 1.2rem; text-shadow: 0 0 10px rgba(255,255,255,0.2); margin: 0; }
+        .footer-text { text-align: center; font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; }
+        .footer-link { color: var(--text-main); text-decoration: none; font-weight: 600; letter-spacing: 1px; transition: color 0.3s; text-transform: uppercase; }
+        .footer-link:hover { color: var(--brand-gold); }
+        .copyright { font-size: 0.95rem; margin-top: 5px; opacity: 0.6; }
+        .dot-gold { color: var(--brand-gold); font-weight: bold; margin: 0 3px; }
+
+        .toast { position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%) translateY(150px); background: var(--status-green); color: #000; font-weight: 800; padding: 14px 28px; border-radius: 30px; z-index: 1000; opacity: 0; transition: all 0.4s; box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4); }
+        .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+        @media (max-width: 768px) {
+            .app-container { padding: 15px; gap: 15px; }
+            .dashboard-side { padding: 20px 15px; } 
+            .client-info h2 { font-size: 1.5rem; } 
+            .total-value { font-size: 2.2rem; } 
+            .list-header { padding: 20px 15px; }
+            .table-container { padding: 5px 15px 15px; }
+            table { min-width: 480px; } 
+            th, td { padding: 14px 8px; font-size: 0.82em; }
+            .filters { justify-content: center; gap: 6px; }
+            .filter-btn { flex: 1 1 auto; min-width: 80px; padding: 8px 10px; font-size: 0.75rem; text-align: center; }
+            .status-cell { padding: 6px 10px; font-size: 0.85em; }
+            .pix-action { flex-direction: column; }
+            .btn-copy { width: 100%; padding: 14px; }
+        }
+    </style>
+</head>
+<body> 
+    
+    <canvas id="techCanvas"></canvas>
+    <div id="toastMsg" class="toast"><span>✅</span> Chave PIX copiada com sucesso!</div>
+
+    <div class="app-container" id="mainDashboard">
+        
+        <aside class="dashboard-side">
+            <div class="header-top-row">
+                <button id="btnSair" class="btn-logout" onclick="fazerLogout()">Sair 🚪</button>
+                <div class="badge-secure">A∴R∴L∴M∴ 218</div>
+            </div>
+
+            <div class="client-info">
+                <h1>Painel Financeiro</h1>
+                <h2>Processo de Admissão</h2>
+                <div class="summary-label" style="margin-top: 5px;">Reg / Filiação / Iniciação</div>
+            </div>
+
+            <div id="financeLockArea" class="lock-area">
+                <div class="lock-title">Dados restritos à Tesouraria</div>
+                <div class="lock-btn" id="btnUnlock" onclick="showLoginForm()">🔒</div>
+                
+                <div class="login-form" id="loginFormArea">
+                    <input type="text" id="userLogin" placeholder="∴">
+                    <input type="password" id="passLogin" placeholder="***">
+                    <button class="btn-enter" onclick="validarLogin()">Desbloquear Painel</button>
+                    <div id="errorMsg" class="error-msg">Credenciais incorretas.</div>
+                </div>
+            </div>
+
+            <div id="financeSecretArea" class="secret-area">
+                <div class="finance-summary">
+                    <div class="summary-label">Total Arrecadado</div>
+                    <div class="total-value" id="valorArrecadado">R$ 0,00</div>
+                    <div class="total-expected" id="textoTotalPrevisto">de R$ -- previstos</div>
+                    
+                    <div class="progress-container">
+                        <div class="progress-bar-bg">
+                            <div class="progress-bar-fill" id="progressBar"></div>
+                        </div>
+                        <div class="progress-text">
+                            <span id="contadorPagos">0 pagos</span>
+                            <span id="progressPercent">0%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pix-section">
+                    <div class="pix-header"><span>💠</span> CHAVE PIX DA TESOURARIA</div>
+                    <div class="pix-action">
+                        <div class="pix-key-display" id="pixKey">21983340089</div>
+                        <button class="btn-copy" onclick="copyPix()">COPIAR</button>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <main class="list-side">
+            <div class="list-header">
+                <div class="list-title-row">
+                    <div class="list-title">Situação dos Candidatos</div>
+                    <button id="togglePagosBtn" class="btn-toggle-pagos" onclick="toggleVisibilidadePagos()">👁️ Exibir Pagos</button>
+                </div>
+                
+                <div class="filters">
+                    <button class="filter-btn active" onclick="aplicarFiltro('todos', this)">Todos</button>
+                    <button class="filter-btn" onclick="aplicarFiltro('iniciacao', this)">Iniciação</button>
+                    <button class="filter-btn" onclick="aplicarFiltro('filiacao', this)">Reg/Filiação</button>
+                    <button class="filter-btn" onclick="aplicarFiltro('pagos', this)">Pagos</button>
+                    <button class="filter-btn" onclick="aplicarFiltro('pendentes', this)">Pendentes</button>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table id="tabelaCandidatos">
+                    <thead>
+                        <tr>
+                            <th>Qtd</th>
+                            <th>Nome</th>
+                            <th>Processo</th>
+                            <th>Valor</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        </tbody>
+                </table>
+            </div>
+        </main>
+
+    </div>
+
+    <footer class="footer-imaginista" id="siteFooter">
+        <div class="footer-logo-box">
+                <img src="imagens/logo.webp" alt="O Imaginista" class="footer-logo" onerror="this.style.display='none'; this.insertAdjacentHTML('afterend', '<h3 class=\'fallback-logo\'>O IMAGINISTA</h3>');">
+            </a>
+        </div>
+        <div class="footer-text">
+  
+            <p class="copyright">© 2025 IMAGINISTA<span class="dot-gold"> ∴</span> Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        /* ==========================================
+           LÓGICA DE LOGIN NO PAINEL LATERAL
+           ========================================== */
+        function showLoginForm() {
+            document.getElementById('btnUnlock').style.display = 'none';
+            document.getElementById('loginFormArea').style.display = 'block';
+        }
+
+        function validarLogin() {
+            const user = document.getElementById('userLogin').value;
+            const pass = document.getElementById('passLogin').value;
+            const erro = document.getElementById('errorMsg');
+
+            if (user === '333' && pass === 'admin') {
+                // Esconde a área de Lock
+                document.getElementById('financeLockArea').style.display = 'none';
+                
+                // Exibe os Dados e botão de sair
+                document.getElementById('financeSecretArea').style.display = 'flex';
+                document.getElementById('btnSair').style.display = 'block';
+                
+                // Limpa os campos
+                document.getElementById('userLogin').value = '';
+                document.getElementById('passLogin').value = '';
+                erro.style.display = 'none';
+            } else {
+                erro.style.display = 'block';
+            }
+        }
+
+        function fazerLogout() {
+            // Esconde os Dados e botão de sair
+            document.getElementById('financeSecretArea').style.display = 'none';
+            document.getElementById('btnSair').style.display = 'none';
+            
+            // Restaura o Lock Area
+            document.getElementById('financeLockArea').style.display = 'flex';
+            document.getElementById('btnUnlock').style.display = 'flex';
+            document.getElementById('loginFormArea').style.display = 'none';
+        }
+
+        /* ==========================================
+           DADOS E ESTADO DA APLICAÇÃO
+           ========================================== */
+        // Altere a propriedade 'pago: false' para 'pago: true' direto no script para marcar como pago.
+        const dadosCandidatos = [
+            { nome: "Alan Barros dos Santos", tipo: "Reg/Filiação", valor: 50.00, pago: false },
+            { nome: "Alessandro Rocha", tipo: "Reg/Filiação", valor: 50.00, pago: false },
+            { nome: "Atila Odilio Moreira da Costa", tipo: "Reg/Filiação", valor: 50.00, pago: true },
+            { nome: "Bruno Daniel da Silva Domingues", tipo: "Iniciação", valor: 120.00, pago: false },
+            { nome: "Claudio Cesar Gomes da Rocha", tipo: "Reg/Filiação", valor: 120.00, pago: false },
+            { nome: "Felipe Fabio Belo de Brito", tipo: "Reg/Filiação", valor: 50.00, pago: false },
+            { nome: "Fernando Henrique Silva", tipo: "Reg/Filiação", valor: 50.00, pago: false },
+            { nome: "Gilson da Costa Filho", tipo: "Reg/Filiação", valor: 50.00, pago: false },
+            { nome: "Josue Wesley Silva Sena", tipo: "Reg/Filiação", valor: 50.00, pago: true },
+            { nome: "Luis Philippe Domingos dos Santos", tipo: "Reg/Filiação", valor: 50.00, pago: false },
+            { nome: "Patrick Freire Lucas", tipo: "Iniciação", valor: 120.00, pago: true },
+            { nome: "Pedro Cordeiro Santos", tipo: "Reg/Filiação", valor: 50.00, pago: false },
+            { nome: "Rodrigo de Oliveira Meneses", tipo: "Reg/Filiação", valor: 50.00, pago: false },
+            { nome: "Ryan Matheus Chagas de Freitas", tipo: "Reg/Filiação", valor: 50.00, pago: false },
+			{ nome: "Thyago da Cruz Tirloni", tipo: "Reg/Filiação", valor: 50.00, pago: false },
+			
+			{ nome: "Thiago Rodrigo Reis Mota Cabral", tipo: "Iniciação", valor: 120.00, pago: false },
+			{ nome: "Davi Ribeiro de Morais", tipo: "Iniciação", valor: 120.00, pago: false },
+			{ nome: "Herbert Britto da Silva", tipo: "Iniciação", valor: 120.00, pago: false },            //* 2° INICIAÇÃO
+			{ nome: "Rafael Macedo da Silva", tipo: "Iniciação", valor: 120.00, pago: false },           //* 2° INICIAÇÃO
+			{ nome: "Julio Cesar", tipo: "Iniciação", valor: 120.00, pago: false }                      //* 2° INICIAÇÃO
+            
+        ];
+
+        // Força a ordem alfabética imediatamente
+        dadosCandidatos.sort((a, b) => a.nome.localeCompare(b.nome, 'pt-BR'));
+
+        let filtroAtivo = 'todos';
+        let mostrarPagos = false; // Controle de visibilidade global dos pagos
+
+        // ==========================================
+        // RENDERIZAÇÃO INTELIGENTE (RE-DESENHO DA TABELA)
+        // ==========================================
+        function renderizarTabela() {
+            const tbody = document.querySelector('#tabelaCandidatos tbody');
+            tbody.innerHTML = ''; // Limpa a tabela
+
+            // Aplica os filtros na Array
+            let filtrados = dadosCandidatos.filter(cand => {
+                let passaFiltroAba = false;
+                
+                // Filtro da aba superior
+                if (filtroAtivo === 'todos') passaFiltroAba = true;
+                else if (filtroAtivo === 'iniciacao' && cand.tipo.toLowerCase().includes('iniciação')) passaFiltroAba = true;
+                else if (filtroAtivo === 'filiacao' && cand.tipo.toLowerCase().includes('filiação')) passaFiltroAba = true;
+                else if (filtroAtivo === 'pagos' && cand.pago === true) passaFiltroAba = true;
+                else if (filtroAtivo === 'pendentes' && cand.pago === false) passaFiltroAba = true;
+
+                // Ocultar pagos da visualização se "Mostrar Pagos" estiver desativado e não estiver na aba Pagos
+                if (filtroAtivo !== 'pagos' && cand.pago === true && !mostrarPagos) {
+                    return false;
+                }
+
+                return passaFiltroAba;
+            });
+
+            // Constrói o HTML com a numeração sequencial
+            filtrados.forEach((cand, index) => {
+                const linhaClasse = cand.pago ? 'linha-paga' : '';
+                const celulaClasse = cand.pago ? 'status-cell pago' : 'status-cell pendente';
+                const celulaTexto = cand.pago ? 'Pago' : 'Pendente';
+
+                const tr = document.createElement('tr');
+                tr.className = linhaClasse;
+                tr.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${cand.nome}</td>
+                    <td>${cand.tipo}</td>
+                    <td>R$ ${cand.valor.toFixed(2).replace('.', ',')}</td>
+                    <td><span class="${celulaClasse}">${celulaTexto}</span></td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            atualizarDashboard();
+        }
+
+        function aplicarFiltro(filtro, btnElement) {
+            filtroAtivo = filtro;
+
+            // Muda o visual dos botões
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            btnElement.classList.add('active');
+
+            renderizarTabela();
+        }
+
+        function toggleVisibilidadePagos() {
+            mostrarPagos = !mostrarPagos;
+            const btn = document.getElementById('togglePagosBtn');
+            
+            if(mostrarPagos) {
+                btn.classList.add('active');
+                btn.innerText = '👁️ Ocultar Pagos';
+            } else {
+                btn.classList.remove('active');
+                btn.innerText = '👁️ Exibir Pagos';
+            }
+            
+            // Se estiver na aba Pendentes ou Pagos, muda pra "Todos" pra a ação fazer sentido
+            if(filtroAtivo === 'pendentes' || filtroAtivo === 'pagos') {
+                aplicarFiltro('todos', document.querySelector('.filter-btn:first-child'));
+            } else {
+                renderizarTabela();
+            }
+        }
+
+        function atualizarDashboard() {
+            let valorArrecadado = 0;
+            let qtdPagos = 0;
+            const totalPrevisto = dadosCandidatos.reduce((soma, c) => soma + c.valor, 0);
+
+            // Calcula baseado na array total (mesmo que a linha esteja escondida)
+            dadosCandidatos.forEach(c => {
+                if (c.pago) {
+                    valorArrecadado += c.valor;
+                    qtdPagos++;
+                }
+            });
+
+            // Preenche o texto fixo de previsão (que fica na tela secreta)
+            document.getElementById('textoTotalPrevisto').innerText = `de ${totalPrevisto.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})} previstos`;
+
+            document.getElementById('valorArrecadado').innerText = valorArrecadado.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
+            document.getElementById('contadorPagos').innerText = `${qtdPagos} de ${dadosCandidatos.length} pagos`;
+
+            const percentual = totalPrevisto > 0 ? (valorArrecadado / totalPrevisto) * 100 : 0;
+            document.getElementById('progressBar').style.width = `${percentual}%`;
+            document.getElementById('progressPercent').innerText = `${percentual.toFixed(1)}%`;
+        }
+
+        // ==========================================
+        // UTILITÁRIOS GERAIS
+        // ==========================================
+        function updateClock() {
+            const now = new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo', day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            if(document.getElementById('liveClock')) document.getElementById('liveClock').innerText = now;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        function copyPix() {
+            const pixKey = document.getElementById('pixKey').innerText;
+            navigator.clipboard.writeText(pixKey).then(() => {
+                const toast = document.getElementById('toastMsg');
+                toast.classList.add('show');
+                setTimeout(() => toast.classList.remove('show'), 3500);
+            });
+        }
+
+        // 🚀 Inicia tudo!
+        renderizarTabela();
+
+        // Animação de Fundo
+        function initTechCanvas() {
+            const canvas = document.getElementById('techCanvas');
+            const ctx = canvas.getContext('2d');
+            let width, height;
+            let particles = [];
+
+            function resize() { width = canvas.width = window.innerWidth; height = canvas.height = window.innerHeight; }
+            window.addEventListener('resize', resize); resize();
+
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * width; this.y = Math.random() * height;
+                    this.vx = (Math.random() - 0.5) * 0.5; this.vy = (Math.random() - 0.5) * 0.5;
+                    this.size = Math.random() * 2 + 0.5;
+                }
+                update() {
+                    this.x += this.vx; this.y += this.vy;
+                    if (this.x < 0 || this.x > width) this.vx *= -1;
+                    if (this.y < 0 || this.y > height) this.vy *= -1;
+                }
+                draw() {
+                    ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fillStyle = 'rgba(212, 175, 55, 0.3)'; ctx.fill();
+                }
+            }
+
+            for (let i = 0; i < 70; i++) particles.push(new Particle());
+
+            function animate() {
+                ctx.clearRect(0, 0, width, height);
+                for (let i = 0; i < particles.length; i++) {
+                    particles[i].update(); particles[i].draw();
+                    for (let j = i + 1; j < particles.length; j++) {
+                        const dx = particles[i].x - particles[j].x; const dy = particles[i].y - particles[j].y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+                        if (dist < 150) {
+                            ctx.beginPath(); ctx.moveTo(particles[i].x, particles[i].y); ctx.lineTo(particles[j].x, particles[j].y);
+                            ctx.strokeStyle = `rgba(212, 175, 55, ${0.15 * (1 - dist / 150)})`; ctx.stroke();
+                        }
+                    }
+                }
+                requestAnimationFrame(animate);
+            }
+            animate();
+        }
+        initTechCanvas();
+    </script>
+</body>
+</html>
