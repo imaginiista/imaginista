@@ -880,31 +880,31 @@
         document.addEventListener('DOMContentLoaded', () => {
 
             const candidatosAtivos = [
-         { nome: "ALESSANDRO ROCHA", cim: "", data: "#DAT", tipo: "Reg/Filiação", statusTexto: "METAIS", corHex: "#3498db", pasta: "ar", liberado: true },
+         { nome: "ALAN BARROS DOS SANTOS", cim: "", data: "#DAT", tipo: "Reg/Filiação", statusTexto: "LGPD", corHex: "#FF2C2C", pasta: "abs", liberado: true },
+		 { nome: "ALESSANDRO ROCHA", cim: "", data: "#DAT", tipo: "Reg/Filiação", statusTexto: "METAIS", corHex: "#3498db", pasta: "ar", liberado: true },
          { nome: "ATILA ODILIO MOREIRA DA COSTA", cim: "", data: "#DAT", tipo: "Reg/Filiação", statusTexto: "ENTREGA DOCS", corHex: "#3498db", pasta: "aomc", liberado: true },
-         { nome: "CLAUDIO CESAR GOMES DA ROCHA", cim: "", data: "#DAT", tipo: "Reg/Filiação", statusTexto: "METAIS", corHex: "#3498db", pasta: "ccgr", liberado: true },
+         { nome: "CLAUDIO CESAR GOMES DA ROCHA", cim: "", data: "#DAT", tipo: "Reg/Filiação", statusTexto: "ENTREGA DOCS", corHex: "#3498db", pasta: "ccgr", liberado: true },
          { nome: "FERNANDO HENRIQUE SILVA", cim: "", data: "#DAT", tipo: "Reg/Filiação", statusTexto: "METAIS", corHex: "#3498db", pasta: "fhs", liberado: true },
          { nome: "GILSON DA COSTA FILHO", cim: "", data: "#DAT", tipo: "Reg/Filiação", statusTexto: "METAIS", corHex: "#3498db", pasta: "gcf", liberado: true },
          { nome: "JOSUE WESLLEY SILVA SENA", cim: "", data: "#DAT", tipo: "Reg/Filiação", statusTexto: "ENTREGA DOCS", corHex: "#3498db", pasta: "jwss", liberado: true },
          { nome: "LUIS PHILIPPE DOMINGOS DOS SANTOS", cim: "", data: "#DAT", tipo: "Reg/Filiação", statusTexto: "METAIS", corHex: "#3498db", pasta: "lpds", liberado: true },
 		 { nome: "PATRICK FREIRE LUCAS", cim: "", data: "#DAT", tipo: "Reg/Filiação", statusTexto: "ENTREGA DOCS", corHex: "#3498db", pasta: "pfl", liberado: true },
          { nome: "PEDRO CORDEIRO SANTOS", cim: "", data: "#DAT", tipo: "Reg/Filiação", statusTexto: "METAIS", corHex: "#3498db", pasta: "pcs", liberado: true },
-		 { nome: "RYAN MATHEUS CHAGAS DE FREITAS", cim: "SIGNATURE", data: "#DAT", tipo: "Reg/Filiação", statusTexto: "METAIS", corHex: "#FF2C2C", pasta: "rmcf", liberado: false },
+		 { nome: "RYAN MATHEUS CHAGAS DE FREITAS", cim: "", data: "#DAT", tipo: "Reg/Filiação", statusTexto: "LGPD", corHex: "#FF2C2C", pasta: "rmcf", liberado: true },
          { nome: "THYAGO DA CRUZ TIRLONI", cim: "", data: "#DAT", tipo: "Reg/Filiação", statusTexto: "METAIS", corHex: "#3498db", pasta: "tct", liberado: true },
      //    { nome: "333", cim: "", data: "33/33/3333", tipo: "Reg/Filiação", statusTexto: "GLMERJ", corHex: "#2ecc71", pasta: "", liberado: false },
 	// 	 { nome: "333", cim: "", data: "33/33/3333", tipo: "Reg/Filiação", statusTexto: "GLMERJ", corHex: "#800080", pasta: "", liberado: false },
     //   { nome: "333", cim: "", data: "33/33/3333", tipo: "Reg/Filiação", statusTexto: "Documentos", corHex: "#FF2C2C", pasta: "", liberado: false }
-		 { nome: "HERBERT BRITTO DA SILVA", cim: "", data: "#DAT", tipo: "INICIAÇÃO", statusTexto: "PRÉ-PROPOSTA", corHex: "#2ecc71", pasta: "hbs", liberado: true },
+		 { nome: "HERBERT BRITTO DA SILVA", cim: "", data: "#DAT", tipo: "INICIAÇÃO", statusTexto: "ENTREGA DOCS", corHex: "#2ecc71", pasta: "hbs", liberado: true },
+		 { nome: "DAVI RIBEIRO DE MORAIS", cim: "", data: "#DAT", tipo: "INICIAÇÃO", statusTexto: "INICIAL", corHex: "#FF2C2C", pasta: "drm", liberado: true },
 		 
-		 { nome: "BRUNO DANIEL DA SILVA DOMINGUES", cim: "PARADO", data: "#DAT", tipo: "DOCUMENTOS", statusTexto: "INICIAÇÃO", corHex: "#FF2C2C", pasta: "", liberado: false },
-		 { nome: "DAVI RIBEIRO DE MORAIS", cim: "PARADO", data: "#DAT", tipo: "DOCUMENTOS", statusTexto: "INICIAÇÃO", corHex: "#FF2C2C", pasta: "", liberado: false },
-		 { nome: "THIAGO RODRIGO REIS MOTA CABRAL", cim: "PARADO", data: "#DAT", tipo: "AGUARDANDO CONTATO", statusTexto: "INICIAÇÃO", corHex: "#FF2C2C", pasta: "", liberado: false },
+		 { nome: "BRUNO DANIEL DA SILVA DOMINGUES", cim: "SUSPENSO", data: "#DAT", tipo: "INICIAÇÃO", statusTexto: "DOCUMENTOS", corHex: "#FF1493", pasta: "", liberado: false },
 		 
-		 { nome: "ALAN BARROS DOS SANTOS", cim: "PARADO", data: "#DAT", tipo: "DOCUMENTOS", statusTexto: "AGUARDANDO CONTATO", corHex: "#FF2C2C", pasta: "", liberado: false },
-		 { nome: "FELIPE FABIO BELO DE BRITO", cim: "PARADO", data: "#DAT", tipo: "DOCUMENTOS", statusTexto: "AGUARDANDO CONTATO", corHex: "#FF2C2C", pasta: "", liberado: false },
-		 { nome: "RAFAEL MACEDO DA SILVA", cim: "SUSPENSO", data: "#DAT", tipo: "DOCUMENTOS", statusTexto: "AGUARDANDO CONTATO", corHex: "#FF2C2C", pasta: "", liberado: false },
-		 { nome: "RODRIGO DE OLIVEIRA MENESES", cim: "PARADO", data: "#DAT", tipo: "DOCUMENTOS", statusTexto: "AGUARDANDO CONTATO", corHex: "#FF2C2C", pasta: "", liberado: false },
-		 { nome: "JULIO CESAR", cim: "SUSPENSO", data: "#DATA", tipo: "AGUARDANDO CONTATO", statusTexto: "INICIAÇÃO", corHex: "#FF2C2C", pasta: "", liberado: false },
+		 { nome: "FELIPE FABIO BELO DE BRITO", cim: "SUSPENSO", data: "#DAT", tipo: "Reg/Filiação", statusTexto: "DOCUMENTOS", corHex: "#FF1493", pasta: "", liberado: false },
+		 { nome: "JULIO CESAR", cim: "SUSPENSO", data: "#DATA", tipo: "AGUARDANDO CONTATO", statusTexto: "INICIAÇÃO", corHex: "#FF1493", pasta: "", liberado: false },
+		 { nome: "THIAGO RODRIGO REIS MOTA CABRAL", cim: "SUSPENSO", data: "#DAT", tipo: "AGUARDANDO CONTATO", statusTexto: "DOCUMENTOS", corHex: "#FF1493", pasta: "", liberado: false },
+		 { nome: "RAFAEL MACEDO DA SILVA", cim: "SUSPENSO", data: "#DAT", tipo: "AGUARDANDO CONTATO", statusTexto: "DOCUMENTOS", corHex: "#FF1493", pasta: "", liberado: false },
+		 { nome: "RODRIGO DE OLIVEIRA MENESES", cim: "SUSPENSO", data: "#DAT", tipo: "AGUARDANDO CONTATO", statusTexto: "DOCUMENTOS", corHex: "#FF1493", pasta: "", liberado: false },
 		 
             ];
 
