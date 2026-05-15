@@ -119,8 +119,8 @@
         }
         .nav-link:hover { background: var(--gold); color: #000; box-shadow: 0 0 15px var(--gold-shadow); }
 
-        /* --- POPUP SENHA PREMIUM --- */
-        #password-overlay {
+        /* --- POPUP DE LOGIN PADRONIZADO --- */
+        #login-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
             background: rgba(0, 5, 10, 0.98); z-index: 9999; 
             display: flex; justify-content: center; align-items: center;
@@ -129,53 +129,90 @@
         
         .auth-box {
             text-align: center; 
-            border: 1px solid rgba(212, 175, 55, 0.15); 
-            padding: 40px 30px; 
-            border-radius: 16px; 
-            background: rgba(0, 12, 24, 0.65); 
             width: 90%; 
             max-width: 420px; 
+            position: relative; 
+            margin: auto;
+            animation: popIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
+        }
+
+        .auth-box-content {
+            background: rgba(0, 12, 24, 0.65); 
+            border: 1px solid rgba(212, 175, 55, 0.15); 
+            padding: 50px 30px 40px; 
+            border-radius: 16px; 
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 20px rgba(212, 175, 55, 0.05); 
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
-            animation: popIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
             position: relative; 
-            overflow: hidden;
-            margin: auto;
+            overflow: hidden; 
+            z-index: 1;
         }
         
-        .auth-box::after {
+        .auth-box-content::after {
             content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
             background: linear-gradient(to bottom right, transparent, transparent, rgba(212, 175, 55, 0.05), transparent, transparent);
             transform: rotate(45deg); animation: shimmer 4s infinite;
+            pointer-events: none;
+            z-index: -1;
         }
 
-        .auth-logo-img { max-width: 80px; height: auto; margin-bottom: 15px; filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.4)); animation: floatLogo 4s ease-in-out infinite; }
+        .dossier-badge {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translate(-50%, -50%); 
+            z-index: 10;
+            background: linear-gradient(135deg, #6b0000 0%, #300000 100%);
+            color: var(--gold-light);
+            border: 1px solid var(--gold);
+            padding: 10px 30px;
+            border-radius: 6px;
+            font-family: 'Cinzel', serif;
+            font-size: 1.15rem;
+            font-weight: bold;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.6), inset 0 0 10px rgba(212, 175, 55, 0.2);
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .auth-logo-img { 
+            max-width: 90px; 
+            height: auto; 
+            margin-bottom: 20px; 
+            margin-top: 10px;
+            filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.4)); 
+            animation: floatLogo 4s ease-in-out infinite; 
+            transition: filter 0.3s;
+        }
+        
         @keyframes floatLogo { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
 
-        .auth-box h2 { font-family: 'Cinzel', serif; font-size: 1.5rem; margin-bottom: 15px; color: var(--gold); }
         .cand-label { font-family: 'Lato', sans-serif; color: #bbb; font-size: 0.75rem; margin-bottom: 5px; letter-spacing: 2px;}
-        .cand-name-auth { color: var(--gold); font-size: 0.9rem; font-weight: bold; margin-bottom: 25px; letter-spacing: 1px; font-family: 'Lato', sans-serif;}
+        .cand-name-auth { color: var(--gold); font-size: 0.95rem; font-weight: bold; margin-bottom: 30px; letter-spacing: 1px; font-family: 'Lato', sans-serif;}
 
         .input-group {
             position: relative;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             width: 100%;
         }
 
         .auth-input {
             width: 100%; 
-            padding: 15px 40px 15px 15px;
-            font-size: 1.2rem; 
+            padding: 15px 40px 15px 45px; 
+            font-size: 1.1rem; 
             border: 1px solid rgba(212, 175, 55, 0.3); 
             border-radius: 8px;
             background: rgba(0, 0, 0, 0.3); 
             color: var(--gold); 
-            text-align: center; 
             outline: none;
-            letter-spacing: 4px; 
+            letter-spacing: 2px; 
             transition: all 0.3s ease;
             font-family: 'Lato', sans-serif;
+            position: relative;
+            z-index: 5;
         }
         
         .auth-input:focus { 
@@ -198,6 +235,10 @@
             border: none; border-radius: 8px; 
             cursor: pointer; transition: all 0.3s ease; 
             text-transform: uppercase; letter-spacing: 2px; font-size: 0.95rem;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 5;
         }
         
         .auth-btn:hover { 
@@ -205,7 +246,7 @@
             box-shadow: 0 10px 20px rgba(212, 175, 55, 0.2); 
         }
 
-        .auth-links { display: flex; justify-content: space-between; gap: 10px; margin-top: 20px; position: relative; z-index: 10;}
+        .auth-links { display: flex; justify-content: space-between; gap: 10px; position: relative; z-index: 10;}
         .btn-voltar {
             flex: 1; padding: 10px; background: transparent; border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 6px;
             color: var(--gold); text-decoration: none; font-family: 'Cinzel'; font-size: 0.75rem;
@@ -213,7 +254,7 @@
         }
         .btn-voltar:hover { background: rgba(212, 175, 55, 0.1); border-color: var(--gold); }
 
-        .error-msg { color: #ff4c4c; font-family: 'Lato'; font-size: 0.85rem; margin-bottom: 15px; display: none; height: 20px; }
+        .error-msg { color: #ff4c4c; font-family: 'Lato'; font-size: 0.85rem; margin-bottom: 15px; display: none; height: 20px; position: relative; z-index: 5;}
 
         /* --- LOCKDOWN PREMIUM --- */
         #lockdown-overlay {
@@ -767,8 +808,8 @@
             .header-nav-inner { flex-wrap: wrap; gap: 8px; padding: 0 10px; justify-content: center;}
             .nav-link { font-size: 0.7rem; padding: 6px 10px; }
 
-            .auth-box { width: 92%; padding: 30px 15px; }
-            .auth-box h2 { font-size: 1.3rem; }
+            .auth-box { width: 92%; }
+            .auth-box-content { padding: 40px 20px 30px; }
             .cand-name-auth { font-size: 0.85rem; }
             
             #cookie-banner { flex-direction: column; text-align: center; gap: 10px; }
@@ -816,7 +857,7 @@
                 font-size: clamp(0.7rem, 2.5vw, 0.9rem);
             }
             
-            /* DEVOLVE A ROLAGEM APENAS NO MOBILE PARA A TIMELINE */
+            /* ROLAGEM APENAS NO MOBILE PARA A TIMELINE */
             .timeline-box { overflow-x: auto; }
             .progress-steps { 
                 padding-bottom: 10px; 
@@ -831,15 +872,14 @@
             
         }
         
-        /* NOVO AJUSTE: Telas muito pequenas (iPhone SE, etc) com DUAS colunas perfeitas */
         @media (max-width: 380px) {
             .data-grid { grid-template-columns: 1fr; } 
             .full-width, .col-span-2, .initiation-date { grid-column: span 1; }
             
-            /* Mantém 2 colunas, mas ajusta o espaçamento entre elas */
+            /* Mantém 2 colunas, mas ajusta o espaçamento */
             .docs-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
             
-            /* Reduz o respiro interno do card para caber na tela pequena */
+            /* Reduz o respiro interno do card */
             .doc-card { padding: 15px 10px 15px; }
             
             /* Diminui a tag superior */
@@ -849,14 +889,14 @@
             .doc-icon { font-size: 1.5rem; margin-bottom: 8px; }
             .doc-icon-img { height: 30px; }
             
-            /* Ajusta o título para não quebrar a linha de forma feia */
+            /* Ajusta o título */
             .doc-name { font-size: 0.75rem; min-height: 35px; margin-bottom: 10px; }
             .doc-name small { font-size: 0.55rem; }
             
             /* Diminui o status */
             .doc-desc { font-size: 0.55rem; padding: 3px 6px; margin-bottom: 10px; }
             
-            /* Ajusta os botões de ação para caberem lado a lado */
+            /* Ajusta os botões de ação */
             .card-actions { gap: 3px; }
             .btn-mini { padding: 5px 6px; font-size: 0.6rem; letter-spacing: -0.5px; }
         }
@@ -864,26 +904,36 @@
 </head>
 <body>
 
-    <div id="password-overlay">
+    <!-- SISTEMA DE LOGIN PADRONIZADO -->
+    <div id="login-overlay">
         <div class="auth-box">
-            <img src="../../../imagens/264.webp" alt="264" class="auth-logo-img" onerror="this.src='../../../264.jpg'">
-            <div class="sub-header">Dossiê de Regularização</div>
-            <br>
-            <p class="cand-label">CANDIDATO∴</p>
-            <p class="cand-name-auth">ALAN FERNANDES LOPES</p>
+            <div class="dossier-badge" id="auth-badge">Dossiê de Regularização</div>
             
-            <div id="error-msg" class="error-msg">Palavra Incorreta. Tentativas: <span id="tentativas">0</span>/3</div>
-            
-            <div class="input-group">
-                <input type="password" id="passInput" class="auth-input" placeholder="SENHA MESTRA" autocomplete="off">
-                <i class="fas fa-eye" id="togglePassword" onclick="togglePassVisibility()" style="position: absolute; right: 15px; top: 18px; color: rgba(212, 175, 55, 0.6); cursor: pointer; transition: 0.3s;"></i>
-            </div>
-            
-            <button class="auth-btn" id="btn-login" onclick="checkPassword()">Acessar Dossiê</button>
-            
-            <div class="auth-links">
-                <a href="../../../index.html" class="btn-voltar"><i class="fas fa-home"></i> Início</a>
-                <a href="../../index.html" class="btn-voltar"><i class="fas fa-folder"></i> Secretaria</a>
+            <div class="auth-box-content">
+                <img src="../../../imagens/264.webp" alt="264" class="auth-logo-img" onerror="this.src='../../../264.jpg'">
+                
+                <p class="cand-label">CANDIDATO∴</p>
+                <p class="cand-name-auth">ALAN FERNANDES LOPES</p>
+                
+                <div id="error-msg" class="error-msg">Dados incorretos. Tentativas: <span id="tentativas">0</span>/3</div>
+                
+                <div class="input-group">
+                    <i class="fas fa-id-badge" style="position: absolute; left: 15px; top: 18px; color: rgba(212, 175, 55, 0.6); z-index: 10;"></i>
+                    <input type="text" id="cim-input" class="auth-input" placeholder="Nº DO CIM" autocomplete="off" autofocus>
+                </div>
+
+                <div class="input-group">
+                    <i class="fas fa-lock" style="position: absolute; left: 15px; top: 18px; color: rgba(212, 175, 55, 0.6); z-index: 10;"></i>
+                    <input type="password" id="pass-input" class="auth-input" placeholder="SENHA" autocomplete="off">
+                    <i class="fas fa-eye" id="togglePassword" onclick="togglePassVisibility()" style="position: absolute; right: 15px; top: 18px; color: rgba(212, 175, 55, 0.6); cursor: pointer; transition: 0.3s; z-index: 10;"></i>
+                </div>
+                
+                <button class="auth-btn" id="btn-login" onclick="checkPassword()">Acessar Dossiê</button>
+                
+                <div class="auth-links">
+                    <a href="../../../index.html" class="btn-voltar"><i class="fas fa-home"></i> Início</a>
+                    <a href="../../index.html" class="btn-voltar"><i class="fas fa-folder"></i> Secretaria</a>
+                </div>
             </div>
         </div>
     </div>
@@ -932,7 +982,7 @@
                     FRATERNIDADE IMPERIAL <span>Nº 264</span>
                 </span>
                 
-                <div class="sub-header">Dossiê de Sindicância</div>
+                <div class="sub-header">Dossiê de Regularização</div>
             </div>
 
             <div class="hero-card">
@@ -976,13 +1026,13 @@
                         <div class="data-item full-width"><strong>Filiação (Mãe)</strong><span>DILMA FERNANDES LOPES</span></div>
                         <div class="data-item full-width"><strong>Filiação (Pai)</strong><span>ROBERTO DE CASTRO LOPES</span></div>
 
-						<div class="data-item full-width">
+                        <div class="data-item full-width">
                          <strong>Endereço Residencial</strong>
                           <span style="line-height: 1.4;">Estrada Cabuçu de Baixo, 900 – Bloco 11, Casa 1<br>
                            <span style="font-size: 0.85rem; color: #666; font-weight: normal;">Guaratiba, Rio de Janeiro - RJ ∴ CEP: 23036-060</span>
-                         </span>
-                       </div>			
-		                 <div class="data-item"><strong>Estado Civil</strong><span>Solteiro</span></div>	
+                          </span>
+                        </div>            
+                        <div class="data-item"><strong>Estado Civil</strong><span>Solteiro</span></div>    
 
                         <div class="data-item full-width"><strong>Esposa</strong><span>*</span></div>
                         
@@ -1072,12 +1122,10 @@
                     <div class="doc-name">LGPD<small>Termo de Consentimento</small></div>
                     <div class="doc-desc status-missing">PENDENTE ✍️</div>
                     <div class="card-actions">
-		<!--	         <a href="docs/2026.03 - TERMO DE CONSENTIMENTO.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
-                         <a href="docs/2026.03 - TERMO DE CONSENTIMENTO.pdf" download class="btn-mini btn-down">Baixar</a>
-         -->         </div>
+                    </div>
                 </div>
-				
-				<div class="doc-card">
+                
+                <div class="doc-card">
                     <span class="doc-tag" style="background: linear-gradient(45deg, #311b92, #512da8); box-shadow: 0 0 10px rgba(49, 27, 146, 0.5);">GLEMB</span>
                     <div class="doc-icon"><img src="../../../imagens/glemb.webp" class="doc-icon-img" alt="GLEMB"></div>
                     <div class="doc-name" title="Certificado GLEMB">Certificado<small>GLEMB</small></div>
@@ -1116,20 +1164,20 @@
                     <div class="doc-name">RG<small>Registro Geral</small></div>
                     <div class="doc-desc status-neutral">2016/05</div>
                     <div class="card-actions">
-                        <a href="docs/2016.05 - RG.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
-                        <a href="docs/2016.05 - RG.pdf" download class="btn-mini btn-down">Baixar</a>
+                        <a href="docs/2016.05 - DETRANRJ - RG.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
+                        <a href="docs/2016.05 - DETRANRJ - RG.pdf" download class="btn-mini btn-down">Baixar</a>
                     </div>
                 </div>
-				
-				<div class="doc-card">
+                
+                <div class="doc-card">
                     <span class="doc-tag tag-pessoal">PESSOAL</span>
                     <div class="doc-icon"><i class="fas fa-id-card-alt"></i></div>
-                    <div class="doc-name">RG Digital<small>Registro Geral</small></div>
-                    <div class="doc-desc status-missing">PENDENTE</div>
+                    <div class="doc-name">RG<small>Registro Geral</small></div>
+                    <div class="doc-desc status-neutral">2026/03</div>
                     <div class="card-actions">
-           <!--         <a href="docs/2026.04 - RG DIGITAL.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
-                        <a href="docs/2026.04 - RG DIGITAL.pdf" download class="btn-mini btn-down">Baixar</a>
-             -->       </div>
+                        <a href="docs/2026.03 - DETRANRJ - RG.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
+                        <a href="docs/2026.03 - DETRANRJ - RG.pdf" download class="btn-mini btn-down">Baixar</a>
+                    </div>
                 </div>
                 
                 <div class="doc-card">
@@ -1142,8 +1190,8 @@
                         <a href="docs/2026.03 - RF - COMPROVANTE DE SITUAÇÃO CADASTRAL.pdf" download class="btn-mini btn-down">Baixar</a>
                     </div>
                 </div>
-				
-				<div class="doc-card">
+                
+                <div class="doc-card">
                     <span class="doc-tag tag-pessoal">PESSOAL</span>
                     <div class="doc-icon"><i class="fas fa-id-card"></i></div>
                     <div class="doc-name">CPF<small>Comprovante</small></div>
@@ -1154,18 +1202,7 @@
                     </div>
                 </div>
                 
-          <!--      <div class="doc-card">
-                    <span class="doc-tag tag-detran">DETRAN</span>
-                    <div class="doc-icon"><i class="fas fa-car"></i></div>
-                    <div class="doc-name">CNH<small>Habilitação Digital</small></div>
-                    <div class="doc-desc status-neutral">2022/10</div>
-                    <div class="card-actions">
-                        <a href="docs/2024-07 - CNH-e.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
-                        <a href="docs/2024-07 - CNH-e.pdf" download class="btn-mini btn-down">Baixar</a>
-                    </div>
-                </div>
-			-->	
-				<div class="doc-card">
+                <div class="doc-card">
                     <span class="doc-tag tag-pessoal">PESSOAL</span>
                     <div class="doc-icon"><i class="fas fa-male"></i></div>
                     <div class="doc-name">Certidão<small>Pedro R. F.</small></div>
@@ -1186,8 +1223,8 @@
                         <a href="docs/2012.06 - CERTIDÃO DE NASCIMENTO - MARIA VICTÓRIA SILVA FERNANDES.pdf" download class="btn-mini btn-down">Baixar</a>
                     </div>
                 </div>
-				
-				<div class="doc-card">
+                
+                <div class="doc-card">
                     <span class="doc-tag tag-pessoal">PESSOAL</span>
                     <div class="doc-icon"><i class="fas fa-female"></i></div>
                     <div class="doc-name">Certidão<small>Alicia de Jesus F. L.</small></div>
@@ -1197,8 +1234,8 @@
                         <a href="docs/2014.08 - CERTIDÃO DE NASCIMENTO - ALICIA DE JESUS FERNANDES LOPES.pdf" download class="btn-mini btn-down">Baixar</a>
                     </div>
                 </div>
-				
-				<div class="doc-card">
+                
+                <div class="doc-card">
                     <span class="doc-tag tag-pessoal">PESSOAL</span>
                     <div class="doc-icon"><i class="fas fa-baby"></i></div>
                     <div class="doc-name">Certidão<small>Mirella F. Silva L.</small></div>
@@ -1208,7 +1245,7 @@
                         <a href="docs/2024.01 - CERTIDÃO DE NASCIMENTO - MIRELLA FERNANDES SILVA LOPES.pdf" download class="btn-mini btn-down">Baixar</a>
                     </div>
                 </div>
-				
+                
                 <div class="doc-card">
                     <span class="doc-tag tag-pessoal">PESSOAL</span>
                     <div class="doc-icon"><i class="fas fa-map-marked-alt"></i></div>
@@ -1230,18 +1267,7 @@
                         <a href="docs/#.pdf" download class="btn-mini btn-down">Baixar</a>
                     </div>
                 </div>
-				
-          <!--      <div class="doc-card">
-                    <span class="doc-tag tag-detran">DETRAN-RJ</span>
-                    <div class="doc-icon"><i class="fas fa-car"></i></div>
-                    <div class="doc-name">Certidão<small>Detran-RJ</small></div>
-                    <div class="doc-desc">NADA CONSTA</div>
-                    <div class="card-actions">
-                        <a href="docs/2026.04 - DETRAN - CERTIDÃO.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
-                        <a href="docs/2026.04 - DETRAN - CERTIDÃO.pdf" download class="btn-mini btn-down">Baixar</a>
-                    </div>
-                </div>
-           -->     
+                
                 <div class="doc-card">
                     <span class="doc-tag tag-tse">TSE</span>
                     <div class="doc-icon"><i class="fas fa-vote-yea"></i></div>
@@ -1252,8 +1278,8 @@
                         <a href="docs/2026.03 - TSE - TÍTULO ELEITORAL.pdf" download class="btn-mini btn-down">Baixar</a>
                     </div>
                 </div>
-				
-				<div class="doc-card">
+                
+                <div class="doc-card">
                     <span class="doc-tag tag-tse">TSE</span>
                     <div class="doc-icon"><i class="fas fa-vote-yea"></i></div>
                     <div class="doc-name">Certidão<small>Justiça Eleitoral</small></div>
@@ -1296,18 +1322,7 @@
                         <a href="docs/2026.03 - SEFAZ - CERTIDÃO NEGATIVA DE DÉBITOS.pdf" download class="btn-mini btn-down">Baixar</a>
                     </div>
                 </div>
-				
-	<!--			<div class="doc-card">
-                    <span class="doc-tag tag-tce">SPC/SERASA</span>
-                    <div class="doc-icon"><i class="fas fa-file-invoice-dollar"></i></div>
-                    <div class="doc-name">Consulta<small>Pendências Financeiras</small></div>
-                    <div class="doc-desc status-missing">CONSTA</div>
-                    <div class="card-actions">
-                        <a href="docs/2026.02 - SPC BRASIL - CONSULTA CPF.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
-                        <a href="docs/2026.02 - SPC BRASIL - CONSULTA CPF.pdf" download class="btn-mini btn-down">Baixar</a>
-                    </div>
-                </div>
-      -->          
+                
                 <div class="doc-card">
                     <span class="doc-tag tag-tce">TCE</span>
                     <div class="doc-icon"><i class="fas fa-file-invoice-dollar"></i></div>
@@ -1319,7 +1334,7 @@
                     </div>
                 </div>
                 
-           <!--     <div class="doc-card">
+                <div class="doc-card">
                     <span class="doc-tag tag-tce">PGFN</span>
                     <div class="doc-icon"><i class="fas fa-file-invoice-dollar"></i></div>
                     <div class="doc-name">Certidão<small>Negativa de Débitos</small></div>
@@ -1328,7 +1343,7 @@
                         <a href="docs/2026.03 - PGFN - CERTIDÃO NEGATIVA DE DÉBITOS.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
                         <a href="docs/2026.03 - PGFN - CERTIDÃO NEGATIVA DE DÉBITOS.pdf" download class="btn-mini btn-down">Baixar</a>
                     </div>
-                </div>   -->
+                </div>
 
                 <div class="doc-card">
                     <span class="doc-tag tag-pf">Polícia Federal</span>
@@ -1336,8 +1351,8 @@
                     <div class="doc-name">Certidão<small>Antecedentes Criminais</small></div>
                     <div class="doc-desc">NADA CONSTA</div>
                     <div class="card-actions">
-                        <a href="docs/2026.03 - PF - CERTIDÃO DE ANTECEDENTES CRIMINAIS.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
-                        <a href="docs/2026.03 - PF - CERTIDÃO DE ANTECEDENTES CRIMINAIS.pdf" download class="btn-mini btn-down">Baixar</a>
+                        <a href="docs/2026.02 - PF - CERTIDÃO DE ANTECEDENTES CRIMINAIS.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
+                        <a href="docs/2026.02 - PF - CERTIDÃO DE ANTECEDENTES CRIMINAIS.pdf" download class="btn-mini btn-down">Baixar</a>
                     </div>
                 </div>
                 
@@ -1347,8 +1362,8 @@
                     <div class="doc-name">Certidão<small>Antecedentes Criminais</small></div>
                     <div class="doc-desc">NADA CONSTA</div>
                     <div class="card-actions">
-                        <a href="docs/2026.03 - PC - CERTIDÃO DE ANTECEDENTES CRIMINAIS.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
-                        <a href="docs/2026.03 - PC - CERTIDÃO DE ANTECEDENTES CRIMINAIS.pdf" download class="btn-mini btn-down">Baixar</a>
+                        <a href="docs/2026.02 - PC - CERTIDÃO DE ANTECEDENTES CRIMINAIS.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
+                        <a href="docs/2026.02 - PC - CERTIDÃO DE ANTECEDENTES CRIMINAIS.pdf" download class="btn-mini btn-down">Baixar</a>
                     </div>
                 </div>
                 
@@ -1358,8 +1373,8 @@
                     <div class="doc-name">Certidão<small>Judicial Cível</small></div>
                     <div class="doc-desc">NADA CONSTA</div>
                     <div class="card-actions">
-                        <a href="docs/2026.03 - CJF - CERTIDÃO JUDICIAL CÍVEL.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
-                        <a href="docs/2026.03 - CJF - CERTIDÃO JUDICIAL CÍVEL.pdf" download class="btn-mini btn-down">Baixar</a>
+                        <a href="docs/2026.02 - CJF - CERTIDÃO JUDICIAL CÍVEL.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
+                        <a href="docs/2026.02 - CJF - CERTIDÃO JUDICIAL CÍVEL.pdf" download class="btn-mini btn-down">Baixar</a>
                     </div>
                 </div>
                 
@@ -1369,8 +1384,8 @@
                     <div class="doc-name">Certidão<small>Judicial Criminal</small></div>
                     <div class="doc-desc">NADA CONSTA</div>
                     <div class="card-actions">
-                        <a href="docs/2026.03 - CJF - CERTIDÃO JUDICIAL CRIMINAL NEGATIVA.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
-                        <a href="docs/2026.03 - CJF - CERTIDÃO JUDICIAL CRIMINAL NEGATIVA.pdf" download class="btn-mini btn-down">Baixar</a>
+                        <a href="docs/2026.02 - CJF - CERTIDÃO JUDICIAL CRIMINAL NEGATIVA.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
+                        <a href="docs/2026.02 - CJF - CERTIDÃO JUDICIAL CRIMINAL NEGATIVA.pdf" download class="btn-mini btn-down">Baixar</a>
                     </div>
                 </div>
                 
@@ -1391,8 +1406,8 @@
                     <div class="doc-name">Certidão<small>Débitos Trabalhistas</small></div>
                     <div class="doc-desc">NADA CONSTA</div>
                     <div class="card-actions">
-                        <a href="docs/2026.03 - TST - CERTIDÃO NEGATIVA DE DÉBITOS TRABALHISTAS.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
-                        <a href="docs/2026.03 - TST - CERTIDÃO NEGATIVA DE DÉBITOS TRABALHISTAS.pdf" download class="btn-mini btn-down">Baixar</a>
+                        <a href="docs/2026.02 - TST - CERTIDÃO NEGATIVA DE DÉBITOS TRABALHISTAS.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
+                        <a href="docs/2026.02 - TST - CERTIDÃO NEGATIVA DE DÉBITOS TRABALHISTAS.pdf" download class="btn-mini btn-down">Baixar</a>
                     </div>
                 </div> 
                 
@@ -1413,19 +1428,30 @@
                     <div class="doc-name">Certidão<small>Ações Cíveis</small></div>
                     <div class="doc-desc">NADA CONSTA</div>
                     <div class="card-actions">
-                        <a href="docs/2026.03 - TJERJ - CERTIDÃO DE REGISTRO DE AÇÕES CÍVEIS.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
-                        <a href="docs/2026.03 - TJERJ - CERTIDÃO DE REGISTRO DE AÇÕES CÍVEIS.pdf" download class="btn-mini btn-down">Baixar</a>
+                        <a href="docs/2026.02 - TJERJ - CERTIDÃO DE REGISTRO DE AÇÕES CÍVEIS.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
+                        <a href="docs/2026.02 - TJERJ - CERTIDÃO DE REGISTRO DE AÇÕES CÍVEIS.pdf" download class="btn-mini btn-down">Baixar</a>
                     </div>
                 </div>   
-				
+                
+                <div class="doc-card">
+                    <span class="doc-tag tag-tjerj">TJERJ</span>
+                    <div class="doc-icon"><i class="fa fa-gavel"></i></div>
+                    <div class="doc-name">Petição<small>de Quitação</small></div>
+                    <div class="doc-desc status-neutral">HANANIA GASPI</div>
+                    <div class="card-actions">
+                        <a href="docs/2025.04 - HANANIA GASPI - PETIÇÃO DE QUITAÇÃO.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
+                        <a href="docs/2025.04 - HANANIA GASPI - PETIÇÃO DE QUITAÇÃO.pdf" download class="btn-mini btn-down">Baixar</a>
+                    </div>
+                </div>
+                
                 <div class="doc-card">
                     <span class="doc-tag tag-tjerj">TJERJ</span>
                     <div class="doc-icon"><i class="fa fa-gavel"></i></div>
                     <div class="doc-name">Certidão<small>Ações Criminais</small></div>
                     <div class="doc-desc">NADA CONSTA</div>
                     <div class="card-actions">
-                        <a href="docs/2026.03 - TJERJ - CERTIDÃO DE REGISTRO DE AÇÕES CRIMINAIS.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
-                        <a href="docs/2026.03 - TJERJ - CERTIDÃO DE REGISTRO DE AÇÕES CRIMINAIS.pdf" download class="btn-mini btn-down">Baixar</a>
+                        <a href="docs/2026.02 - TJERJ - CERTIDÃO DE REGISTRO DE AÇÕES CRIMINAIS.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
+                        <a href="docs/2026.02 - TJERJ - CERTIDÃO DE REGISTRO DE AÇÕES CRIMINAIS.pdf" download class="btn-mini btn-down">Baixar</a>
                     </div>
                 </div> 
                 
@@ -1443,22 +1469,44 @@
                 <div class="doc-card">
                     <span class="doc-tag tag-glmerj">GLMERJ</span>
                     <div class="doc-icon"><img src="../../../imagens/glmerj.webp" class="doc-icon-img" alt="GLMERJ"></div>
-                    <div class="doc-name">Protocolo<small>Filiação</small></div>
+                    <div class="doc-name">Protocolo<small>Publicação</small></div>
                     <div class="doc-desc status-alert">ANEXO</div>
                     <div class="card-actions">
-                        <a href="docs/2026.03 - GLMERJ - PROTOCOLO DE SOLICITAÇÃO DE FILIAÇÃO.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
-                        <a href="docs/2026.03 - GLMERJ - PROTOCOLO DE SOLICITAÇÃO DE FILIAÇÃO.pdf" download class="btn-mini btn-down">Baixar</a>
+                        <a href="docs/2026.03 - GLMERJ - PROTOCOLO DE SOLICITAÇÃO DE PUBLICAÇÃO.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
+                        <a href="docs/2026.03 - GLMERJ - PROTOCOLO DE SOLICITAÇÃO DE PUBLICAÇÃO.pdf" download class="btn-mini btn-down">Baixar</a>
                     </div>
-                </div> 
-        
+                </div>
+                
                 <div class="doc-card">
                     <span class="doc-tag tag-glmerj">GLMERJ</span>
                     <div class="doc-icon"><img src="../../../imagens/glmerj.webp" class="doc-icon-img" alt="GLMERJ"></div>
-                    <div class="doc-name">GLMERJ<small>Placet de Regularização</small></div>
+                    <div class="doc-name">Protocolo<small>Iniciação</small></div>
+                    <div class="doc-desc status-alert">ANEXO</div>
+                    <div class="card-actions">
+                        <a href="docs/2026.04 - GLMERJ - PROTOCOLO DE SOLICITAÇÃO DE INICIAÇÃO.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
+                        <a href="docs/2026.04 - GLMERJ - PROTOCOLO DE SOLICITAÇÃO DE INICIAÇÃO.pdf" download class="btn-mini btn-down">Baixar</a>
+                    </div>
+                </div>                 
+                
+                <div class="doc-card">
+                    <span class="doc-tag tag-glmerj">GLMERJ</span>
+                    <div class="doc-icon"><img src="../../../imagens/glmerj.webp" class="doc-icon-img" alt="GLMERJ"></div>
+                    <div class="doc-name">Anexo<small>Edital de Sindicância</small></div>
+                    <div class="doc-desc status-alert">ANEXO</div>
+                    <div class="card-actions">
+                        <a href="docs/2026.04 - GLMERJ - ANEXO DE SINDICÂNCIA.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
+                        <a href="docs/2026.04 - GLMERJ - ANEXO DE SINDICÂNCIA.pdf" download class="btn-mini btn-down">Baixar</a>
+                    </div>
+                </div>  
+                
+                <div class="doc-card">
+                    <span class="doc-tag tag-glmerj">GLMERJ</span>
+                    <div class="doc-icon"><img src="../../../imagens/glmerj.webp" class="doc-icon-img" alt="GLMERJ"></div>
+                    <div class="doc-name">GLMERJ<small>Placet de Iniciação</small></div>
                     <div class="doc-desc"> APROVADO</div>
                     <div class="card-actions">
-                        <a href="docs/2026.04 - GLMERJ - PLACET DE REGULARIZAÇÃO E FILIAÇÃO.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
-                        <a href="docs/2026.04 - GLMERJ - PLACET DE REGULARIZAÇÃO E FILIAÇÃO.pdf" download class="btn-mini btn-down">Baixar</a>
+                        <a href="docs/2026.04 - GLMERJ - PLACET DE INICIAÇÃO.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
+                        <a href="docs/2026.04 - GLMERJ - PLACET DE INICIAÇÃO.pdf" download class="btn-mini btn-down">Baixar</a>
                     </div>
                 </div>  
                 
@@ -1483,13 +1531,23 @@
                         <a href="docs/2023.03 - GLMERJ - 8. COMPROMISSO.pdf" download class="btn-mini btn-down">Baixar</a>
                     </div>
                 </div>  
-                 
+                
+                <div class="doc-card">
+                    <span class="doc-tag tag-glmerj">GLMERJ</span>
+                    <div class="doc-icon"><img src="../../../imagens/glmerj.webp" class="doc-icon-img" alt="GLMERJ"></div>
+                    <div class="doc-name">GLMERJ<small> Testamento Simbólico</small></div>
+                    <div class="doc-desc status-neutral">PENDENTE</div>
+                    <div class="card-actions">
+                        <a href="docs/2023.03 - GLMERJ - 9. TESTAMENTO SIMBÓLICO.pdf" target="_blank" class="btn-mini btn-view">Ver</a>
+                        <a href="docs/2023.03 - GLMERJ - 9. TESTAMENTO SIMBÓLICO.pdf" download class="btn-mini btn-down">Baixar</a>
+                    </div>
+                </div>   
 
             </div>
         </div>
         <footer>
             <div class="footer-rights">
-                © 2025 A∴ R∴ L∴ M∴ Fraternidade Imperial Nº 264. Todos os direitos reservados.
+                © 2026 A∴ R∴ L∴ M∴ Fraternidade Imperial Nº 264. Todos os direitos reservados.
             </div>
             <div class="dev-container" id="imaginista-btn">
                 <span class="dev-text">Desenvolvido por:</span>
@@ -1518,9 +1576,9 @@
         // =========================================================
         // 1. CONFIGURAÇÕES DO PROCESSO DO CANDIDATO
         // =========================================================
-        const processType = "regularizacao"; // ESCOLHA: "iniciacao" ou "regularizacao"
+        const processType = "regularizacao"; 
         const currentStep = 6; 
-        const processStatus = "concluido"; // ESCOLHA: "ativo", "iniciado", "concluido", "negado" ou "desistencia"
+        const processStatus = "concluido"; 
         const finalDate = "25/04/2026";
         const cimNumber = "264110"; 
         const statusResponsible = "V∴ M∴ Everton Almeida"; 
@@ -1533,45 +1591,22 @@
 
         let camposDiscord = [];
         let horaLogin = null; 
+        let usuarioLogado = null;
 
         function obterDadosDispositivo() {
             const ua = navigator.userAgent;
-            let os = "Desconhecido";
-            let browser = "Desconhecido";
-            let device = "Desktop";
-            let brand = "";
-
-            if (/iPhone/.test(ua)) brand = "Apple iPhone";
-            else if (/iPad/.test(ua)) brand = "Apple iPad";
-            else if (/Macintosh/.test(ua)) brand = "Apple Mac";
-            else if (/SM-|SAMSUNG/.test(ua)) brand = "Samsung Galaxy";
-            else if (/Moto|XT/.test(ua)) brand = "Motorola";
-            else if (/Xiaomi|Redmi|POCO/.test(ua)) brand = "Xiaomi";
-
-            if (/android/i.test(ua)) os = "Android";
-            else if (/iPad|iPhone|iPod/.test(ua)) os = "iOS";
-            else if (/Windows NT 10.0/.test(ua)) os = "Windows 10/11";
-            else if (/Windows NT/.test(ua)) os = "Windows";
-            else if (/Mac OS X/.test(ua)) os = "macOS";
-            else if (/Linux/.test(ua)) os = "Linux";
-
-            if (/mobile/i.test(ua)) device = "Smartphone";
-            else if (/tablet|ipad/i.test(ua)) device = "Tablet";
-
-            if (/edg/i.test(ua)) browser = "Edge";
-            else if (/chrome|crios/i.test(ua)) browser = "Chrome";
-            else if (/firefox|fxios/i.test(ua)) browser = "Firefox";
-            else if (/safari/i.test(ua) && !/chrome|crios/i.test(ua)) browser = "Safari";
-            else if (/opr\//i.test(ua)) browser = "Opera";
+            let os = "Desconhecido", browser = "Desconhecido", device = "Desktop", brand = "";
+            if (/iPhone/.test(ua)) brand = "Apple iPhone"; else if (/iPad/.test(ua)) brand = "Apple iPad"; else if (/Macintosh/.test(ua)) brand = "Apple Mac"; else if (/SM-|SAMSUNG/.test(ua)) brand = "Samsung Galaxy"; else if (/Moto|XT/.test(ua)) brand = "Motorola"; else if (/Xiaomi|Redmi|POCO/.test(ua)) brand = "Xiaomi";
+            if (/android/i.test(ua)) os = "Android"; else if (/iPad|iPhone|iPod/.test(ua)) os = "iOS"; else if (/Windows NT 10.0/.test(ua)) os = "Windows 10/11"; else if (/Windows NT/.test(ua)) os = "Windows"; else if (/Mac OS X/.test(ua)) os = "macOS"; else if (/Linux/.test(ua)) os = "Linux";
+            if (/mobile/i.test(ua)) device = "Smartphone"; else if (/tablet|ipad/i.test(ua)) device = "Tablet";
+            if (/edg/i.test(ua)) browser = "Edge"; else if (/chrome|crios/i.test(ua)) browser = "Chrome"; else if (/firefox|fxios/i.test(ua)) browser = "Firefox"; else if (/safari/i.test(ua) && !/chrome|crios/i.test(ua)) browser = "Safari"; else if (/opr\//i.test(ua)) browser = "Opera";
             
             let hardwareExtra = "";
             if (device === "Desktop") {
-                const w = window.screen.width;
-                const h = window.screen.height;
+                const w = window.screen.width, h = window.screen.height;
                 hardwareExtra = `\n🖥️ Resolução: ${w}x${h}`;
                 try {
-                    const canvas = document.createElement('canvas');
-                    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+                    const canvas = document.createElement('canvas'); const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
                     if (gl) {
                         const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
                         if (debugInfo) {
@@ -1582,7 +1617,6 @@
                     }
                 } catch(e) {}
             }
-            
             let deviceInfo = brand ? `${brand} (${device})` : device;
             return `${deviceInfo} • ${os} • ${browser}${hardwareExtra}`;
         }
@@ -1592,9 +1626,8 @@
                 const response = await fetch('https://get.geojs.io/v1/ip/geo.json');
                 const dataGeo = await response.json();
                 const provedor = dataGeo.organization_name || dataGeo.organization || "Desconhecido";
-                
                 let localizacaoTexto = `${dataGeo.city}, ${dataGeo.region} - ${dataGeo.country}`;
-                let mapaUrl = `https://www.google.com/maps/search/?api=1&query=$${dataGeo.latitude},${dataGeo.longitude}`;
+                let mapaUrl = `https://www.google.com/maps/search/?api=1&query=${dataGeo.latitude},${dataGeo.longitude}`;
                 let precisaoInfo = "(Aproximada via IP)";
                 let bateriaInfo = "";
 
@@ -1622,7 +1655,7 @@
                     if (permission.state === 'granted') {
                         navigator.geolocation.getCurrentPosition((pos) => {
                             localizacaoTexto = "Localização Exata via GPS";
-                            mapaUrl = `https://www.google.com/maps/search/?api=1&query=$${pos.coords.latitude},${pos.coords.longitude}`;
+                            mapaUrl = `https://www.google.com/maps/search/?api=1&query=${pos.coords.latitude},${pos.coords.longitude}`;
                             precisaoInfo = "(Exata)";
                             atualizarCamposDiscord(); 
                         });
@@ -1632,7 +1665,7 @@
                             navigator.geolocation.getCurrentPosition(
                                 (pos) => {
                                     localizacaoTexto = "Localização Exata via GPS";
-                                    mapaUrl = `https://www.google.com/maps/search/?api=1&query=$${pos.coords.latitude},${pos.coords.longitude}`;
+                                    mapaUrl = `https://www.google.com/maps/search/?api=1&query=${pos.coords.latitude},${pos.coords.longitude}`;
                                     precisaoInfo = "(Exata)";
                                     atualizarCamposDiscord();
                                 },
@@ -1693,7 +1726,7 @@
                     
                     notificarDiscord(
                         "📄 Interação com Documento",
-                        `**Dossiê:** ALAN FERNANDES LOPES\n**Ação:** ${acao}\n**Arquivo:** \`${nomeDoc}\``,
+                        `**Dossiê:** ALAN FERNANDES LOPES\n**Ação:** ${acao}\n**Arquivo:** '${nomeDoc}'`,
                         "#005eb8" 
                     );
                 });
@@ -1701,7 +1734,7 @@
         }
 
         window.addEventListener('beforeunload', function() {
-            if (horaLogin) {
+            if (horaLogin && usuarioLogado) {
                 const horaSaida = new Date();
                 const diffEmSegundos = Math.floor((horaSaida - horaLogin) / 1000);
                 const minutos = Math.floor(diffEmSegundos / 60);
@@ -1709,31 +1742,44 @@
                 
                 notificarDiscord(
                     "⏱️ Acesso Encerrado",
-                    `**Dossiê:** ALAN FERNANDES LOPES\n**O usuário fechou a aba ou saiu da página.**\n\n**Tempo total de visualização:** ${minutos}m ${segundos}s`,
+                    `**Dossiê:** ALAN FERNANDES LOPES\n**O Irmão ${usuarioLogado.nome} fechou a aba.**\n\n**Tempo total de visualização:** ${minutos}m ${segundos}s`,
                     "#555555" 
                 );
             }
         });
 
-
         // =========================================================
         // 3. LÓGICA DE AUTENTICAÇÃO E BLOQUEIO (LOCKDOWN)
         // =========================================================
+        const usuariosCadastrados = [
+            { cim: "249250", nome: "AMAURI JOSE DO NASCIMENTO", senha: "admin" },
+            { cim: "264", nome: "FRATERNIDADE IMPERIAL", senha: "264" },
+            { cim: "333", nome: "SYSTEM", senha: "admin" }
+        ];
+
+        let tentativas = 0;
+
         function checkPassword() {
-            const passInput = document.getElementById('passInput');
-            const pass = passInput.value.trim();
-            const correctPass = "264"; 
+            const cimInput = document.getElementById('cim-input');
+            const passInput = document.getElementById('pass-input');
+            const cimDigitado = cimInput.value.trim();
+            const senhaDigitada = passInput.value.trim();
             
-            if(pass === correctPass) {
+            const usuarioEncontrado = usuariosCadastrados.find(
+                user => String(user.cim) === cimDigitado && user.senha === senhaDigitada
+            );
+            
+            if(usuarioEncontrado) {
                 horaLogin = new Date(); 
+                usuarioLogado = usuarioEncontrado;
 
                 notificarDiscord(
                     "✅ Acesso Autorizado", 
-                    "**Dossiê:** ALAN FERNANDES LOPES\nO acesso foi liberado com a senha correta.", 
+                    `**Dossiê:** ALAN FERNANDES LOPES\nIrmão **${usuarioEncontrado.nome}** (CIM: ${usuarioEncontrado.cim}) acessou o dossiê.`, 
                     "#2e7d32"
                 );
 
-                const overlay = document.getElementById('password-overlay');
+                const overlay = document.getElementById('login-overlay');
                 const main = document.getElementById('main-content');
                 const header = document.getElementById('dossie-header');
                 
@@ -1753,7 +1799,7 @@
                     calculateAge(); 
                     mapearCliquesDocumentos(); 
                     
-                    // Dispara o efeito Cascata
+                    // Efeito Cascata dos Documentos
                     const cards = document.querySelectorAll('.doc-card');
                     cards.forEach((card, index) => {
                         setTimeout(() => {
@@ -1771,7 +1817,7 @@
 
                 notificarDiscord(
                     "⚠️ Tentativa de Acesso Falha", 
-                    `**Dossiê:** ALAN FERNANDES LOPES\n**Senha digitada:** \`${pass || "[em branco]"}\`\n**Tentativas:** ${t}/3`, 
+                    `**Dossiê:** ALAN FERNANDES LOPES\n**CIM digitado:** '${cimDigitado || "[em branco]"}'\n**Tentativas:** ${t}/3`, 
                     "#b86b00" 
                 );
                 
@@ -1779,6 +1825,7 @@
                 passInput.focus();
                 
                 if (t >= 3) {
+                    cimInput.disabled = true;
                     passInput.disabled = true;
                     document.getElementById('btn-login').disabled = true;
                     document.querySelector('.auth-box').style.display = 'none';
@@ -1788,7 +1835,7 @@
         }
 
         function togglePassVisibility() {
-            const input = document.getElementById('passInput');
+            const input = document.getElementById('pass-input');
             const icon = document.getElementById('togglePassword');
             if (input.type === "password") {
                 input.type = "text";
@@ -1840,7 +1887,7 @@
             let stepsData = [];
             let totalSteps = 8;
             
-            const subtitleAuth = document.querySelector('.auth-box .sub-header');
+            const badgeAuth = document.getElementById('auth-badge');
             const subtitleMain = document.querySelector('.dossier-header .sub-header');
             
             const badge = document.getElementById('status-badge');
@@ -1862,7 +1909,7 @@
                     {id:6, txt:"Regularização", icon:"fa-gavel"}
                 ];
                 
-                if(subtitleAuth) subtitleAuth.innerText = "Dossiê de Regularização";
+                if(badgeAuth) badgeAuth.innerText = "Dossiê de Regularização";
                 if(subtitleMain) subtitleMain.innerText = "Dossiê de Regularização";
                 
                 document.getElementById('step-7').style.display = 'none';
@@ -1882,7 +1929,7 @@
                     {id:8, txt:"Iniciação", icon:"fa-gavel"}
                 ];
                 
-                if(subtitleAuth) subtitleAuth.innerText = "Dossiê de Sindicância";
+                if(badgeAuth) badgeAuth.innerText = "Dossiê de Sindicância";
                 if(subtitleMain) subtitleMain.innerText = "Dossiê de Sindicância";
                 
                 document.getElementById('step-7').style.display = 'block';
@@ -1914,7 +1961,6 @@
                 cimContainer.style.display = "block"; 
                 document.getElementById('cim-number').innerText = cimNumber;
                 
-                // Atraso para a animação da barra
                 setTimeout(() => {
                     progLine.style.width = "100%"; 
                 }, 100);
@@ -1947,7 +1993,6 @@
 
                 const percent = ((stepAtual-1) / (totalSteps-1)) * 100;
                 
-                // Atraso para a animação da barra
                 setTimeout(() => {
                     progLine.style.width = percent + "%";
                 }, 100);
@@ -1981,7 +2026,6 @@
                 
                 const percent = ((stepAtual-1) / (totalSteps-1)) * 100;
                 
-                // Atraso para a animação da barra "crescendo" funcionar
                 setTimeout(() => {
                     progLine.style.width = percent + "%";
                 }, 100);
@@ -1994,7 +2038,6 @@
                 }
             }
         }
-
 
         // =========================================================
         // 5. FUNÇÕES AUXILIARES E FILTRO DE BUSCA
@@ -2028,6 +2071,8 @@
         function calculateAge() {
             const birthElement = document.getElementById('nasc-data');
             const birthDateString = birthElement.innerText; 
+            if(birthDateString.includes('*')) return;
+
             const [day, month, year] = birthDateString.split('/');
             const birthDate = new Date(year, month - 1, day);
             const today = new Date();
@@ -2125,7 +2170,6 @@
                     this.radius = Math.random() * 1.5 + 0.5; 
                 }
                 position(){
-                    // Teletransporta a partícula para o lado oposto se sair da tela (inclusive ao dar zoom)
                     if(this.x > w) this.x = 0;
                     else if(this.x < 0) this.x = w;
                     
@@ -2174,22 +2218,42 @@
         // =========================================================
         // 6. LISTENERS E COOKIES
         // =========================================================
-        document.getElementById('passInput').addEventListener('keypress', function(event) {
-            if (event.key === 'Enter') {
-                event.preventDefault(); 
-                document.getElementById('btn-login').click(); 
-            }
-        });
+        
+        // Listeners para a tecla "Enter" no login
+        const passField = document.getElementById('pass-input');
+        const cimField = document.getElementById('cim-input');
 
-        document.getElementById('passInput').addEventListener('input', function(e) {
-            const icon = document.querySelector('.auth-box h2 i');
-            if (this.value.length > 0) {
-                icon.style.color = '#fff';
-                icon.style.textShadow = '0 0 15px var(--gold)';
-            } else {
-                icon.style.color = ''; 
-                icon.style.textShadow = '';
-            }
+        if(passField) {
+            passField.addEventListener('keypress', function(event) {
+                if (event.key === 'Enter') {
+                    event.preventDefault(); 
+                    document.getElementById('btn-login').click(); 
+                }
+            });
+        }
+        
+        if(cimField) {
+            cimField.addEventListener('keypress', function(event) {
+                if (event.key === 'Enter') {
+                    event.preventDefault(); 
+                    passField.focus(); 
+                }
+            });
+        }
+
+        // Listener para dar brilho na logo ao digitar
+        const authInputs = document.querySelectorAll('.auth-input');
+        authInputs.forEach(input => {
+            input.addEventListener('input', function(e) {
+                const icon = document.querySelector('.auth-box .auth-logo-img');
+                if (icon) {
+                    if (this.value.length > 0) {
+                        icon.style.filter = 'drop-shadow(0 0 20px var(--gold)) brightness(1.2)';
+                    } else {
+                        icon.style.filter = 'drop-shadow(0 0 15px rgba(212, 175, 55, 0.4))';
+                    }
+                }
+            });
         });
 
         function checkCookies() {
