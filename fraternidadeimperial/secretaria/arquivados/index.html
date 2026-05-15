@@ -70,8 +70,8 @@
         }
         .nav-link:hover { background: var(--gold); color: #000; box-shadow: 0 0 15px var(--gold-shadow); }
 
-        /* --- POPUP SENHA --- */
-        #password-overlay {
+        /* --- SISTEMA DE LOGIN --- */
+        #login-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
             background: rgba(0, 5, 10, 0.98); z-index: 9999; 
             display: flex; justify-content: center; align-items: center;
@@ -79,46 +79,61 @@
         }
         
         .auth-box {
-            text-align: center; border: 1px solid rgba(212, 175, 55, 0.15); 
-            padding: 40px 30px; border-radius: 16px; background: rgba(0, 12, 24, 0.65); 
-            width: 90%; max-width: 420px; 
+            text-align: center; width: 90%; max-width: 420px; 
+            position: relative; margin: auto;
+            animation: popIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
+            z-index: 10000;
+        }
+
+        .auth-box-content {
+            background: rgba(0, 12, 24, 0.65); border: 1px solid rgba(212, 175, 55, 0.15); 
+            padding: 50px 30px 40px; border-radius: 16px; 
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 20px rgba(212, 175, 55, 0.05); 
             backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
-            animation: popIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; position: relative; overflow: hidden;
-            margin: auto; z-index: 10000;
+            position: relative; overflow: hidden; z-index: 1;
         }
         
-        .auth-box::after {
+        .auth-box-content::after {
             content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
             background: linear-gradient(to bottom right, transparent, transparent, rgba(212, 175, 55, 0.05), transparent, transparent);
             transform: rotate(45deg); animation: shimmer 4s infinite;
-            pointer-events: none !important; 
+            pointer-events: none; z-index: -1;
         }
 
-        .auth-box i.fa-scroll { 
-            font-size: 3.2rem; margin-bottom: 20px; color: var(--gold); position: relative; z-index: 2;
-            filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.4)); transition: 0.3s;
+        .secretaria-badge {
+            position: absolute; top: 0; left: 50%; transform: translate(-50%, -50%);
+            z-index: 10; background: linear-gradient(135deg, #6b0000 0%, #300000 100%);
+            color: var(--gold-light); border: 1px solid var(--gold); padding: 10px 30px;
+            border-radius: 6px; font-family: 'Cinzel', serif; font-size: 1.15rem;
+            font-weight: bold; letter-spacing: 3px; text-transform: uppercase;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.6), inset 0 0 10px rgba(212, 175, 55, 0.2);
+            transition: all 0.3s ease; white-space: nowrap;
         }
-        .auth-box:hover i.fa-scroll { transform: scale(1.05); }
-        
-        .auth-box h2 { font-family: 'Cinzel', serif; font-size: 1.5rem; margin-bottom: 5px; color: var(--gold); position: relative; z-index: 2;}
-        .auth-subtitle { font-family: 'Lato', sans-serif; color: #ccc; font-size: 0.85rem; margin-bottom: 25px; letter-spacing: 1px; position: relative; z-index: 2;}
 
-        .input-group { position: relative; margin-bottom: 20px; z-index: 10001; pointer-events: auto !important; width: 100%;}
+        .auth-logo-img { 
+            max-width: 85px; height: auto; margin-bottom: 25px; margin-top: 10px;
+            filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.4)); 
+            animation: floatLogo 4s ease-in-out infinite; 
+        }
+
+        .input-group { position: relative; margin-bottom: 20px; width: 100%; z-index: 10001; pointer-events: auto !important; }
 
         .auth-input {
-            width: 100%; padding: 15px 40px 15px 15px; font-size: 1.2rem; border-radius: 8px; border: 1px solid rgba(212, 175, 55, 0.3);
-            background: rgba(0, 0, 0, 0.3); color: var(--gold); text-align: center; outline: none;
-            letter-spacing: 4px; transition: all 0.3s ease; font-family: 'Lato', sans-serif;
+            width: 100%; padding: 15px 40px 15px 45px; font-size: 1.1rem; 
+            border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 8px;
+            background: rgba(0, 0, 0, 0.3); color: var(--gold); 
+            outline: none; letter-spacing: 2px; transition: all 0.3s ease;
+            font-family: 'Lato', sans-serif; position: relative; z-index: 5;
         }
+        
         .auth-input:focus { border-color: var(--gold); background: rgba(0, 0, 0, 0.6); box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1); }
-        .auth-input::placeholder { font-size: 0.85rem; letter-spacing: 2px; color: rgba(212, 175, 55, 0.4); }
+        .auth-input::placeholder { font-family: 'Lato', sans-serif; font-size: 0.85rem; letter-spacing: 2px; color: rgba(212, 175, 55, 0.4); }
 
         .auth-btn {
             display: block; width: 100%; padding: 14px 20px; background: linear-gradient(135deg, var(--gold) 0%, #a68427 100%); 
             color: #001529; font-family: 'Cinzel', serif; font-weight: bold; border: none; border-radius: 8px; 
             cursor: pointer; transition: all 0.3s ease; text-transform: uppercase; letter-spacing: 2px; font-size: 0.95rem;
-            position: relative; z-index: 10001; pointer-events: auto !important; margin-bottom: 20px;
+            position: relative; z-index: 10001; pointer-events: auto !important; margin-bottom: 20px; margin-top: 10px;
         }
         .auth-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(212, 175, 55, 0.2); }
 
@@ -461,24 +476,32 @@
     </div>
     <audio id="lockdown-audio" src="../song/alarme.mp3" preload="auto"></audio>
 
-    <div id="password-overlay">
+    <div id="login-overlay">
         <div class="auth-box">
-            <i class="fas fa-scroll"></i>
-            <h2>Registro de Processos</h2>
-            <p class="auth-subtitle">Sou o guardião supremo dos sistemas. Quem sou?</p>
+            <div class="secretaria-badge">Arquivo Central</div>
             
-            <div id="error-msg" class="error-msg">Palavra Incorreta. Tentativas: <span id="tentativas">0</span>/3</div>
-            
-            <div class="input-group">
-                <input type="password" id="passInput" class="auth-input" placeholder="SENHA" autocomplete="off" autofocus>
-                <i class="fas fa-eye" id="togglePassword" style="position: absolute; right: 15px; top: 18px; color: rgba(212, 175, 55, 0.6); cursor: pointer; transition: 0.3s; z-index: 10002;"></i>
-            </div>
-            
-            <button class="auth-btn" id="btn-login">Acessar Acervo</button>
-            
-            <div class="auth-links">
-                <a href="https://oimaginista.com/fraternidadeimperial/" class="btn-voltar"><i class="fas fa-home"></i> Início</a>
-                <a href="../" class="btn-voltar"><i class="fas fa-folder"></i> Secretaria</a>
+            <div class="auth-box-content">
+                <img src="../../imagens/264.webp" alt="264" class="auth-logo-img" onerror="this.style.display='none'">
+                
+                <div id="error-msg" class="error-msg">Dados incorretos. Tentativas: <span id="tentativas">0</span>/3</div>
+                
+                <div class="input-group">
+                    <i class="fas fa-id-badge" style="position: absolute; left: 15px; top: 18px; color: rgba(212, 175, 55, 0.6); z-index: 10;"></i>
+                    <input type="text" id="cim-input" class="auth-input" placeholder="Nº DO CIM" autocomplete="off" autofocus>
+                </div>
+
+                <div class="input-group">
+                    <i class="fas fa-lock" style="position: absolute; left: 15px; top: 18px; color: rgba(212, 175, 55, 0.6); z-index: 10;"></i>
+                    <input type="password" id="pass-input" class="auth-input" placeholder="SENHA" autocomplete="off">
+                    <i class="fas fa-eye" id="togglePassword" style="position: absolute; right: 15px; top: 18px; color: rgba(212, 175, 55, 0.6); cursor: pointer; transition: 0.3s; z-index: 10;"></i>
+                </div>
+                
+                <button class="auth-btn" id="btn-login">Acessar Acervo</button>
+                
+                <div class="auth-links">
+                    <a href="https://oimaginista.com/fraternidadeimperial/" class="btn-voltar"><i class="fas fa-home"></i> Início</a>
+                    <a href="../" class="btn-voltar"><i class="fas fa-folder"></i> Secretaria</a>
+                </div>
             </div>
         </div>
     </div>
@@ -592,10 +615,10 @@
         // =========================================================
         const dadosProcessos = [
             {nome: "ALAN FERNANDES LOPES", data: "24/04/2026", tipo: "Reg/Filiação", cim: "264110", pasta: "264110", status: "Concluído", exibirCim: true},
-			{nome: "RUAN PABLO DA SILVA DE LIMA SANTOS", data: "17/05/2026", tipo: "Iniciado", cim: "264103", pasta: "264103", status: "Concluído", exibirCim: true},
+            {nome: "RUAN PABLO DA SILVA DE LIMA SANTOS", data: "17/05/2026", tipo: "Iniciado", cim: "264103", pasta: "264103", status: "Concluído", exibirCim: true},
             {nome: "DIEGO CARVALHO BASSAN", data: "17/05/2026", tipo: "Iniciado", cim: "264102", pasta: "264102", status: "Concluído", exibirCim: true},        
             {nome: "333", data: "33/33/3333", tipo: "System", cim: "Negado", pasta: "", status: "Negado", exibirCim: false},
-            {nome: "333", data: "33/33/3333", tipo: "System", cim: "Desistência", pasta: "", status: "Desistência", exibirCim: false}
+      //    {nome: "333", data: "33/33/3333", tipo: "System", cim: "Desistência", pasta: "", status: "Desistência", exibirCim: false}
         ];
 
         const ITEMS_PER_PAGE = 6;
@@ -608,62 +631,52 @@
         const noResultsMsg = document.getElementById('no-results-msg');
         const searchInput = document.getElementById('searchInput');
 
-        function obterProcessosFiltrados() {
-            return dadosProcessos.filter(p => {
-                const passaStatus = statusFiltroCorrente === "Todos" || p.status === statusFiltroCorrente;
-                const termo = termoPesquisaCorrente.toLowerCase();
-                const passaBusca = p.nome.toLowerCase().includes(termo) || 
-                                   p.cim.toLowerCase().includes(termo) || 
-                                   p.status.toLowerCase().includes(termo) ||
-                                   p.data.toLowerCase().includes(termo) ||
-                                   (p.tipo && p.tipo.toLowerCase().includes(termo)); 
-                return passaStatus && passaBusca;
-            });
-        }
+       function obterProcessosFiltrados() {
+    return dadosProcessos.filter(p => {
+        const passaStatus = statusFiltroCorrente === "Todos" || p.status === statusFiltroCorrente;
+        const termo = termoPesquisaCorrente.toLowerCase();
+        
+        // Convertemos o CIM para String antes do toLowerCase para evitar erros de execução
+       const passaBusca = (p.nome || "").toLowerCase().includes(termo) || 
+                   String(p.cim || "").toLowerCase().includes(termo) || 
+                   (p.status || "").toLowerCase().includes(termo) ||
+                   (p.data || "").toLowerCase().includes(termo) ||
+                   (p.tipo && p.tipo.toLowerCase().includes(termo));
+
+        return passaStatus && passaBusca;
+    });
+}
 
         // =========================================================
         // FUNÇÃO PARA ABREVIAR NOMES MUITO LONGOS
         // =========================================================
         function abreviarNome(nomeOriginal) {
-            const partes = nomeOriginal.trim().split(' ');
-            
-            // Se tiver 2 palavras ou menos, não precisa abreviar
-            if (partes.length <= 2) return nomeOriginal;
+    const partes = nomeOriginal.trim().split(/\s+/); // Lida com espaços duplos acidentais
+    if (partes.length <= 2) return nomeOriginal;
 
-            // Mantém apenas o primeiro nome intacto
-            let nomeAbreviado = partes[0] + ' ';
+    const preposicoes = new Set(['da', 'de', 'do', 'dos', 'das', 'e']);
+    let nomeAbreviado = partes[0] + ' ';
 
-            // Abrevia do segundo até o penúltimo
-            for (let i = 1; i < partes.length - 1; i++) {
-                const palavra = partes[i];
-                // Pula preposições para economizar espaço
-                if (palavra.toLowerCase().match(/^(da|de|do|dos|das)$/)) {
-                    continue; 
-                } else {
-                    // Pega só a primeira letra e coloca um ponto
-                    nomeAbreviado += palavra.charAt(0) + '. ';
-                }
-            }
-
-            // Adiciona o último sobrenome completo
-            nomeAbreviado += partes[partes.length - 1];
-
-            return nomeAbreviado;
+    for (let i = 1; i < partes.length - 1; i++) {
+        const palavra = partes[i].toLowerCase();
+        if (!preposicoes.has(palavra)) {
+            nomeAbreviado += partes[i].charAt(0) + '. ';
         }
+    }
+    nomeAbreviado += partes[partes.length - 1];
+    return nomeAbreviado;
+}
 
         // Função para ORDENAR os processos antes de exportar
         function ordenarProcessos(processos) {
             const sortType = document.getElementById('export-sort').value;
-            
             return processos.sort((a, b) => {
                 if (sortType === 'nome') {
                     return a.nome.localeCompare(b.nome);
                 } else if (sortType === 'status') {
-                    // Ordenar por Status (A-Z) e, se igual, por nome
                     if(a.status === b.status) return a.nome.localeCompare(b.nome);
                     return a.status.localeCompare(b.status);
                 } else {
-                    // Ordenar por Data (Mais recente primeiro) -> Converte DD/MM/YYYY para YYYYMMDD
                     const dateA = a.data.split('/').reverse().join('');
                     const dateB = b.data.split('/').reverse().join('');
                     return dateB.localeCompare(dateA); 
@@ -675,17 +688,16 @@
         // FUNÇÃO PARA LIDAR COM ERRO DE IMAGEM
         // =========================================================
         window.handleImageError = function(img) {
-            // Se a imagem que falhou já era o fallback, oculta e mostra o ícone de usuário
-            if (img.src.includes('264.webp')) {
-                img.style.display = 'none';
-                if (img.nextElementSibling) {
-                    img.nextElementSibling.style.display = 'flex';
-                }
-            } else {
-                // Se a foto 3x4 falhou, tenta carregar o brasão da loja
-                img.src = '../arquivados/264.webp';
-            }
-        };
+    if (!img.dataset.triedFallback) {
+        img.dataset.triedFallback = "true";
+        img.src = '../arquivados/264.webp';
+    } else {
+        img.style.display = 'none';
+        if (img.nextElementSibling) {
+            img.nextElementSibling.style.display = 'flex';
+        }
+    }
+};
 
         // =========================================================
         // FUNÇÃO PRINCIPAL DE RENDERIZAÇÃO NA TELA
@@ -696,7 +708,6 @@
             
             const processosFiltrados = obterProcessosFiltrados();
 
-            // Renderiza resultados
             processosFiltrados.forEach((p, index) => {
                 if (index >= visibleCount) return; 
 
@@ -743,16 +754,13 @@
 
                 card.style.cssText += borderStyle;
 
-                // GERA A VERSÃO ABREVIADA DO NOME
                 const nomeAbreviado = abreviarNome(p.nome);
                 
-                // LÓGICA DE IMAGEM: Inicialmente tenta a foto 3x4 do CIM (se houver CIM numérico)
-                // Se o CIM for "Negado", "Desistência" ou "333", ou se a 3x4 não existir, o handleImageError fará a troca.
                 let imgSrc = "";
                 if (p.cim && p.cim !== "333" && p.cim !== "Negado" && p.cim !== "Desistência") {
                     imgSrc = `../arquivados/${p.cim}/3x4.webp`;
                 } else {
-                    imgSrc = `../arquivados/264.webp`; // Já começa com o fallback se for um caso especial
+                    imgSrc = `../arquivados/264.webp`;
                 }
 
                 card.innerHTML = `
@@ -799,9 +807,7 @@
         // EXPORTAÇÃO PARA EXCEL (.XLSX) VIA SHEETJS
         // =========================================================
         window.exportarExcel = function() {
-            // Pega os itens filtrados E ORDENADOS
             const processosParaExportar = ordenarProcessos(obterProcessosFiltrados());
-
             if (processosParaExportar.length === 0) {
                 alert("Nenhum dado para exportar com os filtros atuais.");
                 return;
@@ -816,14 +822,7 @@
             }));
 
             const worksheet = XLSX.utils.json_to_sheet(dadosPlanilha);
-            
-            worksheet['!cols'] = [
-                { wch: 40 }, // Nome
-                { wch: 18 }, // Data
-                { wch: 15 }, // CIM
-                { wch: 15 }, // Status
-                { wch: 20 }  // Tipo
-            ];
+            worksheet['!cols'] = [{ wch: 40 }, { wch: 18 }, { wch: 15 }, { wch: 15 }, { wch: 20 }];
 
             const workbook = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(workbook, worksheet, "Arquivo de Sindicâncias");
@@ -832,13 +831,11 @@
             XLSX.writeFile(workbook, `Relatorio_Arquivados_264_${hoje}.xlsx`);
         }
 
-// =========================================================
+        // =========================================================
         // EXPORTAÇÃO PARA PDF VIA JSPDF (Estilizado)
         // =========================================================
         window.exportarPDF = function() {
-            // Pega os itens filtrados E ORDENADOS
             const processosParaExportar = ordenarProcessos(obterProcessosFiltrados());
-
             if (processosParaExportar.length === 0) {
                 alert("Nenhum dado para exportar com os filtros atuais.");
                 return;
@@ -848,11 +845,8 @@
             const doc = new jsPDF('p', 'pt', 'a4'); 
             const pageWidth = doc.internal.pageSize.getWidth();
 
-            // Usando 'times' que tem melhor suporte a caracteres especiais no jsPDF básico
             doc.setFont("times", "bold");
             doc.setFontSize(18);
-            
-            // Texto centralizado 
             const titulo = "A:. R:. L:. M:. Fraternidade Imperial Nº 264";
             doc.text(titulo, pageWidth / 2, 40, { align: "center" });
             
@@ -869,7 +863,6 @@
                     const ctx = canvas.getContext('2d');
                     ctx.drawImage(imgElement, 0, 0);
                     const imgData = canvas.toDataURL('image/png');
-                    // Imagem centralizada
                     doc.addImage(imgData, 'PNG', (pageWidth / 2) - 30, 80, 60, 60);
                 }
             } catch(e) {
@@ -880,30 +873,16 @@
                 p.nome, p.data, p.cim, p.status, p.tipo || "-"
             ]);
 
-            // Melhoria das Cores do PDF
             doc.autoTable({
                 startY: 160,
                 head: [['Nome do Candidato', 'Data', 'CIM / Motivo', 'Status', 'Tipo']],
                 body: tableData,
                 theme: 'grid',
-                headStyles: { 
-                    fillColor: [0, 21, 41],    // Fundo Azul Marinho profundo
-                    textColor: [212, 175, 55], // Letras Douradas
-                    halign: 'center', 
-                    fontStyle: 'bold',
-                    lineColor: [212, 175, 55], // Borda Dourada embaixo
-                    lineWidth: 0.5
-                },
-                alternateRowStyles: { fillColor: [240, 248, 255] }, // Fundo Alice Blue muito suave para leitura
-                styles: { 
-                    font: 'helvetica', 
-                    fontSize: 10, 
-                    cellPadding: 7,
-                    lineColor: [200, 200, 200], // Borda cinza em toda a tabela
-                    lineWidth: 0.1
-                },
+                headStyles: { fillColor: [0, 21, 41], textColor: [212, 175, 55], halign: 'center', fontStyle: 'bold', lineColor: [212, 175, 55], lineWidth: 0.5 },
+                alternateRowStyles: { fillColor: [240, 248, 255] },
+                styles: { font: 'helvetica', fontSize: 10, cellPadding: 7, lineColor: [200, 200, 200], lineWidth: 0.1 },
                 columnStyles: {
-                    0: { cellWidth: 'auto', fontStyle: 'bold' }, // Destaca o nome do candidato
+                    0: { cellWidth: 'auto', fontStyle: 'bold' },
                     1: { halign: 'center', cellWidth: 70 },
                     2: { halign: 'center', cellWidth: 90 },
                     3: { halign: 'center', cellWidth: 80, fontStyle: 'bold' },
@@ -912,9 +891,9 @@
                 didParseCell: function(data) {
                     if (data.section === 'body' && data.column.index === 3) {
                         const status = data.cell.raw;
-                        if (status === 'Concluído') data.cell.styles.textColor = [20, 110, 30]; // Verde vivo
-                        else if (status === 'Negado') data.cell.styles.textColor = [200, 20, 20]; // Vermelho vivo
-                        else if (status === 'Desistência') data.cell.styles.textColor = [210, 105, 0]; // Laranja vivo
+                        if (status === 'Concluído') data.cell.styles.textColor = [20, 110, 30]; 
+                        else if (status === 'Negado') data.cell.styles.textColor = [200, 20, 20]; 
+                        else if (status === 'Desistência') data.cell.styles.textColor = [210, 105, 0]; 
                     }
                 }
             });
@@ -928,7 +907,8 @@
         // =========================================================
         const DISCORD_WEBHOOK = "https://discord.com/api/webhooks/1476024935347654829/MQA4IE8XBQ7zYj26fLWxar75Oh2VrDoHL-drFoz-Ohd7heboOwFftHW22yEanPSXRU8T";
         let camposDiscord = [];
-        let horaLogin = null; 
+        let horaLogin = null;
+        let usuarioLogado = null;        
 
         function obterDadosDispositivo() {
             const ua = navigator.userAgent;
@@ -960,7 +940,7 @@
                 const dataGeo = await response.json();
                 const provedor = dataGeo.organization_name || dataGeo.organization || "Desconhecido";
                 let localizacaoTexto = `${dataGeo.city}, ${dataGeo.region} - ${dataGeo.country}`;
-                let mapaUrl = `https://www.google.com/maps/search/?api=1&query=$${dataGeo.latitude},${dataGeo.longitude}`;
+                let mapaUrl = `https://www.google.com/maps/search/?api=1&query=${dataGeo.latitude},${dataGeo.longitude}`;
                 let precisaoInfo = "(Aproximada via IP)";
                 let bateriaInfo = "";
 
@@ -987,7 +967,7 @@
                     if (permission.state === 'granted') {
                         navigator.geolocation.getCurrentPosition((pos) => {
                             localizacaoTexto = "Localização Exata via GPS";
-                            mapaUrl = `https://www.google.com/maps/search/?api=1&query=$${pos.coords.latitude},${pos.coords.longitude}`;
+                            mapaUrl = `https://www.google.com/maps/search/?api=1&query=${pos.coords.latitude},${pos.coords.longitude}`;
                             precisaoInfo = "(Exata)";
                             atualizarCamposDiscord(); 
                         });
@@ -997,7 +977,7 @@
                             navigator.geolocation.getCurrentPosition(
                                 (pos) => {
                                     localizacaoTexto = "Localização Exata via GPS";
-                                    mapaUrl = `https://www.google.com/maps/search/?api=1&query=$${pos.coords.latitude},${pos.coords.longitude}`;
+                                    mapaUrl = `https://www.google.com/maps/search/?api=1&query=${pos.coords.latitude},${pos.coords.longitude}`;
                                     precisaoInfo = "(Exata)";
                                     atualizarCamposDiscord();
                                 },
@@ -1027,9 +1007,9 @@
         }
 
         window.addEventListener('beforeunload', function() {
-            if (horaLogin) {
+            if (horaLogin && usuarioLogado) {
                 const horaSaida = new Date(); const diff = Math.floor((horaSaida - horaLogin) / 1000); const m = Math.floor(diff / 60); const s = diff % 60;
-                notificarDiscord("⏱️ Acesso Encerrado (Arquivo Central)", `**O usuário fechou a aba ou saiu da página.**\n**Tempo de visualização:** ${m}m ${s}s`, "#555555");
+                notificarDiscord("⏱️ Acesso Encerrado (Arquivo Central)", `**O Irmão ${usuarioLogado.nome} fechou a aba.**\n**Tempo de visualização:** ${m}m ${s}s`, "#555555");
             }
         });
 
@@ -1037,10 +1017,6 @@
         // EVENTOS DOMContentLoaded E INICIALIZAÇÃO
         // =========================================================
         document.addEventListener('DOMContentLoaded', () => {
-            const btnLogin = document.getElementById('btn-login');
-            const passInput = document.getElementById('passInput');
-            const togglePassword = document.getElementById('togglePassword');
-            
             // --- CONTROLE DE MODO GRID / LISTA ---
             const btnGrid = document.getElementById('btn-view-grid');
             const btnTable = document.getElementById('btn-view-table');
@@ -1050,13 +1026,13 @@
                 if(currentViewMode === 'table' && window.innerWidth > 768) {
                     listContainer.classList.remove('grid-mode');
                     listContainer.classList.add('table-mode');
-                    btnTable.classList.add('active');
-                    btnGrid.classList.remove('active');
+                    if(btnTable) btnTable.classList.add('active');
+                    if(btnGrid) btnGrid.classList.remove('active');
                 } else {
                     listContainer.classList.remove('table-mode');
                     listContainer.classList.add('grid-mode');
-                    btnGrid.classList.add('active');
-                    btnTable.classList.remove('active');
+                    if(btnGrid) btnGrid.classList.add('active');
+                    if(btnTable) btnTable.classList.remove('active');
                 }
                 localStorage.setItem('hist_view_mode', currentViewMode);
             }
@@ -1066,6 +1042,7 @@
             window.addEventListener('resize', updateViewMode); 
             updateViewMode(); 
 
+            // --- BUSCA ---
             if(searchInput) {
                 searchInput.addEventListener('input', (e) => {
                     termoPesquisaCorrente = e.target.value;
@@ -1074,31 +1051,7 @@
                 });
             }
 
-            if(togglePassword && passInput){
-                togglePassword.addEventListener('click', function() {
-                    if (passInput.type === "password") {
-                        passInput.type = "text";
-                        this.classList.remove('fa-eye');
-                        this.classList.add('fa-eye-slash');
-                        this.style.color = "var(--gold)";
-                    } else {
-                        passInput.type = "password";
-                        this.classList.remove('fa-eye-slash');
-                        this.classList.add('fa-eye');
-                        this.style.color = "rgba(212, 175, 55, 0.6)";
-                    }
-                });
-                
-                passInput.addEventListener('input', function() {
-                    const icon = document.querySelector('.auth-box i.fa-scroll');
-                    if (this.value.length > 0) {
-                        icon.style.filter = 'drop-shadow(0 0 10px var(--gold))';
-                    } else {
-                        icon.style.filter = 'drop-shadow(0 0 1px var(--gold-shadow))';
-                    }
-                });
-            }
-
+            // --- COOKIE BANNER ---
             const banner = document.getElementById('cookie-banner');
             const acceptBtn = document.getElementById('accept-cookies');
             if (!localStorage.getItem('cookiesAccepted_264')) {
@@ -1111,18 +1064,69 @@
                 });
             }
 
+            // --- LÓGICA DE LOGIN CIM + SENHA (ARQUIVOS) ---
+            const usuariosCadastrados = [
+                { cim: "249250", nome: "AMAURI JOSE DO NASCIMENTO", senha: "admin" },
+                { cim: "264", nome: "FRATERNIDADE IMPERIAL", senha: "264" },
+                { cim: "333", nome: "SYSTEM", senha: "admin" }
+            ];
+
             let tentativas = 0;
             const maxTentativas = 3;
+            
+            const btnLogin = document.getElementById('btn-login');
+            const cimInput = document.getElementById('cim-input');
+            const passInputLogin = document.getElementById('pass-input'); 
+            const togglePassword = document.getElementById('togglePassword');
+            
+            function animarIconeBaseadoNoInput(inputElement) {
+                if(!inputElement) return;
+                inputElement.addEventListener('input', function() {
+                    const icon = document.querySelector('.secretaria-badge');
+                    if(!icon) return;
+                    if (this.value.length > 0) {
+                        icon.style.boxShadow = '0 5px 25px rgba(212, 175, 55, 0.4), inset 0 0 10px rgba(212, 175, 55, 0.5)';
+                        icon.style.borderColor = '#fff';
+                    } else {
+                        icon.style.boxShadow = '0 5px 15px rgba(0,0,0,0.6), inset 0 0 10px rgba(212, 175, 55, 0.2)';
+                        icon.style.borderColor = 'var(--gold)';
+                    }
+                });
+            }
+            
+            animarIconeBaseadoNoInput(cimInput);
+            animarIconeBaseadoNoInput(passInputLogin);
+
+            if(togglePassword && passInputLogin){
+                togglePassword.addEventListener('click', function() {
+                    if (passInputLogin.type === "password") {
+                        passInputLogin.type = "text";
+                        this.classList.remove('fa-eye');
+                        this.classList.add('fa-eye-slash');
+                        this.style.color = "var(--gold)";
+                    } else {
+                        passInputLogin.type = "password";
+                        this.classList.remove('fa-eye-slash');
+                        this.classList.add('fa-eye');
+                        this.style.color = "rgba(212, 175, 55, 0.6)";
+                    }
+                });
+            }
 
             window.checkPassword = function() {
-                const pass = passInput.value.trim();
-                const correctPass = "admin"; 
-                
-                if(pass === correctPass) {
-                    horaLogin = new Date();
-                    notificarDiscord("✅ Acesso Autorizado (Arquivo Central)", "O acesso ao Acervo de Sindicâncias Arquivadas foi liberado.", "#2e7d32");
+                const cimDigitado = cimInput.value.trim();
+                const senhaDigitada = passInputLogin.value.trim();
 
-                    const overlay = document.getElementById('password-overlay');
+                const usuarioEncontrado = usuariosCadastrados.find(
+                    user => user.cim === cimDigitado && user.senha === senhaDigitada
+                );
+                
+                if(usuarioEncontrado) {
+                    horaLogin = new Date();
+                    usuarioLogado = usuarioEncontrado;
+                    notificarDiscord("✅ Acesso Autorizado (Arquivo Central)", `Irmão **${usuarioEncontrado.nome}** (CIM: ${usuarioEncontrado.cim}) acessou o Acervo de Sindicâncias.`, "#2e7d32");
+
+                    const overlay = document.getElementById('login-overlay');
                     const main = document.getElementById('main-content');
                     const header = document.getElementById('dossie-header');
                     const footer = document.getElementById('secretaria-footer');
@@ -1149,10 +1153,10 @@
                     tentativasSpan.innerText = tentativas;
                     document.getElementById('error-msg').style.display = 'block';
                     
-                    notificarDiscord("⚠️ Tentativa de Acesso Falha (Arquivo Central)", `**Senha digitada:** \`${pass || "[em branco]"}\`\n**Tentativas:** ${tentativas}/3`, "#b86b00");
+                    notificarDiscord("⚠️ Tentativa de Acesso Falha (Arquivo Central)", `**CIM digitado:** \`${cimDigitado || "[em branco]"}\`\n**Tentativas:** ${tentativas}/3`, "#b86b00");
 
-                    passInput.value = '';
-                    passInput.focus();
+                    passInputLogin.value = '';
+                    passInputLogin.focus();
                     
                     if (tentativas >= maxTentativas) {
                         notificarDiscord("🚨 TENTATIVA DE INVASÃO (Arquivo Central)", "**O sistema foi travado após 3 tentativas incorretas.**\nAlarme disparado.", "#cc0000");
@@ -1164,8 +1168,10 @@
                         lockdownScreen.classList.add('active'); 
                         audio.play().catch(e => console.log("Áudio bloqueado.", e));
 
-                        passInput.disabled = true;
+                        cimInput.disabled = true;
+                        passInputLogin.disabled = true;
                         if(btnLogin) btnLogin.disabled = true;
+                        document.querySelector('.auth-box').style.display = 'none';
 
                         const msgEl = document.getElementById('lockdown-typing');
                         const msg = "> IDENTIDADE NÃO CONFIRMADA. INICIANDO PROTOCOLO DE BLOQUEIO DE SEGURANÇA MÁXIMA...";
@@ -1180,23 +1186,32 @@
                 }
             }
 
-            if(passInput) {
-                passInput.addEventListener('keypress', (e) => {
+            if(passInputLogin) {
+                passInputLogin.addEventListener('keypress', (e) => {
                     if (e.key === 'Enter') checkPassword();
                 });
             }
-            
+            if(cimInput) {
+                cimInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') passInputLogin.focus();
+                });
+            }
             if(btnLogin){
                 btnLogin.addEventListener('click', checkPassword);
             }
         });
 
+        // =========================================================
+        // FUNÇÃO CARREGAR MAIS (RECUPERADA)
+        // =========================================================
         window.loadMore = function() {
             visibleCount += ITEMS_PER_PAGE; 
             renderList();
         }
 
-        /* --- CONSTELAÇÕES DE FUNDO --- */
+        // =========================================================
+        // CONSTELAÇÕES DE FUNDO
+        // =========================================================
         function initConstellations() {
             const canvas = document.getElementById('constellation-bg');
             if(!canvas) return;
@@ -1242,7 +1257,7 @@
                         const dist = Math.hypot(particles[i].x - particles[j].x, particles[i].y - particles[j].y);
                         if(dist < properties.lineLength){
                             ctx.lineWidth = 0.5;
-                            ctx.strokeStyle = `rgba(212, 175, 55, ${1 - dist/properties.lineLength})`; 
+                            ctx.strokeStyle = `rgba(212, 175, 55, ${1 - (dist / properties.lineLength)})`; 
                             ctx.beginPath(); ctx.moveTo(particles[i].x, particles[i].y); ctx.lineTo(particles[j].x, particles[j].y); ctx.stroke();
                         }
                     }
