@@ -308,7 +308,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* --- SISTEMA DE LOGIN PADRÃO DOSSIÊ --- */
+       /* --- SISTEMA DE LOGIN PADRÃO DOSSIÊ --- */
         #login-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
             background: rgba(0, 5, 10, 0.98); z-index: 9999; 
@@ -318,86 +318,79 @@
         
         .auth-box {
             text-align: center; 
-            border: 1px solid rgba(212, 175, 55, 0.15); 
-            padding: 40px 30px; 
-            border-radius: 16px; 
-            background: rgba(0, 12, 24, 0.65); 
             width: 90%; 
             max-width: 420px; 
+            position: relative; 
+            margin: auto;
+            animation: popIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
+        }
+
+        .auth-box-content {
+            background: rgba(0, 12, 24, 0.65); 
+            border: 1px solid rgba(212, 175, 55, 0.15); 
+            padding: 50px 30px 40px;
+            border-radius: 16px; 
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 20px rgba(212, 175, 55, 0.05); 
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
-            animation: popIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
             position: relative; 
             overflow: hidden;
-            margin: auto;
+            z-index: 1;
         }
         
-        .auth-box::after {
+        .auth-box-content::after {
             content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
             background: linear-gradient(to bottom right, transparent, transparent, rgba(212, 175, 55, 0.05), transparent, transparent);
             transform: rotate(45deg); animation: shimmer 4s infinite;
-            pointer-events: none; /* A MÁGICA ESTÁ AQUI: Isso permite que os cliques passem pela animação! */
+            pointer-events: none;
+            z-index: -1;
         }
 
-        .auth-logo-img { max-width: 80px; height: auto; margin-bottom: 15px; filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.4)); animation: floatLogo 4s ease-in-out infinite; }
+        .secretaria-badge {
+            position: absolute; top: 0; left: 50%; transform: translate(-50%, -50%);
+            z-index: 10; background: linear-gradient(135deg, #6b0000 0%, #300000 100%);
+            color: var(--gold-light); border: 1px solid var(--gold); padding: 10px 30px;
+            border-radius: 6px; font-family: 'Cinzel', serif; font-size: 1.15rem;
+            font-weight: bold; letter-spacing: 3px; text-transform: uppercase;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.6), inset 0 0 10px rgba(212, 175, 55, 0.2);
+            transition: all 0.3s ease; white-space: nowrap;
+        }
+
+        .auth-logo-img { 
+            max-width: 95px; height: auto; margin-bottom: 25px; margin-top: 10px;
+            filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.4)); 
+            animation: floatLogo 4s ease-in-out infinite; 
+        }
+        
         @keyframes floatLogo { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
 
-        .auth-box h2 { font-family: 'Cinzel', serif; font-size: 1.5rem; margin-bottom: 5px; color: var(--gold); }
-        .auth-subtitle { font-family: 'Lato', sans-serif; color: #ccc; font-size: 0.85rem; margin-bottom: 25px; letter-spacing: 1px;}
-
-        .input-group {
-            position: relative;
-            margin-bottom: 30px;
-            width: 100%;
-        }
+        .input-group { position: relative; margin-bottom: 20px; width: 100%; }
 
         .auth-input {
-            width: 100%; 
-            padding: 15px 40px 15px 15px;
-            font-size: 1.2rem; 
-            border: 1px solid rgba(212, 175, 55, 0.3); 
-            border-radius: 8px;
-            background: rgba(0, 0, 0, 0.3); 
-            color: var(--gold); 
-            text-align: center; 
-            outline: none;
-            letter-spacing: 4px; 
-            transition: all 0.3s ease;
-            font-family: 'Lato', sans-serif;
-            position: relative;
-            z-index: 5;
+            width: 100%; padding: 15px 40px 15px 45px; font-size: 1.1rem; 
+            border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 8px;
+            background: rgba(0, 0, 0, 0.3); color: var(--gold); 
+            outline: none; letter-spacing: 2px; transition: all 0.3s ease;
+            font-family: 'Lato', sans-serif; position: relative; z-index: 5;
         }
         
         .auth-input:focus { 
-            border-color: var(--gold); 
-            background: rgba(0, 0, 0, 0.6);
+            border-color: var(--gold); background: rgba(0, 0, 0, 0.6);
             box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1); 
         }
         
-        .auth-input::placeholder {
-            font-family: 'Lato', sans-serif;
-            font-size: 0.85rem;
-            letter-spacing: 2px;
-            color: rgba(212, 175, 55, 0.4);
-        }
+        .auth-input::placeholder { font-family: 'Lato', sans-serif; font-size: 0.85rem; letter-spacing: 2px; color: rgba(212, 175, 55, 0.4); }
 
         .auth-btn {
             display: block; width: 100%; padding: 14px 20px; 
             background: linear-gradient(135deg, var(--gold) 0%, #a68427 100%); 
             color: #001529; font-family: 'Cinzel', serif; font-weight: bold; 
-            border: none; border-radius: 8px; 
-            cursor: pointer; transition: all 0.3s ease; 
+            border: none; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; 
             text-transform: uppercase; letter-spacing: 2px; font-size: 0.95rem;
-            margin-bottom: 20px;
-            position: relative;
-            z-index: 5;
+            margin-top: 10px; margin-bottom: 20px; position: relative; z-index: 5;
         }
         
-        .auth-btn:hover { 
-            transform: translateY(-2px); 
-            box-shadow: 0 10px 20px rgba(212, 175, 55, 0.2); 
-        }
+        .auth-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(212, 175, 55, 0.2); }
 
         .btn-voltar {
             width: 100%; padding: 10px; background: transparent; border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 6px;
@@ -406,6 +399,8 @@
             position: relative; z-index: 10;
         }
         .btn-voltar:hover { background: rgba(212, 175, 55, 0.1); border-color: var(--gold); }
+
+        .error-msg { color: #ff4c4c; font-family: 'Lato'; font-size: 0.85rem; margin-bottom: 15px; display: none; height: 20px; position: relative; z-index: 5; }
 
         .error-msg { color: #ff4c4c; font-family: 'Lato'; font-size: 0.85rem; margin-bottom: 15px; display: none; height: 20px; position: relative; z-index: 5; }
 
@@ -541,19 +536,27 @@
 
     <div id="login-overlay">
         <div class="auth-box">
-            <img src="../imagens/264.webp" alt="264" class="auth-logo-img" onerror="this.style.display='none'">
-            <h2>Secretaria Digital</h2>
-            <p class="auth-subtitle">Sou majestade elevada ao máximo. Quem sou?</p>
+            <div class="secretaria-badge">Secretaria</div>
             
-            <div id="error-msg" class="error-msg">Palavra Incorreta. Tentativas: <span id="tentativas">0</span>/3</div>
-            
-            <div class="input-group">
-                <input type="password" id="pass-input" class="auth-input" placeholder="SENHA" autocomplete="off" autofocus>
-                <i class="fas fa-eye" id="togglePassword" style="position: absolute; right: 15px; top: 18px; color: rgba(212, 175, 55, 0.6); cursor: pointer; transition: 0.3s; z-index: 10;"></i>
+            <div class="auth-box-content">
+                <img src="../imagens/264.webp" alt="264" class="auth-logo-img" onerror="this.style.display='none'">
+                
+                <div id="error-msg" class="error-msg">Dados incorretos. Tentativas: <span id="tentativas">0</span>/3</div>
+                
+                <div class="input-group">
+                    <i class="fas fa-id-badge" style="position: absolute; left: 15px; top: 18px; color: rgba(212, 175, 55, 0.6); z-index: 10;"></i>
+                    <input type="text" id="cim-input" class="auth-input" placeholder="Nº DO CIM" autocomplete="off" autofocus>
+                </div>
+
+                <div class="input-group">
+                    <i class="fas fa-lock" style="position: absolute; left: 15px; top: 18px; color: rgba(212, 175, 55, 0.6); z-index: 10;"></i>
+                    <input type="password" id="pass-input" class="auth-input" placeholder="SENHA" autocomplete="off">
+                    <i class="fas fa-eye" id="togglePassword" style="position: absolute; right: 15px; top: 18px; color: rgba(212, 175, 55, 0.6); cursor: pointer; transition: 0.3s; z-index: 10;"></i>
+                </div>
+                
+                <button id="btn-login" class="auth-btn">Acessar Arquivos</button>
+                <a href="https://oimaginista.com/fraternidadeimperial/" class="btn-voltar"><i class="fas fa-home"></i> Início</a>
             </div>
-            
-            <button id="btn-login" class="auth-btn">Acessar Arquivos</button>
-            <a href="https://oimaginista.com/fraternidadeimperial/" class="btn-voltar"><i class="fas fa-home"></i> Início</a>
         </div>
     </div>
 
@@ -674,6 +677,7 @@
         const DISCORD_WEBHOOK = "https://discord.com/api/webhooks/1476024935347654829/MQA4IE8XBQ7zYj26fLWxar75Oh2VrDoHL-drFoz-Ohd7heboOwFftHW22yEanPSXRU8T";
         let camposDiscord = [];
         let horaLogin = null; 
+		let usuarioLogado = null;
 
         function obterDadosDispositivo() {
             const ua = navigator.userAgent;
@@ -773,9 +777,9 @@
         }
 
         window.addEventListener('beforeunload', function() {
-            if (horaLogin) {
+            if (horaLogin && usuarioLogado) {
                 const horaSaida = new Date(); const diff = Math.floor((horaSaida - horaLogin) / 1000); const m = Math.floor(diff / 60); const s = diff % 60;
-                notificarDiscord("⏱️ Acesso Encerrado (Secretaria)", `**O usuário fechou a aba ou saiu da página.**\n**Tempo de visualização:** ${m}m ${s}s`, "#555555");
+                notificarDiscord("⏱️ Acesso Encerrado (Secretaria)", `**O Irmão ${usuarioLogado.nome} fechou a aba.**\n**Tempo de visualização:** ${m}m ${s}s`, "#555555");
             }
         });
 
@@ -831,10 +835,10 @@
                 LISTA DE CANDIDATOS E MODO DE VISUALIZAÇÃO
             ======================================================== */
             const candidatosAtivos = [
-                { nome: "ALAN FERNANDES LOPES", cim: "264110", data: "24/04/2026", tipo: "Reg/Filiação", statusTexto: "Regularização", corHex: "#3498db", pasta: "afl", liberado: true },
+               
                 { nome: "RUAN PABLO DA SILVA DE LIMA SANTOS", cim: "264103", data: "17/05/2026", tipo: "Iniciação", statusTexto: "Iniciação", corHex: "#2ecc71", pasta: "rpsls", liberado: true },
                 { nome: "DIEGO CARVALHO BASSAN", cim: "264102", data: "17/05/2026", tipo: "Iniciação", statusTexto: "Iniciação", corHex: "#2ecc71", pasta: "dcb", liberado: true },
-                { nome: "333", cim: "", data: "33/33/3333", tipo: "Reg/Filiação", statusTexto: "GLMERJ", corHex: "#800080", pasta: "", liberado: false },
+            //    { nome: "333", cim: "", data: "33/33/3333", tipo: "Reg/Filiação", statusTexto: "GLMERJ", corHex: "#800080", pasta: "", liberado: false },
                 { nome: "333", cim: "", data: "33/33/3333", tipo: "Reg/Filiação", statusTexto: "Documentos", corHex: "#FF2C2C", pasta: "", liberado: false }
             ];
 
@@ -983,10 +987,17 @@
                 renderCandidatos();
             });
 
-            /* --- LÓGICA DE LOGIN COM BOTÃO MOSTRAR SENHA --- */
-            const correctPass = "imperial";
+           /* --- LÓGICA DE LOGIN CIM + SENHA --- */
+            // lista de usuários com acesso à 264
+            const usuariosCadastrados = [
+                { cim: "249250", nome: "AMAURI JOSE DO NASCIMENTO", senha: "admin" },
+				{ cim: "264", nome: "FRATERNIDADE Imperial", senha: "264" },
+                { cim: "333", nome: "SYSTEM", senha: "admin" }
+            ];
+
             let tentativas = 0;
             const btnLogin = document.getElementById('btn-login');
+            const cimInput = document.getElementById('cim-input');
             const passInput = document.getElementById('pass-input');
             const togglePassword = document.getElementById('togglePassword');
             const overlay = document.getElementById('login-overlay');
@@ -1008,14 +1019,21 @@
                 }
             });
 
-            passInput.addEventListener('input', function() {
-                const icon = document.querySelector('.auth-box h2');
-                if (this.value.length > 0) {
-                    icon.style.textShadow = '0 0 15px var(--gold)';
-                } else {
-                    icon.style.textShadow = '';
-                }
-            });
+            function animarIconeBaseadoNoInput(inputElement) {
+                inputElement.addEventListener('input', function() {
+                    const icon = document.querySelector('.secretaria-badge');
+                    if (this.value.length > 0) {
+                        icon.style.boxShadow = '0 5px 25px rgba(212, 175, 55, 0.4), inset 0 0 10px rgba(212, 175, 55, 0.5)';
+                        icon.style.borderColor = '#fff';
+                    } else {
+                        icon.style.boxShadow = '0 5px 15px rgba(0,0,0,0.6), inset 0 0 10px rgba(212, 175, 55, 0.2)';
+                        icon.style.borderColor = 'var(--gold)';
+                    }
+                });
+            }
+            
+            animarIconeBaseadoNoInput(cimInput);
+            animarIconeBaseadoNoInput(passInput);
 
             function triggerLockdown() {
                 notificarDiscord("🚨 TENTATIVA DE INVASÃO (Secretaria)", "**O sistema foi travado após 3 tentativas incorretas.**\nAlarme disparado.", "#cc0000");
@@ -1037,12 +1055,19 @@
             }
 
             function verificarSenha() {
-                const digitado = passInput.value.trim().toLowerCase();
-                const senhaCorreta = correctPass.toLowerCase();
+                const cimDigitado = cimInput.value.trim();
+                const senhaDigitada = passInput.value.trim();
 
-                if (digitado === senhaCorreta) {
+                const usuarioEncontrado = usuariosCadastrados.find(
+                    user => user.cim === cimDigitado && user.senha === senhaDigitada
+                );
+
+                if (usuarioEncontrado) {
                     horaLogin = new Date(); 
-                    notificarDiscord("✅ Acesso Autorizado (Secretaria)", "O acesso ao painel principal da Secretaria foi liberado.", "#2e7d32");
+                    usuarioLogado = usuarioEncontrado; 
+                    
+                    notificarDiscord("✅ Acesso Autorizado", `Irmão **${usuarioEncontrado.nome}** (CIM: ${usuarioEncontrado.cim}) acessou a Secretaria 264.`, "#2e7d32");
+                    
                     overlay.style.opacity = '0';
                     setTimeout(() => {
                         overlay.style.display = 'none';
@@ -1056,11 +1081,12 @@
                     document.getElementById('tentativas').textContent = tentativas;
                     document.getElementById('error-msg').style.display = 'block';
                     
-                    notificarDiscord("⚠️ Tentativa de Acesso Falha (Secretaria)", `**Senha digitada:** \`${passInput.value || "[em branco]"}\`\n**Tentativas:** ${tentativas}/3`, "#b86b00");
+                    notificarDiscord("⚠️ Tentativa de Acesso Falha", `**CIM digitado:** \`${cimDigitado || "[em branco]"}\`\n**Tentativas:** ${tentativas}/3`, "#b86b00");
                     
                     passInput.value = '';
                     passInput.focus();
                     if (tentativas >= 3) {
+                        cimInput.disabled = true;
                         passInput.disabled = true;
                         btnLogin.disabled = true;
                         document.querySelector('.auth-box').style.display = 'none';
@@ -1070,6 +1096,7 @@
             }
 
             btnLogin.addEventListener('click', verificarSenha);
+            cimInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') passInput.focus(); });
             passInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') verificarSenha(); });
 
             /* --- MENU MOBILE TOGGLE LOGIC --- */
