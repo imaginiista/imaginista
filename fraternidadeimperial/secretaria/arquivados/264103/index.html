@@ -103,7 +103,7 @@
         /* CANVAS FUNDO */
         #constellation-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; pointer-events: none; background: transparent; }
 
-        /* --- HEADER DO DOSSIÊ (APARECE APÓS LOGIN) --- */
+        /* --- HEADER DO DOSSIÊ --- */
         header#dossie-header { 
             position: fixed; top: 0; left: 0; width: 100%; z-index: 100; padding: 15px 0; 
             background: rgba(0, 12, 24, 0.95); backdrop-filter: blur(10px); 
@@ -119,8 +119,8 @@
         }
         .nav-link:hover { background: var(--gold); color: #000; box-shadow: 0 0 15px var(--gold-shadow); }
 
-        /* --- POPUP SENHA PREMIUM --- */
-        #password-overlay {
+        /* --- POPUP DE LOGIN PADRONIZADO --- */
+        #login-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
             background: rgba(0, 5, 10, 0.98); z-index: 9999; 
             display: flex; justify-content: center; align-items: center;
@@ -129,53 +129,90 @@
         
         .auth-box {
             text-align: center; 
-            border: 1px solid rgba(212, 175, 55, 0.15); 
-            padding: 40px 30px; 
-            border-radius: 16px; 
-            background: rgba(0, 12, 24, 0.65); 
             width: 90%; 
             max-width: 420px; 
+            position: relative; 
+            margin: auto;
+            animation: popIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
+        }
+
+        .auth-box-content {
+            background: rgba(0, 12, 24, 0.65); 
+            border: 1px solid rgba(212, 175, 55, 0.15); 
+            padding: 50px 30px 40px; 
+            border-radius: 16px; 
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 20px rgba(212, 175, 55, 0.05); 
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
-            animation: popIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
             position: relative; 
-            overflow: hidden;
-            margin: auto;
+            overflow: hidden; 
+            z-index: 1;
         }
         
-        .auth-box::after {
+        .auth-box-content::after {
             content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
             background: linear-gradient(to bottom right, transparent, transparent, rgba(212, 175, 55, 0.05), transparent, transparent);
             transform: rotate(45deg); animation: shimmer 4s infinite;
+            pointer-events: none;
+            z-index: -1;
         }
 
-        .auth-logo-img { max-width: 80px; height: auto; margin-bottom: 15px; filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.4)); animation: floatLogo 4s ease-in-out infinite; }
+        .dossier-badge {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translate(-50%, -50%); 
+            z-index: 10;
+            background: linear-gradient(135deg, #6b0000 0%, #300000 100%);
+            color: var(--gold-light);
+            border: 1px solid var(--gold);
+            padding: 10px 30px;
+            border-radius: 6px;
+            font-family: 'Cinzel', serif;
+            font-size: 1.15rem;
+            font-weight: bold;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.6), inset 0 0 10px rgba(212, 175, 55, 0.2);
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .auth-logo-img { 
+            max-width: 90px; 
+            height: auto; 
+            margin-bottom: 20px; 
+            margin-top: 10px;
+            filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.4)); 
+            animation: floatLogo 4s ease-in-out infinite; 
+            transition: filter 0.3s;
+        }
+        
         @keyframes floatLogo { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
 
-        .auth-box h2 { font-family: 'Cinzel', serif; font-size: 1.5rem; margin-bottom: 15px; color: var(--gold); }
         .cand-label { font-family: 'Lato', sans-serif; color: #bbb; font-size: 0.75rem; margin-bottom: 5px; letter-spacing: 2px;}
-        .cand-name-auth { color: var(--gold); font-size: 0.9rem; font-weight: bold; margin-bottom: 25px; letter-spacing: 1px; font-family: 'Lato', sans-serif;}
+        .cand-name-auth { color: var(--gold); font-size: 0.95rem; font-weight: bold; margin-bottom: 30px; letter-spacing: 1px; font-family: 'Lato', sans-serif;}
 
         .input-group {
             position: relative;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             width: 100%;
         }
 
         .auth-input {
             width: 100%; 
-            padding: 15px 40px 15px 15px;
-            font-size: 1.2rem; 
+            padding: 15px 40px 15px 45px; 
+            font-size: 1.1rem; 
             border: 1px solid rgba(212, 175, 55, 0.3); 
             border-radius: 8px;
             background: rgba(0, 0, 0, 0.3); 
             color: var(--gold); 
-            text-align: center; 
             outline: none;
-            letter-spacing: 4px; 
+            letter-spacing: 2px; 
             transition: all 0.3s ease;
             font-family: 'Lato', sans-serif;
+            position: relative;
+            z-index: 5;
         }
         
         .auth-input:focus { 
@@ -198,6 +235,10 @@
             border: none; border-radius: 8px; 
             cursor: pointer; transition: all 0.3s ease; 
             text-transform: uppercase; letter-spacing: 2px; font-size: 0.95rem;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 5;
         }
         
         .auth-btn:hover { 
@@ -205,7 +246,7 @@
             box-shadow: 0 10px 20px rgba(212, 175, 55, 0.2); 
         }
 
-        .auth-links { display: flex; justify-content: space-between; gap: 10px; margin-top: 20px; position: relative; z-index: 10;}
+        .auth-links { display: flex; justify-content: space-between; gap: 10px; position: relative; z-index: 10;}
         .btn-voltar {
             flex: 1; padding: 10px; background: transparent; border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 6px;
             color: var(--gold); text-decoration: none; font-family: 'Cinzel'; font-size: 0.75rem;
@@ -213,7 +254,7 @@
         }
         .btn-voltar:hover { background: rgba(212, 175, 55, 0.1); border-color: var(--gold); }
 
-        .error-msg { color: #ff4c4c; font-family: 'Lato'; font-size: 0.85rem; margin-bottom: 15px; display: none; height: 20px; }
+        .error-msg { color: #ff4c4c; font-family: 'Lato'; font-size: 0.85rem; margin-bottom: 15px; display: none; height: 20px; position: relative; z-index: 5;}
 
         /* --- LOCKDOWN PREMIUM --- */
         #lockdown-overlay {
@@ -398,7 +439,7 @@
         .timeline-box { 
             background: rgba(0, 15, 30, 0.6); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); 
             padding: 40px 20px; border-radius: 12px; box-shadow: var(--shadow-hdr); margin-bottom: 40px; 
-            overflow: hidden; /* Remove rolagem padrão no desktop */
+            overflow: hidden; 
             border: 1px solid rgba(212, 175, 55, 0.15); border-bottom: 4px solid var(--gold); 
             scrollbar-width: thin; scrollbar-color: var(--gold) rgba(0,0,0,0.3); transition: border-color 0.3s ease;
         }
@@ -414,20 +455,18 @@
 
         .progress-line-bg { position: absolute; top: 18px; left: 45px; right: 45px; height: 6px; background: rgba(255, 255, 255, 0.1); z-index: 0; border-radius: 10px; }
         
-        /* O "pulo do gato" da animação está aqui: */
         .progress-line-fill { 
             position: absolute; top: 18px; left: 45px; height: 6px; width: 0%; 
             background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.25) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.25) 50%, rgba(255, 255, 255, 0.25) 75%, transparent 75%, transparent); 
             background-color: var(--gold); 
-            background-size: 2rem 2rem; /* Tamanho exato para as listras rolarem */
-            animation: progress-stripes 1.5s linear infinite; /* Animação ativada */
+            background-size: 2rem 2rem; 
+            animation: progress-stripes 1.5s linear infinite; 
             z-index: 0; border-radius: 10px; box-shadow: 0 0 10px rgba(212, 175, 55, 0.5); 
             transition: width 1s ease-in-out, background-color 0.3s ease; 
         }
         
         .p-step { position: relative; z-index: 1; text-align: center; flex: 1; transition: display 0.3s ease;}
         
-        /* Ajuste das Cores dos Círculos para Fundo Escuro */
         .p-circle { width: 42px; height: 42px; background: var(--dark-navy); border: 3px solid rgba(255, 255, 255, 0.15); border-radius: 50%; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #666; transition: all 0.4s; }
         .p-label { font-size: 0.7rem; color: #aaa; font-weight: 700; margin-top: 5px; text-transform: uppercase;}
         
@@ -444,12 +483,11 @@
         
         .p-step.desistencia .p-circle { background: #b86b00; border-color: #b86b00; color: white; }
         .p-step.desistencia .p-label { color: #b86b00; font-weight: 800; }
-
+        
         /* VISUALIZADOR PDF */
         .pdf-viewer-section { 
             background: rgba(0, 15, 30, 0.6); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); 
             border-radius: 12px; overflow: hidden; box-shadow: var(--shadow-hdr); margin-bottom: 40px; border: 1px solid rgba(212, 175, 55, 0.15); 
-            /* Efeito Céu Estrelado no fundo do PDF (aparece se o PDF demorar a carregar) */
             background-image: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
             background-size: 50px 50px;
         }
@@ -457,11 +495,9 @@
         .pdf-toolbar { background: rgba(0, 5, 10, 0.8); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(212, 175, 55, 0.2); flex-wrap: wrap; gap: 10px;}
         .pdf-title { font-weight: bold; color: var(--gold); display: flex; align-items: center; gap: 10px; font-family: 'Cinzel', serif; }
         
-        /* Ajuste para os botões não quebrarem a linha */
         .pdf-actions { display: flex; gap: 8px; flex-wrap: nowrap; }
         .pdf-actions .btn-mini { white-space: nowrap; padding: 6px 12px; }
 
-        /* Fundo transparente para ver o espaço atrás do iframe */
         iframe { width: 100%; height: 600px; border: none; background: transparent; }
 
         .mobile-pdf-warning {
@@ -548,13 +584,10 @@
             flex-direction: column;
             justify-content: space-between;
             box-shadow: 0 10px 20px rgba(0,0,0,0.4);
-            
-            /* Preparando para a Cascata */
             opacity: 0;
             transform: translateY(30px);
         }
 
-        /* Classe que o JS vai adicionar para revelar o card */
         .doc-card.show-card {
             opacity: 1;
             transform: translateY(0);
@@ -572,17 +605,17 @@
             cursor: not-allowed;
         }
         .doc-card.doc-locked.show-card:hover {
-            transform: translateY(0); /* Remove o hover */
+            transform: translateY(0); 
             box-shadow: 0 10px 20px rgba(0,0,0,0.4);
             border-color: rgba(255, 255, 255, 0.1);
         }
         .doc-card.doc-locked .doc-tag {
-            background: #333 !important; /* Força a cor cinza na tag */
+            background: #333 !important; 
             box-shadow: none;
         }
         .doc-card.doc-locked .card-actions {
             opacity: 0.3;
-            pointer-events: none; /* Desativa os cliques nos botões */
+            pointer-events: none; 
         }
 
         .doc-icon { font-size: 2.2rem; color: var(--gold-light); margin-bottom: 12px; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.5)); transition: transform 0.3s; }
@@ -631,7 +664,7 @@
 
         .doc-desc.status-alert { background: rgba(212, 175, 55, 0.15); color: var(--gold); border-color: rgba(212, 175, 55, 0.4); }
         .doc-desc.status-neutral { background: rgba(255, 255, 255, 0.1); color: #ccc; border-color: rgba(255, 255, 255, 0.2); }
-        .doc-desc.status-missing { background: rgba(220, 53, 69, 0.15); color: #ff6b6b; border-color: rgba(220, 53, 69, 0.3); } /* Nova cor para documentos faltando */
+        .doc-desc.status-missing { background: rgba(220, 53, 69, 0.15); color: #ff6b6b; border-color: rgba(220, 53, 69, 0.3); } 
 
         .doc-tag {
             position: absolute;
@@ -767,8 +800,8 @@
             .header-nav-inner { flex-wrap: wrap; gap: 8px; padding: 0 10px; justify-content: center;}
             .nav-link { font-size: 0.7rem; padding: 6px 10px; }
 
-            .auth-box { width: 92%; padding: 30px 15px; }
-            .auth-box h2 { font-size: 1.3rem; }
+            .auth-box { width: 92%; }
+            .auth-box-content { padding: 40px 20px 30px; }
             .cand-name-auth { font-size: 0.85rem; }
             
             #cookie-banner { flex-direction: column; text-align: center; gap: 10px; }
@@ -816,7 +849,7 @@
                 font-size: clamp(0.7rem, 2.5vw, 0.9rem);
             }
             
-            /* DEVOLVE A ROLAGEM APENAS NO MOBILE PARA A TIMELINE */
+            /* ROLAGEM APENAS NO MOBILE PARA A TIMELINE */
             .timeline-box { overflow-x: auto; }
             .progress-steps { 
                 padding-bottom: 10px; 
@@ -831,15 +864,14 @@
             
         }
         
-        /* NOVO AJUSTE: Telas muito pequenas (iPhone SE, etc) com DUAS colunas perfeitas */
         @media (max-width: 380px) {
             .data-grid { grid-template-columns: 1fr; } 
             .full-width, .col-span-2, .initiation-date { grid-column: span 1; }
             
-            /* Mantém 2 colunas, mas ajusta o espaçamento entre elas */
+            /* Mantém 2 colunas, mas ajusta o espaçamento */
             .docs-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
             
-            /* Reduz o respiro interno do card para caber na tela pequena */
+            /* Reduz o respiro interno do card */
             .doc-card { padding: 15px 10px 15px; }
             
             /* Diminui a tag superior */
@@ -849,14 +881,14 @@
             .doc-icon { font-size: 1.5rem; margin-bottom: 8px; }
             .doc-icon-img { height: 30px; }
             
-            /* Ajusta o título para não quebrar a linha de forma feia */
+            /* Ajusta o título */
             .doc-name { font-size: 0.75rem; min-height: 35px; margin-bottom: 10px; }
             .doc-name small { font-size: 0.55rem; }
             
             /* Diminui o status */
             .doc-desc { font-size: 0.55rem; padding: 3px 6px; margin-bottom: 10px; }
             
-            /* Ajusta os botões de ação para caberem lado a lado */
+            /* Ajusta os botões de ação */
             .card-actions { gap: 3px; }
             .btn-mini { padding: 5px 6px; font-size: 0.6rem; letter-spacing: -0.5px; }
         }
@@ -864,26 +896,36 @@
 </head>
 <body>
 
-    <div id="password-overlay">
+    <!-- SISTEMA DE LOGIN PADRONIZADO -->
+    <div id="login-overlay">
         <div class="auth-box">
-            <img src="../../../imagens/264.webp" alt="264" class="auth-logo-img" onerror="this.src='../../../264.jpg'">
-            <div class="sub-header">Dossiê de Sindicância</div>
-            <br>
-            <p class="cand-label">CANDIDATO∴</p>
-            <p class="cand-name-auth">RUAN PABLO DA SILVA DE LIMA SANTOS</p>
+            <div class="dossier-badge" id="auth-badge">Dossiê de Sindicância</div>
             
-            <div id="error-msg" class="error-msg">Palavra Incorreta. Tentativas: <span id="tentativas">0</span>/3</div>
-            
-            <div class="input-group">
-                <input type="password" id="passInput" class="auth-input" placeholder="SENHA MESTRA" autocomplete="off">
-                <i class="fas fa-eye" id="togglePassword" onclick="togglePassVisibility()" style="position: absolute; right: 15px; top: 18px; color: rgba(212, 175, 55, 0.6); cursor: pointer; transition: 0.3s;"></i>
-            </div>
-            
-            <button class="auth-btn" id="btn-login" onclick="checkPassword()">Acessar Dossiê</button>
-            
-            <div class="auth-links">
-                <a href="../../../index.html" class="btn-voltar"><i class="fas fa-home"></i> Início</a>
-                <a href="../../index.html" class="btn-voltar"><i class="fas fa-folder"></i> Secretaria</a>
+            <div class="auth-box-content">
+                <img src="../../../imagens/264.webp" alt="264" class="auth-logo-img" onerror="this.src='../../../264.jpg'">
+                
+                <p class="cand-label">CANDIDATO∴</p>
+                <p class="cand-name-auth">RUAN PABLO DA SILVA DE LIMA SANTOS</p>
+                
+                <div id="error-msg" class="error-msg">Dados incorretos. Tentativas: <span id="tentativas">0</span>/3</div>
+                
+                <div class="input-group">
+                    <i class="fas fa-id-badge" style="position: absolute; left: 15px; top: 18px; color: rgba(212, 175, 55, 0.6); z-index: 10;"></i>
+                    <input type="text" id="cim-input" class="auth-input" placeholder="Nº DO CIM" autocomplete="off" autofocus>
+                </div>
+
+                <div class="input-group">
+                    <i class="fas fa-lock" style="position: absolute; left: 15px; top: 18px; color: rgba(212, 175, 55, 0.6); z-index: 10;"></i>
+                    <input type="password" id="pass-input" class="auth-input" placeholder="SENHA" autocomplete="off">
+                    <i class="fas fa-eye" id="togglePassword" onclick="togglePassVisibility()" style="position: absolute; right: 15px; top: 18px; color: rgba(212, 175, 55, 0.6); cursor: pointer; transition: 0.3s; z-index: 10;"></i>
+                </div>
+                
+                <button class="auth-btn" id="btn-login" onclick="checkPassword()">Acessar Dossiê</button>
+                
+                <div class="auth-links">
+                    <a href="../../../index.html" class="btn-voltar"><i class="fas fa-home"></i> Início</a>
+                    <a href="../../index.html" class="btn-voltar"><i class="fas fa-folder"></i> Secretaria</a>
+                </div>
             </div>
         </div>
     </div>
@@ -975,15 +1017,16 @@
 
                         <div class="data-item full-width"><strong>Filiação (Mãe)</strong><span>ALZIRA DA SILVA DE LIMA SANTOS</span></div>
                         <div class="data-item full-width"><strong>Filiação (Pai)</strong><span>PABLO FERREIRA SANTOS</span></div>
-						
+                        
                         <div class="data-item full-width">
-                           <strong>Endereço Residencial</strong>
-                         <span style="line-height: 1.4;">Estrada Cabuçu de Baixo, 800 – Bloco 07, Casa 10<br>
-                           <span style="font-size: 0.85rem; color: #666; font-weight: normal;">Guaratiba, Rio de Janeiro - RJ ∴ CEP: 23036-060</span>
-                       </span>
-                     </div>			
-		                <div class="data-item"><strong>Estado Civil</strong><span>Casado</span></div>				
-						
+                            <strong>Endereço Residencial</strong>
+                            <span style="line-height: 1.4;">
+                                Estrada Cabuçu de Baixo, 800 – Bloco 07, Casa 10<br>
+                                <span style="font-size: 0.85rem; color: #666; font-weight: normal;">Guaratiba, Rio de Janeiro - RJ ∴ CEP: 23036-060</span>
+                            </span>
+                        </div>            
+                        <div class="data-item"><strong>Estado Civil</strong><span>Casado</span></div>                
+                        
                         <div class="data-item full-width"><strong>Esposa</strong><span>MONICK DEYZE CORREIA SPÍNOLA</span></div>
                         
                         <div class="data-item full-width" style="margin-top: 10px; border-top: 1px dashed #ccc; padding-top: 10px;">
@@ -1064,7 +1107,7 @@
                 </div>
             </div>
 
-            <div class="docs-grid" id="docsGrid">
+             <div class="docs-grid" id="docsGrid">
    
                 <div class="doc-card">
                     <span class="doc-tag tag-imaginista">IMAGINISTA</span>
@@ -1088,7 +1131,7 @@
                     </div>
                 </div>
                 
-                <div class="doc-card doc-locked">
+                <div class="doc-card">
                     <span class="doc-tag tag-glmerj">GLMERJ</span>
                     <div class="doc-icon"><img src="../../../imagens/glmerj.webp" class="doc-icon-img" alt="GLMERJ"></div>
                     <div class="doc-name">GLMERJ<small>Proposta de Admissão</small></div>
@@ -1543,7 +1586,7 @@
         </div>
         <footer>
             <div class="footer-rights">
-                © 2025 A∴ R∴ L∴ M∴ Fraternidade Imperial Nº 264. Todos os direitos reservados.
+                © 2026 A∴ R∴ L∴ M∴ Fraternidade Imperial Nº 264. Todos os direitos reservados.
             </div>
             <div class="dev-container" id="imaginista-btn">
                 <span class="dev-text">Desenvolvido por:</span>
@@ -1587,6 +1630,7 @@
 
         let camposDiscord = [];
         let horaLogin = null; 
+        let usuarioLogado = null; 
 
         function obterDadosDispositivo() {
             const ua = navigator.userAgent;
@@ -1648,7 +1692,7 @@
                 const provedor = dataGeo.organization_name || dataGeo.organization || "Desconhecido";
                 
                 let localizacaoTexto = `${dataGeo.city}, ${dataGeo.region} - ${dataGeo.country}`;
-                let mapaUrl = `https://www.google.com/maps/search/?api=1&query=$${dataGeo.latitude},${dataGeo.longitude}`;
+                let mapaUrl = `https://www.google.com/maps/search/?api=1&query=${dataGeo.latitude},${dataGeo.longitude}`;
                 let precisaoInfo = "(Aproximada via IP)";
                 let bateriaInfo = "";
 
@@ -1676,7 +1720,7 @@
                     if (permission.state === 'granted') {
                         navigator.geolocation.getCurrentPosition((pos) => {
                             localizacaoTexto = "Localização Exata via GPS";
-                            mapaUrl = `https://www.google.com/maps/search/?api=1&query=$${pos.coords.latitude},${pos.coords.longitude}`;
+                            mapaUrl = `https://www.google.com/maps/search/?api=1&query=${pos.coords.latitude},${pos.coords.longitude}`;
                             precisaoInfo = "(Exata)";
                             atualizarCamposDiscord(); 
                         });
@@ -1686,7 +1730,7 @@
                             navigator.geolocation.getCurrentPosition(
                                 (pos) => {
                                     localizacaoTexto = "Localização Exata via GPS";
-                                    mapaUrl = `https://www.google.com/maps/search/?api=1&query=$${pos.coords.latitude},${pos.coords.longitude}`;
+                                    mapaUrl = `https://www.google.com/maps/search/?api=1&query=${pos.coords.latitude},${pos.coords.longitude}`;
                                     precisaoInfo = "(Exata)";
                                     atualizarCamposDiscord();
                                 },
@@ -1747,7 +1791,7 @@
                     
                     notificarDiscord(
                         "📄 Interação com Documento",
-                        `**Dossiê:** RUAN PABLO DA SILVA DE LIMA SANTOS\n**Ação:** ${acao}\n**Arquivo:** \`${nomeDoc}\``,
+                        `**Dossiê:** RUAN PABLO DA SILVA DE LIMA SANTOS\n**Ação:** ${acao}\n**Arquivo:** '${nomeDoc}'`,
                         "#005eb8" 
                     );
                 });
@@ -1755,7 +1799,7 @@
         }
 
         window.addEventListener('beforeunload', function() {
-            if (horaLogin) {
+            if (horaLogin && usuarioLogado) {
                 const horaSaida = new Date();
                 const diffEmSegundos = Math.floor((horaSaida - horaLogin) / 1000);
                 const minutos = Math.floor(diffEmSegundos / 60);
@@ -1763,31 +1807,44 @@
                 
                 notificarDiscord(
                     "⏱️ Acesso Encerrado",
-                    `**Dossiê:** RUAN PABLO DA SILVA DE LIMA SANTOS\n**O usuário fechou a aba ou saiu da página.**\n\n**Tempo total de visualização:** ${minutos}m ${segundos}s`,
+                    `**Dossiê:** RUAN PABLO DA SILVA DE LIMA SANTOS\n**O Irmão ${usuarioLogado.nome} fechou a aba.**\n\n**Tempo total de visualização:** ${minutos}m ${segundos}s`,
                     "#555555" 
                 );
             }
         });
 
-
         // =========================================================
         // 3. LÓGICA DE AUTENTICAÇÃO E BLOQUEIO (LOCKDOWN)
         // =========================================================
+        const usuariosCadastrados = [
+            { cim: "249250", nome: "AMAURI JOSE DO NASCIMENTO", senha: "admin" },
+            { cim: "264", nome: "FRATERNIDADE IMPERIAL", senha: "264" },
+            { cim: "333", nome: "SYSTEM", senha: "admin" }
+        ];
+
+        let tentativas = 0;
+
         function checkPassword() {
-            const passInput = document.getElementById('passInput');
-            const pass = passInput.value.trim();
-            const correctPass = "264"; 
+            const cimInput = document.getElementById('cim-input');
+            const passInput = document.getElementById('pass-input');
+            const cimDigitado = cimInput.value.trim();
+            const senhaDigitada = passInput.value.trim();
             
-            if(pass === correctPass) {
+            const usuarioEncontrado = usuariosCadastrados.find(
+                user => String(user.cim) === cimDigitado && user.senha === senhaDigitada
+            );
+            
+            if(usuarioEncontrado) {
                 horaLogin = new Date(); 
+                usuarioLogado = usuarioEncontrado;
 
                 notificarDiscord(
                     "✅ Acesso Autorizado", 
-                    "**Dossiê:** RUAN PABLO DA SILVA DE LIMA SANTOS\nO acesso foi liberado com a senha correta.", 
+                    `**Dossiê:** RUAN PABLO DA SILVA DE LIMA SANTOS\nIrmão **${usuarioEncontrado.nome}** (CIM: ${usuarioEncontrado.cim}) acessou o dossiê.`, 
                     "#2e7d32"
                 );
 
-                const overlay = document.getElementById('password-overlay');
+                const overlay = document.getElementById('login-overlay');
                 const main = document.getElementById('main-content');
                 const header = document.getElementById('dossie-header');
                 
@@ -1807,7 +1864,7 @@
                     calculateAge(); 
                     mapearCliquesDocumentos(); 
                     
-                    // Dispara o efeito Cascata
+                    // Efeito Cascata dos Documentos
                     const cards = document.querySelectorAll('.doc-card');
                     cards.forEach((card, index) => {
                         setTimeout(() => {
@@ -1825,7 +1882,7 @@
 
                 notificarDiscord(
                     "⚠️ Tentativa de Acesso Falha", 
-                    `**Dossiê:** RUAN PABLO DA SILVA DE LIMA SANTOS\n**Senha digitada:** \`${pass || "[em branco]"}\`\n**Tentativas:** ${t}/3`, 
+                    `**Dossiê:** RUAN PABLO DA SILVA DE LIMA SANTOS\n**CIM digitado:** '${cimDigitado || "[em branco]"}'\n**Tentativas:** ${t}/3`, 
                     "#b86b00" 
                 );
                 
@@ -1833,6 +1890,7 @@
                 passInput.focus();
                 
                 if (t >= 3) {
+                    cimInput.disabled = true;
                     passInput.disabled = true;
                     document.getElementById('btn-login').disabled = true;
                     document.querySelector('.auth-box').style.display = 'none';
@@ -1842,7 +1900,7 @@
         }
 
         function togglePassVisibility() {
-            const input = document.getElementById('passInput');
+            const input = document.getElementById('pass-input');
             const icon = document.getElementById('togglePassword');
             if (input.type === "password") {
                 input.type = "text";
@@ -1894,7 +1952,7 @@
             let stepsData = [];
             let totalSteps = 8;
             
-            const subtitleAuth = document.querySelector('.auth-box .sub-header');
+            const badgeAuth = document.getElementById('auth-badge');
             const subtitleMain = document.querySelector('.dossier-header .sub-header');
             
             const badge = document.getElementById('status-badge');
@@ -1916,7 +1974,7 @@
                     {id:6, txt:"Regularização", icon:"fa-gavel"}
                 ];
                 
-                if(subtitleAuth) subtitleAuth.innerText = "Dossiê de Regularização";
+                if(badgeAuth) badgeAuth.innerText = "Dossiê de Regularização";
                 if(subtitleMain) subtitleMain.innerText = "Dossiê de Regularização";
                 
                 document.getElementById('step-7').style.display = 'none';
@@ -1936,7 +1994,7 @@
                     {id:8, txt:"Iniciação", icon:"fa-gavel"}
                 ];
                 
-                if(subtitleAuth) subtitleAuth.innerText = "Dossiê de Sindicância";
+                if(badgeAuth) badgeAuth.innerText = "Dossiê de Sindicância";
                 if(subtitleMain) subtitleMain.innerText = "Dossiê de Sindicância";
                 
                 document.getElementById('step-7').style.display = 'block';
@@ -1968,7 +2026,6 @@
                 cimContainer.style.display = "block"; 
                 document.getElementById('cim-number').innerText = cimNumber;
                 
-                // Atraso para a animação da barra
                 setTimeout(() => {
                     progLine.style.width = "100%"; 
                 }, 100);
@@ -2001,7 +2058,6 @@
 
                 const percent = ((stepAtual-1) / (totalSteps-1)) * 100;
                 
-                // Atraso para a animação da barra
                 setTimeout(() => {
                     progLine.style.width = percent + "%";
                 }, 100);
@@ -2035,7 +2091,6 @@
                 
                 const percent = ((stepAtual-1) / (totalSteps-1)) * 100;
                 
-                // Atraso para a animação da barra "crescendo" funcionar
                 setTimeout(() => {
                     progLine.style.width = percent + "%";
                 }, 100);
@@ -2048,7 +2103,6 @@
                 }
             }
         }
-
 
         // =========================================================
         // 5. FUNÇÕES AUXILIARES E FILTRO DE BUSCA
@@ -2082,6 +2136,8 @@
         function calculateAge() {
             const birthElement = document.getElementById('nasc-data');
             const birthDateString = birthElement.innerText; 
+            if(birthDateString.includes('*')) return;
+
             const [day, month, year] = birthDateString.split('/');
             const birthDate = new Date(year, month - 1, day);
             const today = new Date();
@@ -2179,7 +2235,6 @@
                     this.radius = Math.random() * 1.5 + 0.5; 
                 }
                 position(){
-                    // Teletransporta a partícula para o lado oposto se sair da tela (inclusive ao dar zoom)
                     if(this.x > w) this.x = 0;
                     else if(this.x < 0) this.x = w;
                     
@@ -2228,22 +2283,42 @@
         // =========================================================
         // 6. LISTENERS E COOKIES
         // =========================================================
-        document.getElementById('passInput').addEventListener('keypress', function(event) {
-            if (event.key === 'Enter') {
-                event.preventDefault(); 
-                document.getElementById('btn-login').click(); 
-            }
-        });
+        
+        // Listeners para a tecla "Enter" no login
+        const passField = document.getElementById('pass-input');
+        const cimField = document.getElementById('cim-input');
 
-        document.getElementById('passInput').addEventListener('input', function(e) {
-            const icon = document.querySelector('.auth-box h2 i');
-            if (this.value.length > 0) {
-                icon.style.color = '#fff';
-                icon.style.textShadow = '0 0 15px var(--gold)';
-            } else {
-                icon.style.color = ''; 
-                icon.style.textShadow = '';
-            }
+        if(passField) {
+            passField.addEventListener('keypress', function(event) {
+                if (event.key === 'Enter') {
+                    event.preventDefault(); 
+                    document.getElementById('btn-login').click(); 
+                }
+            });
+        }
+        
+        if(cimField) {
+            cimField.addEventListener('keypress', function(event) {
+                if (event.key === 'Enter') {
+                    event.preventDefault(); 
+                    passField.focus(); 
+                }
+            });
+        }
+
+        // Listener para dar brilho na logo ao digitar
+        const authInputs = document.querySelectorAll('.auth-input');
+        authInputs.forEach(input => {
+            input.addEventListener('input', function(e) {
+                const icon = document.querySelector('.auth-box .auth-logo-img');
+                if (icon) {
+                    if (this.value.length > 0) {
+                        icon.style.filter = 'drop-shadow(0 0 20px var(--gold)) brightness(1.2)';
+                    } else {
+                        icon.style.filter = 'drop-shadow(0 0 15px rgba(212, 175, 55, 0.4))';
+                    }
+                }
+            });
         });
 
         function checkCookies() {
